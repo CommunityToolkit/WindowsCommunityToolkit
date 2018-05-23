@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.
     /// </summary>
-    [TemplatePart(Name = GraphAccessTokenPartName, Type = typeof(TextBox))]
     [TemplatePart(Name = SearchBoxPartName, Type = typeof(TextBox))]
     [TemplatePart(Name = LoadingPartName, Type = typeof(ProgressRing))]
     [TemplatePart(Name = SearchResultListBoxPartName, Type = typeof(ListBox))]
@@ -28,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = SelectionsCounterPartName, Type = typeof(TextBlock))]
     public partial class PeoplePicker : Control
     {
-        private const string GraphAccessTokenPartName = "tbGraphAccessToken";
         private const string SearchBoxPartName = "SearchBox";
         private const string LoadingPartName = "Loading";
         private const string SearchResultListBoxPartName = "SearchResultListBox";
@@ -54,11 +52,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _searchBox = GetTemplateChild("SearchBox") as TextBox;
-            _loading = GetTemplateChild("Loading") as ProgressRing;
-            _searchResultListBox = GetTemplateChild("SearchResultListBox") as ListBox;
-            _selectionsListBox = GetTemplateChild("SelectionsListBox") as ListBox;
-            _selectionsCounter = GetTemplateChild("SelectionsCounter") as TextBlock;
+            _searchBox = GetTemplateChild(SearchBoxPartName) as TextBox;
+            _loading = GetTemplateChild(LoadingPartName) as ProgressRing;
+            _searchResultListBox = GetTemplateChild(SearchResultListBoxPartName) as ListBox;
+            _selectionsListBox = GetTemplateChild(SelectionsListBoxPartName) as ListBox;
+            _selectionsCounter = GetTemplateChild(SelectionsCounterPartName) as TextBlock;
 
             if (_searchBox != null
                 && _loading != null

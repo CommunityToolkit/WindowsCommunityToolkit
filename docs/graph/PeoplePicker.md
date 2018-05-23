@@ -7,7 +7,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 # PeoplePicker Control
 
-The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.peoplepicker) is a simple control that allows for selection of one or more users from an organizational AD, see more details [here](https://developer.microsoft.com/en-us/graph/docs/concepts/people_example), it relies on the [AadAuthenticationManager](../../docs/graph/AadAuthenticationManager.md) for authentication.
+The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.peoplepicker) is a simple control that allows for selection of one or more users from an organizational AD, see more details [here](https://developer.microsoft.com/en-us/graph/docs/concepts/people_example), it relies on the [MicrosoftGraphService](../../docs/services/MicrosoftGraph.md) for authentication.
 
 ## Syntax
 
@@ -35,11 +35,14 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 
 ## Sample Code
 
-First all all, initialize the Azure AD authentication manager, this should be done globally with the combined delegate permissions required by all Graph controls used in your app.
+First of all, initialize the [MicrosoftGraphService](../../docs/services/MicrosoftGraph.md) with your [Azure AD v2.0 app](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration), this should be done globally with the combined and unique [delegate permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-scopes) required by all Graph controls and services used in your app.
 
 ```c#
-AadAuthenticationManager.Instance.Initialize(
+MicrosoftGraphService.Instance.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
+
+MicrosoftGraphService.Instance.Initialize(
     'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
     PeoplePicker.RequiredDelegatedPermissions
 );
 ```

@@ -11,7 +11,6 @@
 // ******************************************************************
 
 using System;
-using System.ComponentModel;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -64,9 +63,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_profileCardControl != null)
                 {
-                    FileOpenPicker openPicker = new FileOpenPicker();
-                    openPicker.ViewMode = PickerViewMode.Thumbnail;
-                    openPicker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+                    FileOpenPicker openPicker = new FileOpenPicker
+                    {
+                        ViewMode = PickerViewMode.Thumbnail,
+                        SuggestedStartLocation = PickerLocationId.PicturesLibrary
+                    };
                     openPicker.FileTypeFilter.Add(".jpg");
                     openPicker.FileTypeFilter.Add(".jpeg");
                     openPicker.FileTypeFilter.Add(".png");
