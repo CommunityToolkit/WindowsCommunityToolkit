@@ -948,7 +948,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 return;
             }
 
-            Process.ProcessExited -= OnProcessExited;
+            try
+            {
+                Process.ProcessExited -= OnProcessExited;
+            }
+            catch (Exception)
+            {
+                // Yes, really catch all
+                // 'The process terminated unexpectedly. (Exception from HRESULT: 0x8007042B)'
+            }
         }
 
         // TODO: Expose Bounds
