@@ -54,8 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 return;
             }
 
-            _loading.IsActive = true;
-
+            IsLoading = true;
             searchText = Regex.Replace(searchText, "[^0-9a-zA-Z .@]", string.Empty);
             int cursorPosition = textboxSender.SelectionStart;
             textboxSender.Text = searchText;
@@ -108,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             finally
             {
-                _loading.IsActive = false;
+                IsLoading = false;
             }
         }
 

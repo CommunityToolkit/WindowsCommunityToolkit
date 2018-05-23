@@ -89,6 +89,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(PeoplePicker),
                 null);
 
+        private static readonly DependencyProperty IsLoadingProperty =
+            DependencyProperty.Register(
+                nameof(IsLoading),
+                typeof(bool),
+                typeof(PeoplePicker),
+                null);
+
         /// <summary>
         /// Gets or sets a value indicating whether multiple people can be selected
         /// </summary>
@@ -129,6 +136,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get => (ObservableCollection<Person>)GetValue(SearchResultListProperty);
             set => SetValue(SearchResultListProperty, value);
+        }
+
+        private bool IsLoading
+        {
+            get => (bool)GetValue(IsLoadingProperty);
+            set => SetValue(IsLoadingProperty, value);
         }
     }
 }

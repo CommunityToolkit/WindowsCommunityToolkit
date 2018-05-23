@@ -17,12 +17,11 @@
                                      Margin="0"
                                      AutomationProperties.Name="Keywords"
                                      PlaceholderText="{TemplateBinding PlaceholderText}" />
-                            <ProgressRing Name="Loading"
-                                          Margin="0,0,30,0"
+                            <ProgressRing Margin="0,0,30,0"
                                           HorizontalAlignment="Right"
                                           AutomationProperties.Name="Progress"
                                           FlowDirection="LeftToRight"
-                                          IsActive="False" />
+                                          IsActive="{TemplateBinding IsLoading}" />
                         </Grid>
                         <Grid>
                             <StackPanel>
@@ -66,8 +65,7 @@
                                         </Style>
                                     </ListBox.ItemContainerStyle>
                                 </ListBox>
-                                <TextBlock Name="SelectionsCounter"
-                                           Visibility="Visible"
+                                <TextBlock Visibility="{TemplateBinding AllowMultiple}"
                                            AutomationProperties.Name="Selections Counter">
                                     <Run><Binding Path="Selections.Count"></Binding></Run>
                                     <Run> selected</Run>
