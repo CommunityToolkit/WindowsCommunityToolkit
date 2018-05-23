@@ -24,25 +24,15 @@ namespace Microsoft.Toolkit.Services.OneDrive
     /// </summary>
     public class OneDriveStorageFile : OneDriveStorageItem
     {
-        private event InternalEventHandler ThumbnailRequestedEvent;
-
         /// <summary>
         /// Gets or sets platform-specific implementation of platform services.
         /// </summary>
         public IOneDriveStorageFilePlatform StorageFilePlatformService { get; set; }
 
-        private string _fileType;
-
         /// <summary>
         /// Gets OneDrive file type
         /// </summary>
-        public string FileType
-        {
-            get
-            {
-                return _fileType;
-            }
-        }
+        public string FileType { get; private set; }
 
         /// <summary>
         /// Gets the smallest available thumbnail for the object.  This will be null until you call GetThumbnailAsync().
@@ -65,7 +55,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
             var length = name.Length;
             var s = length - index;
-            _fileType = name.Substring(index, s);
+            FileType = name.Substring(index, s);
         }
 
         /// <summary>
