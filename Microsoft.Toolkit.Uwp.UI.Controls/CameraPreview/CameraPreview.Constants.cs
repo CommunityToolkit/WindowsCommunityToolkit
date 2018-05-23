@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
