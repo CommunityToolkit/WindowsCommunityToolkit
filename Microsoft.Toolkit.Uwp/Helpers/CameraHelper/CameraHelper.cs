@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// Camera Helper class to capture frames from available camera sources.
     /// Make sure you have the capability webcam enabled for your app to access the device's camera.
     /// </summary>
-    public class CameraHelper
+    public class CameraHelper : IDisposable
     {
         private static IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
         private SemaphoreSlim semaphoreSlim = new SemaphoreSlim(1);
@@ -310,6 +310,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 var frameArgs = new FrameEventArgs() { VideoFrame = vmf.GetVideoFrame() };
                 handler?.Invoke(sender, frameArgs);
             }
+        }
+
+        private bool disposedValue = false;
+
+        private async void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                disposedValue = true;
+                await CleanUpAsync();
+            }
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
         }
     }
 }
