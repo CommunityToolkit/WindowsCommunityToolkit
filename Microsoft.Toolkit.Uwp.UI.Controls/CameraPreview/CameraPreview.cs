@@ -93,8 +93,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _frameSourceGroupButton.Click -= FrameSourceGroupButton_ClickAsync;
             }
 
-            _mediaPlayerElementControl = (MediaPlayerElement)GetTemplateChild("MediaPlayerElementControl");
-            _frameSourceGroupButton = (Button)GetTemplateChild("FrameSourceGroupButton");
+            _mediaPlayerElementControl = (MediaPlayerElement)GetTemplateChild(Preview_MediaPlayerElementControl);
+            _frameSourceGroupButton = (Button)GetTemplateChild(Preview_FrameSourceGroupButton);
 
             if (_frameSourceGroupButton != null)
             {
