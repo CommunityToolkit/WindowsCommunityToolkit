@@ -11,24 +11,19 @@
 // ******************************************************************
 
 using System;
-using System.Collections;
-using System.ComponentModel;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Newtonsoft.Json;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
     /// GraphOneDriveStorageItem class.
     /// </summary>
-    public class OneDriveStorageItem : INotifyPropertyChanged
+    public class OneDriveStorageItem
     {
         /// <summary>
         /// Gets platform-specific implementation of platform services.
@@ -115,24 +110,14 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// Store a reference to an instance of the underlying data provider.
-        /// </summary>
-        private IBaseClient _oneDriveProvider;
-
-        /// <summary>
         /// Gets an Item Request Builder instance
         /// </summary>
         public IBaseRequestBuilder RequestBuilder { get; private set; }
 
         /// <summary>
-        /// Gets or sets IOneDriveServiceClient instance
+        /// Gets IOneDriveServiceClient instance
         /// </summary>
-        public IBaseClient Provider
-        {
-            get { return _oneDriveProvider; }
-            set { SetValue(ref _oneDriveProvider, value); }
-        }
-
+        public IBaseClient Provider { get; private set; }
 
 
         /// <summary>
@@ -151,7 +136,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
             StorageItemPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageItemPlatformInstance(OneDriveService.Instance, this);
 
             RequestBuilder = requestBuilder;
-            _oneDriveProvider = oneDriveProvider;
+            Provider = oneDriveProvider;
             OneDriveItem = oneDriveItem;
             Name = oneDriveItem.Name;
             FileSize = oneDriveItem.Size;
@@ -219,7 +204,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             DriveItem newOneDriveItem = new DriveItem { Name = desiredName, Description = "Item Renamed from Windows Community Toolkit" };
             var itemRenamed = await ((IDriveItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
-            return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, itemRenamed);
+            return new OneDriveStorageItem(Provider, RequestBuilder, itemRenamed);
         }
 
         /// <summary>
@@ -353,53 +338,5 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
         internal IDriveRequestBuilder GetDriveRequestBuilderFromDriveId(string driveId)
             => (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drives[driveId] as IDriveRequestBuilder;
-
-        /// <summary>
-        /// Raised when a property that can change is changed
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Called internally when a property changes
-        /// </summary>
-        /// <param name="propertyName">name of the property changed</param>
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            if (PropertyChanged != null && !string.IsNullOrWhiteSpace(propertyName))
-            {
-                if (CoreApplication.MainView.Dispatcher.HasThreadAccess)
-                {
-                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                }
-                else
-                {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(
-                    CoreDispatcherPriority.Normal,
-                    () =>
-                    {
-                        PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                    });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                }
-            }
-        }
-
-        /// <summary>
-        /// Supports INotifyPropertyChanged
-        /// </summary>
-        /// <typeparam name="T">type of property</typeparam>
-        /// <param name="value">value of property</param>
-        /// <param name="newValue">new value of property</param>
-        /// <param name="propertyName">actual property name</param>
-        /// <param name="comparer">equality comparer if needed</param>
-        protected void SetValue<T>(ref T value, T newValue, [CallerMemberName] string propertyName = null, IEqualityComparer comparer = null)
-        {
-            if ((!comparer?.Equals(value, newValue)) ?? false || !Equals(value, newValue))
-            {
-                value = newValue;
-                OnPropertyChanged(propertyName);
-            }
-        }
     }
 }

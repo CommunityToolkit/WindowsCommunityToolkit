@@ -17,11 +17,15 @@ using Microsoft.Graph;
 
 namespace Microsoft.Toolkit.Services.OneDrive
 {
+    internal delegate void InternalEventHandler();
+
     /// <summary>
     ///  Class representing a OneDrive file
     /// </summary>
     public class OneDriveStorageFile : OneDriveStorageItem
     {
+        private event InternalEventHandler ThumbnailRequestedEvent;
+
         /// <summary>
         /// Gets or sets platform-specific implementation of platform services.
         /// </summary>
@@ -40,35 +44,10 @@ namespace Microsoft.Toolkit.Services.OneDrive
             }
         }
 
-        private string _thumbnail;
-
         /// <summary>
         /// Gets the smallest available thumbnail for the object.  This will be null until you call GetThumbnailAsync().
         /// </summary>
-        public string Thumbnail
-        {
-            get
-            {
-                if (_thumbnail == null)
-                {
-                    GetThumbnailAsync();
-                }
-
-                return _thumbnail;
-            }
-        }
-
-        private async void GetThumbnailAsync()
-        {
-            var newValue = _thumbnail;
-            var set = await GetThumbnailSetAsync();
-            if (set != null)
-            {
-                newValue = set.Small ?? set.Medium ?? set.Large;
-            }
-
-            SetValue(ref _thumbnail, newValue, nameof(Thumbnail));
-        }
+        public string Thumbnail { get; private set; }
 
         /// <summary>
         /// Parse the extension of the file from its name
@@ -113,6 +92,31 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             var renameItem = await base.RenameAsync(desiredName, cancellationToken);
             return InitializeOneDriveStorageFile(renameItem.OneDriveItem);
+        }
+
+        /// <summary>
+        /// gets the smallest available thumbnail url as string for the OneDrive file item, asyncrounously, and applies it to the Thumbnail property.
+        /// </summary>
+        /// <returns>awaitable task</returns>
+        public async Task GetThumbnailAsync()
+        {
+            var newValue = Thumbnail;
+            if (string.IsNullOrWhiteSpace(newValue))
+            {
+                try
+                {
+                    var set = await GetThumbnailSetAsync();
+                    if (set != null)
+                    {
+                        newValue = set.Small ?? set.Medium ?? set.Large;
+                    }
+                }
+                catch (Exception)
+                {
+                }
+
+                Thumbnail = newValue;
+            }
         }
     }
 }
