@@ -71,8 +71,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             protected set
             {
-                _isAuthenticated = value;
-                IsAuthenticatedChanged?.Invoke(this, EventArgs.Empty);
+                if (_isAuthenticated != value)
+                {
+                    _isAuthenticated = value;
+                    IsAuthenticatedChanged?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 
@@ -216,7 +219,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Returns success or failure of login attempt.</returns>
         public virtual async Task<bool> LoginAsync(string loginHint = null)
         {
-            IsAuthenticated = false;
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -239,6 +241,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (string.IsNullOrEmpty(accessToken))
             {
+                IsAuthenticated = false;
                 return IsAuthenticated;
             }
 
