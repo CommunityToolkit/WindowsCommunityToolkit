@@ -14,7 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
-namespace Microsoft.Toolkit.Services.OneDrive.Platform
+namespace Microsoft.Toolkit.Services.OneDrive
 {
     /// <summary>
     /// Platform abstraction.

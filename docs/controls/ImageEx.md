@@ -46,6 +46,10 @@ On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use 
 
 ## Default Template
 
+ImageEx control supports use of Progress Indicator. This can be enabled by adding ImageEx template from previous release of the control.
+
+- [ImageEx Control with Progress Indicator XAML File](https://github.com/Microsoft/WindowsCommunityToolkit/blob/rel/2.2.0/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in v2.2.0.0 of toolkit.
+
 - [ImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml) is the XAML template used in the toolkit for the default styling.
 
 - [RoundImageEx Control XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/RoundImageEx.xaml) is the XAML template used in the toolkit for the default styling of the Control that has Corner Rounding.
