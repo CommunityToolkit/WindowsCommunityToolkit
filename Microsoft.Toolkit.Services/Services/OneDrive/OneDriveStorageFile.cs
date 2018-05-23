@@ -95,28 +95,26 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         /// <summary>
-        /// gets the smallest available thumbnail url as string for the OneDrive file item, asyncrounously, and applies it to the Thumbnail property.
+        /// Acquires the smallest available thumbnail url as string for the OneDrive file item, asyncrounously, and applies it to the Thumbnail property.
         /// </summary>
         /// <returns>awaitable task</returns>
-        public async Task GetThumbnailAsync()
+        public async Task UpdateThumbnailPropertyAsync()
         {
             var newValue = Thumbnail;
-            if (string.IsNullOrWhiteSpace(newValue))
-            {
-                try
-                {
-                    var set = await GetThumbnailSetAsync();
-                    if (set != null)
-                    {
-                        newValue = set.Small ?? set.Medium ?? set.Large;
-                    }
-                }
-                catch (Exception)
-                {
-                }
 
-                Thumbnail = newValue;
+            try
+            {
+                var set = await GetThumbnailSetAsync();
+                if (set != null)
+                {
+                    newValue = set.Small ?? set.Medium ?? set.Large;
+                }
             }
+            catch (Exception)
+            {
+            }
+
+            Thumbnail = newValue;
         }
     }
 }
