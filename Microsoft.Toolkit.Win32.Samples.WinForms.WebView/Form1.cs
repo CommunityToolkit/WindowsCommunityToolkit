@@ -21,9 +21,55 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
     {
         private bool _isFullScreen;
 
+        private bool _processExitedAttached;
+
         public Form1()
         {
             InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            webView1?.GoBack();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            webView1?.GoForward();
+        }
+
+        private void Go_Click(object sender, EventArgs e)
+        {
+            var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
+            webView1.Source = result;
+        }
+
+        private void OnFormLoaded(object sender, EventArgs e)
+        {
+            TryAttachProcessExitedEventHandler();
+        }
+
+        private void TryAttachProcessExitedEventHandler()
+        {
+            if (!_processExitedAttached && webView1?.Process != null)
+            {
+                webView1.Process.ProcessExited += (o, a) =>
+                {
+                    //WebView has encountered and error and was terminated
+                    Close();
+                };
+
+                _processExitedAttached = true;
+            }
+        }
+
+        private void url_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter && webView1 != null)
+            {
+                var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
+                webView1.Source = result;
+            }
         }
 
         private void webView1_ContainsFullScreenElementChanged(object sender, object e)
@@ -56,6 +102,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 
         private void webView1_NavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
+            TryAttachProcessExitedEventHandler();
             url.Text = e.Uri?.ToString() ?? string.Empty;
             Text = webView1.DocumentTitle;
             if (!e.IsSuccess)
@@ -107,31 +154,6 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
         private void webView1_ScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e)
         {
             MessageBox.Show(e.Value, e.Uri?.ToString() ?? string.Empty);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            webView1?.GoBack();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            webView1?.GoForward();
-        }
-
-        private void Go_Click(object sender, EventArgs e)
-        {
-            var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
-            webView1.Source = result;
-        }
-
-        private void url_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Enter && webView1 != null)
-            {
-                var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(url.Text);
-                webView1.Source = result;
-            }
         }
     }
 }

@@ -424,6 +424,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get
             {
                 VerifyAccess();
+
+                // NOTE: Not really in the spirit of a Property
+                do
+                {
+                    Dispatcher.CurrentDispatcher.DoEvents();
+                }
+                while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
                 Verify.IsNotNull(_webViewControl);
                 return _webViewControl?.Process;
             }
