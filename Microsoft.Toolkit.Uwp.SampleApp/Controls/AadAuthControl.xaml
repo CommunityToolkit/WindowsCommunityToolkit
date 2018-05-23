@@ -51,7 +51,7 @@
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="ClientId" Header="Client Id:" PlaceholderText="Please input client id" />
                     </Grid>
-                    <TextBox x:Name="Scopes" Margin="0,0,0,12" Header="You must select delegated permission scopes below at least for your application:" IsReadOnly="True"/>
+                    <TextBox x:Name="Scopes" Margin="0,0,0,12" Header="When registering your application in Aad select the following delegated permissions:" IsReadOnly="True"/>
                     <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
                                              NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/"/>
