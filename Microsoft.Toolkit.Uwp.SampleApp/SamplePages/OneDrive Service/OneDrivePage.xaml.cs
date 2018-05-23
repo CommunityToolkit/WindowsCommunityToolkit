@@ -419,7 +419,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (fileItem.Thumbnail == null)
                 {
-                    await fileItem.GetThumbnailAsync();
+                    await fileItem.UpdateThumbnailPropertyAsync();
                 }
 
                 image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
