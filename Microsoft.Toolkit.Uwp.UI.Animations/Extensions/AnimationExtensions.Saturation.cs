@@ -12,6 +12,7 @@
 
 using Microsoft.Toolkit.Uwp.UI.Animations.Effects;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -36,13 +37,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="easingType">The <see cref="EasingType"/></param>
+        /// <param name="easingMode">The <see cref="EasingMode"/></param>
         /// <returns>An animation set with saturation effects incorporated.</returns>
         public static AnimationSet Saturation(
             this FrameworkElement associatedObject,
             double value = 0d,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (associatedObject == null)
             {
@@ -50,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Saturation(value, duration, delay, easingType);
+            return animationSet.Saturation(value, duration, delay, easingType, easingMode);
         }
 
         /// <summary>
@@ -61,15 +64,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds.</param>
         /// <param name="easingType">The <see cref="EasingType"/></param>
+        /// <param name="easingMode">The <see cref="EasingMode"/></param>
         /// <returns>An animation set with saturation effects incorporated.</returns>
         public static AnimationSet Saturation(
             this AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default)
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
-            return SaturationEffect.EffectAnimation(animationSet, value, duration, delay, easingType);
+            return SaturationEffect.EffectAnimation(animationSet, value, duration, delay, easingType, easingMode);
         }
     }
 }

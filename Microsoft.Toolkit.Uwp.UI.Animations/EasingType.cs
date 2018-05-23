@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         Default,
 
         /// <summary>
-        /// Creates an animation that accelerates or decelerates linear.
+        /// Creates an animation that accelerates or decelerates linearly.
         /// </summary>
         Linear,
 

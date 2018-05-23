@@ -79,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 duration: Duration,
                 delay: Delay,
                 easingType: EasingType,
+                easingMode: EasingMode,
                 value: (float)Value,
                 centerX: (float)CenterX,
                 centerY: (float)CenterY)?

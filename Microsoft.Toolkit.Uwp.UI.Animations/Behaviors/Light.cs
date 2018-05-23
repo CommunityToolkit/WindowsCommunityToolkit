@@ -65,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                     duration: Duration,
                     delay: Delay,
                     easingType: EasingType,
+                    easingMode: EasingMode,
                     distance: (float)Distance,
                     color: ((SolidColorBrush)Color).Color)?.Start();
             }
