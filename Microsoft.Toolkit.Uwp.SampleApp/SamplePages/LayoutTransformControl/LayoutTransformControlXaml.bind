@@ -6,7 +6,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-  <controls:UniformGrid>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition/>
+      <ColumnDefinition/>
+    </Grid.ColumnDefinitions>
+  
     <!-- Layout Transform Fixed Size -->
     <controls:LayoutTransformControl>
       <controls:LayoutTransformControl.Transform>
@@ -28,7 +37,7 @@
     </controls:LayoutTransformControl>
 
     <!-- Layout Transform Full Size -->
-    <controls:LayoutTransformControl>
+    <controls:LayoutTransformControl Grid.Column="1">
       <controls:LayoutTransformControl.Transform>
         <TransformGroup>
           <RotateTransform Angle="@[Angle:DoubleSlider:0:-180.0-180.0]" />
@@ -46,7 +55,7 @@
     </controls:LayoutTransformControl>
     
     <!-- Render Transform Fixed Size -->
-    <Border Background="#FF333333"
+    <Border Background="#FF333333" Grid.Row="1"
             BorderBrush="Red"
             BorderThickness="5"
             Height="50"
@@ -66,7 +75,7 @@
     </Border>
 
     <!-- Render Transform Full Size -->
-    <Border Background="#FF333333"
+    <Border Background="#FF333333" Grid.Row="1" Grid.Column="1"
             BorderBrush="Red"
             BorderThickness="5"
             RenderTransformOrigin="0.5,0.5">
@@ -82,5 +91,5 @@
 
       <TextBlock Padding="10" Foreground="White" Text="Render Full Frame." />
     </Border>
-  </controls:UniformGrid>
+  </Grid>
 </Page>
