@@ -187,8 +187,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            UpdateDisplayText(Minimum, _minValueText);
-            UpdateDisplayText(Maximum, _maxValueText);
+            UpdateDisplayText(_minValueText, Minimum);
+            UpdateDisplayText(_maxValueText, Maximum);
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
@@ -535,7 +535,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateDisplayText(rangeSelector.RangeMin, rangeSelector._minValueText);
+                UpdateDisplayText(rangeSelector._minValueText, rangeSelector.RangeMin);
 
                 if (newValue < rangeSelector.Minimum)
                 {
@@ -598,7 +598,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateDisplayText(rangeSelector.RangeMax, rangeSelector._maxValueText);
+                UpdateDisplayText(rangeSelector._maxValueText, rangeSelector.RangeMax);
 
                 if (newValue < rangeSelector.Minimum)
                 {
@@ -626,7 +626,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             toolTip.Text = string.Format("{0:0.##}", newValue);
         }
 
-        private static void UpdateDisplayText(double newValue, TextBlock valueDisplayTextblock)
+        private static void UpdateDisplayText(TextBlock valueDisplayTextblock, double newValue)
         {
             // Safety check in case the template is missing the display TextBlock element
             if (valueDisplayTextblock == null)
