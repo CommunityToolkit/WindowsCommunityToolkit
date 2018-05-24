@@ -1,9 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
-
-    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style x:Key="SliderThumbStyle" TargetType="Thumb">
         <Setter Property="UseSystemFocusVisuals" Value="True"/>
@@ -35,17 +32,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RangeSelector">
                     <Grid x:Name="ControlGrid" Height="24" >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-
-                        <TextBlock Grid.Column="0" 
-                                   x:Name="MinValueText" 
-                                   Text="Min" 
-                                   Margin="0,0,12,0"
-                                   Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
                         <Border x:Name="OutOfRangeContentContainer"
                                 Background="Transparent"
@@ -86,12 +72,6 @@
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="1" />
                         </Canvas>
-
-                        <TextBlock Grid.Column="2" 
-                                   x:Name="MaxValueText" 
-                                   Text="Max"
-                                   Margin="12,0,0,0"
-                                   Visibility="{Binding ShowValues, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}" />
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
