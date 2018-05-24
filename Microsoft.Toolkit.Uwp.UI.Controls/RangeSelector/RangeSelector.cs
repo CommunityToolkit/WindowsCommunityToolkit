@@ -623,14 +623,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            if (rangeSelector.StepFrequency < 1)
-            {
-                toolTip.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                toolTip.Text = string.Format("{0:0}", newValue);
-            }
+            toolTip.Text = string.Format("{0:0.##}", newValue);
         }
 
         private static void UpdateMinimumDisplayText(double newValue, RangeSelector rangeSelector)
