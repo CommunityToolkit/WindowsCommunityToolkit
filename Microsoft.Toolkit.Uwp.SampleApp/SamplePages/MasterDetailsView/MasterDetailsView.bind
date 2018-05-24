@@ -10,7 +10,7 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <controls:MasterDetailsView ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
-                                    Foreground="Black">
+                                    CompactModeThresholdWidth="720">
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">
