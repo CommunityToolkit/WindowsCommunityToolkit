@@ -187,8 +187,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            UpdateDisplayText(_minValueText, Minimum);
-            UpdateDisplayText(_maxValueText, Maximum);
+            UpdateDisplayText(_minValueText, RangeMin);
+            UpdateDisplayText(_maxValueText, RangeMax);
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
