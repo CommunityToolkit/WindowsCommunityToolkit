@@ -623,13 +623,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            if (rangeSelector.StepFrequency < 1)
+            if (rangeSelector.StepFrequency % 1 == 0)
             {
-                toolTip.Text = string.Format("{0:0.00}", newValue);
+                toolTip.Text = string.Format("{0:0}", newValue);
             }
             else
             {
-                toolTip.Text = string.Format("{0:0}", newValue);
+                toolTip.Text = string.Format("{0:0.00}", newValue);
             }
         }
 
@@ -641,13 +641,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepFrequency < 1)
+            if (rangeSelector.StepFrequency % 1 == 0)
             {
-                rangeSelector._minValueText.Text = string.Format("{0:0.00}", newValue);
+                rangeSelector._minValueText.Text = string.Format("{0:0}", newValue);
             }
             else
             {
-                rangeSelector._minValueText.Text = string.Format("{0:0}", newValue);
+                rangeSelector._minValueText.Text = string.Format("{0:0.00}", newValue);
             }
         }
 
@@ -659,13 +659,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepFrequency < 1)
+            if (rangeSelector.StepFrequency % 1 == 0)
             {
-                rangeSelector._maxValueText.Text = string.Format("{0:0.00}", newValue);
+                rangeSelector._maxValueText.Text = string.Format("{0:0}", newValue);
             }
             else
             {
-                rangeSelector._maxValueText.Text = string.Format("{0:0}", newValue);
+                rangeSelector._maxValueText.Text = string.Format("{0:0.00}", newValue);
             }
         }
 
