@@ -16,7 +16,6 @@
                               VerticalAlignment="Center"
                               Minimum="@[Minimum:Slider:0:0-100]@"
                               Maximum="@[Maximum:Slider:100:0-100]@"
-                              StepFrequency="@[StepFrequency:Slider:1:1-10]@"
-                              ShowValues="@[ShowValues:Bool:False]@"/>
+                              StepFrequency="@[StepFrequency:Slider:1:1-10]@"/>
   </Grid>
 </Page>
