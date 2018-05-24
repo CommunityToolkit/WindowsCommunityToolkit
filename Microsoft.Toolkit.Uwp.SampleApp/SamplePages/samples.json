@@ -318,42 +318,6 @@
     ]
   },
   {
-    "Name": "Notifications",
-    "Icon": "Icons/Notifications.png",
-    "Samples": [
-      {
-        "Name": "LiveTile",
-        "Type": "LiveTilePage",
-        "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "LiveTileCode.bind",
-        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
-        "Icon": "/SamplePages/LiveTile/LiveTile.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
-      },
-      {
-        "Name": "Toast",
-        "Type": "ToastPage",
-        "About": "This shows how to send a Toast notification.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "ToastCode.bind",
-        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
-        "Icon": "/SamplePages/Toast/Toast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
-      },
-      {
-        "Name": "WeatherLiveTileAndToast",
-        "Type": "WeatherLiveTileAndToastPage",
-        "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "WeatherLiveTileAndToastCode.bind",
-        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
-        "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
-      }
-    ]
-  },
-  {
     "Name": "Animations",
     "Icon": "Icons/Animations.png",
     "Samples": [
@@ -485,6 +449,50 @@
     ]
   },
   {
+    "Name": "Graph Controls",
+    "Icon": "Icons/Foundation.png",
+    "Samples": [
+      {
+        "Name": "AadLogin",
+        "Type": "AadLoginPage",
+        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
+        "CodeFile": "AadLoginCode.bind",
+        "XamlCodeFile": "AadLoginXaml.bind",
+        "Icon": "/SamplePages/AadLogin/AadLogin.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/AadLogin.md"
+      },
+      {
+        "Name": "ProfileCard",
+        "Type": "ProfileCardPage",
+        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
+        "XamlCodeFile": "ProfileCardXaml.bind",
+        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
+      },
+      {
+        "Name": "PeoplePicker",
+        "Type": "PeoplePickerPage",
+        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
+        "XamlCodeFile": "PeoplePickerXaml.bind",
+        "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PeoplePicker.md"
+      },
+      {
+        "Name": "SharePointFileList",
+        "Type": "SharePointFileListPage",
+        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
+        "CodeFile": "SharePointFileListCode.bind",
+        "XamlCodeFile": "SharePointFileListXaml.bind",
+        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFileList.md"
+      }
+    ]
+  },
+  {
     "Name": "Services",
     "Icon": "Icons/Services.png",
     "Samples": [
@@ -550,6 +558,42 @@
         "CodeFile": "MicrosoftTranslatorCode.bind",
         "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/services/MicrosoftTranslator.md"
+      }
+    ]
+  },
+  {
+    "Name": "Notifications",
+    "Icon": "Icons/Notifications.png",
+    "Samples": [
+      {
+        "Name": "LiveTile",
+        "Type": "LiveTilePage",
+        "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "LiveTileCode.bind",
+        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
+        "Icon": "/SamplePages/LiveTile/LiveTile.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
+      },
+      {
+        "Name": "Toast",
+        "Type": "ToastPage",
+        "About": "This shows how to send a Toast notification.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "ToastCode.bind",
+        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
+        "Icon": "/SamplePages/Toast/Toast.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
+      },
+      {
+        "Name": "WeatherLiveTileAndToast",
+        "Type": "WeatherLiveTileAndToastPage",
+        "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "WeatherLiveTileAndToastCode.bind",
+        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
+        "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
       }
     ]
   },
@@ -904,53 +948,9 @@
     ]
   },
   {
-    "Name": "Graph",
-    "Icon": "Icons/Foundation.png",
-    "Samples": [
-      {
-        "Name": "AadLogin",
-        "Type": "AadLoginPage",
-        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
-        "CodeFile": "AadLoginCode.bind",
-        "XamlCodeFile": "AadLoginXaml.bind",
-        "Icon": "/SamplePages/AadLogin/AadLogin.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/AadLogin.md"
-      },
-      {
-        "Name": "ProfileCard",
-        "Type": "ProfileCardPage",
-        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
-        "XamlCodeFile": "ProfileCardXaml.bind",
-        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
-      },
-      {
-        "Name": "PeoplePicker",
-        "Type": "PeoplePickerPage",
-        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
-        "XamlCodeFile": "PeoplePickerXaml.bind",
-        "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PeoplePicker.md"
-      },
-      {
-        "Name": "SharePointFileList",
-        "Type": "SharePointFileListPage",
-        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
-        "CodeFile": "SharePointFileListCode.bind",
-        "XamlCodeFile": "SharePointFileListXaml.bind",
-        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFileList.md"
-      }
-     ]
-    },
-  {
     "Name": "Gaze",
     "Icon": "Icons/DeveloperTools.png",
-    "Samples": [     
+    "Samples": [
       {
         "Name": "GazeInteraction",
         "Type": "GazeInteractionPage",
