@@ -117,7 +117,6 @@
                   Grid.Column="1"
                   Style="{ThemeResource CaptionTextBlockStyle}"
                   Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
-                  MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.KeyboardAcceleratorTextMinWidth}"
                   Margin="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"
                   Foreground="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"
                   HorizontalAlignment="Right"
@@ -172,8 +171,7 @@
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+P"
                         Command="{StaticResource GenericCommand}"
                         CommandParameter="Page is Printed!!"
-                        Text="Print"
-                        Icon="Print"/>
+                        Text="Print"/>
         <MenuFlyoutSeparator />
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+E"
                         Command="{StaticResource GenericCommand}"
