@@ -295,6 +295,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
       },
       {
+        "Name": "CameraPreview",
+        "Type": "CameraPreviewPage",
+        "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview",
+        "XamlCodeFile": "CameraPreviewXaml.bind",
+        "CodeFile": "CameraPreviewCode.bind",
+        "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md"
+      },
+      {
         "Name": "InfiniteCanvas",
         "Type": "InfiniteCanvasPage",
         "About": "InfiniteCanvas is a canvas that supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.",
@@ -509,7 +519,7 @@
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
         "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/Microsoft Graph Service/OfficeLogo.png",
+        "Icon": "/SamplePages/Microsoft Graph Service/mslogo.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/services/MicrosoftGraph.md"
       },
       {
@@ -637,6 +647,15 @@
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
+      },
+      {
+        "Name": "CameraHelper",
+        "Type": "CameraHelperPage",
+        "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
+        "CodeFile": "CameraHelperCode.bind",
+        "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/CameraHelper.md"
       }
     ]
   },
@@ -882,6 +901,50 @@
       }
     ]
   },
+  {
+    "Name": "Graph",
+    "Icon": "Icons/Foundation.png",
+    "Samples": [
+      {
+        "Name": "AadLogin",
+        "Type": "AadLoginPage",
+        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
+        "CodeFile": "AadLoginCode.bind",
+        "XamlCodeFile": "AadLoginXaml.bind",
+        "Icon": "/SamplePages/AadLogin/AadLogin.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/AadLogin.md"
+      },
+      {
+        "Name": "ProfileCard",
+        "Type": "ProfileCardPage",
+        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
+        "XamlCodeFile": "ProfileCardXaml.bind",
+        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
+      },
+      {
+        "Name": "PeoplePicker",
+        "Type": "PeoplePickerPage",
+        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
+        "XamlCodeFile": "PeoplePickerXaml.bind",
+        "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PeoplePicker.md"
+      },
+      {
+        "Name": "SharePointFileList",
+        "Type": "SharePointFileListPage",
+        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
+        "CodeFile": "SharePointFileListCode.bind",
+        "XamlCodeFile": "SharePointFileListXaml.bind",
+        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFileList.md"
+      }
+     ]
+    },
   {
     "Name": "Gaze",
     "Icon": "Icons/DeveloperTools.png",

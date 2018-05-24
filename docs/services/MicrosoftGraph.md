@@ -79,6 +79,12 @@ When you register your app in the [Azure Management Portal](http://portal.azure.
 6. Scroll to the Microsoft Graph Permissions section (by default the User.Read permission is added). Add the following permissions: Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars.
 7. Finally, save your changes.
 
+### Testing access to the Graph API
+Using ADAL, v1 authentication, registering your application creates an App ID/Client and you can simply paste that into the Client Id field inside of the Microsoft Graph services page. 
+
+Using MSAL, v2 (default) authentication, you can use the same App ID to paste to the Client Id field.  You can also optionally provide different permission scopes and a login hint (suggested user name).
+
+
 ## Syntax
 
 ### Sign in with an Office 365 account
