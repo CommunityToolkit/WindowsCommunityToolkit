@@ -145,8 +145,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         };
                     }
 
-                    _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
-                    _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+                    if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.Media.Core.MediaSource", "CreateFromMediaFrameSource", 1))
+                    {
+                        _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
+                        _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+                    }
+                    else
+                    {
+                        InvokePreviewFailed("CameraPreview is only available on Windows 10 April 2018 Update or later");
+                    }
+
                 }
             }
             catch (Exception ex)

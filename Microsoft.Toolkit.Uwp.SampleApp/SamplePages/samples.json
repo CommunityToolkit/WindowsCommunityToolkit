@@ -302,7 +302,8 @@
         "XamlCodeFile": "CameraPreviewXaml.bind",
         "CodeFile": "CameraPreviewCode.bind",
         "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md",
+        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview" // check for April update
       },
       {
         "Name": "InfiniteCanvas",
