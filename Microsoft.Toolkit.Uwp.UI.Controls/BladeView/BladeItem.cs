@@ -65,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_loaded)
             {
                 Width = _normalModeWidth;
+                VisualStateManager.GoToState(this, "Expanded", true);
             }
         }
 
@@ -75,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_loaded)
             {
                 Width = double.NaN;
+                VisualStateManager.GoToState(this, "Collapsed", true);
             }
         }
 

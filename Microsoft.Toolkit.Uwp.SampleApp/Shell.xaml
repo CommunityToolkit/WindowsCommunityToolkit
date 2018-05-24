@@ -160,6 +160,7 @@
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
                         Grid.Row="1"
+                        Margin="4, 0, 0, 0"
                         HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem x:Name="PropertiesPivotItem"
