@@ -15,19 +15,19 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Extension methods for <see cref="ScaleTransform"/>.
+    /// Extension methods for <see cref="TranslateTransform"/>.
     /// </summary>
-    public static class ScaleTransformExtensions
+    public static class TranslateTransformExtensions
     {
         /// <summary>
         /// Gets the matrix that represents this transform.
-        /// Implements WPF's SkewTransform.Value.
+        /// Implements WPF's TranslateTransform.Value.
         /// </summary>
-        /// <param name="transform">Extended SkewTranform.</param>
+        /// <param name="transform">Extended TranslateTranform.</param>
         /// <returns>Matrix representing transform.</returns>
-        public static Matrix GetMatrix(this ScaleTransform transform)
+        public static Matrix GetMatrix(this TranslateTransform transform)
         {
-            return Matrix.Identity.ScaleAt(transform.ScaleX, transform.ScaleY, transform.CenterX, transform.CenterY);
+            return Matrix.Identity.Translate(transform.X, transform.Y);
         }
     }
 }
