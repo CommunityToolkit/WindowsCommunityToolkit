@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ProcessTransform()
         {
             // Get the transform matrix and apply it
-            _transformation = MatrixHelperEx.RoundMatrix(GetTransformMatrix(Transform), DecimalsAfterRound);
+            _transformation = MatrixHelperEx.Round(GetTransformMatrix(Transform), DecimalsAfterRound);
 
             if (_matrixTransform != null)
             {

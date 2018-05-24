@@ -35,12 +35,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Rounds the non-offset elements of a matrix to avoid issues due to floating point imprecision.
+        /// Rounds the non-offset elements of a matrix to avoid issues due to floating point imprecision and returns the result.
         /// </summary>
         /// <param name="matrix">The matrix to round.</param>
         /// <param name="decimalsAfterRound">The number of decimals after the round.</param>
         /// <returns>The rounded matrix.</returns>
-        public static Matrix RoundMatrix(Matrix matrix, int decimalsAfterRound)
+        public static Matrix Round(Matrix matrix, int decimalsAfterRound)
         {
             return new Matrix(
                 Math.Round(matrix.M11, decimalsAfterRound),
