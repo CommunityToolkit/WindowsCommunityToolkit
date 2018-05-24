@@ -634,14 +634,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepFrequency < 1)
-            {
-                rangeSelector._minValueText.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                rangeSelector._minValueText.Text = string.Format("{0:0}", newValue);
-            }
+            rangeSelector._minValueText.Text = string.Format("{0:0.##}", newValue);
         }
 
         private static void UpdateMaximumDisplayText(double newValue, RangeSelector rangeSelector)
@@ -652,14 +645,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (rangeSelector.StepFrequency < 1)
-            {
-                rangeSelector._maxValueText.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                rangeSelector._maxValueText.Text = string.Format("{0:0}", newValue);
-            }
+            rangeSelector._maxValueText.Text = string.Format("{0:0.##}", newValue);
         }
 
         /// <summary>
