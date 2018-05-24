@@ -81,7 +81,7 @@ Demonstrates using Camera Helper to get video frames from a specific media frame
 
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 
-var availableFrameSourceGroups = = await CameraHelper.GetFrameSourceGroupsAsync();
+var availableFrameSourceGroups == await CameraHelper.GetFrameSourceGroupsAsync();
 if(availableFrameSourceGroups != null)
 {
   CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
