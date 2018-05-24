@@ -21,9 +21,9 @@ Make sure you have the [webcam capability](https://docs.microsoft.com/en-us/wind
 
 ```csharp
 
-_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
-await _cameraPreviewControl.StartAsync();
-_cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+CameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+await CameraPreviewControl.StartAsync();
+CameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
      
 
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
