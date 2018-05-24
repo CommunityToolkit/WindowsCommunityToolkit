@@ -283,36 +283,51 @@ void GazePointer::Reset()
 
 GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    for each (auto rootElement in _roots)
+    UIElement^ element = nullptr;
+
+    auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, Window::Current->Content, false);
+    for each (auto candidate in elements)
     {
-        auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
-        GazeTargetItem^ invokable = nullptr;
-        for each (auto target in targets)
+        element = candidate;
+        break;
+    }
+
+    GazeTargetItem^ invokable = nullptr;
+
+    if (element != nullptr)
+    {
+        invokable = GazeTargetItem::GetOrCreate(element);
+
+        while (element != nullptr && !invokable->IsInvokable)
         {
-            if (invokable == nullptr)
-            {
-                auto item = GazeTargetItem::GetOrCreate(target);
-                if (item->IsInvokable)
-                {
-                    invokable = item;
-                }
-            }
+            element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
 
-            switch (GazeInput::GetInteraction(target))
+            if (element != nullptr)
             {
-            case Interaction::Enabled:
-                if (invokable != nullptr)
-                {
-                    return invokable;
-                }
-                break;
-
-            case Interaction::Disabled:
-                return GazeTargetItem::NonInvokable;
+                invokable = GazeTargetItem::GetOrCreate(element);
             }
         }
-        assert(invokable == nullptr);
     }
+
+    if (element == nullptr || !invokable->IsInvokable)
+    {
+        invokable = GazeTargetItem::NonInvokable;
+    }
+    else
+    {
+        Interaction interaction;
+        do
+        {
+            interaction = GazeInput::GetInteraction(element);
+            element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
+        } while (interaction == Interaction::Inherited && element != nullptr);
+
+        if (interaction != Interaction::Enabled)
+        {
+            invokable = GazeTargetItem::NonInvokable;
+        }
+    }
+
     // TODO : Check if the location is offscreen
     return GazeTargetItem::NonInvokable;
 }
