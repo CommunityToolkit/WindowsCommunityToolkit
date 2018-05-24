@@ -26,8 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
-    [TemplatePart(Name = "MinValueText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "MaxValueText", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ToolTip", Type = typeof(Grid))]
     [TemplatePart(Name = "ToolTipText", Type = typeof(TextBlock))]
 
@@ -81,8 +79,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _pointerManipulatingMin;
         private bool _pointerManipulatingMax;
         private double _absolutePosition;
-        private TextBlock _minValueText;
-        private TextBlock _maxValueText;
         private Grid _toolTip;
         private TextBlock _toolTipText;
 
@@ -152,8 +148,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
             _controlGrid = GetTemplateChild("ControlGrid") as Grid;
-            _minValueText = GetTemplateChild("MinValueText") as TextBlock;
-            _maxValueText = GetTemplateChild("MaxValueText") as TextBlock;
             _toolTip = GetTemplateChild("ToolTip") as Grid;
             _toolTipText = GetTemplateChild("ToolTipText") as TextBlock;
 
@@ -187,22 +181,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            UpdateDisplayText(_minValueText, RangeMin);
-            UpdateDisplayText(_maxValueText, RangeMax);
-
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
             tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-            if (_minValueText != null)
-            {
-                _minValueText.MinWidth = tb.ActualWidth;
-            }
-
-            if (_maxValueText != null)
-            {
-                _maxValueText.MinWidth = tb.ActualWidth;
-            }
 
             base.OnApplyTemplate();
         }
@@ -431,11 +412,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-
-                if (rangeSelector._minValueText != null)
-                {
-                    rangeSelector._minValueText.Text = newValue.ToString();
-                }
             }
         }
 
@@ -488,10 +464,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-                if (rangeSelector._maxValueText != null)
-                {
-                    rangeSelector._maxValueText.Text = newValue.ToString();
-                }
             }
         }
 
@@ -535,8 +507,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateDisplayText(rangeSelector._minValueText, rangeSelector.RangeMin);
-
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Minimum;
@@ -598,8 +568,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateDisplayText(rangeSelector._maxValueText, rangeSelector.RangeMax);
-
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Minimum;
@@ -624,17 +592,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
             toolTip.Text = string.Format("{0:0.##}", newValue);
-        }
-
-        private static void UpdateDisplayText(TextBlock valueDisplayTextblock, double newValue)
-        {
-            // Safety check in case the template is missing the display TextBlock element
-            if (valueDisplayTextblock == null)
-            {
-                return;
-            }
-
-            valueDisplayTextblock.Text = string.Format("{0:0.##}", newValue);
         }
 
         /// <summary>
