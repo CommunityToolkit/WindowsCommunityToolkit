@@ -628,7 +628,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateDisplayText(double newValue, TextBlock valueDisplayTextblock)
         {
-            // Safety check in case the template is missing the _minValueText element
+            // Safety check in case the template is missing the display TextBlock element
             if (valueDisplayTextblock == null)
             {
                 return;
