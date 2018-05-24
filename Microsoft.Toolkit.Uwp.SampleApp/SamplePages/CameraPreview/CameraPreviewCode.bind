@@ -14,12 +14,10 @@
     </StackPanel>
 </Page>
 
-// Create and associate the camera helper instance with the camera preview control
-var cameraHelper = new CameraHelper();
-await _cameraPreviewControl.StartAsync(cameraHelper);
-_cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
-_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
-     
+// Initialize the CameraPreview control and subscribe to the events
+CameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+await CameraPreviewControl.StartAsync();
+CameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
 
 // Create a software bitmap source and set it to the Xaml Image control source.
 var softwareBitmapSource = new SoftwareBitmapSource();
