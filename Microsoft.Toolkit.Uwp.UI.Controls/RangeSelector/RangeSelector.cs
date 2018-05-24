@@ -187,8 +187,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            UpdateMinimumDisplayText(Minimum, this);
-            UpdateMaximumDisplayText(Maximum, this);
+            UpdateDisplayText(Minimum, _minValueText);
+            UpdateDisplayText(Maximum, _maxValueText);
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
@@ -535,7 +535,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateMinimumDisplayText(rangeSelector.RangeMin, rangeSelector);
+                UpdateDisplayText(rangeSelector.RangeMin, rangeSelector._minValueText);
 
                 if (newValue < rangeSelector.Minimum)
                 {
@@ -598,7 +598,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateMaximumDisplayText(rangeSelector.RangeMax, rangeSelector);
+                UpdateDisplayText(rangeSelector.RangeMax, rangeSelector._maxValueText);
 
                 if (newValue < rangeSelector.Minimum)
                 {
@@ -626,26 +626,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             toolTip.Text = string.Format("{0:0.##}", newValue);
         }
 
-        private static void UpdateMinimumDisplayText(double newValue, RangeSelector rangeSelector)
+        private static void UpdateDisplayText(double newValue, TextBlock valueDisplayTextblock)
         {
             // Safety check in case the template is missing the _minValueText element
-            if (rangeSelector._minValueText == null)
+            if (valueDisplayTextblock == null)
             {
                 return;
             }
 
-            rangeSelector._minValueText.Text = string.Format("{0:0.##}", newValue);
-        }
-
-        private static void UpdateMaximumDisplayText(double newValue, RangeSelector rangeSelector)
-        {
-            // Safety check in case the template is missing the _maxValueText element
-            if (rangeSelector._maxValueText == null)
-            {
-                return;
-            }
-
-            rangeSelector._maxValueText.Text = string.Format("{0:0.##}", newValue);
+            valueDisplayTextblock.Text = string.Format("{0:0.##}", newValue);
         }
 
         /// <summary>
