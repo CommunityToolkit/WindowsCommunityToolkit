@@ -26,8 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "MaxThumb", Type = typeof(Thumb))]
     [TemplatePart(Name = "ContainerCanvas", Type = typeof(Canvas))]
     [TemplatePart(Name = "ControlGrid", Type = typeof(Grid))]
-    [TemplatePart(Name = "MinValueText", Type = typeof(TextBlock))]
-    [TemplatePart(Name = "MaxValueText", Type = typeof(TextBlock))]
     [TemplatePart(Name = "ToolTip", Type = typeof(Grid))]
     [TemplatePart(Name = "ToolTipText", Type = typeof(TextBlock))]
 
@@ -63,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty StepFrequencyProperty = DependencyProperty.Register(nameof(StepFrequency), typeof(double), typeof(RangeSelector), new PropertyMetadata(DefaultStepFrequency));
 
-        /// <summary>
-        /// Identifies the ShowValues dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ShowValuesProperty = DependencyProperty.Register(nameof(ShowValues), typeof(bool), typeof(RangeSelector), new PropertyMetadata(false));
-
         private Border _outOfRangeContentContainer;
         private Rectangle _activeRectangle;
         private Thumb _minThumb;
@@ -81,8 +74,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private bool _pointerManipulatingMin;
         private bool _pointerManipulatingMax;
         private double _absolutePosition;
-        private TextBlock _minValueText;
-        private TextBlock _maxValueText;
         private Grid _toolTip;
         private TextBlock _toolTipText;
 
@@ -152,8 +143,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _maxThumb = GetTemplateChild("MaxThumb") as Thumb;
             _containerCanvas = GetTemplateChild("ContainerCanvas") as Canvas;
             _controlGrid = GetTemplateChild("ControlGrid") as Grid;
-            _minValueText = GetTemplateChild("MinValueText") as TextBlock;
-            _maxValueText = GetTemplateChild("MaxValueText") as TextBlock;
             _toolTip = GetTemplateChild("ToolTip") as Grid;
             _toolTipText = GetTemplateChild("ToolTipText") as TextBlock;
 
@@ -187,22 +176,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             IsEnabledChanged += RangeSelector_IsEnabledChanged;
 
-            UpdateMinimumDisplayText(Minimum, this);
-            UpdateMaximumDisplayText(Maximum, this);
-
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
             tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
-
-            if (_minValueText != null)
-            {
-                _minValueText.MinWidth = tb.ActualWidth;
-            }
-
-            if (_maxValueText != null)
-            {
-                _maxValueText.MinWidth = tb.ActualWidth;
-            }
 
             base.OnApplyTemplate();
         }
@@ -431,11 +407,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-
-                if (rangeSelector._minValueText != null)
-                {
-                    rangeSelector._minValueText.Text = newValue.ToString();
-                }
             }
         }
 
@@ -488,10 +459,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (newValue != oldValue)
             {
                 rangeSelector.SyncThumbs();
-                if (rangeSelector._maxValueText != null)
-                {
-                    rangeSelector._maxValueText.Text = newValue.ToString();
-                }
             }
         }
 
@@ -535,8 +502,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateMinimumDisplayText(rangeSelector.RangeMin, rangeSelector);
-
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMin = rangeSelector.Minimum;
@@ -598,8 +563,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (rangeSelector._valuesAssigned)
             {
-                UpdateMaximumDisplayText(rangeSelector.RangeMax, rangeSelector);
-
                 if (newValue < rangeSelector.Minimum)
                 {
                     rangeSelector.RangeMax = rangeSelector.Minimum;
@@ -623,50 +586,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            if (rangeSelector.StepFrequency < 1)
-            {
-                toolTip.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                toolTip.Text = string.Format("{0:0}", newValue);
-            }
-        }
-
-        private static void UpdateMinimumDisplayText(double newValue, RangeSelector rangeSelector)
-        {
-            // Safety check in case the template is missing the _minValueText element
-            if (rangeSelector._minValueText == null)
-            {
-                return;
-            }
-
-            if (rangeSelector.StepFrequency < 1)
-            {
-                rangeSelector._minValueText.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                rangeSelector._minValueText.Text = string.Format("{0:0}", newValue);
-            }
-        }
-
-        private static void UpdateMaximumDisplayText(double newValue, RangeSelector rangeSelector)
-        {
-            // Safety check in case the template is missing the _maxValueText element
-            if (rangeSelector._maxValueText == null)
-            {
-                return;
-            }
-
-            if (rangeSelector.StepFrequency < 1)
-            {
-                rangeSelector._maxValueText.Text = string.Format("{0:0.00}", newValue);
-            }
-            else
-            {
-                rangeSelector._maxValueText.Text = string.Format("{0:0}", newValue);
-            }
+            toolTip.Text = string.Format("{0:0.##}", newValue);
         }
 
         /// <summary>
@@ -856,22 +776,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RangeSelector_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             VisualStateManager.GoToState(this, IsEnabled ? "Normal" : "Disabled", true);
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the current range values should be displayed.
-        /// </summary>
-        public bool ShowValues
-        {
-            get
-            {
-                return (bool)GetValue(ShowValuesProperty);
-            }
-
-            set
-            {
-                SetValue(ShowValuesProperty, value);
-            }
         }
     }
 }
