@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Services.OneDrive.Uwp
         /// Creates a background download for the current file
         /// </summary>
         /// <param name="destinationFile">A <see cref="StorageFile"/> to which content will be downloaded</param>
-        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to which should <see cref="BackgroundDownloader"/> reffer to</param>
+        /// <param name="completionGroup">The <see cref="BackgroundTransferCompletionGroup"/> to which should <see cref="BackgroundDownloader"/> refer to</param>
         /// <param name="cancellationToken">The <see cref="CancellationToken"/> for the request</param>
         /// <returns>The created <see cref="DownloadOperation"/></returns>
         private async Task<DownloadOperation> CreateBackgroundDownloadInternalAsync(StorageFile destinationFile, BackgroundTransferCompletionGroup completionGroup = null, CancellationToken cancellationToken = default(CancellationToken))

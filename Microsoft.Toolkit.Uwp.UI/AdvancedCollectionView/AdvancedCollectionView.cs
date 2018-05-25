@@ -270,8 +270,8 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <exception cref="NotImplementedException">Not implemented yet...</exception>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
-            var isil = _source as ISupportIncrementalLoading;
-            return isil?.LoadMoreItemsAsync(count);
+            var sil = _source as ISupportIncrementalLoading;
+            return sil?.LoadMoreItemsAsync(count);
         }
 
         /// <summary>

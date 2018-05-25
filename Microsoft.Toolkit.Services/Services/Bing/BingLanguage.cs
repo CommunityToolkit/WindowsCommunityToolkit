@@ -426,10 +426,10 @@ namespace Microsoft.Toolkit.Services.Bing
         Igbo,
 
         /// <summary>
-        /// Sichuan Yi
+        /// Yi
         /// </summary>
         [StringValue("ii")]
-        SichuanYi,
+        Yi,
 
         /// <summary>
         /// Inupiaq
@@ -532,12 +532,6 @@ namespace Microsoft.Toolkit.Services.Bing
         /// </summary>
         [StringValue("kr")]
         Kanuri,
-
-        /// <summary>
-        /// Kashmiri
-        /// </summary>
-        [StringValue("ks")]
-        Kashmiri,
 
         /// <summary>
         /// Kurdish
@@ -762,10 +756,10 @@ namespace Microsoft.Toolkit.Services.Bing
         Oromo,
 
         /// <summary>
-        /// Oriya
+        /// Odia
         /// </summary>
         [StringValue("or")]
-        Oriya,
+        Odia,
 
         /// <summary>
         /// Ossetian
@@ -870,7 +864,7 @@ namespace Microsoft.Toolkit.Services.Bing
         Sango,
 
         /// <summary>
-        /// Serbo-Croatian
+        /// Serbian, Croation, Bosnian, Montenegrin
         /// </summary>
         [StringValue("sh")]
         SerboCroatian,

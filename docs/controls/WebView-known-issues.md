@@ -50,7 +50,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * **WebView** controls in WPF applications have longer load times than Windows Forms applications.
 
-* If the web view hangs or stops working, other applications that use the same underlying process (Win32WebViewHost) will hang or stop working as well.
+* If the web view stops responding or stops working, other applications that use the same underlying process (Win32WebViewHost) will stop responding or stop working as well.
 
 ## Security
 
