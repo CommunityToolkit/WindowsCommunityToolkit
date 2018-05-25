@@ -56,14 +56,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     var options = new List<QueryOption>
                     {
-                        new QueryOption("$search", searchText)
+                        new QueryOption("$search", $"\"{searchText}\""),
+                        new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'")
                     };
                     IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
 
                     if (peopleList.Any())
                     {
-                        List<Person> searchResult = peopleList.Where(
-                            u => !string.IsNullOrWhiteSpace(u.UserPrincipalName)).ToList();
+                        List<Person> searchResult = peopleList.ToList();
 
                         // Remove all selected items
                         foreach (Person selectedItem in Selections)
