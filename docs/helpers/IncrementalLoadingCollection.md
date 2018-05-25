@@ -136,4 +136,4 @@ PeopleListView.ItemsSource = collection
 
 ## API
 
-* [IncrementalLoadingCollection source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection)
+* [IncrementalLoadingCollection source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection)

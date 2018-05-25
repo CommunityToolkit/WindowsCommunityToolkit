@@ -90,7 +90,7 @@ Dim content = uiElement.GetContentControl()
 
 ## API
 
-* [LogicalTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs)
+* [LogicalTree extensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs)
 
 ## Related Topics
 

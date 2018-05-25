@@ -78,4 +78,4 @@ Await ImageCache.Instance.ClearAsync()
 
 ## API
 
-* [ImageCache source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs)
+* [ImageCache source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs)

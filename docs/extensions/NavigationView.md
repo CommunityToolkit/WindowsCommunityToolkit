@@ -55,7 +55,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 
 ## Sample Code
 
-[NavigationView Styles Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[NavigationView Styles Sample Page](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -66,7 +66,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 
 ## API Source Code
 
-- [NavigationView Styles source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView)
+- [NavigationView Styles source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView)
 
 ## Related Topics
 

@@ -175,11 +175,11 @@ You can change this behavior with one of these values:
 
     Here is the list of existing styles :
 
-    - [Microsoft Edge notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
+    - [Microsoft Edge notification style](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml)
 
         ![Microsoft Edge notification style](../resources/images/Controls/InAppNotification/MicrosoftEdge-Notification-Style.png)
 
-    - [Visual Studio Code notification style](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
+    - [Visual Studio Code notification style](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml)
 
         ![Visual Studio Code notification style](../resources/images/Controls/InAppNotification/VisualStudioCode-Notification-style.png)
 
@@ -209,18 +209,18 @@ You can change this behavior with one of these values:
 
 If you want to add styles to the Toolkit, please follow these steps :
 
-1. Create a `ResourceDictionary` file in [Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles) folder
+1. Create a `ResourceDictionary` file in [Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles) folder
 2. Create a new `Style` with `TargetType="local:InAppNotification"`
 3. Create a new `ControlTemplate` with `TargetType="local:InAppNotification"` and add a `ContentPresenter` inside the Template
 4. Do not forget to set the `Template` property inside your `Style` resource
 
 ## Sample Code
 
-[InAppNotification Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[InAppNotification Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InAppNotification). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[InAppNotification XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
+[InAppNotification XAML File](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -231,4 +231,4 @@ If you want to add styles to the Toolkit, please follow these steps :
 
 ## API
 
-* [InAppNotification source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)
+* [InAppNotification source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification)

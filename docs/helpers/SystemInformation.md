@@ -52,4 +52,4 @@ The [SystemInformation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
 
 ## API
 
-* [SystemInformation source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs)
+* [SystemInformation source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs)

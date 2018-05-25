@@ -145,4 +145,4 @@ lastName - Doe
 
 ### API
 
-* [DeepLinkParser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/DeepLinkParser)
+* [DeepLinkParser source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp/Helpers/DeepLinkParser)

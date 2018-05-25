@@ -47,4 +47,4 @@ The String Extensions supports .NET Standard
 
 ## API
 
-* [StringExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs)
+* [StringExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs)

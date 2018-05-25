@@ -32,7 +32,7 @@ The [Matrix Extensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
 
 ## API Source Code
 
-- [MatrixExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/MatrixExtensions.cs)
+- [MatrixExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/MatrixExtensions.cs)
 
 ## Related Topics
 

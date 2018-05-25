@@ -78,7 +78,7 @@ control = uiElement.FindAscendant(Of ScrollViewer)()
 
 ## API
 
-* [VisualTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
+* [VisualTree extensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
 
 ## Related Topics
 

@@ -38,5 +38,5 @@ The [HyperlinkExtension](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 
 ## API
 
-* [Hyperlink source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
+* [Hyperlink source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Hyperlink)
 

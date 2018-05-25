@@ -50,7 +50,7 @@ End Sub
 
 ## Sample Code
 
-[Theme Listener Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ThemeListener/ThemeListenerPage.xaml.cs).
+[Theme Listener Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ThemeListener/ThemeListenerPage.xaml.cs).
 
 You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
@@ -63,4 +63,4 @@ You can see this in action in [Windows Community Toolkit Sample App](https://www
 
 ## API Source Code
 
-- [Theme Listener source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs)
+- [Theme Listener source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI/Helpers/ThemeListener.cs)

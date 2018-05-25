@@ -35,5 +35,5 @@ The [WebViewExtensions](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
 
 ## API
 
-* [WebViewExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/WebView)
+* [WebViewExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/WebView)
 

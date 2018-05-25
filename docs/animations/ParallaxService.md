@@ -59,7 +59,7 @@ MyUIElement.SetValue(ParallaxService.HorizontalMultiplierProperty, 0.5)
 
 ## Sample Project
 
-[ParallaxService Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+[ParallaxService Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ParallaxService). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
 
 ## <a name="parallaxview"></a> Moving to ParallaxView
 The Windows 10 Fall Creators Update SDK now includes the [ParallaxView](https://docs.microsoft.com/windows/uwp/style/parallax) control among other new controls and APIs. The ParallaxService and ParallaxView share the same concepts and provide the same functionality. In fact, the ParallaxView adds even more functionality and can be used in even more scenarios.
@@ -92,4 +92,4 @@ Here is an example of using the ParallaxView
 
 ## API
 
-* [ParallaxService source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)
+* [ParallaxService source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ParallaxService.cs)

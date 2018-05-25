@@ -41,4 +41,4 @@ Instead of having to deal with XML, you can now use Windows Community toolkit an
 
 ## API
 
-* [Notifications source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.UWP)
+* [Notifications source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.UWP)

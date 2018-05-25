@@ -178,7 +178,7 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## API
 
-* [AnimationSet source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations)
+* [AnimationSet source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Animations)
 
 ## Related
 
