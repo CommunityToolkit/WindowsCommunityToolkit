@@ -38,7 +38,7 @@ bool isvalid = str.IsDecimal();		//Returns false
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Extensions |
 | NuGet package | [Microsoft.Toolkit](https://www.nuget.org/packages/Microsoft.Toolkit/) |
@@ -47,4 +47,4 @@ The String Extensions supports .NET Standard
 
 ## API
 
-* [StringExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs)
+* [StringExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/StringExtensions.cs)

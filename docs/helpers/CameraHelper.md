@@ -49,7 +49,7 @@ As a developer, you will need to make sure the CameraHelper resources are cleane
 
 Likewise, make sure to handle app [suspending](https://docs.microsoft.com/windows/uwp/launch-resume/suspend-an-app) and [resuming](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/resume-an-app) - CameraHelper should be cleaned up when suspending and re-initialized when resuming.
 
-Call `CameraHelper.CleanupAsync()` to clean up all internal resources. See the [CameraHelper sample page in the sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper) for full example.
+Call `CameraHelper.CleanupAsync()` to clean up all internal resources. See the [CameraHelper sample page in the sample app](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper) for full example.
 
 ## Properties
 
@@ -106,7 +106,7 @@ if(availableFrameSourceGroups != null)
 
 ## Sample Code
 
-[CameraHelper Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[CameraHelper Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 
 ## Requirements
@@ -118,5 +118,5 @@ if(availableFrameSourceGroups != null)
 
 ## API Source Code
 
-- [CameraHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper)
+- [CameraHelper source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper)
 

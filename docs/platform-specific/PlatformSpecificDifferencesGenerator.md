@@ -2,7 +2,7 @@
 title: UWP Platform Specific Differences Generator
 author: hermitdave
 description: Given the min and max SDK versions, the generator loads the appropriate Windows.Foundation.UniversalApiContract.winmd and builds differences in terms of new types and new members.
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, plaform specific, platform specific differences, platform specific differences generator
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, platform specific, platform specific differences, platform specific differences generator
 dev_langs:
   - csharp
 ---
@@ -40,7 +40,7 @@ For a type that has additions, the additions are listed alongside
 
 ## API Source Code
 
-- [DifferencesGen](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformDifferencesGen/Program.cs)
+- [DifferencesGen](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.PlatformDifferencesGen/Program.cs)
 
 ## Related Topics
 

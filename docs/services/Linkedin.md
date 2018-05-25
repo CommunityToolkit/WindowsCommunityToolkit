@@ -19,7 +19,7 @@ The **LinkedIn Service** allows you to retrieve or publish data to the LinkedIn 
 3. Complete all mandatory fields signified by the red star.  If you agree to the terms and conditions, hit **Submit**.
 4. Make a note of the **Client Id** and **Client Secret** for your app - you will need to supply these in your code.
 5. Take note of the **Default Application Permissions**.  You can either set these in this portal or via code.  These are the permissions your user will need to agree to for you to make calls on their behalf.
-6. Under **OAuth 2.0** you will need to enter a **Authorized Redirect URLs**.  For UWP app development purposes this is arbitrary, but it will need to match what you have in your code (e.g. https://github.com/Microsoft/UWPCommunityToolkit).
+6. Under **OAuth 2.0** you will need to enter a **Authorized Redirect URLs**.  For UWP app development purposes this is arbitrary, but it will need to match what you have in your code (e.g. https://github.com/Microsoft/WindowsCommunityToolkit/).
 7. Once you have done, hit **Update**.
 
 ## Syntax
@@ -56,15 +56,15 @@ Await LinkedInService.Instance.GetUserProfileAsync()
 Await LinkedInService.Instance.ShareActivityAsync(ShareText.Text)
 ```
 
-[LinkedIn Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[LinkedIn Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/LinkedIn%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 | NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
-* [LinkedIn Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn)
+* [LinkedIn Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn)

@@ -114,16 +114,16 @@ e.Column.SortDirection = DataGridSortDirection.Ascending;
 
 ## Sample Code
 
-[DataGrid Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
+[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls.DataGrid](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/) |
 
 ## API
 
-* [DataGrid source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
+* [DataGrid source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
 * [Silverlight DataGrid API](https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc189753(v=vs.95))

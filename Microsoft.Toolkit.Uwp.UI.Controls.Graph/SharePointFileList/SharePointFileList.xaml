@@ -84,7 +84,7 @@
                                         Style="{StaticResource ToolbarButton}"
                                         Visibility="Collapsed">
                                     <StackPanel Orientation="Horizontal">
-                                        <SymbolIcon Symbol="Share" />
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
                                         <TextBlock Margin="5,0,0,0"
                                                    VerticalAlignment="Center"
                                                    Text="Share" />
