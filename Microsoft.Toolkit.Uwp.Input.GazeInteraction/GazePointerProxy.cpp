@@ -15,12 +15,15 @@ GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
     : _element(element)
 {
     auto content = Window::Current->Content;
-    auto ancestor = dynamic_cast<FrameworkElement^>(element->Parent);
-    while (ancestor != nullptr && ancestor != content)
+
+    auto ancestor = dynamic_cast<FrameworkElement^>(element);
+    auto popup = dynamic_cast<Popup^>(ancestor);
+    while (ancestor != nullptr && ancestor != content && popup == nullptr)
     {
-        ancestor = dynamic_cast<FrameworkElement^>(ancestor->Parent);
+        ancestor = dynamic_cast<FrameworkElement^>(VisualTreeHelper::GetParent(ancestor));
+        popup = dynamic_cast<Popup^>(ancestor);
     }
-    _isLoaded = ancestor != nullptr;
+    _isLoaded = ancestor == content || (popup != nullptr && popup->IsOpen);
 
     element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageLoaded);
     element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
