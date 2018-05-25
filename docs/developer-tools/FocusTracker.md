@@ -37,7 +37,7 @@ FocusTracker will display the following information (when available) about the c
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.DeveloperTools |
 | NuGet package | [Microsoft.Toolkit.Uwp.DeveloperTools](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.DeveloperTools/) |

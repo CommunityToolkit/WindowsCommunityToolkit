@@ -73,7 +73,7 @@ You can find more examples in our [unit tests](https://github.com/Microsoft/UWPC
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
