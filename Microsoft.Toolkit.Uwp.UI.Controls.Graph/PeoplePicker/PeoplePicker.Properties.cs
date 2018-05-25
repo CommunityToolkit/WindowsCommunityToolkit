@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get
             {
-                return new string[] { "User.Read", "User.ReadBasic.All" };
+                return new string[] { "User.Read", "User.ReadBasic.All", "People.Read" };
             }
         }
 
