@@ -33,7 +33,8 @@
 
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
-## [Blade](controls/BladeView.md)
+## [BladeView](controls/BladeView.md)
+## [CameraPreview](controls/CameraPreview.md)
 ## [Carousel](controls/Carousel.md)
 ## [DataGrid (preview)](controls/DataGrid.md)
 ## [DockPanel](controls/DockPanel.md)
@@ -46,11 +47,17 @@
 ## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
 ## [ImageEx](controls/ImageEx.md)
 ## [InAppNotification](controls/InAppNotification.md)
+## [InfiniteCanvas](controls/InfiniteCanvas.md)
 ## [LayoutTransformControl](controls/LayoutTransformControl.md)
 ## [Loading](controls/Loading.md)
 ## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
 ## [MasterDetailsView](controls/MasterDetailsView.md)
 ## [Menu Control](controls/Menu.md)
+## Microsoft Graph Controls
+### [AadLogin](graph/AadLogin.md)
+### [PeoplePicker](graph/PeoplePicker.md)
+### [ProfileCard](graph/ProfileCard.md)
+### [SharePointFileList](graph/SharePointFileList.md)
 ## [OrbitView](controls/OrbitView.md)
 ## [PullToRefreshListView](controls/PullToRefreshListview.md)
 ## [RadialGauge](controls/RadialGauge.md)
@@ -66,9 +73,15 @@
 ## [WebView (win32)](controls/WebView.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
-# Developer tools
-## [AlignmentGrid](developer-tools/AlignmentGrid.md)
-## [FocusTracker](developer-tools/FocusTracker.md)
+# Services
+## [Bing Service](services/Bing.md)
+## [Facebook Service](services/Facebook.md)
+## [LinkedIn Service](services/Linkedin.md)
+## [Microsoft Graph Service](services/MicrosoftGraph.md)
+### [GraphLogin (WinForms)](services/GraphLogin.md)
+## [Microsoft Translator Service](services/MicrosoftTranslator.md)
+## [OneDrive Service](services/OneDrive.md)
+## [Twitter Service](services/Twitter.md)
 
 # Extensions
 ## [ArrayExtensions](extensions/ArrayExtensions.md)
@@ -92,12 +105,12 @@
 ## [Visual Tree](extensions/VisualTree.md)
 ## [WebViewExtensions](extensions/WebViewExtensions.md)
 
-
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
 ## [BackgroundTaskHelper](helpers/BackgroundTaskHelper.md)
 ## [BindableValueHolder](helpers/BindableValueHolder.md)
 ## [BluetoothLEHelper](helpers/BluetoothLEHelper.md)
+## [CameraHelper](helpers/CameraHelper.md)
 ## [Colors](helpers/Colors.md)
 ## [Converters](helpers/Converters.md)
 ## [DeepLinkParser](helpers/DeepLinkParsers.md)
@@ -116,23 +129,18 @@
 ## [ThemeListener](helpers/ThemeListener.md)
 ## [WeakEventListener](helpers/WeakEventListener.md)
 
-# Notifications
-## [Notifications Overview](notifications/NotificationsOverview.md)
+# [Notifications](notifications/NotificationsOverview.md)
+
+# [Platform Specific Analyzer](platform-specific/PlatformSpecificAnalyzer.md)
 
 # Parsers
 ## [MarkdownParser](parsers/MarkdownParser.md)
 ## [RSSParser](parsers/RSSParser.md)
 
-# Services
-## [Bing Service](services/Bing.md)
-## [Facebook Service](services/Facebook.md)
-## [LinkedIn Service](services/Linkedin.md)
-## [Microsoft Graph Service](services/MicrosoftGraph.md)
-### [GraphLogin (WinForms)](services/GraphLogin.md)
-## [Microsoft Translator Service](services/MicrosoftTranslator.md)
-## [OneDrive Service](services/OneDrive.md)
-## [Twitter Service](services/Twitter.md)
-
 # [GazeInteractionLibrary](gaze/GazeInteractionLibrary.md)
+
+# Developer tools
+## [AlignmentGrid](developer-tools/AlignmentGrid.md)
+## [FocusTracker](developer-tools/FocusTracker.md)
 
 # [Known Issues](knownissues.md)

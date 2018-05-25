@@ -27,7 +27,7 @@ dev_langs:
 
 ## API Source Code
 
-- [MatrixHelperEx source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/MatrixHelperEx.cs)
+- [MatrixHelperEx source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/MatrixHelperEx.cs)
 
 ## Related Topics
 

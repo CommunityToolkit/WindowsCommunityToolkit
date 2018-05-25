@@ -31,7 +31,7 @@ The [BackdropBlurBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
 
 ## Sample Code
 
-[BackdropBlurBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropBlurBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[BackdropBlurBrush sample page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropBlurBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -42,7 +42,7 @@ The [BackdropBlurBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.
 
 ## API Source Code
 
-- [BackdropBlurBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/BackdropBlurBrush.cs)
+- [BackdropBlurBrush source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Media/BackdropBlurBrush.cs)
 
 ## Related Topics
 

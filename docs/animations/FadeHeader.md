@@ -80,18 +80,18 @@ Microsoft.Xaml.Interactivity.Interaction.GetBehaviors(MyListView).Add(New FadeHe
 
 ## Sample Project
 
-[FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[FadeHeader Behavior Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/FadeHeader). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 
-* [FadeHeader source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/FadeHeaderBehavior.cs)
+* [FadeHeader source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/FadeHeaderBehavior.cs)
 
 ## Related Topics
 

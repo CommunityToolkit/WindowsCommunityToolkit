@@ -49,5 +49,5 @@ The [Composition Visual](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 
 ## API
 
-* [Visual extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualExtensions.cs)
+* [Visual extensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Visual/VisualExtensions.cs)
 

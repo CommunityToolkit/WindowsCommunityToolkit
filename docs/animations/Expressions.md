@@ -1130,11 +1130,11 @@ _tracker.ConfigurePositionYInertiaModifiers(
 
 ## <a name="requirements"></a>Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher   |
+| Device family | Universal, 10.0.15063.0 or higher   |
 | ---------------------------------------------------------------- | ----------------------------------- |
 | Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## <a name="api"></a>API
 
-* [Expressions source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
+* [Expressions source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Expressions)
