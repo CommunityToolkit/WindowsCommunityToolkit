@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     int index = driveItem.Name.LastIndexOf('.');
                     if (index != -1)
                     {
-                        string ext = driveItem.Name.Substring(index + 1);
+                        string ext = driveItem.Name.Substring(index + 1).ToLower();
                         return string.Format(OfficeIcon, ext);
                     }
                 }
