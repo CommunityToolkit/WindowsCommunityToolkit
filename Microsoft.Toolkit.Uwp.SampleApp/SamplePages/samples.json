@@ -302,6 +302,7 @@
         "XamlCodeFile": "CameraPreviewXaml.bind",
         "CodeFile": "CameraPreviewCode.bind",
         "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
+        "BadgeUpdateVersionRequired": "April 2018 update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/CameraPreview.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview" // check for April update
       },
@@ -313,6 +314,7 @@
         "XamlCodeFile": "InfiniteCanvas.bind",
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
+        "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/InfiniteCanvas.md"
       }
     ]
@@ -701,6 +703,7 @@
         "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
         "CodeFile": "CameraHelperCode.bind",
         "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
+        "BadgeUpdateVersionRequired": "April 2018 update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/helpers/CameraHelper.md"
       }
     ]
