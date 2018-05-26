@@ -87,6 +87,11 @@ public:
     static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
     /// <summary>
+    /// Gets or sets the interaction default
+    /// </summary>
+    static property Interaction GlobalInteraction { Interaction get(); void set(Interaction value); }
+
+    /// <summary>
     /// Gets the status of gaze interaction over that particular XAML element.
     /// </summary>
     static Interaction GetInteraction(UIElement^ element);
@@ -195,7 +200,6 @@ public:
     /// Reports whether a gaze input device is available, and hence whether there is any possibility of gaze events occurring in the application.
     /// </summary>
     static property bool IsDeviceAvailable { bool get(); }
-
 
     /// <summary>
     /// Event triggered whenever IsDeviceAvailable changes value.

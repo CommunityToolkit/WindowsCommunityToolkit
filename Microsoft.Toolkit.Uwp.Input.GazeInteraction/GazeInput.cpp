@@ -49,6 +49,30 @@ void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
     s_completeBrush = value;
 }
 
+static Interaction s_interaction = Interaction::Disabled;
+
+Interaction GazeInput::GlobalInteraction::get()
+{
+    return s_interaction;
+}
+
+void GazeInput::GlobalInteraction::set(Interaction value)
+{
+    if (s_interaction != value)
+    {
+        if (value == Interaction::Enabled)
+        {
+            GazePointer::Instance->AddRoot(nullptr);
+        }
+        else if (s_interaction == Interaction::Enabled)
+        {
+            GazePointer::Instance->RemoveRoot(nullptr);
+        }
+
+        s_interaction = value;
+    }
+}
+
 TimeSpan GazeInput::UnsetTimeSpan = { -1 };
 
 static void OnInteractionChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
@@ -122,17 +146,17 @@ GazePointer^ GazeInput::GetGazePointer(Page^ page)
 
 bool GazeInput::IsDeviceAvailable::get()
 {
-    return GazePointer::Instance->IsDeviceAvailable; 
+    return GazePointer::Instance->IsDeviceAvailable;
 }
 
 EventRegistrationToken GazeInput::IsDeviceAvailableChanged::add(EventHandler<Object^>^ handler)
-{ 
-    return GazePointer::Instance->IsDeviceAvailableChanged += handler; 
+{
+    return GazePointer::Instance->IsDeviceAvailableChanged += handler;
 }
 
-void GazeInput::IsDeviceAvailableChanged::remove(EventRegistrationToken token) 
-{ 
-    GazePointer::Instance->IsDeviceAvailableChanged -= token; 
+void GazeInput::IsDeviceAvailableChanged::remove(EventRegistrationToken token)
+{
+    GazePointer::Instance->IsDeviceAvailableChanged -= token;
 }
 
 END_NAMESPACE_GAZE_INPUT

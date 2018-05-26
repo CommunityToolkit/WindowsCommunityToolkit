@@ -34,13 +34,13 @@ void GazePointer::AddRoot(FrameworkElement^ element)
 void GazePointer::RemoveRoot(FrameworkElement^ element)
 {
     unsigned int index = 0;
-    while (index < _roots->Size && _roots->GetAt(index) != element)
-    {
-        index++;
-    }
-    if (index < _roots->Size)
+    if (_roots->IndexOf(element, &index))
     {
         _roots->RemoveAt(index);
+    }
+    else
+    {
+        assert(false);
     }
 
     if (_roots->Size == 0)
@@ -283,14 +283,9 @@ void GazePointer::Reset()
 
 GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    UIElement^ element = nullptr;
-
-    auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, Window::Current->Content, false);
-    for each (auto candidate in elements)
-    {
-        element = candidate;
-        break;
-    }
+    auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, nullptr, false);
+    auto first = elements->First();
+    auto element = first->HasCurrent ? first->Current : nullptr;
 
     GazeTargetItem^ invokable = nullptr;
 
@@ -322,14 +317,13 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
             element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
         } while (interaction == Interaction::Inherited && element != nullptr);
 
-        if (interaction != Interaction::Enabled)
+        if (interaction == Interaction::Disabled || GazeInput::GlobalInteraction != Interaction::Enabled)
         {
             invokable = GazeTargetItem::NonInvokable;
         }
     }
 
-    // TODO : Check if the location is offscreen
-    return GazeTargetItem::NonInvokable;
+    return invokable;
 }
 
 void GazePointer::ActivateGazeTargetItem(GazeTargetItem^ target)
