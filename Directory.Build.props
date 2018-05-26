@@ -4,9 +4,9 @@
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Microsoft/UWPCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>Preview release of v3.0</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
 

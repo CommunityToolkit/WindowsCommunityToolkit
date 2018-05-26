@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     public static class GitHub
     {
         private const string _root = "https://api.github.com";
-        private const string _repoName = "UWPCommunityToolkit";
+        private const string _repoName = "WindowsCommunityToolkit";
         private const string _repoOwner = "Microsoft";
 
         private static List<GitHubRelease> _releases;

@@ -172,12 +172,12 @@
     <Content Include="Assets\People\petri.png" />
     <Content Include="Assets\People\shen.png" />
     <Content Include="Assets\People\vlad.png" />
+    <Content Include="Assets\Photos\HERO.jpg" />
     <Content Include="Assets\Photos\BigFourSummerHeat.jpg" />
     <Content Include="Assets\Photos\BisonBadlandsChillin.jpg" />
     <Content Include="Assets\Photos\ColumbiaRiverGorge.jpg" />
     <Content Include="Assets\Photos\GiantSlabInOregon.jpg" />
     <Content Include="Assets\Photos\GrandTetons.jpg" />
-    <Content Include="Assets\Photos\HERO.jpg" />
     <Content Include="Assets\Photos\ImageExPlaceholder.jpg" />
     <Content Include="Assets\Photos\LakeAnnMushroom.jpg" />
     <Content Include="Assets\Photos\LunchBreak.jpg" />
@@ -946,10 +946,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">      
+    <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>   
+    </Page>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
