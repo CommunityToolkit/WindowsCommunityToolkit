@@ -48,19 +48,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private string GetRandomText()
-        {
-            var random = new Random();
-            int result = random.Next(1, 4);
-
-            switch (result)
-            {
-                case 1: return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.";
-                case 2: return "Pellentesque in risus eget leo rhoncus ultricies nec id ante.";
-                case 3: default: return "Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.";
-            }
-        }
-
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -172,6 +159,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _exampleInAppNotification.Dismiss();
                 _exampleVSCodeInAppNotification.Dismiss();
             });
+        }
+
+        private string GetRandomText()
+        {
+            var random = new Random();
+            int result = random.Next(1, 4);
+
+            switch (result)
+            {
+                case 1: return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sollicitudin bibendum enim at tincidunt. Praesent egestas ipsum ligula, nec tincidunt lacus semper non.";
+                case 2: return "Pellentesque in risus eget leo rhoncus ultricies nec id ante.";
+                case 3: default: return "Sed quis nisi quis nunc condimentum varius id consectetur metus. Duis mauris sapien, commodo eget erat ac, efficitur iaculis magna. Morbi eu velit nec massa pharetra cursus. Fusce non quam egestas leo finibus interdum eu ac massa. Quisque nec justo leo. Aenean scelerisque placerat ultrices. Sed accumsan lorem at arcu commodo tristique.";
+            }
         }
 
         private void SetDefaultControlTemplate()

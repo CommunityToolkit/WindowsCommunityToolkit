@@ -720,8 +720,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (response.IsSuccessStatusCode)
                         {
                             var raw = await response.Content.ReadAsStringAsync();
-                            var json = JsonConvert.DeserializeObject<dynamic>(raw);
-                            return json["object"]["sha"];
+                            Debug.WriteLine(raw);
+                            var json = JsonConvert.DeserializeObject<GitRef>(raw);
+                            return json?.RefObject?.Sha;
                         }
                     }
                 }
@@ -731,6 +732,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             return null;
+        }
+
+        public class GitRef
+        {
+            [JsonProperty("object")]
+            public GitRefObject RefObject { get; set; }
+        }
+
+        public class GitRefObject
+        {
+            [JsonProperty("sha")]
+            public string Sha { get; set; }
         }
     }
 }
