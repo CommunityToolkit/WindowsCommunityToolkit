@@ -14,16 +14,19 @@ DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
     : _element(element)
 {
-    auto content = Window::Current->Content;
-
-    auto ancestor = dynamic_cast<FrameworkElement^>(element);
-    auto popup = dynamic_cast<Popup^>(ancestor);
-    while (ancestor != nullptr && ancestor != content && popup == nullptr)
+    // element.Loaded has already happened if it is in the visual tree...
+    auto parent = VisualTreeHelper::GetParent(element);
+    if (parent != nullptr)
     {
-        ancestor = dynamic_cast<FrameworkElement^>(VisualTreeHelper::GetParent(ancestor));
-        popup = dynamic_cast<Popup^>(ancestor);
+        _isLoaded = true;
     }
-    _isLoaded = ancestor == content || (popup != nullptr && popup->IsOpen);
+    // ...or...
+    else
+    {
+        // ...if the element is a dynamically created Popup that has been opened.
+        auto popup = dynamic_cast<Popup^>(element);
+        _isLoaded = popup != nullptr && popup->IsOpen;
+    }
 
     element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageLoaded);
     element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
@@ -63,6 +66,8 @@ void GazePointerProxy::IsEnabled::set(Interaction value)
 
 void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
 {
+    assert(!_isLoaded);
+
     _isLoaded = true;
 
     if (_isEnabled == Interaction::Enabled)
@@ -73,6 +78,8 @@ void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
 
 void GazePointerProxy::OnPageUnloaded(Object^ sender, RoutedEventArgs^ args)
 {
+    assert(_isLoaded);
+
     _isLoaded = false;
 
     if (_isEnabled == Interaction::Enabled)
