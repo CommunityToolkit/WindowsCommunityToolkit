@@ -5,6 +5,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.ProfileCard" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PeoplePicker" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.SharePointFileList" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PowerBiEmbedded" />
     </ToolboxItems>
   </File>
 </FileList>

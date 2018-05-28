@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        html, body {
+            border: 0px;
+            margin: 0px;
+            height: 100%;
+            font-family: 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
+            overflow:hidden;
+        }
+        #reportContainer {
+            height: 100%;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://npmcdn.com/es6-promise@3.2.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.5.1/dist/powerbi.min.js"></script>
+</head>
+<body>
+    <div id="reportContainer"></div>
+    
+    <script>
+        function loadPowerBiReport(accessToken, embedUrl, embedReportId) {
+            // Get models. models contains enums that can be used.
+            var models = window['powerbi-client'].models;
+
+            var config = {
+                type: 'report',
+                tokenType: models.TokenType.Aad,
+                accessToken: accessToken,
+                embedUrl: embedUrl,
+                id: embedReportId,
+                permissions: models.Permissions.All,
+                settings: {
+                    filterPaneEnabled: true,
+                    navContentPaneEnabled: true
+                }
+            };
+
+            // Get a reference to the embedded report HTML element
+            var reportContainer = $('#reportContainer')[0];
+
+            // Embed the report and display it within the div container.
+            var report = powerbi.embed(reportContainer, config);
+        }
+
+        function clearReport() {
+            $('#reportContainer').html('');
+        }
+    </script>
+</body>
+</html>

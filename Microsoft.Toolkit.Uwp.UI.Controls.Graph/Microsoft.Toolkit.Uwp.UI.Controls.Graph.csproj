@@ -13,6 +13,7 @@
     <None Remove="Assets\genericfile.png" />
     <None Remove="Assets\person.png" />
     <None Remove="Assets\photo.png" />
+    <None Remove="PowerBiEmbedded\EmbedReportFrame.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,7 @@
     <Content Include="Assets\genericfile.png" />
     <Content Include="Assets\person.png" />
     <Content Include="Assets\photo.png" />
+    <Content Include="PowerBiEmbedded\EmbedReportFrame.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +31,10 @@
  
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.PowerBI.Api" Version="2.0.12" />
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
