@@ -942,8 +942,17 @@
         "XamlCodeFile": "SharePointFileListXaml.bind",
         "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/SharePointFileList.md"
+      },
+      {
+        "Name": "PowerBiEmbedded",
+        "Type": "PowerBiEmbeddedPage",
+        "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
+        "XamlCodeFile": "PowerBiEmbedded.bind",
+        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
       }
-     ]
+    ]
     },
   {
     "Name": "Gaze",
