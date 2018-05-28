@@ -7,7 +7,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 # ProfileCard Control
 
-The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.profilecard) is a simple way to display a user in multiple different formats and mixes of name/image/e-mail, it relies on the [MicrosoftGraphService](../../docs/services/MicrosoftGraph.md) for authentication.
+The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.graph.profilecard) is a simple way to display a user in multiple different formats and mixes of name/image/e-mail, it relies on the [MicrosoftGraphService](../services/MicrosoftGraph.md) for authentication.
 
 ## Syntax
 
@@ -30,7 +30,7 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
 | UserId | String | Identifier of the user being displayed, this user id can come from the Graph APIs like `/me/people`, `/users`, etc. |
-| DisplayMode | [ViewType](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
+| DisplayMode | [ViewType](https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ViewType.cs) | The visual layout of the control. Default is `PictureOnly` |
 | DefaultImage | BitmapImage | The default image displayed when no user is signed in |
 | LargeProfileTitleDefaultText | String | Default title text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
 | LargeProfileMailDefaultText | String | Default secondary mail text in LargeProfilePhotoLeft mode or LargeProfilePhotoRight mode when no user is signed in |
@@ -38,7 +38,7 @@ The [ProfileCard Control](https://docs.microsoft.com/dotnet/api/microsoft.toolki
 
 ## Sample Code
 
-First of all, initialize the [MicrosoftGraphService](../../docs/services/MicrosoftGraph.md) with your [Azure AD v2.0 app](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration), this should be done globally with the combined and unique [delegate permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-scopes) required by all Graph controls and services used in your app.
+First of all, initialize the [MicrosoftGraphService](../services/MicrosoftGraph.md) with your [Azure AD v2.0 app](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-app-registration), this should be done globally with the combined and unique [delegate permissions](https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-v2-scopes) required by all Graph controls and services used in your app.
 
 ```c#
 MicrosoftGraphService.Instance.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
@@ -50,11 +50,11 @@ MicrosoftGraphService.Instance.Initialize(
 );
 ```
 
-[ProfileCard Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ProfileCard). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ProfileCard Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ProfileCard). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[ProfileCard XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ProfileCard.xaml) is the XAML template used in the toolkit for the default styling.
+[ProfileCard XAML File](https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard/ProfileCard.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -65,4 +65,4 @@ MicrosoftGraphService.Instance.Initialize(
 
 ## API
 
-* [ProfileCard source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard)
+* [ProfileCard source code](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard)
