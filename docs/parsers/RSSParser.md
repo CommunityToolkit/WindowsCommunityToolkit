@@ -1,7 +1,7 @@
 ---
 title: RSS Parser
 author: williamabradley
-description: The RSS Parser allows you to parse an RSS content String into RSS Schema.
+description: The RSS Parser allows you to parse an RSS content String into an RSS Schema.
 keywords: windows community toolkit, uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, rss, rss parsing, parser
 dev_langs:
   - csharp
@@ -10,7 +10,7 @@ dev_langs:
 
 # RSS Parser
 
-The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.rss.rssparser) class allows you to parse a RSS content String into a RSS Schema.
+The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.rss.rssparser) class allows you to parse an RSS content String into an RSS Schema.
 
 ## Example
 
