@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public event EventHandler<SignInEventArgs> SignInCompleted;
 
         /// <summary>
-        /// Occurs when sign in failed when attemting to sign in
+        /// Occurs when sign in failed when attempting to sign in
         /// </summary>
         public event EventHandler<SignInFailedEventArgs> SignInFailed;
 
