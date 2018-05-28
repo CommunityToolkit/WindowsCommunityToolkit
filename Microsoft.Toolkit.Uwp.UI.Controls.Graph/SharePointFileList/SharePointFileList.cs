@@ -77,50 +77,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _list.ItemClick += List_ItemClick;
             }
 
-            Button back = GetTemplateChild(ControlBack) as Button;
-            if (back != null)
+            if (GetTemplateChild(ControlBack) is Button back)
             {
                 back.Click += Back_Click;
             }
 
-            Button cancel = GetTemplateChild(ControlCancel) as Button;
-            if (cancel != null)
+            if (GetTemplateChild(ControlCancel) is Button cancel)
             {
                 cancel.Click += Cancel_Click;
             }
 
-            Button delete = GetTemplateChild(ControlDelete) as Button;
-            if (delete != null)
+            if (GetTemplateChild(ControlDelete) is Button delete)
             {
                 delete.Click += Delete_Click;
             }
 
-            Button download = GetTemplateChild(ControlDownload) as Button;
-            if (download != null)
+            if (GetTemplateChild(ControlDownload) is Button download)
             {
                 download.Click += Download_Click;
             }
 
-            Button loadMore = GetTemplateChild(ControlLoadMore) as Button;
-            if (loadMore != null)
+            if (GetTemplateChild(ControlLoadMore) is Button loadMore)
             {
                 loadMore.Click += LoadMore_Click;
             }
 
-            Button share = GetTemplateChild(ControlShare) as Button;
-            if (share != null)
+            if (GetTemplateChild(ControlShare) is Button share)
             {
                 share.Click += Share_Click;
             }
 
-            Button upload = GetTemplateChild(ControlUpload) as Button;
-            if (upload != null)
+            if (GetTemplateChild(ControlUpload) is Button upload)
             {
                 upload.Click += Upload_Click;
             }
 
-            HyperlinkButton error = GetTemplateChild(ControlError) as HyperlinkButton;
-            if (error != null)
+            if (GetTemplateChild(ControlError) is HyperlinkButton error)
             {
                 error.Click += ShowErrorDetails_Click;
             }
