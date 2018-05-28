@@ -1,0 +1,35 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+    xmlns:converts="using:Microsoft.Toolkit.Uwp.UI.Converters">
+
+    <converts:CollectionVisibilityConverter x:Key="CollectionVisibilityConverter"/>
+    
+    <Style TargetType="local:PowerBiEmbedded">
+        <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:PowerBiEmbedded">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ComboBox x:Name="CbxReportList"
+                                  Grid.Row="0"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="0 0 0 10"
+                                  ItemsSource="{TemplateBinding Reports}"
+                                  SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectionReport, Mode=TwoWay}"
+                                  DisplayMemberPath="Name" 
+                                  Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Reports, Converter={StaticResource CollectionVisibilityConverter}}"/>
+                        <WebView x:Name="WebViewReportFrame" 
+                                 Grid.Row="1"
+                                 Source="ms-appx-web:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBiEmbedded/EmbedReportFrame.html"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
