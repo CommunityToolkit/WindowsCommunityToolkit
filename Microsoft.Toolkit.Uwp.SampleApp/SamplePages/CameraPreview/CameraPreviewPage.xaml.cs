@@ -93,10 +93,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Application_Resuming(object sender, object e)
         {
-            var cameraHelper = _cameraPreviewControl?.CameraHelper;
-            _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
-            await _cameraPreviewControl.StartAsync(cameraHelper);
-            _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+            if (_cameraPreviewControl != null)
+            {
+                var cameraHelper = _cameraPreviewControl.CameraHelper;
+                _cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+                await _cameraPreviewControl.StartAsync(cameraHelper);
+                _cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+            }
         }
 
         private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
@@ -106,12 +109,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void CameraPreviewControl_PreviewFailed(object sender, PreviewFailedEventArgs e)
         {
-            _errorMessageText.Text = e.Error;
+            if (_errorMessageText != null)
+            {
+                _errorMessageText.Text = e.Error;
+            }
         }
 
         private async void CaptureButton_Click(object sender, RoutedEventArgs e)
         {
-            var softwareBitmap = _currentVideoFrame.SoftwareBitmap;
+            var softwareBitmap = _currentVideoFrame?.SoftwareBitmap;
 
             if (softwareBitmap != null)
             {
