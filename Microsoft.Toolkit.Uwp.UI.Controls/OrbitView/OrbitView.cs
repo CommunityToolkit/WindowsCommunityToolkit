@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -618,7 +610,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 X1 = 0,
                 Y1 = 0,
-                X2 = 100,
+                X2 = 80,
                 Y2 = 0
             };
 
@@ -661,7 +653,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var offsetExpression = ExpressionFunctions.Vector3(centerNode.Offset.X + (centerNode.Size.X / 2), centerNode.Offset.Y + (centerNode.Size.Y / 2), 0);
             anchorVisual.StartAnimation(nameof(anchorVisual.Offset), offsetExpression);
 
-            var scaleExpression = ExpressionFunctions.Vector3(ExpressionFunctions.Pow(ExpressionFunctions.Pow(elementX - centerX, 2) + ExpressionFunctions.Pow(elementY - centerY, 2), 0.5f) / 100, 1, 1);
+            var scaleExpression = ExpressionFunctions.Vector3(ExpressionFunctions.Pow(ExpressionFunctions.Pow(elementX - centerX, 2) + ExpressionFunctions.Pow(elementY - centerY, 2), 0.5f) / 80, 1, 1);
             anchorVisual.StartAnimation(nameof(anchorVisual.Scale), scaleExpression);
 
             return anchor;

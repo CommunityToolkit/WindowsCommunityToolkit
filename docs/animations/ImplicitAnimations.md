@@ -130,7 +130,7 @@ Specifies an [Composition Animation](https://docs.microsoft.com/windows/uwpcommu
 
 ## API
 
-* [Implicit animations source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Implicit.cs)
+* [Implicit animations source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Implicit.cs)
 
 ## Related Topics
 

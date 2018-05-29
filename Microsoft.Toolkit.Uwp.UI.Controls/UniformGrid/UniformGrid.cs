@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -40,7 +32,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Get all Visible FrameworkElement Children
             var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
             var (rows, columns) = GetDimensions(visible, Rows, Columns, FirstColumn);
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
             // Now that we know size, setup automatic rows/columns
             // to utilize Grid for UniformGrid behavior.
@@ -101,9 +95,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (freespots.MoveNext())
                     {
-                        #pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning disable SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                         var (row, column) = freespots.Current;
-                        #pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning restore SA1009 // Closing parenthesis must be followed by a space.
 
                         SetRow(child, row);
                         SetColumn(child, column);

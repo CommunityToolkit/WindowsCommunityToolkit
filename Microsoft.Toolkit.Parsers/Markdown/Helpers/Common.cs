@@ -1,19 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
@@ -419,8 +410,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                 }
 
                 // Find the end of the current line.
-                int startOfNextLine;
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out startOfNextLine);
+                int endOfLine = FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 // Return the line info to the caller.
                 yield return new LineInfo
@@ -510,6 +500,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             return startOfLine;
+        }
+
+        /// <summary>
+        /// Checks if the given URL is allowed in a markdown link.
+        /// </summary>
+        /// <param name="url"> The URL to check. </param>
+        /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
+        public static bool IsUrlValid(string url)
+        {
+            // URLs can be relative.
+            if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
+            {
+                return true;
+            }
+
+            // Check the scheme is allowed.
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
+            {
+                if (result.Scheme.Equals(scheme))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

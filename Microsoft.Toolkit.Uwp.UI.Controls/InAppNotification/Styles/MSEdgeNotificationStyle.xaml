@@ -6,8 +6,8 @@
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="MinWidth" Value="0" />
-        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="Width" Value="40" />
+        <Setter Property="Height" Value="40" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -148,28 +148,38 @@
 
                 <Button x:Name="PART_DismissButton"
                         Grid.Column="1" 
-                        Margin="10 0 -10 0"
-                        FontSize="12"
+                        Margin="24,0,0,0"
+                        FontSize="16"
                         Style="{StaticResource DismissTextBlockButtonStyle}"
-                        Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
-                        AutomationProperties.Name="Dismiss" />
+                        Content="&#xE894;"
+                        FontFamily="Segoe MDL2 Assets" 
+                        AutomationProperties.Name="Dismiss">
+                    <Button.RenderTransform>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
+                    </Button.RenderTransform>
+                </Button>
             </Grid>
         </Grid>
     </ControlTemplate>
 
     <Style x:Key="MSEdgeNotificationStyle" TargetType="local:InAppNotification">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+        <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Bottom" />
         <Setter Property="MinHeight" Value="55" />
-        <Setter Property="FontSize" Value="15" />
+        <Setter Property="FontSize" Value="16" />
         <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="20 0" />
-        <Setter Property="Padding" Value="25 10" />
-        <Setter Property="MaxWidth" Value="1200" />
+        <Setter Property="Margin" Value="24,12" />
+        <Setter Property="Padding" Value="24,12" />
+        <Setter Property="MaxWidth" Value="960" />
+        <Setter Property="MinWidth" Value="132" />
+        <Setter Property="AnimationDuration" Value="0:0:0.100" />
+        <Setter Property="VerticalOffset" Value="100" />
+        <Setter Property="HorizontalOffset" Value="0" />
         <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
     </Style>
 </ResourceDictionary>

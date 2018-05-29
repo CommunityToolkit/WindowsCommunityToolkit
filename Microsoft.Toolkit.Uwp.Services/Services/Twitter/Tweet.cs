@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Globalization;
@@ -21,6 +13,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     public class Tweet : Toolkit.Parsers.SchemaBase, ITwitterResult
     {
+        private string _text;
+
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
@@ -40,10 +34,14 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Id { get; set; }
 
         /// <summary>
-        /// Gets or sets text of the tweet (140 characters).
+        /// Gets or sets text of the tweet (handles both 140 and 280 characters)
         /// </summary>
         [JsonProperty("text")]
-        public string Text { get; set; }
+        public string Text
+        {
+            get { return _text ?? FullText; }
+            set { _text = value; }
+        }
 
         /// <summary>
         /// Gets or sets the extended mode.
@@ -64,6 +62,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
+        /// Gets or sets the Retweeted Tweet
+        /// </summary>
+        [JsonProperty("retweeted_status")]
+        public Tweet RetweetedStatus { get; set; }
+
+        /// <summary>
         /// Gets the creation date
         /// </summary>
         public DateTime CreationDate
@@ -79,5 +83,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return dt;
             }
         }
+
+        /// <summary>
+        /// Gets or sets text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        private string FullText { get; set; }
     }
 }
