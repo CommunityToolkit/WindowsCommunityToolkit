@@ -51,10 +51,10 @@
             <TextBox x:Name="SearchText"
                      Header="Request:"
                      Text="UWP" />
-            <ComboBox x:Name="Countries"
+            <ComboBox x:Name="CntryList"
                       Margin="0,10,0,0"
                       HorizontalAlignment="Stretch"
-                      Header="Country:" />
+                      Header="Country/Region:" />
             <ComboBox x:Name="Languages"
                       Margin="0,10,0,0"
                       HorizontalAlignment="Stretch"

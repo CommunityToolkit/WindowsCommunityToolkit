@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -418,8 +410,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                 }
 
                 // Find the end of the current line.
-                int startOfNextLine;
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out startOfNextLine);
+                int endOfLine = FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 // Return the line info to the caller.
                 yield return new LineInfo
@@ -525,7 +516,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             }
 
             // Check the scheme is allowed.
-            foreach (var scheme in HyperlinkInline.KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 if (result.Scheme.Equals(scheme))
                 {

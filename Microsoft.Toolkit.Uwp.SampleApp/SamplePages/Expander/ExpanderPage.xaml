@@ -7,49 +7,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <ScrollViewer>
-            <StackPanel Margin="20">
-                <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"
-                                Header="This is the header - expander 1"
-                                HorizontalContentAlignment="Stretch"
-                                Foreground="White"
-                                Background="{Binding Path=BackgroundExpander1.Value, Mode=TwoWay}"
-                                IsExpanded="{Binding Path=IsExpanded1.Value, Mode=TwoWay}"
-                                ExpandDirection="{Binding Path=ExpandDirection1.Value, Mode=TwoWay}">
-                    <Grid>
-                        <TextBlock HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                Text="This is the content"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource HeaderTextBlockStyle}" />
-                    </Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
 
-                    <controls:Expander.ContentOverlay>
-                        <Grid Background="Red" MinHeight="250">
-                            <TextBlock Text="Hello world!"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center" />
-                        </Grid>
-                    </controls:Expander.ContentOverlay>
-                </controls:Expander>
-
-                <controls:Expander x:Name="Expander2" VerticalAlignment="Top" Margin="0"
-                                Header="This is the header - expander 2"
-                                HorizontalContentAlignment="Stretch"
-                                Foreground="White"
-                                Background="{Binding Path=BackgroundExpander2.Value, Mode=TwoWay}"
-                                IsExpanded="{Binding Path=IsExpanded2.Value, Mode=TwoWay}"
-                                ExpandDirection="{Binding Path=ExpandDirection2.Value, Mode=TwoWay}">
-                    <Grid Height="250">
-                        <TextBlock HorizontalAlignment="Center"
-                                TextWrapping="Wrap"
-                                Text="This is the content"
-                                VerticalAlignment="Center"
-                                Style="{StaticResource HeaderTextBlockStyle}" />
-                    </Grid>
-                </controls:Expander>
-            </StackPanel>
-        </ScrollViewer>
-    </Grid>
 </Page>

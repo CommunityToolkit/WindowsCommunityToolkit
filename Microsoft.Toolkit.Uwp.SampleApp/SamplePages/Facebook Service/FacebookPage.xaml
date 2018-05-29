@@ -224,7 +224,7 @@
 
                             <TextBox x:Name="UrlText"
                                     Header="Url"
-                                    Text="https://github.com/Microsoft/UWPCommunityToolkit" />
+                                    Text="https://github.com/Microsoft/WindowsCommunityToolkit" />
                             <Button x:Name="ShareButton"
                                     Grid.Column="1"
                                     Margin="12,0,0,0"

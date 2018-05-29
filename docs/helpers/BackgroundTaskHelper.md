@@ -1,7 +1,7 @@
 ---
 title: Background Task Helper
 author: nmetulev
-description: The Background Task Helper helps users interacting with background tasks in an easier manner. 
+description: The Background Task Helper helps users interact with background tasks in an easier manner. 
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Background Task Helper
 dev_langs:
   - csharp
@@ -10,7 +10,7 @@ dev_langs:
 
 # Background Task Helper
 
-The [Background Task Helper](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.helpers.backgroundtaskhelper) helps users interacting with background tasks in an easier manner. 
+The [Background Task Helper](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.helpers.backgroundtaskhelper) helps users interact with background tasks in an easier manner. 
 
 ## Syntax
 
@@ -173,15 +173,15 @@ End Sub
 
 ## Sample Code
 
-[Background Task Helper](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackgroundTaskHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Background Task Helper](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackgroundTaskHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
 
-* [Background Task source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs)
+* [Background Task source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs)

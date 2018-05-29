@@ -5,21 +5,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
+              <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/MSEdgeNotificationStyle.xaml" />
+              <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
-          
+
             <local:DismissCommand x:Key="DismissCommand" />
-          
+
             <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
                 <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
                 <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-                <Setter Property="MinWidth" Value="0" />
-                <Setter Property="MinHeight" Value="0" />
+                <Setter Property="Width" Value="40" />
+                <Setter Property="Height" Value="40" />
                 <Setter Property="UseSystemFocusVisuals" Value="True" />
                 <Setter Property="Template">
                     <Setter.Value>
@@ -79,70 +82,200 @@
                 </Setter>
             </Style>
 
-            <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
-                <UserControl>
-                    <Grid DataContext="{Binding ElementName=CurrentPage}">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup>
-                                <VisualState x:Name="LargeState">
-                                    <VisualState.StateTriggers>
-                                       <AdaptiveTrigger MinWindowWidth="700" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-                              
-                                <VisualState x:Name="NarrowState">
-                                    <VisualState.Setters>
-                                        <Setter Target="TextBlock.(Grid.RowSpan)" Value="1" />
-                                        <Setter Target="TextBlock.(Grid.ColumnSpan)" Value="2" />
+            <Style x:Key="MSEdgeNotificationTemplate_NoDismissButton" TargetType="controls:InAppNotification">
+              <Setter Property="Template">
+                <Setter.Value>
+                  <ControlTemplate>
+                    <Grid>
+                      <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="State">
+                          <VisualState x:Name="Collapsed">
+                            <Storyboard>
+                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                              </DoubleAnimationUsingKeyFrames>
 
-                                        <Setter Target="ButtonsStackPanel.(Grid.Row)" Value="1" />
-                                        <Setter Target="ButtonsStackPanel.(Grid.RowSpan)" Value="1" />
-                                        <Setter Target="ButtonsStackPanel.(Grid.Column)" Value="0" />
-                                        <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="2" />
-                                        <Setter Target="ButtonsStackPanel.Orientation" Value="Vertical" />
-                                        <Setter Target="ButtonsStackPanel.Margin" Value="0 5 0 0" />
+                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0" />
+                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}"/>
+                              </DoubleAnimationUsingKeyFrames>
 
-                                        <Setter Target="YesButton.Width" Value="Auto" />
-                                        <Setter Target="YesButton.HorizontalAlignment" Value="Stretch" />
+                              <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                             Storyboard.TargetProperty="(UIElement.Visibility)">
+                                <DiscreteObjectKeyFrame KeyTime="0">
+                                  <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Visible</Visibility>
+                                  </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                                <DiscreteObjectKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}">
+                                  <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                  </DiscreteObjectKeyFrame.Value>
+                                </DiscreteObjectKeyFrame>
+                              </ObjectAnimationUsingKeyFrames>
+                            </Storyboard>
+                          </VisualState>
 
-                                        <Setter Target="NoButton.Width" Value="Auto" />
-                                        <Setter Target="NoButton.HorizontalAlignment" Value="Stretch" />
-                                        <Setter Target="NoButton.Margin" Value="0 5 0 0" />
-                                    </VisualState.Setters>
-                                    
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="0" />
-                                    </VisualState.StateTriggers>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                          <VisualState x:Name="Visible">
+                            <Storyboard>
+                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                              </DoubleAnimationUsingKeyFrames>
 
-                        <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
-                            <Grid.RowDefinitions>
-                                <RowDefinition />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                        
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                              <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="{Binding VerticalOffset, RelativeSource={RelativeSource TemplatedParent}}" />
+                                <EasingDoubleKeyFrame controls:InAppNotification.KeyFrameDuration="{Binding AnimationDuration, RelativeSource={RelativeSource TemplatedParent}}" Value="0" />
+                              </DoubleAnimationUsingKeyFrames>
+                            </Storyboard>
+                          </VisualState>
+                        </VisualStateGroup>
+                      </VisualStateManager.VisualStateGroups>
+                      <Grid x:Name="RootGrid"
+                            RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                            Margin="{TemplateBinding Margin}"
+                            Padding="{TemplateBinding Padding}"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            Visibility="{TemplateBinding Visibility}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid.RenderTransform>
+                          <CompositeTransform />
+                        </Grid.RenderTransform>
 
-                            <TextBlock x:Name="TextBlock" Grid.RowSpan="2" 
-                                       Text="Do you like it?" VerticalAlignment="Center" />
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                            <StackPanel x:Name="ButtonsStackPanel" Grid.RowSpan="2" Grid.Column="1" 
-                                        Orientation="Horizontal" VerticalAlignment="Center">
-                                <Button x:Name="YesButton" Content="Yes" Width="150" Height="30" 
-                                        Command="{StaticResource DismissCommand}" 
-                                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"/>
-                                <Button x:Name="NoButton" Content="No" Width="150" Height="30" Margin="10 0 0 0" 
-                                        Command="{StaticResource DismissCommand}" 
-                                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"/>
-                            </StackPanel>
-                        </Grid>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                          HorizontalContentAlignment="Stretch"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          VerticalContentAlignment="Center"
+                                          TextWrapping="WrapWholeWords" />
+                      </Grid>
                     </Grid>
-                </UserControl>
+                  </ControlTemplate>
+                </Setter.Value>
+              </Setter>
+            </Style>
+          
+            <DataTemplate x:Key="InAppNotificationWithButtonsTemplate">
+              <UserControl>
+                <Grid DataContext="{Binding ElementName=CurrentPage}">
+                  <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroup>
+                      <VisualState x:Name="NarrowState">
+                        <VisualState.Setters>
+                          <Setter Target="TextBlock.Margin" Value="0" />
+                          
+                          <Setter Target="ButtonsStackPanel.(Grid.Row)" Value="1" />
+                          <Setter Target="ButtonsStackPanel.(Grid.Column)" Value="0" />
+                          <Setter Target="ButtonsStackPanel.(Grid.ColumnSpan)" Value="3" />
+                          <Setter Target="ButtonsStackPanel.Orientation" Value="Vertical" />
+                          <Setter Target="ButtonsStackPanel.Margin" Value="0 6 0 0" />
+
+                          <Setter Target="OkButton.Width" Value="Auto" />
+                          <Setter Target="OkButton.HorizontalAlignment" Value="Stretch" />
+
+                          <Setter Target="CancelButton.Width" Value="Auto" />
+                          <Setter Target="CancelButton.HorizontalAlignment" Value="Stretch" />
+                          <Setter Target="CancelButton.Margin" Value="0 4 0 0" />
+                        </VisualState.Setters>
+
+                        <VisualState.StateTriggers>
+                          <AdaptiveTrigger MinWindowWidth="132"/>
+                        </VisualState.StateTriggers>
+                      </VisualState>
+
+                      <VisualState x:Name="LargeState">
+                        <VisualState.StateTriggers>
+                          <AdaptiveTrigger MinWindowWidth="720"/>
+                        </VisualState.StateTriggers>
+                      </VisualState>
+                    </VisualStateGroup>
+                  </VisualStateManager.VisualStateGroups>
+
+                  <Grid x:Name="RootGrid" SizeChanged="RootGrid_SizeChanged">
+                    <Grid.RenderTransform>
+                      <CompositeTransform />
+                    </Grid.RenderTransform>
+
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" MinWidth="20" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                      <RowDefinition />
+                      <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock x:Name="TextBlock"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Text="This template is responsive! Try resizing the window."
+                               VerticalAlignment="Center"
+                               TextWrapping="WrapWholeWords"
+                               TextTrimming="WordEllipsis"
+                               Margin="0,0,24,0" />
+
+                    <StackPanel x:Name="ButtonsStackPanel"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Margin="0,0,-18,0"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+
+                      <Button x:Name="OkButton"
+                              Margin="0"
+                              FontSize="16"
+                              Content="Ok"
+                              Height="40"
+                              Width="120"
+                              Command="{StaticResource DismissCommand}" 
+                              CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                              AutomationProperties.Name="Ok" />
+
+                      <Button x:Name="CancelButton"
+                              Margin="4,0,0,0"
+                              FontSize="16"
+                              Content="Cancel"
+                              Height="40"
+                              Width="120"
+                              Command="{StaticResource DismissCommand}"
+                              CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                              AutomationProperties.Name="Cancel"/>
+                        
+                    </StackPanel>
+
+                    <Button x:Name="DismissButton"
+                        Grid.Column="2"
+                        Margin="4,0,0,0"
+                        FontSize="16"
+                        Style="{StaticResource DismissTextBlockButtonStyle}"
+                        Content="&#xE894;"
+                        FontFamily="Segoe MDL2 Assets"
+                        AutomationProperties.Name="Dismiss"
+                        Command="{StaticResource DismissCommand}" 
+                        CommandParameter="{Binding ElementName=ExampleInAppNotification}"
+                        Visibility="{Binding ShowDismissButton, ElementName=ExampleCustomInAppNotification}">
+                      <Button.RenderTransform>
+                        <TranslateTransform x:Name="DismissButtonTransform" X="18" />
+                      </Button.RenderTransform>
+                    </Button>
+                  </Grid>
+                </Grid>
+              </UserControl>
             </DataTemplate>
 
             <ControlTemplate x:Key="InAppNotificationDropShadowControlTemplate">
@@ -182,7 +315,7 @@
                         </VisualStateGroup>
                     </VisualStateManager.VisualStateGroups>
 
-                    <Grid x:Name="RootGrid"                               
+                    <Grid x:Name="RootGrid"
                               RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
                               Margin="{TemplateBinding Margin}"
                               MaxWidth="{TemplateBinding MaxWidth}"
@@ -204,19 +337,19 @@
                                 </Grid.ColumnDefinitions>
 
                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                      HorizontalContentAlignment="Stretch"
-                                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                      VerticalContentAlignment="Center"
-                                                      TextWrapping="WrapWholeWords" />
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  VerticalContentAlignment="Center"
+                                                  TextWrapping="WrapWholeWords" />
 
                                 <Button x:Name="PART_DismissButton"
-                                            Grid.Column="1" 
-                                            Visibility="{Binding ShowDismissButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
-                                            Margin="10 0 -10 0"
-                                            FontSize="12"
-                                            Style="{StaticResource DismissTextBlockButtonStyle}"
-                                            Content="&#xE894;" FontFamily="Segoe MDL2 Assets" 
-                                            AutomationProperties.Name="Dismiss" />
+                                        Grid.Column="1" 
+                                        Visibility="{Binding ShowDismissButton, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}"
+                                        FontSize="16"
+                                        Style="{StaticResource DismissTextBlockButtonStyle}"
+                                        Content="&#xE894;" 
+                                        FontFamily="Segoe MDL2 Assets" 
+                                        AutomationProperties.Name="Dismiss" />
                             </Grid>
                         </controls:DropShadowPanel>
                     </Grid>
@@ -288,6 +421,14 @@
                                     VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
                                     HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]"
                                     StackMode="@[StackMode:Enum:StackMode.Replace]" />
+
+        <controls:InAppNotification x:Name="ExampleCustomInAppNotification"
+                                    Style="{StaticResource MSEdgeNotificationTemplate_NoDismissButton}"
+                                    Content="This is a test message."
+                                    ShowDismissButton="@[ShowDismissButton:Bool:True]"
+                                    AnimationDuration="@[AnimationDuration:TimeSpan:100:0-5000]"
+                                    VerticalOffset="@[VerticalOffset:DoubleSlider:100.0:-200.0-200.0]"
+                                    HorizontalOffset="@[HorizontalOffset:DoubleSlider:0.0:-200.0-200.0]" />
 
         <controls:InAppNotification x:Name="ExampleVSCodeInAppNotification"
                                     Style="{StaticResource VSCodeNotificationStyle}"

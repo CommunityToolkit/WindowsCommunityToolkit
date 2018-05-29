@@ -1,14 +1,6 @@
-// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Windows;
@@ -24,6 +16,8 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
     public partial class MainWindow : Window
     {
         private bool _isFullScreen;
+
+        private bool _processExitedAttached;
 
         public MainWindow()
         {
@@ -44,6 +38,12 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
         {
             e.CanExecute = WebView1 != null && WebView1.CanGoForward;
         }
+
+        private void BrowseForward_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            WebView1?.GoForward();
+        }
+
         private void GoToPage_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -54,10 +54,23 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
             var result = (Uri)new WebBrowserUriTypeConverter().ConvertFromString(Url.Text);
             WebView1.Source = result;
         }
-
-        private void BrowseForward_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        private void OnWindowLoaded(object sender, RoutedEventArgs e)
         {
-            WebView1?.GoForward();
+            TryAttachProcessExitedEventHandler();
+        }
+
+        private void TryAttachProcessExitedEventHandler()
+        {
+            if (!_processExitedAttached && WebView1?.Process != null)
+            {
+                WebView1.Process.ProcessExited += (o, a) =>
+                {
+                    //WebView has encountered and error and was terminated
+                    Close();
+                };
+
+                _processExitedAttached = true;
+            }
         }
 
         private void Url_OnKeyUp(object sender, KeyEventArgs e)
@@ -68,12 +81,40 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
                     (Uri)new WebBrowserUriTypeConverter().ConvertFromString(
                         Url.Text);
                 WebView1.Source = result;
+            }
+        }
 
+        private void WebView1_OnContainsFullScreenElementChanged(object sender, object e)
+        {
+            void EnterFullScreen()
+            {
+                WindowState = WindowState.Normal;
+                ResizeMode = ResizeMode.NoResize;
+                WindowState = WindowState.Maximized;
+            }
+
+            void LeaveFullScreen()
+            {
+                ResizeMode = ResizeMode.CanResize;
+                WindowState = WindowState.Normal;
+            }
+
+            // Toggle
+            _isFullScreen = !_isFullScreen;
+
+            if (_isFullScreen)
+            {
+                EnterFullScreen();
+            }
+            else
+            {
+                LeaveFullScreen();
             }
         }
 
         private void WebView1_OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs e)
         {
+            TryAttachProcessExitedEventHandler();
             Url.Text = e.Uri?.ToString() ?? string.Empty;
             Title = WebView1.DocumentTitle;
             if (!e.IsSuccess)
@@ -123,35 +164,6 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
         private void WebView1_OnScriptNotify(object sender, WebViewControlScriptNotifyEventArgs e)
         {
             MessageBox.Show(e.Value, e.Uri?.ToString() ?? string.Empty);
-        }
-
-        private void WebView1_OnContainsFullScreenElementChanged(object sender, object e)
-        {
-            void EnterFullScreen()
-            {
-
-                WindowState =  WindowState.Normal;
-                ResizeMode = ResizeMode.NoResize;
-                WindowState = WindowState.Maximized;
-            }
-
-            void LeaveFullScreen()
-            {
-                ResizeMode = ResizeMode.CanResize;
-                WindowState = WindowState.Normal;
-            }
-
-            // Toggle
-            _isFullScreen = !_isFullScreen;
-
-            if (_isFullScreen)
-            {
-                EnterFullScreen();
-            }
-            else
-            {
-                LeaveFullScreen();
-            }
         }
     }
 }

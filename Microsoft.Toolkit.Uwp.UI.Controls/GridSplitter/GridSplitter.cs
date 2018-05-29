@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -32,6 +24,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private GridResizeBehavior _resizeBehavior;
         private GripperHoverWrapper _hoverWrapper;
         private TextBlock _gripperDisplay;
+
+        private bool _pressed = false;
+        private bool _dragging = false;
+        private bool _pointerEntered = false;
 
         /// <summary>
         /// Gets the target parent grid from level
@@ -175,13 +171,70 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Unhook registered events
             Loaded -= GridSplitter_Loaded;
+            PointerEntered -= GridSplitter_PointerEntered;
+            PointerExited -= GridSplitter_PointerExited;
+            PointerPressed -= GridSplitter_PointerPressed;
+            PointerReleased -= GridSplitter_PointerReleased;
+            ManipulationStarted -= GridSplitter_ManipulationStarted;
+            ManipulationCompleted -= GridSplitter_ManipulationCompleted;
 
             // Register Events
             Loaded += GridSplitter_Loaded;
+            PointerEntered += GridSplitter_PointerEntered;
+            PointerExited += GridSplitter_PointerExited;
+            PointerPressed += GridSplitter_PointerPressed;
+            PointerReleased += GridSplitter_PointerReleased;
+            ManipulationStarted += GridSplitter_ManipulationStarted;
+            ManipulationCompleted += GridSplitter_ManipulationCompleted;
 
             _hoverWrapper?.UnhookEvents();
 
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+        }
+
+        private void GridSplitter_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            _pressed = false;
+            VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
+        }
+
+        private void GridSplitter_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            _pressed = true;
+            VisualStateManager.GoToState(this, "Pressed", true);
+        }
+
+        private void GridSplitter_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            _pointerEntered = false;
+
+            if (!_pressed && !_dragging)
+            {
+                VisualStateManager.GoToState(this, "Normal", true);
+            }
+        }
+
+        private void GridSplitter_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            _pointerEntered = true;
+
+            if (!_pressed && !_dragging)
+            {
+                VisualStateManager.GoToState(this, "PointerOver", true);
+            }
+        }
+
+        private void GridSplitter_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            _dragging = false;
+            _pressed = false;
+            VisualStateManager.GoToState(this, _pointerEntered ? "PointerOver" : "Normal", true);
+        }
+
+        private void GridSplitter_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
+        {
+            _dragging = true;
+            VisualStateManager.GoToState(this, "Pressed", true);
         }
     }
 }

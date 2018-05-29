@@ -12,7 +12,8 @@
                     Format="MarkDown" />
   </Page.Resources>
 
-  <Grid x:Name="MainGrid">
+  <Grid x:Name="MainGrid"
+        Margin="12">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition />
@@ -35,11 +36,15 @@
                      TextWrapping="Wrap"
                      TextChanged="EditZone_TextChanged"
                      VerticalContentAlignment="Stretch"
-                     MinHeight="300" />
+                     MinHeight="300"
+                     Padding="10,3"
+                     BorderThickness="1"
+                     BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                     Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         <Grid x:Name="MD"
-                      Grid.Row="1"
-                      Padding="10"
-                      Visibility="{Binding Format, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
+              Grid.Row="1"
+              Margin="0, 16"
+              Visibility="{Binding Format, ElementName=Toolbar, Mode=OneWay, Converter={StaticResource IsFormatMarkdown}}">
           <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition />
@@ -49,6 +54,7 @@
                      Text="MarkDown Preview" />
           <controls:MarkdownTextBlock x:Name="Previewer"
                                       Grid.Row="1"
+                                      Margin="0, 4, 0, 0"
                                       Canvas.ZIndex="99"
                                       Foreground="{ThemeResource SystemControlPageTextBaseHighBrush}"
                                       ScrollViewer.IsVerticalRailEnabled="False" />

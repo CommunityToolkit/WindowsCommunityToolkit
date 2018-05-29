@@ -1,7 +1,20 @@
 ﻿<Application x:Class="Microsoft.Toolkit.Uwp.SampleApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+<<<<<<< HEAD
              xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+=======
+             xmlns:Core="using:Microsoft.Xaml.Interactions.Core"
+             xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+             xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+             xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+             xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+             xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             RequestedTheme="Light"
+>>>>>>> master
              RequiresPointerMode="Auto">
 
     <Application.Resources>
@@ -15,11 +28,1260 @@
             <!-- Converters -->
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
+<<<<<<< HEAD
             <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
                                                  EmptyValue="Collapsed"
                                                  NotEmptyValue="Visible" />
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>
+=======
+        <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
+                         Color="{StaticResource Brand-Color}" />
+
+        <!--  Brushes  -->
+        <SolidColorBrush x:Key="Brush-Grey-01"
+                         Color="{StaticResource Grey-01}" />
+        <SolidColorBrush x:Key="Brush-Grey-02"
+                         Color="{StaticResource Grey-02}" />
+        <SolidColorBrush x:Key="Brush-Grey-03"
+                         Color="{StaticResource Grey-03}" />
+        <SolidColorBrush x:Key="Brush-Grey-04"
+                         Color="{StaticResource Grey-04}" />
+        <SolidColorBrush x:Key="Brush-Grey-05"
+                         Color="{StaticResource Grey-05}" />
+        <SolidColorBrush x:Key="Brush-White"
+                         Color="{StaticResource White}" />
+        <SolidColorBrush x:Key="Brush-Blue-01"
+                         Color="{StaticResource Blue-01}" />
+        <SolidColorBrush x:Key="Brush-Red"
+                         Color="{StaticResource Red}" />
+        <SolidColorBrush x:Key="Brush-Brand-Color"
+                         Color="{StaticResource Brand-Color}" />
+
+        <!--  Converters  -->
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+
+        <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
+                                                 EmptyValue="Collapsed"
+                                                 NotEmptyValue="Visible" />
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+
+        <!--  Styles  -->
+        <Style TargetType="controls:CodeRenderer">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:CodeRenderer">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid x:Name="Container"
+                                  Grid.RowSpan="2"
+                                  Opacity="0" />
+                            <ScrollViewer Grid.Row="0"
+                                          Background="White"
+                                          HorizontalScrollBarVisibility="Auto"
+                                          HorizontalScrollMode="Auto">
+                                <RichTextBlock Name="codeView"
+                                               Padding="10"
+                                               FontFamily="Consolas" />
+                            </ScrollViewer>
+                            <StackPanel Grid.Row="1"
+                                        HorizontalAlignment="Center"
+                                        Orientation="Horizontal">
+                                <Button x:Name="CopyButton"
+                                        Margin="5"
+                                        Content="Copy" />
+                                <Button x:Name="PrintButton"
+                                        Margin="5"
+                                        Content="Print" />
+                            </StackPanel>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="AboutHyperlinkButtonStyle"
+               TargetType="HyperlinkButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource Brush-Brand-Color}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HyperlinkButton">
+                        <Grid x:Name="RootGrid">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TooltipFlyoutPresenterStyle"
+               TargetType="FlyoutPresenter">
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource FlyoutBorderThemeThickness}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinWidth" Value="{ThemeResource FlyoutThemeMinWidth}" />
+            <Setter Property="MaxWidth" Value="{ThemeResource FlyoutThemeMaxHeight}" />
+            <Setter Property="MinHeight" Value="{ThemeResource FlyoutThemeMinHeight}" />
+            <Setter Property="MaxHeight" Value="{ThemeResource FlyoutThemeMaxHeight}" />
+            <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="FlyoutPresenter">
+                        <Border Margin="5"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="ScrollViewer"
+                                          AutomationProperties.AccessibilityView="Raw"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          HorizontalScrollMode="Disabled"
+                                          VerticalScrollBarVisibility="Auto"
+                                          VerticalScrollMode="Auto"
+                                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Content="{TemplateBinding Content}"
+                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="PivotHeaderTemplate">
+            <Grid>
+                <TextBlock FontSize="14"
+                           Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+
+        <Style x:Key="HamburgerMenuItemStyle"
+               TargetType="ListViewItem">
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Padding" Value="16,0,14,0" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListViewItem">
+                        <Grid x:Name="LayoutRoot"
+                              Background="{TemplateBinding Background}"
+                              Control.IsTemplateFocusTarget="True">
+                            <!--  Wrap SelectionIndicator in a grid so that its offset is 0,0 - this enables the offset animation.  -->
+                            <Grid HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Bottom">
+                                <Rectangle x:Name="SelectionIndicator"
+                                           Height="3"
+                                           Fill="{ThemeResource SystemControlHighlightAccentBrush}"
+                                           Opacity="0.0" />
+                            </Grid>
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Grid.Column="1"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              Opacity="0.6" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="PointerStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            <Setter Target="ContentPresenter.Opacity" Value="0.6" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            <Setter Target="ContentPresenter.Opacity" Value="0.6" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                            <Setter Target="ContentPresenter.Opacity" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListLowBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                            <Setter Target="ContentPresenter.Opacity" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Background" Value="{ThemeResource SystemControlHighlightListMediumBrush}" />
+                                            <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                            <Setter Target="ContentPresenter.Opacity" Value="1" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled" />
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters>
+                                            <Setter Target="LayoutRoot.Opacity" Value="{ThemeResource ListViewItemDisabledThemeOpacity}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryHamburgerMenuItemStyle"
+               TargetType="GridViewItem">
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Transitions" Value="{x:Null}" />
+            <Setter Property="animations:Implicit.ShowAnimations">
+                <Setter.Value>
+                    <animations:AnimationCollection>
+                        <animations:OpacityAnimation Delay="0:0:0.2"
+                                                     SetInitialValueBeforeDelay="True"
+                                                     From="0"
+                                                     To="1"
+                                                     Duration="0:0:0.2" />
+                    </animations:AnimationCollection>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GridViewItem">
+                        <Grid x:Name="LayoutRoot"
+                              Background="{TemplateBinding Background}"
+                              Control.IsTemplateFocusTarget="True">
+                            <!--  Wrap SelectionIndicator in a grid so that its offset is 0,0 - this enables the offset animation.  -->
+                            <Grid HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Bottom">
+                                <Rectangle x:Name="SelectionIndicator"
+                                           Height="3"
+                                           Fill="{ThemeResource SystemControlHighlightAccentBrush}"
+                                           Opacity="0.0" />
+                            </Grid>
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Grid.Column="1"
+                                              Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="PointerStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters />
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <VisualState.Setters />
+                                    </VisualState>
+                                    <VisualState x:Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOverSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="PressedSelected">
+                                        <VisualState.Setters>
+                                            <Setter Target="SelectionIndicator.Opacity" Value="1.0" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="DisabledStates">
+                                    <VisualState x:Name="Enabled" />
+                                    <VisualState x:Name="Disabled">
+                                        <VisualState.Setters />
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SampleAppHeaderToggleButtonStyle"
+               TargetType="ToggleButton">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+            <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
+            <Setter Property="BorderThickness" Value="{ThemeResource ToggleButtonBorderThemeThickness}" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid x:Name="RootGrid"
+                              Background="{TemplateBinding Background}">
+                            <SymbolIcon x:Name="Arrow"
+                                        Width="40"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Symbol="Forward"
+                                        Visibility="Collapsed">
+                                <SymbolIcon.RenderTransform>
+                                    <RotateTransform />
+                                </SymbolIcon.RenderTransform>
+                            </SymbolIcon>
+
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalAlignment="Left"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}"
+                                              RenderTransformOrigin="0.5,0.5" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="0.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="0.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseHighBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="0.0"
+                                                             Duration="0:0:0.1" />
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="0.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Arrow"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightAltChromeWhiteBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="90.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="90.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedPressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="90.0"
+                                                             Duration="0:0:0.1" />
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="CheckedDisabled">
+                                        <Storyboard>
+
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="Arrow"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
+                                                             To="90.0"
+                                                             Duration="0:0:0.1" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminatePointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminatePressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                                            </ObjectAnimationUsingKeyFrames>
+
+                                            <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="IndeterminateDisabled">
+                                        <Storyboard />
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <DataTemplate x:Key="SampleTemplate">
+            <StackPanel Padding="16,28,16,10"
+                        Background="Transparent">
+                <Grid Width="120"
+                      Height="80"
+                      extensions:VisualExtensions.CenterPoint="40,60,0">
+                    <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                                     VerticalContentAlignment="Stretch"
+                                                     extensions:VisualExtensions.Opacity="0"
+                                                     BlurRadius="30"
+                                                     OffsetY="3"
+                                                     ShadowOpacity="0.6"
+                                                     Visibility="Collapsed">
+                        <Border />
+                    </toolkitControls:DropShadowPanel>
+                    <Border Background="#E6E6E6">
+                        <Image x:Name="SampleIcon"
+                               Source="{Binding Icon}" />
+                    </Border>
+                </Grid>
+
+                <Grid Width="120"
+                      Margin="0,8,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="12"
+                               FontWeight="Light"
+                               Foreground="Black"
+                               Text="{Binding Name}"
+                               TextTrimming="CharacterEllipsis" />
+                    <Button Grid.Column="1"
+                            Padding="0"
+                            HorizontalAlignment="Right"
+                            AutomationProperties.Name="Main button"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            Opacity="0.6"
+                            TabIndex="0">
+                        <FontIcon Margin="10"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Center"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="10"
+                                  Glyph="&#xE946;" />
+                    </Button>
+                </Grid>
+            </StackPanel>
+        </DataTemplate>
+
+        <Style x:Key="HorizontalHamburgerMenu"
+               TargetType="controls:ExtendedHamburgerMenu">
+            <Setter Property="HamburgerMenuTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <FontIcon Margin="16"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="16"
+                                  Glyph="&#xE700;" />
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="IsTabStop" Value="False" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="controls:ExtendedHamburgerMenu">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.Resources>
+                                <animations:AnimationCollection x:Key="FromRightShowAnimation">
+                                    <animations:TranslationAnimation From="100, 0, 0"
+                                                                     To="0"
+                                                                     Duration="0:0:0.3" />
+                                    <animations:OpacityAnimation From="0"
+                                                                 To="1"
+                                                                 Duration="0:0:0.3" />
+                                </animations:AnimationCollection>
+                                <animations:AnimationCollection x:Key="FromRightHideAnimation">
+                                    <animations:OpacityAnimation From="1"
+                                                                 To="0"
+                                                                 Duration="0:0:0.2" />
+                                    <animations:TranslationAnimation From="0"
+                                                                     To="100, 0, 0"
+                                                                     Duration="0:0:0.2" />
+                                </animations:AnimationCollection>
+                            </Grid.Resources>
+
+                            <ContentPresenter x:Name="ContentPart"
+                                              Grid.Row="1"
+                                              AutomationProperties.Name="Content"
+                                              Content="{TemplateBinding Content}" />
+
+                            <Grid Grid.Row="1">
+
+                                <Border x:Name="ContentShadow"
+                                        Background="#33000000"
+                                        Visibility="{Binding Visibility, ElementName=SamplePickerGrid}">
+                                    <interactivity:Interaction.Behaviors>
+                                        <behaviors:Blur AutomaticallyStart="True"
+                                                        Delay="0"
+                                                        Value="2"
+                                                        Duration="0" />
+                                    </interactivity:Interaction.Behaviors>
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0"
+                                                                     To="1"
+                                                                     Duration="0:0:0.3" />
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1"
+                                                                     To="0"
+                                                                     Duration="0:0:0.2" />
+                                    </animations:Implicit.HideAnimations>
+                                </Border>
+
+                                <Grid x:Name="SamplePickerGrid"
+                                      VerticalAlignment="Top"
+                                      x:DeferLoadStrategy="Lazy"
+                                      Visibility="Collapsed">
+                                    <toolkitControls:DropShadowPanel Margin="0,0,0,-3"
+                                                                     VerticalAlignment="Bottom"
+                                                                     HorizontalContentAlignment="Stretch"
+                                                                     VerticalContentAlignment="Stretch"
+                                                                     BlurRadius="10"
+                                                                     ShadowOpacity="0.7"
+                                                                     Color="Black">
+                                        <Border Height="1" />
+                                    </toolkitControls:DropShadowPanel>
+
+                                    <Border x:Name="SamplePickerGridBackground"
+                                            local:XAMLHelper.Background="#F3F3F3F3" />
+                                    <GridView x:Name="SamplePickerGridView"
+                                              animations:ReorderGridAnimation.Duration="200"
+                                              IsItemClickEnabled="True"
+                                              ItemContainerStyle="{StaticResource SecondaryHamburgerMenuItemStyle}"
+                                              ItemContainerTransitions="{x:Null}"
+                                              ItemTemplate="{StaticResource SampleTemplate}"
+                                              SelectionMode="Single"
+                                              Transitions="{x:Null}">
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation Delay="0:0:0.2"
+                                                                         SetInitialValueBeforeDelay="True"
+                                                                         From="0"
+                                                                         To="1"
+                                                                         Duration="0:0:0.3" />
+                                        </animations:Implicit.ShowAnimations>
+                                    </GridView>
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0"
+                                                                     To="1"
+                                                                     Duration="0:0:0.3" />
+                                        <animations:TranslationAnimation From="0, -1000, 0"
+                                                                         To="0"
+                                                                         Duration="0:0:0.3" />
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1"
+                                                                     To="0"
+                                                                     Duration="0:0:0.5" />
+                                        <animations:TranslationAnimation From="0"
+                                                                         To="0, -1000, 0"
+                                                                         Duration="0:0:0.5" />
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+                            </Grid>
+
+                            <Grid Background="{TemplateBinding PaneBackground}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ListView x:Name="ButtonsListView"
+                                          Grid.Column="1"
+                                          AutomationProperties.Name="Menu items"
+                                          IsItemClickEnabled="True"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
+                                          ItemTemplate="{TemplateBinding ItemTemplate}"
+                                          ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                          ItemsSource="{TemplateBinding ItemsSource}"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                          ScrollViewer.HorizontalScrollMode="Auto"
+                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                          ScrollViewer.VerticalScrollMode="Disabled"
+                                          SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectionMode="Single"
+                                          TabIndex="1">
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:TranslationAnimation From="-500, 0, 0"
+                                                                         To="0"
+                                                                         Duration="0:0:0.3" />
+                                        <animations:OpacityAnimation From="0"
+                                                                     To="1"
+                                                                     Duration="0:0:0.3" />
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1"
+                                                                     To="0"
+                                                                     Duration="0:0:0.2" />
+                                        <animations:TranslationAnimation From="0"
+                                                                         To="-500, 0, 0"
+                                                                         Duration="0:0:0.2" />
+                                    </animations:Implicit.HideAnimations>
+                                    <animations:Implicit.Animations>
+                                        <animations:OffsetAnimation Duration="0:0:0.2" />
+                                    </animations:Implicit.Animations>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+
+                                <TextBlock x:Name="TitleTextBlock"
+                                           Grid.Column="1"
+                                           Margin="2,0,0,0"
+                                           VerticalAlignment="Center"
+                                           animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                           animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
+                                           FontFamily="Segoe UI"
+                                           FontSize="15px"
+                                           FontWeight="Normal"
+                                           Text="{TemplateBinding Title}" />
+
+                                <Grid x:Name="SearchGrid"
+                                      Grid.Column="2"
+                                      animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                      animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}">
+                                    <Button Name="SearchButton"
+                                            Padding="0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Stretch"
+                                            AutomationProperties.Name="Search button"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            Opacity="0.6">
+                                        <FontIcon Margin="16,12"
+                                                  FontFamily="Segoe MDL2 Assets"
+                                                  FontSize="16"
+                                                  Foreground="{TemplateBinding PaneForeground}"
+                                                  Glyph="&#xE721;" />
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation From="0"
+                                                                         To="0.6"
+                                                                         Duration="0:0:0.3" />
+                                        </animations:Implicit.ShowAnimations>
+                                    </Button>
+                                    <AutoSuggestBox x:Name="SearchBox"
+                                                    MinWidth="300"
+                                                    Margin="5,0"
+                                                    VerticalAlignment="Center"
+                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
+                                                    IsTabStop="False"
+                                                    QueryIcon="Find"
+                                                    Visibility="Collapsed">
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:ScaleAnimation From="0,1,1"
+                                                                       To="1"
+                                                                       Duration="0:0:0.3" />
+                                        </animations:Implicit.ShowAnimations>
+                                    </AutoSuggestBox>
+                                </Grid>
+
+                                <ListView x:Name="OptionsListView"
+                                          Grid.Column="3"
+                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
+                                          AutomationProperties.Name="Option items"
+                                          IsItemClickEnabled="True"
+                                          ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
+                                          ItemTemplate="{TemplateBinding OptionsItemTemplate}"
+                                          ItemTemplateSelector="{TemplateBinding OptionsItemTemplateSelector}"
+                                          ItemsSource="{TemplateBinding OptionsItemsSource}"
+                                          ScrollViewer.HorizontalScrollMode="Disabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                          SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          SelectionMode="Single"
+                                          TabIndex="2">
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <ItemsStackPanel Orientation="Horizontal" />
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+
+                                <Button x:Name="HamburgerButton"
+                                        Width="{TemplateBinding HamburgerWidth}"
+                                        Height="{TemplateBinding HamburgerHeight}"
+                                        Padding="0"
+                                        VerticalAlignment="Top"
+                                        AutomationProperties.Name="Main button"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Opacity="0.6"
+                                        TabIndex="0"
+                                        Visibility="Collapsed">
+                                    <ContentControl Margin="{TemplateBinding HamburgerMargin}"
+                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.5"
+                                                    Background="White"
+                                                    ContentTemplate="{TemplateBinding HamburgerMenuTemplate}"
+                                                    Foreground="{TemplateBinding PaneForeground}"
+                                                    IsTabStop="False">
+                                        <animations:Implicit.ShowAnimations>
+                                            <animations:OpacityAnimation To="0.6"
+                                                                         Duration="0:0:0.3" />
+                                            <animations:RotationInDegreesAnimation From="-180"
+                                                                                   To="0"
+                                                                                   Duration="0:0:0.4" />
+                                        </animations:Implicit.ShowAnimations>
+                                        <animations:Implicit.HideAnimations>
+                                            <animations:OpacityAnimation To="0"
+                                                                         Duration="0:0:0.2" />
+                                            <animations:RotationInDegreesAnimation From="0"
+                                                                                   To="-180"
+                                                                                   Duration="0:0:0.2" />
+                                        </animations:Implicit.HideAnimations>
+                                    </ContentControl>
+                                </Button>
+
+                                <Border Grid.ColumnSpan="4"
+                                        Height="1"
+                                        VerticalAlignment="Bottom"
+                                        Background="#48000000" />
+                            </Grid>
+
+                            <Canvas x:Name="MoreInfoCanvas"
+                                    Grid.RowSpan="2"
+                                    Background="Transparent"
+                                    Visibility="Collapsed">
+
+                                <Grid x:Name="MoreInfoContent"
+                                      Width="260"
+                                      Height="320"
+                                      extensions:VisualExtensions.NormalizedCenterPoint="0.5">
+                                    <Grid VerticalAlignment="Top">
+
+                                        <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                                                         VerticalContentAlignment="Stretch"
+                                                                         BlurRadius="60"
+                                                                         OffsetY="6"
+                                                                         ShadowOpacity="0.6"
+                                                                         Color="Black">
+                                            <Border Background="#F4F3F3F3"
+                                                    Opacity="0.96">
+                                                <interactivity:Interaction.Behaviors>
+                                                    <behaviors:Blur AutomaticallyStart="True"
+                                                                    Delay="0"
+                                                                    Value="3"
+                                                                    Duration="0" />
+                                                </interactivity:Interaction.Behaviors>
+                                            </Border>
+                                        </toolkitControls:DropShadowPanel>
+
+                                        <Grid Padding="10">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="160" />
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+
+                                            <Image x:Name="MoreInfoImage"
+                                                   Grid.Row="0"
+                                                   Width="240"
+                                                   Height="160"
+                                                   Source="{Binding Icon}" />
+
+                                            <StackPanel Grid.Row="1">
+                                                <TextBlock Margin="0,10"
+                                                           FontSize="14"
+                                                           FontWeight="SemiBold"
+                                                           Foreground="Black"
+                                                           Text="{Binding Name}"
+                                                           TextTrimming="CharacterEllipsis" />
+
+                                                <TextBlock FontSize="12"
+                                                           Foreground="Black"
+                                                           Text="{Binding About}"
+                                                           TextWrapping="Wrap" />
+
+                                                <Border Margin="0,10,0,0"
+                                                        HorizontalAlignment="Left"
+                                                        Background="{StaticResource Brush-Blue-01}"
+                                                        Opacity="1"
+                                                        Visibility="{Binding BadgeUpdateVersionRequired, Converter={StaticResource EmptyStringToObject}}">
+                                                    <TextBlock Margin="2"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Bottom"
+                                                               FontSize="10"
+                                                               Foreground="White"
+                                                               Text="{Binding BadgeUpdateVersionRequired}" />
+
+                                                    <animations:Implicit.HideAnimations>
+                                                        <animations:OpacityAnimation To="0"
+                                                                                     Duration="0:0:0.01" />
+                                                    </animations:Implicit.HideAnimations>
+                                                    <animations:Implicit.ShowAnimations>
+                                                        <animations:OpacityAnimation Delay="0:0:0.2"
+                                                                                     SetInitialValueBeforeDelay="True"
+                                                                                     From="0"
+                                                                                     To="1"
+                                                                                     Duration="0:0:0.4" />
+                                                        <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                                         From="0, 20, 0"
+                                                                                         To="0"
+                                                                                         Duration="0:0:0.3" />
+                                                    </animations:Implicit.ShowAnimations>
+                                                </Border>
+
+                                                <animations:Implicit.ShowAnimations>
+                                                    <animations:OpacityAnimation Delay="0:0:0.2"
+                                                                                 SetInitialValueBeforeDelay="True"
+                                                                                 From="0"
+                                                                                 To="1"
+                                                                                 Duration="0:0:0.4" />
+                                                    <animations:TranslationAnimation Delay="0:0:0.2"
+                                                                                     From="0, 20, 0"
+                                                                                     To="0"
+                                                                                     Duration="0:0:0.3" />
+                                                </animations:Implicit.ShowAnimations>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+
+                                    <animations:Implicit.ShowAnimations>
+                                        <animations:OpacityAnimation From="0"
+                                                                     To="1"
+                                                                     Duration="0:0:0.3" />
+                                        <animations:ScaleAnimation From="0.5"
+                                                                   To="1"
+                                                                   Duration="0:0:0.3" />
+                                    </animations:Implicit.ShowAnimations>
+                                    <animations:Implicit.HideAnimations>
+                                        <animations:OpacityAnimation From="1"
+                                                                     To="0"
+                                                                     Duration="0:0:0.2" />
+                                        <animations:ScaleAnimation From="1"
+                                                                   To="0.5"
+                                                                   Duration="0:0:0.2" />
+                                    </animations:Implicit.HideAnimations>
+                                </Grid>
+                            </Canvas>
+
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="WindowStates">
+                                    <VisualState x:Name="NarrowState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="0" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Visible" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Collapsed" />
+                                            <Setter Target="OptionsListView.Visibility" Value="Visible" />
+                                            <Setter Target="SearchGrid.Visibility" Value="Visible" />
+                                            <Setter Target="TitleTextBlock.Visibility" Value="Visible" />
+                                            <Setter Target="SamplePickerGrid.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState x:Name="WideState">
+                                        <VisualState.StateTriggers>
+                                            <AdaptiveTrigger MinWindowWidth="700" />
+                                        </VisualState.StateTriggers>
+                                        <VisualState.Setters>
+                                            <Setter Target="HamburgerButton.Visibility" Value="Collapsed" />
+                                            <Setter Target="ButtonsListView.Visibility" Value="Visible" />
+                                            <Setter Target="OptionsListView.Visibility" Value="Visible" />
+                                            <Setter Target="SearchGrid.Visibility" Value="Visible" />
+                                            <Setter Target="TitleTextBlock.Visibility" Value="Collapsed" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DismissTextBlockButtonStyle"
+               TargetType="ButtonBase">
+            <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
+            <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ButtonBase">
+                        <Grid Margin="{TemplateBinding Padding}"
+                              Background="{TemplateBinding Background}">
+                            <ContentPresenter x:Name="Text"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              Content="{TemplateBinding Content}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="Red" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBackgroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBorderBrushPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="DarkRed" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBackgroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBorderBrushPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonForegroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="Background">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBackgroundDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text"
+                                                                           Storyboard.TargetProperty="BorderBrush">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonBorderBrushDisabled}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ExceptionNotification"
+               TargetType="toolkitControls:InAppNotification">
+            <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+            <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Bottom" />
+            <Setter Property="MinHeight" Value="55" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Visibility" Value="Collapsed" />
+            <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+            <Setter Property="Margin" Value="20,0" />
+            <Setter Property="Padding" Value="15,10,25,10" />
+            <Setter Property="MaxWidth" Value="1200" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="toolkitControls:InAppNotification">
+                        <Grid>
+                            <Grid x:Name="RootGrid"
+                                  MaxWidth="{TemplateBinding MaxWidth}"
+                                  Margin="{TemplateBinding Margin}"
+                                  RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                                  Visibility="{TemplateBinding Visibility}">
+                                <Grid.RenderTransform>
+                                    <CompositeTransform />
+                                </Grid.RenderTransform>
+                                <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                                                 VerticalContentAlignment="Stretch"
+                                                                 BlurRadius="10"
+                                                                 ShadowOpacity="1"
+                                                                 Color="DarkRed">
+
+                                    <Grid Padding="{TemplateBinding Padding}"
+                                          Background="{TemplateBinding Background}">
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <FontIcon Margin="0,0,10,0"
+                                                  FontFamily="Segoe MDL2 Assets"
+                                                  Foreground="DarkRed"
+                                                  Glyph="&#xEA39;" />
+
+                                        <ContentPresenter Grid.Column="1"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                          VerticalAlignment="Center"
+                                                          HorizontalContentAlignment="Stretch"
+                                                          VerticalContentAlignment="Center"
+                                                          TextWrapping="WrapWholeWords" />
+
+                                        <Button x:Name="PART_DismissButton"
+                                                Grid.Column="3"
+                                                Margin="10,0,-10,0"
+                                                AutomationProperties.Name="Dismiss"
+                                                Content="&#xE894;"
+                                                FontFamily="Segoe MDL2 Assets"
+                                                FontSize="12"
+                                                Style="{StaticResource DismissTextBlockButtonStyle}" />
+                                    </Grid>
+                                </toolkitControls:DropShadowPanel>
+                            </Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="State">
+                                    <VisualState x:Name="Collapsed">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Opacity">
+                                                <EasingDoubleKeyFrame KeyTime="0"
+                                                                      Value="1" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.3"
+                                                                      Value="0" />
+                                            </DoubleAnimationUsingKeyFrames>
+
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="(UIElement.Visibility)">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                                <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+
+                                    <VisualState x:Name="Visible">
+                                        <Storyboard>
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                           Storyboard.TargetProperty="Opacity">
+                                                <EasingDoubleKeyFrame KeyTime="0"
+                                                                      Value="0" />
+                                                <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                                      Value="1" />
+                                            </DoubleAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+>>>>>>> master
     </Application.Resources>
 </Application>

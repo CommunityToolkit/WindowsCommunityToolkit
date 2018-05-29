@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Reflection;
@@ -21,6 +13,8 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable SA1118
 
@@ -405,6 +399,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             finally
             {
                 SampleController.Current.DisplayWaitRing = false;
+            }
+        }
+
+        private async void FileNameTextBlock_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var textblock = (TextBlock)e.OriginalSource;
+            var fileItem = (OneDriveStorageFile)textblock.DataContext;
+            var tooltipPanel = ToolTipService.GetToolTip(textblock) as StackPanel;
+            var image = tooltipPanel.FindName("ThumbNail") as Windows.UI.Xaml.Controls.Image;
+            if (image.Source == null)
+            {
+                if (fileItem.Thumbnail == null)
+                {
+                    await fileItem.UpdateThumbnailPropertyAsync();
+                }
+
+                image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
             }
         }
     }

@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -64,23 +56,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// A list of URL schemes.
-        /// </summary>
-        internal static readonly string[] KnownSchemes = new string[]
-        {
-            "http",
-            "https",
-            "ftp",
-            "steam",
-            "irc",
-            "news",
-            "mumble",
-            "ssh",
-            "ms-windows-store",
-            "sip"
-        };
-
-        /// <summary>
         /// Attempts to parse a URL within angle brackets e.g. "http://www.reddit.com".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
@@ -93,7 +68,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Check for a known scheme e.g. "https://".
             int pos = -1;
-            foreach (var scheme in KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 if (maxEnd - innerStart >= scheme.Length && string.Equals(markdown.Substring(innerStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
                 {
@@ -137,7 +112,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             int start = -1;
 
             // Check for a known scheme e.g. "https://".
-            foreach (var scheme in KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 int schemeStart = tripPos - scheme.Length;
                 if (schemeStart >= 0 && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))

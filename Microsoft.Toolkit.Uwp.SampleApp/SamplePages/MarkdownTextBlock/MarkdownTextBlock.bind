@@ -41,6 +41,7 @@
                                   Header1Foreground="{ThemeResource SystemControlForegroundAccentBrush}"
                                   LinkForeground="@[Links:Brush:DodgerBlue]"
                                   Text="{Binding ElementName=UnformattedText, Path=Text}"
+                                  SchemeList="companyportal,randomscheme"
                                   UriPrefix="ms-appx://" />
     </ScrollViewer>
   </Grid>

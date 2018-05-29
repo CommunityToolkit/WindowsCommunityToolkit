@@ -11,8 +11,6 @@
       <Setter Property="Header" Value="Default Blade" />
       <Setter Property="Width" Value="400" />
       <Setter Property="IsOpen" Value="True" />
-      <Setter Property="Background" Value="{ThemeResource Brush-Grey-04}" />
-      <Setter Property="Opacity" Value="0.8" />
     </Style>
   </Page.Resources>
 

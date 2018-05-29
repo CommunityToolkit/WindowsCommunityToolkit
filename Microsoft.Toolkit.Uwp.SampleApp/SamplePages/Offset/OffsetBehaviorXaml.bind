@@ -19,7 +19,8 @@
               Duration="@[Duration:DoubleSlider:1000:0-5000]"
               Delay="@[Delay:DoubleSlider:0:0-5000]"
               EasingType="@[EasingType:Enum:EasingType.Linear]"
-              AutomaticallyStart="@[AutomaticallyStart:Bool:True]" />
+              EasingMode="@[EasingMode:Enum:EasingMode.EaseOut]"
+              AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
         </interactivity:Interaction.Behaviors>
       </Image>
     </Border>
