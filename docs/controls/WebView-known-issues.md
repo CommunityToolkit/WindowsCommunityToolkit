@@ -13,7 +13,7 @@ This document describes issues and limitations in this release of the **WebView*
 
 The **WebView** control does not implement these methods of the [IWebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol).
 
-* [NavigateToLocalStreamUri](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.navigatetolocalstreamuri)
+* [NavigateToLocalStreamUri](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.navigatetolocalstreamuri). Instead use `NavigateToLocal`.
 
 * [NavigateWithHttpRequestMessage](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.navigatewithhttprequestmessage)
 

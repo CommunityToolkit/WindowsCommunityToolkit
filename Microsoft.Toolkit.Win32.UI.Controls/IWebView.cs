@@ -338,6 +338,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         void Navigate(string source);
 
         /// <summary>
+        /// Loads the specified HTML content relative to the location of the current executable.
+        /// </summary>
+        /// <param name="relativePath">The relative path.</param>
+        /// <see cref="NavigateToLocal(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
+        /// navigation has completed.
+        void NavigateToLocal(string relativePath);
+
+        /// <summary>
         /// Loads the specified HTML content as a new document.
         /// </summary>
         /// <param name="text">The HTML content to display in the <see cref="IWebView"/>.</param>
