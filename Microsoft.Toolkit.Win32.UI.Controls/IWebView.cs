@@ -186,6 +186,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <remarks>Value can be set prior to the component being initialized.</remarks>
         /// <see cref="WebViewControlProcessOptions.PrivateNetworkClientServerCapability"/>
         bool IsPrivateNetworkClientServerCapabilityEnabled { get; set; }
+
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="IWebView.ScriptNotify" /> is allowed.
         /// </summary>
