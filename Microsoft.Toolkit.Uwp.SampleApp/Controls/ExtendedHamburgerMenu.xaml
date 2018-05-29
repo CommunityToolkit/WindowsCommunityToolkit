@@ -185,7 +185,6 @@
                                                     extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
                                                     IsTabStop="False"
                                                     QueryIcon="Find"
-                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
                                                     Visibility="Collapsed">
                                     <animations:Implicit.ShowAnimations>
                                         <animations:ScaleAnimation From="0,1,1" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
@@ -208,9 +207,7 @@
                                           SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           SelectionMode="Single"
-                                          TabIndex="2"
-                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
-                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}">
+                                          TabIndex="2">
                                 <ListView.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <ItemsStackPanel Orientation="Horizontal" />
