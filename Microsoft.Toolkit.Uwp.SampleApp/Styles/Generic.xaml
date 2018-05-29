@@ -16,49 +16,64 @@
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Styles  -->
-    <Style x:Key="AboutHyperlinkButtonStyle" TargetType="HyperlinkButton">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{ThemeResource Brush-Link-Normal}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0,0,0,10" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="Segoe UI" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="FocusVisualMargin" Value="-3" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="HyperlinkButton">
-                    <Grid x:Name="RootGrid">
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="CommonStates">
-                                <VisualState x:Name="Normal" />
-                                <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonForegroundPointerOver}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="ContentPresenter">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource HyperlinkButtonForegroundPressed}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                                <VisualState x:Name="Disabled"></VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
-                        <ContentPresenter x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <Style x:Key="AboutHyperlinkButtonStyle"
+               TargetType="HyperlinkButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{StaticResource Brush-Brand-Color}" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="FocusVisualMargin" Value="-3" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="HyperlinkButton">
+                        <Grid x:Name="RootGrid">
+                            <ContentPresenter x:Name="ContentPresenter"
+                                              Padding="{TemplateBinding Padding}"
+                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                              AutomationProperties.AccessibilityView="Raw"
+                                              Background="{TemplateBinding Background}"
+                                              BorderBrush="{TemplateBinding BorderBrush}"
+                                              BorderThickness="{TemplateBinding BorderThickness}"
+                                              Content="{TemplateBinding Content}"
+                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                              ContentTransitions="{TemplateBinding ContentTransitions}" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonForegroundPointerOver}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
+                                                                           Storyboard.TargetProperty="Foreground">
+                                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                                        Value="{ThemeResource HyperlinkButtonForegroundPressed}" />
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     <Style x:Key="TooltipFlyoutPresenterStyle"
                TargetType="FlyoutPresenter">
@@ -613,105 +628,116 @@
         </Setter>
     </Style>
 
-    <Style TargetType="toolkitControls:InAppNotification" x:Key="ExceptionNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
-        <Setter Property="VerticalAlignment" Value="Bottom" />
-        <Setter Property="MinHeight" Value="55" />
-        <Setter Property="FontSize" Value="13" />
-        <Setter Property="Visibility" Value="Collapsed" />
-        <Setter Property="RenderTransformOrigin" Value="0.5,1" />
-        <Setter Property="Margin" Value="20 0" />
-        <Setter Property="Padding" Value="15, 10, 25, 10" />
-        <Setter Property="MaxWidth" Value="1200" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="toolkitControls:InAppNotification">
-                    <Grid>
-                        <VisualStateManager.VisualStateGroups>
-                            <VisualStateGroup x:Name="State">
-                                <VisualState x:Name="Collapsed">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RootGrid">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="1" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0" />
-                                        </DoubleAnimationUsingKeyFrames>
+    <Style x:Key="ExceptionNotification"
+        TargetType="toolkitControls:InAppNotification">
+    <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+    <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+    <Setter Property="BorderThickness" Value="2" />
+    <Setter Property="HorizontalAlignment" Value="Stretch" />
+    <Setter Property="VerticalAlignment" Value="Bottom" />
+    <Setter Property="MinHeight" Value="55" />
+    <Setter Property="FontSize" Value="13" />
+    <Setter Property="Visibility" Value="Collapsed" />
+    <Setter Property="RenderTransformOrigin" Value="0.5,1" />
+    <Setter Property="Margin" Value="20,0" />
+    <Setter Property="Padding" Value="15,10,25,10" />
+    <Setter Property="MaxWidth" Value="1200" />
+    <Setter Property="Template">
+        <Setter.Value>
+            <ControlTemplate TargetType="toolkitControls:InAppNotification">
+                <Grid>
+                    <Grid x:Name="RootGrid"
+                            MaxWidth="{TemplateBinding MaxWidth}"
+                            Margin="{TemplateBinding Margin}"
+                            RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
+                            Visibility="{TemplateBinding Visibility}">
+                        <Grid.RenderTransform>
+                            <CompositeTransform />
+                        </Grid.RenderTransform>
+                        <toolkitControls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                                            VerticalContentAlignment="Stretch"
+                                                            BlurRadius="10"
+                                                            ShadowOpacity="1"
+                                                            Color="DarkRed">
 
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="RootGrid">
-                                            <DiscreteObjectKeyFrame KeyTime="0">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Visible</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
-                                                <DiscreteObjectKeyFrame.Value>
-                                                    <Visibility>Collapsed</Visibility>
-                                                </DiscreteObjectKeyFrame.Value>
-                                            </DiscreteObjectKeyFrame>
-                                        </ObjectAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
+                            <Grid Padding="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}">
 
-                                <VisualState x:Name="Visible">
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="RootGrid">
-                                            <EasingDoubleKeyFrame KeyTime="0" Value="0" />
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </VisualState>
-                            </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                        <Grid x:Name="RootGrid"
-                                  RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}"
-                                  MaxWidth="{TemplateBinding MaxWidth}"
-                                  Margin="{TemplateBinding Margin}"
-                                  Visibility="{TemplateBinding Visibility}">
-                            <Grid.RenderTransform>
-                                <CompositeTransform />
-                            </Grid.RenderTransform>
-                            <toolkitControls:DropShadowPanel VerticalContentAlignment="Stretch"
-                                                                 HorizontalContentAlignment="Stretch"
-                                                                 Color="DarkRed"
-                                                                 ShadowOpacity="1"
-                                                                 BlurRadius="10">
+                                <FontIcon Margin="0,0,10,0"
+                                            FontFamily="Segoe MDL2 Assets"
+                                            Foreground="DarkRed"
+                                            Glyph="&#xEA39;" />
 
-                                <Grid Background="{TemplateBinding Background}"
-                                          Padding="{TemplateBinding Padding}">
+                                <ContentPresenter Grid.Column="1"
+                                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalContentAlignment="Stretch"
+                                                    VerticalContentAlignment="Center"
+                                                    TextWrapping="WrapWholeWords" />
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <FontIcon Glyph="&#xEA39;" Foreground="{ThemeResource ExceptionNotification-IconForeground}" FontFamily="Segoe MDL2 Assets" Margin="0,0,10,0" />
-
-                                    <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                                          HorizontalContentAlignment="Stretch"
-                                                          Grid.Column="1"
-                                                          VerticalAlignment="Center"
-                                                          VerticalContentAlignment="Center"
-                                                          TextWrapping="WrapWholeWords" />
-
-                                    <Button x:Name="PART_DismissButton"
-                                                Grid.Column="3"
-                                                Margin="10 0 -10 0"
-                                                FontSize="12"
-                                                Style="{StaticResource DismissTextBlockButtonStyle}"
-                                                Content="&#xE894;" FontFamily="Segoe MDL2 Assets"
-                                                AutomationProperties.Name="Dismiss" />
-                                </Grid>
-                            </toolkitControls:DropShadowPanel>
-                        </Grid>
+                                <Button x:Name="PART_DismissButton"
+                                        Grid.Column="3"
+                                        Margin="10,0,-10,0"
+                                        AutomationProperties.Name="Dismiss"
+                                        Content="&#xE894;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="12"
+                                        Style="{StaticResource DismissTextBlockButtonStyle}" />
+                            </Grid>
+                        </toolkitControls:DropShadowPanel>
                     </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup x:Name="State">
+                            <VisualState x:Name="Collapsed">
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                    Storyboard.TargetProperty="Opacity">
+                                        <EasingDoubleKeyFrame KeyTime="0"
+                                                                Value="1" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.3"
+                                                                Value="0" />
+                                    </DoubleAnimationUsingKeyFrames>
+
+                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                    Storyboard.TargetProperty="(UIElement.Visibility)">
+                                        <DiscreteObjectKeyFrame KeyTime="0">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Visible</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                        <DiscreteObjectKeyFrame KeyTime="0:0:0.3">
+                                            <DiscreteObjectKeyFrame.Value>
+                                                <Visibility>Collapsed</Visibility>
+                                            </DiscreteObjectKeyFrame.Value>
+                                        </DiscreteObjectKeyFrame>
+                                    </ObjectAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+
+                            <VisualState x:Name="Visible">
+                                <Storyboard>
+                                    <DoubleAnimationUsingKeyFrames Storyboard.TargetName="RootGrid"
+                                                                    Storyboard.TargetProperty="Opacity">
+                                        <EasingDoubleKeyFrame KeyTime="0"
+                                                                Value="0" />
+                                        <EasingDoubleKeyFrame KeyTime="0:0:0.1"
+                                                                Value="1" />
+                                    </DoubleAnimationUsingKeyFrames>
+                                </Storyboard>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                </Grid>
+            </ControlTemplate>
+        </Setter.Value>
+    </Setter>
+</Style>
 
     <ControlTemplate x:Name="ScrollViewerScrollBarlessTemplate" TargetType="ScrollViewer">
         <Grid Background="{TemplateBinding Background}">

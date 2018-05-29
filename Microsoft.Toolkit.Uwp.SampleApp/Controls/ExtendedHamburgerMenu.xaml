@@ -82,13 +82,13 @@
 
                                 <Border x:Name="SamplePickerGridBackground"
                                              Background="{ThemeResource Menu-DropDown-Background}"></Border>
-                                <GridView x:Name="SamplePickerGridView"
-                                              IsItemClickEnabled="True"
+                                    <GridView x:Name="SamplePickerGridView"
                                               animations:ReorderGridAnimation.Duration="200"
+                                              IsItemClickEnabled="True"
                                               ItemContainerStyle="{StaticResource SecondaryHamburgerMenuItemStyle}"
+                                              ItemContainerTransitions="{x:Null}"
                                               ItemTemplate="{StaticResource SampleTemplate}"
                                               SelectionMode="Single"
-                                              ItemContainerTransitions="{x:Null}"
                                               Transitions="{x:Null}">
                                     <animations:Implicit.ShowAnimations>
                                         <animations:OpacityAnimation From="0" To="1" Duration="0:0:0.3" Delay="0:0:0.2" SetInitialValueBeforeDelay="True"></animations:OpacityAnimation>
@@ -150,14 +150,14 @@
 
                             <TextBlock x:Name="TitleTextBlock"
                                            Grid.Column="1"
+                                           Margin="2,0,0,0"
                                            VerticalAlignment="Center"
+                                           animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                           animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
                                            FontFamily="Segoe UI"
                                            FontSize="15px"
                                            FontWeight="Normal"
-                                           Margin="2,0,0,0"
-                                           Text="{TemplateBinding Title}"
-                                           animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
-                                           animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}" />
+                                           Text="{TemplateBinding Title}" />
 
                             <Grid Grid.Column="2" x:Name="SearchGrid"
                                       animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
@@ -182,6 +182,7 @@
                                                     MinWidth="300"
                                                     Margin="5,0"
                                                     VerticalAlignment="Center"
+                                                    extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
                                                     IsTabStop="False"
                                                     QueryIcon="Find"
                                                     extensions:VisualExtensions.NormalizedCenterPoint="0.95, 0.5, 0"
@@ -194,6 +195,8 @@
 
                             <ListView x:Name="OptionsListView"
                                           Grid.Column="3"
+                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
+                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
