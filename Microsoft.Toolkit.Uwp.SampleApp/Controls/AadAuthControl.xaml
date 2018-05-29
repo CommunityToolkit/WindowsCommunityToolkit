@@ -55,8 +55,9 @@
                     <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
                                              NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/"/>
-                    <graph:AadLogin View="EmailOnly" 
-                                    AllowSignInAsDifferentUser="False" 
+                    <graph:AadLogin View="EmailOnly"
+                                    SignInFailed="AadLogin_SignInFailed"
+                                    AllowSignInAsDifferentUser="False"
                                     IsEnabled="{Binding ElementName=aadAuthControl, Path=IsEnableSignInButton, Mode=OneWay}" 
                                     Visibility="{Binding ElementName=aadAuthControl, Path=IsShowSignInButton, Mode=OneTime}"/>
                 </StackPanel>

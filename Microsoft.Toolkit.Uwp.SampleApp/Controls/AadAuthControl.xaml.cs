@@ -83,5 +83,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             IsEnableSignInButton = true;
         }
+
+        private void AadLogin_SignInFailed(object sender, SignInFailedEventArgs e)
+        {
+            Shell.Current.ShowExceptionNotification(e.Exception);
+        }
     }
 }

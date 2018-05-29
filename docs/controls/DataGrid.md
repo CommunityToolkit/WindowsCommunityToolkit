@@ -23,9 +23,9 @@ The DataGrid control supports most of all features supported by the [Silverlight
 ```
 ![Gridlines](../resources/images/Controls/DataGrid/gridlines.png)
 
-### 2. AlternateRowBackground
+### 2. AlternatingRowBackground
 ```xml
-<controls:DataGrid AlternateRowBackground="LightGray"/>
+<controls:DataGrid AlternatingRowBackground="LightGray"/>
 ```
 ![AlternateRowBackground](../resources/images/Controls/DataGrid/alternaterowbackground.png)
 
