@@ -160,7 +160,6 @@ private:
     EventRegistrationToken              _gazeEnteredToken;
     EventRegistrationToken              _gazeMovedToken;
     EventRegistrationToken              _gazeExitedToken;
-    CoreDispatcher^                     _coreDispatcher;
 
     GazeDeviceWatcherPreview^ _watcher;
     int _deviceCount;

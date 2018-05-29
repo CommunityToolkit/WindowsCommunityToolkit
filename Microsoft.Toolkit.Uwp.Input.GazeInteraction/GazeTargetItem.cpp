@@ -211,7 +211,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
                 _feedbackPopup = GazeFeedbackPopupFactory::Get();
             }
 
-            auto control = safe_cast<Control^>(TargetElement);
+            auto control = safe_cast<FrameworkElement^>(TargetElement);
 
             auto transform = control->TransformToVisual(_feedbackPopup);
             auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0),

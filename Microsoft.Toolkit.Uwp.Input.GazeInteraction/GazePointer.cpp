@@ -16,7 +16,11 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 GazePointer^ GazePointer::Instance::get()
 {
-    static auto value = ref new GazePointer();
+    thread_local static GazePointer^ value;
+    if (value == nullptr)
+    {
+        value = ref new GazePointer();
+    }
     return value;
 }
 
@@ -53,8 +57,6 @@ void GazePointer::RemoveRoot(FrameworkElement^ element)
 
 GazePointer::GazePointer()
 {
-    _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
-
     // Default to not filtering sample data
     Filter = ref new NullFilter();
 
@@ -317,7 +319,7 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
             element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
         } while (interaction == Interaction::Inherited && element != nullptr);
 
-        if (interaction == Interaction::Disabled || GazeInput::GlobalInteraction != Interaction::Enabled)
+        if (interaction == Interaction::Disabled && GazeInput::GlobalInteraction != Interaction::Enabled)
         {
             invokable = GazeTargetItem::NonInvokable;
         }
@@ -490,7 +492,7 @@ wchar_t *PointerStates[] = {
 
 void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState state, TimeSpan elapsedTime)
 {
-    auto control = target != nullptr ? safe_cast<Control^>(target->TargetElement) : nullptr;
+    auto control = target != nullptr ? target->TargetElement : nullptr;
     //assert(target != _rootElement);
     auto gpea = ref new StateChangedEventArgs(control, state, elapsedTime);
     //auto buttonObj = dynamic_cast<Button ^>(target);
