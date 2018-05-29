@@ -1,14 +1,14 @@
 <Project>
 
   <PropertyGroup>
-    <Authors>Microsoft</Authors>
+    <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Microsoft/UWPCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>Preview release of v3.0</PackageReleaseNotes>
-    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
 
 
     
@@ -26,6 +26,42 @@
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(IsWin32Project)' == 'true'">
+      <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+
+        <!-- Compiler -->
+        <FileAlignment>512</FileAlignment>
+        <HighEntropyVA>true</HighEntropyVA>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors />
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>1591</NoWarn>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
+
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+      </PropertyGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+        <Optimize>false</Optimize>
+      </PropertyGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">

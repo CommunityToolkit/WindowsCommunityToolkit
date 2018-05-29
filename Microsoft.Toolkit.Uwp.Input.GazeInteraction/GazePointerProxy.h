@@ -31,8 +31,6 @@ private:
 private:
 
     FrameworkElement^ const _element;
-    EventRegistrationToken _loadedToken;
-    EventRegistrationToken _unloadedToken;
     bool _isLoaded;
     Interaction _isEnabled;
 };

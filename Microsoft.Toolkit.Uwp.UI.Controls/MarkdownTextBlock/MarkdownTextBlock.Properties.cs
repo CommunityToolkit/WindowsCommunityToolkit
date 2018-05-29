@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +27,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Used to attach the URL to hyperlinks.
         private static readonly DependencyProperty HyperlinkUrlProperty =
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
+
+        // Checkes if clicked image is a hyperlink or not.
+        private static readonly DependencyProperty IsHyperlinkProperty =
+            DependencyProperty.RegisterAttached("IsHyperLink", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the dependency property for <see cref="CodeStyling"/>.
@@ -320,6 +316,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
         public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
+            nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty SchemeListProperty = DependencyProperty.Register(
             nameof(UriPrefix),
             typeof(string),
             typeof(MarkdownTextBlock),
@@ -620,6 +625,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(UriPrefixProperty); }
             set { SetValue(UriPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SchemeList.
+        /// </summary>
+        public string SchemeList
+        {
+            get { return (string)GetValue(SchemeListProperty); }
+            set { SetValue(SchemeListProperty, value); }
         }
 
         /// <summary>

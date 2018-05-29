@@ -34,10 +34,11 @@ In the code section below the GetUserTimeLineAsync method returns some Tweet obj
 | Property | Type | Description |
 | -- | -- | -- |
 | **CreatedAt** | string | The date and time of the Tweet formatted by Twitter |
-| **Text** | string | The text of the Tweet |
+| **Text** | string | The text of the Tweet (if retweet, the text might not be complete - use the RetweetedStatus object for the original tweet)|
 | **Id** | string | The Twitter status identifier |
 | **GeoData** | TwitterGeoData | A class containing the latitude and longitude of the Tweet |
 | **User** | TwitterUser | A class containing the user ID, Name, ScreenName, and ProfileImageUrl |
+| **RetweetedStatus** | Tweet | if this tweet is a retweet, this object will contain the original tweet |
 
 ## Syntax
 
@@ -167,15 +168,15 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Sample Code
 
-[Twitter Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Twitter Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 | NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
-* [Twitter Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter)
+* [Twitter Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter)

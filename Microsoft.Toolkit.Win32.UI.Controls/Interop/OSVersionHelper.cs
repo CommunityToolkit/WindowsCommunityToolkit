@@ -1,14 +1,6 @@
-// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.IO;
@@ -106,9 +98,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         internal static Windows10Release Windows10Release { get; }
 
         /// <summary>
-        /// Checks if OS is Windows 10 April 2018 or later, is a workstation, and Edge exists.
+        /// Checks if OS is Windows 10 April 2018 or later, is a workstation, and Microsoft Edge exists.
         /// </summary>
-        /// <exception cref="NotSupportedException">Not running correct OS or OS Version, or Edge does not exist.</exception>
+        /// <exception cref="NotSupportedException">Not running correct OS or OS Version, or Microsoft Edge does not exist.</exception>
         internal static void ThrowIfBeforeWindows10April2018()
         {
             if (IsWindows10April2018OrGreater && IsWorkstation && EdgeExists)

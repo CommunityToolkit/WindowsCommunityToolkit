@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -92,7 +84,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     && !block.Languages.ContainsKey(language))
                 {
                     // Add New Lang to Existing Block
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
                     if (prevPanel.Children.FirstOrDefault() is Grid headerGrid)
                     {
@@ -153,7 +147,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         else if (langHead is ComboBox combLangHead)
                         {
                             // Add Lang to ComboBox
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                             block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
                             combLangHead.Items.Add(language);
 
                             if (DesiredLang == language)
@@ -167,7 +163,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 else
                 {
                     block = new CustCodeBlock();
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
                     block.CurrentLanguage = language;
 
                     // Creates a Header to specify Language and provide a copy button.
@@ -449,7 +447,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// </summary>
         private class CustCodeBlock
         {
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
             public Dictionary<string, (FrameworkElement viewer, string text)> Languages { get; } = new Dictionary<string, (FrameworkElement viewer, string text)>();
+#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
             public string CurrentLanguage { get; set; }
         }

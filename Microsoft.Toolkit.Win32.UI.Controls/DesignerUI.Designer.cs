@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to initialize the WebView control because the Edge Web browser has been disabled by the group or location admin policy of your system..
+        ///   Looks up a localized string similar to Unable to initialize the WebView control because the Microsoft Edge web browser has been disabled by the group or location admin policy of your system..
         /// </summary>
         internal static string E_WEB_BROWSER_DISABLED {
             get {
