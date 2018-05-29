@@ -131,7 +131,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     {
                         PrivateNetworkClientServerCapability = _delayedPrivateNetworkEnabled
                                                                     ? WebViewControlProcessCapabilityState.Enabled
-                                                                    : WebViewControlProcessCapabilityState.Disabled
+                                                                    : WebViewControlProcessCapabilityState.Disabled,
+                        EnterpriseId = _delayedEnterpriseId
                     });
                     _webViewControl = Process.CreateWebViewControlHost(Handle, ClientRectangle);
                     SubscribeEvents();

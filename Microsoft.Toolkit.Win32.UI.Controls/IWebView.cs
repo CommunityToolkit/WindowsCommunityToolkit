@@ -166,6 +166,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         string DocumentTitle { get; }
 
         /// <summary>
+        /// Gets or sets an enterprise ID for this process.
+        /// </summary>
+        /// <value>The enterprise ID of this process.</value>
+        /// <remarks>Value can be set prior to the component being initialized.</remarks>
+        /// <see cref="WebViewControlProcessOptions.EnterpriseId"/>
+        string EnterpriseId { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
         /// </summary>
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
@@ -186,7 +194,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <remarks>Value can be set prior to the component being initialized.</remarks>
         /// <see cref="WebViewControlProcessOptions.PrivateNetworkClientServerCapability"/>
         bool IsPrivateNetworkClientServerCapabilityEnabled { get; set; }
-
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="IWebView.ScriptNotify" /> is allowed.
         /// </summary>

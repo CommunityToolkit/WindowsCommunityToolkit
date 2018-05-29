@@ -58,6 +58,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     {
         private const int InitializationBlockingTime = 200;
 
+        private static readonly DependencyProperty EnterpriseIdProperty = DependencyProperty.Register(
+            nameof(EnterpriseId),
+            typeof(string),
+            typeof(WebView),
+            new PropertyMetadata(WebViewDefaults.EnterpriseId, PropertyChangedCallback));
+
         private static readonly Hashtable InvalidatorMap = new Hashtable();
 
         private static readonly DependencyProperty IsIndexedDBEnabledProperty = DependencyProperty.Register(
@@ -357,6 +363,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         /// <inheritdoc />
         [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.EnterpriseId)]
+        public string EnterpriseId
+        {
+            get => (string)GetValue(EnterpriseIdProperty);
+            set => SetValue(EnterpriseIdProperty, value);
+        }
+
+        /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(WebViewDefaults.IsIndexedDBEnabled)]
         public bool IsIndexedDBEnabled
         {
@@ -620,12 +635,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 var privateNetworkEnabled = !Dispatcher.CheckAccess()
                     ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
                     : IsPrivateNetworkClientServerCapabilityEnabled;
+                var enterpriseId = !Dispatcher.CheckAccess()
+                    ? Dispatcher.Invoke(() => EnterpriseId)
+                    : EnterpriseId;
 
                 _process = new WebViewControlProcess(new WebViewControlProcessOptions
                 {
                     PrivateNetworkClientServerCapability = privateNetworkEnabled
                         ? WebViewControlProcessCapabilityState.Enabled
-                        : WebViewControlProcessCapabilityState.Disabled
+                        : WebViewControlProcessCapabilityState.Disabled,
+                    EnterpriseId = enterpriseId
                 });
             }
 
@@ -784,6 +803,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))
+                {
+                    Verify.IsFalse(wv.WebViewControlInitialized);
+                    if (wv.WebViewControlInitialized)
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
+                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(EnterpriseId))
                 {
                     Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
