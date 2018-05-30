@@ -59,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 }
 
                 task.PlanId = PlanId;
+                _input.Text = string.Empty;
                 await graphClient.Planner.Tasks.Request().AddAsync(task);
                 await Task.Delay(TimeSpan.FromSeconds(5));
                 await InitPlanAsync();
