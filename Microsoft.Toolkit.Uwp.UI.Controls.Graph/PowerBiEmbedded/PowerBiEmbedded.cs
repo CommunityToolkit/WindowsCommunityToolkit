@@ -3,12 +3,16 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.PowerBI.Api.V2;
+using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
+using Newtonsoft.Json;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -16,6 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.
     /// </summary>
+    [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
+    [TemplatePart(Name = "WebViewReportFrame", Type = typeof(WebView))]
     public partial class PowerBiEmbedded : Control
     {
         private const string Authority = "https://login.microsoftonline.com/common";
@@ -27,6 +33,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
         private DateTimeOffset _expiration;
+        private IList<Report> _reports;
+        private Report _selectionReport;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerBiEmbedded"/> class.
@@ -53,6 +61,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     _webViewInitializedTask.TrySetResult(true);
                 };
+
+                _webViewReportFrame.ScriptNotify += (object sender, NotifyEventArgs e) =>
+                {
+                    e.Value.ToString();
+
+                };
             }
         }
 
@@ -64,14 +78,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 if (_tokenForUser == null)
                 {
-                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(ResourceId, appClientId, new Uri(DefaultRedirectUri), new PlatformParameters(PromptBehavior.Auto, false));
+                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(
+                        ResourceId,
+                        appClientId,
+                        new Uri(DefaultRedirectUri),
+                        new PlatformParameters(PromptBehavior.Auto, false));
+
                     _tokenForUser = userAuthnResult.AccessToken;
                     _expiration = userAuthnResult.ExpiresOn;
                 }
 
                 if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
                 {
-                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenSilentAsync(ResourceId, appClientId);
+                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenSilentAsync(
+                        ResourceId,
+                        appClientId);
+
                     _tokenForUser = userAuthnResult.AccessToken;
                     _expiration = userAuthnResult.ExpiresOn;
                 }
@@ -94,7 +116,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void LoadReport(string embedReportId, string embedUrl)
         {
-            if (!string.IsNullOrEmpty(ClientId.Trim()) && !string.IsNullOrEmpty(embedReportId) && !string.IsNullOrEmpty(embedUrl.Trim()))
+            if (!string.IsNullOrEmpty(ClientId)
+                && !string.IsNullOrEmpty(embedReportId)
+                && !string.IsNullOrEmpty(embedUrl))
             {
                 await WaitWebviewContentLoaded();
 
@@ -107,18 +131,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void LoadReport()
+        private void LoadReport()
         {
-            if (!string.IsNullOrEmpty(ClientId.Trim()) && !string.IsNullOrEmpty(EmbedUrl.Trim()))
+            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(EmbedUrl))
             {
                 if (Uri.TryCreate(EmbedUrl, UriKind.Absolute, out Uri embedUri))
                 {
                     if (embedUri.Query.IndexOf("reportid", StringComparison.OrdinalIgnoreCase) != -1)
                     {
                         var decoder = new WwwFormUrlDecoder(embedUri.Query.ToLower());
-                        LoadReport(
-                            decoder.GetFirstValueByName("reportid"),
-                            EmbedUrl);
+                        LoadReport(decoder.GetFirstValueByName("reportid"), EmbedUrl);
                     }
                 }
                 else
@@ -128,13 +150,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                await ClearReport();
+                ClearReport();
             }
         }
 
         private async void LoadGroup()
         {
-            if (!string.IsNullOrEmpty(ClientId.Trim()) && !string.IsNullOrEmpty(GroupId.Trim()))
+            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(GroupId))
             {
                 string token = await GetUserTokenAsync(ClientId);
 
@@ -144,52 +166,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     using (var client = new PowerBIClient(new Uri(ApiUrl), tokenCredentials))
                     {
-                        Reports = (await client.Reports.GetReportsAsync(GroupId))?.Value;
+                        _reports = (await client.Reports.GetReportsAsync(GroupId))?.Value;
 
-                        if (Reports.Count > 0 && SelectionReport == null)
+                        if (_reports.Count > 0)
                         {
-                            SelectionReport = Reports.First();
+                            Report findReport = _reports.Where(
+                                i => i.EmbedUrl.Equals(
+                                    EmbedUrl,
+                                    StringComparison.OrdinalIgnoreCase))
+                                .FirstOrDefault();
+
+                            _selectionReport = findReport ?? _reports.First();
                         }
+
+                        InvokeScript($"loadGroups('{token}', {JsonConvert.SerializeObject(_reports)}, {JsonConvert.SerializeObject(_selectionReport)})");
                     }
                 }
             }
             else
             {
-                Reports = null;
-                await ClearReport();
+                _reports = null;
+                ClearReport();
             }
         }
 
-        private async void LoadAll()
+        private void LoadAll()
         {
-            if (!string.IsNullOrEmpty(ClientId.Trim()))
+            if (!string.IsNullOrEmpty(ClientId))
             {
                 if (!string.IsNullOrEmpty(GroupId))
                 {
                     LoadGroup();
                 }
-
-                if (!string.IsNullOrEmpty(EmbedUrl))
+                else if (!string.IsNullOrEmpty(EmbedUrl))
                 {
                     LoadReport();
                 }
             }
             else
             {
-                await ClearReport();
+                 ClearReport();
             }
         }
 
-        private async Task ClearReport()
+        private void ClearReport()
+        {
+            InvokeScript("clearReport()");
+        }
+
+        private async void InvokeScript(string sciprt)
         {
             await WaitWebviewContentLoaded();
 
             await _webViewReportFrame.InvokeScriptAsync(
                 "eval",
-                new string[]
-                {
-                        "clearReport()"
-                });
+                new string[] { sciprt });
         }
     }
 }

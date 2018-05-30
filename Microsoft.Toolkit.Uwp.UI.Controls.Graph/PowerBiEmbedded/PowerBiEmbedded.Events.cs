@@ -29,16 +29,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             var powerBiEmbeddedControl = d as PowerBiEmbedded;
             powerBiEmbeddedControl.LoadReport();
         }
-
-        private static void OnSelectionReportPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var powerBiEmbeddedControl = d as PowerBiEmbedded;
-            if (powerBiEmbeddedControl.SelectionReport != null)
-            {
-                powerBiEmbeddedControl.LoadReport(
-                    powerBiEmbeddedControl.SelectionReport.Id,
-                    powerBiEmbeddedControl.SelectionReport.EmbedUrl);
-            }
-        }
     }
 }
