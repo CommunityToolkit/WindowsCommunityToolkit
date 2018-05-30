@@ -36,7 +36,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Path.GetDirectoryName(UnsafeNativeMethods.GetModuleFileName(new HandleRef())));
 #pragma warning restore SA1129 // Do not use default value type constructor
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task<IInputStream> GetContentAsync(string path)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (IsRelative(path))
             {
@@ -50,6 +52,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 path = path.Replace(@"/", @"\");
 
                 var fullPath = Path.Combine(BasePath.Value, path);
+
+                // TODO: Make this proper async all the way through
                 return File.Open(fullPath, FileMode.Open, FileAccess.Read).AsInputStream();
             }
 
