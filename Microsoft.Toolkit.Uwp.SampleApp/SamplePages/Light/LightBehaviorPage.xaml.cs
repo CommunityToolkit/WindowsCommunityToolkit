@@ -35,10 +35,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 WarningText.Visibility = Visibility.Visible;
             }
-            else
-            {
-                NoCreatorUpdateWarningText.Visibility = Visibility.Visible;
-            }
         }
     }
 }

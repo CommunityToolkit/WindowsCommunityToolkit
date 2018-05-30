@@ -18,8 +18,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             QueryType.ItemsSource = new[] { "Bing Search", "Bing News" };
             QueryType.SelectedIndex = 0;
-            Countries.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
-            Countries.SelectedItem = BingCountry.UnitedStates;
+            CntryList.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
+            CntryList.SelectedItem = BingCountry.UnitedStates;
             Languages.ItemsSource = Enum.GetValues(typeof(BingLanguage)).Cast<BingLanguage>().ToList();
             Languages.SelectedItem = BingLanguage.English;
         }
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            BingCountry country = (BingCountry)(Countries?.SelectedItem ?? BingCountry.UnitedStates);
+            BingCountry country = (BingCountry)(CntryList?.SelectedItem ?? BingCountry.UnitedStates);
             BingLanguage language = (BingLanguage)(Languages?.SelectedItem ?? BingLanguage.English);
 
             BingQueryType queryType;

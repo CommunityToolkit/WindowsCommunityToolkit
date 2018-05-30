@@ -11,7 +11,7 @@
     <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
     <requireLicenseAcceptance>true</requireLicenseAcceptance>
     <description>A library to integrate gaze interactions using eye trackers into UWP applications</description>
-    <releaseNotes>Preview Release</releaseNotes>
+    <releaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</releaseNotes>
     <copyright>(c) .NET Foundation and Contributors. All rights reserved.</copyright>
     <tags>UWP Toolkit Windows Eye Gaze EyeTracker </tags>
   </metadata>

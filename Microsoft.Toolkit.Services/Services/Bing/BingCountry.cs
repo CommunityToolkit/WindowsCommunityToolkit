@@ -7,7 +7,7 @@ using Microsoft.Toolkit.Parsers.Core;
 namespace Microsoft.Toolkit.Services.Bing
 {
     /// <summary>
-    /// Country filter for search query.
+    /// Country/region filter for search query.
     /// </summary>
     public enum BingCountry
     {
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Services.Bing
         Azerbaijan,
 
         /// <summary>
-        /// Bosnia Herzegovina
+        /// Bosnia and Herzegovina
         /// </summary>
         [StringValue("ba")]
         BosniaHerzegovina,
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Services.Bing
         Guatemala,
 
         /// <summary>
-        /// Hong Kong
+        /// Hong Kong SAR
         /// </summary>
         [StringValue("hk")]
         HongKong,
@@ -312,7 +312,7 @@ namespace Microsoft.Toolkit.Services.Bing
         Morocco,
 
         /// <summary>
-        /// Macedonia
+        /// Republic of Macedonia
         /// </summary>
         [StringValue("mk")]
         Macedonia,

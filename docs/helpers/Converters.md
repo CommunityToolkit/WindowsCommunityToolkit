@@ -79,7 +79,7 @@ and using it like that :
 ## BoolToVisibilityConverter Examples
 
 `BoolToVisibilityConverter` can be used to easily change a boolean value to a Visibility based one. 
-If targetting 14393 or later, this is done automatically through [x:Bind](https://docs.microsoft.com/windows/uwp/xaml-platform/x-bind-markup-extension).  First, declare the converter in your resources:
+If targeting 14393 or later, this is done automatically through [x:Bind](https://docs.microsoft.com/windows/uwp/xaml-platform/x-bind-markup-extension).  First, declare the converter in your resources:
 
 ```xaml
 <Page.Resources>
@@ -134,7 +134,7 @@ this can be used as follows to hide a list with no items and instead show text t
 
 ## StringFormatConverter Examples
 
-`StringFormatConverter` allows you to format a string property upon binding wraping [string.Format](https://docs.microsoft.com/dotnet/api/system.string.format?view=netframework-4.7).  
+`StringFormatConverter` allows you to format a string property upon binding wrapping [string.Format](https://docs.microsoft.com/dotnet/api/system.string.format?view=netframework-4.7).  
 It only allows for a single input value (the binding string), but can be formatted with the regular string.Format
 methods.  First, add it to your page resources:
 
@@ -154,11 +154,11 @@ then use it like so:
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Converters |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
-* [Converters source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Converters)
+* [Converters source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI/Converters)

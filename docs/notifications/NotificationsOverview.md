@@ -34,11 +34,11 @@ Instead of having to deal with XML, you can now use Windows Community toolkit an
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace for C# | Microsoft.Toolkit.Uwp.Notifications |
 | Namespace for JavaScript | Microsoft.Toolkit.Uwp.Notifications.Javascript |
 
 ## API
 
-* [Notifications source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.UWP)
+* [Notifications source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Notifications/Microsoft.Toolkit.Uwp.Notifications.UWP)

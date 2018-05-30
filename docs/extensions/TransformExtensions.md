@@ -25,10 +25,10 @@ The Transform Extensions ([RotateTransformExtensions](https://docs.microsoft.com
 
 ## API Source Code
 
-- [RotateTransformExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/RotateTransformExtensions.cs)
-- [ScaleTransformExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/ScaleTransformExtensions.cs)
-- [SkewTransformExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/SkewTransformExtensions.cs)
-- [TranslateTransformExtensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit/Extensions/Media/TranslateTransformExtensions.cs)
+- [RotateTransformExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/RotateTransformExtensions.cs)
+- [ScaleTransformExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/ScaleTransformExtensions.cs)
+- [SkewTransformExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/SkewTransformExtensions.cs)
+- [TranslateTransformExtensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit/Extensions/Media/TranslateTransformExtensions.cs)
 
 ## Related Topics
 

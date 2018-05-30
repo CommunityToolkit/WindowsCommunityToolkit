@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
-        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
+        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/";
         private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
         private const string _cacheSHAKey = "docs-cache-sha";
 
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if DEBUG
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/Microsoft/UWPCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/Microsoft/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 else
                 {
-                    _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
+                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/{path}";
                 }
 #endif
             }
@@ -720,8 +720,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (response.IsSuccessStatusCode)
                         {
                             var raw = await response.Content.ReadAsStringAsync();
-                            var json = JsonConvert.DeserializeObject<dynamic>(raw);
-                            return json["object"]["sha"];
+                            Debug.WriteLine(raw);
+                            var json = JsonConvert.DeserializeObject<GitRef>(raw);
+                            return json?.RefObject?.Sha;
                         }
                     }
                 }
@@ -731,6 +732,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             return null;
+        }
+
+        public class GitRef
+        {
+            [JsonProperty("object")]
+            public GitRefObject RefObject { get; set; }
+        }
+
+        public class GitRefObject
+        {
+            [JsonProperty("sha")]
+            public string Sha { get; set; }
         }
     }
 }

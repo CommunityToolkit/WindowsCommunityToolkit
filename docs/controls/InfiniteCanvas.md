@@ -26,8 +26,8 @@ The [InfiniteCanvas Control](https://docs.microsoft.com/dotnet/api/microsoft.too
 
 | Property | Type | Description |
 | -- | -- | -- |
-| CanvasWidth | double | Gets or sets the width of the canvas, default value is the max value 2097152. |
-| CanvasHeight | double | Gets or sets the height of the canvas, default value is the max value 2097152. |
+| CanvasWidth | double | Gets or sets the width of the drawing area, default value is 2097152. This is different from the `Width` property which specifies the Width of the control |
+| CanvasHeight | double | Gets or sets the height of the drawing area, default value is 2097152. This is different from the `Height` property which specifies the Height of the control |
 | IsToolbarVisible | bool | Gets or sets a value indicating whether the toolbar is visible or not. |
 | MaxZoomFactor | double | Gets or sets the MaxZoomFactor for the canvas, range between 1 to 10 and the default value is 4. |
 | MinZoomFactor | double | Gets or sets the MinZoomFactor for the canvas, range between .1 to 1 the default value is .25. |
@@ -64,19 +64,19 @@ The following sample demonstrates how to add InfiniteCanvas Control
 
 ## Sample Code
 
-[InfiniteCanvas Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InfiniteCanvas). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[InfiniteCanvas Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/InfiniteCanvas). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template
 
-[InfiniteCanvas XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas/InfiniteCanvas.xaml) is the XAML template used in the toolkit for the default styling.
+[InfiniteCanvas XAML File](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas/InfiniteCanvas.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.16299.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 
-* [InfiniteCanvas source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas)
+* [InfiniteCanvas source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas)

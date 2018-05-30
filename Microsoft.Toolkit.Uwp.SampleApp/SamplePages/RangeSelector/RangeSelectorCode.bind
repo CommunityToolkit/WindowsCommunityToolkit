@@ -12,7 +12,7 @@
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <Grid VerticalAlignment="Center"
-      HorizontalAlignment="Center">
+          HorizontalAlignment="Center">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="50"/>
         <ColumnDefinition Width="200"/>
@@ -21,17 +21,15 @@
       <TextBlock Grid.Column="0"
                  HorizontalAlignment="Left"
                  VerticalAlignment="Center"
-                 Foreground="Black"
                  Text="{Binding RangeMin, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
       <controls:RangeSelector x:Name="RangeSelectorControl"
-                              Grid.Column="1"                              
+                              Grid.Column="1"
                               Minimum="@[Minimum:Slider:0:0-100]@"
                               Maximum="@[Maximum:Slider:100:0-100]@"
                               StepFrequency="@[StepFrequency:Slider:1:1-10]@"/>
       <TextBlock Grid.Column="2"
                  HorizontalAlignment="Right"
                  VerticalAlignment="Center"
-                 Foreground="Black"
                  Text="{Binding RangeMax, ElementName=RangeSelectorControl, Converter={StaticResource StringFormatConverter}, ConverterParameter='{}{0:0.##}'}" />
     </Grid>
   </Grid>

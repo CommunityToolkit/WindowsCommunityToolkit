@@ -21,9 +21,9 @@ Make sure you have the [webcam capability](https://docs.microsoft.com/en-us/wind
 
 ```csharp
 
-_cameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
-await _cameraPreviewControl.StartAsync();
-_cameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
+CameraPreviewControl.PreviewFailed += CameraPreviewControl_PreviewFailed;
+await CameraPreviewControl.StartAsync();
+CameraPreviewControl.CameraHelper.FrameArrived += CameraPreviewControl_FrameArrived;
      
 
 private void CameraPreviewControl_FrameArrived(object sender, FrameEventArgs e)
@@ -84,7 +84,7 @@ if(availableFrameSourceGroups != null)
 
 ## Sample Code
 
-[CameraPreview Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraPreview). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[CameraPreview Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/CameraPreview). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 
 ## Requirements
@@ -96,6 +96,6 @@ if(availableFrameSourceGroups != null)
 
 ## API Source Code
 
-- [CameraPreview source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview)
+- [CameraPreview source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview)
 
 

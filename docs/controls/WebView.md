@@ -315,5 +315,5 @@ You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.int
 
 ## API Source Code
 
-- [WinForms.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
-- [WPF.WebView](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView)
+- [WinForms.WebView](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
+- [WPF.WebView](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView)

@@ -1,7 +1,7 @@
 ---
 title: MicrosoftGraph Service
 author: nmetulev
-description: The MicrosoftGraph Service aim to easily logon to Office 365 Service in order to Retrieve User Information, Retrieve and Send emails, Retrieve User events
+description: The MicrosoftGraph Service aim to easily logon to Microsoft Graph service in order to Retrieve User Information, Retrieve and Send emails, Retrieve User events
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MicrosoftGraph Service
 dev_langs:
   - csharp
@@ -10,31 +10,31 @@ dev_langs:
 
 # MicrosoftGraph Service
 
-The **MicrosoftGraph** Service aim to easily logon to Office 365 Service in order to: 
+The **MicrosoftGraph** Service allows easy access to the Microsoft Graph in order to: 
 
 * Retrieve User Information
 * Retrieve and Send emails
 * Retrieve User events
 
-## Prerequisites
-
 > [!NOTE]
 This API will not work on an XBOX UWP Application
-
-### 1. Get and Office 365 Subscription
-
-If you don't have one, you need to create an Office 365 Developer Site. There are several ways to create one:
-
-* [An MSDN subscription](https://msdn.microsoft.com/subscriptions/manage/default.aspx) - This is available to MSDN subscribers with Visual Studio Ultimate and Visual Studio Premium.
-* [An existing Office 365 subscription](https://msdn.microsoft.com/library/2ec857d5-dc6f-4cf6-ba45-adc845ef2a25%28Office.15%29.aspx) - You can use an existing Office 365 subscription, which can be any of the following: Office 365 Midsize Business, Office 365 Enterprise, Office 365 Education, Office 365 Government.
-* [Free O365 trial](https://portal.office.com/Signup?OfferId=6881A1CB-F4EB-4db3-9F18-388898DAF510&DL=DEVELOPERPACK&ali=1) - You can start with a free 30-day trial, or buy an Office 365 developer subscription.
-* [Free O365 Developer](http://dev.office.com/devprogram) - Or Get a One year free Office 365 Developer account
  
-### 2. Register you application in Azure Active Directory
+## Get a Client Id
 
 To authenticate your app, you need to register your app with Azure AD, and provide some details about your app. 
 
-#### Register the App to use Azure AD v1 Endpoint
+
+### Register the App to use Azure AD v2 Endpoint
+
+1. Go to the [App Registration Portal](https://apps.dev.microsoft.com) 
+2. Click in the "Add an app" button.
+3. Enter the app name and click "create"
+4. Once the App is created, copy the Application Id to use it later.
+5. Next, add a Platform to the App clicking in "Add Platform" and select "Native Application" tile. 
+6. Scroll to the Microsoft Graph Permissions section (by default the User.Read permission is added). Add the following permissions: Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars.
+7. Finally, save your changes.
+
+### Register the App to use Azure AD v1 Endpoint
 
 You can register your app manually by using the [Azure Management Portal](http://portal.azure.com), or by using Visual Studio:
 1. To register your app by using Visual Studio, see [Using Visual Studio to register your app and add Office 365 APIs.](https://msdn.microsoft.com/office/office365/HowTo/adding-service-to-your-Visual-Studio-project)
@@ -69,25 +69,24 @@ When you register your app in the [Azure Management Portal](http://portal.azure.
 |Resource to Add|Microsoft Graph|
 |Delegate Permissions |Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars|
 
-#### Register the App to use Azure AD v2 Endpoint
-
-1. Go to the [App Registration Portal](https://apps.dev.microsoft.com) 
-2. Click in the "Add an app" button.
-3. Enter the app name and click "create"
-4. Once the App is created, copy the Application Id to use it later.
-5. Next, add a Platform to the App clicking in "Add Platform" and select "Native Application" tile. 
-6. Scroll to the Microsoft Graph Permissions section (by default the User.Read permission is added). Add the following permissions: Sign in and read user profile, Read user mail, Send mail as a user, Read user calendars.
-7. Finally, save your changes.
-
 ### Testing access to the Graph API
 Using ADAL, v1 authentication, registering your application creates an App ID/Client and you can simply paste that into the Client Id field inside of the Microsoft Graph services page. 
 
 Using MSAL, v2 (default) authentication, you can use the same App ID to paste to the Client Id field.  You can also optionally provide different permission scopes and a login hint (suggested user name).
 
 
+### Get an Office 365 Subscription
+
+If you don't have one, you need to create an Office 365 Developer Site. There are several ways to create one:
+
+* [An MSDN subscription](https://msdn.microsoft.com/subscriptions/manage/default.aspx) - This is available to MSDN subscribers with Visual Studio Ultimate and Visual Studio Premium.
+* [An existing Office 365 subscription](https://msdn.microsoft.com/library/2ec857d5-dc6f-4cf6-ba45-adc845ef2a25%28Office.15%29.aspx) - You can use an existing Office 365 subscription, which can be any of the following: Office 365 Midsize Business, Office 365 Enterprise, Office 365 Education, Office 365 Government.
+* [Free O365 trial](https://portal.office.com/Signup?OfferId=6881A1CB-F4EB-4db3-9F18-388898DAF510&DL=DEVELOPERPACK&ali=1) - You can start with a free 30-day trial, or buy an Office 365 developer subscription.
+* [Free O365 Developer](http://dev.office.com/devprogram) - Or Get a One year free Office 365 Developer account
+
 ## Syntax
 
-### Sign in with an Office 365 account
+### Sign in with an AAD account
 
 ```csharp
 // Initialize the service
@@ -313,15 +312,15 @@ End If
 
 ## Sample Code
 
-[MicrosoftGraph Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[MicrosoftGraph Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Microsoft%20Graph%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ### Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Services |
 | NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ### API
 
-* [MicrosoftGraph Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/MicrosoftGraph)
+* [MicrosoftGraph Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Services/Services/MicrosoftGraph)
