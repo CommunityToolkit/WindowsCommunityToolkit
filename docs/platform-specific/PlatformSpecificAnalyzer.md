@@ -2,7 +2,7 @@
 title: UWP Platform Specific Analyzer
 author: hermitdave
 description: Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, plaform specific, platform specific analyzer, roslyn analyzer
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, platform specific, platform specific analyzer, roslyn analyzer
 dev_langs:
   - csharp
   - visualbasic
@@ -43,7 +43,7 @@ Visual Basic
 
 ## API Source Code
 
-- [Platform Specific Analyzer](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer)
+- [Platform Specific Analyzer](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer)
 
 ## Related Topics
 

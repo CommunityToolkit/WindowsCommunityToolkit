@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
 
@@ -114,7 +106,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             { "fire", 0x1f525 },
             { "hankey", 0x1f4a9 },
             { "poop", 0x1f4a9 },
-            { "shit", 0x1f4a9 },
             { "+1", 0x1f44d },
             { "thumbsup", 0x1f44d },
             { "-1", 0x1f44e },
@@ -138,7 +129,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             { "clap", 0x1f44f },
             { "muscle", 0x1f4aa },
             { "metal", 0x1f918 },
-            { "fu", 0x1f595 },
             { "walking", 0x1f6b6 },
             { "runner", 0x1f3c3 },
             { "running", 0x1f3c3 },

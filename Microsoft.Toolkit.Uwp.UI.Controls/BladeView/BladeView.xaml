@@ -85,10 +85,11 @@
 
     <Style TargetType="controls:BladeItem">
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="CloseButtonForeground" Value="{ThemeResource DefaultTextForegroundThemeBrush}" />
+        <Setter Property="CloseButtonForeground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TitleBarBackground" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
@@ -98,14 +99,18 @@
         <Setter Property="Margin" Value="0" />
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
-        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="IsExpanded" Value="True"/>
+        <Setter Property="Width" Value="320" />
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Text="{Binding}" Margin="4,0,0,0" VerticalAlignment="Center"/>
+                    <TextBlock 
+                        Text="{Binding}" 
+                        Margin="12,7,0,9" 
+                        VerticalAlignment="Center" />
                 </DataTemplate>
             </Setter.Value>
         </Setter>
@@ -113,27 +118,28 @@
             <Setter.Value>
                 <ControlTemplate TargetType="controls:BladeItem">
                     <Grid BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}">
+                          BorderThickness="{TemplateBinding BorderThickness}"
+                          Width="{TemplateBinding Width}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="ExpandedStates">
                                 <VisualState x:Name="Expanded"/>
                                 <VisualState x:Name="Collapsed">
                                     <VisualState.Setters>
-                                        <Setter Target="TitleBarExtensions.Visibility" Value="Collapsed" />
                                         <Setter Target="ContentPresenter.Visibility" Value="Collapsed" />
-                                        <Setter Target="EnlargeButton.Content" Value="&#xE1D9;"/>
+                                        <Setter Target="EnlargeButton.Content" Value="&#xE740;" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
-                        </VisualStateManager.VisualStateGroups>                        
-                      
+                        </VisualStateManager.VisualStateGroups>
+
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Grid Background="{TemplateBinding TitleBarBackground}"
-                              Visibility="{TemplateBinding TitleBarVisibility}">
+                              Visibility="{TemplateBinding TitleBarVisibility}"
+                              Height="32">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -148,17 +154,25 @@
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     Background="{TemplateBinding CloseButtonBackground}"
+                                    BorderThickness="0"
+                                    Width="32"
+                                    Height="32"
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
+                                    FontSize="12" 
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
-                            <Button Name="CloseButton"
+                                <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
+                                    BorderThickness="0"
+                                    Width="32"
+                                    Height="32"
                                     Content="&#xE711;"
                                     FontFamily="Segoe MDL2 Assets"
+                                    FontSize="12"
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
                         </Grid>
 

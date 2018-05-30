@@ -31,7 +31,7 @@ The [BackdropSaturationBrush](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Sample Code
 
-[BackdropSaturationBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSaturationBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[BackdropSaturationBrush sample page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/BackdropSaturationBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -42,7 +42,7 @@ The [BackdropSaturationBrush](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## API Source Code
 
-- [BackdropSaturationBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/BackdropSaturationBrush.cs)
+- [BackdropSaturationBrush source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Media/BackdropSaturationBrush.cs)
 
 ## Related Topics
 
