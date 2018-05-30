@@ -319,7 +319,12 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
             element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
         } while (interaction == Interaction::Inherited && element != nullptr);
 
-        if (interaction == Interaction::Disabled && GazeInput::GlobalInteraction != Interaction::Enabled)
+        if (interaction == Interaction::Inherited)
+        {
+            interaction = GazeInput::GlobalInteraction;
+        }
+
+        if (interaction != Interaction::Enabled)
         {
             invokable = GazeTargetItem::NonInvokable;
         }
