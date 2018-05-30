@@ -42,21 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             new PropertyMetadata(null, OnEmbedUrlPropertyChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Id"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty IdProperty = DependencyProperty.Register(
-            nameof(Id),
-            typeof(string),
-            typeof(PowerBiEmbedded),
-            new PropertyMetadata(null));
-
-        /// <summary>
         /// Gets or sets the Application Client Id(v1)
         /// </summary>
         public string ClientId
         {
-            get { return (string)GetValue(ClientIdProperty); }
-            set { SetValue(ClientIdProperty, value); }
+            get { return ((string)GetValue(ClientIdProperty))?.Trim(); }
+            set { SetValue(ClientIdProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -64,8 +55,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string GroupId
         {
-            get { return (string)GetValue(GroupIdProperty); }
-            set { SetValue(GroupIdProperty, value); }
+            get { return ((string)GetValue(GroupIdProperty))?.Trim(); }
+            set { SetValue(GroupIdProperty, value?.Trim()); }
         }
 
         /// <summary>
@@ -73,41 +64,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         public string EmbedUrl
         {
-            get { return (string)GetValue(EmbedUrlProperty); }
-            set { SetValue(EmbedUrlProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets the PowerBI report Id
-        /// </summary>
-        public string Id
-        {
-            get { return (string)GetValue(IdProperty); }
-            private set { SetValue(IdProperty, value); }
-        }
-
-        internal static readonly DependencyProperty ReportsProperty = DependencyProperty.Register(
-            nameof(Reports),
-            typeof(IList<Report>),
-            typeof(PowerBiEmbedded),
-            new PropertyMetadata(null));
-
-        internal IList<Report> Reports
-        {
-            get { return (IList<Report>)GetValue(ReportsProperty); }
-            private set { SetValue(ReportsProperty, value); }
-        }
-
-        internal static readonly DependencyProperty SelectionReportProperty = DependencyProperty.Register(
-            nameof(SelectionReport),
-            typeof(Report),
-            typeof(PowerBiEmbedded),
-            new PropertyMetadata(null, OnSelectionReportPropertyChanged));
-
-        internal Report SelectionReport
-        {
-            get { return (Report)GetValue(SelectionReportProperty); }
-            set { SetValue(SelectionReportProperty, value); }
+            get { return ((string)GetValue(EmbedUrlProperty))?.Trim(); }
+            set { SetValue(EmbedUrlProperty, value?.Trim()); }
         }
     }
 }

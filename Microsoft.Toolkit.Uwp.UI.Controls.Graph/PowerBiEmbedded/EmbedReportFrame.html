@@ -9,8 +9,21 @@
             margin: 0px;
             height: 100%;
             font-family: 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
-            overflow:hidden;
+            overflow: hidden;
         }
+
+        #dropdownContainer {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+        }
+
+            #dropdownContainer select {
+                margin-right: 15px;
+                padding: 3px;
+                font-size: 1em;
+            }
+
         #reportContainer {
             height: 100%;
         }
@@ -20,10 +33,48 @@
     <script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.5.1/dist/powerbi.min.js"></script>
 </head>
 <body>
+    <div id="dropdownContainer">
+        <select id="reportsDropdown">
+            <option>Loading</option>
+        </select>
+        <select id="pagesDropdown"></select>
+        <select id="visualsDropdown"></select>
+    </div>
     <div id="reportContainer"></div>
-    
+
     <script>
-        function loadPowerBiReport(accessToken, embedUrl, embedReportId) {
+        function getReport() {
+            var embedContainer = $('#reportContainer')[0];
+            return powerbi.get(embedContainer);
+        }
+
+        function loadGroups(accessToken, reports, selectionReport) {
+            $('#reportsDropdown').off("change").html('');
+
+            reports.forEach(function (report) {
+                if (report.id == selectionReport.id) {
+                    $('#reportsDropdown').append(`<option value='${report.id}' selected>${report.name}</option>`);
+                }
+                else {
+                    $('#reportsDropdown').append(`<option value='${report.id}'>${report.name}</option>`);
+                }
+            });
+
+            $('#reportsDropdown').on("change", (function (accessToken, reports) {
+                return function () {
+                    var id = $(this).val();
+                    var findReport = reports.find(function (report) {
+                        return report.id == id;
+                    });
+                    loadPowerBiReport(accessToken, findReport);
+
+                };
+            })(accessToken, reports));
+
+            loadPowerBiReport(accessToken, selectionReport);
+        }
+
+        function loadPowerBiReport(accessToken, embedReport) {
             // Get models. models contains enums that can be used.
             var models = window['powerbi-client'].models;
 
@@ -31,12 +82,12 @@
                 type: 'report',
                 tokenType: models.TokenType.Aad,
                 accessToken: accessToken,
-                embedUrl: embedUrl,
-                id: embedReportId,
+                embedUrl: embedReport.embedUrl,
+                id: embedReport.id,
                 permissions: models.Permissions.All,
                 settings: {
                     filterPaneEnabled: true,
-                    navContentPaneEnabled: true
+                    navContentPaneEnabled: false
                 }
             };
 
@@ -45,6 +96,122 @@
 
             // Embed the report and display it within the div container.
             var report = powerbi.embed(reportContainer, config);
+
+            $('#pagesDropdown').off("change").html('<option>Loading</option>');
+            $('#visualsDropdown').off("change").html('<option>Loading</option>');
+
+            // Report.off removes a given event handler if it exists.
+            report.off("loaded");
+
+            // Report.on will add an event handler which prints to Log window.
+            report.on("loaded", function () {
+                loadPages();
+            });
+        }
+
+        function loadPages() {
+            var report = getReport();
+
+            report.getPages()
+                .then(function (pages) {
+                    $('#pagesDropdown').html('');
+
+                    pages.forEach(function (page) {
+                        $('#pagesDropdown').append(`<option value='${page.name}'>${page.displayName}</option>`);
+                    });
+
+                    $('#pagesDropdown').on("change", (function (pages) {
+                        return function () {
+                            var name = $(this).val();
+                            var findPage = pages.find(function (page) {
+                                return page.name == name;
+                            });
+
+                            $('#visualsDropdown').off("change").html('<option>Loading</option>');
+
+                            findPage.setActive();
+                            loadVisuals(findPage);
+                        };
+                    })(pages));
+
+                    loadVisuals(pages[0]);
+                })
+                .catch(function (error) {
+
+                });
+        }
+
+        function loadVisuals(page) {
+            page.getVisuals()
+                .then(function (visuals) {
+                    $('#visualsDropdown').html('<option>All</option>');
+
+                    visuals.forEach(function (visual) {
+                        $('#visualsDropdown').append(`<option value='${visual.name}'>${visual.title || 'No title'}</option>`);
+                    });
+
+                    $('#visualsDropdown').on("change", (function (visuals) {
+                        return function () {
+                            const models = window['powerbi-client'].models;
+                            const name = $(this).val();
+                            const findVisual = visuals.find(function (visual) {
+                                return visual.name == name;
+                            });
+
+                            let pageLayout = {
+                                defaultLayout: {
+                                    displayState: {
+                                        mode: models.VisualContainerDisplayMode.Hidden
+                                    }
+                                },
+                                visualsLayout: {}
+                            };
+
+                            if (name == 'All') {
+                                visuals.forEach(function (visual) {
+                                    pageLayout.visualsLayout[visual.name] = {
+                                        displayState: {
+                                            mode: models.VisualContainerDisplayMode.Visible
+                                        }
+                                    };
+                                });
+                            }
+                            else {
+                                pageLayout.visualsLayout[findVisual.name] = {
+                                    displayState: {
+                                        mode: models.VisualContainerDisplayMode.Visible
+                                    }
+                                };
+                            }
+
+                            let settings = {
+                                filterPaneEnabled: true,
+                                navContentPaneEnabled: false,
+                                layoutType: models.LayoutType.Custom,
+                                customLayout: {
+                                    pageSize: {
+                                        type: models.PageSizeType.Widescreen
+                                    },
+                                    displayOption: models.DisplayOption.FitToPage,
+                                    pagesLayout: {}
+                                }
+                            }
+
+                            settings.customLayout.pagesLayout[visuals[0].page.name] = pageLayout;
+
+                            var report = getReport();
+
+                            report.updateSettings(settings)
+                                .catch(function (error) {
+                                    alert(error);
+                                });
+
+                        };
+                    })(visuals));
+                })
+                .catch(function (errors) {
+                    Log.log(errors);
+                });
         }
 
         function clearReport() {
