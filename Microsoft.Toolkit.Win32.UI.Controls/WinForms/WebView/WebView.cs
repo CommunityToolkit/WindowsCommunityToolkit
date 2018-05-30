@@ -432,6 +432,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         /// <inheritdoc />
+        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
+
+        /// <inheritdoc />
         public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
 
         /// <summary>
