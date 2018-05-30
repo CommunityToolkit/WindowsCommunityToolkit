@@ -13,6 +13,7 @@
     <None Remove="Assets\genericfile.png" />
     <None Remove="Assets\person.png" />
     <None Remove="Assets\photo.png" />
+    <None Remove="PlannerTaskList\PlannerTaskList.xaml" />
     <None Remove="PowerBiEmbedded\EmbedReportFrame.html" />
   </ItemGroup>
 
@@ -35,6 +36,13 @@
  
   <ItemGroup>
     <PackageReference Include="Microsoft.PowerBI.Api" Version="2.0.12" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Update="PlannerTaskList\PlannerTaskList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->

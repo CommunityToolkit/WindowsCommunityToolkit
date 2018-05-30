@@ -6,6 +6,7 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PeoplePicker" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.SharePointFileList" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PowerBiEmbedded" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Graph.PlannerTaskList" />
     </ToolboxItems>
   </File>
 </FileList>
