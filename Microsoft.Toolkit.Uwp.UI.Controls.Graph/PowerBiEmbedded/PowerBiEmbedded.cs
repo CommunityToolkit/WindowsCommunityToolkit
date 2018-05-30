@@ -33,8 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
         private DateTimeOffset _expiration;
-        private IList<Report> _reports;
-        private Report _selectionReport;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerBiEmbedded"/> class.
@@ -60,12 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _webViewReportFrame.DOMContentLoaded += (WebView sender, WebViewDOMContentLoadedEventArgs args) =>
                 {
                     _webViewInitializedTask.TrySetResult(true);
-                };
-
-                _webViewReportFrame.ScriptNotify += (object sender, NotifyEventArgs e) =>
-                {
-                    e.Value.ToString();
-
                 };
             }
         }
@@ -109,104 +101,105 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return _tokenForUser;
         }
 
-        private Task<bool> WaitWebviewContentLoaded()
-        {
-            return _webViewInitializedTask.Task;
-        }
-
-        private async void LoadReport(string embedReportId, string embedUrl)
-        {
-            if (!string.IsNullOrEmpty(ClientId)
-                && !string.IsNullOrEmpty(embedReportId)
-                && !string.IsNullOrEmpty(embedUrl))
-            {
-                await WaitWebviewContentLoaded();
-
-                await _webViewReportFrame.InvokeScriptAsync(
-                    "eval",
-                    new string[]
-                    {
-                        $"loadPowerBiReport('{await GetUserTokenAsync(ClientId)}', '{embedUrl}', '{embedReportId}')"
-                    });
-            }
-        }
-
-        private void LoadReport()
-        {
-            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(EmbedUrl))
-            {
-                if (Uri.TryCreate(EmbedUrl, UriKind.Absolute, out Uri embedUri))
-                {
-                    if (embedUri.Query.IndexOf("reportid", StringComparison.OrdinalIgnoreCase) != -1)
-                    {
-                        var decoder = new WwwFormUrlDecoder(embedUri.Query.ToLower());
-                        LoadReport(decoder.GetFirstValueByName("reportid"), EmbedUrl);
-                    }
-                }
-                else
-                {
-                    throw new ArgumentException(nameof(EmbedUrl));
-                }
-            }
-            else
-            {
-                ClearReport();
-            }
-        }
-
-        private async void LoadGroup()
-        {
-            if (!string.IsNullOrEmpty(ClientId) && !string.IsNullOrEmpty(GroupId))
-            {
-                string token = await GetUserTokenAsync(ClientId);
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    var tokenCredentials = new TokenCredentials(token, "Bearer");
-
-                    using (var client = new PowerBIClient(new Uri(ApiUrl), tokenCredentials))
-                    {
-                        _reports = (await client.Reports.GetReportsAsync(GroupId))?.Value;
-
-                        if (_reports.Count > 0)
-                        {
-                            Report findReport = _reports.Where(
-                                i => i.EmbedUrl.Equals(
-                                    EmbedUrl,
-                                    StringComparison.OrdinalIgnoreCase))
-                                .FirstOrDefault();
-
-                            _selectionReport = findReport ?? _reports.First();
-                        }
-
-                        InvokeScript($"loadGroups('{token}', {JsonConvert.SerializeObject(_reports)}, {JsonConvert.SerializeObject(_selectionReport)})");
-                    }
-                }
-            }
-            else
-            {
-                _reports = null;
-                ClearReport();
-            }
-        }
-
-        private void LoadAll()
+        private async void LoadAll()
         {
             if (!string.IsNullOrEmpty(ClientId))
             {
                 if (!string.IsNullOrEmpty(GroupId))
                 {
-                    LoadGroup();
+                    await LoadGroup();
+                    return;
                 }
-                else if (!string.IsNullOrEmpty(EmbedUrl))
+
+                if (!string.IsNullOrEmpty(EmbedUrl))
                 {
-                    LoadReport();
+                    await LoadReport();
+                    return;
+                }
+            }
+
+            ClearReport();
+        }
+
+        private async Task LoadReport()
+        {
+            if (Uri.TryCreate(EmbedUrl, UriKind.Absolute, out Uri embedUri))
+            {
+                string token = await GetUserTokenAsync(ClientId);
+
+                if (!string.IsNullOrEmpty(token)
+                    && embedUri.Query.IndexOf("reportid", StringComparison.OrdinalIgnoreCase) != -1
+                    && embedUri.Query.IndexOf("groupid", StringComparison.OrdinalIgnoreCase) != -1)
+                {
+                    var tokenCredentials = new TokenCredentials(token, "Bearer");
+
+                    using (var client = new PowerBIClient(new Uri(ApiUrl), tokenCredentials))
+                    {
+                        var decoder = new WwwFormUrlDecoder(embedUri.Query.ToLower());
+                        string groupId = decoder.GetFirstValueByName("groupid");
+                        string reportId = decoder.GetFirstValueByName("reportid");
+
+                        Report report = await client.Reports.GetReportAsync(groupId, reportId);
+
+                        if (report != null)
+                        {
+                            InvokeScript($"loadGroups(" +
+                                $"'{token}', " +
+                                $"{JsonConvert.SerializeObject(new Report[] { report })}, " +
+                                $"{JsonConvert.SerializeObject(report)})");
+
+                            return;
+                        }
+                    }
+                }
+
+                ClearReport();
+            }
+            else
+            {
+                throw new ArgumentException(nameof(EmbedUrl));
+            }
+        }
+
+        private async Task LoadGroup()
+        {
+            string token = await GetUserTokenAsync(ClientId);
+
+            if (!string.IsNullOrEmpty(token))
+            {
+                var tokenCredentials = new TokenCredentials(token, "Bearer");
+
+                using (var client = new PowerBIClient(new Uri(ApiUrl), tokenCredentials))
+                {
+                    IList<Report> reports = (await client.Reports.GetReportsAsync(GroupId))?.Value;
+                    Report selectionReport = null;
+
+                    if (reports.Count > 0)
+                    {
+                        Report findReport = reports.Where(
+                            i => i.EmbedUrl.Equals(
+                                EmbedUrl,
+                                StringComparison.OrdinalIgnoreCase))
+                            .FirstOrDefault();
+
+                        selectionReport = findReport ?? reports.First();
+                    }
+
+                    InvokeScript($"loadGroups(" +
+                        $"'{token}', " +
+                        $"{JsonConvert.SerializeObject(reports)}, " +
+                        $"{JsonConvert.SerializeObject(selectionReport)})");
                 }
             }
             else
             {
-                 ClearReport();
+                ClearReport();
             }
+        }
+
+        private Task<bool> WaitWebviewContentLoaded()
+        {
+            return _webViewInitializedTask.Task;
         }
 
         private void ClearReport()
@@ -214,13 +207,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             InvokeScript("clearReport()");
         }
 
-        private async void InvokeScript(string sciprt)
+        private async void InvokeScript(string script)
         {
             await WaitWebviewContentLoaded();
 
             await _webViewReportFrame.InvokeScriptAsync(
                 "eval",
-                new string[] { sciprt });
+                new string[] { script });
         }
     }
 }

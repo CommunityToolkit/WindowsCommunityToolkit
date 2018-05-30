@@ -34,7 +34,7 @@
 </head>
 <body>
     <div id="dropdownContainer">
-        <select id="reportsDropdown">
+        <select id="reportsDropdown" style="display:none">
             <option>Loading</option>
         </select>
         <select id="pagesDropdown"></select>
@@ -43,13 +43,30 @@
     <div id="reportContainer"></div>
 
     <script>
+        var accessToken;
+
         function getReport() {
-            var embedContainer = $('#reportContainer')[0];
+            const embedContainer = $('#reportContainer')[0];
             return powerbi.get(embedContainer);
         }
 
-        function loadGroups(accessToken, reports, selectionReport) {
+        function refreshToken(token) {
+            const report = getReport();
+            accessToken = token;
+            report.setAccessToken(token);
+        }
+
+        function loadGroups(token, reports, selectionReport) {
+            accessToken = token;
+            $('#dropdownContainer').show();
             $('#reportsDropdown').off("change").html('');
+
+            if (reports.length == 1) {
+                $('#reportsDropdown').hide();
+            }
+            else {
+                $('#reportsDropdown').show();
+            }
 
             reports.forEach(function (report) {
                 if (report.id == selectionReport.id) {
@@ -60,25 +77,24 @@
                 }
             });
 
-            $('#reportsDropdown').on("change", (function (accessToken, reports) {
+            $('#reportsDropdown').on("change", (function (reports) {
                 return function () {
                     var id = $(this).val();
                     var findReport = reports.find(function (report) {
                         return report.id == id;
                     });
-                    loadPowerBiReport(accessToken, findReport);
+                    loadPowerBiReport(findReport);
 
                 };
-            })(accessToken, reports));
+            })(reports));
 
-            loadPowerBiReport(accessToken, selectionReport);
+            loadPowerBiReport(selectionReport);
         }
 
-        function loadPowerBiReport(accessToken, embedReport) {
-            // Get models. models contains enums that can be used.
-            var models = window['powerbi-client'].models;
+        function loadPowerBiReport(embedReport) {
+            const models = window['powerbi-client'].models;
 
-            var config = {
+            const config = {
                 type: 'report',
                 tokenType: models.TokenType.Aad,
                 accessToken: accessToken,
@@ -90,20 +106,13 @@
                     navContentPaneEnabled: false
                 }
             };
+            const report = powerbi.embed(reportContainer, config);
 
-            // Get a reference to the embedded report HTML element
-            var reportContainer = $('#reportContainer')[0];
-
-            // Embed the report and display it within the div container.
-            var report = powerbi.embed(reportContainer, config);
-
+            $('#reportContainer').css('visibility', 'visible');
             $('#pagesDropdown').off("change").html('<option>Loading</option>');
             $('#visualsDropdown').off("change").html('<option>Loading</option>');
 
-            // Report.off removes a given event handler if it exists.
             report.off("loaded");
-
-            // Report.on will add an event handler which prints to Log window.
             report.on("loaded", function () {
                 loadPages();
             });
@@ -199,7 +208,7 @@
 
                             settings.customLayout.pagesLayout[visuals[0].page.name] = pageLayout;
 
-                            var report = getReport();
+                            const report = getReport();
 
                             report.updateSettings(settings)
                                 .catch(function (error) {
@@ -210,12 +219,15 @@
                     })(visuals));
                 })
                 .catch(function (errors) {
-                    Log.log(errors);
+                    alert(errors);
                 });
         }
 
         function clearReport() {
-            $('#reportContainer').html('');
+            $('#dropdownContainer').hide();
+            $('#reportContainer').css('visibility', 'hidden');
+            $('#pagesDropdown').html('');
+            $('#visualsDropdown').html('');
         }
     </script>
 </body>

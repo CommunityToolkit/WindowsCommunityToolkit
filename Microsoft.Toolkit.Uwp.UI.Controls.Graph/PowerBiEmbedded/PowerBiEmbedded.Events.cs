@@ -12,22 +12,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class PowerBiEmbedded : Control
     {
-        private static void OnClientIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var powerBiEmbeddedControl = d as PowerBiEmbedded;
-            powerBiEmbeddedControl.LoadAll();
-        }
-
-        private static void OnGroupIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var powerBiEmbeddedControl = d as PowerBiEmbedded;
-            powerBiEmbeddedControl.LoadGroup();
-        }
-
-        private static void OnEmbedUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var powerBiEmbeddedControl = d as PowerBiEmbedded;
-            powerBiEmbeddedControl.LoadReport();
-        }
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => (d as PowerBiEmbedded).LoadAll();
     }
 }

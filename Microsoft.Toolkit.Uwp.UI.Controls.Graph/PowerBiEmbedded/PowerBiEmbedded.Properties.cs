@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(ClientId),
             typeof(string),
             typeof(PowerBiEmbedded),
-            new PropertyMetadata(null, OnClientIdPropertyChanged));
+            new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="GroupId"/> dependency property.
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(GroupId),
             typeof(string),
             typeof(PowerBiEmbedded),
-            new PropertyMetadata(null, OnGroupIdPropertyChanged));
+            new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="EmbedUrl"/> dependency property.
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             nameof(EmbedUrl),
             typeof(string),
             typeof(PowerBiEmbedded),
-            new PropertyMetadata(null, OnEmbedUrlPropertyChanged));
+            new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
         /// Gets or sets the Application Client Id(v1)
