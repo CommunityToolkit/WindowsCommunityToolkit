@@ -7,7 +7,7 @@
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <graphControls:PowerBiEmbedded ClientId="@[ClientId:String:60669e89-fce4-401d-8c6d-374dd1f1691c]"
+        <graphControls:PowerBIEmbedded ClientId="@[ClientId:String:60669e89-fce4-401d-8c6d-374dd1f1691c]"
                                         EmbedUrl="@[EmbedUrl:String: ]"
                                         GroupId="@[GroupId:String:87f3b636-8385-43bd-b7d4-f482032be514]"/>
     </Grid>

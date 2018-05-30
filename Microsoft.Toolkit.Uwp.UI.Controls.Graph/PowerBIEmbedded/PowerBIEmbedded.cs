@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "WebViewReportFrame", Type = typeof(WebView))]
-    public partial class PowerBiEmbedded : Control
+    public partial class PowerBIEmbedded : Control
     {
         private const string Authority = "https://login.microsoftonline.com/common";
         private const string ResourceId = "https://analysis.windows.net/powerbi/api";
@@ -35,11 +35,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private DateTimeOffset _expiration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PowerBiEmbedded"/> class.
+        /// Initializes a new instance of the <see cref="PowerBIEmbedded"/> class.
         /// </summary>
-        public PowerBiEmbedded()
+        public PowerBIEmbedded()
         {
-            DefaultStyleKey = typeof(PowerBiEmbedded);
+            DefaultStyleKey = typeof(PowerBIEmbedded);
         }
 
         /// <summary>

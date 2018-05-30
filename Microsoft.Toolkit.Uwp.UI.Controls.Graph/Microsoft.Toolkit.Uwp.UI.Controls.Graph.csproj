@@ -14,7 +14,7 @@
     <None Remove="Assets\person.png" />
     <None Remove="Assets\photo.png" />
     <None Remove="PlannerTaskList\PlannerTaskList.xaml" />
-    <None Remove="PowerBiEmbedded\EmbedReportFrame.html" />
+    <None Remove="PowerBIEmbedded\EmbedReportFrame.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,7 +22,7 @@
     <Content Include="Assets\genericfile.png" />
     <Content Include="Assets\person.png" />
     <Content Include="Assets\photo.png" />
-    <Content Include="PowerBiEmbedded\EmbedReportFrame.html" />
+    <Content Include="PowerBIEmbedded\EmbedReportFrame.html" />
   </ItemGroup>
 
   <ItemGroup>

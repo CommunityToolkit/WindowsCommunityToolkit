@@ -8,10 +8,10 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// Defines the events for the <see cref="PowerBiEmbedded"/> control.
+    /// Defines the events for the <see cref="PowerBIEmbedded"/> control.
     /// </summary>
-    public partial class PowerBiEmbedded : Control
+    public partial class PowerBIEmbedded : Control
     {
-        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => (d as PowerBiEmbedded).LoadAll();
+        private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => (d as PowerBIEmbedded).LoadAll();
     }
 }

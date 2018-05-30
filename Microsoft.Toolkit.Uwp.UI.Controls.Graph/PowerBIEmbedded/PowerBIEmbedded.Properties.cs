@@ -10,9 +10,9 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     /// <summary>
-    /// Defines the properties for the <see cref="PowerBiEmbedded"/> control.
+    /// Defines the properties for the <see cref="PowerBIEmbedded"/> control.
     /// </summary>
-    public partial class PowerBiEmbedded : Control
+    public partial class PowerBIEmbedded : Control
     {
         /// <summary>
         /// Identifies the <see cref="ClientId"/> dependency property.
@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty ClientIdProperty = DependencyProperty.Register(
             nameof(ClientId),
             typeof(string),
-            typeof(PowerBiEmbedded),
+            typeof(PowerBIEmbedded),
             new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty GroupIdProperty = DependencyProperty.Register(
             nameof(GroupId),
             typeof(string),
-            typeof(PowerBiEmbedded),
+            typeof(PowerBIEmbedded),
             new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public static readonly DependencyProperty EmbedUrlProperty = DependencyProperty.Register(
             nameof(EmbedUrl),
             typeof(string),
-            typeof(PowerBiEmbedded),
+            typeof(PowerBIEmbedded),
             new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>

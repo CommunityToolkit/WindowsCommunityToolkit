@@ -3,11 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
  
-    <Style TargetType="local:PowerBiEmbedded">
+    <Style TargetType="local:PowerBIEmbedded">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:PowerBiEmbedded">
+                <ControlTemplate TargetType="local:PowerBIEmbedded">
                     <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>

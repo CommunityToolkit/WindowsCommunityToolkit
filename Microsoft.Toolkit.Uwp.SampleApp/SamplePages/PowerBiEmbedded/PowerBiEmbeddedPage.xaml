@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PowerBiEmbeddedPage"
+    x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.PowerBIEmbeddedPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:graphControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
@@ -9,6 +9,6 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <graphControls:PowerBiEmbedded/>
+        <graphControls:PowerBIEmbedded/>
     </Grid>
 </Page>

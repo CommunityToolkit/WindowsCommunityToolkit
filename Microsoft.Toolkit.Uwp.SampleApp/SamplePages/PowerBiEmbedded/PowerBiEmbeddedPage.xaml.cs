@@ -2,9 +2,9 @@
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class PowerBiEmbeddedPage : IXamlRenderListener
+    public sealed partial class PowerBIEmbeddedPage : IXamlRenderListener
     {
-        public PowerBiEmbeddedPage()
+        public PowerBIEmbeddedPage()
         {
             this.InitializeComponent();
         }
