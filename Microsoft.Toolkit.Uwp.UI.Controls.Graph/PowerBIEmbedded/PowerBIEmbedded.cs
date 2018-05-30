@@ -28,11 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private const string ResourceId = "https://analysis.windows.net/powerbi/api";
         private const string ApiUrl = "https://api.powerbi.com/";
         private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
-        private ComboBox _cbxReportList;
         private WebView _webViewReportFrame;
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
         private DateTimeOffset _expiration;
+        private DispatcherTimer _tokenExpirationRefreshTimer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PowerBIEmbedded"/> class.
@@ -40,6 +40,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PowerBIEmbedded()
         {
             DefaultStyleKey = typeof(PowerBIEmbedded);
+
+            _tokenExpirationRefreshTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMinutes(1)
+            };
         }
 
         /// <summary>
@@ -48,8 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected override void OnApplyTemplate()
         {
             ApplyTemplate();
-
-            _cbxReportList = GetTemplateChild("CbxReportList") as ComboBox;
 
             _webViewReportFrame = GetTemplateChild("WebViewReportFrame") as WebView;
 
@@ -62,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async Task<string> GetUserTokenAsync(string appClientId)
+        private async Task<string> GetUserTokenAsync()
         {
             try
             {
@@ -72,19 +75,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(
                         ResourceId,
-                        appClientId,
+                        ClientId,
                         new Uri(DefaultRedirectUri),
                         new PlatformParameters(PromptBehavior.Auto, false));
 
                     _tokenForUser = userAuthnResult.AccessToken;
                     _expiration = userAuthnResult.ExpiresOn;
+
+                    _tokenExpirationRefreshTimer.Stop();
+                    _tokenExpirationRefreshTimer.Tick -= TokenExpirationRefreshTimer_Tick;
+                    _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
+                    _tokenExpirationRefreshTimer.Start();
                 }
 
                 if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
                 {
                     AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenSilentAsync(
                         ResourceId,
-                        appClientId);
+                        ClientId);
 
                     _tokenForUser = userAuthnResult.AccessToken;
                     _expiration = userAuthnResult.ExpiresOn;
@@ -125,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (Uri.TryCreate(EmbedUrl, UriKind.Absolute, out Uri embedUri))
             {
-                string token = await GetUserTokenAsync(ClientId);
+                string token = await GetUserTokenAsync();
 
                 if (!string.IsNullOrEmpty(token)
                     && embedUri.Query.IndexOf("reportid", StringComparison.OrdinalIgnoreCase) != -1
@@ -163,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task LoadGroup()
         {
-            string token = await GetUserTokenAsync(ClientId);
+            string token = await GetUserTokenAsync();
 
             if (!string.IsNullOrEmpty(token))
             {
@@ -197,14 +205,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        private void ClearReport()
+        {
+            if (_tokenExpirationRefreshTimer != null)
+            {
+                _tokenExpirationRefreshTimer.Stop();
+                _tokenExpirationRefreshTimer.Tick -= TokenExpirationRefreshTimer_Tick;
+            }
+
+            InvokeScript("clearReport()");
+        }
+
+        private async void TokenExpirationRefreshTimer_Tick(object sender, object e)
+        {
+            if (_tokenForUser != null && _expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            {
+                string token = await GetUserTokenAsync();
+                if (!string.IsNullOrEmpty(token))
+                {
+                    InvokeScript($"refreshToken('{token}')");
+                }
+            }
+        }
+
         private Task<bool> WaitWebviewContentLoaded()
         {
             return _webViewInitializedTask.Task;
-        }
-
-        private void ClearReport()
-        {
-            InvokeScript("clearReport()");
         }
 
         private async void InvokeScript(string script)
