@@ -500,6 +500,15 @@
         "XamlCodeFile": "PowerBiEmbedded.bind",
         "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
+      },
+      {
+        "Name": "PlannerTaskList",
+        "Type": "PlannerTaskListPage",
+        "About": "The PlannerTaskList Control displays a simple list of Planner tasks.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
+        "XamlCodeFile": "PlannerTaskListXaml.bind",
+        "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PlannerTaskList.md"
       }
     ]
   },

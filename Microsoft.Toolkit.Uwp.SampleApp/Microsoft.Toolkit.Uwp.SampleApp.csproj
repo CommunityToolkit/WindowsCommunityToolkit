@@ -281,6 +281,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
+    <Content Include="SamplePages\PlannerTaskList\PlannerTaskList.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
@@ -524,6 +525,7 @@
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\PowerBiEmbedded\PowerBiEmbedded.bind" />
+    <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -559,6 +561,9 @@
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="SamplePages\PowerBiEmbedded\PowerBiEmbeddedPage.xaml.cs">
       <DependentUpon>PowerBiEmbeddedPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\PlannerTaskList\PlannerTaskListPage.xaml.cs">
+      <DependentUpon>PlannerTaskListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
@@ -955,6 +960,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\CameraHelper\CameraHelperPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\PlannerTaskList\PlannerTaskListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
