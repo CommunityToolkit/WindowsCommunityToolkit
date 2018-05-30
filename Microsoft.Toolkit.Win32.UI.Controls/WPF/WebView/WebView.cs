@@ -583,6 +583,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        public void NavigateToLocal(string relativePath)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.NavigateToLocal(relativePath);
+        }
+
+        /// <inheritdoc />
         public void NavigateToString(string text)
         {
             VerifyAccess();
