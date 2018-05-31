@@ -67,6 +67,12 @@
                       PlaceholderText="Select a bucket"
                       SelectedValue="{Binding Path=BucketId, Mode=TwoWay}"
                       SelectedValuePath="Id" />
+
+            <Border Grid.ColumnSpan="4"
+                    Background="{ThemeResource SystemControlBackgroundListLowBrush}"
+                    Visibility="{Binding Path=IsUpdating}">
+                <ProgressRing IsActive="{Binding Path=IsUpdating}" />
+            </Border>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="MobileDefaultPlannerTaskDataTemplate">
@@ -94,29 +100,36 @@
         </StackPanel>
     </DataTemplate>
     <DataTemplate x:Key="MobileActivePlannerTaskDataTemplate">
-        <StackPanel>
-            <TextBox Margin="5"
-                     VerticalAlignment="Center"
-                     PlaceholderText="Title"
-                     Text="{Binding Path=Title, Mode=TwoWay}"
-                     TextWrapping="Wrap" />
-            <CalendarDatePicker Margin="5"
-                                VerticalAlignment="Center"
-                                Date="{Binding Path=DueDateTime, Mode=TwoWay}"
-                                DateFormat="{}{month.abbreviated}-{day.integer}"
-                                MinDate="{Binding ElementName=today, Path=Date}"
-                                PlaceholderText="Due Date" />
-            <local:PeoplePicker Margin="5"
-                                PlaceholderText="To"
-                                Selections="{Binding Path=Assignments, Mode=TwoWay}" />
-            <ComboBox Margin="5"
-                      VerticalAlignment="Center"
-                      DisplayMemberPath="Name"
-                      ItemsSource="{Binding Path=ItemsSource, ElementName=buckets}"
-                      PlaceholderText="Select a bucket"
-                      SelectedValue="{Binding Path=BucketId, Mode=TwoWay}"
-                      SelectedValuePath="Id" />
-        </StackPanel>
+        <Grid>
+            <StackPanel>
+                <TextBox Margin="5"
+                         VerticalAlignment="Center"
+                         PlaceholderText="Title"
+                         Text="{Binding Path=Title, Mode=TwoWay}"
+                         TextWrapping="Wrap" />
+                <CalendarDatePicker Margin="5"
+                                    VerticalAlignment="Center"
+                                    Date="{Binding Path=DueDateTime, Mode=TwoWay}"
+                                    DateFormat="{}{month.abbreviated}-{day.integer}"
+                                    MinDate="{Binding ElementName=today, Path=Date}"
+                                    PlaceholderText="Due Date" />
+                <local:PeoplePicker Margin="5"
+                                    PlaceholderText="To"
+                                    Selections="{Binding Path=Assignments, Mode=TwoWay}" />
+                <ComboBox Margin="5"
+                          VerticalAlignment="Center"
+                          DisplayMemberPath="Name"
+                          ItemsSource="{Binding Path=ItemsSource, ElementName=buckets}"
+                          PlaceholderText="Select a bucket"
+                          SelectedValue="{Binding Path=BucketId, Mode=TwoWay}"
+                          SelectedValuePath="Id" />
+            </StackPanel>
+
+            <Border Background="{ThemeResource SystemControlBackgroundListLowBrush}"
+                    Visibility="{Binding Path=IsUpdating}">
+                <ProgressRing IsActive="{Binding Path=IsUpdating}" />
+            </Border>
+        </Grid>
     </DataTemplate>
     <local:PlannerTaskItemSelector x:Key="PlannerTaskItemSelector"
                                    ActiveTemplate="{StaticResource ActivePlannerTaskDataTemplate}"

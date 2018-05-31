@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private List<string> _assignmentIds;
         private ObservableCollection<Person> _assignments;
         private string _assignmentNames;
+        private bool _isUpdating;
 
         public string Id
         {
@@ -153,6 +154,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             get
             {
                 return DueDateTime.HasValue;
+            }
+        }
+
+        public bool IsUpdating
+        {
+            get
+            {
+                return _isUpdating;
+            }
+
+            set
+            {
+                _isUpdating = value;
+                TriggerPropertyChanged(nameof(IsUpdating));
             }
         }
 

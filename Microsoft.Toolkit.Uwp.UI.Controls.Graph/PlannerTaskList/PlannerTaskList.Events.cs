@@ -126,6 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             if (!skipUpdate)
             {
+                plannerTaskViewModel.IsUpdating = true;
                 var graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
@@ -142,6 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 PlannerTask newTask = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
                 plannerTaskViewModel.ETag = newTask.GetEtag();
+                plannerTaskViewModel.IsUpdating = false;
             }
         }
     }

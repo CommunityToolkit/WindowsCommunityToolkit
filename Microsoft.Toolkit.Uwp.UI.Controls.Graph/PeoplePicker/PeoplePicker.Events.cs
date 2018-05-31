@@ -8,7 +8,9 @@ using System.Linq;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -32,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void ClearAndHideSearchResultListBox()
         {
             SearchResultList.Clear();
-            _searchResultListBox.Visibility = Visibility.Collapsed;
+            _searchResultPopup.IsOpen = false;
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
@@ -80,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             SearchResultList.Add(item);
                         }
 
-                        _searchResultListBox.Visibility = Visibility.Visible;
+                        _searchResultPopup.IsOpen = true;
                     }
                     else
                     {
@@ -138,7 +140,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void RaiseSelectionChanged()
         {
-            this.SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(this.Selections));
+            SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(this.Selections));
+        }
+
+        private void SearchResultListBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            TextBoxAutomationPeer apTextBox = new TextBoxAutomationPeer(_searchBox);
+            ListBoxAutomationPeer apListBox = new ListBoxAutomationPeer(_searchResultListBox);
+            Rect baseRect = apTextBox.GetBoundingRectangle();
+            Rect listRect = apListBox.GetBoundingRectangle();
+            Size size = Window.Current.Content.RenderSize;
+            var width = Window.Current.Bounds.Width;
+            var height = Window.Current.Bounds.Height;
+            if (size.Height < listRect.Height)
+            {
+                _searchResultPopup.VerticalOffset = -baseRect.Y - baseRect.Height;
+            }
+            else if (size.Height - baseRect.Bottom > listRect.Height)
+            {
+                _searchResultPopup.VerticalOffset = 0;
+            }
+            else if (baseRect.Y > listRect.Height)
+            {
+                _searchResultPopup.VerticalOffset = -baseRect.Height - listRect.Height;
+            }
+            else
+            {
+                _searchResultPopup.VerticalOffset = size.Height - baseRect.Bottom - listRect.Height;
+            }
+        }
+
+        private void SearchBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _searchResultListBox.Width = _searchBox.ActualWidth;
         }
     }
 }

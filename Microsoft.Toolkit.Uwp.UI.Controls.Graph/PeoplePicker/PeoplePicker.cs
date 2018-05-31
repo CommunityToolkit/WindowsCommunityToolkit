@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Microsoft.Graph;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -15,15 +16,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = SearchBoxPartName, Type = typeof(TextBox))]
     [TemplatePart(Name = SearchResultListBoxPartName, Type = typeof(ListBox))]
     [TemplatePart(Name = SelectionsListBoxPartName, Type = typeof(ListBox))]
+    [TemplatePart(Name = SearchResultPopupName, Type = typeof(Popup))]
     public partial class PeoplePicker : Control
     {
         private const string SearchBoxPartName = "SearchBox";
         private const string SearchResultListBoxPartName = "SearchResultListBox";
+        private const string SearchResultPopupName = "SearchResultPopup";
         private const string SelectionsListBoxPartName = "SelectionsListBox";
 
         private TextBox _searchBox;
         private ListBox _searchResultListBox;
         private ListBox _selectionsListBox;
+        private Popup _searchResultPopup;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PeoplePicker"/> class.
@@ -43,17 +47,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchBox = GetTemplateChild(SearchBoxPartName) as TextBox;
             _searchResultListBox = GetTemplateChild(SearchResultListBoxPartName) as ListBox;
             _selectionsListBox = GetTemplateChild(SelectionsListBoxPartName) as ListBox;
+            _searchResultPopup = GetTemplateChild(SearchResultPopupName) as Popup;
 
             SearchResultList = new ObservableCollection<Person>();
             Selections = Selections ?? new ObservableCollection<Person>();
             if (_searchBox != null)
             {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
+                _searchBox.SizeChanged += SearchBox_OnSizeChanged;
             }
 
             if (_searchResultListBox != null)
             {
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
+                _searchResultListBox.SizeChanged += SearchResultListBox_OnSizeChanged;
             }
 
             if (_selectionsListBox != null)

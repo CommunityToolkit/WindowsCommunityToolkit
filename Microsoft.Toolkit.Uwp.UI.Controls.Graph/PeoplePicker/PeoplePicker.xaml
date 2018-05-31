@@ -8,7 +8,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PeoplePicker">
-                    <StackPanel Name="PeoplePickerContainer" DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                    <StackPanel Name="PeoplePickerContainer"
+                                DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
                         <Grid>
                             <TextBox Name="SearchBox"
                                      Margin="0"
@@ -28,29 +29,20 @@
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <Grid AutomationProperties.Name="{Binding DisplayName}">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                </Grid.ColumnDefinitions>
-                                                <controls:ProfileCard Grid.Row="0"
-                                                                      Grid.Column="0"
-                                                                      DisplayMode="LargeProfilePhotoLeft"
+                                                <controls:ProfileCard DisplayMode="SmallProfilePhotoLeft"
                                                                       UserId="{Binding Id}" />
                                                 <TextBlock Grid.Row="0"
                                                            Grid.Column="1" />
                                                 <Button Name="PersonRemoveButton"
-                                                        Tag="{Binding}"
-                                                        Grid.Row="0"
-                                                        Grid.Column="2"
-                                                        Width="48"
-                                                        Height="48"
+                                                        Width="50"
+                                                        Height="50"
                                                         Margin="0"
                                                         HorizontalAlignment="Right"
                                                         AutomationProperties.Name="Remove from selection"
                                                         Background="Transparent"
                                                         BorderThickness="0"
-                                                        FlowDirection="LeftToRight">
+                                                        FlowDirection="LeftToRight"
+                                                        Tag="{Binding}">
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
                                             </Grid>
@@ -59,28 +51,36 @@
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                            <Setter Property="Padding" Value="0,0" />
                                         </Style>
                                     </ListBox.ItemContainerStyle>
                                 </ListBox>
-                                <TextBlock Visibility="{TemplateBinding AllowMultiple}"
-                                           AutomationProperties.Name="Selections Counter">
-                                    <Run><Binding Path="Selections.Count"></Binding></Run>
-                                    <Run> selected</Run>
+                                <TextBlock AutomationProperties.Name="Selections Counter"
+                                           Visibility="{TemplateBinding AllowMultiple}">
+                                    <Run>
+                                        <Binding Path="Selections.Count" />
+                                    </Run>
+                                    <Run>selected</Run>
                                 </TextBlock>
                             </StackPanel>
-                            <ListBox Name="SearchResultListBox"
-                                     Canvas.ZIndex="100"
-                                     AutomationProperties.Name="Search Results"
-                                     ItemsSource="{TemplateBinding SearchResultList}"
-                                     Visibility="Collapsed">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
-                                                              DisplayMode="LargeProfilePhotoLeft"
-                                                              UserId="{Binding Id}" />
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
+                            <Popup Name="SearchResultPopup">
+                                <ListBox Name="SearchResultListBox"
+                                         AutomationProperties.Name="Search Results"
+                                         ItemsSource="{TemplateBinding SearchResultList}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                            <Setter Property="Padding" Value="0,0" />
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <controls:ProfileCard AutomationProperties.Name="{Binding DisplayName}"
+                                                                  DisplayMode="SmallProfilePhotoLeft"
+                                                                  UserId="{Binding Id}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Popup>
                         </Grid>
                     </StackPanel>
                 </ControlTemplate>
