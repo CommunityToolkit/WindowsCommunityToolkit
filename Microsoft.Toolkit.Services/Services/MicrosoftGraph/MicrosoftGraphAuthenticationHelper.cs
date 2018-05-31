@@ -177,21 +177,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Get a Microsoft Graph access token from Azure AD.
         /// </summary>
         /// <param name="appClientId">Azure AD application client ID</param>
+        /// <param name="resourceId">Azure AD application resource ID</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenAsync(string appClientId)
+        internal async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource)
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
             if (TokenForUser == null)
             {
-                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(MicrosoftGraphResource, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(resourceId, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
                 TokenForUser = userAuthnResult.AccessToken;
                 Expiration = userAuthnResult.ExpiresOn;
             }
 
             if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
             {
-                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(MicrosoftGraphResource, appClientId);
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(resourceId, appClientId);
                 TokenForUser = userAuthnResult.AccessToken;
                 Expiration = userAuthnResult.ExpiresOn;
             }
