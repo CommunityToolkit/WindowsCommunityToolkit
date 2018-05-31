@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -52,11 +53,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged += async (sender, e) =>
-                {
-                    await LoadPlansAsync();
-                };
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= GraphService_StateChanged;
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged += GraphService_StateChanged;
             }
+        }
+
+        private async void GraphService_StateChanged(object sender, EventArgs e)
+        {
+            await LoadPlansAsync();
         }
 
         private async Task LoadPlansAsync()
