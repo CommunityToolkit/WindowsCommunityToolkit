@@ -73,47 +73,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _list = GetTemplateChild(ControlFileList) as ListView;
             if (_list != null)
             {
+                _list.SelectionChanged -= List_SelectionChanged;
                 _list.SelectionChanged += List_SelectionChanged;
+                _list.ItemClick -= List_ItemClick;
                 _list.ItemClick += List_ItemClick;
             }
 
             if (GetTemplateChild(ControlBack) is Button back)
             {
+                back.Click -= Back_Click;
                 back.Click += Back_Click;
             }
 
             if (GetTemplateChild(ControlCancel) is Button cancel)
             {
+                cancel.Click -= Cancel_Click;
                 cancel.Click += Cancel_Click;
             }
 
             if (GetTemplateChild(ControlDelete) is Button delete)
             {
+                delete.Click -= Delete_Click;
                 delete.Click += Delete_Click;
             }
 
             if (GetTemplateChild(ControlDownload) is Button download)
             {
+                download.Click -= Download_Click;
                 download.Click += Download_Click;
             }
 
             if (GetTemplateChild(ControlLoadMore) is Button loadMore)
             {
+                loadMore.Click -= LoadMore_Click;
                 loadMore.Click += LoadMore_Click;
             }
 
             if (GetTemplateChild(ControlShare) is Button share)
             {
+                share.Click -= Share_Click;
                 share.Click += Share_Click;
             }
 
             if (GetTemplateChild(ControlUpload) is Button upload)
             {
+                upload.Click -= Upload_Click;
                 upload.Click += Upload_Click;
             }
 
             if (GetTemplateChild(ControlError) is HyperlinkButton error)
             {
+                error.Click -= ShowErrorDetails_Click;
                 error.Click += ShowErrorDetails_Click;
             }
 

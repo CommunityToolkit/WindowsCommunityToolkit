@@ -35,12 +35,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             base.OnApplyTemplate();
             if (GetTemplateChild(ControlTasks) is ListView list)
             {
+                list.ItemClick -= List_ItemClick;
                 list.ItemClick += List_ItemClick;
             }
 
             _input = GetTemplateChild(ControlInput) as TextBox;
             if (GetTemplateChild(ControlAdd) is Button add)
             {
+                add.Click -= Add_Click;
                 add.Click += Add_Click;
             }
 
