@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit Win32 Controls</Title>
+    <Description>This library provides XAML user controls for Win32. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
+
+    <!-- Need Metadata contract 6.0 or later -->
+    <!-- First introduced in 17110: Insider Preview (Fast) -->
+    <TargetPlatformMinVersion>10.0.17110.0</TargetPlatformMinVersion>
+    <!-- Most people will have RTM 17134: Insider Preview (Fast), Spring Creators (RS4) -->
+    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
+      <Version>4.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DesignerUI.Designer.cs">
+      <DependentUpon>DesignerUI.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="WinForms\WebView\WebView.BaseProperties.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WinForms\WebView\WebView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WinForms\WebView\WebView.Events.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WinForms\WebView\WebView.Init.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WinForms\WebView\WebView.Navigation.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="DesignerUI.resx">
+      <LastGenOutput>DesignerUI.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+</Project>

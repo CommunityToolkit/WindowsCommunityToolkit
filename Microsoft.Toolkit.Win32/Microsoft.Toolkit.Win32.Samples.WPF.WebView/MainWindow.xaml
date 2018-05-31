@@ -1,0 +1,71 @@
+﻿<Window x:Class="Microsoft.Toolkit.Win32.Samples.WPF.WebView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:WPF="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="{Binding DocumentTitle, ElementName=WebView1, Mode=OneWay}"
+        Width="800"
+        Height="450"
+        Loaded="OnWindowLoaded"
+        mc:Ignorable="d">
+    <Window.CommandBindings>
+        <CommandBinding CanExecute="BrowseBack_OnCanExecute"
+                        Command="NavigationCommands.BrowseBack"
+                        Executed="BrowseBack_OnExecuted" />
+        <CommandBinding CanExecute="BrowseForward_CanExecute"
+                        Command="NavigationCommands.BrowseForward"
+                        Executed="BrowseForward_OnExecuted" />
+        <CommandBinding CanExecute="GoToPage_CanExecute"
+                        Command="NavigationCommands.GoToPage"
+                        Executed="GoToPage_OnExecuted" />
+    </Window.CommandBindings>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="30" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="30" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0"
+                    Command="NavigationCommands.BrowseBack">
+                <TextBlock Text="&lt;" />
+            </Button>
+            <Button Grid.Column="1"
+                    Width="30"
+                    Command="NavigationCommands.BrowseForward">
+                <TextBlock Text="&gt;" />
+            </Button>
+            <TextBox Name="Url"
+                     Grid.Column="2"
+                     Padding="3,0"
+                     VerticalContentAlignment="Center"
+                     FontSize="16"
+                     KeyUp="Url_OnKeyUp"
+                     Text="{Binding Source, ElementName=WebView1, Mode=TwoWay}"
+                     TextWrapping="NoWrap" />
+            <Button Grid.Column="3"
+                    Command="NavigationCommands.GoToPage">
+                <TextBlock Text="Go" />
+            </Button>
+        </Grid>
+        <WPF:WebView Name="WebView1"
+                     Grid.Row="1"
+                     ContainsFullScreenElementChanged="WebView1_OnContainsFullScreenElementChanged"
+                     IsIndexedDBEnabled="True"
+                     IsJavaScriptEnabled="True"
+                     IsPrivateNetworkClientServerCapabilityEnabled="True"
+                     IsScriptNotifyAllowed="True"
+                     NavigationCompleted="WebView1_OnNavigationCompleted"
+                     NavigationStarting="WebView1_OnNavigationStarting"
+                     PermissionRequested="WebView1_OnPermissionRequested"
+                     ScriptNotify="WebView1_OnScriptNotify"
+                     Source="https://www.bing.com" />
+    </Grid>
+</Window>
+
