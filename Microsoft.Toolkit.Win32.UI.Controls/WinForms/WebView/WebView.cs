@@ -35,12 +35,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     [SecurityCritical]
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
-    public sealed partial class WebView : Control, IWebView, ISupportInitialize
+    public sealed partial class WebView : Control, IWebView, IWebView2, ISupportInitialize
     {
         private string _delayedEnterpriseId = WebViewDefaults.EnterpriseId;
         private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;
         private bool _delayedIsJavaScriptEnabled = WebViewDefaults.IsJavaScriptEnabled;
         private bool _delayedIsScriptNotifyAllowed = WebViewDefaults.IsScriptNotifyEnabled;
+        private string _delayedPartition = WebViewDefaults.Partition;
         private bool _delayedPrivateNetworkEnabled = WebViewDefaults.IsPrivateNetworkEnabled;
         private Uri _delayedSource;
         private WebViewControlHost _webViewControl;
@@ -284,6 +285,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     EnsureInitialized();
                     if (WebViewControlInitialized
                         && _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled != _delayedPrivateNetworkEnabled)
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
+            }
+        }
+
+        /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.Partition)]
+        public string Partition
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Process.Partition
+                    : _delayedPartition;
+            }
+
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedPartition = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized
+                        && !string.Equals(_delayedPartition, _webViewControl.Process.Partition, StringComparison.OrdinalIgnoreCase))
                     {
                         throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
                     }

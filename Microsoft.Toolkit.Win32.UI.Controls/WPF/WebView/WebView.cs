@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="IWebView" />
     [ToolboxItem(true)]
     [DesignTimeVisible(true)]
-    public sealed class WebView : WebViewHost, IWebView
+    public sealed class WebView : WebViewHost, IWebView, IWebView2
     {
         private const int InitializationBlockingTime = 200;
 
@@ -89,6 +89,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(Uri),
             typeof(WebView),
             new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
+
+        private static readonly DependencyProperty PartitionProperty = DependencyProperty.Register(
+            nameof(Partition),
+            typeof(string),
+            typeof(WebView),
+            new PropertyMetadata(WebViewDefaults.Partition, PropertyChangedCallback));
 
         private WebViewControlProcess _process;
 
@@ -425,6 +431,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.Partition)]
+        public string Partition
+        {
+            get => (string)GetValue(PartitionProperty);
+            set => SetValue(PartitionProperty, value);
+        }
+
+        /// <inheritdoc />
         [Browsable(false)]
         public WebViewControlProcess Process
         {
@@ -645,13 +660,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 var enterpriseId = !Dispatcher.CheckAccess()
                     ? Dispatcher.Invoke(() => EnterpriseId)
                     : EnterpriseId;
+                var partition = !Dispatcher.CheckAccess()
+                    ? Dispatcher.Invoke(() => Partition)
+                    : Partition;
 
                 _process = new WebViewControlProcess(new WebViewControlProcessOptions
                 {
                     PrivateNetworkClientServerCapability = privateNetworkEnabled
                         ? WebViewControlProcessCapabilityState.Enabled
                         : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId
+                    EnterpriseId = enterpriseId,
+                    Partition = partition
                 });
             }
 
@@ -670,7 +689,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
                     Verify.IsNotNull(_webViewControl);
 
-                    UpdateSize(RenderSize);
+                    if (!Dispatcher.CheckAccess())
+                    {
+                        Dispatcher.Invoke(() => UpdateSize(RenderSize));
+                    }
+                    else
+                    {
+                        UpdateSize(RenderSize);
+                    }
 
                     DestroyWindowCore(ChildWindow);
 
@@ -818,6 +844,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(EnterpriseId))
+                {
+                    Verify.IsFalse(wv.WebViewControlInitialized);
+                    if (wv.WebViewControlInitialized)
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
+                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Partition))
                 {
                     Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)

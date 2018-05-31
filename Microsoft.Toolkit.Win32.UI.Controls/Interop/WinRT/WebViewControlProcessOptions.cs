@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -22,6 +23,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public string EnterpriseId { get; set; }
 
         /// <summary>
+        /// Gets or sets the partition for the web view.
+        /// </summary>
+        /// <value>The partition.</value>
+        public string Partition { get; set; }
+
+        /// <summary>
         /// Gets or sets the private network client server capability.
         /// </summary>
         /// <value>The private network client server capability.</value>
@@ -33,7 +40,38 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public WebViewControlProcessOptions()
         {
             EnterpriseId = string.Empty;
+            Partition = string.Empty;
             PrivateNetworkClientServerCapability = WebViewControlProcessCapabilityState.Default;
+        }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to <see cref="WebViewControlProcessOptions"/>.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlProcessOptions(Windows.Web.UI.Interop.WebViewControlProcessOptions options) => ToWinRtWebViewControlProcessOptions(options);
+
+        public static Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
+        {
+            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
+
+            if (!string.IsNullOrEmpty(options?.EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, options?.EnterpriseId))
+            {
+                retval.EnterpriseId = options.EnterpriseId;
+            }
+
+            if (ApiInformation.IsPropertyPresent(
+                   "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                   "Partition"))
+            {
+                if (!string.IsNullOrEmpty(options?.Partition))
+                {
+                    retval.Partition = options.Partition;
+                }
+            }
+
+            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
+            return retval;
         }
 
         /// <summary>
@@ -42,16 +80,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <returns>A <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
         internal Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
-            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
-
-            if (!string.IsNullOrEmpty(EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, EnterpriseId))
-            {
-                retval.EnterpriseId = EnterpriseId;
-            }
-
-            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)PrivateNetworkClientServerCapability;
-
-            return retval;
+            return ToWinRtWebViewControlProcessOptions(this);
         }
     }
 }

@@ -61,6 +61,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public bool IsPrivateNetworkClientServerCapabilityEnabled => _process.IsPrivateNetworkClientServerCapabilityEnabled;
 
         /// <summary>
+        /// Gets a value indicating the partition of the web view.
+        /// </summary>
+        /// <value>The partition.</value>
+        public string Partition => _process.Partition;
+
+        /// <summary>
         /// Gets the process identifier (PID) of the underlying WWAHost.
         /// </summary>
         /// <value>The process identifier (PID).</value>
