@@ -496,10 +496,10 @@
         "Name": "PowerBIEmbedded",
         "Type": "PowerBIEmbeddedPage",
         "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
-        "XamlCodeFile": "PowerBIEmbedded.bind",
-        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/ProfileCard.md"
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
+        "XamlCodeFile": "PowerBIEmbeddedXaml.bind",
+        "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/graph/PowerBIEmbedded.md"
       },
       {
         "Name": "PlannerTaskList",

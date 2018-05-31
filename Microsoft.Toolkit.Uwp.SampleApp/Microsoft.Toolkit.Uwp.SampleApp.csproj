@@ -280,6 +280,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
+    <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskList.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
@@ -524,7 +525,7 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
-    <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.bind" />
+    <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedXaml.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
   </ItemGroup>
   <ItemGroup>
