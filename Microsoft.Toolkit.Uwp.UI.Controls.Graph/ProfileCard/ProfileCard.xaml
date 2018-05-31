@@ -122,7 +122,7 @@
                                         </Ellipse>
                                         <StackPanel Margin="5,0"
                                                     VerticalAlignment="Center">
-                                            <TextBlock FontWeight="Bold"
+                                            <TextBlock FontWeight="SemiBold"
                                                        Text="{Binding LargeProfileTitle}" />
                                             <TextBlock Text="{Binding LargeProfileMail}"
                                                        Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}" />
@@ -133,7 +133,7 @@
                                     <StackPanel Style="{ThemeResource ProfileCardSmallProfileStackPanelStyle}">
                                         <StackPanel Margin="5,0"
                                                     VerticalAlignment="Center">
-                                            <TextBlock FontWeight="Bold"
+                                            <TextBlock FontWeight="SemiBold"
                                                        Text="{Binding LargeProfileTitle}" />
                                             <TextBlock Text="{Binding LargeProfileMail}"
                                                        Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}" />

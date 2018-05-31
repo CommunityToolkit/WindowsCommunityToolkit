@@ -199,7 +199,7 @@
                                     <Viewbox MaxHeight="90"
                                              HorizontalAlignment="Left">
                                         <local:ProfileCard Width="Auto"
-                                                           DisplayMode="LargeProfilePhotoLeft"
+                                                           DisplayMode="SmallProfilePhotoLeft"
                                                            Style="{StaticResource MetaValueProfile}"
                                                            UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
                                     </Viewbox>
