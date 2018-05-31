@@ -94,6 +94,36 @@
                                         </Border>
                                     </StackPanel>
                                 </DataTemplate>
+                                <DataTemplate x:Key="SmallProfilePhotoLeft">
+                                    <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
+                                        <Border Style="{ThemeResource ProfileCardImageBorderStyle}">
+                                            <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding LargeProfileTitle}" Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding LargeProfileMail}" Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </DataTemplate>
+                                <DataTemplate x:Key="SmallProfilePhotoRight">
+                                    <StackPanel Style="{ThemeResource ProfileCardLargeProfileStackPanelStyle}">
+                                        <StackPanel VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding LargeProfileTitle}" Style="{ThemeResource ProfileCardLargeProfileTextBlockStyle}"/>
+                                            <TextBlock Text="{Binding LargeProfileMail}" Visibility="{Binding LargeProfileMail, Converter={StaticResource StringVisibilityConverter}}"/>
+                                        </StackPanel>
+                                        <Border Style="{ThemeResource ProfileCardImageBorderStyle}">
+                                            <Ellipse Style="{ThemeResource ProfileCardImageEllipseStyle}">
+                                                <Ellipse.Fill>
+                                                    <ImageBrush Stretch="UniformToFill" ImageSource="{Binding UserPhoto}"/>
+                                                </Ellipse.Fill>
+                                            </Ellipse>
+                                        </Border>
+                                    </StackPanel>
+                                </DataTemplate>
                             </ContentControl.Resources>
                         </ContentControl>
                     </Grid>
