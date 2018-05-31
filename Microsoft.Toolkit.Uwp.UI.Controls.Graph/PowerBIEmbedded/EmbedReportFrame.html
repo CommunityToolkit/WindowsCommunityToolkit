@@ -33,12 +33,12 @@
     <script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.5.1/dist/powerbi.min.js"></script>
 </head>
 <body>
-    <div id="dropdownContainer">
+    <div id="dropdownContainer" style="visibility:hidden">
         <select id="reportsDropdown" style="display:none">
             <option>Loading</option>
         </select>
         <select id="pagesDropdown"></select>
-        <select id="visualsDropdown"></select>
+        <select id="visualsDropdown" style="display:none"></select>
     </div>
     <div id="reportContainer"></div>
 
@@ -58,7 +58,7 @@
 
         function loadGroups(token, reports, selectionReport) {
             accessToken = token;
-            $('#dropdownContainer').show();
+            $('#dropdownContainer').css('visibility', 'visible')
             $('#reportsDropdown').off("change").html('');
 
             if (reports.length == 1) {
@@ -143,10 +143,20 @@
                         };
                     })(pages));
 
+                    report.off("pageChanged");
+
+                    report.on("pageChanged", function (event) {
+                        var page = event.detail.newPage;
+                        if ($('#pagesDropdown').val() != page.name) {
+                            $('#pagesDropdown').val(page.name);
+                            $('#pagesDropdown').change();
+                        }
+                    });
+
                     loadVisuals(pages[0]);
                 })
                 .catch(function (error) {
-
+                    alert(error);
                 });
         }
 
@@ -224,7 +234,7 @@
         }
 
         function clearReport() {
-            $('#dropdownContainer').hide();
+            $('#dropdownContainer').css('visibility', 'hidden');
             $('#reportContainer').css('visibility', 'hidden');
             $('#pagesDropdown').html('');
             $('#visualsDropdown').html('');
