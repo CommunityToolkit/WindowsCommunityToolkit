@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.PowerBI.Api.V2;
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.UI.Xaml;
@@ -24,10 +25,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = "WebViewReportFrame", Type = typeof(WebView))]
     public partial class PowerBIEmbedded : Control
     {
-        private const string Authority = "https://login.microsoftonline.com/common";
-        private const string ResourceId = "https://analysis.windows.net/powerbi/api";
+        private const string PowerBIResourceId = "https://analysis.windows.net/powerbi/api";
         private const string ApiUrl = "https://api.powerbi.com/";
-        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+        private MicrosoftGraphAuthenticationHelper _authentication;
         private WebView _webViewReportFrame;
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
@@ -45,6 +45,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 Interval = TimeSpan.FromMinutes(1)
             };
+            _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
+            _tokenExpirationRefreshTimer.Start();
+
+            _authentication = new MicrosoftGraphAuthenticationHelper();
         }
 
         /// <summary>
@@ -69,33 +73,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                var azureAdContext = new AuthenticationContext(Authority);
-
-                if (_tokenForUser == null)
+                _tokenForUser = await _authentication.GetUserTokenAsync(ClientId, PowerBIResourceId);
+                if (!string.IsNullOrEmpty(_tokenForUser))
                 {
-                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenAsync(
-                        ResourceId,
-                        ClientId,
-                        new Uri(DefaultRedirectUri),
-                        new PlatformParameters(PromptBehavior.Auto, false));
-
-                    _tokenForUser = userAuthnResult.AccessToken;
-                    _expiration = userAuthnResult.ExpiresOn;
-
-                    _tokenExpirationRefreshTimer.Stop();
-                    _tokenExpirationRefreshTimer.Tick -= TokenExpirationRefreshTimer_Tick;
-                    _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
-                    _tokenExpirationRefreshTimer.Start();
-                }
-
-                if (_expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-                {
-                    AuthenticationResult userAuthnResult = await azureAdContext.AcquireTokenSilentAsync(
-                        ResourceId,
-                        ClientId);
-
-                    _tokenForUser = userAuthnResult.AccessToken;
-                    _expiration = userAuthnResult.ExpiresOn;
+                    _expiration = _authentication.Expiration;
                 }
             }
             catch (AdalException ex)
