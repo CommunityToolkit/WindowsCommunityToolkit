@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class PlannerTaskList
     {
         /// <summary>
-        /// Gets required delegated permissions for the <see cref="AadLogin"/> control
+        /// Gets required delegated permissions for the <see cref="PlannerTaskList"/> control
         /// </summary>
         public static string[] RequiredDelegatedPermissions
         {

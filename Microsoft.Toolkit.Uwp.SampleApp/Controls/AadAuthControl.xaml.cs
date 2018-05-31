@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 .Union(ProfileCard.RequiredDelegatedPermissions)
                 .Union(PeoplePicker.RequiredDelegatedPermissions)
                 .Union(SharePointFileList.RequiredDelegatedPermissions)
+                .Union(PlannerTaskList.RequiredDelegatedPermissions)
                 .Distinct()
                 .ToArray();
 
