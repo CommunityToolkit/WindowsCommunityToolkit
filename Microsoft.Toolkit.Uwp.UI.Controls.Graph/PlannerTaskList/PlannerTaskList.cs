@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
@@ -35,12 +36,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             base.OnApplyTemplate();
             if (GetTemplateChild(ControlTasks) is ListView list)
             {
+                list.ItemClick -= List_ItemClick;
                 list.ItemClick += List_ItemClick;
             }
 
             _input = GetTemplateChild(ControlInput) as TextBox;
             if (GetTemplateChild(ControlAdd) is Button add)
             {
+                add.Click -= Add_Click;
                 add.Click += Add_Click;
             }
 
@@ -50,11 +53,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged += async (sender, e) =>
-                {
-                    await LoadPlansAsync();
-                };
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= GraphService_StateChanged;
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged += GraphService_StateChanged;
             }
+        }
+
+        private async void GraphService_StateChanged(object sender, EventArgs e)
+        {
+            await LoadPlansAsync();
         }
 
         private async Task LoadPlansAsync()

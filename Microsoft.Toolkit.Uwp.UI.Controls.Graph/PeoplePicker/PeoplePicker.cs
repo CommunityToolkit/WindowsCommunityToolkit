@@ -53,18 +53,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             Selections = Selections ?? new ObservableCollection<Person>();
             if (_searchBox != null)
             {
+                _searchBox.TextChanged -= SearchBox_OnTextChanged;
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
                 _searchBox.SizeChanged += SearchBox_OnSizeChanged;
             }
 
             if (_searchResultListBox != null)
             {
+                _searchResultListBox.SelectionChanged -= SearchResultListBox_OnSelectionChanged;
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
                 _searchResultListBox.SizeChanged += SearchResultListBox_OnSizeChanged;
             }
 
             if (_selectionsListBox != null)
             {
+                _selectionsListBox.Tapped -= SelectionsListBox_Tapped;
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
             }
 
