@@ -178,14 +178,15 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name="appClientId">Azure AD application client ID</param>
         /// <param name="resourceId">Azure AD application resource ID</param>
+        /// <param name="promptBehavior">Prompt behavior</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource)
+        internal async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
             if (TokenForUser == null)
             {
-                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(resourceId, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.Always, false));
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(resourceId, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(promptBehavior, false));
                 TokenForUser = userAuthnResult.AccessToken;
                 Expiration = userAuthnResult.ExpiresOn;
             }

@@ -40,14 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PowerBIEmbedded()
         {
             DefaultStyleKey = typeof(PowerBIEmbedded);
-
-            _tokenExpirationRefreshTimer = new DispatcherTimer()
-            {
-                Interval = TimeSpan.FromMinutes(1)
-            };
-            _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
-            _tokenExpirationRefreshTimer.Start();
-
             _authentication = new MicrosoftGraphAuthenticationHelper();
         }
 
@@ -58,22 +50,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
+            if (_webViewReportFrame != null)
+            {
+                _webViewReportFrame.DOMContentLoaded -= WebViewReportFrame_DOMContentLoaded;
+            }
+
             _webViewReportFrame = GetTemplateChild("WebViewReportFrame") as WebView;
 
             if (_webViewReportFrame != null)
             {
-                _webViewReportFrame.DOMContentLoaded += (WebView sender, WebViewDOMContentLoadedEventArgs args) =>
-                {
-                    _webViewInitializedTask.TrySetResult(true);
-                };
+                _webViewReportFrame.DOMContentLoaded += WebViewReportFrame_DOMContentLoaded;
             }
+
+            if (_tokenExpirationRefreshTimer != null)
+            {
+                _tokenExpirationRefreshTimer.Tick -= TokenExpirationRefreshTimer_Tick;
+                _tokenExpirationRefreshTimer.Stop();
+            }
+
+            _tokenExpirationRefreshTimer = new DispatcherTimer()
+            {
+                Interval = TimeSpan.FromMinutes(1)
+            };
+            _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
+            _tokenExpirationRefreshTimer.Start();
+        }
+
+        private void WebViewReportFrame_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
+        {
+            _webViewInitializedTask.TrySetResult(true);
         }
 
         private async Task<string> GetUserTokenAsync()
         {
             try
             {
-                _tokenForUser = await _authentication.GetUserTokenAsync(ClientId, PowerBIResourceId);
+                _tokenForUser = await _authentication.GetUserTokenAsync(ClientId, PowerBIResourceId, PromptBehavior.Auto);
                 if (!string.IsNullOrEmpty(_tokenForUser))
                 {
                     _expiration = _authentication.Expiration;
@@ -188,12 +200,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void ClearReport()
         {
-            if (_tokenExpirationRefreshTimer != null)
-            {
-                _tokenExpirationRefreshTimer.Stop();
-                _tokenExpirationRefreshTimer.Tick -= TokenExpirationRefreshTimer_Tick;
-            }
-
             InvokeScript("clearReport()");
         }
 
