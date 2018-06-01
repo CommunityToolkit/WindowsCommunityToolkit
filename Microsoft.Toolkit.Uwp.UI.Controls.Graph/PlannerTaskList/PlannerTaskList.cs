@@ -72,11 +72,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task LoadPlansAsync()
         {
-            Plans.Clear();
             var graphService = MicrosoftGraphService.Instance;
             await graphService.TryLoginAsync();
             GraphServiceClient graphClient = graphService.GraphProvider;
             IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
+            Plans.Clear();
             while (true)
             {
                 foreach (PlannerPlan plan in plans)
