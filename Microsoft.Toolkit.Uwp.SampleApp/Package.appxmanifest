@@ -46,5 +46,6 @@
     <uap3:Capability Name="remoteSystem" />
     <DeviceCapability Name="location" />
     <DeviceCapability Name="bluetooth" />
+    <DeviceCapability Name="gazeInput" />
   </Capabilities>
 </Package>

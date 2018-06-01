@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -7,14 +7,12 @@
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
       Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows-10 tile tiles toast toasts badge xml uwp javascript</PackageTags>
+    <ExtrasImplicitPlatformPackageIsPrivate>true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
 
   <ItemGroup>
-    
     <None Include="Microsoft.Toolkit.Uwp.Notifications.JavaScript.targets" PackagePath="build\Windows" Pack="true" />
     <None Include="..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\*.*" PackagePath="lib\Windows" Pack="true" />
   </ItemGroup>
-
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
   
 </Project>

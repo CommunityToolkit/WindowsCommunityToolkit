@@ -1,0 +1,48 @@
+﻿<Page
+    x:Class="GazeInputTest.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:GazeInputTest"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
+    g:GazeInput.Interaction="Enabled"
+    mc:Ignorable="d">
+    
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Show Cursor</ToggleButton>
+        <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here">
+            <g:GazeInput.GazeElement>
+                <g:GazeElement StateChanged="OnStateChanged"/>
+            </g:GazeInput.GazeElement>
+        </Button>
+        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" g:GazeInput.MaxDwellRepeatCount="4">
+            <g:GazeInput.GazeElement>
+                <g:GazeElement Invoked="OnGazeInvoked"/>
+            </g:GazeInput.GazeElement>
+        </Button>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.DwellDuration="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <g:GazeInput.GazeElement>
+                    <g:GazeElement DwellProgressFeedback="OnInvokeProgress" />
+                </g:GazeInput.GazeElement>
+            </ToggleButton>
+            <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
+        </Grid>
+        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" x:Name="DeviceAvailable"  Text="Device availablility not yet detected"/>
+    </Grid>
+</Page>

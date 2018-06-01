@@ -13,7 +13,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -65,23 +64,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// A list of URL schemes.
-        /// </summary>
-        internal static readonly string[] KnownSchemes = new string[]
-        {
-            "http",
-            "https",
-            "ftp",
-            "steam",
-            "irc",
-            "news",
-            "mumble",
-            "ssh",
-            "ms-windows-store",
-            "sip"
-        };
-
-        /// <summary>
         /// Attempts to parse a URL within angle brackets e.g. "http://www.reddit.com".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
@@ -94,7 +76,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Check for a known scheme e.g. "https://".
             int pos = -1;
-            foreach (var scheme in KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 if (maxEnd - innerStart >= scheme.Length && string.Equals(markdown.Substring(innerStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
                 {
@@ -138,7 +120,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             int start = -1;
 
             // Check for a known scheme e.g. "https://".
-            foreach (var scheme in KnownSchemes)
+            foreach (var scheme in MarkdownDocument.KnownSchemes)
             {
                 int schemeStart = tripPos - scheme.Length;
                 if (schemeStart >= 0 && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))

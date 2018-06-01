@@ -1,6 +1,6 @@
 ---
 title: MarkdownTextBlock XAML Control
-author: quinndamerell, deltakosh, tipa, haefele, avknaidu, nmetulev, shenchauhan, vijay-nirmal, pedrolamas, williamabradley
+author: vijay-nirmal
 description: The MarkdownTextBlock control provides full markdown parsing and rendering for Universal Windows Apps.
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MarkdownTextBlock, xaml, xaml control
 ---
@@ -98,6 +98,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 | QuoteForeground | Brush | Gets or sets the brush used to render the text inside a quote block. If this is `null`, then Foreground is used |
 | QuoteMargin | Thickness | Gets or sets the space outside of quote borders |
 | QuotePadding | Thickness | Gets or sets the space between the quote border and the text |
+| SchemeList | string(separated by comma) | Gets or sets the custom SchemeList to render a URL. |
 | TableBorderBrush | boBrushol | Gets or sets the brush used to render table borders. If this is null, then [TableBorderBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.markdowntextblock.tableborderbrush#Microsoft_Toolkit_Uwp_UI_Controls_MarkdownTextBlock_TableBorderBrush) is used |
 | TableBorderThickness | double | Gets or sets the thickness of any table borders |
 | TableCellPadding | Thickness | Gets or sets the padding inside each cell |
@@ -114,8 +115,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 | -- | -- |
 | CodeBlockResolving | Fired when a Code Block is being Rendered. The default implementation is to output the CodeBlock as Plain Text. You must set `Handled` to `true` in order to process your changes |
 | ImageClicked | Fired when an image element in the markdown was tapped |
-| ImageResolving | 	
-Fired when an image from the markdown document needs to be resolved. The default implementation is basically. You must set `Handled` to `true` in order to process your changes |
+| ImageResolving | Fired when an image from the markdown document needs to be resolved. The default implementation is basically. You must set `Handled` to `true` in order to process your changes |
 | LinkClicked | Fired when a link element in the markdown was tapped |
 | MarkdownRendered | Fired when the text is done parsing and formatting. Fires each time the markdown is rendered |
 
