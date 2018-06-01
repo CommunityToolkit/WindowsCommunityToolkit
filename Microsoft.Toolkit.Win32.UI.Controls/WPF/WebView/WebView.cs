@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="IWebView" />
     [ToolboxItem(true)]
     [DesignTimeVisible(true)]
-    public sealed class WebView : WebViewHost, IWebView
+    public sealed class WebView : WebViewHost, IWebView, IWebView2
     {
         private const int InitializationBlockingTime = 200;
 
@@ -595,6 +595,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.IsNotNull(_webViewControl);
             _webViewControl.NavigateToLocal(relativePath);
+        }
+
+        /// <inheritdoc />
+        public void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.NavigateToLocalStreamUri(relativePath, streamResolver);
         }
 
         /// <inheritdoc />

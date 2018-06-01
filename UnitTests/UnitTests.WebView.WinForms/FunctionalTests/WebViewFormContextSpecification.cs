@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Should;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests
@@ -110,6 +111,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             });
         }
 
+        protected virtual void NavigateToLocalAndWaitForFormClose(string relativePath)
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                WriteLine("Navigating WebView:");                
+                WebView.NavigateToLocal(relativePath);
+            });
+        }
 
+        protected virtual void NavigateToLocalAndWaitForFormClose(string relativePath, IUriToStreamResolver streamResolver)
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                WriteLine("Navigating WebView");
+                WebView.NavigateToLocalStreamUri(relativePath, streamResolver);
+            });
+        }
     }
 }

@@ -4,13 +4,14 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     // Navigation Journaling
 
     /// <inheritdoc cref="IWebView" />
-    public partial class WebView : IWebView
+    public partial class WebView : IWebView, IWebView2
     {
         /// <inheritdoc />
         [Browsable(false)]
@@ -95,5 +96,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 }
             }
         }
+
+        /// <inheritdoc />
+        public void Navigate(Uri source) => _webViewControl?.Navigate(source);
+
+        /// <inheritdoc />
+        public void Navigate(string source)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.Navigate(source);
+        }
+
+        /// <inheritdoc />
+        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
+
+        /// <inheritdoc />
+        public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
+
+        /// <inheritdoc />
+        public void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver) => _webViewControl?.NavigateToLocalStreamUri(relativePath, streamResolver);
     }
 }

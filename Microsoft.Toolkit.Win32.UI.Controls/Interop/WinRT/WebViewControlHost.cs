@@ -284,6 +284,29 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal Uri BuildStream(string contentIdentifier, string relativePath)
         {
+            if (string.IsNullOrWhiteSpace(contentIdentifier))
+            {
+                throw new ArgumentNullException(nameof(contentIdentifier));
+            }
+
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                throw new ArgumentNullException(nameof(relativePath));
+            }
+
+            // If not passing a relative path, the method faults. No exception is thrown, the application just fails fast
+            // Until that issue resolved, add our own error checking
+            if (PathUtilities.IsAbsolute(relativePath))
+            {
+                throw new ArgumentOutOfRangeException(nameof(relativePath), DesignerUI.E_WEBVIEW_INVALID_URI);
+            }
+
+            // The content identifier is used in conjunction with the application identity to create a guid. The
+            // guid is appended to the win32webviewhost identity and a ms-local-stream URI is created.
+            // Given a relative path of "/content.htm" the following is generated:
+            // ms-local-stream://microsoft.win32webviewhost_xxxxxxxxxxxxx_yyyyyyyyyyyyyyyyyyyyyyyy//content.htm
+            // If there is relative navigation items (e.g. "..\") they are resolved. URI will ALWAYS be relative to
+            // the application container, e.g. "..\..\..\..\..\..\file" will resolve to "/file"
             return _webViewControl?.BuildLocalStreamUri(contentIdentifier, relativePath);
         }
 
@@ -488,14 +511,46 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Navigate(UriHelper.StringToUri(source));
         }
 
-        internal void NavigateToLocal(string relativePath)
+        internal void NavigateToLocal(string relativePath) => NavigateToLocalStreamUri(relativePath, new UriToLocalStreamResolver());
+
+        internal void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver)
         {
+            if (string.IsNullOrEmpty(relativePath))
+            {
+                throw new ArgumentNullException(nameof(relativePath));
+            }
+
+            if (streamResolver == null)
+            {
+                throw new ArgumentNullException(nameof(streamResolver));
+            }
+
+            Windows.Web.IUriToStreamResolver AsWindowsRuntimeUriToStreamResolver(IUriToStreamResolver streamResolverInterop)
+            {
+                // Check to see if the stream resolver is actually a wrapper of a WinRT stream resolver
+                var streamResolverAdapter = streamResolverInterop as Windows.Web.IUriToStreamResolver;
+                if (streamResolverAdapter != null)
+                {
+                    return streamResolverAdapter;
+                }
+
+                if (streamResolverAdapter == null)
+                {
+                    if (streamResolverInterop is GenericUriToStreamResolver genericAdapter)
+                    {
+                        return genericAdapter;
+                    }
+                }
+
+                // We have an unwrapped stream resolver
+                return new GenericUriToStreamResolver(streamResolver);
+            }
+
             var uri = BuildStream("LocalContent", relativePath);
-            var resolver = new UriToLocalStreamResolver();
-            NavigateToLocalStreamUri(uri, resolver);
+            NavigateToLocalStreamUri(uri, AsWindowsRuntimeUriToStreamResolver(streamResolver));
         }
 
-        internal void NavigateToLocalStreamUri(Uri source, IUriToStreamResolver streamResolver)
+        internal void NavigateToLocalStreamUri(Uri source, Windows.Web.IUriToStreamResolver streamResolver)
         {
             _webViewControl?.NavigateToLocalStreamUri(source, streamResolver);
         }
