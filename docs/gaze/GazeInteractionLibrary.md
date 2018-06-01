@@ -160,9 +160,10 @@ The code below sets the Dwell time duration for the button to be 500ms. This mea
 ### Animations
 This library provides a default animation of a shriniking rectangle over the control to indicate progress towards a dwell event. The style of animation can be customized in two ways: 
 * If you wish to retain the animation style, but change the colors used:
+  * Set the `GazeInput.DwellFeedbackEnterBrush` property to add a rectangle over controls immediately gaze is detected on them
   * Change the `GazeInput.DwellFeedbackProgressBrush` property to change the color of the progress rectangle
   * Change the `GazeInput.DwellFeedbackCompletedBrush` property to change the color of the completed brush
-* If you wish to completely disable the default animation, add an event handler for `DwellProgressFeedback` on `GazeElement` and set `Handled` to `True` as follows
+* If you wish to completely disable or override the default animation, add an event handler for `DwellProgressFeedback` on `GazeElement` and set `Handled` to `True` as follows
 
 ```xaml
 <Button Content="Click Me">

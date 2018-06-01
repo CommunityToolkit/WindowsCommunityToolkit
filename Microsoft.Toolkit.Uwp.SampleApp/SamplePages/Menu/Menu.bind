@@ -3,6 +3,8 @@
       xmlns:commands="using:Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -13,7 +15,118 @@
       <commands:NewFileCommand x:Key="NewFile" />
       <commands:GenericCommand x:Key="GenericCommand" />
       <converters:StringFormatConverter x:Key="StringFormatConverter" />
+
+      <StaticResource x:Key="MenuFlyoutItemKeyboardAcceleratorTextForeground" ResourceKey="SystemControlForegroundBaseMediumBrush" />
+      <StaticResource x:Key="MenuFlyoutItemKeyboardAcceleratorTextForegroundPointerOver" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+      <StaticResource x:Key="MenuFlyoutItemKeyboardAcceleratorTextForegroundPressed" ResourceKey="SystemControlHighlightAltBaseMediumBrush" />
+      <StaticResource x:Key="MenuFlyoutItemKeyboardAcceleratorTextForegroundDisabled" ResourceKey="SystemControlDisabledBaseMediumLowBrush" />
     </ResourceDictionary>
+
+    <Style TargetType="MenuFlyoutItem">
+      <Setter Property="Background" Value="{ThemeResource MenuFlyoutItemBackground}" />
+      <Setter Property="Foreground" Value="{ThemeResource MenuFlyoutItemForeground}" />
+      <Setter Property="Padding" Value="12, 0" />
+      <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+      <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="Height" Value="32" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="MenuFlyoutItem">
+            <Grid x:Name="LayoutRoot"
+                Padding="{TemplateBinding Padding}"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                HorizontalAlignment="Stretch">
+
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                    </Storyboard>
+                  </VisualState>
+
+                  <VisualState x:Name="PointerOver">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemBackgroundPointerOver}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemForegroundPointerOver}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="KeyboardAcceleratorTextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForegroundPointerOver}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <PointerUpThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                    </Storyboard>
+                  </VisualState>
+
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemBackgroundPressed}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemForegroundPressed}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="KeyboardAcceleratorTextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForegroundPressed}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <PointerDownThemeAnimation Storyboard.TargetName="LayoutRoot" />
+                    </Storyboard>
+                  </VisualState>
+
+                  <VisualState x:Name="Disabled">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LayoutRoot" Storyboard.TargetProperty="Background">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemBackgroundDisabled}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="TextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemForegroundDisabled}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="KeyboardAcceleratorTextBlock" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForegroundDisabled}" />
+                      </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Viewbox x:Name="IconRoot"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Center"
+                  Width="16"
+                  Height="16"
+                  Visibility="Visible">
+                <ContentPresenter x:Name="IconContent" Content="{TemplateBinding Icon}"/>
+              </Viewbox>
+              <TextBlock x:Name="TextBlock"
+                  Text="{TemplateBinding Text}"
+                  TextTrimming="Clip"
+                  Margin="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"
+                  Foreground="{TemplateBinding Foreground}"
+                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+              <TextBlock x:Name="KeyboardAcceleratorTextBlock"
+                  Grid.Column="1"
+                  Style="{ThemeResource CaptionTextBlockStyle}"
+                  Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource StringFormatConverter}, ConverterParameter='({0})'}"
+                  Margin="{ThemeResource MenuFlyoutItemPlaceholderThemeThickness}"
+                  Foreground="{ThemeResource MenuFlyoutItemKeyboardAcceleratorTextForeground}"
+                  HorizontalAlignment="Right"
+                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                  Visibility="Visible" />
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Page.Resources>
 
   <Grid>
@@ -24,112 +137,83 @@
 
     <controls:Menu AllowTooltip="@[AllowTooltip:Bool:False]"
                    Orientation="@[Orientation:Enum:Orientation.Horizontal]"
-                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">      
+                   TooltipPlacement="@[TooltipPlacement:Enum:PlacementMode.Bottom]">
       <controls:MenuItem Name="FileMenu"
                          controls:Menu.InputGestureText="Alt+F"
                          Header="^File">
-        <MenuFlyoutSubItem Text="New">
+        <MenuFlyoutSubItem Text="New" Margin="0,8,0,0">
           <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+N"
                           Command="{StaticResource NewProject}"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='Project        ({0})'}" />
+                          Text="Project" />
           <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+N"
                           Command="{StaticResource NewFile}"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File                       ({0})'}" />
+                          Text="File" />
         </MenuFlyoutSubItem>
-        <MenuFlyoutSubItem Text="Open">
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+O"
-                          Command="{StaticResource GenericCommand}"
-                          CommandParameter="Select Project/Solution"
-                          Text="Project/Solution" />
-          <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
-                          Command="{StaticResource GenericCommand}"
-                          CommandParameter="Select File"
-                          Text="{Binding Path=(controls:Menu.InputGestureText), RelativeSource={RelativeSource Self}, Converter={StaticResource StringFormatConverter}, ConverterParameter='File        ({0})'}" />
-        </MenuFlyoutSubItem>
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+O"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Select File"
+                        Text="Open" />
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+S"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="File Saved"
+                        Icon="Save"
+                        Text="Save">
+        </MenuFlyoutItem>
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+S"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="File(s) Saved"
+                        Icon="SaveLocal"
+                        Text="Save as" />
         <MenuFlyoutSeparator />
-        <MenuFlyoutItem Text="Page Setup" />
+        <MenuFlyoutItem Text="Page Setup"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Page Setup!"/>
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+P"
                         Command="{StaticResource GenericCommand}"
                         CommandParameter="Page is Printed!!"
-                        Text="Print" />
+                        Text="Print"/>
         <MenuFlyoutSeparator />
-        <MenuFlyoutSubItem Text="Recent Files">
-          <MenuFlyoutItem Text="Windows Community ToolKit GridSplitter" />
-          <MenuFlyoutItem Text="Windows Community ToolKit WrapPanel" />
-        </MenuFlyoutSubItem>
         <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+Shift+E"
                         Command="{StaticResource GenericCommand}"
                         CommandParameter="Solution closed"
-                        Text="Exit" />
+                        Text="Exit"
+                        Margin="0,0,0,8" />
       </controls:MenuItem>
 
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+E"
-                         Header="^Edit">
-        <MenuFlyoutSubItem Text="Go To">
-          <MenuFlyoutItem Text="Go To Line" />
-          <MenuFlyoutItem Text="Go To All" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Find and Replace">
-          <MenuFlyoutItem Text="Find" />
-          <MenuFlyoutItem Text="Replace" />
-        </MenuFlyoutSubItem>
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+E" Header="^Edit">
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+X"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Cut"
+                        Text="Cut"
+                        Icon="Cut" />
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+C"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Copied"
+                        Text="Copy"
+                        Icon="Copy" />
+        <MenuFlyoutItem controls:Menu.InputGestureText="Ctrl+V"
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Pasted"
+                        Text="Paste"
+                        Icon="Paste" />
       </controls:MenuItem>
 
       <controls:MenuItem controls:Menu.InputGestureText="Alt+V"
                          Header="^View">
-        <MenuFlyoutSubItem Text="Designer">
-          <MenuFlyoutItem Text="VS Designer" />
-          <MenuFlyoutItem Text="Blend" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Solution Explorer">
-          <MenuFlyoutItem Text="Solutions" />
-          <MenuFlyoutItem Text="Projects" />
-        </MenuFlyoutSubItem>
+        <interactivity:Interaction.Behaviors>
+          <core:EventTriggerBehavior EventName="Tapped">
+              <core:InvokeCommandAction Command="{StaticResource GenericCommand}" CommandParameter="View Tapped" />
+          </core:EventTriggerBehavior>
+        </interactivity:Interaction.Behaviors>
+      
       </controls:MenuItem>
 
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+P"
-                         Header="^Project">
-        <MenuFlyoutSubItem Text="Add Class">
-          <MenuFlyoutItem Text="Class" />
-          <MenuFlyoutItem Text="Interface" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Add new data source">
-          <MenuFlyoutItem Text="SQL" />
-          <MenuFlyoutItem Text="NoSQL" />
-        </MenuFlyoutSubItem>
+      <controls:MenuItem controls:Menu.InputGestureText="Alt+H" Header="^Help">
+        <MenuFlyoutItem Text="About"
+                        Icon="Help" 
+                        Command="{StaticResource GenericCommand}"
+                        CommandParameter="Windows Community Toolkit"/>
       </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+B"
-                         Header="^Build">
-        <MenuFlyoutItem Text="Build Solution" />
-        <MenuFlyoutItem Text="Rebuild Solution" />
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+D"
-                         Header="^Debug">
-        <MenuFlyoutSubItem Text="Windows">
-          <MenuFlyoutItem Text="Windows 8" />
-          <MenuFlyoutItem Text="Windows 10" />
-        </MenuFlyoutSubItem>
-
-        <MenuFlyoutSubItem Text="Graphics">
-          <MenuFlyoutItem Text="Canvas" />
-          <MenuFlyoutItem Text="Grid" />
-        </MenuFlyoutSubItem>
-      </controls:MenuItem>
-
-      <controls:MenuItem controls:Menu.InputGestureText="Alt+H">
-        <controls:MenuItem.Header>
-          <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#57627;" FontSize="12" Margin="0,4,0,4"/>
-        </controls:MenuItem.Header>
-        <MenuFlyoutItem Text="About"/>
-      </controls:MenuItem>
-
-
     </controls:Menu>
 
     <StackPanel Grid.Row="1">
@@ -138,10 +222,6 @@
       <TextBlock Text="To open File menu click Alt+F" />
       <TextBlock Text="Create new project shortcut: Ctrl+Shift+N" />
       <TextBlock Text="Create new file shortcut: Ctrl+N" />
-      <TextBlock Text="Open project shortcut: Ctrl+Shift+O" />
-      <TextBlock Text="Open file shortcut: Ctrl+O" />
-      <TextBlock Text="Print shortcut: Ctrl+P" />
-      <TextBlock Text="Exit solution shortcut: Ctrl+Shift+E" />
     </StackPanel>
 
   </Grid>
