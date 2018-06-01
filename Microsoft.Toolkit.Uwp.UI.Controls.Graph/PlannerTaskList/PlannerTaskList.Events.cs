@@ -23,13 +23,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     await control.InitPlanAsync().ConfigureAwait(false);
                 }
-                else
-                {
-                    MicrosoftGraphService.Instance.IsAuthenticatedChanged += async (a, b) =>
-                    {
-                        await control.InitPlanAsync().ConfigureAwait(false);
-                    };
-                }
             }
         }
 

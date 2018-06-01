@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
         private List<PlannerTaskViewModel> _allTasks = new List<PlannerTaskViewModel>();
         private TextBox _input;
+        private ListView _list;
+        private Button _add;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlannerTaskList"/> class.
@@ -28,39 +30,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PlannerTaskList()
         {
             this.DefaultStyleKey = typeof(PlannerTaskList);
-        }
-
-        /// <inheritdoc/>
-        protected override async void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-            if (GetTemplateChild(ControlTasks) is ListView list)
-            {
-                list.ItemClick -= List_ItemClick;
-                list.ItemClick += List_ItemClick;
-            }
-
-            _input = GetTemplateChild(ControlInput) as TextBox;
-            if (GetTemplateChild(ControlAdd) is Button add)
-            {
-                add.Click -= Add_Click;
-                add.Click += Add_Click;
-            }
-
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
-                await LoadPlansAsync();
+                Task task = LoadPlansAsync();
+                task.Wait();
             }
             else
             {
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= GraphService_StateChanged;
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged += GraphService_StateChanged;
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged += Instance_IsAuthenticatedChanged;
             }
         }
 
-        private async void GraphService_StateChanged(object sender, EventArgs e)
+        private async void Instance_IsAuthenticatedChanged(object sender, EventArgs e)
         {
-            await LoadPlansAsync();
+            if (MicrosoftGraphService.Instance.IsAuthenticated)
+            {
+                await LoadPlansAsync();
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= Instance_IsAuthenticatedChanged;
+            }
+        }
+
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
+        {
+            if (_list != null)
+            {
+                _list.ItemClick -= List_ItemClick;
+            }
+
+            if (_add != null)
+            {
+                _add.Click -= Add_Click;
+            }
+
+            base.OnApplyTemplate();
+            if (GetTemplateChild(ControlTasks) is ListView list)
+            {
+                _list = list;
+                _list.ItemClick += List_ItemClick;
+            }
+
+            if (GetTemplateChild(ControlAdd) is Button add)
+            {
+                _add = add;
+                _add.Click += Add_Click;
+            }
+
+            _input = GetTemplateChild(ControlInput) as TextBox;
         }
 
         private async Task LoadPlansAsync()
