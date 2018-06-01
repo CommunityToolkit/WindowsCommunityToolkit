@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
-            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser))
+            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser) || args.CurrentPoint.Properties.IsEraser)
             {
                 _drawingSurfaceRenderer.Erase(args.CurrentPoint.Position, ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
             }
