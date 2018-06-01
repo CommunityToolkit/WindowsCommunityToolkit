@@ -41,15 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void Instance_IsAuthenticatedChanged(object sender, EventArgs e)
-        {
-            if (MicrosoftGraphService.Instance.IsAuthenticated)
-            {
-                await LoadPlansAsync();
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= Instance_IsAuthenticatedChanged;
-            }
-        }
-
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
