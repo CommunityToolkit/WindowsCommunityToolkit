@@ -5,6 +5,48 @@
 ## [Windows Community Toolkit Nuget Packages](Nuget-Packages.md)
 ## [Adding the Windows Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
+# Controls
+## [AdaptiveGridView](controls/AdaptiveGridView.md)
+## [BladeView](controls/BladeView.md)
+## [CameraPreview](controls/CameraPreview.md)
+## [Carousel](controls/Carousel.md)
+## [DataGrid (preview)](controls/DataGrid.md)
+## [DockPanel](controls/DockPanel.md)
+## [DropShadowPanel Control](controls/DropShadowPanel.md)
+## [Expander Control](controls/Expander.md)
+## [GridSplitter](controls/GridSplitter.md)
+## [HamburgerMenu](controls/HamburgerMenu.md)
+## [HeaderedContentControl](controls/HeaderedContentControl.md)
+## [HeaderedItemsControl](controls/HeaderedItemsControl.md)
+## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
+## [ImageEx](controls/ImageEx.md)
+## [InAppNotification](controls/InAppNotification.md)
+## [InfiniteCanvas](controls/InfiniteCanvas.md)
+## [LayoutTransformControl](controls/LayoutTransformControl.md)
+## [Loading](controls/Loading.md)
+## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
+## [MasterDetailsView](controls/MasterDetailsView.md)
+## [Menu Control](controls/Menu.md)
+## Microsoft Graph Controls
+### [AadLogin](graph/AadLogin.md)
+### [PeoplePicker](graph/PeoplePicker.md)
+### [ProfileCard](graph/ProfileCard.md)
+### [SharePointFileList](graph/SharePointFileList.md)
+## [OrbitView](controls/OrbitView.md)
+## [PullToRefreshListView](controls/PullToRefreshListview.md)
+## [RadialGauge](controls/RadialGauge.md)
+## [RadialProgressBar](controls/RadialProgressBar.md)
+## [RangeSelector](controls/RangeSelector.md)
+## [RotatorTile](controls/RotatorTile.md)
+## [ScrollHeader](controls/ScrollHeader.md)
+## [SlidableListItem](controls/SlidableListItem.md)
+## [StaggeredPanel](controls/StaggeredPanel.md)
+## [TextToolbar](controls/TextToolbar.md)
+## [TileControl](controls/TileControl.md)
+## [UniformGrid](controls/UniformGrid.md)
+## [WebView (win32)](controls/WebView.md)
+## [WrapPanel](controls/WrapPanel.md)
+
 # Animations
 ## [AnimationSet](animations/AnimationSet.md)
 ## [Blur](animations/Blur.md)
@@ -31,45 +73,6 @@
 ## [ImageBlendBrush](brushes/ImageBlendBrush.md)
 ## [RadialGradientBrush](brushes/RadialGradientBrush.md)
 
-# Controls
-## [AdaptiveGridView](controls/AdaptiveGridView.md)
-## [Blade](controls/BladeView.md)
-## [Carousel](controls/Carousel.md)
-## [DataGrid (preview)](controls/DataGrid.md)
-## [DockPanel](controls/DockPanel.md)
-## [DropShadowPanel Control](controls/DropShadowPanel.md)
-## [Expander Control](controls/Expander.md)
-## [GridSplitter](controls/GridSplitter.md)
-## [HamburgerMenu](controls/HamburgerMenu.md)
-## [HeaderedContentControl](controls/HeaderedContentControl.md)
-## [HeaderedItemsControl](controls/HeaderedItemsControl.md)
-## [HeaderedTextBlock](controls/HeaderedTextBlock.md)
-## [ImageEx](controls/ImageEx.md)
-## [InAppNotification](controls/InAppNotification.md)
-## [LayoutTransformControl](controls/LayoutTransformControl.md)
-## [Loading](controls/Loading.md)
-## [MarkdownTextBlock](controls/MarkdownTextBlock.md)
-## [MasterDetailsView](controls/MasterDetailsView.md)
-## [Menu Control](controls/Menu.md)
-## [OrbitView](controls/OrbitView.md)
-## [PullToRefreshListView](controls/PullToRefreshListview.md)
-## [RadialGauge](controls/RadialGauge.md)
-## [RadialProgressBar](controls/RadialProgressBar.md)
-## [RangeSelector](controls/RangeSelector.md)
-## [RotatorTile](controls/RotatorTile.md)
-## [ScrollHeader](controls/ScrollHeader.md)
-## [SlidableListItem](controls/SlidableListItem.md)
-## [StaggeredPanel](controls/StaggeredPanel.md)
-## [TextToolbar](controls/TextToolbar.md)
-## [TileControl](controls/TileControl.md)
-## [UniformGrid](controls/UniformGrid.md)
-## [WebView (win32)](controls/WebView.md)
-## [WrapPanel](controls/WrapPanel.md)
-
-# Developer tools
-## [AlignmentGrid](developer-tools/AlignmentGrid.md)
-## [FocusTracker](developer-tools/FocusTracker.md)
-
 # Extensions
 ## [ArrayExtensions](extensions/ArrayExtensions.md)
 ## [Composition Visual Layer Extensions](extensions/VisualExtensions.md)
@@ -77,6 +80,9 @@
 ## [HyperlinkExtensions](extensions/HyperlinkExtensions.md)
 ## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
+## [Matrix Extensions](extensions/MatrixExtensions.md)
+### [Extra Matrix Helpers](extensions/MatrixHelperEx.md)
+### [Transform Extensions](extensions/TransformExtensions.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [NavigationView Styles](extensions/NavigationView.md)
 ## [NullableBoolMarkup](extensions/NullableBoolMarkup.md)
@@ -89,12 +95,12 @@
 ## [Visual Tree](extensions/VisualTree.md)
 ## [WebViewExtensions](extensions/WebViewExtensions.md)
 
-
 # Helpers
 ## [AdvancedCollectionView](helpers/AdvancedCollectionView.md)
 ## [BackgroundTaskHelper](helpers/BackgroundTaskHelper.md)
 ## [BindableValueHolder](helpers/BindableValueHolder.md)
 ## [BluetoothLEHelper](helpers/BluetoothLEHelper.md)
+## [CameraHelper](helpers/CameraHelper.md)
 ## [Colors](helpers/Colors.md)
 ## [Converters](helpers/Converters.md)
 ## [DeepLinkParser](helpers/DeepLinkParsers.md)
@@ -113,13 +119,6 @@
 ## [ThemeListener](helpers/ThemeListener.md)
 ## [WeakEventListener](helpers/WeakEventListener.md)
 
-# Notifications
-## [Notifications Overview](notifications/NotificationsOverview.md)
-
-# Parsers
-## [MarkdownParser](parsers/MarkdownParser.md)
-## [RSSParser](parsers/RSSParser.md)
-
 # Services
 ## [Bing Service](services/Bing.md)
 ## [Facebook Service](services/Facebook.md)
@@ -130,6 +129,18 @@
 ## [OneDrive Service](services/OneDrive.md)
 ## [Twitter Service](services/Twitter.md)
 
+# Parsers
+## [MarkdownParser](parsers/MarkdownParser.md)
+## [RSSParser](parsers/RSSParser.md)
+
+# Developer tools
+## [AlignmentGrid](developer-tools/AlignmentGrid.md)
+## [FocusTracker](developer-tools/FocusTracker.md)
+
 # [GazeInteractionLibrary](gaze/GazeInteractionLibrary.md)
+
+# [Notifications](notifications/NotificationsOverview.md)
+
+# [Platform Specific Analyzer](platform-specific/PlatformSpecificAnalyzer.md)
 
 # [Known Issues](knownissues.md)

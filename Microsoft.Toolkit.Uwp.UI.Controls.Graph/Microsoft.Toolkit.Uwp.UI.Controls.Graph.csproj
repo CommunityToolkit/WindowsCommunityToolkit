@@ -1,0 +1,42 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFramework>uap10.0</TargetFramework>
+    <Title>Windows Community Toolkit Graph Controls</Title>
+    <Description>This library provides Microsoft Graph XAML controls. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Controls Microsoft Graph AadLogin ProfileCard PeoplePicker SharePointFiles</PackageTags>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\folder.svg" />
+    <None Remove="Assets\genericfile.png" />
+    <None Remove="Assets\person.png" />
+    <None Remove="Assets\photo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\folder.svg" />
+    <Content Include="Assets\genericfile.png" />
+    <Content Include="Assets\person.png" />
+    <Content Include="Assets\photo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
+  <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
+    <ItemGroup>
+      <GeneratedCSFiles Include="**\*.g.cs;**\*.g.i.cs" />
+    </ItemGroup>
+    <Message Text="CSFiles: @(GeneratedCSFiles->'&quot;%(Identity)&quot;')" />
+    <Exec Command="for %%f in (@(GeneratedCSFiles->'&quot;%(Identity)&quot;')) do echo #pragma warning disable &gt; %%f.temp &amp;&amp; type %%f &gt;&gt; %%f.temp &amp;&amp; move /y %%f.temp %%f &gt; NUL" />
+  </Target>
+</Project>

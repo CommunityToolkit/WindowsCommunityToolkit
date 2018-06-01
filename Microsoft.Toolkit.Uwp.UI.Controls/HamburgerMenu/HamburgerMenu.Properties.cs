@@ -1,17 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -164,8 +157,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object ItemsSource
         {
-            get { return GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get
+            {
+                return GetValue(ItemsSourceProperty);
+            }
+
+            set
+            {
+                if (GetValue(ItemsSourceProperty) is INotifyCollectionChanged observableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    observableItemsCollection.CollectionChanged -= notifyCollectionChangedEventHandler;
+                }
+
+                if (value is INotifyCollectionChanged newObservableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    newObservableItemsCollection.CollectionChanged += notifyCollectionChangedEventHandler;
+                }
+
+                SetValue(ItemsSourceProperty, value);
+            }
         }
 
         /// <summary>
@@ -303,6 +315,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null);
                 }
+            }
+        }
+
+        private NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler;
+
+        private void CreateNotifyCollectionChangedEventHandlerIfNotExists()
+        {
+            if (notifyCollectionChangedEventHandler == null)
+            {
+                var hamburgerMenu = this;
+                notifyCollectionChangedEventHandler = (sender, eventArgs) => { hamburgerMenu.NavViewSetItemsSource(); };
             }
         }
     }

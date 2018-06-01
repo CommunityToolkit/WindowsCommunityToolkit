@@ -1,21 +1,14 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// A base class for all behaviors using composition.It contains some of the common propeties to set on a visual.
+    /// A base class for all behaviors using composition.It contains some of the common properties to set on a visual.
     /// </summary>
     /// <typeparam name="T">The type of the associated object.</typeparam>
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.BehaviorBase{T}" />
@@ -54,6 +47,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// The <see cref="EasingType"/> used to generate the easing function of the animation.
         /// </summary>
         public static readonly DependencyProperty EasingTypeProperty = DependencyProperty.Register(nameof(EasingType), typeof(EasingType), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingType.Default, PropertyChangedCallback));
+
+        /// <summary>
+        /// The <see cref="EasingMode"/> used to generate the easing function of the animation.
+        /// </summary>
+        public static readonly DependencyProperty EasingModeProperty = DependencyProperty.Register(nameof(EasingMode), typeof(EasingMode), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingMode.EaseOut, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets a value indicating whether [automatically start] on the animation is set.
@@ -101,6 +99,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             get { return (EasingType)GetValue(EasingTypeProperty); }
             set { SetValue(EasingTypeProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="EasingMode"/> used to generate the easing function of the animation.
+        /// </summary>
+        /// <value>
+        /// The easing mode
+        /// </value>
+        public EasingMode EasingMode
+        {
+            get { return (EasingMode)GetValue(EasingModeProperty); }
+            set { SetValue(EasingModeProperty, value); }
         }
 
         /// <summary>

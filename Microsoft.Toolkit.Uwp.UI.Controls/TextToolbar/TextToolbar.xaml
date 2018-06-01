@@ -8,6 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="local:TextToolbar">
+        <Setter Property="Background" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>

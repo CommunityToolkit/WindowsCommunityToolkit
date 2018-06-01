@@ -8,10 +8,6 @@
 
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="RemoteDevicePicker\RemoteDevicePicker.xaml" />
-  </ItemGroup>
-
 
   <ItemGroup>
 
