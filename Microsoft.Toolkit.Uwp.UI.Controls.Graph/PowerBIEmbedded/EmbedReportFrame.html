@@ -103,7 +103,8 @@
                 permissions: models.Permissions.All,
                 settings: {
                     filterPaneEnabled: true,
-                    navContentPaneEnabled: false
+                    navContentPaneEnabled: false,
+                    layoutType: models.LayoutType.MobilePortrait,
                 }
             };
             const report = powerbi.embed(reportContainer, config);
