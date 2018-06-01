@@ -24,16 +24,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string ExpandedUrl { get; set; }
 
         /// <summary>
-        /// Gets or sets media ID.
-        /// </summary>
-        [JsonProperty("id")]
-        public long Id { get; set; }
-
-        /// <summary>
         /// Gets or sets ID as string.
         /// </summary>
         [JsonProperty("id_str")]
-        public string IdStr{ get; set; }
+        public string Id{ get; set; }
 
         /// <summary>
         /// Gets or sets indices array.
