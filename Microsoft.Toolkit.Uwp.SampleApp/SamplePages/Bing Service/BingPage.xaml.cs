@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Linq;
@@ -18,8 +26,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             QueryType.ItemsSource = new[] { "Bing Search", "Bing News" };
             QueryType.SelectedIndex = 0;
-            CntryList.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
-            CntryList.SelectedItem = BingCountry.UnitedStates;
+            Countries.ItemsSource = Enum.GetValues(typeof(BingCountry)).Cast<BingCountry>().ToList();
+            Countries.SelectedItem = BingCountry.UnitedStates;
             Languages.ItemsSource = Enum.GetValues(typeof(BingLanguage)).Cast<BingLanguage>().ToList();
             Languages.SelectedItem = BingLanguage.English;
         }
@@ -36,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            BingCountry country = (BingCountry)(CntryList?.SelectedItem ?? BingCountry.UnitedStates);
+            BingCountry country = (BingCountry)(Countries?.SelectedItem ?? BingCountry.UnitedStates);
             BingLanguage language = (BingLanguage)(Languages?.SelectedItem ?? BingLanguage.English);
 
             BingQueryType queryType;

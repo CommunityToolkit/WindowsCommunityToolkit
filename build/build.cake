@@ -19,7 +19,6 @@ var target = Argument("target", "Default");
 
 var gitVersioningVersion = "2.1.23";
 var signClientVersion = "0.9.0";
-var inheritDocVersion = "1.1.0.1";
 
 //////////////////////////////////////////////////////////////////////
 // VARIABLES
@@ -45,6 +44,7 @@ var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
+var inheritDocKey = "PJKUD6-T4H34O-MUGPCM-LN5JKD-FWUWG2-32AECA";
 var inheritDocExclude = "Foo.*";
 
 var name = "Windows Community Toolkit";
@@ -184,25 +184,12 @@ Task("InheritDoc")
 	Information("\nDownloading InheritDoc...");
 	var installSettings = new NuGetInstallSettings {
 		ExcludeVersion = true,
-        Version = inheritDocVersion,
 		OutputDirectory = toolsDir
 	};
 
 	NuGetInstall(new []{"InheritDoc"}, installSettings);
-    
-    var args = new ProcessArgumentBuilder()
-                .AppendSwitchQuoted("-b", baseDir)
-                .AppendSwitch("-o", "")
-                .AppendSwitchQuoted("-x", inheritDocExclude);
 
-    var result = StartProcess(inheritDoc, new ProcessSettings { Arguments = args });
-    
-    if (result != 0)
-    {
-        throw new InvalidOperationException("InheritDoc failed!");
-    }
-
-    Information("\nFinished generating documentation with InheritDoc");
+	StartProcess(inheritDoc, "-k " + inheritDocKey + " -b \"" + baseDir + "\" -o -x\"" + inheritDocExclude + "\"");
 });
 
 Task("Package")

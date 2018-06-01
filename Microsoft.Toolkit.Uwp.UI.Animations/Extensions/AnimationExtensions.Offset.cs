@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Numerics;
@@ -15,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static partial class AnimationExtensions
     {
         /// <summary>
-        /// Animates the offset of the UIElement.
+        /// Animates the offset of the the UIElement.
         /// </summary>
         /// <param name="associatedObject">The specified UI Element.</param>
         /// <param name="offsetX">The offset on the x axis.</param>
@@ -23,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
-        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -33,8 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float offsetY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default,
-            EasingMode easingMode = EasingMode.EaseOut)
+            EasingType easingType = EasingType.Default)
         {
             if (associatedObject == null)
             {
@@ -42,11 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Offset(offsetX, offsetY, duration, delay, easingType, easingMode);
+            return animationSet.Offset(offsetX, offsetY, duration, delay, easingType);
         }
 
         /// <summary>
-        /// Animates the offset of the UIElement.
+        /// Animates the offset of the the UIElement.
         /// </summary>
         /// <param name="animationSet">The animation set.</param>
         /// <param name="offsetX">The offset on the x axis.</param>
@@ -54,7 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay in milliseconds. (ignored if duration == 0)</param>
         /// <param name="easingType">Used to describe how the animation interpolates between keyframes.</param>
-        /// <param name="easingMode">The EasingMode to use to interpolate between keyframes.</param>
         /// <returns>
         /// An AnimationSet.
         /// </returns>
@@ -64,8 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             float offsetY = 0f,
             double duration = 500d,
             double delay = 0d,
-            EasingType easingType = EasingType.Default,
-            EasingMode easingMode = EasingMode.EaseOut)
+            EasingType easingType = EasingType.Default)
         {
             if (animationSet == null)
             {
@@ -85,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
-                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType, easingMode);
+                animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType);
 
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateX"), animationX);
                 animationSet.AddStoryboardAnimation(GetAnimationPath(transform, element, "TranslateY"), animationY);
@@ -111,7 +115,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = compositor.CreateVector3KeyFrameAnimation();
                 animation.Duration = TimeSpan.FromMilliseconds(duration);
                 animation.DelayTime = TimeSpan.FromMilliseconds(delay);
-                animation.InsertKeyFrame(1f, offsetVector, GetCompositionEasingFunction(easingType, compositor, easingMode));
+                if (easingType == EasingType.Default)
+                {
+                    animation.InsertKeyFrame(1f, offsetVector);
+                }
+                else
+                {
+                    animation.InsertKeyFrame(1f, offsetVector, GetCompositionEasingFunction(easingType, compositor));
+                }
 
                 animationSet.AddCompositionAnimation("Offset", animation);
             }

@@ -170,6 +170,9 @@
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="WidthStates">
                                 <VisualState x:Name="NarrowState">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="320" />
+                                    </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="MasterColumn.Width" Value="*" />
                                         <Setter Target="DetailsColumn.Width" Value="0" />
@@ -180,6 +183,9 @@
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">
+                                    <VisualState.StateTriggers>
+                                        <AdaptiveTrigger MinWindowWidth="720" />
+                                    </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

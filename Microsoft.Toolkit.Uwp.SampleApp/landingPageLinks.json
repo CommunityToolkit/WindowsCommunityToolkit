@@ -1,25 +1,25 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "SharePointFileList", "GazeInteraction", "UniformGrid", "CameraPreview", "InfiniteCanvas" ],
+  "new-samples": [ "StaggeredPanel", "RadialGradientBrush", "Markdown Parser", "NavigationViewStyles", "StringExtensions" ],
   "resources": [
     {
       "title": "Toolkit",
       "links": [
         {
           "title": "GitHub Repository",
-          "url": "http://aka.ms/windowstoolkit"
+          "url": "http://aka.ms/uwptoolkit"
         },
         {
           "title": "Documentation",
-          "url": "http://aka.ms/windowstoolkitdocs"
+          "url": "http://aka.ms/uwptoolkitdocs"
         },
         {
           "title": "GitHub Issues",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/issues"
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/issues"
         },
         {
           "title": "Roadmap",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/milestones"
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/milestones"
         },
         {
           "title": "UserVoice",
@@ -27,7 +27,7 @@
         },
         {
           "title": "Contributors",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/graphs/contributors"
+          "url": "https://github.com/Microsoft/UWPCommunityToolkit/graphs/contributors"
         }
       ]
     },

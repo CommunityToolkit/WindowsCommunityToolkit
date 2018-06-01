@@ -174,7 +174,7 @@ Changing the `FlowDirection` or `Orientation` properties effect how `FirstColumn
 
 ## Example Code
 
-[UniformGrid Sample Page](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/UniformGrid)
+[UniformGrid Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/UniformGrid)
 
 ## Requirements (Windows 10 Device Family)
 
@@ -185,7 +185,7 @@ Changing the `FlowDirection` or `Orientation` properties effect how `FirstColumn
 
 ## API Source Code
 
-- [UniformGrid source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid.cs)
+- [UniformGrid source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid.cs)
 
 ## Related Topics
 

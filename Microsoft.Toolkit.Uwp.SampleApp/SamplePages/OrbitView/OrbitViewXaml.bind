@@ -15,18 +15,17 @@
                               AnchorColor="@[AnchorColor:Brush:Gray]"
                               AnchorsEnabled="@[AnchorsEnabled:Bool:false]"
                               IsItemClickEnabled="@[IsItemClickEnabled:Bool:true]"
-                              MinItemSize="@[MinItemSize:Slider:28:10-50]"
-                              MaxItemSize="@[MaxItemSize:Slider:40:40-100]"
-                              Height="400"
+                              MinItemSize="@[MinItemSize:Slider:20:10-50]"
+                              MaxItemSize="@[MaxItemSize:Slider:60:50-100]"
                               OrbitColor="@[OrbitColor:Brush:Gray]"
                               OrbitsEnabled="@[OrbitsEnabled:Bool:true]">
             <controls:OrbitView.ItemTemplate>
               <DataTemplate>
                 <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
                                           VerticalContentAlignment="Stretch"
-                                          BlurRadius="6"
-                                          Color="{StaticResource SystemChromeBlackHighColor}">
-                  <Ellipse>
+                                          BlurRadius="20"
+                                          Color="Black">
+                  <Ellipse >
                     <Ellipse.Fill>
                       <ImageBrush ImageSource="{Binding Image}" />
                     </Ellipse.Fill>
@@ -36,37 +35,41 @@
             </controls:OrbitView.ItemTemplate>
             <controls:OrbitView.ItemsSource>
               <controls:OrbitViewDataItemCollection>
-                <controls:OrbitViewDataItem Diameter="1"
-                                            Distance="0"
+                <controls:OrbitViewDataItem Diameter="0.2"
+                                            Distance="0.1"
                                             Image="ms-appx:///Assets/People/shen.png"
                                             Label="Shen" />
-                <controls:OrbitViewDataItem Diameter="0.66"
-                                            Distance="0.33"
+                <controls:OrbitViewDataItem Diameter="0.5"
+                                            Distance="0.2"
                                             Image="ms-appx:///Assets/People/david.png"
                                             Label="David" />
-                <controls:OrbitViewDataItem Diameter="0.33"
-                                            Distance="0.66"
+                <controls:OrbitViewDataItem Diameter="0.6"
+                                            Distance="0.4"
                                             Image="ms-appx:///Assets/People/petri.png"
                                             Label="Petri" />
-                <controls:OrbitViewDataItem Diameter="0"
-                                            Distance="1"
+                <controls:OrbitViewDataItem Diameter="0.8"
+                                            Distance="0.8"
                                             Image="ms-appx:///Assets/People/vlad.png"
                                             Label="Vlad" />
               </controls:OrbitViewDataItemCollection>
             </controls:OrbitView.ItemsSource>
             <controls:OrbitView.CenterContent>
               <Grid>
-                <controls:DropShadowPanel BlurRadius="24" 
-                                          Color="{StaticResource SystemChromeBlackHighColor}">
-                  <Ellipse Width="60"
-                           Height="60"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center">
-                    <Ellipse.Fill>
-                      <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png"/>
-                    </Ellipse.Fill>
-                  </Ellipse>
+                <controls:DropShadowPanel>
+                  <Ellipse Width="105"
+                           Height="105"
+                           Fill="White"
+                           Stroke="Black"
+                           StrokeThickness="2" />
                 </controls:DropShadowPanel>
+                <Ellipse Width="100"
+                         Height="100"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center">
+                  <Ellipse.Fill>
+                    <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png"/>
+                  </Ellipse.Fill>
+                </Ellipse>
               </Grid>
             </controls:OrbitView.CenterContent>
           </controls:OrbitView>
@@ -101,17 +104,21 @@
               </controls:OrbitView.ItemTemplate>
               <controls:OrbitView.CenterContent>
                 <Grid>
-                  <controls:DropShadowPanel BlurRadius="24"
-                                            Color="{StaticResource SystemChromeBlackHighColor}">
-                    <Ellipse Width="60"
-                             Height="60"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Center">
-                      <Ellipse.Fill>
-                        <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png"/>
-                      </Ellipse.Fill>
-                    </Ellipse>
+                  <controls:DropShadowPanel>
+                    <Ellipse Width="105"
+                             Height="105"
+                             Fill="White"
+                             Stroke="Black"
+                             StrokeThickness="2" />
                   </controls:DropShadowPanel>
+                  <Ellipse Width="100"
+                           Height="100"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center">
+                    <Ellipse.Fill>
+                      <ImageBrush ImageSource="ms-appx:///Assets/People/nikola.png" />
+                    </Ellipse.Fill>
+                  </Ellipse>
                 </Grid>
               </controls:OrbitView.CenterContent>
             </controls:OrbitView>

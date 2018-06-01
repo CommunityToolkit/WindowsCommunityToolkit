@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Collections.Generic;
@@ -19,7 +27,6 @@ using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
@@ -31,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
-        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/";
+        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/";
         private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
         private const string _cacheSHAKey = "docs-cache-sha";
 
@@ -100,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 #if DEBUG
                 _codeUrl = value;
 #else
-                var regex = new Regex("^https://github.com/Microsoft/WindowsCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
+                var regex = new Regex("^https://github.com/Microsoft/UWPCommunityToolkit/(tree|blob)/(?<branch>.+?)/(?<path>.*)");
                 var docMatch = regex.Match(value);
 
                 var branch = string.Empty;
@@ -117,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 else
                 {
-                    _codeUrl = $"https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/{path}";
+                    _codeUrl = $"https://github.com/Microsoft/UWPCommunityToolkit/tree/master/{path}";
                 }
 #endif
             }
@@ -656,18 +663,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Graph
-            var graphControlsProxyType = ViewType.EmailOnly;
-            assembly = graphControlsProxyType.GetType().GetTypeInfo().Assembly;
-
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
-
             // Search in Microsoft.Toolkit.Uwp.UI.Animations
             var animationsProxyType = EasingType.Default;
             assembly = animationsProxyType.GetType().GetTypeInfo().Assembly;
@@ -720,9 +715,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         if (response.IsSuccessStatusCode)
                         {
                             var raw = await response.Content.ReadAsStringAsync();
-                            Debug.WriteLine(raw);
-                            var json = JsonConvert.DeserializeObject<GitRef>(raw);
-                            return json?.RefObject?.Sha;
+                            var json = JsonConvert.DeserializeObject<dynamic>(raw);
+                            return json["object"]["sha"];
                         }
                     }
                 }
@@ -732,18 +726,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             return null;
-        }
-
-        public class GitRef
-        {
-            [JsonProperty("object")]
-            public GitRefObject RefObject { get; set; }
-        }
-
-        public class GitRefObject
-        {
-            [JsonProperty("sha")]
-            public string Sha { get; set; }
         }
     }
 }

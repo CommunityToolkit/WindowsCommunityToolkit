@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Collections.Generic;
@@ -295,7 +303,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the duration on all animations after last Then()
+        /// Ovewrites the duration on all animations after last Then()
         /// to the specified value
         /// </summary>
         /// <param name="duration">The duration in milliseconds</param>
@@ -311,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the duration on all animations after last Then()
+        /// Ovewrites the duration on all animations after last Then()
         /// to the specified value
         /// </summary>
         /// <param name="duration"><see cref="TimeSpan"/> for the duration</param>
@@ -354,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the duration on all animations to the specified value
+        /// Ovewrites the duration on all animations to the specified value
         /// </summary>
         /// <param name="duration">The duration in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
@@ -369,7 +377,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the duration on all animations to the specified value
+        /// Ovewrites the duration on all animations to the specified value
         /// </summary>
         /// <param name="duration"><see cref="TimeSpan"/> for the duration</param>
         /// <returns>AnimationSet to allow chaining</returns>
@@ -384,7 +392,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the delay time on all animations after last Then()
+        /// Ovewrites the delay time on all animations after last Then()
         /// to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in milliseconds</param>
@@ -400,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the delay time on all animations after last Then()
+        /// Ovewrites the delay time on all animations after last Then()
         /// to the specified value
         /// </summary>
         /// <param name="delayTime"><see cref="TimeSpan"/> for how much to delay</param>
@@ -443,7 +451,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the delay time on all animations to the specified value
+        /// Ovewrites the delay time on all animations to the specified value
         /// </summary>
         /// <param name="delayTime">The delay time in milliseconds</param>
         /// <returns>AnimationSet to allow chaining</returns>
@@ -458,7 +466,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Overwrites the delay time on all animations to the specified value
+        /// Ovewrites the delay time on all animations to the specified value
         /// </summary>
         /// <param name="delayTime"><see cref="TimeSpan"/> for how much to delay</param>
         /// <returns>AnimationSet to allow chaining</returns>
@@ -565,8 +573,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
         /// <summary>
         /// Adds a <see cref="AnimationTask"/> to the AnimationSet that
-        /// will run add an animation once completed. Useful when an animation
-        /// needs to do asynchronous initialization before running
+        /// will run add an animation once completed. Usefull when an animation
+        /// needs to do asyncronous initialization before running
         /// </summary>
         /// <param name="animationTask">The <see cref="AnimationTask"/> to be added</param>
         internal void AddAnimationThroughTask(AnimationTask animationTask)
@@ -575,7 +583,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Adds an effect property change to be run on <see cref="StartAsync"/>
+        /// Adds an effect propety change to be run on <see cref="StartAsync"/>
         /// </summary>
         /// <param name="effectBrush">The <see cref="CompositionObject"/> that will have a property changed</param>
         /// <param name="value">The value to be applied</param>

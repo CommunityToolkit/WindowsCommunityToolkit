@@ -33,7 +33,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.WrapPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.CameraPreview" />
     </ToolboxItems>
   </File>
 </FileList>

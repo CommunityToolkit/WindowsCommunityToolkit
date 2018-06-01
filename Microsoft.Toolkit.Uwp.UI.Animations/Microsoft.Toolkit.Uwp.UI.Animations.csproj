@@ -10,8 +10,6 @@
 
   <ItemGroup>
     
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-    
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
 

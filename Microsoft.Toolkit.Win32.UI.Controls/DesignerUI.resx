@@ -194,7 +194,7 @@
     <comment>Caller attempted to finalize initialization of the control with EndInit with out requesting it be initialized with BeginInit</comment>
   </data>
   <data name="E_WEB_BROWSER_DISABLED" xml:space="preserve">
-    <value>Unable to initialize the WebView control because the Microsoft Edge web browser has been disabled by the group or location admin policy of your system.</value>
+    <value>Unable to initialize the WebView control because the Edge Web browser has been disabled by the group or location admin policy of your system.</value>
     <comment>Browser disabled by admin local or group policy object</comment>
   </data>
   <data name="E_WEB_PERMISSION_RESTRICTED" xml:space="preserve">

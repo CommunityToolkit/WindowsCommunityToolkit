@@ -23,7 +23,7 @@
                 <Image Width="100"
                        Height="100"
                        Margin="24"
-                       Source="/SamplePages/Microsoft Graph Service/mslogo.png"
+                       Source="/SamplePages/Microsoft Graph Service/OfficeLogo.png"
                        Stretch="Uniform" />
                 <Border x:Name="ProfileImage"
                         Width="100"
@@ -88,19 +88,21 @@
                                           Header="Endpoint Version" Grid.Column="1" 
                                           SelectionChanged="VersionEndpointDropdown_SelectionChanged">
                                     <ComboBox.Items>
-                                        <ComboBoxItem Tag="v2" Content="v2 - MSAL (default)"  IsSelected="True"/>
-                                        <ComboBoxItem Tag="v1" Content="v1 - ADAL" />
+                                        <ComboBoxItem Tag="v1" Content="v1 - ADAL (default)" IsSelected="True" />
+                                        <ComboBoxItem Tag="v2" Content="v2 - MSAL" />
                                     </ComboBox.Items>
                                 </ComboBox>
                             </Grid>
                             <TextBox Margin="0,0,0,12" 
                                      x:Name="DelegatedPermissionScopes" 
                                      Header="Delegated Permission Scopes:" 
-                                     Text="Calendars.Read Mail.Read Mail.Send User.Read" />
+                                     Text="Calendars.Read Mail.Read Mail.Send User.Read" 
+                                     Visibility="Collapsed" />
                             <TextBox Margin="0,0,0,12" 
                                      x:Name="LoginHint" 
                                      Header="Login Hint:" 
-                                     Text="user@contoso.com"  />
+                                     Text="user@contoso.com" 
+                                     Visibility="Collapsed" />
                             <HyperlinkButton Margin="0,0,0,15"
                                              Content="Show me how to get this ID"
                                              NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/" />

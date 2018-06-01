@@ -1,10 +1,17 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Net.Http.Headers;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
@@ -17,17 +24,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// </summary>
     public class MicrosoftGraphService
     {
-        private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
-
         /// <summary>
         /// Gets or sets Authentication instance.
         /// </summary>
         internal MicrosoftGraphAuthenticationHelper Authentication { get; set; }
-
-        /// <summary>
-        /// Event raised when user logs in our out.
-        /// </summary>
-        public event EventHandler IsAuthenticatedChanged;
 
         /// <summary>
         /// Gets or sets store a reference to an instance of the underlying data provider.
@@ -49,27 +49,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         protected bool IsInitialized { get; set; }
 
-        private bool _isAuthenticated;
-
         /// <summary>
         /// Gets or sets a value indicating whether user is connected.
         /// </summary>
-        public bool IsAuthenticated
-        {
-            get
-            {
-                return _isAuthenticated;
-            }
-
-            protected set
-            {
-                if (_isAuthenticated != value)
-                {
-                    _isAuthenticated = value;
-                    IsAuthenticatedChanged?.Invoke(this, EventArgs.Empty);
-                }
-            }
-        }
+        protected bool IsConnected { get; set; }
 
         /// <summary>
         /// Gets or sets AppClientId.
@@ -109,7 +92,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
         /// </summary>
-        public MicrosoftGraphService()
+        private MicrosoftGraphService()
         {
         }
 
@@ -192,10 +175,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
-
-            IsAuthenticated = false;
-            User = null;
-
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
             return Authentication.LogoutAsync(authenticationModel);
@@ -211,6 +190,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Returns success or failure of login attempt.</returns>
         public virtual async Task<bool> LoginAsync(string loginHint = null)
         {
+            IsConnected = false;
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
@@ -233,9 +213,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (string.IsNullOrEmpty(accessToken))
             {
-                IsAuthenticated = false;
-                return IsAuthenticated;
+                return IsConnected;
             }
+
+            IsConnected = true;
 
 #if WINRT
             User = new MicrosoftGraphUserService(GraphProvider);
@@ -258,85 +239,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 User.InitializeEvent();
             }
 
-            IsAuthenticated = true;
-            return IsAuthenticated;
-        }
-
-        /// <summary>
-        /// Tries to log in user if not already loged in
-        /// </summary>
-        /// <returns>true if service is already loged in</returns>
-        internal async Task<bool> TryLoginAsync()
-        {
-            if (!IsInitialized)
-            {
-                return false;
-            }
-
-            if (IsAuthenticated)
-            {
-                return true;
-            }
-
-            try
-            {
-                await _readLock.WaitAsync();
-                await LoginAsync();
-            }
-            catch (MsalServiceException ex)
-            {
-                // Swallow error in case of authentication cancellation.
-                if (ex.ErrorCode != "authentication_canceled"
-                    && ex.ErrorCode != "access_denied")
-                {
-                    throw ex;
-                }
-            }
-            finally
-            {
-                _readLock.Release();
-            }
-
-            return IsAuthenticated;
-        }
-
-        internal async Task<bool> ConnectForAnotherUserAsync()
-        {
-            if (!IsInitialized)
-            {
-                throw new InvalidOperationException("Microsoft Graph not initialized.");
-            }
-
-            try
-            {
-                var publicClientApplication = new PublicClientApplication(AppClientId);
-                AuthenticationResult result = await publicClientApplication.AcquireTokenAsync(DelegatedPermissionScopes);
-
-                var signedUser = result.User;
-
-                foreach (var user in publicClientApplication.Users)
-                {
-                    if (user.Identifier != signedUser.Identifier)
-                    {
-                        publicClientApplication.Remove(user);
-                    }
-                }
-
-                await LoginAsync();
-
-                return true;
-            }
-            catch (MsalServiceException ex)
-            {
-                // Swallow error in case of authentication cancellation.
-                if (ex.ErrorCode != "authentication_canceled"
-                    && ex.ErrorCode != "access_denied")
-                {
-                    throw ex;
-                }
-            }
-
-            return false;
+            return IsConnected;
         }
 
         /// <summary>

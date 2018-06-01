@@ -7,7 +7,6 @@
         Title="{Binding DocumentTitle, ElementName=WebView1, Mode=OneWay}"
         Width="800"
         Height="450"
-        Loaded="OnWindowLoaded"
         mc:Ignorable="d">
     <Window.CommandBindings>
         <CommandBinding CanExecute="BrowseBack_OnCanExecute"

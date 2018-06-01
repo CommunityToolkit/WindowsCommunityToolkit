@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Collections.Generic;
@@ -9,7 +17,6 @@ using System.IO;
 using System.Security;
 using System.Threading.Tasks;
 
-using Windows.Web;
 using Windows.Web.UI;
 using Windows.Web.UI.Interop;
 
@@ -74,6 +81,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         internal event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709:IdentifiersShouldBeCasedCorrectly", MessageId = "DOM", Justification = "This is the name from WinRT")]
+
         internal event EventHandler<WebViewControlDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
         internal event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
@@ -282,11 +290,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set;
         }
 
-        internal Uri BuildStream(string contentIdentifier, string relativePath)
-        {
-            return _webViewControl?.BuildLocalStreamUri(contentIdentifier, relativePath);
-        }
-
         internal void Close()
         {
             var webViewControlAlreadyClosed = _webViewControlClosed;
@@ -486,18 +489,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         internal void Navigate(string source)
         {
             Navigate(UriHelper.StringToUri(source));
-        }
-
-        internal void NavigateToLocal(string relativePath)
-        {
-            var uri = BuildStream("LocalContent", relativePath);
-            var resolver = new UriToLocalStreamResolver();
-            NavigateToLocalStreamUri(uri, resolver);
-        }
-
-        internal void NavigateToLocalStreamUri(Uri source, IUriToStreamResolver streamResolver)
-        {
-            _webViewControl?.NavigateToLocalStreamUri(source, streamResolver);
         }
 
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
@@ -957,15 +948,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 return;
             }
 
-            try
-            {
-                Process.ProcessExited -= OnProcessExited;
-            }
-            catch (Exception)
-            {
-                // Yes, really catch all
-                // 'The process terminated unexpectedly. (Exception from HRESULT: 0x8007042B)'
-            }
+            Process.ProcessExited -= OnProcessExited;
         }
 
         // TODO: Expose Bounds

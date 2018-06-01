@@ -1,6 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+// ******************************************************************
+// Copyright (c) Microsoft. All rights reserved.
+// This code is licensed under the MIT License (MIT).
+// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
+// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
+// ******************************************************************
 
 using System;
 using System.Collections;
@@ -49,12 +57,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     public sealed class WebView : WebViewHost, IWebView
     {
         private const int InitializationBlockingTime = 200;
-
-        private static readonly DependencyProperty EnterpriseIdProperty = DependencyProperty.Register(
-            nameof(EnterpriseId),
-            typeof(string),
-            typeof(WebView),
-            new PropertyMetadata(WebViewDefaults.EnterpriseId, PropertyChangedCallback));
 
         private static readonly Hashtable InvalidatorMap = new Hashtable();
 
@@ -355,15 +357,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         /// <inheritdoc />
         [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(WebViewDefaults.EnterpriseId)]
-        public string EnterpriseId
-        {
-            get => (string)GetValue(EnterpriseIdProperty);
-            set => SetValue(EnterpriseIdProperty, value);
-        }
-
-        /// <inheritdoc />
-        [StringResourceCategory(Constants.CategoryBehavior)]
         [DefaultValue(WebViewDefaults.IsIndexedDBEnabled)]
         public bool IsIndexedDBEnabled
         {
@@ -431,14 +424,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get
             {
                 VerifyAccess();
-
-                // NOTE: Not really in the spirit of a Property
-                do
-                {
-                    Dispatcher.CurrentDispatcher.DoEvents();
-                }
-                while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
                 Verify.IsNotNull(_webViewControl);
                 return _webViewControl?.Process;
             }
@@ -583,21 +568,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
-        public void NavigateToLocal(string relativePath)
-        {
-            VerifyAccess();
-
-            do
-            {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl.NavigateToLocal(relativePath);
-        }
-
-        /// <inheritdoc />
         public void NavigateToString(string text)
         {
             VerifyAccess();
@@ -642,16 +612,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 var privateNetworkEnabled = !Dispatcher.CheckAccess()
                     ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
                     : IsPrivateNetworkClientServerCapabilityEnabled;
-                var enterpriseId = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => EnterpriseId)
-                    : EnterpriseId;
 
                 _process = new WebViewControlProcess(new WebViewControlProcessOptions
                 {
                     PrivateNetworkClientServerCapability = privateNetworkEnabled
                         ? WebViewControlProcessCapabilityState.Enabled
-                        : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId
+                        : WebViewControlProcessCapabilityState.Disabled
                 });
             }
 
@@ -810,14 +776,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))
-                {
-                    Verify.IsFalse(wv.WebViewControlInitialized);
-                    if (wv.WebViewControlInitialized)
-                    {
-                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
-                    }
-                }
-                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(EnterpriseId))
                 {
                     Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
