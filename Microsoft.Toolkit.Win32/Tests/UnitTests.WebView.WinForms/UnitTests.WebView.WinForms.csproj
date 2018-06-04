@@ -124,8 +124,6 @@
     <Content Include="FunctionalTests\NavigateToLocalStreamUri\async.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="FunctionalTests\NavigateToLocalStreamUri\cat.jpg" />
-    <Content Include="FunctionalTests\NavigateToLocalStreamUri\content.htm" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
