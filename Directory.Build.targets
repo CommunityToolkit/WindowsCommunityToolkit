@@ -30,8 +30,8 @@
       </PropertyGroup>
       <ItemGroup>
         <Reference Include="Windows">
+          <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd</HintPath>
           <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
-          <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformMinVersion)\Windows.winmd</HintPath>          
           <Private>False</Private>
         </Reference>
       </ItemGroup>
