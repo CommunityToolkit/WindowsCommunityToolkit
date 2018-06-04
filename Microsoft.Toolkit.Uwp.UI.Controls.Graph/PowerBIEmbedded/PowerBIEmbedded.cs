@@ -74,11 +74,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             };
             _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
             _tokenExpirationRefreshTimer.Start();
+
+            Window.Current.SizeChanged -= CurrentWindow_SizeChanged;
+            Window.Current.SizeChanged += CurrentWindow_SizeChanged;
         }
 
         private void WebViewReportFrame_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             _webViewInitializedTask.TrySetResult(true);
+        }
+
+        private void CurrentWindow_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            if (IsWindowsPhone)
+            {
+                InvokeScript($"rotate('{Orientations.ToString()}')");
+            }
         }
 
         private async Task<string> GetUserTokenAsync()
@@ -225,8 +236,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             await WaitWebviewContentLoaded();
 
             await _webViewReportFrame.InvokeScriptAsync(
-                "eval",
-                new string[] { script });
+                    "eval",
+                    new string[] { script });
         }
     }
 }

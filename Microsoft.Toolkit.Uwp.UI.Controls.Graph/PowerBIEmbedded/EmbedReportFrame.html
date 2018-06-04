@@ -38,7 +38,9 @@
             <option>Loading</option>
         </select>
         <select id="pagesDropdown"></select>
-        <select id="visualsDropdown" style="display:none"></select>
+        <!-- will remove later
+            <select id="visualsDropdown" style="display:none"></select>
+        -->
     </div>
     <div id="reportContainer"></div>
 
@@ -103,15 +105,15 @@
                 permissions: models.Permissions.All,
                 settings: {
                     filterPaneEnabled: true,
-                    navContentPaneEnabled: false,
-                    layoutType: models.LayoutType.MobilePortrait,
+                    navContentPaneEnabled: false
                 }
             };
             const report = powerbi.embed(reportContainer, config);
 
             $('#reportContainer').css('visibility', 'visible');
             $('#pagesDropdown').off("change").html('<option>Loading</option>');
-            $('#visualsDropdown').off("change").html('<option>Loading</option>');
+            //visuals, will removed later
+            //$('#visualsDropdown').off("change").html('<option>Loading</option>');
 
             report.off("loaded");
             report.on("loaded", function () {
@@ -137,10 +139,13 @@
                                 return page.name == name;
                             });
 
-                            $('#visualsDropdown').off("change").html('<option>Loading</option>');
+                            //visuals, will removed later
+                            //$('#visualsDropdown').off("change").html('<option>Loading</option>');
 
                             findPage.setActive();
-                            loadVisuals(findPage);
+
+                            //visuals, will removed later
+                            //loadVisuals(findPage);
                         };
                     })(pages));
 
@@ -161,6 +166,25 @@
                 });
         }
 
+        //TODO
+        function rotate(orientations) {
+            /* Update view settings, you could refer to below code to update view setting.
+             
+            let settings = {
+                layoutType: models.LayoutType.Custom,
+            }
+
+            const report = getReport();
+
+            report.updateSettings(settings)
+                .catch(function (error) {
+                    alert(error);
+                });
+            */
+        }
+
+        /* visuals, will removed later
+        /* 
         function loadVisuals(page) {
             page.getVisuals()
                 .then(function (visuals) {
@@ -233,12 +257,14 @@
                     alert(errors);
                 });
         }
+        */
 
         function clearReport() {
             $('#dropdownContainer').css('visibility', 'hidden');
             $('#reportContainer').css('visibility', 'hidden');
             $('#pagesDropdown').html('');
-            $('#visualsDropdown').html('');
+            //visuals, will removed later
+            //$('#visualsDropdown').html('');
         }
     </script>
 </body>
