@@ -36,14 +36,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         public void LocalNavigationCompleted()
         {
             _success.ShouldBeTrue();
-        }        
+        }
     }
 
     [TestClass]
     [TestCategory(TestConstants.Categories.Nav)]
     [DeploymentItem("FunctionalTests\\NavigateToLocalStreamUri\\async.htm")]
     public class Given_a_local_htm_file_with_async_XHR_for_local_content : HostFormWebViewContextSpecification
-    {        
+    {
         private string _scriptNotifyResult;
 
         protected override void Given()
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             {
                 _scriptNotifyResult = e.Value;
                 Form.Close();
-            };           
+            };
         }
 
         protected override void When()
