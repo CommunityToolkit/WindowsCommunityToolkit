@@ -2,50 +2,65 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+        <Setter Property="UseSystemFocusVisuals" Value="True"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="8"/>
+        <Setter Property="FocusVisualMargin" Value="-14,-6,-14,-6"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Border Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            CornerRadius="4"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="controls:RangeSelector">
         <Setter Property="Background" Value="{ThemeResource SliderTrackFill}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource SliderBorderThemeThickness}"/>
         <Setter Property="Foreground" Value="{ThemeResource SliderTrackValueFill}"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:RangeSelector">
                     <Grid x:Name="ControlGrid" Height="24" >
-                        <Grid.Resources>
-                            <Style x:Key="SliderThumbStyle" TargetType="Thumb">
-                                <Setter Property="UseSystemFocusVisuals" Value="True"/>
-                                <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="Background" Value="{ThemeResource SliderThumbBackground}"/>
-                                <Setter Property="Height" Value="24"/>
-                                <Setter Property="Width" Value="8"/>
-                                <Setter Property="FocusVisualMargin" Value="-14,-6,-14,-6"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="Thumb">
-                                            <Border Background="{TemplateBinding Background}" 
-                                                    BorderThickness="{TemplateBinding BorderThickness}" 
-                                                    BorderBrush="{TemplateBinding BorderBrush}" 
-                                                    CornerRadius="4"/>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Grid.Resources>
 
-                        <Border x:Name="OutOfRangeContentContainer"                                 
-                                Background="Transparent">
+                        <Border x:Name="OutOfRangeContentContainer"
+                                Background="Transparent"
+                                Grid.Column="1">
                             <Rectangle x:Name="BackgroundElement"
                                        Height="2"
                                        Fill="{TemplateBinding Background}" />
                         </Border>
+
                         <Canvas x:Name="ContainerCanvas"
-                                Margin="0,0,8,0"
+                                Grid.Column="1"
                                 Background="Transparent">
-                            <Rectangle x:Name="ActiveRectangle"                                                                     
+                            <Rectangle x:Name="ActiveRectangle"
+                                       HorizontalAlignment="Stretch"
                                        Height="2"
                                        VerticalAlignment="Center"
                                        Fill="{TemplateBinding Foreground}" />
+
+                            <Grid x:Name="ToolTip" 
+                                  BorderThickness="1"
+                                  BorderBrush="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                                  Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" 
+                                  Margin="0,-44,0,8" 
+                                  Visibility="Collapsed">
+                                <TextBlock x:Name="ToolTipText" 
+                                           Margin="8"
+                                           Foreground="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+                            </Grid>
+
                             <Thumb x:Name="MinThumb"
                                    AutomationProperties.Name="Min thumb"
                                    IsTabStop="True" 
@@ -57,6 +72,7 @@
                                    Style="{StaticResource SliderThumbStyle}"
                                    TabIndex="1" />
                         </Canvas>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal" />
@@ -109,7 +125,7 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BackgroundElement"
                                                                        Storyboard.TargetProperty="Fill">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightChromeAltLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MinThumb"
                                                                        Storyboard.TargetProperty="Background">

@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -48,11 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AppViewBackButtonVisibility _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
-        private VisualStateGroup _stateGroup;
-        private VisualState _narrowState;
         private VisualStateGroup _selectionStateGroup;
         private Frame _frame;
-        private bool _loaded = false;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -81,16 +70,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             OnDetailsCommandBarChanged();
             OnMasterCommandBarChanged();
 
-            if (_loaded && _stateGroup == null)
-            {
-                _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-                if (_stateGroup != null)
-                {
-                    _stateGroup.CurrentStateChanged += OnVisualStateChanged;
-                    _narrowState = GetTemplateChild(NarrowState) as VisualState;
-                    UpdateView(true);
-                }
-            }
+            SizeChanged -= MasterDetailsView_SizeChanged;
+            SizeChanged += MasterDetailsView_SizeChanged;
+
+            UpdateView(true);
         }
 
         /// <summary>
@@ -139,6 +122,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Fired when CompactModeThresholdWIdthChanged
+        /// </summary>
+        /// <param name="d">The sender</param>
+        /// <param name="e">The event args</param>
+        private static void OnCompactModeThresholdWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MasterDetailsView)d).HandleStateChanges();
+        }
+
+        /// <summary>
         /// Fired when the MasterCommandBar changes.
         /// </summary>
         /// <param name="d">The sender</param>
@@ -149,42 +142,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             view.OnMasterCommandBarChanged();
         }
 
-        // Have to wait to get the VisualStateGroup until the control has Loaded
-        // If we try to get the VisualStateGroup in the OnApplyTemplate the
-        // CurrentStateChanged event does not fire properly
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                var frame = GetFrame();
-                if (frame != null)
+                if (_frame != null)
                 {
-                    frame.Navigating += OnFrameNavigating;
+                    _frame.Navigating -= OnFrameNavigating;
                 }
+
+                _frame = this.FindAscendant<Frame>();
+                _frame.Navigating += OnFrameNavigating;
+
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+                if (_selectionStateGroup != null)
+                {
+                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+                }
+
+                UpdateView(true);
             }
-
-            if (_stateGroup != null)
-            {
-                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
-            }
-
-            _stateGroup = (VisualStateGroup)GetTemplateChild(WidthStates);
-            if (_stateGroup != null)
-            {
-                _stateGroup.CurrentStateChanged += OnVisualStateChanged;
-                _narrowState = GetTemplateChild(NarrowState) as VisualState;
-            }
-
-            UpdateView(true);
-
-            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-            if (_selectionStateGroup != null)
-            {
-                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-            }
-
-            _loaded = true;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -192,38 +170,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (DesignMode.DesignModeEnabled == false)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                var frame = GetFrame();
-                if (frame != null)
+                if (_frame != null)
                 {
-                    frame.Navigating -= OnFrameNavigating;
+                    _frame.Navigating -= OnFrameNavigating;
                 }
-            }
 
-            if (_stateGroup != null)
-            {
-                _stateGroup.CurrentStateChanged -= OnVisualStateChanged;
-                _stateGroup = null;
-            }
-
-            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-            if (_selectionStateGroup != null)
-            {
-                _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
-                _selectionStateGroup = null;
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+                if (_selectionStateGroup != null)
+                {
+                    _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                    _selectionStateGroup = null;
+                }
             }
         }
 
-        /// <summary>
-        /// Fires when the addaptive trigger changes state.
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="e">The event args</param>
-        /// <remarks>
-        /// Handles showing/hiding the back button when the state changes
-        /// </remarks>
-        private void OnVisualStateChanged(object sender, VisualStateChangedEventArgs e)
+        private void MasterDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpdateView(false);
+            // if size is changing
+            if ((e.PreviousSize.Width < CompactModeThresholdWidth && e.NewSize.Width >= CompactModeThresholdWidth) ||
+                (e.PreviousSize.Width >= CompactModeThresholdWidth && e.NewSize.Width < CompactModeThresholdWidth))
+            {
+                HandleStateChanges();
+            }
+        }
+
+        private void HandleStateChanges()
+        {
+            UpdateView(true);
             SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
         }
 
@@ -250,15 +223,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (ViewState == MasterDetailsViewState.Details)
             {
-                SelectedItem = null;
+                // let the OnFrameNavigating method handle it if
+                if (_frame == null || !_frame.CanGoBack)
+                {
+                    SelectedItem = null;
+                }
+
                 args.Handled = true;
             }
         }
 
         private void SetMasterHeaderVisibility()
         {
-            var headerPresenter = GetTemplateChild(PartHeaderContentPresenter) as FrameworkElement;
-            if (headerPresenter != null)
+            if (GetTemplateChild(PartHeaderContentPresenter) is FrameworkElement headerPresenter)
             {
                 headerPresenter.Visibility = MasterHeader != null
                     ? Visibility.Visible
@@ -268,13 +245,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateView(bool animate)
         {
-            var currentState = ViewState;
             UpdateViewState();
-            SetBackButtonVisibility(currentState);
-            if (_stateGroup != null)
-            {
-                SetVisualState(_stateGroup.CurrentState, animate);
-            }
+            SetVisualState(animate);
         }
 
         /// <summary>
@@ -301,21 +273,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private Frame GetFrame()
-        {
-            return _frame ?? (_frame = this.FindAscendant<Frame>());
-        }
-
         private void UpdateViewState()
         {
-            if (_stateGroup == null)
-            {
-                return;
-            }
+            var previousState = ViewState;
 
-            var before = ViewState;
-
-            if (_stateGroup.CurrentState == _narrowState || _stateGroup.CurrentState == null)
+            if (ActualWidth < CompactModeThresholdWidth)
             {
                 ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
             }
@@ -324,23 +286,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ViewState = MasterDetailsViewState.Both;
             }
 
-            var after = ViewState;
-
-            if (before != after)
+            if (previousState != ViewState)
             {
-                ViewStateChanged?.Invoke(this, after);
+                ViewStateChanged?.Invoke(this, ViewState);
+                SetBackButtonVisibility(previousState);
             }
         }
 
-        private void SetVisualState(VisualState state, bool animate)
+        private void SetVisualState(bool animate)
         {
-            string noSelectionState = state == _narrowState
-                ? NoSelectionNarrowState
-                : NoSelectionWideState;
-            string hasSelectionState = state == _narrowState
-                ? HasSelectionNarrowState
-                : HasSelectionWideState;
+            string state;
+            string noSelectionState;
+            string hasSelectionState;
+            if (ActualWidth < CompactModeThresholdWidth)
+            {
+                state = NarrowState;
+                noSelectionState = NoSelectionNarrowState;
+                hasSelectionState = HasSelectionNarrowState;
+            }
+            else
+            {
+                state = WideState;
+                noSelectionState = NoSelectionWideState;
+                hasSelectionState = HasSelectionWideState;
+            }
+
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
+            VisualStateManager.GoToState(this, state, animate);
         }
 
         private void SetDetailsContent()

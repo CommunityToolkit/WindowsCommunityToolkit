@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -453,21 +445,18 @@ namespace Microsoft.Toolkit.Parsers.Rss
             { "SDT", new[] { "-1000", "South Australia Daylight" } },
             { "SST", new[] { "-0200", "Swedish Summer" } },
             { "SWT", new[] { "-0100", "Swedish Winter" } },
-            { "USZ3", new[] { "-0400", "USSR Zone 3" } },
-            { "USZ4", new[] { "-0500", "USSR Zone 4" } },
-            { "USZ5", new[] { "-0600", "USSR Zone 5" } },
-            { "USZ6", new[] { "-0700", "USSR Zone 6" } },
+            { "USZ3", new[] { "-0400", "Volga Time (Russia)" } },
+            { "USZ4", new[] { "-0500", "Ural Time (Russia)" } },
+            { "USZ5", new[] { "-0600", "West-Siberian Time (Russia) " } },
+            { "USZ6", new[] { "-0700", "Yenisei Time (Russia)" } },
             { "UT", new[] { "+0000", "Universal Coordinated" } },
             { "UTC", new[] { "+0000", "Universal Coordinated" } },
-            { "UZ10", new[] { "-1100", "USSR Zone 10" } },
+            { "UZ10", new[] { "-1100", "Okhotsk Time (Russia)" } },
             { "WAT", new[] { "+0100", "West Africa" } },
             { "WET", new[] { "+0000", "West European" } },
             { "WST", new[] { "-0800", "West Australian Standard" } },
             { "YDT", new[] { "+0800", "Yukon Daylight" } },
-            { "YST", new[] { "+0900", "Yukon Standard" } },
-            { "ZP4", new[] { "-0400", "USSR Zone 3" } },
-            { "ZP5", new[] { "-0500", "USSR Zone 4" } },
-            { "ZP6", new[] { "-0600", "USSR Zone 5" } }
+            { "YST", new[] { "+0900", "Yukon Standard" } }
         };
     }
 }

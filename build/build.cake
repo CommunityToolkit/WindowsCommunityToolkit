@@ -19,6 +19,7 @@ var target = Argument("target", "Default");
 
 var gitVersioningVersion = "2.1.23";
 var signClientVersion = "0.9.0";
+var inheritDocVersion = "1.1.0.1";
 
 //////////////////////////////////////////////////////////////////////
 // VARIABLES
@@ -27,6 +28,7 @@ var signClientVersion = "0.9.0";
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
 var Solution = baseDir + "/Windows Community Toolkit.sln";
+var win32Solution = baseDir + "/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -44,7 +46,6 @@ var versionClient = toolsDir + "/nerdbank.gitversioning/tools/Get-Version.ps1";
 string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
-var inheritDocKey = "PJKUD6-T4H34O-MUGPCM-LN5JKD-FWUWG2-32AECA";
 var inheritDocExclude = "Foo.*";
 
 var name = "Windows Community Toolkit";
@@ -161,6 +162,7 @@ Task("Build")
     .WithTarget("Restore");
 
     MSBuild(Solution, buildSettings);
+    MSBuild(win32Solution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
 
@@ -173,6 +175,7 @@ Task("Build")
     .WithTarget("Build")
     .WithProperty("GenerateLibraryLayout", "true");
 
+    MSBuild(win32Solution, buildSettings);
 	MSBuild(Solution, buildSettings);
 });
 
@@ -184,12 +187,25 @@ Task("InheritDoc")
 	Information("\nDownloading InheritDoc...");
 	var installSettings = new NuGetInstallSettings {
 		ExcludeVersion = true,
+        Version = inheritDocVersion,
 		OutputDirectory = toolsDir
 	};
 
 	NuGetInstall(new []{"InheritDoc"}, installSettings);
+    
+    var args = new ProcessArgumentBuilder()
+                .AppendSwitchQuoted("-b", baseDir)
+                .AppendSwitch("-o", "")
+                .AppendSwitchQuoted("-x", inheritDocExclude);
 
-	StartProcess(inheritDoc, "-k " + inheritDocKey + " -b \"" + baseDir + "\" -o -x\"" + inheritDocExclude + "\"");
+    var result = StartProcess(inheritDoc, new ProcessSettings { Arguments = args });
+    
+    if (result != 0)
+    {
+        throw new InvalidOperationException("InheritDoc failed!");
+    }
+
+    Information("\nFinished generating documentation with InheritDoc");
 });
 
 Task("Package")
@@ -207,6 +223,7 @@ Task("Package")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
+    MSBuild(win32Solution, buildSettings);
 
     // Build and pack C++ packages
     buildSettings = new MSBuildSettings

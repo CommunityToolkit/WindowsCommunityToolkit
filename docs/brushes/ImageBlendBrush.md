@@ -40,7 +40,7 @@ In addition, the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a 
 
 ## Sample Code
 
-[ImageBlendBrush sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageBlendBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[ImageBlendBrush sample page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ImageBlendBrush). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -51,7 +51,7 @@ In addition, the `Hue`, `Saturation`, `Color`, and `Luminosity` modes require a 
 
 ## API Source Code
 
-- [BackdropInvertBrush source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Media/ImageBlendBrush.cs)
+- [BackdropInvertBrush source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Media/ImageBlendBrush.cs)
 
 ## Related Topics
 
