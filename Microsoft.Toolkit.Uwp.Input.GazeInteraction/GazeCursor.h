@@ -17,15 +17,6 @@ private:
     const bool DEFAULT_CURSOR_VISIBILITY = true;
 
 public:
-    static property GazeCursor^ Instance
-    {
-        GazeCursor^ get()
-        {
-            static GazeCursor^ cursor = ref new GazeCursor();
-            return cursor;
-        }
-    }
-
     void LoadSettings(ValueSet^ settings);
     property int CursorRadius
     {
@@ -73,7 +64,7 @@ public:
         }
     }
 
-private:
+internal:
     GazeCursor();
 
 private:

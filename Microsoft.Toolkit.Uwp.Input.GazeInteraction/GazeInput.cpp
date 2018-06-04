@@ -13,63 +13,55 @@ using namespace Windows::UI;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-static Brush^ s_enterBrush = nullptr;
-
 Brush^ GazeInput::DwellFeedbackEnterBrush::get()
 {
-    return s_enterBrush;
+    return GazePointer::Instance->_enterBrush;
 }
 
 void GazeInput::DwellFeedbackEnterBrush::set(Brush^ value)
 {
-    s_enterBrush = value;
+    GazePointer::Instance->_enterBrush = value;
 }
-
-static Brush^ s_progressBrush = ref new SolidColorBrush(Colors::Green);
 
 Brush^ GazeInput::DwellFeedbackProgressBrush::get()
 {
-    return s_progressBrush;
+    return GazePointer::Instance->_progressBrush;
 }
 
 void GazeInput::DwellFeedbackProgressBrush::set(Brush^ value)
 {
-    s_progressBrush = value;
+    GazePointer::Instance->_progressBrush = value;
 }
-
-static Brush^ s_completeBrush = ref new SolidColorBrush(Colors::Red);
 
 Brush^ GazeInput::DwellFeedbackCompleteBrush::get()
 {
-    return s_completeBrush;
+    return GazePointer::Instance->_completeBrush;
 }
 
 void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
 {
-    s_completeBrush = value;
+    GazePointer::Instance->_completeBrush = value;
 }
-
-static Interaction s_interaction = Interaction::Disabled;
 
 Interaction GazeInput::GlobalInteraction::get()
 {
-    return s_interaction;
+    return GazePointer::Instance->_interaction;
 }
 
 void GazeInput::GlobalInteraction::set(Interaction value)
 {
-    if (s_interaction != value)
+    if (GazePointer::Instance->_interaction != value)
     {
         if (value == Interaction::Enabled)
         {
             GazePointer::Instance->AddRoot(nullptr);
         }
-        else if (s_interaction == Interaction::Enabled)
+        else if (GazePointer::Instance->_interaction == Interaction::Enabled)
         {
             GazePointer::Instance->RemoveRoot(nullptr);
         }
 
-        s_interaction = value;
+        GazePointer::Instance->_interaction = value;
     }
 }
 

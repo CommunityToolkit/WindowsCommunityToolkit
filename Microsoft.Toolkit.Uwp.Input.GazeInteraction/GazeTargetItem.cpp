@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "GazeTargetItem.h"
+#include "GazePointer.h"
 
 #include "GazeElement.h"
 #include "GazeFeedbackPopupFactory.h"
@@ -75,33 +76,6 @@ internal:
     }
 };
 
-ref class NonInvokeGazeTargetItem sealed : GazeTargetItem
-{
-private:
-
-    NonInvokeGazeTargetItem()
-        : GazeTargetItem(ref new Page())
-    {
-    }
-
-internal:
-
-    static property GazeTargetItem^ Instance
-    {
-        GazeTargetItem^ get()
-        {
-            static GazeTargetItem^ s_gazeTargetItem = ref new NonInvokeGazeTargetItem();
-            return s_gazeTargetItem;
-        }
-    }
-
-    virtual property bool IsInvokable { bool get() override { return false; } }
-
-    void Invoke() override
-    {
-    }
-};
-
 ref class ExpandCollapseGazeTargetItem sealed : GazeTargetItem
 {
 private:
@@ -130,8 +104,6 @@ internal:
         }
     }
 };
-
-GazeTargetItem^ GazeTargetItem::NonInvokable::get() { return NonInvokeGazeTargetItem::Instance; }
 
 GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 {
@@ -175,7 +147,7 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
                     }
                     else
                     {
-                        item = NonInvokeGazeTargetItem::Instance;
+                        item = GazePointer::Instance->_nonInvokeGazeTargetItem;
                     }
                 }
             }
@@ -208,7 +180,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
         {
             if (_feedbackPopup == nullptr)
             {
-                _feedbackPopup = GazeFeedbackPopupFactory::Get();
+                _feedbackPopup = GazePointer::Instance->_gazeFeedbackPopupFactory->Get();
             }
 
             auto control = safe_cast<FrameworkElement^>(TargetElement);
@@ -249,7 +221,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
         {
             if (_feedbackPopup != nullptr)
             {
-                GazeFeedbackPopupFactory::Return(_feedbackPopup);
+                GazePointer::Instance->_gazeFeedbackPopupFactory->Return(_feedbackPopup);
                 _feedbackPopup = nullptr;
             }
         }

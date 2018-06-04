@@ -14,6 +14,24 @@ using namespace Platform;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+ref class NonInvokeGazeTargetItem sealed : GazeTargetItem
+{
+internal:
+
+    NonInvokeGazeTargetItem()
+        : GazeTargetItem(ref new Page())
+    {
+    }
+
+internal:
+
+    virtual property bool IsInvokable { bool get() override { return false; } }
+
+    void Invoke() override
+    {
+    }
+};
+
 GazePointer^ GazePointer::Instance::get()
 {
     thread_local static GazePointer^ value;
@@ -57,10 +75,12 @@ void GazePointer::RemoveRoot(FrameworkElement^ element)
 
 GazePointer::GazePointer()
 {
+    _nonInvokeGazeTargetItem = ref new NonInvokeGazeTargetItem();
+
     // Default to not filtering sample data
     Filter = ref new NullFilter();
 
-    _gazeCursor = GazeCursor::Instance;
+    _gazeCursor = ref new GazeCursor();
 
     // timer that gets called back if there gaze samples haven't been received in a while
     _eyesOffTimer = ref new DispatcherTimer();
@@ -308,7 +328,7 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 
     if (element == nullptr || !invokable->IsInvokable)
     {
-        invokable = GazeTargetItem::NonInvokable;
+        invokable = _nonInvokeGazeTargetItem;
     }
     else
     {
@@ -326,7 +346,7 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 
         if (interaction != Interaction::Enabled)
         {
-            invokable = GazeTargetItem::NonInvokable;
+            invokable = _nonInvokeGazeTargetItem;
         }
     }
 
