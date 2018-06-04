@@ -9,14 +9,33 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-    internal sealed class UriToLocalStreamResolver : IUriToStreamResolver
+    internal class UriToLocalStreamResolver : IUriToStreamResolver
     {
-        private static readonly Lazy<string> BasePath = new Lazy<string>(() =>
-#pragma warning disable SA1129 // Do not use default value type constructor
-            Path.GetDirectoryName(UnsafeNativeMethods.GetModuleFileName(new HandleRef())));
-#pragma warning restore SA1129 // Do not use default value type constructor
+        private readonly string _path;
 
-        Stream IUriToStreamResolver.UriToStream(Uri uri)
+        public UriToLocalStreamResolver()
+#pragma warning disable SA1129 // Do not use default value type constructor
+            : this(Path.GetDirectoryName(UnsafeNativeMethods.GetModuleFileName(new HandleRef())))
+#pragma warning restore SA1129 // Do not use default value type constructor
+        {
+        }
+
+        protected UriToLocalStreamResolver(string path)
+        {
+            _path = path;
+        }
+
+        public Stream UriToStream(Uri uri)
+        {
+            var fullPath = ConvertToPath(uri);
+
+            // TODO: Make this proper async all the way through
+#pragma warning disable SCS0018 // Path traversal: injection possible in {1} argument passed to '{0}'
+            return File.Open(fullPath, FileMode.Open, FileAccess.Read);
+#pragma warning restore SCS0018 // Path traversal: injection possible in {1} argument passed to '{0}'
+        }
+
+        private string ConvertToPath(Uri uri)
         {
             if (uri == null)
             {
@@ -53,10 +72,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // Translate forward slash into backslash for use in file paths
             path = path.Replace(PathUtilities.AltDirectorySeparatorChar, PathUtilities.DirectorySeparatorChar);
 
-            var fullPath = Path.Combine(BasePath.Value, path);
+            var fullPath = Path.Combine(_path, path);
 
-            // TODO: Make this proper async all the way through
-            return File.Open(fullPath, FileMode.Open, FileAccess.Read);
+            // At this point there should be no relative paths (e.g. ../../file.htm)
+            // This check is the last guard against potential path/directory traversal attack
+            if (fullPath.IndexOfAny(Path.GetInvalidPathChars()) >= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(uri));
+            }
+
+            return fullPath;
         }
     }
 }

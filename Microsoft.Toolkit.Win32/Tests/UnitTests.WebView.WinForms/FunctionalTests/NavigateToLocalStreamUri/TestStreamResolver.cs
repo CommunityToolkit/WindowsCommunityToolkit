@@ -3,27 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using System;
 using System.IO;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests.NavigateToLocalStreamUri
 {
-    internal class TestStreamResolver : IUriToStreamResolver
+    internal class TestStreamResolver : UriToLocalStreamResolver
     {
-        private readonly string _path;
-
         public TestStreamResolver()
-        {
-            _path = Path.GetDirectoryName(GetType().Assembly.Location);
-        }
-
-        public Stream UriToStream(Uri uri)
-        {
-            var path = uri.AbsolutePath;
-            path = path.TrimStart(PathUtilities.AltDirectorySeparatorChar);
-            path = path.Replace(PathUtilities.AltDirectorySeparatorChar, PathUtilities.DirectorySeparatorChar);
-            var fullPath = Path.Combine(_path, path);
-            return File.Open(fullPath, FileMode.Open, FileAccess.Read);
-        }
+            :base(Path.GetDirectoryName(typeof(TestStreamResolver).Assembly.Location))
+        {            
+        }        
     }
 }
