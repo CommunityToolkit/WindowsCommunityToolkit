@@ -8,7 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Security;
 using System.Threading.Tasks;
-
+using Windows.Foundation.Metadata;
 using Windows.Web;
 using Windows.Web.UI;
 using Windows.Web.UI.Interop;
@@ -80,7 +80,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
+        internal event EventHandler<object> GotFocus = (sender, args) => { };
+
         internal event EventHandler<WebViewControlLongRunningScriptDetectedEventArgs> LongRunningScriptDetected = (sender, args) => { };
+
+        internal event EventHandler<object> LostFocus = (sender, args) => { };
 
         internal event EventHandler<WebViewControlMoveFocusRequestedEventArgs> MoveFocusRequested = (sender, args) => { };
 
@@ -678,7 +682,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
+        private void OnGotFocus(object args)
+        {
+            var handler = GotFocus;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
         private void OnFrameNavigationStarting(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => OnFrameNavigationStarting(args);
+
+        private void OnGotFocus(IWebViewControl sender, object args) => OnGotFocus(args);
 
         private void OnLongRunningScriptDetected(WebViewControlLongRunningScriptDetectedEventArgs args)
         {
@@ -690,6 +705,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         private void OnLongRunningScriptDetected(IWebViewControl sender, Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => OnLongRunningScriptDetected(args);
+
+        private void OnLostFocus(object args)
+        {
+            var handler = LostFocus;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void OnLostFocus(IWebViewControl sender, object args) => OnLostFocus(args);
 
         private void OnMoveFocusRequested(WebViewControlMoveFocusRequestedEventArgs args)
         {
@@ -910,6 +936,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsafeContentWarningDisplaying += OnUnsafeContentWarningDisplaying;
             _webViewControl.UnsupportedUriSchemeIdentified += OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified += OnUnviewableContentIdentified;
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
+            {
+                _webViewControl.GotFocus += OnGotFocus;
+            }
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
+            {
+                _webViewControl.LostFocus += OnLostFocus;
+            }
         }
 
         [SecurityCritical]
@@ -948,6 +984,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsafeContentWarningDisplaying -= OnUnsafeContentWarningDisplaying;
             _webViewControl.UnsupportedUriSchemeIdentified -= OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
+            {
+                _webViewControl.GotFocus -= OnGotFocus;
+            }
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
+            {
+                _webViewControl.LostFocus -= OnLostFocus;
+            }
         }
 
         private void UnsubscribeProcessExited()

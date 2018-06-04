@@ -934,6 +934,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        private void OnGotFocus(object sender, object args)
+        {
+            OnGotFocus(new RoutedEventArgs(GotFocusEvent));
+        }
+
         private void OnLongRunningScriptDetected(object sender, WebViewControlLongRunningScriptDetectedEventArgs args)
         {
             var handler = LongRunningScriptDetected;
@@ -941,6 +946,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 handler(this, args);
             }
+        }
+
+        private void OnLostFocus(object sender, object args)
+        {
+            OnLostFocus(new RoutedEventArgs(GotFocusEvent));
         }
 
         private void OnMoveFocusRequested(object sender, WebViewControlMoveFocusRequestedEventArgs args)
@@ -1046,7 +1056,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded += OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted += OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting += OnFrameNavigationStarting;
+            _webViewControl.GotFocus += OnGotFocus;
             _webViewControl.LongRunningScriptDetected += OnLongRunningScriptDetected;
+            _webViewControl.LostFocus += OnLostFocus;
             _webViewControl.MoveFocusRequested += OnMoveFocusRequested;
             _webViewControl.NavigationCompleted += OnNavigationCompleted;
             _webViewControl.NavigationStarting += OnNavigationStarting;
@@ -1074,7 +1086,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded -= OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted -= OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting -= OnFrameNavigationStarting;
+            _webViewControl.GotFocus -= OnGotFocus;
             _webViewControl.LongRunningScriptDetected -= OnLongRunningScriptDetected;
+            _webViewControl.LostFocus -= OnLostFocus;
             _webViewControl.MoveFocusRequested -= OnMoveFocusRequested;
             _webViewControl.NavigationCompleted -= OnNavigationCompleted;
             _webViewControl.NavigationStarting -= OnNavigationStarting;
