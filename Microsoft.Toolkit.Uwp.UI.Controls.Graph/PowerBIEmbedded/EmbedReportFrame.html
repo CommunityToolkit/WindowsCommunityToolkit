@@ -2,6 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title></title>
     <style>
         html, body {
@@ -18,14 +19,24 @@
             top: 10px;
         }
 
-            #dropdownContainer select {
-                margin-right: 15px;
-                padding: 3px;
-                font-size: 1em;
-            }
+        #dropdownContainer select {
+            margin-right: 15px;
+            padding: 3px;
+            font-size: 1em;
+        }
 
         #reportContainer {
             height: 100%;
+        }
+
+        @media (max-width: 720px) {
+            #dropdownContainer {
+                position: static;
+            }
+
+            #dropdownContainer select {
+                width: 100%;
+            }
         }
     </style>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
@@ -46,6 +57,7 @@
 
     <script>
         var accessToken;
+        var currentOrientation;
 
         function getReport() {
             const embedContainer = $('#reportContainer')[0];
@@ -58,8 +70,10 @@
             report.setAccessToken(token);
         }
 
-        function loadGroups(token, reports, selectionReport) {
+        function loadGroups(token, reports, selectionReport, orientation) {
             accessToken = token;
+            currentOrientation = orientation ;
+
             $('#dropdownContainer').css('visibility', 'visible')
             $('#reportsDropdown').off("change").html('');
 
@@ -85,8 +99,8 @@
                     var findReport = reports.find(function (report) {
                         return report.id == id;
                     });
-                    loadPowerBiReport(findReport);
 
+                    loadPowerBiReport(findReport);
                 };
             })(reports));
 
@@ -103,10 +117,7 @@
                 embedUrl: embedReport.embedUrl,
                 id: embedReport.id,
                 permissions: models.Permissions.All,
-                settings: {
-                    filterPaneEnabled: true,
-                    navContentPaneEnabled: false
-                }
+                settings: getSettings()
             };
             const report = powerbi.embed(reportContainer, config);
 
@@ -166,21 +177,47 @@
                 });
         }
 
-        //TODO
-        function rotate(orientations) {
-            /* Update view settings, you could refer to below code to update view setting.
-             
-            let settings = {
-                layoutType: models.LayoutType.Custom,
+        function rotate(orientation) {
+            // do rotate only when the report is already loaded previously
+            if (!currentOrientation) {
+                return;
             }
+
+            currentOrientation = orientation;
+
+            const settings = getSettings();
 
             const report = getReport();
 
             report.updateSettings(settings)
+                .then(function () {
+
+                })
                 .catch(function (error) {
                     alert(error);
                 });
-            */
+        }
+
+        function getSettings() {
+            const models = window['powerbi-client'].models;
+
+            switch (currentOrientation) {
+                case 'Portrait':
+                case 'PortraitFlipped':
+                    return {
+                        layoutType: models.LayoutType.MobilePortrait
+                    };
+                case 'Landscape':
+                case 'LandscapeFlipped':
+                    return {
+                        layoutType: models.LayoutType.MobileLandscape
+                    };
+                default:
+                    return {
+                        filterPaneEnabled: true,
+                        navContentPaneEnabled: false
+                    };
+            }
         }
 
         /* visuals, will removed later

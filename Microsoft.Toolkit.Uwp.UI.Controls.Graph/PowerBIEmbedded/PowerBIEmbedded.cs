@@ -13,6 +13,7 @@ using Microsoft.Rest;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Newtonsoft.Json;
 using Windows.Foundation;
+using Windows.Graphics.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -75,8 +76,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
             _tokenExpirationRefreshTimer.Start();
 
-            Window.Current.SizeChanged -= CurrentWindow_SizeChanged;
-            Window.Current.SizeChanged += CurrentWindow_SizeChanged;
+            DisplayInformation.OrientationChanged -= DisplayInformation_OrientationChanged;
+            DisplayInformation.OrientationChanged += DisplayInformation_OrientationChanged;
         }
 
         private void WebViewReportFrame_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
@@ -84,11 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _webViewInitializedTask.TrySetResult(true);
         }
 
-        private void CurrentWindow_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        private void DisplayInformation_OrientationChanged(DisplayInformation sender, object args)
         {
             if (IsWindowsPhone)
             {
-                InvokeScript($"rotate('{Orientations.ToString()}')");
+                InvokeScript($"rotate('{sender.CurrentOrientation.ToString()}')");
             }
         }
 
@@ -158,7 +159,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             InvokeScript($"loadGroups(" +
                                 $"'{token}', " +
                                 $"{JsonConvert.SerializeObject(new Report[] { report })}, " +
-                                $"{JsonConvert.SerializeObject(report)})");
+                                $"{JsonConvert.SerializeObject(report)}, " +
+                                $"'{DisplayInformation.CurrentOrientation.ToString()}')");
 
                             return;
                         }
@@ -200,7 +202,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     InvokeScript($"loadGroups(" +
                         $"'{token}', " +
                         $"{JsonConvert.SerializeObject(reports)}, " +
-                        $"{JsonConvert.SerializeObject(selectionReport)})");
+                        $"{JsonConvert.SerializeObject(selectionReport)}, " +
+                        $"'{DisplayInformation.CurrentOrientation.ToString()}')");
                 }
             }
             else
@@ -236,8 +239,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             await WaitWebviewContentLoaded();
 
             await _webViewReportFrame.InvokeScriptAsync(
-                    "eval",
-                    new string[] { script });
+               "eval",
+               new string[] { script });
         }
     }
 }
