@@ -77,25 +77,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private DisplayOrientations Orientations
+        private DisplayInformation DisplayInformation
         {
             get
             {
-                if (IsWindowsPhone)
-                {
-                    var bounds = ApplicationView.GetForCurrentView().VisibleBounds;
-
-                    if (bounds.Height > bounds.Width)
-                    {
-                        return DisplayOrientations.Portrait;
-                    }
-                    else
-                    {
-                        return DisplayOrientations.Landscape;
-                    }
-                }
-
-                return DisplayOrientations.None;
+                return DisplayInformation.GetForCurrentView();
             }
         }
     }
