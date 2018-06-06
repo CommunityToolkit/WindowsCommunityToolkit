@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
 
             // Clean up path
-            path = path.TrimStart(PathUtilities.AltDirectorySeparatorChar);
+            path = path.TrimStart(Path.AltDirectorySeparatorChar);
 
             if (string.IsNullOrEmpty(path))
             {
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
 
             // Translate forward slash into backslash for use in file paths
-            path = path.Replace(PathUtilities.AltDirectorySeparatorChar, PathUtilities.DirectorySeparatorChar);
+            path = path.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
 
             var fullPath = Path.Combine(_path, path);
 
