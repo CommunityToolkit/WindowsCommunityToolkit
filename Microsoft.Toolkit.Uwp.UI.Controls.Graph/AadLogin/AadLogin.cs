@@ -78,18 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
-            var success = false;
-
-            try
-            {
-                success = await GraphService.TryLoginAsync();
-            }
-            catch (Exception ex)
-            {
-                SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
-            }
-
-            if (success)
+            if (await GraphService.TryLoginAsync())
             {
                 AutomationProperties.SetName(this, string.Empty);
 
