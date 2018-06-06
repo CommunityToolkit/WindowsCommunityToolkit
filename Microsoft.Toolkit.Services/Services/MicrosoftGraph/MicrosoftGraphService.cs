@@ -337,7 +337,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 if (ex.ErrorCode != "authentication_canceled"
                     && ex.ErrorCode != "access_denied")
                 {
-                    throw ex;
+                    SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
                 }
             }
 
