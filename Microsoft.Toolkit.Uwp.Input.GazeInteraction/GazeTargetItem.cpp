@@ -18,88 +18,76 @@ static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::Register
 
 ref class InvokeGazeTargetItem sealed : public GazeTargetItem
 {
-private:
-
-    IInvokeProvider ^ _invokeProvider;
-
 internal:
 
-    InvokeGazeTargetItem(UIElement^ element, IInvokeProvider^ invokeProvider)
+    InvokeGazeTargetItem(UIElement^ element)
         : GazeTargetItem(element)
     {
-        _invokeProvider = invokeProvider;
     }
 
     void Invoke() override
     {
-        _invokeProvider->Invoke();
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto invokeProvider = safe_cast<IInvokeProvider^>(peer);
+        invokeProvider->Invoke();
     }
 };
 
 ref class ToggleGazeTargetItem sealed : public GazeTargetItem
 {
-private:
-
-    IToggleProvider ^ _toggleProvider;
-
 internal:
 
-    ToggleGazeTargetItem(UIElement^ element, IToggleProvider^ toggleProvider)
+    ToggleGazeTargetItem(UIElement^ element)
         : GazeTargetItem(element)
     {
-        _toggleProvider = toggleProvider;
     }
 
     void Invoke() override
     {
-        _toggleProvider->Toggle();
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto toggleProvider = safe_cast<IToggleProvider ^>(peer);
+        toggleProvider->Toggle();
     }
 };
 
 ref class SelectionGazeTargetItem sealed : public GazeTargetItem
 {
-private:
-
-    ISelectionItemProvider ^ _selectionItemProvider;
-
 internal:
 
-    SelectionGazeTargetItem(UIElement^ element, ISelectionItemProvider^ selectionItemProvider)
+    SelectionGazeTargetItem(UIElement^ element)
         : GazeTargetItem(element)
     {
-        _selectionItemProvider = selectionItemProvider;
     }
 
     void Invoke() override
     {
-        _selectionItemProvider->Select();
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto selectionItemProvider = safe_cast<ISelectionItemProvider ^>(peer);
+        selectionItemProvider->Select();
     }
 };
 
 ref class ExpandCollapseGazeTargetItem sealed : GazeTargetItem
 {
-private:
-
-    IExpandCollapseProvider ^ _expandCollapseProvider;
-
 internal:
 
-    ExpandCollapseGazeTargetItem(UIElement^ element, IExpandCollapseProvider^ expandCollapseProvider)
+    ExpandCollapseGazeTargetItem(UIElement^ element)
         : GazeTargetItem(element)
     {
-        _expandCollapseProvider = expandCollapseProvider;
     }
 
     void Invoke() override
     {
-        switch (_expandCollapseProvider->ExpandCollapseState)
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto expandCollapseProvider = safe_cast<IExpandCollapseProvider ^>(peer);
+        switch (expandCollapseProvider->ExpandCollapseState)
         {
         case ExpandCollapseState::Collapsed:
-            _expandCollapseProvider->Expand();
+            expandCollapseProvider->Expand();
             break;
 
         case ExpandCollapseState::Expanded:
-            _expandCollapseProvider->Collapse();
+            expandCollapseProvider->Collapse();
             break;
         }
     }
@@ -122,28 +110,28 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
         auto invokeProvider = dynamic_cast<IInvokeProvider^>(peer);
         if (invokeProvider != nullptr)
         {
-            item = ref new InvokeGazeTargetItem(element, invokeProvider);
+            item = ref new InvokeGazeTargetItem(element);
         }
         else
         {
             auto toggleProvider = dynamic_cast<IToggleProvider^>(peer);
             if (toggleProvider != nullptr)
             {
-                item = ref new ToggleGazeTargetItem(element, toggleProvider);
+                item = ref new ToggleGazeTargetItem(element);
             }
             else
             {
                 auto selectionItemProvider = dynamic_cast<ISelectionItemProvider^>(peer);
                 if (selectionItemProvider != nullptr)
                 {
-                    item = ref new SelectionGazeTargetItem(element, selectionItemProvider);
+                    item = ref new SelectionGazeTargetItem(element);
                 }
                 else
                 {
                     auto expandCollapseProvider = dynamic_cast<IExpandCollapseProvider^>(peer);
                     if (expandCollapseProvider != nullptr)
                     {
-                        item = ref new ExpandCollapseGazeTargetItem(element, expandCollapseProvider);
+                        item = ref new ExpandCollapseGazeTargetItem(element);
                     }
                     else
                     {
@@ -206,7 +194,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
             }
             else
             {
-                rectangle->Stroke = state == DwellProgressState::Fixating ? 
+                rectangle->Stroke = state == DwellProgressState::Fixating ?
                     GazeInput::DwellFeedbackEnterBrush : GazeInput::DwellFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
