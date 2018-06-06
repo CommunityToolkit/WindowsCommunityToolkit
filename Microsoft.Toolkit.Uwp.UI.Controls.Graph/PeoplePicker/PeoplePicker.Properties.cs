@@ -5,6 +5,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
