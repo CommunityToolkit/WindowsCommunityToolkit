@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
@@ -17,6 +18,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <param name="relativePath">A path identifying the local HTML content to load.</param>
         /// <param name="streamResolver">A <see cref="IUriToStreamResolver"/> instance that converts a Uniform Resource Identifier (URI) into a stream to load.</param>
-        void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver);
+        void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver);
     }
 }

@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             // ms-local-stream://microsoft.win32webviewhost_xxxxxxxx_yyyyyyyyyyyyyy/content.htm
             // We are only interested in the items after the application identity (x) and guid (y), e.g. "/content.htm"
             // Since we must not read content from web view host
-            var path = uri.AbsolutePath;
+            var path = UriHelper.RelativeUriToString(uri);
 
             if (string.IsNullOrEmpty(path))
             {

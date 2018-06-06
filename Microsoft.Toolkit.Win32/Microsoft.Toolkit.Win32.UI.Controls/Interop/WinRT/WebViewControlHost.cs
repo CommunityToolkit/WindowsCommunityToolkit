@@ -42,6 +42,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </remarks>
     internal sealed class WebViewControlHost : IDisposable
     {
+        private const string LocalContentIdentifier = "LocalContent";
+
         [SecurityCritical]
         private WebViewControl _webViewControl;
 
@@ -511,13 +513,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Navigate(UriHelper.StringToUri(source));
         }
 
-        internal void NavigateToLocal(string relativePath) => NavigateToLocalStreamUri(relativePath, new UriToLocalStreamResolver());
-
-        internal void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver)
+        internal void NavigateToLocal(string relativePath)
         {
-            if (string.IsNullOrEmpty(relativePath))
+            var relativeUri = UriHelper.StringToRelativeUri(relativePath);
+            NavigateToLocalStreamUri(relativeUri, new UriToLocalStreamResolver());
+        }
+
+        internal void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)
+        {
+            if (relativePath == null)
             {
                 throw new ArgumentNullException(nameof(relativePath));
+            }
+
+            if (relativePath.IsAbsoluteUri)
+            {
+                throw new ArgumentOutOfRangeException(nameof(relativePath), DesignerUI.E_WEBVIEW_INVALID_URI);
             }
 
             if (streamResolver == null)
@@ -528,31 +539,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Windows.Web.IUriToStreamResolver AsWindowsRuntimeUriToStreamResolver(IUriToStreamResolver streamResolverInterop)
             {
                 // Check to see if the stream resolver is actually a wrapper of a WinRT stream resolver
-                var streamResolverAdapter = streamResolverInterop as Windows.Web.IUriToStreamResolver;
-                if (streamResolverAdapter != null)
+                if (streamResolverInterop is Windows.Web.IUriToStreamResolver streamResolverAdapter)
                 {
                     return streamResolverAdapter;
                 }
 
-                if (streamResolverAdapter == null)
+                if (streamResolverInterop is GenericUriToStreamResolver genericAdapter)
                 {
-                    if (streamResolverInterop is GenericUriToStreamResolver genericAdapter)
-                    {
-                        return genericAdapter;
-                    }
+                    return genericAdapter;
                 }
 
                 // We have an unwrapped stream resolver
                 return new GenericUriToStreamResolver(streamResolver);
             }
 
-            var uri = BuildStream("LocalContent", relativePath);
-            NavigateToLocalStreamUri(uri, AsWindowsRuntimeUriToStreamResolver(streamResolver));
-        }
-
-        internal void NavigateToLocalStreamUri(Uri source, Windows.Web.IUriToStreamResolver streamResolver)
-        {
-            _webViewControl?.NavigateToLocalStreamUri(source, streamResolver);
+            var uri = BuildStream(LocalContentIdentifier, UriHelper.UriToString(relativePath));
+            _webViewControl?.NavigateToLocalStreamUri(uri, AsWindowsRuntimeUriToStreamResolver(streamResolver));
         }
 
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>

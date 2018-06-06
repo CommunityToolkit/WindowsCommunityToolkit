@@ -598,7 +598,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
-        public void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver)
+        public void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)
         {
             VerifyAccess();
 

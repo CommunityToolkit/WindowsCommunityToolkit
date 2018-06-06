@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -29,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void When()
         {
-            NavigateToLocalAndWaitForFormClose("async.htm", new TestStreamResolver());
+            NavigateToLocalAndWaitForFormClose(new Uri("async.htm", UriKind.Relative), new TestStreamResolver());
         }
 
         [TestMethod]
@@ -62,7 +63,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void When()
         {
-            NavigateToLocalAndWaitForFormClose("async.htm", new TestStreamResolver());
+            NavigateToLocalAndWaitForFormClose(new Uri("async.htm", UriKind.Relative), new TestStreamResolver());
         }
 
         [TestMethod]
@@ -95,7 +96,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void When()
         {
-            NavigateToLocalAndWaitForFormClose("sync.htm", new TestStreamResolver());
+            NavigateToLocalAndWaitForFormClose(new Uri("async.htm", UriKind.Relative), new TestStreamResolver());
         }
 
         [TestMethod]

@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             });
         }
 
-        protected virtual void NavigateToLocalAndWaitForFormClose(string relativePath, IUriToStreamResolver streamResolver)
+        protected virtual void NavigateToLocalAndWaitForFormClose(Uri relativePath, IUriToStreamResolver streamResolver)
         {
             PerformActionAndWaitForFormClose(() =>
             {

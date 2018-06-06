@@ -115,6 +115,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
 
         /// <inheritdoc />
-        public void NavigateToLocalStreamUri(string relativePath, IUriToStreamResolver streamResolver) => _webViewControl?.NavigateToLocalStreamUri(relativePath, streamResolver);
+        public void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver) => _webViewControl?.NavigateToLocalStreamUri(relativePath, streamResolver);
     }
 }
