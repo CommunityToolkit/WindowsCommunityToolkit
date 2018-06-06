@@ -123,6 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 var graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
+                PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
+                plannerTaskViewModel.ETag = taskToUpdate.GetEtag();
                 using (HttpRequestMessage request = graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetHttpRequestMessage())
                 {
                     request.Method = new HttpMethod(HttpMethodPatch);
@@ -134,8 +136,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     response.Dispose();
                 }
 
-                PlannerTask newTask = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
-                plannerTaskViewModel.ETag = newTask.GetEtag();
                 plannerTaskViewModel.IsUpdating = false;
             }
         }

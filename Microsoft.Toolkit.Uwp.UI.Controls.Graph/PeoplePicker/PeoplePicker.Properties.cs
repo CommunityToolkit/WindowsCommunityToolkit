@@ -136,5 +136,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             get => (bool)GetValue(IsLoadingProperty);
             set => SetValue(IsLoadingProperty, value);
         }
+
+        internal bool IsWindowsPhone
+        {
+            get
+            {
+                return AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
+            }
+        }
     }
 }
