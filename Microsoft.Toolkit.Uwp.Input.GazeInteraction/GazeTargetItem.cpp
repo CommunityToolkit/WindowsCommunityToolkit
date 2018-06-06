@@ -29,7 +29,7 @@ internal:
     T^ GetProvider()
     {
         auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto provider = safe_cast<T^>(peer);
+        auto provider = dynamic_cast<T^>(peer);
         return provider;
     }
 };
@@ -107,6 +107,33 @@ internal:
     }
 };
 
+ref class ComboBoxItemGazeTargetItem sealed : AutomatedGazeTargetItem<ComboBoxItemAutomationPeer>
+{
+internal:
+
+    ComboBoxItemGazeTargetItem(UIElement^ element)
+        : AutomatedGazeTargetItem(element)
+    {
+    }
+
+    void Invoke() override
+    {
+        auto comboBoxItemAutomationPeer = GetProvider();
+        auto comboBoxItem = safe_cast<ComboBoxItem^>(comboBoxItemAutomationPeer->Owner);
+
+        AutomationPeer^ ancestor = comboBoxItemAutomationPeer;
+        auto comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+        while (comboBoxAutomationPeer == nullptr)
+        {
+            ancestor = safe_cast<AutomationPeer^>(ancestor->Navigate(AutomationNavigationDirection::Parent));
+            comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+        }
+
+        comboBoxItem->IsSelected = true;
+        comboBoxAutomationPeer->Collapse();
+    }
+};
+
 GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 {
     GazeTargetItem^ item;
@@ -149,7 +176,16 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
                     }
                     else
                     {
-                        item = GazePointer::Instance->_nonInvokeGazeTargetItem;
+                        auto comboBoxItemAutomationPeer = dynamic_cast<ComboBoxItemAutomationPeer^>(peer);
+
+                        if (comboBoxItemAutomationPeer != nullptr)
+                        {
+                            item = ref new ComboBoxItemGazeTargetItem(element);
+                        }
+                        else
+                        {
+                            item = GazePointer::Instance->_nonInvokeGazeTargetItem;
+                        }
                     }
                 }
             }
