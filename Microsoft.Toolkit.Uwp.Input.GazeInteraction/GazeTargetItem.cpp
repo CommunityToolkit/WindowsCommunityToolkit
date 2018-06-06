@@ -16,70 +16,84 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("_GazeTargetItem", GazeTargetItem::typeid, GazeTargetItem::typeid, ref new PropertyMetadata(nullptr));
 
-ref class InvokeGazeTargetItem sealed : public GazeTargetItem
+template <typename T>
+ref class AutomatedGazeTargetItem : public GazeTargetItem
+{
+internal:
+
+    AutomatedGazeTargetItem(UIElement^ element)
+        : GazeTargetItem(element)
+    {
+    }
+
+    T^ GetProvider()
+    {
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto provider = safe_cast<T^>(peer);
+        return provider;
+    }
+};
+
+ref class InvokeGazeTargetItem sealed : public AutomatedGazeTargetItem<IInvokeProvider>
 {
 internal:
 
     InvokeGazeTargetItem(UIElement^ element)
-        : GazeTargetItem(element)
+        : AutomatedGazeTargetItem(element)
     {
     }
 
     void Invoke() override
     {
-        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto invokeProvider = safe_cast<IInvokeProvider^>(peer);
+        auto invokeProvider = GetProvider();
         invokeProvider->Invoke();
     }
 };
 
-ref class ToggleGazeTargetItem sealed : public GazeTargetItem
+ref class ToggleGazeTargetItem sealed : public AutomatedGazeTargetItem<IToggleProvider>
 {
 internal:
 
     ToggleGazeTargetItem(UIElement^ element)
-        : GazeTargetItem(element)
+        : AutomatedGazeTargetItem(element)
     {
     }
 
     void Invoke() override
     {
-        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto toggleProvider = safe_cast<IToggleProvider ^>(peer);
+        auto toggleProvider = GetProvider();
         toggleProvider->Toggle();
     }
 };
 
-ref class SelectionGazeTargetItem sealed : public GazeTargetItem
+ref class SelectionGazeTargetItem sealed : public AutomatedGazeTargetItem<ISelectionItemProvider>
 {
 internal:
 
     SelectionGazeTargetItem(UIElement^ element)
-        : GazeTargetItem(element)
+        : AutomatedGazeTargetItem(element)
     {
     }
 
     void Invoke() override
     {
-        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto selectionItemProvider = safe_cast<ISelectionItemProvider ^>(peer);
+        auto selectionItemProvider = GetProvider();
         selectionItemProvider->Select();
     }
 };
 
-ref class ExpandCollapseGazeTargetItem sealed : GazeTargetItem
+ref class ExpandCollapseGazeTargetItem sealed : AutomatedGazeTargetItem<IExpandCollapseProvider>
 {
 internal:
 
     ExpandCollapseGazeTargetItem(UIElement^ element)
-        : GazeTargetItem(element)
+        : AutomatedGazeTargetItem(element)
     {
     }
 
     void Invoke() override
     {
-        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto expandCollapseProvider = safe_cast<IExpandCollapseProvider ^>(peer);
+        auto expandCollapseProvider = GetProvider();
         switch (expandCollapseProvider->ExpandCollapseState)
         {
         case ExpandCollapseState::Collapsed:
