@@ -12,19 +12,16 @@
             font-family: 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
             overflow: hidden;
         }
-
         #dropdownContainer {
             position: absolute;
             left: 10px;
             top: 10px;
         }
-
         #dropdownContainer select {
             margin-right: 15px;
             padding: 3px;
             font-size: 1em;
         }
-
         #reportContainer {
             height: 100%;
         }
@@ -33,7 +30,6 @@
             #dropdownContainer {
                 position: static;
             }
-
             #dropdownContainer select {
                 width: 100%;
             }
@@ -49,9 +45,6 @@
             <option>Loading</option>
         </select>
         <select id="pagesDropdown"></select>
-        <!-- will remove later
-            <select id="visualsDropdown" style="display:none"></select>
-        -->
     </div>
     <div id="reportContainer"></div>
 
@@ -70,7 +63,7 @@
             report.setAccessToken(token);
         }
 
-        function loadGroups(token, reports, selectionReport, orientation) {
+        function loadGroups(token, reports, defaultReport, orientation) {
             accessToken = token;
             currentOrientation = orientation ;
 
@@ -85,7 +78,7 @@
             }
 
             reports.forEach(function (report) {
-                if (report.id == selectionReport.id) {
+                if (report.id == defaultReport.id) {
                     $('#reportsDropdown').append(`<option value='${report.id}' selected>${report.name}</option>`);
                 }
                 else {
@@ -96,18 +89,18 @@
             $('#reportsDropdown').on("change", (function (reports) {
                 return function () {
                     var id = $(this).val();
-                    var findReport = reports.find(function (report) {
+                    var selectedReport = reports.find(function (report) {
                         return report.id == id;
                     });
 
-                    loadPowerBiReport(findReport);
+                    loadReport(selectedReport);
                 };
             })(reports));
 
-            loadPowerBiReport(selectionReport);
+            loadReport(defaultReport);
         }
 
-        function loadPowerBiReport(embedReport) {
+        function loadReport(embedReport) {
             const models = window['powerbi-client'].models;
 
             const config = {
@@ -123,8 +116,6 @@
 
             $('#reportContainer').css('visibility', 'visible');
             $('#pagesDropdown').off("change").html('<option>Loading</option>');
-            //visuals, will removed later
-            //$('#visualsDropdown').off("change").html('<option>Loading</option>');
 
             report.off("loaded");
             report.on("loaded", function () {
@@ -150,18 +141,11 @@
                                 return page.name == name;
                             });
 
-                            //visuals, will removed later
-                            //$('#visualsDropdown').off("change").html('<option>Loading</option>');
-
                             findPage.setActive();
-
-                            //visuals, will removed later
-                            //loadVisuals(findPage);
                         };
                     })(pages));
 
                     report.off("pageChanged");
-
                     report.on("pageChanged", function (event) {
                         var page = event.detail.newPage;
                         if ($('#pagesDropdown').val() != page.name) {
@@ -169,8 +153,6 @@
                             $('#pagesDropdown').change();
                         }
                     });
-
-                    //loadVisuals(pages[0]);
                 })
                 .catch(function (error) {
                     alert(error);
@@ -220,88 +202,10 @@
             }
         }
 
-        /* visuals, will removed later
-        /* 
-        function loadVisuals(page) {
-            page.getVisuals()
-                .then(function (visuals) {
-                    $('#visualsDropdown').html('<option>All</option>');
-
-                    visuals.forEach(function (visual) {
-                        $('#visualsDropdown').append(`<option value='${visual.name}'>${visual.title || 'No title'}</option>`);
-                    });
-
-                    $('#visualsDropdown').on("change", (function (visuals) {
-                        return function () {
-                            const models = window['powerbi-client'].models;
-                            const name = $(this).val();
-                            const findVisual = visuals.find(function (visual) {
-                                return visual.name == name;
-                            });
-
-                            let pageLayout = {
-                                defaultLayout: {
-                                    displayState: {
-                                        mode: models.VisualContainerDisplayMode.Hidden
-                                    }
-                                },
-                                visualsLayout: {}
-                            };
-
-                            if (name == 'All') {
-                                visuals.forEach(function (visual) {
-                                    pageLayout.visualsLayout[visual.name] = {
-                                        displayState: {
-                                            mode: models.VisualContainerDisplayMode.Visible
-                                        }
-                                    };
-                                });
-                            }
-                            else {
-                                pageLayout.visualsLayout[findVisual.name] = {
-                                    displayState: {
-                                        mode: models.VisualContainerDisplayMode.Visible
-                                    }
-                                };
-                            }
-
-                            let settings = {
-                                filterPaneEnabled: true,
-                                navContentPaneEnabled: false,
-                                layoutType: models.LayoutType.Custom,
-                                customLayout: {
-                                    pageSize: {
-                                        type: models.PageSizeType.Widescreen
-                                    },
-                                    displayOption: models.DisplayOption.FitToPage,
-                                    pagesLayout: {}
-                                }
-                            }
-
-                            settings.customLayout.pagesLayout[visuals[0].page.name] = pageLayout;
-
-                            const report = getReport();
-
-                            report.updateSettings(settings)
-                                .catch(function (error) {
-                                    alert(error);
-                                });
-
-                        };
-                    })(visuals));
-                })
-                .catch(function (errors) {
-                    alert(errors);
-                });
-        }
-        */
-
         function clearReport() {
             $('#dropdownContainer').css('visibility', 'hidden');
             $('#reportContainer').css('visibility', 'hidden');
             $('#pagesDropdown').html('');
-            //visuals, will removed later
-            //$('#visualsDropdown').html('');
         }
         
     </script>

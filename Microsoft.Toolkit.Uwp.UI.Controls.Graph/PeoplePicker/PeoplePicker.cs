@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
 using Windows.Foundation;
@@ -47,6 +46,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PeoplePicker()
         {
             DefaultStyleKey = typeof(PeoplePicker);
+
+            SearchResults = new ObservableCollection<Person>();
+            Selections = new ObservableCollection<Person>();
         }
 
         /// <summary>
@@ -77,8 +79,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _selectionsListBox = GetTemplateChild(SelectionsListBoxPartName) as ListBox;
             _searchResultPopup = GetTemplateChild(SearchResultPopupName) as Popup;
 
-            SearchResultList = new ObservableCollection<Person>();
-            Selections = Selections ?? new ObservableCollection<Person>();
             if (_searchBox != null)
             {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
