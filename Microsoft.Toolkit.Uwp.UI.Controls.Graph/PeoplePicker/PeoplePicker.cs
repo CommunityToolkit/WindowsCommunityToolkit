@@ -2,11 +2,15 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Windows.System;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -47,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _searchBox.TextChanged -= SearchBox_OnTextChanged;
                 _searchBox.SizeChanged -= SearchBox_OnSizeChanged;
+                _searchBox.KeyUp -= SearchBox_OnKeyUp;
             }
 
             if (_searchResultListBox != null)
@@ -70,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
                 _searchBox.SizeChanged += SearchBox_OnSizeChanged;
+                _searchBox.KeyUp += SearchBox_OnKeyUp;
             }
 
             if (_searchResultListBox != null)
@@ -83,6 +89,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void SearchBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter)
+            {
+                InputPane inputPane = InputPane.GetForCurrentView();
+                if (inputPane != null)
+                {
+                    inputPane.TryHide();
+                    _searchBox.RemoveFocusEngagement();
+                }
+            }
         }
     }
 }
