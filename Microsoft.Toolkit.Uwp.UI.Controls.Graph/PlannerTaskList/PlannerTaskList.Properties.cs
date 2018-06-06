@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -210,6 +211,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (ObservableCollection<PlannerPlan>)GetValue(PlansProperty); }
             set { SetValue(PlansProperty, value); }
+        }
+
+        internal bool IsWindowsPhone
+        {
+            get
+            {
+                return AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
+            }
         }
     }
 }
