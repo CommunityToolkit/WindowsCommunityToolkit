@@ -43,6 +43,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected override void OnApplyTemplate()
         {
             IsLoading = false;
+            if (_searchBox != null)
+            {
+                _searchBox.TextChanged -= SearchBox_OnTextChanged;
+                _searchBox.SizeChanged -= SearchBox_OnSizeChanged;
+            }
+
+            if (_searchResultListBox != null)
+            {
+                _searchResultListBox.SelectionChanged -= SearchResultListBox_OnSelectionChanged;
+            }
+
+            if (_selectionsListBox != null)
+            {
+                _selectionsListBox.Tapped -= SelectionsListBox_Tapped;
+            }
 
             _searchBox = GetTemplateChild(SearchBoxPartName) as TextBox;
             _searchResultListBox = GetTemplateChild(SearchResultListBoxPartName) as ListBox;
@@ -53,21 +68,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             Selections = Selections ?? new ObservableCollection<Person>();
             if (_searchBox != null)
             {
-                _searchBox.TextChanged -= SearchBox_OnTextChanged;
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
                 _searchBox.SizeChanged += SearchBox_OnSizeChanged;
             }
 
             if (_searchResultListBox != null)
             {
-                _searchResultListBox.SelectionChanged -= SearchResultListBox_OnSelectionChanged;
                 _searchResultListBox.SelectionChanged += SearchResultListBox_OnSelectionChanged;
-                _searchResultListBox.SizeChanged += SearchResultListBox_OnSizeChanged;
             }
 
             if (_selectionsListBox != null)
             {
-                _selectionsListBox.Tapped -= SelectionsListBox_Tapped;
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
             }
 

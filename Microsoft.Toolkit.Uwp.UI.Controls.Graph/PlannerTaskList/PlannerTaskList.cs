@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = ControlTasks, Type = typeof(ListView))]
     [TemplatePart(Name = ControlInput, Type = typeof(TextBox))]
     [TemplatePart(Name = ControlAdd, Type = typeof(Button))]
+    [TemplateVisualState(GroupName = "MobileVisualStateGroup", Name = "Mobile")]
     public partial class PlannerTaskList : Control
     {
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
@@ -30,19 +31,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PlannerTaskList()
         {
             this.DefaultStyleKey = typeof(PlannerTaskList);
-            if (MicrosoftGraphService.Instance.IsAuthenticated)
-            {
-                Task task = LoadPlansAsync();
-                task.Wait();
-            }
-            else
-            {
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged += Instance_IsAuthenticatedChanged;
-            }
         }
 
         /// <inheritdoc/>
-        protected override void OnApplyTemplate()
+        protected async override void OnApplyTemplate()
         {
             if (_list != null)
             {
@@ -68,6 +60,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             _input = GetTemplateChild(ControlInput) as TextBox;
+            if (MicrosoftGraphService.Instance.IsAuthenticated)
+            {
+                await LoadPlansAsync();
+            }
+            else
+            {
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged += Instance_IsAuthenticatedChanged;
+            }
+
+            if (IsWindowsPhone)
+            {
+                VisualStateManager.GoToState(this, "Mobile", false);
+            }
         }
 
         private async Task LoadPlansAsync()

@@ -70,12 +70,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            _list = GetTemplateChild(ControlFileList) as ListView;
             if (_list != null)
             {
                 _list.SelectionChanged -= List_SelectionChanged;
-                _list.SelectionChanged += List_SelectionChanged;
                 _list.ItemClick -= List_ItemClick;
+            }
+
+            _list = GetTemplateChild(ControlFileList) as ListView;
+
+            if (_list != null)
+            {
+                _list.SelectionChanged += List_SelectionChanged;
                 _list.ItemClick += List_ItemClick;
             }
 
