@@ -8,11 +8,7 @@ using System.Linq;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Foundation;
-using Windows.Graphics.Display;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
@@ -42,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void ClearAndHideSearchResultListBox()
         {
-            SearchResultList.Clear();
+            SearchResults.Clear();
             _searchResultPopup.IsOpen = false;
         }
 
@@ -70,25 +66,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         new QueryOption("$search", $"\"{searchText}\""),
                         new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'")
                     };
-                    IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
+                    IUserPeopleCollectionPage rawResults = await graphClient.Me.People.Request(options).GetAsync();
 
-                    if (peopleList.Any())
+                    if (rawResults.Any())
                     {
-                        List<Person> searchResult = peopleList.ToList();
+                        SearchResults.Clear();
 
-                        // Remove all selected items
-                        foreach (Person selectedItem in Selections)
+                        var results = rawResults.Where(o => !Selections.Any(s => s.Id == o.Id))
+                            .Take(SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit);
+                        foreach (var item in results)
                         {
-                            searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
-                        }
-
-                        SearchResultList.Clear();
-                        var result = SearchResultLimit > 0
-                            ? searchResult.Take(SearchResultLimit).ToList()
-                            : searchResult;
-                        foreach (var item in result)
-                        {
-                            SearchResultList.Add(item);
+                            SearchResults.Add(item);
                         }
 
                         _searchResultPopup.IsOpen = true;

@@ -5,7 +5,6 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
-using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,6 +15,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class PeoplePicker : Control
     {
+        private const int DefaultSearchResultLimit = 10;
+
         /// <summary>
         /// File is selected
         /// </summary>
@@ -73,11 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
-        /// Identifies the <see cref="SearchResultList"/> dependency property.
+        /// Identifies the <see cref="SearchResults"/> dependency property.
         /// </summary>
-        internal static readonly DependencyProperty SearchResultListProperty =
+        internal static readonly DependencyProperty SearchResultsProperty =
             DependencyProperty.Register(
-                nameof(SearchResultList),
+                nameof(SearchResults),
                 typeof(ObservableCollection<Person>),
                 typeof(PeoplePicker),
                 null);
@@ -125,10 +126,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set => SetValue(SelectionsProperty, value);
         }
 
-        internal ObservableCollection<Person> SearchResultList
+        internal ObservableCollection<Person> SearchResults
         {
-            get => (ObservableCollection<Person>)GetValue(SearchResultListProperty);
-            set => SetValue(SearchResultListProperty, value);
+            get => (ObservableCollection<Person>)GetValue(SearchResultsProperty);
+            set => SetValue(SearchResultsProperty, value);
         }
 
         private bool IsLoading

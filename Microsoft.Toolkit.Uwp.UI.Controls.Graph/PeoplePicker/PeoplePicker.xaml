@@ -66,7 +66,7 @@
                                 <ListBox
                                     Name="SearchResultListBox"
                                     AutomationProperties.Name="Search Results"
-                                    ItemsSource="{TemplateBinding SearchResultList}">
+                                    ItemsSource="{TemplateBinding SearchResults}">
                                     <ListBox.ItemContainerStyle>
                                         <Style TargetType="ListBoxItem">
                                             <Setter Property="Padding" Value="0,0" />
