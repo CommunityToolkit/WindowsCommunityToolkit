@@ -18,7 +18,7 @@ steps:
   inputs:
     versionSpec: 4.6.2
 
-- powershell: .\build\build.ps1 -target=Build
+- powershell: .\build\build.ps1 -target=Package
   displayName: Build 
 
 - task: PublishBuildArtifacts@1
