@@ -63,11 +63,6 @@ MicrosoftGraphService.Instance.Initialize(
     MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
     SharePointFileList.RequiredDelegatedPermissions
 );
-
-MicrosoftGraphService.Instance.SignInFailed += (sender, e) =>
-{
-    // do something
-};
 ```
 
 [SharePointFileList Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SharePointFileList). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).

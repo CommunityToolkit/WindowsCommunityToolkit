@@ -45,11 +45,6 @@ MicrosoftGraphService.Instance.Initialize(
     MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
     PeoplePicker.RequiredDelegatedPermissions
 );
-
-MicrosoftGraphService.Instance.SignInFailed += (sender, e) =>
-{
-    // do something
-};
 ```
 
 [PeoplePicker Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
