@@ -1,3 +1,4 @@
+trigger: none
 variables: 
   BuildConfiguration: Release
   
@@ -8,10 +9,7 @@ steps:
     arguments: -no_logo
     modifyEnvironment: true
   displayName: Setup Environment Variables
-
-- powershell: .\build\Install-WindowsSDK.ps1
-  displayName: Install Windows SDK
-
+  
 - task: NuGetToolInstaller@0
   displayName: Use NuGet 4.6.2
   inputs:
