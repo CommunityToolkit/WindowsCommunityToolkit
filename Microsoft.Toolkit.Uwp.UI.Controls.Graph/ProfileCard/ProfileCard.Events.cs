@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class ProfileCard : Control
     {
         private static void OnUserIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-            => (d as ProfileCard).FetchUserInfo();
+            => (d as ProfileCard).FetchUserInfoAsync();
 
         private static void OnDisplayModePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

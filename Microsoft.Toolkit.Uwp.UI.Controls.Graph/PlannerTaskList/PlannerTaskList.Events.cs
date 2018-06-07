@@ -145,7 +145,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 await LoadPlansAsync();
-                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= Instance_IsAuthenticatedChanged;
             }
         }
     }

@@ -66,6 +66,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
+                MicrosoftGraphService.Instance.IsAuthenticatedChanged -= Instance_IsAuthenticatedChanged;
                 MicrosoftGraphService.Instance.IsAuthenticatedChanged += Instance_IsAuthenticatedChanged;
             }
 

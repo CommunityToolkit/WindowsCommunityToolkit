@@ -41,10 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _contentPresenter.ContentTemplateSelector = new ProfileDisplayModeTemplateSelector(_contentPresenter);
             }
 
-            FetchUserInfo();
+            FetchUserInfoAsync();
         }
 
-        private async void FetchUserInfo()
+        private async void FetchUserInfoAsync()
         {
             if (string.IsNullOrEmpty(UserId) || UserId.Equals("Invalid UserId"))
             {
