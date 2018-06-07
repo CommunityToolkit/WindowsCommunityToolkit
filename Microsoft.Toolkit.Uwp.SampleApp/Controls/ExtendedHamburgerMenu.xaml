@@ -194,8 +194,6 @@
 
                             <ListView x:Name="OptionsListView"
                                           Grid.Column="3"
-                                          animations:Implicit.HideAnimations="{StaticResource FromRightHideAnimation}"
-                                          animations:Implicit.ShowAnimations="{StaticResource FromRightShowAnimation}"
                                           AutomationProperties.Name="Option items"
                                           IsItemClickEnabled="True"
                                           ItemContainerStyle="{StaticResource HamburgerMenuItemStyle}"
