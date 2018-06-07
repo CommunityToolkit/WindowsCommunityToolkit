@@ -37,7 +37,7 @@
       </ItemGroup>
     </When>
   </Choose>
-  <Target Name="AddCommitHashToAssemblyInfo" BeforeTargets="GetAssemblyAttributes">
+  <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
     <ItemGroup>
       <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(SourceRevisionId)' != '' ">
         <_Parameter1>CommitHash</_Parameter1>
