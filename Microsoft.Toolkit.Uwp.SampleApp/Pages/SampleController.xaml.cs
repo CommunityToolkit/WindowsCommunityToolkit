@@ -216,7 +216,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (CurrentSample.HasDocumentation)
                 {
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                     var (contents, path) = await CurrentSample.GetDocumentationAsync();
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
                     documentationPath = path;
                     if (!string.IsNullOrWhiteSpace(contents))
                     {
@@ -408,7 +410,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 await Launcher.LaunchUriAsync(new Uri(url));
             }
-            catch { }
+            catch
+            {
+            }
         }
 
         private async Task UpdateXamlRenderAsync(string text)

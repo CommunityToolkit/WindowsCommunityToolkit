@@ -162,7 +162,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 _rendered = false;
                 RenderDocument();
             }
-            catch { }
+            catch
+            {
+            }
         }
     }
 }

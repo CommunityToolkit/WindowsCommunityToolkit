@@ -59,7 +59,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     await Launcher.LaunchUriAsync(new Uri(rssItem.FeedUrl));
                 }
-                catch { }
+                catch
+                {
+                }
             }
 
             RSSList.SelectedItem = null;
