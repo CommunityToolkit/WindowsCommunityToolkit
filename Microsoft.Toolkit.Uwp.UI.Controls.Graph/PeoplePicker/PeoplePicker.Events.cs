@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             IsLoading = true;
             try
             {
-                var graphService = MicrosoftGraphService.Instance;
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
 

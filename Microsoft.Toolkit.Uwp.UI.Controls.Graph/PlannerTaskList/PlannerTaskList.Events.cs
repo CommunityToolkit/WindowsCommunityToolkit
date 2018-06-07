@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Graph;
@@ -37,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Add_Click(object sender, RoutedEventArgs e)
         {
-            var graphService = MicrosoftGraphService.Instance;
+            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
             await graphService.TryLoginAsync();
             GraphServiceClient graphClient = graphService.GraphProvider;
             if (!string.IsNullOrWhiteSpace(_input.Text))
@@ -75,25 +77,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private async void TaskViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             PlannerTaskViewModel plannerTaskViewModel = sender as PlannerTaskViewModel;
-            PlannerTask task = new PlannerTask();
+            Dictionary<string, object> task = new Dictionary<string, object>();
             bool skipUpdate = false;
             switch (e.PropertyName)
             {
                 case nameof(plannerTaskViewModel.AssignmentIds):
                     await GetAssignmentsAsync(plannerTaskViewModel);
-                    if (task.Assignments == null)
-                    {
-                        task.Assignments = new PlannerAssignments();
-                    }
+                    PlannerAssignments assignments = new PlannerAssignments();
 
                     foreach (string assignee in plannerTaskViewModel.AssignmentIds)
                     {
-                        task.Assignments.AddAssignee(assignee);
+                        assignments.AddAssignee(assignee);
                     }
 
+                    task.Add("assignments", assignments);
                     break;
                 case nameof(plannerTaskViewModel.Title):
-                    task.Title = plannerTaskViewModel.Title;
+                    task.Add("title", plannerTaskViewModel.Title);
                     break;
                 case nameof(plannerTaskViewModel.BucketId):
                     string bucketName = string.Empty;
@@ -107,10 +107,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
 
                     plannerTaskViewModel.BucketName = bucketName;
-                    task.BucketId = plannerTaskViewModel.BucketId;
+                    task.Add("bucketId", plannerTaskViewModel.BucketId);
                     break;
                 case nameof(plannerTaskViewModel.DueDateTime):
-                    task.DueDateTime = plannerTaskViewModel.DueDateTime;
+                    task.Add("dueDateTime", plannerTaskViewModel.DueDateTime);
                     break;
                 default:
                     skipUpdate = true;
@@ -120,15 +120,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (!skipUpdate)
             {
                 plannerTaskViewModel.IsUpdating = true;
-                var graphService = MicrosoftGraphService.Instance;
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
                 PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
+                if (task.ContainsKey("assignments"))
+                {
+                    PlannerAssignments assignments = task["assignments"] as PlannerAssignments;
+                    string[] oldAssignees = taskToUpdate.Assignments.Assignees.ToArray();
+                    string[] newAssignees = assignments.Assignees.ToArray();
+                    foreach (string userId in oldAssignees)
+                    {
+                        if (!newAssignees.Contains(userId))
+                        {
+                            assignments.AddAssignee(userId);
+                            assignments[userId] = null;
+                        }
+                    }
+                }
+
                 plannerTaskViewModel.ETag = taskToUpdate.GetEtag();
                 using (HttpRequestMessage request = graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetHttpRequestMessage())
                 {
                     request.Method = new HttpMethod(HttpMethodPatch);
-                    string json = JsonConvert.SerializeObject(task, new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
+                    string json = JsonConvert.SerializeObject(task);
                     request.Content = new StringContent(json, System.Text.Encoding.UTF8, MediaTypeJson);
                     request.Headers.Add(HttpHeaderIfMatch, plannerTaskViewModel.ETag);
                     await graphClient.AuthenticationProvider.AuthenticateRequestAsync(request);

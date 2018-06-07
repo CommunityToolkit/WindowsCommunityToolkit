@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
             else
             {
-                var graphService = MicrosoftGraphService.Instance;
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 if (!(await graphService.TryLoginAsync()))
                 {
                     return;

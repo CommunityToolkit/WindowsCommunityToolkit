@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task LoadPlansAsync()
         {
-            var graphService = MicrosoftGraphService.Instance;
+            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
             await graphService.TryLoginAsync();
             GraphServiceClient graphClient = graphService.GraphProvider;
             IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task InitPlanAsync()
         {
-            var graphService = MicrosoftGraphService.Instance;
+            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
             await graphService.TryLoginAsync();
             GraphServiceClient graphClient = graphService.GraphProvider;
             TaskFilterSource.Clear();
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task LoadAllTasksAsync()
         {
-            var graphService = MicrosoftGraphService.Instance;
+            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
             await graphService.TryLoginAsync();
             GraphServiceClient graphClient = graphService.GraphProvider;
             _allTasks.Clear();
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (graphClient == null)
             {
-                var graphService = MicrosoftGraphService.Instance;
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 graphClient = graphService.GraphProvider;
             }
