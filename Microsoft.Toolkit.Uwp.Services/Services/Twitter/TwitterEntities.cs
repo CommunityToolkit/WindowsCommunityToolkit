@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets Hashtags array of the tweet.
         /// This array will be empty if no Hashtags are present.
         /// </summary>
-        [JsonProperty("Hashtags")]
+        [JsonProperty("hashtags")]
         public TwitterHashtag[] Hashtags { get; set; }
 
         /// <summary>
