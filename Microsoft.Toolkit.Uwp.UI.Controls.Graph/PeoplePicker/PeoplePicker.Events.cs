@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         new QueryOption("$search", $"\"{searchText}\""),
                         new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'"),
-                        new QueryOption("$top", (SearchResultLimit>0?SearchResultLimit:DefaultSearchResultLimit).ToString())
+                        new QueryOption("$top", (SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit).ToString())
                     };
                     IUserPeopleCollectionPage rawResults = await graphClient.Me.People.Request(options).GetAsync();
 
