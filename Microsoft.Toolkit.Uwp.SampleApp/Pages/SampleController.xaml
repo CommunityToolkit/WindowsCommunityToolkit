@@ -261,8 +261,9 @@
                                         Grid.RowSpan="2"
                                         Style="{StaticResource ExceptionNotification}"
                                         Grid.ColumnSpan="2"
-                                        VerticalAlignment="Top"
+                                        VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
+                                        StackMode="QueueBehind" 
                                         Margin="10"
                                         Canvas.ZIndex="999"/>
             <Grid x:Name="waitRing"

@@ -138,7 +138,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(InfiniteCanvas),
                 new PropertyMetadata(DefaultMinZoomFactor, MinMaxZoomChangedPropertyChanged));
 
-        private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportWidth / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.ViewportHeight / _infiniteCanvasScrollViewer.ZoomFactor);
+        private Rect ViewPort => new Rect(_infiniteCanvasScrollViewer.HorizontalOffset / _infiniteCanvasScrollViewer.ZoomFactor, _infiniteCanvasScrollViewer.VerticalOffset / _infiniteCanvasScrollViewer.ZoomFactor, ViewPortWidth, ViewPortHeight);
+
+        private double ViewPortHeight => (double.IsNaN(_infiniteCanvasScrollViewer.Height)
+            ? Window.Current.Bounds.Height
+            : _infiniteCanvasScrollViewer.ViewportHeight) / _infiniteCanvasScrollViewer.ZoomFactor;
+
+        private double ViewPortWidth => (double.IsNaN(_infiniteCanvasScrollViewer.Width)
+            ? Window.Current.Bounds.Width
+            : _infiniteCanvasScrollViewer.ViewportWidth) / _infiniteCanvasScrollViewer.ZoomFactor;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InfiniteCanvas"/> class.
@@ -175,6 +183,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterEvents();
 
             ConfigureControls();
+
+            if (double.IsNaN(_infiniteCanvasScrollViewer.Width))
+            {
+                _infiniteCanvasScrollViewer.Width = Window.Current.Bounds.Width;
+            }
+
+            if (double.IsNaN(_infiniteCanvasScrollViewer.Height))
+            {
+                _infiniteCanvasScrollViewer.Height = Window.Current.Bounds.Height;
+            }
+
             base.OnApplyTemplate();
         }
 
@@ -266,6 +285,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetCanvasWidthHeight()
         {
+            if (_mainContainer == null || _inkCanvas == null || _drawingSurfaceRenderer == null)
+            {
+                return;
+            }
+
             _mainContainer.Width = CanvasWidth;
             _mainContainer.Height = CanvasHeight;
             _inkCanvas.Width = CanvasWidth;

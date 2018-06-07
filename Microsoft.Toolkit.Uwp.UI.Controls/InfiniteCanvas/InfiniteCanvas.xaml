@@ -114,6 +114,8 @@
                                           VerticalScrollMode="Enabled"
                                           ZoomMode="Enabled">
                                 <Canvas x:Name="MainContainer"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Top"
                                         Background="Transparent">
 
                                     <local:InfiniteCanvasVirtualDrawingSurface x:Name="DrawingSurfaceRenderer"

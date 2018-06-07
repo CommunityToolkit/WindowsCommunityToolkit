@@ -83,6 +83,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
+        public void ShowExceptionNotification(Exception ex)
+        {
+            if (ex != null)
+            {
+                ExceptionNotification.Show(ex.Message);
+            }
+        }
+
         public void RegisterNewCommand(string name, RoutedEventHandler action)
         {
             Commands.Add(new SampleCommand(name, () =>
@@ -93,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 catch (Exception ex)
                 {
-                    ExceptionNotification.Show(ex.Message, 3000);
+                    ShowExceptionNotification(ex);
                 }
             }));
         }
@@ -416,7 +424,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
             catch (Exception ex)
             {
-                ExceptionNotification.Show(ex.Message, 3000);
+                ShowExceptionNotification(ex);
             }
 
             if (element != null)
@@ -544,7 +552,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
             catch (Exception ex)
             {
-                ExceptionNotification.Show(ex.Message);
+                ShowExceptionNotification(ex);
             }
         }
 

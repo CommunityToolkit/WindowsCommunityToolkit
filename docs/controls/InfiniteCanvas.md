@@ -26,8 +26,8 @@ The [InfiniteCanvas Control](https://docs.microsoft.com/dotnet/api/microsoft.too
 
 | Property | Type | Description |
 | -- | -- | -- |
-| CanvasWidth | double | Gets or sets the width of the canvas, default value is the max value 2097152. |
-| CanvasHeight | double | Gets or sets the height of the canvas, default value is the max value 2097152. |
+| CanvasWidth | double | Gets or sets the width of the drawing area, default value is 2097152. This is different from the `Width` property which specifies the Width of the control |
+| CanvasHeight | double | Gets or sets the height of the drawing area, default value is 2097152. This is different from the `Height` property which specifies the Height of the control |
 | IsToolbarVisible | bool | Gets or sets a value indicating whether the toolbar is visible or not. |
 | MaxZoomFactor | double | Gets or sets the MaxZoomFactor for the canvas, range between 1 to 10 and the default value is 4. |
 | MinZoomFactor | double | Gets or sets the MinZoomFactor for the canvas, range between .1 to 1 the default value is .25. |
