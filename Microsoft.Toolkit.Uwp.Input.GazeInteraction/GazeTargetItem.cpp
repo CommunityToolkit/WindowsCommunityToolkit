@@ -148,48 +148,31 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
     {
         auto peer = FrameworkElementAutomationPeer::FromElement(element);
 
-        auto invokeProvider = dynamic_cast<IInvokeProvider^>(peer);
-        if (invokeProvider != nullptr)
+        if (dynamic_cast<IInvokeProvider^>(peer) != nullptr)
         {
             item = ref new InvokeGazeTargetItem(element);
         }
+        else if (dynamic_cast<IToggleProvider^>(peer) != nullptr)
+        {
+            item = ref new ToggleGazeTargetItem(element);
+        }
+        else if (dynamic_cast<ISelectionItemProvider^>(peer) != nullptr)
+        {
+            item = ref new SelectionGazeTargetItem(element);
+        }
+        else if (dynamic_cast<IExpandCollapseProvider^>(peer) != nullptr)
+        {
+            item = ref new ExpandCollapseGazeTargetItem(element);
+        }
+        else if (dynamic_cast<ComboBoxItemAutomationPeer^>(peer) != nullptr)
+        {
+            item = ref new ComboBoxItemGazeTargetItem(element);
+        }
         else
         {
-            auto toggleProvider = dynamic_cast<IToggleProvider^>(peer);
-            if (toggleProvider != nullptr)
-            {
-                item = ref new ToggleGazeTargetItem(element);
-            }
-            else
-            {
-                auto selectionItemProvider = dynamic_cast<ISelectionItemProvider^>(peer);
-                if (selectionItemProvider != nullptr)
-                {
-                    item = ref new SelectionGazeTargetItem(element);
-                }
-                else
-                {
-                    auto expandCollapseProvider = dynamic_cast<IExpandCollapseProvider^>(peer);
-                    if (expandCollapseProvider != nullptr)
-                    {
-                        item = ref new ExpandCollapseGazeTargetItem(element);
-                    }
-                    else
-                    {
-                        auto comboBoxItemAutomationPeer = dynamic_cast<ComboBoxItemAutomationPeer^>(peer);
-
-                        if (comboBoxItemAutomationPeer != nullptr)
-                        {
-                            item = ref new ComboBoxItemGazeTargetItem(element);
-                        }
-                        else
-                        {
-                            item = GazePointer::Instance->_nonInvokeGazeTargetItem;
-                        }
-                    }
-                }
-            }
+            item = GazePointer::Instance->_nonInvokeGazeTargetItem;
         }
+
         element->SetValue(GazeTargetItemProperty, item);
     }
 
