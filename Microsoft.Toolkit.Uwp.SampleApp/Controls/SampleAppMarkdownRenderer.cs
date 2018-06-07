@@ -240,6 +240,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             SolidColorBrush localbackground = null;
             string symbolglyph = string.Empty;
 
+            var theme = Shell.Current.GetActualTheme();
+
             // Check the required structure of the Quote is correct. Determine if it is a DocFX Note.
             if (element.Blocks.First() is ParagraphBlock para)
             {
@@ -261,7 +263,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 // Removes the identifier from the text
                                 textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
 
-                                var theme = Shell.Current.GetActualTheme();
                                 if (theme == ElementTheme.Light)
                                 {
                                     localforeground = style.LightForeground;
@@ -314,6 +315,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     border.Padding = new Thickness(20);
                     border.Margin = new Thickness(0, 5, 0, 5);
                     border.Background = localbackground;
+
+                    if (theme == ElementTheme.Light)
+                    {
+                        border.BorderThickness = new Thickness(0.5);
+                        border.BorderBrush = localforeground;
+                    }
 
                     var headerPanel = new StackPanel
                     {
