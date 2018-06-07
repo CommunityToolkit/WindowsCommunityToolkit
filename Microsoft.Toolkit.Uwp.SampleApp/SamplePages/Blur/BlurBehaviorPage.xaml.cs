@@ -24,10 +24,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public BlurBehaviorPage()
         {
             InitializeComponent();
-            if (!AnimationExtensions.BlurEffect.IsSupported)
-            {
-                WarningText.Visibility = Visibility.Visible;
-            }
 
             SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
             {

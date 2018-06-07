@@ -81,6 +81,10 @@
           "url": "https://github.com/WilliamABradley/ColorCode-Universal"
         },
         {
+          "title": "Monaco Editor UWP (Dependency)",
+          "url": "https://github.com/hawkerm/monaco-editor-uwp"
+        },
+        {
           "title": "Background photo by Simon Matzinger",
           "url": "https://unsplash.com/@8moments"
         }
