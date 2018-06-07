@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AadLoginControl_SignInFailed(object sender, SignInFailedEventArgs e)
         {
-            Shell.Current.ShowExceptionNotification(e.Exception);
+            SampleController.Current.ShowExceptionNotification(e.Exception);
         }
     }
 }
