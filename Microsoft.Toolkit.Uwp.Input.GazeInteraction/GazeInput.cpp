@@ -7,6 +7,7 @@
 #include "GazeElement.h"
 #include "GazePointer.h"
 #include "GazePointerProxy.h"
+#include "GazeTargetItem.h"
 
 using namespace Platform;
 using namespace Windows::UI;
@@ -134,6 +135,12 @@ void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element-
 GazePointer^ GazeInput::GetGazePointer(Page^ page)
 {
     return GazePointer::Instance;
+}
+
+void GazeInput::Invoke(UIElement^ element)
+{
+    auto item = GazeTargetItem::GetOrCreate(element);
+    item->Invoke();
 }
 
 bool GazeInput::IsDeviceAvailable::get()

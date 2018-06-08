@@ -197,6 +197,11 @@ public:
     static GazePointer^ GetGazePointer(Page^ page);
 
     /// <summary>
+    /// Invoke the default action of the specified UIElement.
+    /// </summary>
+    static void Invoke(UIElement^ element);
+
+    /// <summary>
     /// Reports whether a gaze input device is available, and hence whether there is any possibility of gaze events occurring in the application.
     /// </summary>
     static property bool IsDeviceAvailable { bool get(); }
