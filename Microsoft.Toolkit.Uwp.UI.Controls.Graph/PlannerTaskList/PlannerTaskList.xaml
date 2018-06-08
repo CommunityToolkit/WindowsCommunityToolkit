@@ -180,7 +180,7 @@
                                 DisplayMemberPath="Title"
                                 ItemsSource="{TemplateBinding Plans}"
                                 PlaceholderText="Select plan..."
-                                SelectedValue="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=PlanId, Mode=TwoWay}"
+                                SelectedValue="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InternalPlanId, Mode=TwoWay}"
                                 SelectedValuePath="Id"
                                 Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=DisplayPlanList}" />
                             <ComboBox

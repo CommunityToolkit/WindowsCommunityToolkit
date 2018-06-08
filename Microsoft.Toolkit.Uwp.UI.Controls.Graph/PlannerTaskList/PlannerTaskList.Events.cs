@@ -19,8 +19,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static async void PlanIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PlannerTaskList control && !string.IsNullOrWhiteSpace(control.PlanId))
+            if (d is PlannerTaskList control
+                && !string.IsNullOrWhiteSpace(control.PlanId))
             {
+                if (!string.Equals(control.PlanId, control.InternalPlanId))
+                {
+                    control.InternalPlanId = control.PlanId;
+                }
+
                 if (MicrosoftGraphService.Instance.IsAuthenticated)
                 {
                     await control.InitPlanAsync().ConfigureAwait(false);
@@ -28,9 +34,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        private static void InternalPlanIdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is PlannerTaskList control
+                && !string.IsNullOrWhiteSpace(control.InternalPlanId)
+                && !string.Equals(control.PlanId, control.InternalPlanId))
+            {
+                control.PlanId = control.InternalPlanId;
+            }
+        }
+
         private static void TaskTypePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PlannerTaskList control && !string.IsNullOrWhiteSpace(control.TaskType))
+            if (d is PlannerTaskList control
+                && !string.IsNullOrWhiteSpace(control.TaskType))
             {
                 control.LoadTasks();
             }

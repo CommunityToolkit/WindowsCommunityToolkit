@@ -100,6 +100,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     plans = await plans.NextPageRequest.GetAsync();
                 }
+
+                if (!string.Equals(InternalPlanId, PlanId))
+                {
+                    InternalPlanId = PlanId;
+                }
             }
             catch (Exception exception)
             {
@@ -116,16 +121,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
-                TaskFilterSource.Clear();
-                Buckets.Clear();
-                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = "All" });
+                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = AllTasksLabel });
                 IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
+                List<PlannerBucket> bucketList = new List<PlannerBucket>();
                 while (true)
                 {
                     foreach (PlannerBucket bucket in buckets)
                     {
-                        Buckets.Add(bucket);
-                        TaskFilterSource.Add(bucket);
+                        bucketList.Add(bucket);
                     }
 
                     if (buckets.NextPageRequest == null)
@@ -136,7 +139,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     buckets = await buckets.NextPageRequest.GetAsync();
                 }
 
-                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = "Closed" });
+                TaskFilterSource.Clear();
+                Buckets.Clear();
+                foreach (PlannerBucket bucket in bucketList)
+                {
+                    Buckets.Add(bucket);
+                    TaskFilterSource.Add(bucket);
+                }
+
+                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = ClosedTasksLabel });
                 TaskType = TaskTypeAllTasksId;
                 await LoadAllTasksAsync();
             }

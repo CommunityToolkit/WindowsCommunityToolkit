@@ -132,6 +132,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(PlannerTaskList),
                 new PropertyMetadata(new ObservableCollection<PlannerPlan>()));
 
+        internal static readonly DependencyProperty InternalPlanIdProperty =
+            DependencyProperty.Register(
+                nameof(InternalPlanId),
+                typeof(string),
+                typeof(PlannerTaskList),
+                new PropertyMetadata(string.Empty, InternalPlanIdPropertyChanged));
+
         /// <summary>
         /// Gets or sets Id of Planner Plan to Display, this is optional
         /// </summary>
@@ -211,6 +218,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (ObservableCollection<PlannerPlan>)GetValue(PlansProperty); }
             set { SetValue(PlansProperty, value); }
+        }
+
+        internal string InternalPlanId
+        {
+            get { return (string)GetValue(InternalPlanIdProperty); }
+            set { SetValue(InternalPlanIdProperty, value); }
         }
 
         internal bool IsWindowsPhone
