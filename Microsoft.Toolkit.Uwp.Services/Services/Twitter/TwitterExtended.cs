@@ -16,8 +16,5 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("full_text")]
         public string FullText { get; set; }
-
-        [JsonProperty("entities")]
-        public TwitterEntities Entities { get; set; }
     }
 }
