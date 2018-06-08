@@ -117,11 +117,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                Tasks.Clear();
                 MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
-                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = AllTasksLabel });
                 IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
                 List<PlannerBucket> bucketList = new List<PlannerBucket>();
                 while (true)
@@ -141,6 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 TaskFilterSource.Clear();
                 Buckets.Clear();
+                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = AllTasksLabel });
                 foreach (PlannerBucket bucket in bucketList)
                 {
                     Buckets.Add(bucket);
@@ -165,10 +164,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
-                _allTasks.Clear();
-                Tasks.Clear();
                 IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
                 Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
+                List<PlannerTaskViewModel> taskList = new List<PlannerTaskViewModel>();
                 while (true)
                 {
                     foreach (PlannerTask task in tasks)
@@ -181,10 +179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             taskViewModel.BucketName = buckets[taskViewModel.BucketId];
                         }
 
-                        _allTasks.Add(taskViewModel);
+                        taskList.Add(taskViewModel);
                     }
-
-                    LoadTasks();
 
                     if (tasks.NextPageRequest == null)
                     {
@@ -193,6 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     tasks = await tasks.NextPageRequest.GetAsync();
                 }
+
+                _allTasks.Clear();
+                _allTasks.AddRange(taskList);
+                LoadTasks();
             }
             catch (Exception exception)
             {
