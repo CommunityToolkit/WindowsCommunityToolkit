@@ -570,7 +570,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState sta
 
 void GazePointer::OnGazeEntered(GazeInputSourcePreview^ provider, GazeEnteredPreviewEventArgs^ args)
 {
-    Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
+    //Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
     _gazeCursor->IsGazeEntered = true;
 }
 
@@ -589,7 +589,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             }
             else
             {
-                Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
+                //Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
             }
         }
     }
@@ -597,7 +597,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
 
 void GazePointer::OnGazeExited(GazeInputSourcePreview^ provider, GazeExitedPreviewEventArgs^ args)
 {
-    Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
+    //Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
     _gazeCursor->IsGazeEntered = false;
 }
 
@@ -619,7 +619,7 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
     PointerState nextState = static_cast<PointerState>(static_cast<int>(targetItem->ElementState) + 1);
 
-    Debug::WriteLine(L"%llu -> State=%d, Elapsed=%d, NextStateTime=%d", targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime, targetItem->NextStateTime);
+    //Debug::WriteLine(L"%llu -> State=%d, Elapsed=%d, NextStateTime=%d", targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime, targetItem->NextStateTime);
 
     if (targetItem->ElapsedTime > targetItem->NextStateTime)
     {
