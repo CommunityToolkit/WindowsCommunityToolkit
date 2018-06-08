@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(new ObservableCollection<PlannerPlan>()));
 
         /// <summary>
-        /// Gets or sets Id of Planner Plan to Display
+        /// Gets or sets Id of Planner Plan to Display, this is optional
         /// </summary>
         public string PlanId
         {

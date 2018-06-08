@@ -14,10 +14,11 @@
       <sampleControls:AadAuthControl x:Name="AadAuthControl"/>
       <Grid Visibility="{Binding ElementName=AadAuthControl, Path=IsEnabled, Converter={StaticResource BoolToObjectConverter1}}">
         <graphControls:PlannerTaskList x:Name="PlannerTaskListControl"
-              DisplayPlanList="@[DisplayPlanList:Bool:true]"
-              DisplayBucketList="@[DisplayBucketList:Bool:true]"
-              AllTasksLabel="@[AllTasksLabel:String:All]"
-              ClosedTasksLabel="@[ClosedTasksLabel:String:Closed]"/>
+                                       PlanId="@[PlanId:String: ]"
+                                       DisplayPlanList="@[DisplayPlanList:Bool:true]"
+                                       DisplayBucketList="@[DisplayBucketList:Bool:true]"
+                                       AllTasksLabel="@[AllTasksLabel:String:All]"
+                                       ClosedTasksLabel="@[ClosedTasksLabel:String:Closed]"/>
       </Grid>
     </Grid>
 </Page>

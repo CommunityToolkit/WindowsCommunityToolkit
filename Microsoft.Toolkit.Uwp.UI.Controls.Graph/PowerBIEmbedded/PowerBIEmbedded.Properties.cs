@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
-        /// Gets or sets the Application Client Id(v1)
+        /// Gets or sets the client id of Azure AD app registration (v1)
         /// </summary>
         public string ClientId
         {
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets the PowerBI GroupId
+        /// Gets or sets the identifier of a Group. Optional when EmbedUrl is specified, if this is used, a dropdown will appear that lets users select amongst different reports in a Group
         /// </summary>
         public string GroupId
         {
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Gets or sets the PowerBI report EmbedUrl
+        /// Gets or sets the Url of the embed, optional when GroupId is specified
         /// </summary>
         public string EmbedUrl
         {
