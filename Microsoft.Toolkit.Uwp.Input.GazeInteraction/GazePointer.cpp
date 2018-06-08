@@ -305,49 +305,61 @@ void GazePointer::Reset()
 
 GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, nullptr, false);
-    auto first = elements->First();
-    auto element = first->HasCurrent ? first->Current : nullptr;
+    GazeTargetItem^ invokable;
 
-    GazeTargetItem^ invokable = nullptr;
-
-    if (element != nullptr)
+    switch (Window::Current->CoreWindow->ActivationMode)
     {
-        invokable = GazeTargetItem::GetOrCreate(element);
+    default:
+        invokable = _nonInvokeGazeTargetItem;
+        break;
 
-        while (element != nullptr && !invokable->IsInvokable)
+    case CoreWindowActivationMode::ActivatedInForeground:
+    case CoreWindowActivationMode::ActivatedNotForeground:
+        auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, nullptr, false);
+        auto first = elements->First();
+        auto element = first->HasCurrent ? first->Current : nullptr;
+
+        invokable = nullptr;
+
+        if (element != nullptr)
         {
-            element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
+            invokable = GazeTargetItem::GetOrCreate(element);
 
-            if (element != nullptr)
+            while (element != nullptr && !invokable->IsInvokable)
             {
-                invokable = GazeTargetItem::GetOrCreate(element);
+                element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
+
+                if (element != nullptr)
+                {
+                    invokable = GazeTargetItem::GetOrCreate(element);
+                }
             }
         }
-    }
 
-    if (element == nullptr || !invokable->IsInvokable)
-    {
-        invokable = _nonInvokeGazeTargetItem;
-    }
-    else
-    {
-        Interaction interaction;
-        do
-        {
-            interaction = GazeInput::GetInteraction(element);
-            element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
-        } while (interaction == Interaction::Inherited && element != nullptr);
-
-        if (interaction == Interaction::Inherited)
-        {
-            interaction = GazeInput::GlobalInteraction;
-        }
-
-        if (interaction != Interaction::Enabled)
+        if (element == nullptr || !invokable->IsInvokable)
         {
             invokable = _nonInvokeGazeTargetItem;
         }
+        else
+        {
+            Interaction interaction;
+            do
+            {
+                interaction = GazeInput::GetInteraction(element);
+                element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
+            } while (interaction == Interaction::Inherited && element != nullptr);
+
+            if (interaction == Interaction::Inherited)
+            {
+                interaction = GazeInput::GlobalInteraction;
+            }
+
+            if (interaction != Interaction::Enabled)
+            {
+                invokable = _nonInvokeGazeTargetItem;
+            }
+        }
+        break;
     }
 
     return invokable;
