@@ -11,6 +11,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.Graphics.Display;
 using Windows.System;
+using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
@@ -27,8 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as PeoplePicker;
-            if (!control.AllowMultiple)
+            if (d is PeoplePicker control && !control.AllowMultiple)
             {
                 if (control.Selections != null)
                 {
@@ -95,8 +95,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
             finally
             {
@@ -104,48 +106,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private void SearchResultListBox_OnSelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-#pragma warning disable SA1119 // Statement must not use unnecessary parenthesis
-            if (!((sender as ListBox)?.SelectedItem is Person person))
-#pragma warning restore SA1119 // Statement must not use unnecessary parenthesis
+            if (sender is ListBox listBox && listBox.SelectedItem is Person person)
             {
-                return;
-            }
+                if (!AllowMultiple && Selections.Any())
+                {
+                    Selections.Clear();
+                    Selections.Add(person);
+                }
+                else
+                {
+                    Selections.Add(person);
+                }
 
-            if (!AllowMultiple && Selections.Any())
-            {
-                Selections.Clear();
-                Selections.Add(person);
+                RaiseSelectionChanged();
+                _searchBox.Text = string.Empty;
             }
-            else
-            {
-                Selections.Add(person);
-            }
-
-            RaiseSelectionChanged();
-
-            _searchBox.Text = string.Empty;
         }
 
-        private void SelectionsListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void SelectionsListBox_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var elem = e.OriginalSource as FrameworkElement;
-
-            var removeButton = elem.FindAscendantByName("PersonRemoveButton");
-            if (removeButton != null)
+            if (e.OriginalSource is FrameworkElement sourceElement
+                && sourceElement.FindAscendantByName("PersonRemoveButton") is FrameworkElement removeButton
+                && removeButton.Tag is Person person)
             {
-                if (removeButton.Tag is Person item)
-                {
-                    Selections.Remove(item);
-                    RaiseSelectionChanged();
-                }
+                Selections.Remove(person);
+                RaiseSelectionChanged();
             }
         }
 
         private void RaiseSelectionChanged()
         {
-            SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(this.Selections));
+            SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(Selections));
         }
 
         private void SearchBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -155,85 +148,80 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void SearchResultListBox_OnLayoutUpdated(object sender, object e)
         {
-            if (_searchResultListBox.Items.Count > 0 &&
-                _searchResultListBox.ContainerFromIndex(0) is ListBoxItem item)
+            try
             {
-                double itemHeight = item.ActualHeight;
-                double itemsHeight = itemHeight * _searchResultListBox.Items.Count;
-                double height = Window.Current.Bounds.Height;
-                if (Window.Current.Content is DependencyObject content)
+                if (_searchResultListBox.Items.Count > 0 &&
+                    _searchResultListBox.ContainerFromIndex(0) is ListBoxItem item)
                 {
-                    while (VisualTreeHelper.GetParent(content) is DependencyObject parent)
+                    double itemHeight = item.ActualHeight;
+                    double itemsHeight = itemHeight * _searchResultListBox.Items.Count;
+                    double height = Window.Current.Bounds.Height;
+                    if (Window.Current.Content is DependencyObject content)
                     {
-                        content = parent;
-                    }
-
-                    if (content is ScrollViewer scrollViewer)
-                    {
-                        height = scrollViewer.ViewportHeight;
-                    }
-                }
-
-                DisplayInformation information = DisplayInformation.GetForCurrentView();
-                TextBoxAutomationPeer textBoxAutomationPeer = new TextBoxAutomationPeer(_searchBox);
-                Rect textBoxBounding = textBoxAutomationPeer.GetBoundingRectangle();
-                double baseY = textBoxBounding.Bottom / information.RawPixelsPerViewPixel;
-                double inputHeight = _searchBox.ActualHeight;
-
-                if (baseY != _lastBaseY || height != _lastHeight || _searchResultListBox.Items.Count != _lastSearchResultCount)
-                {
-                    if (itemsHeight > height)
-                    {
-                        _searchResultListBox.Height = height;
-                        _searchResultPopup.VerticalOffset = -baseY;
-                    }
-                    else
-                    {
-                        _searchResultListBox.Height = double.NaN;
-                        if (baseY < 0)
+                        while (VisualTreeHelper.GetParent(content) is DependencyObject parent)
                         {
+                            content = parent;
+                        }
+
+                        if (content is ScrollViewer scrollViewer)
+                        {
+                            height = scrollViewer.ViewportHeight;
+                        }
+                    }
+
+                    DisplayInformation information = DisplayInformation.GetForCurrentView();
+                    TextBoxAutomationPeer textBoxAutomationPeer = new TextBoxAutomationPeer(_searchBox);
+                    Rect textBoxBounding = textBoxAutomationPeer.GetBoundingRectangle();
+                    double baseY = textBoxBounding.Bottom / information.RawPixelsPerViewPixel;
+                    double inputHeight = _searchBox.ActualHeight;
+
+                    if (baseY != _lastBaseY || height != _lastHeight || _searchResultListBox.Items.Count != _lastSearchResultCount)
+                    {
+                        if (itemsHeight > height)
+                        {
+                            _searchResultListBox.Height = height;
                             _searchResultPopup.VerticalOffset = -baseY;
-                        }
-                        else if (height < baseY - inputHeight)
-                        {
-                            _searchResultPopup.VerticalOffset = height - baseY - itemsHeight;
-                        }
-                        else if (height - baseY > itemsHeight)
-                        {
-                            _searchResultPopup.VerticalOffset = 0d;
-                        }
-                        else if (baseY - inputHeight > itemsHeight)
-                        {
-                            _searchResultPopup.VerticalOffset = -itemsHeight - inputHeight;
                         }
                         else
                         {
-                            _searchResultPopup.VerticalOffset = -baseY;
+                            _searchResultListBox.Height = double.NaN;
+                            if (baseY < 0)
+                            {
+                                _searchResultPopup.VerticalOffset = -baseY;
+                            }
+                            else if (height < baseY - inputHeight)
+                            {
+                                _searchResultPopup.VerticalOffset = height - baseY - itemsHeight;
+                            }
+                            else if (height - baseY > itemsHeight)
+                            {
+                                _searchResultPopup.VerticalOffset = 0d;
+                            }
+                            else if (baseY - inputHeight > itemsHeight)
+                            {
+                                _searchResultPopup.VerticalOffset = -itemsHeight - inputHeight;
+                            }
+                            else
+                            {
+                                _searchResultPopup.VerticalOffset = -baseY;
+                            }
                         }
                     }
+
+                    _lastBaseY = baseY;
+                    _lastHeight = height;
                 }
-
-                _lastBaseY = baseY;
-                _lastHeight = height;
-            }
-            else
-            {
-                _lastBaseY = 0d;
-                _lastHeight = 0d;
-            }
-
-            _lastSearchResultCount = _searchResultListBox.Items.Count;
-        }
-
-        private void SearchBox_OnKeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            if (e.Key == VirtualKey.Enter)
-            {
-                InputPane inputPane = InputPane.GetForCurrentView();
-                if (inputPane != null)
+                else
                 {
-                    inputPane.TryHide();
+                    _lastBaseY = 0d;
+                    _lastHeight = 0d;
                 }
+
+                _lastSearchResultCount = _searchResultListBox.Items.Count;
+            }
+            catch
+            {
+                _searchResultPopup.VerticalOffset = 0;
             }
         }
     }

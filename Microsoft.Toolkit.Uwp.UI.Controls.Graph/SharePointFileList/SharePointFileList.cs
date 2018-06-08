@@ -12,6 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Newtonsoft.Json;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -142,36 +143,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>Drive URL</returns>
         public async Task<string> GetDriveUrlFromSharePointUrlAsync(string rawDocLibUrl)
         {
-            if (string.IsNullOrEmpty(rawDocLibUrl))
+            try
             {
-                return rawDocLibUrl;
-            }
-
-            rawDocLibUrl = WebUtility.UrlDecode(rawDocLibUrl);
-
-            Match match = Regex.Match(rawDocLibUrl, @"(https?://([^/]+)((/[^/?]+)*?)(/[^/?]+))(/(Forms/\w+.aspx)?)?(\?.*)?$", RegexOptions.IgnoreCase);
-            string docLibUrl = match.Groups[1].Value;
-            string hostName = match.Groups[2].Value;
-            string siteRelativePath = match.Groups[3].Value;
-            if (string.IsNullOrEmpty(siteRelativePath))
-            {
-                siteRelativePath = "/";
-            }
-
-            if (await GraphService.TryLoginAsync())
-            {
-                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-
-                Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
-                ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
-
-                Drive drive = drives.SingleOrDefault(o => WebUtility.UrlDecode(o.WebUrl).Equals(docLibUrl, StringComparison.CurrentCultureIgnoreCase));
-                if (drive == null)
+                if (string.IsNullOrEmpty(rawDocLibUrl))
                 {
-                    throw new Exception("Drive not found");
+                    return rawDocLibUrl;
                 }
 
-                return graphServiceClient.Drives[drive.Id].RequestUrl;
+                rawDocLibUrl = WebUtility.UrlDecode(rawDocLibUrl);
+
+                Match match = Regex.Match(rawDocLibUrl, @"(https?://([^/]+)((/[^/?]+)*?)(/[^/?]+))(/(Forms/\w+.aspx)?)?(\?.*)?$", RegexOptions.IgnoreCase);
+                string docLibUrl = match.Groups[1].Value;
+                string hostName = match.Groups[2].Value;
+                string siteRelativePath = match.Groups[3].Value;
+                if (string.IsNullOrEmpty(siteRelativePath))
+                {
+                    siteRelativePath = "/";
+                }
+
+                if (await GraphService.TryLoginAsync())
+                {
+                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
+
+                    Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
+                    ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
+
+                    Drive drive = drives.SingleOrDefault(o => WebUtility.UrlDecode(o.WebUrl).Equals(docLibUrl, StringComparison.CurrentCultureIgnoreCase));
+                    if (drive == null)
+                    {
+                        throw new Exception("Drive not found");
+                    }
+
+                    return graphServiceClient.Drives[drive.Id].RequestUrl;
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
 
             return rawDocLibUrl;
@@ -214,8 +223,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception exception)
             {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
         }
 
@@ -270,8 +281,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         }
                     }
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
                 }
             }
         }
@@ -296,8 +309,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     }
                 }
             }
-            catch
+            catch (Exception exception)
             {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
         }
 
@@ -312,7 +327,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void UpdateCurrentPath()
         {
-           CurrentPath = _driveName + " > " + string.Join(" > ", _driveItemPath.Select(s => s.Name).Reverse().Skip(1));
+            CurrentPath = _driveName + " > " + string.Join(" > ", _driveItemPath.Select(s => s.Name).Reverse().Skip(1));
         }
 
         private void ShowDetailsPane()

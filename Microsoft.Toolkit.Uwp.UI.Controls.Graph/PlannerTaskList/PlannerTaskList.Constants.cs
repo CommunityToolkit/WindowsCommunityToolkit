@@ -49,5 +49,15 @@
         /// name of Button to add task
         /// </summary>
         private const string ControlAdd = "add";
+
+        /// <summary>
+        /// name of Visual State Group
+        /// </summary>
+        private const string MobileVisualStateGroup = "MobileVisualStateGroup";
+
+        /// <summary>
+        /// name of Visual State on mobile
+        /// </summary>
+        private const string MobileVisualState = "Mobile";
     }
 }

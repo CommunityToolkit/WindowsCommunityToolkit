@@ -80,19 +80,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             DisplayInformation.OrientationChanged += DisplayInformation_OrientationChanged;
         }
 
-        private void WebViewReportFrame_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
-        {
-            _webViewInitializedTask.TrySetResult(true);
-        }
-
-        private void DisplayInformation_OrientationChanged(DisplayInformation sender, object args)
-        {
-            if (IsWindowsPhone)
-            {
-                InvokeScript($"rotate('{sender.CurrentOrientation.ToString()}')");
-            }
-        }
-
         private async Task<string> GetUserTokenAsync()
         {
             try
@@ -114,19 +101,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return _tokenForUser;
         }
 
-        private async void LoadAll()
+        private async void LoadAllAsync()
         {
             if (!string.IsNullOrEmpty(ClientId))
             {
                 if (!string.IsNullOrEmpty(GroupId))
                 {
-                    await LoadGroup();
+                    await LoadGroupAsync();
                     return;
                 }
 
                 if (!string.IsNullOrEmpty(EmbedUrl))
                 {
-                    await LoadReport();
+                    await LoadReportAsync();
                     return;
                 }
             }
@@ -134,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             ClearReport();
         }
 
-        private async Task LoadReport()
+        private async Task LoadReportAsync()
         {
             if (Uri.TryCreate(EmbedUrl, UriKind.Absolute, out Uri embedUri))
             {
@@ -156,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                         if (report != null)
                         {
-                            InvokeScript($"loadGroups(" +
+                            InvokeScriptAsync($"loadGroups(" +
                                 $"'{token}', " +
                                 $"{JsonConvert.SerializeObject(new Report[] { report })}, " +
                                 $"{JsonConvert.SerializeObject(report)}, " +
@@ -175,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async Task LoadGroup()
+        private async Task LoadGroupAsync()
         {
             string token = await GetUserTokenAsync();
 
@@ -199,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         selectionReport = findReport ?? reports.First();
                     }
 
-                    InvokeScript($"loadGroups(" +
+                    InvokeScriptAsync($"loadGroups(" +
                         $"'{token}', " +
                         $"{JsonConvert.SerializeObject(reports)}, " +
                         $"{JsonConvert.SerializeObject(selectionReport)}, " +
@@ -214,19 +201,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private void ClearReport()
         {
-            InvokeScript("clearReport()");
-        }
-
-        private async void TokenExpirationRefreshTimer_Tick(object sender, object e)
-        {
-            if (_tokenForUser != null && _expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                string token = await GetUserTokenAsync();
-                if (!string.IsNullOrEmpty(token))
-                {
-                    InvokeScript($"refreshToken('{token}')");
-                }
-            }
+            InvokeScriptAsync("clearReport()");
         }
 
         private Task<bool> WaitWebviewContentLoaded()
@@ -234,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             return _webViewInitializedTask.Task;
         }
 
-        private async void InvokeScript(string script)
+        private async void InvokeScriptAsync(string script)
         {
             await WaitWebviewContentLoaded();
 

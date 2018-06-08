@@ -53,7 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _searchBox.TextChanged -= SearchBox_OnTextChanged;
                 _searchBox.SizeChanged -= SearchBox_OnSizeChanged;
-                _searchBox.KeyUp -= SearchBox_OnKeyUp;
             }
 
             if (_searchResultListBox != null)
@@ -76,7 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _searchBox.TextChanged += SearchBox_OnTextChanged;
                 _searchBox.SizeChanged += SearchBox_OnSizeChanged;
-                _searchBox.KeyUp += SearchBox_OnKeyUp;
             }
 
             if (_searchResultListBox != null)

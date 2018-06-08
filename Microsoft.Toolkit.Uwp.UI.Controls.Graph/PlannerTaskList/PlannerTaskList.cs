@@ -5,6 +5,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -16,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = ControlTasks, Type = typeof(ListView))]
     [TemplatePart(Name = ControlInput, Type = typeof(TextBox))]
     [TemplatePart(Name = ControlAdd, Type = typeof(Button))]
-    [TemplateVisualState(GroupName = "MobileVisualStateGroup", Name = "Mobile")]
+    [TemplateVisualState(GroupName = MobileVisualStateGroup, Name = MobileVisualState)]
     public partial class PlannerTaskList : Control
     {
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
@@ -72,134 +73,167 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             if (IsWindowsPhone)
             {
-                VisualStateManager.GoToState(this, "Mobile", false);
+                VisualStateManager.GoToState(this, MobileVisualState, false);
             }
         }
 
         private async Task LoadPlansAsync()
         {
-            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-            await graphService.TryLoginAsync();
-            GraphServiceClient graphClient = graphService.GraphProvider;
-            IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
-            Plans.Clear();
-            while (true)
+            try
             {
-                foreach (PlannerPlan plan in plans)
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                await graphService.TryLoginAsync();
+                GraphServiceClient graphClient = graphService.GraphProvider;
+                IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
+                Plans.Clear();
+                while (true)
                 {
-                    Plans.Add(plan);
-                }
+                    foreach (PlannerPlan plan in plans)
+                    {
+                        Plans.Add(plan);
+                    }
 
-                if (plans.NextPageRequest == null)
-                {
-                    break;
-                }
+                    if (plans.NextPageRequest == null)
+                    {
+                        break;
+                    }
 
-                plans = await plans.NextPageRequest.GetAsync();
+                    plans = await plans.NextPageRequest.GetAsync();
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
         }
 
         private async Task InitPlanAsync()
         {
-            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-            await graphService.TryLoginAsync();
-            GraphServiceClient graphClient = graphService.GraphProvider;
-            TaskFilterSource.Clear();
-            Buckets.Clear();
-            TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = "All" });
-            IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
-            while (true)
+            try
             {
-                foreach (PlannerBucket bucket in buckets)
+                Tasks.Clear();
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                await graphService.TryLoginAsync();
+                GraphServiceClient graphClient = graphService.GraphProvider;
+                TaskFilterSource.Clear();
+                Buckets.Clear();
+                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = "All" });
+                IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
+                while (true)
                 {
-                    Buckets.Add(bucket);
-                    TaskFilterSource.Add(bucket);
+                    foreach (PlannerBucket bucket in buckets)
+                    {
+                        Buckets.Add(bucket);
+                        TaskFilterSource.Add(bucket);
+                    }
+
+                    if (buckets.NextPageRequest == null)
+                    {
+                        break;
+                    }
+
+                    buckets = await buckets.NextPageRequest.GetAsync();
                 }
 
-                if (buckets.NextPageRequest == null)
-                {
-                    break;
-                }
-
-                buckets = await buckets.NextPageRequest.GetAsync();
+                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = "Closed" });
+                TaskType = TaskTypeAllTasksId;
+                await LoadAllTasksAsync();
             }
-
-            TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = "Closed" });
-            TaskType = TaskTypeAllTasksId;
-            await LoadAllTasksAsync();
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
+            }
         }
 
         private async Task LoadAllTasksAsync()
         {
-            MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-            await graphService.TryLoginAsync();
-            GraphServiceClient graphClient = graphService.GraphProvider;
-            _allTasks.Clear();
-            Tasks.Clear();
-            IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
-            Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
-            while (true)
+            try
             {
-                foreach (PlannerTask task in tasks)
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                await graphService.TryLoginAsync();
+                GraphServiceClient graphClient = graphService.GraphProvider;
+                _allTasks.Clear();
+                Tasks.Clear();
+                IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
+                Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
+                while (true)
                 {
-                    PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(task);
-                    taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
-                    await GetAssignmentsAsync(taskViewModel, graphClient);
-                    if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))
+                    foreach (PlannerTask task in tasks)
                     {
-                        taskViewModel.BucketName = buckets[taskViewModel.BucketId];
+                        PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(task);
+                        taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
+                        await GetAssignmentsAsync(taskViewModel, graphClient);
+                        if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))
+                        {
+                            taskViewModel.BucketName = buckets[taskViewModel.BucketId];
+                        }
+
+                        _allTasks.Add(taskViewModel);
                     }
 
-                    _allTasks.Add(taskViewModel);
+                    LoadTasks();
+
+                    if (tasks.NextPageRequest == null)
+                    {
+                        break;
+                    }
+
+                    tasks = await tasks.NextPageRequest.GetAsync();
                 }
-
-                LoadTasks();
-
-                if (tasks.NextPageRequest == null)
-                {
-                    break;
-                }
-
-                tasks = await tasks.NextPageRequest.GetAsync();
+            }
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
         }
 
         private async Task GetAssignmentsAsync(PlannerTaskViewModel taskViewModel, GraphServiceClient graphClient = null)
         {
-            if (graphClient == null)
+            try
             {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                graphClient = graphService.GraphProvider;
-            }
-
-            string assignments = string.Empty;
-            foreach (string userId in taskViewModel.AssignmentIds)
-            {
-                if (!string.IsNullOrEmpty(userId))
+                if (graphClient == null)
                 {
-                    if (!_userCache.ContainsKey(userId))
+                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                    await graphService.TryLoginAsync();
+                    graphClient = graphService.GraphProvider;
+                }
+
+                string assignments = string.Empty;
+                foreach (string userId in taskViewModel.AssignmentIds)
+                {
+                    if (!string.IsNullOrEmpty(userId))
                     {
-                        User user = await graphClient.Users[userId].Request().GetAsync();
-                        if (user != null)
+                        if (!_userCache.ContainsKey(userId))
                         {
-                            _userCache.Add(user.Id, user.DisplayName);
-                            assignments += AssigneeSeperator + user.DisplayName;
+                            User user = await graphClient.Users[userId].Request().GetAsync();
+                            if (user != null)
+                            {
+                                _userCache.Add(user.Id, user.DisplayName);
+                                assignments += AssigneeSeperator + user.DisplayName;
+                            }
+                        }
+                        else
+                        {
+                            assignments += AssigneeSeperator + _userCache[userId];
                         }
                     }
-                    else
-                    {
-                        assignments += AssigneeSeperator + _userCache[userId];
-                    }
                 }
-            }
 
-            if (assignments.Length > AssigneeSeperator.Length)
+                if (assignments.Length > AssigneeSeperator.Length)
+                {
+                    assignments = assignments.Substring(2);
+                }
+
+                taskViewModel.AssignmentNames = assignments;
+            }
+            catch (Exception exception)
             {
-                assignments = assignments.Substring(2);
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
-
-            taskViewModel.AssignmentNames = assignments;
         }
 
         private bool IsTaskVisible(PlannerTaskViewModel task)
