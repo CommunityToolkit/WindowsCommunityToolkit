@@ -193,15 +193,20 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            IsAuthenticated = false;
             User = null;
+
+            Task<bool> result;
 
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
-            return Authentication.LogoutAsync(authenticationModel);
+            result = Authentication.LogoutAsync(authenticationModel);
 #else
-            return Task.Run(() => { return Authentication.Logout(); });
+            result = Task.Run(() => { return Authentication.Logout(); });
 #endif
+
+            IsAuthenticated = false;
+
+            return result;
         }
 
         /// <summary>
