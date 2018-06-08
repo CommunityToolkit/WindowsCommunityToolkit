@@ -11,12 +11,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     public class TwitterEntities
     {
-        /// <summary>
-        /// Gets or sets Hashtags array of the tweet.
-        /// This array will be empty if no Hashtags are present.
-        /// </summary>
-        [JsonProperty("Hashtags")]
-        public TwitterHashtag[] Hashtags { get; set; }
+        ///// <summary>
+        ///// Gets or sets Hashtags array of the tweet.
+        ///// This array will be empty if no Hashtags are present.
+        ///// </summary>
+        //[JsonProperty("Hashtags")]
+        //public TwitterHashtag[] Hashtags { get; set; }
 
         /// <summary>
         /// Gets or sets Media array of the tweet.
@@ -32,19 +32,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty("urls")]
         public TwitterUrl[] Urls { get; set; }
 
-        /// <summary>
-        /// Gets or sets array of usernames mentioned in the tweet.
-        /// This array will be empty if no usernames are mentioned.
-        /// </summary>
-        [JsonProperty("user_mentions")]
-        public TwitterUserMention[] UserMentions { get; set; }
+        ///// <summary>
+        ///// Gets or sets array of usernames mentioned in the tweet.
+        ///// This array will be empty if no usernames are mentioned.
+        ///// </summary>
+        //[JsonProperty("user_mentions")]
+        //public TwitterUserMention[] UserMentions { get; set; }
 
-        /// <summary>
-        /// Gets or sets the poll in a tweet.
-        /// This array will not exist if no poll is present.
-        /// This array will always have one poll.
-        /// </summary>
-        [JsonProperty("polls")]
-        public TwitterPoll Poll { get; set; }
+        ///// <summary>
+        ///// Gets or sets the poll in a tweet.
+        ///// This array will not exist if no poll is present.
+        ///// This array will always have one poll.
+        ///// </summary>
+        //[JsonProperty("polls")]
+        //public TwitterPoll Poll { get; set; }
     }
 }
