@@ -59,19 +59,13 @@ void GazeCursor::CursorRadius::set(int value)
 void GazeCursor::IsCursorVisible::set(bool value)
 {
     _isCursorVisible = value;
-    if (_gazePopup != nullptr)
-    {
-        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
-    }
+    SetVisibility();
 }
 
 void GazeCursor::IsGazeEntered::set(bool value)
 {
     _isGazeEntered = value;
-    if (_gazePopup != nullptr)
-    {
-        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
-    }
+    SetVisibility();
 }
 
 void GazeCursor::LoadSettings(ValueSet^ settings)
@@ -83,6 +77,24 @@ void GazeCursor::LoadSettings(ValueSet^ settings)
     if (settings->HasKey("GazeCursor.CursorVisibility"))
     {
         IsCursorVisible = (bool)(settings->Lookup("GazeCursor.CursorVisibility"));
+    }
+}
+
+void GazeCursor::SetVisibility()
+{
+    auto isOpen = _isCursorVisible && _isGazeEntered;
+    if (_gazePopup->IsOpen != isOpen)
+    {
+        _gazePopup->IsOpen = isOpen;
+    }
+    else if (isOpen)
+    {
+        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current)->First()->Current;
+        if (_gazePopup != topmost)
+        {
+            _gazePopup->IsOpen = false;
+            _gazePopup->IsOpen = true;
+        }
     }
 }
 

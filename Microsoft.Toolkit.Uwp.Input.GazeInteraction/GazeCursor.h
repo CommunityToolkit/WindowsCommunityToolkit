@@ -61,6 +61,7 @@ public:
         {
             _originalCursorPosition = value;
             _origSignalCursor->Margin = Thickness(value.X - CursorRadius, value.Y - CursorRadius, 0, 0);
+            SetVisibility();
         }
     }
 
@@ -68,6 +69,8 @@ internal:
     GazeCursor();
 
 private:
+    void SetVisibility();
+
     Popup^              _gazePopup;
     Canvas^             _gazeCanvas;
     Shapes::Ellipse^    _gazeCursor;
