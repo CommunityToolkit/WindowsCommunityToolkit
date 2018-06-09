@@ -46,21 +46,8 @@ public:
         void set(Point value)
         {
             _cursorPosition = value;
-            _gazeCursor->Margin = Thickness(value.X - CursorRadius, value.Y - CursorRadius, 0, 0);
-        }
-    }
-
-    property Point PositionOriginal
-    {
-        Point get()
-        {
-            return _originalCursorPosition;
-        }
-
-        void set(Point value)
-        {
-            _originalCursorPosition = value;
-            _origSignalCursor->Margin = Thickness(value.X - CursorRadius, value.Y - CursorRadius, 0, 0);
+            _gazePopup->HorizontalOffset = value.X - CursorRadius;
+            _gazePopup->VerticalOffset = value.Y - CursorRadius;
             SetVisibility();
         }
     }
@@ -74,10 +61,7 @@ private:
     Popup^              _gazePopup;
     Canvas^             _gazeCanvas;
     Shapes::Ellipse^    _gazeCursor;
-    Shapes::Ellipse^    _origSignalCursor;
-    Shapes::Rectangle^  _gazeRect;
     Point               _cursorPosition = {};
-    Point               _originalCursorPosition = {};
     int                 _cursorRadius = DEFAULT_CURSOR_RADIUS;
     bool                _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
     bool _isGazeEntered;

@@ -26,19 +26,7 @@ GazeCursor::GazeCursor()
     _gazeCursor->Height = 2 * CursorRadius;
     _gazeCursor->IsHitTestVisible = false;
 
-    _origSignalCursor = ref new Shapes::Ellipse();
-    _origSignalCursor->Fill = ref new SolidColorBrush(Colors::Green);
-    _origSignalCursor->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
-    _origSignalCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
-    _origSignalCursor->Width = 2 * CursorRadius;
-    _origSignalCursor->Height = 2 * CursorRadius;
-    _origSignalCursor->IsHitTestVisible = false;
-
-    _gazeRect = ref new Shapes::Rectangle();
-    _gazeRect->IsHitTestVisible = false;
-
     _gazeCanvas->Children->Append(_gazeCursor);
-    _gazeCanvas->Children->Append(_gazeRect);
 
     // TODO: Reenable this once GazeCursor is refactored correctly
     //_gazeCanvas->Children->Append(_origSignalCursor);
