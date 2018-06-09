@@ -8,15 +8,8 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 GazeCursor::GazeCursor()
 {
-    _cursorRadius = DEFAULT_CURSOR_RADIUS;
-
-    _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
-
     _gazePopup = ref new Popup();
     _gazePopup->IsHitTestVisible = false;
-
-    _gazeCanvas = ref new Canvas();
-    _gazeCanvas->IsHitTestVisible = false;
 
     _gazeCursor = ref new Shapes::Ellipse();
     _gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
@@ -26,22 +19,14 @@ GazeCursor::GazeCursor()
     _gazeCursor->Height = 2 * CursorRadius;
     _gazeCursor->IsHitTestVisible = false;
 
-    _gazeCanvas->Children->Append(_gazeCursor);
-
-    // TODO: Reenable this once GazeCursor is refactored correctly
-    //_gazeCanvas->Children->Append(_origSignalCursor);
-
-    _gazePopup->Child = _gazeCanvas;
+    _gazePopup->Child = _gazeCursor;
 }
 
 void GazeCursor::CursorRadius::set(int value)
 {
     _cursorRadius = value;
-    if (_gazeCursor != nullptr)
-    {
-        _gazeCursor->Width = 2 * _cursorRadius;
-        _gazeCursor->Height = 2 * _cursorRadius;
-    }
+    _gazeCursor->Width = 2 * _cursorRadius;
+    _gazeCursor->Height = 2 * _cursorRadius;
 }
 
 void GazeCursor::IsCursorVisible::set(bool value)

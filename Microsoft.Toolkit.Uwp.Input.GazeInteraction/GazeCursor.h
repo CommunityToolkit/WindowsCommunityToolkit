@@ -59,7 +59,6 @@ private:
     void SetVisibility();
 
     Popup^              _gazePopup;
-    Canvas^             _gazeCanvas;
     Shapes::Ellipse^    _gazeCursor;
     Point               _cursorPosition = {};
     int                 _cursorRadius = DEFAULT_CURSOR_RADIUS;
