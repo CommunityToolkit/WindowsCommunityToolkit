@@ -145,6 +145,34 @@ internal:
     }
 };
 
+ref class PivotItemGazeTargetItem sealed : GazeTargetItem
+{
+internal:
+
+    PivotItemGazeTargetItem(UIElement^ element)
+        : GazeTargetItem(element)
+    {
+    }
+
+    void Invoke() override
+    {
+        auto headerItem = safe_cast<PivotHeaderItem^>(TargetElement);
+        auto headerPanel = safe_cast<PivotHeaderPanel^>(VisualTreeHelper::GetParent(headerItem));
+        unsigned index;
+        headerPanel->Children->IndexOf(headerItem, &index);
+
+        DependencyObject^ walker = headerPanel;
+        Pivot^ pivot;
+        do
+        {
+            walker = VisualTreeHelper::GetParent(walker);
+            pivot = dynamic_cast<Pivot^>(walker);
+        } while (pivot == nullptr);
+
+        pivot->SelectedIndex = index;
+    }
+};
+
 GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 {
     GazeTargetItem^ item;
@@ -161,7 +189,14 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 
         if (peer == nullptr)
         {
-            item = GazePointer::Instance->_nonInvokeGazeTargetItem;
+            if (dynamic_cast<PivotHeaderItem^>(element) != nullptr)
+            {
+                item = ref new PivotItemGazeTargetItem(element);
+            }
+            else
+            {
+                item = GazePointer::Instance->_nonInvokeGazeTargetItem;
+            }
         }
         else if (InvokePatternGazeTargetItem::IsCandidate(peer))
         {
