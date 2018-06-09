@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -84,7 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public string GetSerializedList()
         {
-            return JsonConvert.SerializeObject(_drawableList, Formatting.Indented, new JsonSerializerSettings
+            var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
+            return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.Auto
             });
@@ -97,7 +99,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _undoCommands.Clear();
             _redoCommands.Clear();
 
-            var newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            var token = JToken.Parse(json);
+            List<IDrawable> newList;
+            if (token is JArray)
+            {
+                // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
+                newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            }
+            else
+            {
+                newList = JsonConvert.DeserializeObject<InkCanvasExportModel>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).DrawableList;
+            }
+
             foreach (var drawable in newList)
             {
                 _drawableList.Add(drawable);
