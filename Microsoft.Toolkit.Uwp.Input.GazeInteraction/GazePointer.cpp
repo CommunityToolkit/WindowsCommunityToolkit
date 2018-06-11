@@ -42,7 +42,7 @@ GazePointer^ GazePointer::Instance::get()
     return value;
 }
 
-void GazePointer::AddRoot(FrameworkElement^ element)
+void GazePointer::AddRoot(Object^ element)
 {
     _roots->InsertAt(0, element);
 
@@ -53,7 +53,7 @@ void GazePointer::AddRoot(FrameworkElement^ element)
     }
 }
 
-void GazePointer::RemoveRoot(FrameworkElement^ element)
+void GazePointer::RemoveRoot(Object^ element)
 {
     unsigned int index = 0;
     if (_roots->IndexOf(element, &index))

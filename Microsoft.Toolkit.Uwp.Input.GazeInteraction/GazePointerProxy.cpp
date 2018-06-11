@@ -6,13 +6,13 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 {
+    // The attached property registration.
     static auto value = DependencyProperty::RegisterAttached("_GazePointerProxy", GazePointerProxy::typeid, GazePointerProxy::typeid,
         ref new PropertyMetadata(nullptr));
     return value;
 }
 
 GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
-    : _element(element)
 {
     // element.Loaded has already happened if it is in the visual tree...
     auto parent = VisualTreeHelper::GetParent(element);
@@ -28,12 +28,14 @@ GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
         _isLoaded = popup != nullptr && popup->IsOpen;
     }
 
-    element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageLoaded);
-    element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnPageUnloaded);
+    // Start watching for the element to enter and leave the visual tree.
+    element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnLoaded);
+    element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnUnloaded);
 }
 
-void GazePointerProxy::SetGazeInteraction(FrameworkElement^ element, Interaction value)
+void GazePointerProxy::SetInteraction(FrameworkElement^ element, Interaction value)
 {
+    // Get or create a GazePointerProxy for element.
     auto proxy = safe_cast<GazePointerProxy^>(element->GetValue(GazePointerProxyProperty));
     if (proxy == nullptr)
     {
@@ -41,50 +43,63 @@ void GazePointerProxy::SetGazeInteraction(FrameworkElement^ element, Interaction
         element->SetValue(GazePointerProxyProperty, proxy);
     }
 
-    proxy->IsEnabled = value;
+    // Set the proxy's _isEnabled value.
+    proxy->SetIsEnabled(element, value == Interaction::Enabled);
 }
 
-void GazePointerProxy::IsEnabled::set(Interaction value)
+void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
 {
+    // If we have a new value...
     if (_isEnabled != value)
     {
+        // ...record the new value.
         _isEnabled = value;
 
+        // If we are in the visual tree...
         if (_isLoaded)
         {
-            if (value == Interaction::Enabled)
+            // ...if we're being enabled...
+            if (value)
             {
-                GazePointer::Instance->AddRoot(_element);
+                // ...count the element in...
+                GazePointer::Instance->AddRoot(sender);
             }
             else
             {
-                GazePointer::Instance->RemoveRoot(_element);
+                // ...otherwise count the element out.
+                GazePointer::Instance->RemoveRoot(sender);
             }
         }
     }
 }
 
-void GazePointerProxy::OnPageLoaded(Object^ sender, RoutedEventArgs^ args)
+void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
 {
     assert(!_isLoaded);
 
+    // Record that we are now loaded.
     _isLoaded = true;
 
-    if (_isEnabled == Interaction::Enabled)
+    // If we were previously enabled...
+    if (_isEnabled)
     {
-        GazePointer::Instance->AddRoot(_element);
+        // ...we can now be counted as actively enabled.
+        GazePointer::Instance->AddRoot(sender);
     }
 }
 
-void GazePointerProxy::OnPageUnloaded(Object^ sender, RoutedEventArgs^ args)
+void GazePointerProxy::OnUnloaded(Object^ sender, RoutedEventArgs^ args)
 {
     assert(_isLoaded);
 
+    // Record that we have left the visual tree.
     _isLoaded = false;
 
-    if (_isEnabled == Interaction::Enabled)
+    // If we are set as enabled...
+    if (_isEnabled)
     {
-        GazePointer::Instance->RemoveRoot(_element);
+        // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
+        GazePointer::Instance->RemoveRoot(sender);
     }
 }
 
