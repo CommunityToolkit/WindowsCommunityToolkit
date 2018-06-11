@@ -85,15 +85,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private void List_ItemClick(object sender, ItemClickEventArgs e)
+        private async void List_ItemClick(object sender, ItemClickEventArgs e)
         {
-            ListView list = sender as ListView;
-            foreach (object item in list.Items)
+            if (e.OriginalSource is FrameworkElement source && source.Name == "Delete")
             {
-                if (list.ContainerFromItem(item) is ListViewItem itemContainer)
+                if (e.ClickedItem is PlannerTaskViewModel task)
                 {
-                    DataTemplate template = itemContainer.ContentTemplateSelector.SelectTemplate(e.ClickedItem == item, itemContainer);
-                    itemContainer.ContentTemplate = template;
+                    try
+                    {
+                        MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                        await graphService.TryLoginAsync();
+                        GraphServiceClient graphClient = graphService.GraphProvider;
+                        await graphClient.Planner.Tasks[task.Id].Request().DeleteAsync();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageDialog messageDialog = new MessageDialog(exception.Message);
+                        await messageDialog.ShowAsync();
+                    }
+                }
+            }
+            else
+            {
+                ListView list = sender as ListView;
+                foreach (object item in list.Items)
+                {
+                    if (list.ContainerFromItem(item) is ListViewItem itemContainer)
+                    {
+                        DataTemplate template = itemContainer.ContentTemplateSelector.SelectTemplate(e.ClickedItem == item, itemContainer);
+                        itemContainer.ContentTemplate = template;
+                    }
                 }
             }
         }
