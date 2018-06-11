@@ -8,22 +8,22 @@ using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// The virtual Drawing surface renderer used to render the ink and text. This control is used as part of the <see cref="InfiniteCanvas"/>
     /// </summary>
-    internal partial class InfiniteCanvasVirtualDrawingSurface
+    public partial class InfiniteCanvasVirtualDrawingSurface
     {
         private readonly List<IDrawable> _visibleList = new List<IDrawable>();
         private readonly List<IDrawable> _drawableList = new List<IDrawable>();
 
-        public void ReDraw(Rect viewPort)
+        internal void ReDraw(Rect viewPort)
         {
             _visibleList.Clear();
             double top = double.MaxValue,
@@ -76,14 +76,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public void ClearAll(Rect viewPort)
+        internal void ClearAll(Rect viewPort)
         {
             _visibleList.Clear();
             ExecuteClearAll();
             _drawingSurface.Trim(new RectInt32[0]);
         }
 
-        public string GetSerializedList()
+        internal string GetSerializedList()
         {
             var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
             return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             });
         }
 
-        public void RenderFromJsonAndDraw(Rect viewPort, string json)
+        internal void RenderFromJsonAndDraw(Rect viewPort, string json)
         {
             _visibleList.Clear();
             _drawableList.Clear();
