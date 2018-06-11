@@ -19,7 +19,7 @@ var target = Argument("target", "Default");
 
 var gitVersioningVersion = "2.1.23";
 var signClientVersion = "0.9.0";
-var inheritDocVersion = "1.1.0.1";
+var inheritDocVersion = "1.1.1.1";
 
 //////////////////////////////////////////////////////////////////////
 // VARIABLES
