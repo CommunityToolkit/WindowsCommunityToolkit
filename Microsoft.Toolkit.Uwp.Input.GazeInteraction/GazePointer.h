@@ -112,7 +112,6 @@ private:
     GazeTargetItem^          ResolveHitTarget(Point gazePoint, TimeSpan timestamp);
 
     void    CheckIfExiting(TimeSpan curTimestamp);
-    void    GotoState(UIElement^ control, PointerState state);
     void    RaiseGazePointerEvent(GazeTargetItem^ target, PointerState state, TimeSpan elapsedTime);
 
     void OnGazeEntered(
@@ -172,6 +171,9 @@ private:
     TimeSpan _defaultDwellRepeatDelay = DEFAULT_DWELL_REPEAT_DELAY;
     TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
+
+    bool                                _isSwitchActivationEnabled;
+    GazeTargetItem^                     _currentlyFixatedElement;
 };
 
 END_NAMESPACE_GAZE_INPUT
