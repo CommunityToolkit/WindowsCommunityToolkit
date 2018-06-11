@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 {
                     await control.InitPlanAsync().ConfigureAwait(false);
                 }
+                else
+                {
+                    MicrosoftGraphService.Instance.IsAuthenticatedChanged -= control.Instance_InitPlan;
+                    MicrosoftGraphService.Instance.IsAuthenticatedChanged += control.Instance_InitPlan;
+                }
             }
         }
 
@@ -201,6 +206,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 await LoadPlansAsync();
+            }
+        }
+
+        private async void Instance_InitPlan(object sender, EventArgs e)
+        {
+            if (MicrosoftGraphService.Instance.IsAuthenticated)
+            {
+                await InitPlanAsync();
             }
         }
 
