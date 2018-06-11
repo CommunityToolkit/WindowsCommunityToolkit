@@ -102,9 +102,11 @@ GazePointer::GazePointer()
 
     if (_isSwitchActivationEnabled)
     {
-        CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>([this](Platform::Object^, KeyEventArgs^)
+        CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>([this](Platform::Object^, KeyEventArgs^ keyEventArgs)
         {
-            if (this->_isSwitchActivationEnabled && this->_currentlyFixatedElement != nullptr)
+            if (this->_isSwitchActivationEnabled &&
+                this->_currentlyFixatedElement != nullptr &&
+                keyEventArgs->VirtualKey == Windows::System::VirtualKey::GamepadA)
             {
                 this->_currentlyFixatedElement->Invoke();
             }
