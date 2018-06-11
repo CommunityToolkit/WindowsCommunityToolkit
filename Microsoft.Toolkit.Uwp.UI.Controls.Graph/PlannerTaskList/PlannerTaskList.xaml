@@ -11,7 +11,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="130" />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition Width="50" />
@@ -59,7 +59,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
-                <ColumnDefinition Width="120" />
+                <ColumnDefinition Width="130" />
                 <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition Width="50" />
@@ -70,12 +70,15 @@
                 PlaceholderText="Title"
                 Text="{Binding Path=Title, Mode=TwoWay}"
                 TextWrapping="Wrap" />
-            <Button Margin="5" VerticalAlignment="Center">
+            <Button
+                Grid.Column="1"
+                Margin="5"
+                VerticalAlignment="Center">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock
                         Margin="0,0,10,0"
                         VerticalAlignment="Center"
-                        Text="{Binding Path=DueDateTime, TargetNullValue=Select\ Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
+                        Text="{Binding Path=DueDateTime, TargetNullValue=Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
                     <SymbolIcon VerticalAlignment="Center" Symbol="Calendar" />
                 </StackPanel>
                 <Button.Flyout>
@@ -184,7 +187,7 @@
                         <TextBlock
                             Margin="0,0,10,0"
                             VerticalAlignment="Center"
-                            Text="{Binding Path=DueDateTime, TargetNullValue=Select\ Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
+                            Text="{Binding Path=DueDateTime, TargetNullValue=Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
                         <SymbolIcon VerticalAlignment="Center" Symbol="Calendar" />
                     </StackPanel>
                     <Button.Flyout>
@@ -299,7 +302,7 @@
                                     <Grid Margin="12,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
-                                            <ColumnDefinition Width="120" />
+                                            <ColumnDefinition Width="130" />
                                             <ColumnDefinition />
                                             <ColumnDefinition />
                                             <ColumnDefinition Width="50" />

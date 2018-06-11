@@ -217,6 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     GraphServiceClient graphClient = graphService.GraphProvider;
                     PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
                     await graphClient.Planner.Tasks[task.Id].Request().Header("If-Match", taskToUpdate.GetEtag()).DeleteAsync();
+                    Tasks.Remove(task);
                     await Task.Delay(TimeSpan.FromSeconds(5));
                     await InitPlanAsync();
                 }
