@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (_list != null)
             {
                 _list.ItemClick -= List_ItemClick;
+                _list.Tapped += List_Tapped;
             }
 
             if (_add != null)
@@ -56,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _list = list;
                 _list.ItemClick += List_ItemClick;
+                _list.Tapped += List_Tapped;
             }
 
             if (GetTemplateChild(ControlAdd) is Button add)

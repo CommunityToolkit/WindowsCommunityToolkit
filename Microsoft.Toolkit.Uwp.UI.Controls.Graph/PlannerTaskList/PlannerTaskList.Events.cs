@@ -9,10 +9,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -89,36 +91,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void List_ItemClick(object sender, ItemClickEventArgs e)
+        private void List_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.OriginalSource is FrameworkElement source && source.Name == "Delete")
+            ListView list = sender as ListView;
+            foreach (object item in list.Items)
             {
-                if (e.ClickedItem is PlannerTaskViewModel task)
+                if (list.ContainerFromItem(item) is ListViewItem itemContainer)
                 {
-                    try
-                    {
-                        MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                        await graphService.TryLoginAsync();
-                        GraphServiceClient graphClient = graphService.GraphProvider;
-                        await graphClient.Planner.Tasks[task.Id].Request().DeleteAsync();
-                    }
-                    catch (Exception exception)
-                    {
-                        MessageDialog messageDialog = new MessageDialog(exception.Message);
-                        await messageDialog.ShowAsync();
-                    }
-                }
-            }
-            else
-            {
-                ListView list = sender as ListView;
-                foreach (object item in list.Items)
-                {
-                    if (list.ContainerFromItem(item) is ListViewItem itemContainer)
-                    {
-                        DataTemplate template = itemContainer.ContentTemplateSelector.SelectTemplate(e.ClickedItem == item, itemContainer);
-                        itemContainer.ContentTemplate = template;
-                    }
+                    DataTemplate template = itemContainer.ContentTemplateSelector.SelectTemplate(e.ClickedItem == item, itemContainer);
+                    itemContainer.ContentTemplate = template;
                 }
             }
         }
@@ -220,6 +201,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 await LoadPlansAsync();
+            }
+        }
+
+        private async void List_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement sourceElement
+                && sourceElement.FindAscendantByName("DeleteTask") is FrameworkElement removeButton
+                && removeButton.Tag is PlannerTaskViewModel task)
+            {
+                try
+                {
+                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                    await graphService.TryLoginAsync();
+                    GraphServiceClient graphClient = graphService.GraphProvider;
+                    PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
+                    await graphClient.Planner.Tasks[task.Id].Request().Header("If-Match", taskToUpdate.GetEtag()).DeleteAsync();
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    await InitPlanAsync();
+                }
+                catch (Exception exception)
+                {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
+                }
             }
         }
     }

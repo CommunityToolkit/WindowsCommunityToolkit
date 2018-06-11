@@ -14,30 +14,45 @@
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <TextBlock
-                Margin="5"
+                Margin="5,10"
                 VerticalAlignment="Top"
                 Text="{Binding Path=Title}"
                 TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="1"
-                Margin="5"
+                Margin="5,10"
                 VerticalAlignment="Top"
                 Text="{Binding Path=DueDateTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}"
+                TextAlignment="Center"
                 TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="2"
-                Margin="5"
+                Margin="5,10"
                 VerticalAlignment="Top"
                 Text="{Binding Path=AssignmentNames}"
                 TextWrapping="Wrap" />
             <TextBlock
                 Grid.Column="3"
-                Margin="5"
+                Margin="5,10"
                 VerticalAlignment="Top"
                 Text="{Binding Path=BucketName, TargetNullValue=Unassigned}"
                 TextWrapping="Wrap" />
+            <Button
+                Name="DeleteTask"
+                Grid.Column="4"
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutomationProperties.Name="Delete Task"
+                Background="Transparent"
+                BorderThickness="0"
+                FlowDirection="LeftToRight"
+                Tag="{Binding}">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="ActivePlannerTaskDataTemplate">
@@ -47,6 +62,7 @@
                 <ColumnDefinition Width="120" />
                 <ColumnDefinition />
                 <ColumnDefinition />
+                <ColumnDefinition Width="50" />
             </Grid.ColumnDefinitions>
             <TextBox
                 Margin="5"
@@ -54,14 +70,18 @@
                 PlaceholderText="Title"
                 Text="{Binding Path=Title, Mode=TwoWay}"
                 TextWrapping="Wrap" />
-            <CalendarDatePicker
-                Grid.Column="1"
-                Margin="5"
-                VerticalAlignment="Center"
-                Date="{Binding Path=DueDateTime, Mode=TwoWay}"
-                DateFormat="{}{month.abbreviated}-{day.integer}"
-                MinDate="{Binding ElementName=today, Path=Date}"
-                PlaceholderText="Due Date" />
+            <Button Margin="5" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        Margin="0,0,10,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding Path=DueDateTime, TargetNullValue=Select\ Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
+                    <SymbolIcon VerticalAlignment="Center" Symbol="Calendar" />
+                </StackPanel>
+                <Button.Flyout>
+                    <DatePickerFlyout Date="{Binding Path=DueDateTime, Mode=TwoWay}" />
+                </Button.Flyout>
+            </Button>
             <local:PeoplePicker
                 Grid.Column="2"
                 Margin="5"
@@ -76,6 +96,19 @@
                 PlaceholderText="Select a bucket"
                 SelectedValue="{Binding Path=BucketId, Mode=TwoWay}"
                 SelectedValuePath="Id" />
+            <Button
+                Name="DeleteTask"
+                Grid.Column="4"
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutomationProperties.Name="Delete Task"
+                Background="Transparent"
+                BorderThickness="0"
+                FlowDirection="LeftToRight"
+                Tag="{Binding}">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
 
             <Border
                 Grid.ColumnSpan="4"
@@ -86,35 +119,59 @@
         </Grid>
     </DataTemplate>
     <DataTemplate x:Key="MobileDefaultPlannerTaskDataTemplate">
-        <StackPanel>
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Left"
-                FontWeight="Bold"
-                Text="{Binding Path=Title}"
-                TextWrapping="Wrap" />
-            <TextBlock
-                Height="Auto"
-                Margin="5"
-                HorizontalAlignment="Left"
-                Text="{Binding Path=DueDateTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}"
-                TextWrapping="Wrap"
-                Visibility="{Binding Path=IsDueDateTimeVisible}" />
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Left"
-                Text="{Binding Path=AssignmentNames}"
-                TextWrapping="Wrap"
-                Visibility="{Binding Path=IsAssignmentNamesVisible}" />
-            <TextBlock
-                Margin="5"
-                HorizontalAlignment="Left"
-                Text="{Binding Path=BucketName, TargetNullValue=Unassigned}"
-                TextWrapping="Wrap" />
-        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+                <TextBlock
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    FontWeight="Bold"
+                    Text="{Binding Path=Title}"
+                    TextWrapping="Wrap" />
+                <TextBlock
+                    Height="Auto"
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Text="{Binding Path=DueDateTime, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding Path=IsDueDateTimeVisible}" />
+                <TextBlock
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Text="{Binding Path=AssignmentNames}"
+                    TextWrapping="Wrap"
+                    Visibility="{Binding Path=IsAssignmentNamesVisible}" />
+                <TextBlock
+                    Margin="5"
+                    HorizontalAlignment="Left"
+                    Text="{Binding Path=BucketName, TargetNullValue=Unassigned}"
+                    TextWrapping="Wrap" />
+            </StackPanel>
+
+            <Button
+                Name="DeleteTask"
+                Grid.Column="1"
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutomationProperties.Name="Delete Task"
+                Background="Transparent"
+                BorderThickness="0"
+                FlowDirection="LeftToRight"
+                Tag="{Binding}">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
+        </Grid>
     </DataTemplate>
     <DataTemplate x:Key="MobileActivePlannerTaskDataTemplate">
         <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="50" />
+            </Grid.ColumnDefinitions>
             <StackPanel>
                 <TextBox
                     Margin="5"
@@ -122,13 +179,18 @@
                     PlaceholderText="Title"
                     Text="{Binding Path=Title, Mode=TwoWay}"
                     TextWrapping="Wrap" />
-                <CalendarDatePicker
-                    Margin="5"
-                    VerticalAlignment="Center"
-                    Date="{Binding Path=DueDateTime, Mode=TwoWay}"
-                    DateFormat="{}{month.abbreviated}-{day.integer}"
-                    MinDate="{Binding ElementName=today, Path=Date}"
-                    PlaceholderText="Due Date" />
+                <Button Margin="5" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,10,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding Path=DueDateTime, TargetNullValue=Select\ Due\ Date, Converter={StaticResource StringFormatConverter}, ConverterParameter=\{0:MMM-d\}}" />
+                        <SymbolIcon VerticalAlignment="Center" Symbol="Calendar" />
+                    </StackPanel>
+                    <Button.Flyout>
+                        <DatePickerFlyout Date="{Binding Path=DueDateTime, Mode=TwoWay}" />
+                    </Button.Flyout>
+                </Button>
                 <local:PeoplePicker
                     Margin="5"
                     PlaceholderText="To"
@@ -143,7 +205,23 @@
                     SelectedValuePath="Id" />
             </StackPanel>
 
-            <Border Background="{ThemeResource SystemControlBackgroundListLowBrush}" Visibility="{Binding Path=IsUpdating}">
+            <Button
+                Name="DeleteTask"
+                Grid.Column="1"
+                Margin="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                AutomationProperties.Name="Delete Task"
+                Background="Transparent"
+                BorderThickness="0"
+                FlowDirection="LeftToRight"
+                Tag="{Binding}">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
+            <Border
+                Grid.ColumnSpan="2"
+                Background="{ThemeResource SystemControlBackgroundListLowBrush}"
+                Visibility="{Binding Path=IsUpdating}">
                 <ProgressRing IsActive="{Binding Path=IsUpdating}" />
             </Border>
         </Grid>
@@ -164,7 +242,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid>
+                        <Grid Margin="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition />
@@ -200,10 +278,6 @@
                                 x:Name="buckets"
                                 ItemsSource="{TemplateBinding Buckets}"
                                 Visibility="Collapsed" />
-                            <DatePicker
-                                x:Name="today"
-                                Date="{TemplateBinding Today}"
-                                Visibility="Collapsed" />
                             <ListView
                                 x:Name="tasks"
                                 Grid.Row="1"
@@ -214,18 +288,21 @@
                                 ItemsSource="{TemplateBinding Tasks}">
                                 <ListView.ItemContainerStyle>
                                     <Style TargetType="ListViewItem">
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="Padding" Value="12,0,0,0" />
                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                                         <Setter Property="BorderThickness" Value="0,2,0,0" />
                                         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                     </Style>
                                 </ListView.ItemContainerStyle>
                                 <ListView.Header>
-                                    <Grid Margin="12,0">
+                                    <Grid Margin="12,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition Width="120" />
                                             <ColumnDefinition />
                                             <ColumnDefinition />
+                                            <ColumnDefinition Width="50" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock
                                             Margin="5"
