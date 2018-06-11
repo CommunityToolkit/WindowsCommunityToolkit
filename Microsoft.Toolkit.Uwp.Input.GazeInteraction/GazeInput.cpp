@@ -44,20 +44,20 @@ void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
     GazePointer::Instance->_completeBrush = value;
 }
 
-Interaction GazeInput::GlobalInteraction::get()
+Interaction GazeInput::Interaction::get()
 {
     return GazePointer::Instance->_interaction;
 }
 
-void GazeInput::GlobalInteraction::set(Interaction value)
+void GazeInput::Interaction::set(GazeInteraction::Interaction value)
 {
     if (GazePointer::Instance->_interaction != value)
     {
-        if (value == Interaction::Enabled)
+        if (value == GazeInteraction::Interaction::Enabled)
         {
             GazePointer::Instance->AddRoot(nullptr);
         }
-        else if (GazePointer::Instance->_interaction == Interaction::Enabled)
+        else if (GazePointer::Instance->_interaction == GazeInteraction::Interaction::Enabled)
         {
             GazePointer::Instance->RemoveRoot(nullptr);
         }
@@ -110,7 +110,7 @@ DependencyProperty^ GazeInput::DwellRepeatDurationProperty::get() { return s_dwe
 DependencyProperty^ GazeInput::ThresholdDurationProperty::get() { return s_thresholdDurationProperty; }
 DependencyProperty^ GazeInput::MaxDwellRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
 
-Interaction GazeInput::GetInteraction(UIElement^ element) { return safe_cast<Interaction>(element->GetValue(s_interactionProperty)); }
+Interaction GazeInput::GetInteraction(UIElement^ element) { return safe_cast<GazeInteraction::Interaction>(element->GetValue(s_interactionProperty)); }
 bool GazeInput::GetIsCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isCursorVisibleProperty)); }
 int GazeInput::GetCursorRadius(UIElement^ element) { return safe_cast<int>(element->GetValue(s_cursorRadiusProperty)); }
 GazeElement^ GazeInput::GetGazeElement(UIElement^ element) { return safe_cast<GazeElement^>(element->GetValue(s_gazeElementProperty)); }
@@ -121,7 +121,7 @@ TimeSpan GazeInput::GetDwellRepeatDuration(UIElement^ element) { return safe_cas
 TimeSpan GazeInput::GetThresholdDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_thresholdDurationProperty)); }
 int GazeInput::GetMaxDwellRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
 
-void GazeInput::SetInteraction(UIElement^ element, Interaction value) { element->SetValue(s_interactionProperty, value); }
+void GazeInput::SetInteraction(UIElement^ element, GazeInteraction::Interaction value) { element->SetValue(s_interactionProperty, value); }
 void GazeInput::SetIsCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isCursorVisibleProperty, value); }
 void GazeInput::SetCursorRadius(UIElement^ element, int value) { element->SetValue(s_cursorRadiusProperty, value); }
 void GazeInput::SetGazeElement(UIElement^ element, GazeElement^ value) { element->SetValue(s_gazeElementProperty, value); }

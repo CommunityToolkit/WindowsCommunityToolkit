@@ -351,7 +351,7 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 
             if (interaction == Interaction::Inherited)
             {
-                interaction = GazeInput::GlobalInteraction;
+                interaction = GazeInput::Interaction;
             }
 
             if (interaction != Interaction::Enabled)

@@ -67,7 +67,7 @@ namespace GazeInputTest
                 Window.Current.Activate();
             }
 
-            GazeInput.GlobalInteraction = Interaction.Enabled;
+            GazeInput.Interaction = Interaction.Enabled;
         }
 
         /// <summary>
