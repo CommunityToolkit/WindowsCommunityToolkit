@@ -35,9 +35,7 @@
             }
         }
     </style>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://npmcdn.com/es6-promise@3.2.1"></script>
-    <script src="https://cdn.jsdelivr.net/npm/powerbi-client@2.5.1/dist/powerbi.min.js"></script>
+    <script src="powerbi.min.js"></script>
 </head>
 <body>
     <div id="dropdownContainer" style="visibility:hidden">
@@ -53,7 +51,7 @@
         var currentOrientation;
 
         function getReport() {
-            const embedContainer = $('#reportContainer')[0];
+            const embedContainer = document.getElementById('reportContainer');
             return powerbi.get(embedContainer);
         }
 
@@ -67,35 +65,31 @@
             accessToken = token;
             currentOrientation = orientation ;
 
-            $('#dropdownContainer').css('visibility', 'visible')
-            $('#reportsDropdown').off("change").html('');
+            document.getElementById('dropdownContainer').style.visibility = 'visible';
 
-            if (reports.length == 1) {
-                $('#reportsDropdown').hide();
-            }
-            else {
-                $('#reportsDropdown').show();
-            }
+            var reportsDDL = resetDropdown('reportsDropdown');
+
+            reportsDDL.style.display = reports.length == 1 ? 'none' : 'block';
 
             reports.forEach(function (report) {
                 if (report.id == defaultReport.id) {
-                    $('#reportsDropdown').append(`<option value='${report.id}' selected>${report.name}</option>`);
+                    reportsDDL.innerHTML += `<option value='${report.id}' selected>${report.name}</option>`;
                 }
                 else {
-                    $('#reportsDropdown').append(`<option value='${report.id}'>${report.name}</option>`);
+                    reportsDDL.innerHTML += `<option value='${report.id}'>${report.name}</option>`;
                 }
             });
 
-            $('#reportsDropdown').on("change", (function (reports) {
-                return function () {
-                    var id = $(this).val();
-                    var selectedReport = reports.find(function (report) {
-                        return report.id == id;
-                    });
+            reportsDDL.addEventListener('change', function (e) {
+                var id = e.target.value;
+                var selectedReport = reports.find(function (report) {
+                    return report.id == id;
+                });
 
+                if (selectedReport) {
                     loadReport(selectedReport);
-                };
-            })(reports));
+                }
+            });
 
             loadReport(defaultReport);
         }
@@ -114,8 +108,9 @@
             };
             const report = powerbi.embed(reportContainer, config);
 
-            $('#reportContainer').css('visibility', 'visible');
-            $('#pagesDropdown').off("change").html('<option>Loading</option>');
+            document.getElementById('reportContainer').style.visibility = 'visible';
+
+            var pagesDDL = resetDropdown('pagesDropdown', '<option>Loading</option>');
 
             report.off("loaded");
             report.on("loaded", function () {
@@ -128,29 +123,29 @@
 
             report.getPages()
                 .then(function (pages) {
-                    $('#pagesDropdown').html('');
-
+                    var pagesDDL = resetDropdown('pagesDropdown');
                     pages.forEach(function (page) {
-                        $('#pagesDropdown').append(`<option value='${page.name}'>${page.displayName}</option>`);
+                        pagesDDL.innerHTML += `<option value='${page.name}'>${page.displayName}</option>`;
                     });
 
-                    $('#pagesDropdown').on("change", (function (pages) {
-                        return function () {
-                            var name = $(this).val();
-                            var findPage = pages.find(function (page) {
-                                return page.name == name;
-                            });
+                    pagesDDL.addEventListener('change', function (e) {
+                        var name = e.target.value;
+                        var findPage = pages.find(function (page) {
+                            return page.name == name;
+                        });
 
+                        if (findPage) {
                             findPage.setActive();
-                        };
-                    })(pages));
+                        }
+                    });
 
                     report.off("pageChanged");
                     report.on("pageChanged", function (event) {
                         var page = event.detail.newPage;
-                        if ($('#pagesDropdown').val() != page.name) {
-                            $('#pagesDropdown').val(page.name);
-                            $('#pagesDropdown').change();
+
+                        if (pagesDDL.value != page.name) {
+                            pagesDDL.value = page.name;
+                            triggerEvent(pagesDDL, 'change');
                         }
                     });
                 })
@@ -203,11 +198,37 @@
         }
 
         function clearReport() {
-            $('#dropdownContainer').css('visibility', 'hidden');
-            $('#reportContainer').css('visibility', 'hidden');
-            $('#pagesDropdown').html('');
+            document.getElementById('dropdownContainer').style.visibility = 'hidden';
+            document.getElementById('reportContainer').style.visibility = 'hidden';
+
+            resetDropdown('pagesDropdown');
         }
-        
+
+        function resetDropdown(elemId, innerHTML) {
+            var elem = document.getElementById(elemId);
+
+            // clone and replace node to remove all events
+            var elemTemp = elem.cloneNode();
+            elem.parentNode.replaceChild(elemTemp, elem);
+            elem = elemTemp;
+
+            // reset inner HTML
+            elem.innerHTML = innerHTML || '';
+
+            return elem;
+        }
+
+        function triggerEvent(elem, event) {
+            if ("createEvent" in document) {
+                var evt = document.createEvent("HTMLEvents");
+                evt.initEvent(event, false, true);
+                elem.dispatchEvent(evt);
+            }
+            else {
+                elem.fireEvent("on" + event);
+            }
+        }
+
     </script>
 </body>
 </html>
