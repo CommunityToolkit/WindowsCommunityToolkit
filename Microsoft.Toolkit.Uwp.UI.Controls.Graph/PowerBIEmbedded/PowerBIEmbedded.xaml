@@ -14,7 +14,7 @@
                         </Grid.RowDefinitions>
                         <WebView x:Name="WebViewReportFrame" 
                                  Grid.Row="0"
-                                 Source="ms-appx-web:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded/EmbedReportFrame.html"/>
+                                 Source="ms-appx-web:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded/Embed/EmbedReportFrame.html"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
