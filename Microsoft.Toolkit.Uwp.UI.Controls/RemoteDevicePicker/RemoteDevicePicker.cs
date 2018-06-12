@@ -10,6 +10,7 @@
 // THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
 // ******************************************************************
 
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -87,8 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(RemoteDevicePicker);
             SecondaryButtonText = "Done";
             SecondaryButtonClick += RemoteDevicePicker_SecondaryButtonClick;
+            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            DeviceMap = new Dictionary<string, RemoteSystem>();
+
             Loading += RemoteDevicePicker_Loading;
-            Loaded += RemoteDevicePicker_Loaded;
         }
 
         private void RemoteDevicePicker_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -113,20 +116,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var enumval = Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>();
             _listDeviceTypes.ItemsSource = enumval.ToList();
+            _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
             _listDeviceTypes.SelectedIndex = 0;
+
             base.OnApplyTemplate();
         }
 
         private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateList();
-        }
-
-        private void RemoteDevicePicker_Loaded(object sender, RoutedEventArgs e)
-        {
-            RemoteSystems = new ObservableCollection<RemoteSystem>();
-            DeviceMap = new Dictionary<string, RemoteSystem>();
-            _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
         }
 
         private async void RemoteDevicePicker_Loading(FrameworkElement sender, object args)
@@ -147,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 _progressRing.IsActive = true;
                 if (DeviceMap.ContainsKey(args.RemoteSystem.Id))
