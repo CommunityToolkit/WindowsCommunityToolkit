@@ -63,5 +63,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// name of Visual State on mobile
         /// </summary>
         private const string MobileVisualState = "Mobile";
+
+        /// <summary>
+        /// id of Yes command in delete confirm dialog
+        /// </summary>
+        private const string DeleteConfirmDialogYes = "YES";
+
+        /// <summary>
+        /// id of Yes command in delete confirm dialog
+        /// </summary>
+        private const string DeleteConfirmDialogNo = "No";
+
+        /// <summary>
+        /// delete task button name
+        /// </summary>
+        private const string DeleteTaskButtonName = "DeleteTask";
+
+        /// <summary>
+        /// json name of assignments of task
+        /// </summary>
+        private const string TaskAssignmentsJsonName = "assignments";
+
+        /// <summary>
+        /// json name of title of task
+        /// </summary>
+        private const string TaskTitleJsonName = "title";
+
+        /// <summary>
+        /// json name of bucketId of task
+        /// </summary>
+        private const string TaskBucketIdJsonName = "bucketId";
+
+        /// <summary>
+        /// json name of dueDateTime of task
+        /// </summary>
+        private const string TaskDueDateTimeJsonName = "dueDateTime";
+
     }
 }

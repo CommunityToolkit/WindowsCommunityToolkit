@@ -127,10 +127,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             assignments.AddAssignee(assignee);
                         }
 
-                        task.Add("assignments", assignments);
+                        task.Add(TaskAssignmentsJsonName, assignments);
                         break;
                     case nameof(plannerTaskViewModel.Title):
-                        task.Add("title", plannerTaskViewModel.Title);
+                        task.Add(TaskTitleJsonName, plannerTaskViewModel.Title);
                         break;
                     case nameof(plannerTaskViewModel.BucketId):
                         string bucketName = string.Empty;
@@ -144,10 +144,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         }
 
                         plannerTaskViewModel.BucketName = bucketName;
-                        task.Add("bucketId", plannerTaskViewModel.BucketId);
+                        task.Add(TaskBucketIdJsonName, plannerTaskViewModel.BucketId);
                         break;
                     case nameof(plannerTaskViewModel.DueDateTime):
-                        task.Add("dueDateTime", plannerTaskViewModel.DueDateTime);
+                        task.Add(TaskDueDateTimeJsonName, plannerTaskViewModel.DueDateTime);
+                        if (_list.ContainerFromItem(plannerTaskViewModel) is ListViewItem taskContainer)
+                        {
+                            var flyout = taskContainer.ContentTemplateRoot.FindDescendants<Button>().FirstOrDefault(s => s.Flyout != null)?.Flyout;
+                            if (flyout != null)
+                            {
+                                flyout.Hide();
+                            }
+                        }
+
                         break;
                     default:
                         skipUpdate = true;
@@ -163,9 +172,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         await graphService.TryLoginAsync();
                         GraphServiceClient graphClient = graphService.GraphProvider;
                         PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
-                        if (task.ContainsKey("assignments"))
+                        if (task.ContainsKey(TaskAssignmentsJsonName))
                         {
-                            PlannerAssignments assignments = task["assignments"] as PlannerAssignments;
+                            PlannerAssignments assignments = task[TaskAssignmentsJsonName] as PlannerAssignments;
                             string[] oldAssignees = taskToUpdate.Assignments.Assignees.ToArray();
                             string[] newAssignees = assignments.Assignees.ToArray();
                             foreach (string userId in oldAssignees)
@@ -220,24 +229,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private async void List_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement sourceElement
-                && sourceElement.FindAscendantByName("DeleteTask") is FrameworkElement removeButton
+                && sourceElement.FindAscendantByName(DeleteTaskButtonName) is FrameworkElement removeButton
                 && removeButton.Tag is PlannerTaskViewModel task)
             {
-                try
+                MessageDialog confirmDialog = new MessageDialog(DeleteConfirmDialogMessage);
+                confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogYes, Label = DeleteConfirmDialogYesLabel });
+                confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogNo, Label = DeleteConfirmDialogNoLabel });
+                confirmDialog.DefaultCommandIndex = 0;
+                confirmDialog.CancelCommandIndex = 1;
+                IUICommand result = await confirmDialog.ShowAsync();
+                if (result.Id.ToString() == DeleteConfirmDialogYes)
                 {
-                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                    await graphService.TryLoginAsync();
-                    GraphServiceClient graphClient = graphService.GraphProvider;
-                    PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
-                    await graphClient.Planner.Tasks[task.Id].Request().Header("If-Match", taskToUpdate.GetEtag()).DeleteAsync();
-                    Tasks.Remove(task);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    await InitPlanAsync();
-                }
-                catch (Exception exception)
-                {
-                    MessageDialog messageDialog = new MessageDialog(exception.Message);
-                    await messageDialog.ShowAsync();
+                    try
+                    {
+                        MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                        await graphService.TryLoginAsync();
+                        GraphServiceClient graphClient = graphService.GraphProvider;
+                        PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
+                        await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
+                        Tasks.Remove(task);
+                        await Task.Delay(TimeSpan.FromSeconds(5));
+                        await InitPlanAsync();
+                    }
+                    catch (Exception exception)
+                    {
+                        MessageDialog messageDialog = new MessageDialog(exception.Message);
+                        await messageDialog.ShowAsync();
+                    }
                 }
             }
         }
