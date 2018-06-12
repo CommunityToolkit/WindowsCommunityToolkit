@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// List of Device Types
     /// </summary>
-    public enum DeviceType
+    internal enum DeviceType
     {
         /// <summary>
         /// All

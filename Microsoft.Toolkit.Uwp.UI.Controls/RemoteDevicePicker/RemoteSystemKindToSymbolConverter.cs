@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// <summary>
     /// Converter to convert Device Type to Icon
     /// </summary>
-    public class KindToImageConverter : IValueConverter
+    internal class RemoteSystemKindToSymbolConverter : IValueConverter
     {
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, string language)
