@@ -90,6 +90,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.Visibility = Visibility.Visible;
 
             _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+
             ListView.ItemsSource = _tweets;
 
             Shell.Current.DisplayWaitRing = false;

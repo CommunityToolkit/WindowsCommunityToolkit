@@ -14,12 +14,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         ///// <summary>
         ///// Gets or sets DisplayUrl (pics.twitter.com Url).
         ///// </summary>
-        //[JsonProperty("display_url")]
-        //public string DisplayUrl { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets DisplayUrl (pics.twitter.com Url).
-        ///// </summary>
         //[JsonProperty("expanded_url")]
         //public string ExpandedUrl { get; set; }
 
@@ -76,5 +70,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("url")]
         public string Url { get; set; }
+
+        /// <summary>
+        /// Gets or sets DisplayUrl (pics.twitter.com Url).
+        /// </summary>
+        [JsonProperty("display_url")]
+        public string DisplayUrl { get; set; }
     }
 }
