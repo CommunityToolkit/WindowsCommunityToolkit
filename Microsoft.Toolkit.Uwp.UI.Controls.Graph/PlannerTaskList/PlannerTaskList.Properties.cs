@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 nameof(DeleteConfirmDialogMessage),
                 typeof(string),
                 typeof(PlannerTaskList),
-                new PropertyMetadata("Delete this task?"));
+                new PropertyMetadata("Are you sure to delete this task?"));
 
         /// <summary>
         /// label of Yes command of delete confirm dialog

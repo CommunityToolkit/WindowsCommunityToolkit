@@ -70,6 +70,10 @@
                 PlaceholderText="Title"
                 Text="{Binding Path=Title, Mode=TwoWay}"
                 TextWrapping="Wrap" />
+            <DatePicker
+                Name="dueDatePicker"
+                Date="{Binding Path=DueDateTime, Mode=TwoWay}"
+                Visibility="Collapsed" />
             <Button
                 Grid.Column="1"
                 Margin="5"
@@ -106,7 +110,7 @@
                                 </Setter>
                             </Style>
                         </Flyout.FlyoutPresenterStyle>
-                        <local:SingleCalendarView Date="{Binding Path=DueDateTime, Mode=TwoWay}" SelectedBorderBrush="{ThemeResource SystemControlHighlightAccentBrush}" />
+                        <local:SingleCalendarView Date="{Binding ElementName=dueDatePicker, Path=Date, Mode=TwoWay}" SelectedBorderBrush="{ThemeResource SystemControlHighlightAccentBrush}" />
                     </Flyout>
                 </Button.Flyout>
             </Button>
@@ -207,6 +211,10 @@
                     PlaceholderText="Title"
                     Text="{Binding Path=Title, Mode=TwoWay}"
                     TextWrapping="Wrap" />
+                <DatePicker
+                    Name="dueDatePicker"
+                    Date="{Binding Path=DueDateTime, Mode=TwoWay}"
+                    Visibility="Collapsed" />
                 <Button
                     Grid.Column="1"
                     Margin="5"
@@ -243,7 +251,7 @@
                                     </Setter>
                                 </Style>
                             </Flyout.FlyoutPresenterStyle>
-                            <local:SingleCalendarView Date="{Binding Path=DueDateTime, Mode=TwoWay}" SelectedBorderBrush="{ThemeResource SystemControlHighlightAccentBrush}" />
+                            <local:SingleCalendarView Date="{Binding ElementName=dueDatePicker, Path=Date, Mode=TwoWay}" SelectedBorderBrush="{ThemeResource SystemControlHighlightAccentBrush}" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>

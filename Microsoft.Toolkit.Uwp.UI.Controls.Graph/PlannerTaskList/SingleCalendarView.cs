@@ -18,7 +18,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 calendarView.SelectedDates.Clear();
                 if (e.NewValue != null)
                 {
-                    calendarView.SelectedDates.Add((DateTimeOffset)e.NewValue);
+                    DateTimeOffset date = (DateTimeOffset)e.NewValue;
+                    calendarView.SelectedDates.Add(date);
+                    calendarView.SetDisplayDate(date);
+                }
+                else
+                {
+                    calendarView.SetDisplayDate(DateTimeOffset.Now);
                 }
 
                 calendarView._skipSelectedDatesChanged = false;
