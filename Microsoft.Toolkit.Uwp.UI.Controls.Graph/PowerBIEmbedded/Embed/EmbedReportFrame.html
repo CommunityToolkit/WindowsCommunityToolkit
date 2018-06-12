@@ -21,6 +21,7 @@
             margin-right: 15px;
             padding: 3px;
             font-size: 1em;
+            display: inline-block;
         }
         #reportContainer {
             height: 100%;
@@ -32,6 +33,7 @@
             }
             #dropdownContainer select {
                 width: 100%;
+                display: block;
             }
         }
     </style>
@@ -69,7 +71,7 @@
 
             var reportsDDL = resetDropdown('reportsDropdown');
 
-            reportsDDL.style.display = reports.length == 1 ? 'none' : 'block';
+            reportsDDL.style.display = reports.length == 1 ? 'none' : 'inline-block';
 
             reports.forEach(function (report) {
                 if (report.id == defaultReport.id) {
