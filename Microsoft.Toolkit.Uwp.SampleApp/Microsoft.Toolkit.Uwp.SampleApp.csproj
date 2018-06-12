@@ -524,6 +524,7 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
+    <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
