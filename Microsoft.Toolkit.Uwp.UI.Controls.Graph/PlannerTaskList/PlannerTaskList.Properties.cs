@@ -77,6 +77,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Closed"));
 
         /// <summary>
+        /// message of delete confirm dialog
+        /// </summary>
+        public static readonly DependencyProperty DeleteConfirmDialogMessageProperty =
+            DependencyProperty.Register(
+                nameof(DeleteConfirmDialogMessage),
+                typeof(string),
+                typeof(PlannerTaskList),
+                new PropertyMetadata("Delete this task?"));
+
+        /// <summary>
+        /// label of Yes command of delete confirm dialog
+        /// </summary>
+        public static readonly DependencyProperty DeleteConfirmDialogYesLabelProperty =
+            DependencyProperty.Register(
+                nameof(DeleteConfirmDialogYesLabel),
+                typeof(string),
+                typeof(PlannerTaskList),
+                new PropertyMetadata("Yes"));
+
+        /// <summary>
+        /// label of No command of delete confirm dialog
+        /// </summary>
+        public static readonly DependencyProperty DeleteConfirmDialogNoLabelProperty =
+            DependencyProperty.Register(
+                nameof(DeleteConfirmDialogNoLabel),
+                typeof(string),
+                typeof(PlannerTaskList),
+                new PropertyMetadata("No"));
+
+        /// <summary>
         /// Type of tasks to display
         /// </summary>
         internal static readonly DependencyProperty TaskTypeProperty =
@@ -177,6 +207,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (string)GetValue(AllTasksLabelProperty); }
             set { SetValue(AllTasksLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets message of delete confirm dialog
+        /// </summary>
+        public string DeleteConfirmDialogMessage
+        {
+            get { return (string)GetValue(DeleteConfirmDialogMessageProperty); }
+            set { SetValue(DeleteConfirmDialogMessageProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets label of Yes command of delete confirm dialog
+        /// </summary>
+        public string DeleteConfirmDialogYesLabel
+        {
+            get { return (string)GetValue(DeleteConfirmDialogYesLabelProperty); }
+            set { SetValue(DeleteConfirmDialogYesLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets label of No command of delete confirm dialog
+        /// </summary>
+        public string DeleteConfirmDialogNoLabel
+        {
+            get { return (string)GetValue(DeleteConfirmDialogNoLabelProperty); }
+            set { SetValue(DeleteConfirmDialogNoLabelProperty, value); }
         }
 
         /// <summary>
