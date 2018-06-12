@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Permissions;
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     [SecurityCritical]
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
-    public sealed partial class WebView : Control, IWebView, ISupportInitialize
+    public sealed partial class WebView : Control, IWebView, IWebView2, ISupportInitialize
     {
         private string _delayedEnterpriseId = WebViewDefaults.EnterpriseId;
         private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;
@@ -422,6 +423,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         /// <inheritdoc />
         public void Navigate(Uri source) => _webViewControl?.Navigate(source);
+
+        /// <inheritdoc />
+        public void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null) =>
+            _webViewControl.Navigate(requestUri, httpMethod, content, headers);
 
         /// <inheritdoc />
         public void Navigate(string source)
