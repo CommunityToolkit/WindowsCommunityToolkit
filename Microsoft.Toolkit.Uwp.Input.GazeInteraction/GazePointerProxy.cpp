@@ -4,6 +4,30 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+/// <summary>
+/// The IsLoaded heuristic for testing whether a FrameworkElement is in the visual tree.
+/// </summary>
+static bool IsLoadedHeuristic(FrameworkElement^ element)
+{
+    bool isLoaded;
+
+    // element.Loaded has already happened if it is in the visual tree...
+    auto parent = VisualTreeHelper::GetParent(element);
+    if (parent != nullptr)
+    {
+        isLoaded = true;
+    }
+    // ...or...
+    else
+    {
+        // ...if the element is a dynamically created Popup that has been opened.
+        auto popup = dynamic_cast<Popup^>(element);
+        isLoaded = popup != nullptr && popup->IsOpen;
+    }
+
+    return isLoaded;
+}
+
 DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 {
     // The attached property registration.
@@ -14,19 +38,7 @@ DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 
 GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
 {
-    // element.Loaded has already happened if it is in the visual tree...
-    auto parent = VisualTreeHelper::GetParent(element);
-    if (parent != nullptr)
-    {
-        _isLoaded = true;
-    }
-    // ...or...
-    else
-    {
-        // ...if the element is a dynamically created Popup that has been opened.
-        auto popup = dynamic_cast<Popup^>(element);
-        _isLoaded = popup != nullptr && popup->IsOpen;
-    }
+    _isLoaded = IsLoadedHeuristic(element);
 
     // Start watching for the element to enter and leave the visual tree.
     element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnLoaded);
@@ -76,6 +88,7 @@ void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
 void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
 {
     assert(!_isLoaded);
+    assert(IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
 
     // Record that we are now loaded.
     _isLoaded = true;
@@ -91,6 +104,8 @@ void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
 void GazePointerProxy::OnUnloaded(Object^ sender, RoutedEventArgs^ args)
 {
     assert(_isLoaded);
+    assert(!IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
+
 
     // Record that we have left the visual tree.
     _isLoaded = false;
