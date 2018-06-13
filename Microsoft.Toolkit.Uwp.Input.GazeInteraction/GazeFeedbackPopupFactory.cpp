@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "GazeFeedbackPopupFactory.h"
 
-using namespace Platform::Collections;
-
-static Vector<Popup^>^ s_cache = ref new Vector<Popup^>();
-
 BEGIN_NAMESPACE_GAZE_INPUT
 
 Popup^ GazeFeedbackPopupFactory::Get()
