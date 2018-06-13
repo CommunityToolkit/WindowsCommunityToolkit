@@ -55,6 +55,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 toDraw = viewPort;
             }
 
+            if (toDraw.Height > Height)
+            {
+                toDraw.Height = Height;
+            }
+
+            if (toDraw.Width > Width)
+            {
+                toDraw.Width = Width;
+            }
+
             using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
             {
                 drawingSession.Clear(Colors.White);

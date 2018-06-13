@@ -11,8 +11,6 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 For an accurate list of known bugs and issues, take a look at the [issues on GitHub](https://github.com/Microsoft/WindowsCommunityToolkit//issues)
 
 
-## Services
-
 ## Controls
 
 ### InfiniteCanvas

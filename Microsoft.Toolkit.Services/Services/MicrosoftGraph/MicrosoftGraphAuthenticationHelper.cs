@@ -142,9 +142,21 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             MSAL.AuthenticationResult authenticationResult = null;
 
-            var user = _identityClient.Users.FirstOrDefault();
-
-            authenticationResult = user != null ? await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, user) : await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, upnLoginHint, uiParent);
+            try
+            {
+                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, _identityClient.Users.FirstOrDefault());
+            }
+            catch (MsalUiRequiredException)
+            {
+                try
+                {
+                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, upnLoginHint, uiParent);
+                }
+                catch (MsalException)
+                {
+                    throw;
+                }
+            }
 
             return authenticationResult?.AccessToken;
         }

@@ -158,6 +158,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         string DocumentTitle { get; }
 
         /// <summary>
+        /// Gets or sets an enterprise ID for this process.
+        /// </summary>
+        /// <value>The enterprise ID of this process.</value>
+        /// <remarks>Value can be set prior to the component being initialized.</remarks>
+        /// <see cref="WebViewControlProcessOptions.EnterpriseId"/>
+        string EnterpriseId { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the use of IndexedDB is allowed.
         /// </summary>
         /// <value><c>true</c> if IndexedDB is allowed; otherwise, <c>false</c>. The default is <c>true</c>.</value>
@@ -328,6 +336,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <see cref="Navigate(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
         /// navigation has completed.
         void Navigate(string source);
+
+        /// <summary>
+        /// Loads the specified HTML content relative to the location of the current executable.
+        /// </summary>
+        /// <param name="relativePath">The relative path.</param>
+        /// <see cref="NavigateToLocal(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
+        /// navigation has completed.
+        void NavigateToLocal(string relativePath);
 
         /// <summary>
         /// Loads the specified HTML content as a new document.
