@@ -8,7 +8,7 @@
     xmlns:g="using:Microsoft.Toolkit.Uwp.Input.GazeInteraction"
     g:GazeInput.Interaction="@[Interaction:Enum:Interaction.Enabled]"
     g:GazeInput.IsCursorVisible="@[IsCursorVisible:Bool:True]"
-    g.GazeInput.IsSwitchEnabled="@[IsSwitchEnabled:Bool:False]"
+    g:GazeInput.IsSwitchEnabled="@[IsSwitchEnabled:Bool:False]"
     g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
     >
 
