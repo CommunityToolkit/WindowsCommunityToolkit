@@ -195,18 +195,18 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             User = null;
 
-            Task<bool> result;
+            bool result;
 
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
-            result = Authentication.LogoutAsync(authenticationModel);
+            result = Authentication.LogoutAsync(authenticationModel).Result;
 #else
-            result = Task.Run(() => { return Authentication.Logout(); });
+            result = Authentication.Logout();
 #endif
 
             IsAuthenticated = false;
 
-            return result;
+            return Task.FromResult(result);
         }
 
         /// <summary>
