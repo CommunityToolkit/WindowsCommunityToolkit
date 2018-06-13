@@ -72,6 +72,11 @@ public:
     static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
 
     /// <summary>
+    /// Identifyes the IsSwitchEnabled dependency property
+    /// </summary>
+    static property DependencyProperty^ IsSwitchEnabled { DependencyProperty^ get(); }
+
+    /// <summary>
     /// Gets or sets the brush to use when displaying the default indication that gaze entered a control
     /// </summary>
     static property Brush^ DwellFeedbackEnterBrush { Brush^ get(); void set(Brush^ value); }
@@ -142,6 +147,11 @@ public:
     static int GetMaxDwellRepeatCount(UIElement^ element);
 
     /// <summary>
+    /// Gets the Boolean indicating whether gaze plus switch is enabled.
+    /// </summary>
+    static bool GetIsSwitchEnabled(UIElement^ element);
+
+    /// <summary>
     /// Sets the status of gaze interaction over that particular XAML element.
     /// </summary>
     static void SetInteraction(UIElement^ element, GazeInteraction::Interaction value);
@@ -190,6 +200,11 @@ public:
     /// Sets the maximum times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation.
     /// </summary>
     static void SetMaxDwellRepeatCount(UIElement^ element, int value);
+
+    /// <summary>
+    /// Sets the Boolean indicating whether gaze plus switch is enabled.
+    /// </summary>
+    static void SetIsSwitchEnabled(UIElement^ element, bool value);
 
     /// <summary>
     /// Gets the GazePointer object.

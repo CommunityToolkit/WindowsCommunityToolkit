@@ -85,6 +85,11 @@ static void OnCursorRadiusChanged(DependencyObject^ ob, DependencyPropertyChange
     GazePointer::Instance->CursorRadius = safe_cast<int>(args->NewValue);
 }
 
+static void OnIsSwitchEnabledChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
+{
+    GazePointer::Instance->IsSwitchEnabled = safe_cast<bool>(args->NewValue);
+}
+
 static DependencyProperty^ s_interactionProperty = DependencyProperty::RegisterAttached("Interaction", Interaction::typeid, GazeInput::typeid,
     ref new PropertyMetadata(Interaction::Inherited, ref new PropertyChangedCallback(&OnInteractionChanged)));
 static DependencyProperty^ s_isCursorVisibleProperty = DependencyProperty::RegisterAttached("IsCursorVisible", bool::typeid, GazeInput::typeid,
@@ -98,6 +103,8 @@ static DependencyProperty^ s_repeatDelayDurationProperty = DependencyProperty::R
 static DependencyProperty^ s_dwellRepeatDurationProperty = DependencyProperty::RegisterAttached("DwellRepeatDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_thresholdDurationProperty = DependencyProperty::RegisterAttached("ThresholdDuration", TimeSpan::typeid, GazeInput::typeid, ref new PropertyMetadata(GazeInput::UnsetTimeSpan));
 static DependencyProperty^ s_maxRepeatCountProperty = DependencyProperty::RegisterAttached("MaxDwellRepeatCount", int::typeid, GazeInput::typeid, ref new PropertyMetadata(safe_cast<Object^>(0)));
+static DependencyProperty^ s_isSwitchEnabled = DependencyProperty::RegisterAttached("IsSwitchEnabled", bool::typeid, GazeInput::typeid,
+    ref new PropertyMetadata(false, ref new PropertyChangedCallback(&OnIsSwitchEnabledChanged)));
 
 DependencyProperty^ GazeInput::InteractionProperty::get() { return s_interactionProperty; }
 DependencyProperty^ GazeInput::IsCursorVisibleProperty::get() { return s_isCursorVisibleProperty; }
@@ -109,6 +116,7 @@ DependencyProperty^ GazeInput::RepeatDelayDurationProperty::get() { return s_rep
 DependencyProperty^ GazeInput::DwellRepeatDurationProperty::get() { return s_dwellRepeatDurationProperty; }
 DependencyProperty^ GazeInput::ThresholdDurationProperty::get() { return s_thresholdDurationProperty; }
 DependencyProperty^ GazeInput::MaxDwellRepeatCountProperty::get() { return s_maxRepeatCountProperty; }
+DependencyProperty^ GazeInput::IsSwitchEnabled::get() { return s_isSwitchEnabled; }
 
 Interaction GazeInput::GetInteraction(UIElement^ element) { return safe_cast<GazeInteraction::Interaction>(element->GetValue(s_interactionProperty)); }
 bool GazeInput::GetIsCursorVisible(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isCursorVisibleProperty)); }
@@ -120,6 +128,7 @@ TimeSpan GazeInput::GetRepeatDelayDuration(UIElement^ element) { return safe_cas
 TimeSpan GazeInput::GetDwellRepeatDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_dwellRepeatDurationProperty)); }
 TimeSpan GazeInput::GetThresholdDuration(UIElement^ element) { return safe_cast<TimeSpan>(element->GetValue(s_thresholdDurationProperty)); }
 int GazeInput::GetMaxDwellRepeatCount(UIElement^ element) { return safe_cast<int>(element->GetValue(s_maxRepeatCountProperty)); }
+bool GazeInput::GetIsSwitchEnabled(UIElement^ element) { return safe_cast<bool>(element->GetValue(s_isSwitchEnabled)); }
 
 void GazeInput::SetInteraction(UIElement^ element, GazeInteraction::Interaction value) { element->SetValue(s_interactionProperty, value); }
 void GazeInput::SetIsCursorVisible(UIElement^ element, bool value) { element->SetValue(s_isCursorVisibleProperty, value); }
@@ -131,6 +140,7 @@ void GazeInput::SetRepeatDelayDuration(UIElement^ element, TimeSpan span) { elem
 void GazeInput::SetDwellRepeatDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_dwellRepeatDurationProperty, span); }
 void GazeInput::SetThresholdDuration(UIElement^ element, TimeSpan span) { element->SetValue(s_thresholdDurationProperty, span); }
 void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
+void GazeInput::SetIsSwitchEnabled(UIElement^ element, bool value) { element->SetValue(s_isSwitchEnabled, value); }
 
 GazePointer^ GazeInput::GetGazePointer(Page^ page)
 {

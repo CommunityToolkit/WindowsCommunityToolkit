@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             WarnUserToPlugInDevice();
 
             var buttonControl = control.FindChildByName("TargetButton") as Button;
+            buttonControl.Click += TargetButton_Click;
 
             if (buttonControl != null)
             {
@@ -125,6 +126,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 RepeatRec.Visibility = Visibility.Collapsed;
                 DwellProgressBar.Value = 0;
             }
+        }
+
+        private int _targetButtonClickCount = 0;
+
+        private void TargetButton_Click(object sender, RoutedEventArgs e)
+        {
+            ClickCount.Text = $"Number of clicks = {++_targetButtonClickCount}";
         }
     }
 }

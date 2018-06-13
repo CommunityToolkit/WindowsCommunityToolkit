@@ -95,6 +95,12 @@ internal:
         void set(int value) { _gazeCursor->CursorRadius = value; }
     }
 
+    property bool IsSwitchEnabled
+    {
+        bool get() { return _isSwitchEnabled; }
+        void set(bool value) { _isSwitchEnabled = value; }
+    }
+
 internal:
 
     static property GazePointer^ Instance { GazePointer^ get(); }
@@ -186,7 +192,7 @@ private:
     TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
 
-    bool                                _isSwitchActivationEnabled;
+    bool                                _isSwitchEnabled;
     GazeTargetItem^                     _currentlyFixatedElement;
 };
 

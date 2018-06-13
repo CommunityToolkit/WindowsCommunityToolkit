@@ -11,7 +11,6 @@
 #include "StateChangedEventArgs.h"
 
 using namespace Platform;
-using namespace Windows::Gaming::Input;
 using namespace Windows::Foundation;
 
 BEGIN_NAMESPACE_GAZE_INPUT
@@ -98,13 +97,11 @@ GazePointer::GazePointer()
     _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
     _watcher->Start();
 
-    _isSwitchActivationEnabled = true;
-
-    if (_isSwitchActivationEnabled)
+    if (_isSwitchEnabled)
     {
         CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>([this](Platform::Object^, KeyEventArgs^ keyEventArgs)
         {
-            if (this->_isSwitchActivationEnabled &&
+            if (this->_isSwitchEnabled &&
                 this->_currentlyFixatedElement != nullptr &&
                 keyEventArgs->VirtualKey == Windows::System::VirtualKey::GamepadA)
             {
@@ -654,7 +651,7 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
             // We are about to transition into the Dwell state
             // If switch input is enabled, make sure dwell never completes
             // via eye gaze
-            if (_isSwitchActivationEnabled)
+            if (_isSwitchEnabled)
             {
                 // Don't allow the next state (Dwell) to progress
                 targetItem->NextStateTime = TimeSpan{ MAXINT64 };
