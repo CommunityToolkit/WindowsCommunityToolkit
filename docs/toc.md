@@ -5,32 +5,6 @@
 ## [Windows Community Toolkit Nuget Packages](Nuget-Packages.md)
 ## [Adding the Windows Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
-# Animations
-## [AnimationSet](animations/AnimationSet.md)
-## [Blur](animations/Blur.md)
-## [Composition Animations](animations/CompositionAnimations.md)
-## [Connected Animations](animations/ConnectedAnimations.md)
-## [ExpressionBuilder](animations/Expressions.md)
-## [Fade](animations/Fade.md)
-## [FadeHeader](animations/FadeHeader.md)
-## [Implicit Animations](animations/ImplicitAnimations.md)
-## [Light](animations/Light.md)
-## [Offset](animations/Offset.md)
-## [ParallaxService](animations/ParallaxService.md)
-## [ReorderGridAnimation](animations/ReorderGrid.md)
-## [Rotate](animations/Rotate.md)
-## [Saturation](animations/Saturation.md)
-## [Scale](animations/Scale.md)
-
-# Brushes
-## [BackdropBlurBrush](brushes/BackdropBlurBrush.md)
-## [BackdropGammaTransferBrush](brushes/BackdropGammaTransferBrush.md)
-## [BackdropInvertBrush](brushes/BackdropInvertBrush.md)
-## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
-## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
-## [ImageBlendBrush](brushes/ImageBlendBrush.md)
-## [RadialGradientBrush](brushes/RadialGradientBrush.md)
-
 # Controls
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [BladeView](controls/BladeView.md)
@@ -73,15 +47,31 @@
 ## [WebView (win32)](controls/WebView.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
-# Services
-## [Bing Service](services/Bing.md)
-## [Facebook Service](services/Facebook.md)
-## [LinkedIn Service](services/Linkedin.md)
-## [Microsoft Graph Service](services/MicrosoftGraph.md)
-### [GraphLogin (WinForms)](services/GraphLogin.md)
-## [Microsoft Translator Service](services/MicrosoftTranslator.md)
-## [OneDrive Service](services/OneDrive.md)
-## [Twitter Service](services/Twitter.md)
+# Animations
+## [AnimationSet](animations/AnimationSet.md)
+## [Blur](animations/Blur.md)
+## [Composition Animations](animations/CompositionAnimations.md)
+## [Connected Animations](animations/ConnectedAnimations.md)
+## [ExpressionBuilder](animations/Expressions.md)
+## [Fade](animations/Fade.md)
+## [FadeHeader](animations/FadeHeader.md)
+## [Implicit Animations](animations/ImplicitAnimations.md)
+## [Light](animations/Light.md)
+## [Offset](animations/Offset.md)
+## [ParallaxService](animations/ParallaxService.md)
+## [ReorderGridAnimation](animations/ReorderGrid.md)
+## [Rotate](animations/Rotate.md)
+## [Saturation](animations/Saturation.md)
+## [Scale](animations/Scale.md)
+
+# Brushes
+## [BackdropBlurBrush](brushes/BackdropBlurBrush.md)
+## [BackdropGammaTransferBrush](brushes/BackdropGammaTransferBrush.md)
+## [BackdropInvertBrush](brushes/BackdropInvertBrush.md)
+## [BackdropSaturationBrush](brushes/BackdropSaturationBrush.md)
+## [BackdropSepiaBrush](brushes/BackdropSepiaBrush.md)
+## [ImageBlendBrush](brushes/ImageBlendBrush.md)
+## [RadialGradientBrush](brushes/RadialGradientBrush.md)
 
 # Extensions
 ## [ArrayExtensions](extensions/ArrayExtensions.md)
@@ -91,7 +81,7 @@
 ## [ListViewExtensions](extensions/ListViewExtensions.md)
 ## [Logical Tree](extensions/LogicalTree.md)
 ## [Matrix Extensions](extensions/MatrixExtensions.md)
-### [Extra Matrix Helpers](extentions/MatrixHelperEx.md)
+### [Extra Matrix Helpers](extensions/MatrixHelperEx.md)
 ### [Transform Extensions](extensions/TransformExtensions.md)
 ## [Mouse Cursor](extensions/MouseCursor.md)
 ## [NavigationView Styles](extensions/NavigationView.md)
@@ -129,18 +119,28 @@
 ## [ThemeListener](helpers/ThemeListener.md)
 ## [WeakEventListener](helpers/WeakEventListener.md)
 
-# [Notifications](notifications/NotificationsOverview.md)
-
-# [Platform Specific Analyzer](platform-specific/PlatformSpecificAnalyzer.md)
+# Services
+## [Bing Service](services/Bing.md)
+## [Facebook Service](services/Facebook.md)
+## [LinkedIn Service](services/Linkedin.md)
+## [Microsoft Graph Service](services/MicrosoftGraph.md)
+### [GraphLogin (WinForms)](services/GraphLogin.md)
+## [Microsoft Translator Service](services/MicrosoftTranslator.md)
+## [OneDrive Service](services/OneDrive.md)
+## [Twitter Service](services/Twitter.md)
 
 # Parsers
 ## [MarkdownParser](parsers/MarkdownParser.md)
 ## [RSSParser](parsers/RSSParser.md)
 
-# [GazeInteractionLibrary](gaze/GazeInteractionLibrary.md)
-
 # Developer tools
 ## [AlignmentGrid](developer-tools/AlignmentGrid.md)
 ## [FocusTracker](developer-tools/FocusTracker.md)
+
+# [GazeInteractionLibrary](gaze/GazeInteractionLibrary.md)
+
+# [Notifications](notifications/NotificationsOverview.md)
+
+# [Platform Specific Analyzer](platform-specific/PlatformSpecificAnalyzer.md)
 
 # [Known Issues](knownissues.md)

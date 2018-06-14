@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void CaptureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var softwareBitmap = _currentVideoFrame.SoftwareBitmap;
+            var softwareBitmap = _currentVideoFrame?.SoftwareBitmap;
 
             if (softwareBitmap != null)
             {

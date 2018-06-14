@@ -87,9 +87,14 @@ public:
     static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
     /// <summary>
+    /// Gets or sets the interaction default
+    /// </summary>
+    static property GazeInteraction::Interaction Interaction { GazeInteraction::Interaction get(); void set(GazeInteraction::Interaction value); }
+
+    /// <summary>
     /// Gets the status of gaze interaction over that particular XAML element.
     /// </summary>
-    static Interaction GetInteraction(UIElement^ element);
+    static GazeInteraction::Interaction GetInteraction(UIElement^ element);
 
     /// <summary>
     /// Gets Boolean indicating whether cursor is shown while user is looking at the school.
@@ -139,7 +144,7 @@ public:
     /// <summary>
     /// Sets the status of gaze interaction over that particular XAML element.
     /// </summary>
-    static void SetInteraction(UIElement^ element, Interaction value);
+    static void SetInteraction(UIElement^ element, GazeInteraction::Interaction value);
     
     /// <summary>
     /// Sets Boolean indicating whether cursor is shown while user is looking at the school.
@@ -192,10 +197,14 @@ public:
     static GazePointer^ GetGazePointer(Page^ page);
 
     /// <summary>
+    /// Invoke the default action of the specified UIElement.
+    /// </summary>
+    static void Invoke(UIElement^ element);
+
+    /// <summary>
     /// Reports whether a gaze input device is available, and hence whether there is any possibility of gaze events occurring in the application.
     /// </summary>
     static property bool IsDeviceAvailable { bool get(); }
-
 
     /// <summary>
     /// Event triggered whenever IsDeviceAvailable changes value.

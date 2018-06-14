@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
     public sealed partial class WebView : Control, IWebView, ISupportInitialize
     {
+        private string _delayedEnterpriseId = WebViewDefaults.EnterpriseId;
         private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;
         private bool _delayedIsJavaScriptEnabled = WebViewDefaults.IsJavaScriptEnabled;
         private bool _delayedIsScriptNotifyAllowed = WebViewDefaults.IsScriptNotifyEnabled;
@@ -95,6 +96,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 Verify.IsFalse(IsDisposed);
                 Verify.IsNotNull(_webViewControl);
                 return _webViewControl?.DocumentTitle;
+            }
+        }
+
+        /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.EnterpriseId)]
+        public string EnterpriseId
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Process.EnterpriseId
+                    : _delayedEnterpriseId;
+            }
+
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedEnterpriseId = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized
+                        && !string.Equals(_delayedEnterpriseId, _webViewControl.Process.EnterpriseId, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
             }
         }
 
@@ -398,6 +430,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             Verify.IsNotNull(_webViewControl);
             _webViewControl?.Navigate(source);
         }
+
+        /// <inheritdoc />
+        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
 
         /// <inheritdoc />
         public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);

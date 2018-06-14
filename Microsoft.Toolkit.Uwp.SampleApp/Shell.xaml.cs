@@ -111,9 +111,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 catch (Exception ex)
                 {
-                    ExceptionNotification.Show(ex.Message, 3000);
+                    ShowExceptionNotification(ex);
                 }
             }));
+        }
+
+        public void ShowExceptionNotification(Exception ex)
+        {
+            if (ex != null)
+            {
+                ExceptionNotification.Show(ex.Message);
+            }
         }
 
         public Task StartSearch(string startingText = "")
@@ -593,7 +601,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
             catch (Exception ex)
             {
-                ExceptionNotification.Show(ex.Message, 3000);
+                ShowExceptionNotification(ex);
             }
 
             if (element != null)
