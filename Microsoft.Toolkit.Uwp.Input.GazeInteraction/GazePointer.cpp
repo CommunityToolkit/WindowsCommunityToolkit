@@ -11,6 +11,7 @@
 #include "StateChangedEventArgs.h"
 
 using namespace Platform;
+using namespace Windows::UI::Xaml::Automation::Peers;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -258,14 +259,46 @@ void GazePointer::SetElementStateDelay(UIElement ^element, PointerState relevant
     _maxHistoryTime = 2 * max(dwellTime, repeatTime);
 }
 
+/// <summary>
+/// Find the parent to inherit properties from.
+/// </summary>
+static UIElement^ GetInheritenceParent(UIElement^ child)
+{
+    // The result value.
+    Object^ parent = nullptr;
+
+    // Get the automation peer...
+    auto peer = FrameworkElementAutomationPeer::FromElement(child);
+    if (peer != nullptr)
+    {
+        // ...if it exists, get the peer's parent...
+        auto peerParent = dynamic_cast<FrameworkElementAutomationPeer^>(peer->Navigate(AutomationNavigationDirection::Parent));
+        if (peerParent != nullptr)
+        {
+            // ...and if it has a parent, get the corresponding object.
+            parent = peerParent->Owner;
+        }
+    }
+
+    // If the above failed to find a parent...
+    if (parent == nullptr)
+    {
+        // ...use the visual parent.
+        parent = VisualTreeHelper::GetParent(child);
+    }
+
+    // Safely pun the value we found to a UIElement reference.
+    return dynamic_cast<UIElement^>(parent);
+}
+
 TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, DependencyProperty^ property, TimeSpan defaultValue)
 {
-    DependencyObject^ walker = element;
+    UIElement^ walker = element;
     Object^ valueAtWalker = walker->GetValue(property);
 
     while (GazeInput::UnsetTimeSpan.Equals(valueAtWalker) && walker != nullptr)
     {
-        walker = VisualTreeHelper::GetParent(walker);
+        walker = GetInheritenceParent(walker);
 
         if (walker != nullptr)
         {
@@ -346,7 +379,10 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
             do
             {
                 interaction = GazeInput::GetInteraction(element);
-                element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
+                if (interaction == Interaction::Inherited)
+                {
+                    element = GetInheritenceParent(element);
+                }
             } while (interaction == Interaction::Inherited && element != nullptr);
 
             if (interaction == Interaction::Inherited)
