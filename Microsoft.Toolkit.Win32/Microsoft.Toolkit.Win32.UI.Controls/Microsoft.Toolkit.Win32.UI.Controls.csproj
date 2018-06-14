@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -12,14 +12,15 @@
     <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
 
     <!-- Need Metadata contract 6.0 or later -->
-    <!-- First introduced in 17110: Insider Preview (Fast) -->
-    <TargetPlatformMinVersion>10.0.17110.0</TargetPlatformMinVersion>
-    <!-- Most people will have RTM 17134: Insider Preview (Fast), Spring Creators (RS4) -->
-    <TargetPlatformVersion>10.0.17134.0</TargetPlatformVersion>
+    <!-- First introduced in 17686: Insider Preview (Fast) -->
+    <TargetPlatformMinVersion>10.0.17686.0</TargetPlatformMinVersion>
+    <!-- Most people will have RTM 17686: Insider Preview (Fast), Spring Creators (RS4) -->
+    <TargetPlatformVersion>10.0.17686.0</TargetPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -73,5 +74,9 @@
 
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj" />
   </ItemGroup>
 </Project>

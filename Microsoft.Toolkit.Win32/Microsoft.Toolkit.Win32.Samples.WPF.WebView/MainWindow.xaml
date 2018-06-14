@@ -66,6 +66,7 @@
                      PermissionRequested="WebView1_OnPermissionRequested"
                      ScriptNotify="WebView1_OnScriptNotify"
                      Source="https://www.bing.com" />
+        
     </Grid>
 </Window>
 

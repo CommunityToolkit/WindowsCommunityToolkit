@@ -17,12 +17,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// <param name="bounds">A <see cref="Rectangle"/> containing numerical values that represent the location and size of the control.</param>
         /// <seealso cref="WebViewControlHost.UpdateBounds"/>
         /// <exception cref="ArgumentNullException"><paramref name="host"/> is <see langword="null"/>.</exception>
-        /// <remarks><paramref name="bounds" /> is translated into a <seealso cref="Windows.Foundation.Rect(double, double, double, double)"/>.</remarks>
+        /// <remarks><paramref name="bounds" /> is translated into a <seealso cref="global::Windows.Foundation.Rect(double, double, double, double)"/>.</remarks>
         internal static void UpdateBounds(this WebViewControlHost host, Rectangle bounds)
         {
-            Windows.Foundation.Rect CreateBounds()
+            global::Windows.Foundation.Rect CreateBounds()
             {
-                return new Windows.Foundation.Rect(
+                return new global::Windows.Foundation.Rect(
                     bounds.X,
                     bounds.Y,
                     bounds.Width,

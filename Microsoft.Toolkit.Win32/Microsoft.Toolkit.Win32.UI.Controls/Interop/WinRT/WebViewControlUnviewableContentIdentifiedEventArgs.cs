@@ -10,16 +10,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// CProvides data for the <see cref="IWebView.UnviewableContentIdentified" /> event. This class cannot be inherited.
     /// </summary>
-    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <remarks>Copy from <see cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
-    /// <seealso cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>
+    /// <seealso cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", MessageId = "Unviewable", Justification = "Same as WinRT type")]
     public sealed class WebViewControlUnviewableContentIdentifiedEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs _args;
+        private readonly global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs _args;
 
-        internal WebViewControlUnviewableContentIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args)
+        internal WebViewControlUnviewableContentIdentifiedEventArgs(global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args)
         {
             _args = args ?? throw new ArgumentNullException(nameof(args));
         }
@@ -43,20 +43,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public string MediaType => _args.MediaType;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to <see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> to <see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlUnviewableContentIdentifiedEventArgs(Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => ToWebViewControlUnviewableContentIdentifiedEventArgs(args);
+        public static implicit operator WebViewControlUnviewableContentIdentifiedEventArgs(global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => ToWebViewControlUnviewableContentIdentifiedEventArgs(args);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>.
+        /// Creates a <see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/> from <see cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs"/> instance containing the event data.</param>
         /// <returns><see cref="WebViewControlUnviewableContentIdentifiedEventArgs"/></returns>
         public static WebViewControlUnviewableContentIdentifiedEventArgs
             ToWebViewControlUnviewableContentIdentifiedEventArgs(
-                Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) =>
+                global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) =>
             new WebViewControlUnviewableContentIdentifiedEventArgs(args);
     }
 }

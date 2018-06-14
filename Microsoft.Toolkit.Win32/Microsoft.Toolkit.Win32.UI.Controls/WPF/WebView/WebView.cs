@@ -663,7 +663,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (_webViewControl == null)
                     {
                         var handle = ChildWindow.Handle;
-                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
+                        var bounds = new global::Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
 
                         _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
                     }
@@ -1075,7 +1075,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #endif
             if (WebViewControlInitialized)
             {
-                var rect = new Windows.Foundation.Rect(
+                var rect = new global::Windows.Foundation.Rect(
                     new Point(x, y),
                     new Size(width, height));
 

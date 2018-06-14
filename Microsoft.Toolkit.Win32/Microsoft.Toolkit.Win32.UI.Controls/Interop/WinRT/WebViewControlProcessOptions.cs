@@ -10,9 +10,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// This class contains options that can be set when creating a <see cref="IWebView"/> instance.
     /// </summary>
     /// <remarks>
-    /// Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
+    /// Copy from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
     /// </remarks>
-    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
+    /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
     public class WebViewControlProcessOptions
     {
         /// <summary>
@@ -37,19 +37,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Converts this instance to a <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
+        /// Converts this instance to a <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
         /// </summary>
-        /// <returns>A <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
-        internal Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
+        /// <returns>A <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
+        internal global::Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
-            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
+            var retval = new global::Windows.Web.UI.Interop.WebViewControlProcessOptions();
 
             if (!string.IsNullOrEmpty(EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, EnterpriseId))
             {
                 retval.EnterpriseId = EnterpriseId;
             }
 
-            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)PrivateNetworkClientServerCapability;
+            retval.PrivateNetworkClientServerCapability = (global::Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)PrivateNetworkClientServerCapability;
 
             return retval;
         }

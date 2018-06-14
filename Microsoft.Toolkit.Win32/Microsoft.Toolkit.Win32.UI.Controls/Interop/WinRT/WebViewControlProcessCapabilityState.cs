@@ -7,8 +7,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Represents the state of the <see cref="WebViewControlProcess"/>.
     /// </summary>
-    /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/> to avoid requirement to link Windows.winmd</remarks>
-    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/>
+    /// <remarks>Copy from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessCapabilityState"/>
     public enum WebViewControlProcessCapabilityState
     {
         /// <summary>

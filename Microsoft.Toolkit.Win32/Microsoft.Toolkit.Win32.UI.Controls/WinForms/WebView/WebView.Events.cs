@@ -125,11 +125,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// Occurs when an action in a <see cref="WebView"/> requires that permission be granted.
         /// </summary>
         /// <remarks>
-        /// The types of permission that can be requested are defined in the <see cref="Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
+        /// The types of permission that can be requested are defined in the <see cref="global::Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
         ///
         /// If you don't handle the <see cref="PermissionRequested"/> event, the <see cref="WebView"/> denies permission by default.
         ///
-        /// When you handle a permission request in <see cref="WebView"/>, you get a <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> object as
+        /// When you handle a permission request in <see cref="WebView"/>, you get a <see cref="global::Windows.Web.UI.WebViewControlPermissionRequest"/> object as
         /// the value of the <see cref="M:WebViewControlPermissionRequestedEventArgs.PermissionRequest"/> property. You can call Allow to grant the request,
         /// Deny to deny the request, or Defer to defer the request until a later time.
         /// </remarks>

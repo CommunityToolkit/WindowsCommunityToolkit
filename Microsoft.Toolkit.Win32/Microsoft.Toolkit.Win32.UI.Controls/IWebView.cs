@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Occurs when an action in a <see cref="IWebView"/> requires that permission be granted.
         /// </summary>
         /// <remarks>
-        /// The types of permission that can be requested are defined in the <see cref="Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
+        /// The types of permission that can be requested are defined in the <see cref="global::Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
         ///
         /// If you don't handle the <see cref="PermissionRequested"/> event, the <see cref="IWebView"/> denies permission by default.
         ///

@@ -8,15 +8,15 @@ using System.Security;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// A proxy for <see cref="Windows.Web.UI.WebViewControlSettings"/>. This class cannot be inherited.
+    /// A proxy for <see cref="global::Windows.Web.UI.WebViewControlSettings"/>. This class cannot be inherited.
     /// </summary>
-    /// <seealso cref="Windows.Web.UI.WebViewControlSettings"/>
+    /// <seealso cref="global::Windows.Web.UI.WebViewControlSettings"/>
     public sealed class WebViewControlSettings
     {
         [SecurityCritical]
-        private readonly Windows.Web.UI.WebViewControlSettings _settings;
+        private readonly global::Windows.Web.UI.WebViewControlSettings _settings;
 
-        internal WebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings)
+        internal WebViewControlSettings(global::Windows.Web.UI.WebViewControlSettings settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
@@ -52,18 +52,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlSettings"/> to <see cref="WebViewControlSettings"/>.
+        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlSettings"/> to <see cref="WebViewControlSettings"/>.
         /// </summary>
         /// <param name="settings">The settings.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) => ToWebViewControlSettings(settings);
+        public static implicit operator WebViewControlSettings(global::Windows.Web.UI.WebViewControlSettings settings) => ToWebViewControlSettings(settings);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlSettings" /> from <see cref="Windows.Web.UI.WebViewControlSettings"/>.
+        /// Creates a <see cref="WebViewControlSettings" /> from <see cref="global::Windows.Web.UI.WebViewControlSettings"/>.
         /// </summary>
         /// <param name="settings">The settings.</param>
         /// <returns><see cref="WebViewControlSettings"/></returns>
-        public static WebViewControlSettings ToWebViewControlSettings(Windows.Web.UI.WebViewControlSettings settings) =>
+        public static WebViewControlSettings ToWebViewControlSettings(global::Windows.Web.UI.WebViewControlSettings settings) =>
             new WebViewControlSettings(settings);
     }
 }
