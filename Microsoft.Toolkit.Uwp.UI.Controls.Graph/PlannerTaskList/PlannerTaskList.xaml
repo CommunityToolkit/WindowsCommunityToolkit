@@ -117,6 +117,7 @@
             <local:PeoplePicker
                 Grid.Column="2"
                 Margin="5"
+                GroupId="{Binding Path=GroupId}"
                 PlaceholderText="To"
                 Selections="{Binding Path=Assignments, Mode=TwoWay}" />
             <ComboBox
@@ -257,6 +258,7 @@
                 </Button>
                 <local:PeoplePicker
                     Margin="5"
+                    GroupId="{Binding Path=GroupId}"
                     PlaceholderText="To"
                     Selections="{Binding Path=Assignments, Mode=TwoWay}" />
                 <ComboBox

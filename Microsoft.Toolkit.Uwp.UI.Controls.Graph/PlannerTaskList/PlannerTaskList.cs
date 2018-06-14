@@ -173,11 +173,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
                 Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
                 List<PlannerTaskViewModel> taskList = new List<PlannerTaskViewModel>();
+                PlannerPlan plan = Plans.FirstOrDefault(s => s.Id == InternalPlanId);
                 while (true)
                 {
                     foreach (PlannerTask task in tasks)
                     {
                         PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(task);
+                        if (plan != null)
+                        {
+                            taskViewModel.GroupId = plan.Owner;
+                        }
+
                         taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
                         await GetAssignmentsAsync(taskViewModel, graphClient);
                         if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))

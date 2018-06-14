@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private ObservableCollection<Person> _assignments;
         private string _assignmentNames;
         private bool _isUpdating;
+        private string _groupId;
 
         public string Id
         {
@@ -172,6 +173,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _isUpdating = value;
                 TriggerPropertyChanged(nameof(IsUpdating));
+            }
+        }
+
+        public string GroupId
+        {
+            get
+            {
+                return _groupId;
+            }
+
+            set
+            {
+                _groupId = value;
+                TriggerPropertyChanged(nameof(GroupId));
             }
         }
 
