@@ -3,6 +3,13 @@
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style TargetType="local:RadialGauge">
+        <Setter Property="NeedleBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="TrailBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="ScaleBrush" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Setter Property="ScaleTickBrush" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Setter Property="TickBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True" /> 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">
@@ -29,12 +36,12 @@
                                            Margin="0,0,0,2"
                                            FontSize="20"
                                            FontWeight="SemiBold"
-                                           Foreground="{TemplateBinding ValueBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding Value}"
                                            TextAlignment="Center" />
                                 <TextBlock Margin="0"
                                            FontSize="16"
-                                           Foreground="{TemplateBinding UnitBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding Unit}"
                                            TextAlignment="Center" />
                             </StackPanel>

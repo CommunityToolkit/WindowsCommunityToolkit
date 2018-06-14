@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.UI.Xaml;
@@ -30,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the control is in the loading state.
         /// </summary>
+        /// <remarks>Set this to true to show the Loading control, false to hide the control.</remarks>
         public bool IsLoading
         {
             get { return (bool)GetValue(IsLoadingProperty); }
@@ -39,6 +32,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void IsLoadingPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as Loading;
+            if (control._presenter == null)
+            {
+                control._presenter = control.GetTemplateChild("ContentGrid") as FrameworkElement;
+            }
+
             control?.Update();
         }
     }

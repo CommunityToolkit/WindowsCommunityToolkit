@@ -131,6 +131,126 @@
                                Text="{x:Bind AvailableMemory}"
                                TextWrapping="Wrap" />
                 </StackPanel>
+                <StackPanel x:Name="Stack10"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Is first use:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind IsFirstUse}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack11"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Is app updated:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind IsAppUpdated}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack12"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="First version installed:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind FirstVersionInstalled}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack13"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="First use time:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind FirstUseTime}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack14"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Launch time:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind LaunchTime}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack15"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Last launch time:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind LastLaunchTime}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack16"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Last reset time:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind LastResetTime, Mode=OneWay}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack17"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Current launch count:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind LaunchCount, Mode=OneWay}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack18"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="Total launch count:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind TotalLaunchCount}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+                <StackPanel x:Name="Stack19"
+                            Margin="10"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="18"
+                               FontWeight="Bold"
+                               Text="App uptime:"
+                               TextWrapping="Wrap" />
+                    <TextBlock Margin="20,0"
+                               FontSize="18"
+                               Text="{x:Bind AppUptime}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
         <VisualStateManager.VisualStateGroups>
@@ -156,6 +276,14 @@
                         <Setter Target="Stack7.Orientation" Value="Vertical" />
                         <Setter Target="Stack8.Orientation" Value="Vertical" />
                         <Setter Target="Stack9.Orientation" Value="Vertical" />
+                        <Setter Target="Stack10.Orientation" Value="Vertical" />
+                        <Setter Target="Stack11.Orientation" Value="Vertical" />
+                        <Setter Target="Stack12.Orientation" Value="Vertical" />
+                        <Setter Target="Stack13.Orientation" Value="Vertical" />
+                        <Setter Target="Stack14.Orientation" Value="Vertical" />
+                        <Setter Target="Stack15.Orientation" Value="Vertical" />
+                        <Setter Target="Stack16.Orientation" Value="Vertical" />
+                        <Setter Target="Stack17.Orientation" Value="Vertical" />
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

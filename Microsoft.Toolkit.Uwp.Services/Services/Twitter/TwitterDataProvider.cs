@@ -1,23 +1,17 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Microsoft.Toolkit.Services;
 using Newtonsoft.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -31,14 +25,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Data Provider for connecting to Twitter service.
     /// </summary>
-    public class TwitterDataProvider : DataProviderBase<TwitterDataConfig, Tweet>
+    public class TwitterDataProvider : Toolkit.Services.DataProviderBase<TwitterDataConfig, Toolkit.Parsers.SchemaBase>
     {
         /// <summary>
         /// Base Url for service.
         /// </summary>
         private const string BaseUrl = "https://api.twitter.com/1.1";
+
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
         private const string PublishUrl = "https://upload.twitter.com/1.1";
+        private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
+
+        private static HttpClient _client;
 
         /// <summary>
         /// Base Url for service.
@@ -49,6 +47,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Password vault used to store access tokens
         /// </summary>
         private readonly PasswordVault _vault;
+
+        private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -69,6 +69,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         {
             _tokens = tokens;
             _vault = new PasswordVault();
+
+            if (_client == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                _client = new HttpClient(handler);
+            }
         }
 
         /// <summary>
@@ -132,13 +139,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
         {
             string rawResult = null;
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1");
+                var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1&tweet_mode=extended");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 rawResult = await request.ExecuteGetAsync(uri, _tokens);
@@ -192,12 +199,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific results parser.</param>
         /// <returns>Returns strongly typed list of results.</returns>
-        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}");
+                var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}&tweet_mode=extended");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 var rawResult = await request.ExecuteGetAsync(uri, _tokens);
 
@@ -283,10 +290,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 case WebAuthenticationStatus.Success:
                     LoggedIn = true;
                     return await ExchangeRequestTokenForAccessTokenAsync(result.ResponseData);
+
                 case WebAuthenticationStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     LoggedIn = false;
                     return false;
+
                 case WebAuthenticationStatus.UserCancel:
                     Debug.WriteLine("WAB user aborted.");
                     LoggedIn = false;
@@ -375,6 +384,51 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
+        /// Open a connection to user streams service (Events, DirectMessages...).
+        /// </summary>
+        /// <param name="parser">Specific stream's result parser.</param>
+        /// <param name="callback">Method invoked each time a result occurs.</param>
+        /// <returns>Awaitable task.</returns>
+        public Task StartUserStreamAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            try
+            {
+                var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
+
+                _streamRequest = new TwitterOAuthRequest();
+
+                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)));
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Stop user's stream
+        /// </summary>
+        public void StopStream()
+        {
+            _streamRequest?.Abort();
+            _streamRequest = null;
+        }
+
+        /// <summary>
         /// Publish a picture to Twitter user's medias.
         /// </summary>
         /// <param name="stream">Picture stream.</param>
@@ -401,7 +455,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         /// <param name="config">Query configuration.</param>
         /// <returns>Strongly typed parser.</returns>
-        protected override IParser<Tweet> GetDefaultParser(TwitterDataConfig config)
+        protected override Toolkit.Parsers.IParser<Toolkit.Parsers.SchemaBase> GetDefaultParser(TwitterDataConfig config)
         {
             if (config == null)
             {
@@ -412,10 +466,14 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 case TwitterQueryType.Search:
                     return new TwitterSearchParser();
+
                 case TwitterQueryType.Home:
                 case TwitterQueryType.User:
+                case TwitterQueryType.Custom:
+                    return new TwitterParser<Toolkit.Parsers.SchemaBase>();
+
                 default:
-                    return new TweetParser();
+                    return new TwitterParser<Toolkit.Parsers.SchemaBase>();
             }
         }
 
@@ -428,7 +486,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
         /// <param name="parser">IParser implementation for interpreting results.</param>
         /// <returns>Strongly typed list of results.</returns>
-        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(TwitterDataConfig config, int maxRecords, int pageIndex, Toolkit.Parsers.IParser<TSchema> parser)
         {
             IEnumerable<TSchema> items;
             switch (config.QueryType)
@@ -436,9 +494,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 case TwitterQueryType.User:
                     items = await GetUserTimeLineAsync(config.Query, maxRecords, parser);
                     break;
+
                 case TwitterQueryType.Search:
                     items = await SearchAsync(config.Query, maxRecords, parser);
                     break;
+
+                case TwitterQueryType.Custom:
+                    items = await GetCustomSearch(config.Query, parser);
+                    break;
+
                 case TwitterQueryType.Home:
                 default:
                     items = await GetHomeTimeLineAsync(maxRecords, parser);
@@ -498,15 +562,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     case "screen_name":
                         screenName = splits[1];
                         break;
+
                     case "oauth_token":
                         requestOrAccessToken = splits[1];
                         break;
+
                     case "oauth_token_secret":
                         requestOrAccessTokenSecret = splits[1];
                         break;
+
                     case "oauth_callback_confirmed":
                         oauthCallbackConfirmed = splits[1];
                         break;
+
                     case "oauth_verifier":
                         oauthVerifier = splits[1];
                         break;
@@ -517,12 +585,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             {
                 case TwitterOAuthTokenType.OAuthRequestOrAccessToken:
                     return requestOrAccessToken;
+
                 case TwitterOAuthTokenType.OAuthRequestOrAccessTokenSecret:
                     return requestOrAccessTokenSecret;
+
                 case TwitterOAuthTokenType.OAuthVerifier:
                     return oauthVerifier;
+
                 case TwitterOAuthTokenType.ScreenName:
                     return screenName;
+
                 case TwitterOAuthTokenType.OAuthCallbackConfirmed:
                     return oauthCallbackConfirmed;
             }
@@ -537,12 +609,44 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="maxRecords">Upper record limit.</param>
         /// <param name="parser">Specific result parser.</param>
         /// <returns>Return strong typed list of results.</returns>
-        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, IParser<TSchema> parser)
-            where TSchema : SchemaBase
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
         {
             try
             {
-                var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
+                var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}&tweet_mode=extended");
+
+                TwitterOAuthRequest request = new TwitterOAuthRequest();
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens);
+
+                return parser.Parse(rawResult);
+            }
+            catch (WebException wex)
+            {
+                HttpWebResponse response = wex.Response as HttpWebResponse;
+                if (response != null)
+                {
+                    if ((int)response.StatusCode == 429)
+                    {
+                        throw new TooManyRequestsException();
+                    }
+
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        throw new OAuthKeysRevokedException();
+                    }
+                }
+
+                throw;
+            }
+        }
+
+        private async Task<IEnumerable<TSchema>> GetCustomSearch<TSchema>(string query, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
+        {
+            try
+            {
+                var uri = new Uri($"{BaseUrl}/{query}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
                 var rawResult = await request.ExecuteGetAsync(uri, _tokens);
@@ -588,12 +692,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string getResponse;
 
-            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Get))
+            using (var request = new HttpRequestMessage(HttpMethod.Get, new Uri(twitterUrl)))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
-                    if (response.Success)
+                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    if (response.IsSuccessStatusCode)
                     {
                         getResponse = data;
                     }
@@ -670,13 +774,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
             string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
 
-            using (var request = new HttpHelperRequest(new Uri(twitterUrl), Windows.Web.Http.HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(twitterUrl)))
             {
-                request.Headers.Authorization = new Windows.Web.Http.Headers.HttpCredentialsHeaderValue("OAuth", authorizationHeaderParams);
+                request.Headers.Authorization = new AuthenticationHeaderValue("OAuth", authorizationHeaderParams);
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
-                    data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 }
             }
 

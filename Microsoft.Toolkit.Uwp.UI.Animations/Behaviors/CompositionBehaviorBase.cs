@@ -1,61 +1,27 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// A base class for all behaviors using composition.It contains some of the common propeties to set on a visual.
+    /// A base class for all behaviors using composition.It contains some of the common properties to set on a visual.
     /// </summary>
-    public abstract class CompositionBehaviorBase : Behavior<UIElement>
+    /// <typeparam name="T">The type of the associated object.</typeparam>
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.BehaviorBase{T}" />
+    public abstract class CompositionBehaviorBase<T> : BehaviorBase<T>
+        where T : UIElement
     {
         /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
+        /// Called when the associated object has been loaded.
         /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
+        protected override void OnAssociatedObjectLoaded()
         {
-            base.OnAttached();
+            base.OnAssociatedObjectLoaded();
 
-            var frameworkElement = AssociatedObject as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                frameworkElement.Loaded += OnFrameworkElementLoaded;
-            }
-        }
-
-        /// <summary>
-        /// Called while the behavior is detaching from the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to finalize and free everything associated to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnDetaching()
-        {
-            base.OnDetaching();
-
-            var frameworkElement = AssociatedObject as FrameworkElement;
-            if (frameworkElement != null)
-            {
-                frameworkElement.Loaded -= OnFrameworkElementLoaded;
-            }
-        }
-
-        private void OnFrameworkElementLoaded(object sender, RoutedEventArgs e)
-        {
             if (AutomaticallyStart)
             {
                 StartAnimation();
@@ -65,17 +31,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <summary>
         /// The duration of the animation.
         /// </summary>
-        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(nameof(Duration), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(1d, PropertyChangedCallback));
+        public static readonly DependencyProperty DurationProperty = DependencyProperty.Register(nameof(Duration), typeof(double), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(1d, PropertyChangedCallback));
 
         /// <summary>
         /// The delay of the animation.
         /// </summary>
-        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(nameof(Delay), typeof(double), typeof(CompositionBehaviorBase), new PropertyMetadata(0d, PropertyChangedCallback));
+        public static readonly DependencyProperty DelayProperty = DependencyProperty.Register(nameof(Delay), typeof(double), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(0d, PropertyChangedCallback));
 
         /// <summary>
         /// The property sets if the animation should automatically start.
         /// </summary>
-        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase), new PropertyMetadata(true, PropertyChangedCallback));
+        public static readonly DependencyProperty AutomaticallyStartProperty = DependencyProperty.Register(nameof(AutomaticallyStart), typeof(bool), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(true, PropertyChangedCallback));
+
+        /// <summary>
+        /// The <see cref="EasingType"/> used to generate the easing function of the animation.
+        /// </summary>
+        public static readonly DependencyProperty EasingTypeProperty = DependencyProperty.Register(nameof(EasingType), typeof(EasingType), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingType.Default, PropertyChangedCallback));
+
+        /// <summary>
+        /// The <see cref="EasingMode"/> used to generate the easing function of the animation.
+        /// </summary>
+        public static readonly DependencyProperty EasingModeProperty = DependencyProperty.Register(nameof(EasingMode), typeof(EasingMode), typeof(CompositionBehaviorBase<T>), new PropertyMetadata(EasingMode.EaseOut, PropertyChangedCallback));
 
         /// <summary>
         /// Gets or sets a value indicating whether [automatically start] on the animation is set.
@@ -114,6 +90,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
+        /// Gets or sets the <see cref="EasingType"/> used to generate the easing function of the animation.
+        /// </summary>
+        /// <value>
+        /// The easing function
+        /// </value>
+        public EasingType EasingType
+        {
+            get { return (EasingType)GetValue(EasingTypeProperty); }
+            set { SetValue(EasingTypeProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="EasingMode"/> used to generate the easing function of the animation.
+        /// </summary>
+        /// <value>
+        /// The easing mode
+        /// </value>
+        public EasingMode EasingMode
+        {
+            get { return (EasingMode)GetValue(EasingModeProperty); }
+            set { SetValue(EasingModeProperty, value); }
+        }
+
+        /// <summary>
         /// Starts the animation.
         /// </summary>
         public abstract void StartAnimation();
@@ -125,9 +125,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <param name="dependencyPropertyChangedEventArgs">The <see cref="DependencyPropertyChangedEventArgs"/> instance containing the event data.</param>
         protected static void PropertyChangedCallback(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
         {
-            var behavior = dependencyObject as CompositionBehaviorBase;
+            var behavior = dependencyObject as CompositionBehaviorBase<T>;
+            if (behavior == null)
+            {
+                return;
+            }
 
-            if (behavior?.AutomaticallyStart ?? false)
+            if (behavior.AutomaticallyStart)
             {
                 behavior.StartAnimation();
             }

@@ -1,14 +1,20 @@
-image: Visual Studio 2015
+image: Visual Studio 2017
 
 branches:
   only:
-  - dev
   - master
-  - build
+  - rel/2.0.0
+  - rel/2.0.1
+  - rel/2.1.0
+  - rel/2.1.1
+  - rel/2.2.0
+  - rel/3.0.0
 
 environment:
   SignClientSecret:
-    secure: VTO9eDpMF+nIWNKN8ERYk52veXovg3lBm9HA1K9NXq1WukzRTWQtDBdAf3hUS5oL
+    secure: 5Kl9ANR27CzPrrsGm8ZuJ/Cekxv9QH1xL8AhQaT6nlo=
+  SignClientUser:
+    secure: hVgiMEgTra+fsHTHm20UnsefKzy9peTQenuwITEwEsUXJg8NymUVMcAbOtV1RMkf
 
 skip_branch_with_pr: true
 nuget:
@@ -22,7 +28,7 @@ init:
 - ps: git config --global core.autocrlf true
 
 build_script:
-- ps: .\build\build.ps1 SignNuGet
+- ps: .\build\build.ps1 -target=SignNuGet
 
 artifacts:
 - path: .\bin\nupkg\*.nupkg

@@ -1,44 +1,41 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class AdaptiveGridViewPage
+    public sealed partial class AdaptiveGridViewPage : IXamlRenderListener
     {
+        private AdaptiveGridView adaptiveGridViewControl;
+
         public AdaptiveGridViewPage()
         {
             InitializeComponent();
         }
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        public async void OnXamlRendered(FrameworkElement control)
         {
-            base.OnNavigatedTo(e);
-
-            AdaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
-            AdaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
-            AdaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+            adaptiveGridViewControl = control.FindDescendantByName("AdaptiveGridViewcontrol") as AdaptiveGridView;
+            if (adaptiveGridViewControl != null)
+            {
+                adaptiveGridViewControl.ItemsSource = await new Data.PhotosDataSource().GetItemsAsync();
+                adaptiveGridViewControl.ItemClick += AdaptiveGridViewControl_ItemClick;
+                adaptiveGridViewControl.SelectionChanged += AdaptiveGridViewControl_SelectionChanged;
+            }
         }
 
         private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
-            SelectedItemCountTextBlock.Text = AdaptiveGridViewControl.SelectedItems.Any()
-                ? $"You have selected {AdaptiveGridViewControl.SelectedItems.Count} items."
+            SelectedItemCountTextBlock.Text = adaptiveGridViewControl.SelectedItems.Any()
+                ? $"You have selected {adaptiveGridViewControl.SelectedItems.Count} items."
                 : "You haven't selected any items";
         }
 

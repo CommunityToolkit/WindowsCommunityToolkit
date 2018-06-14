@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Uwp.Input.GazeInteraction</id>
+    <version>$version$</version>
+    <title>Windows Community Toolkit Eye Gaze Library</title>
+    <authors>Microsoft.Toolkit</authors>
+    <owners>Microsoft.Toolkit, nugetuwptoolkit</owners>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</iconUrl>
+    <licenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/UWPCommunityToolkit</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>A library to integrate gaze interactions using eye trackers into UWP applications</description>
+    <releaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</releaseNotes>
+    <copyright>(c) .NET Foundation and Contributors. All rights reserved.</copyright>
+    <tags>UWP Toolkit Windows Eye Gaze EyeTracker </tags>
+  </metadata>
+
+  <files>
+      <!-- WinMd and IntelliSense files -->
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd" target="lib\uap10.0.17134"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.xml" target="lib\uap10.17134"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pri" target="lib\uap10.17134"/>
+
+      <!-- DLLs and resources -->
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-arm\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\x64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-x64\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\Win32\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-x86\native"/>
+
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Microsoft.Toolkit.Uwp.Input.GazeInteraction.targets" target="build\uap10.17134"/>
+  </files>
+</package>

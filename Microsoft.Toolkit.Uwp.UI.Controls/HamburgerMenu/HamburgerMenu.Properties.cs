@@ -1,16 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -25,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="OpenPaneLength"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(240.0));
+        public static readonly DependencyProperty OpenPaneLengthProperty = DependencyProperty.Register(nameof(OpenPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(320.0));
 
         /// <summary>
         /// Identifies the <see cref="PanePlacement"/> dependency property.
@@ -43,6 +38,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CompactPaneLengthProperty = DependencyProperty.Register(nameof(CompactPaneLength), typeof(double), typeof(HamburgerMenu), new PropertyMetadata(48.0));
 
         /// <summary>
+        /// Identifies the <see cref="PaneForeground"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty PaneForegroundProperty = DependencyProperty.Register(nameof(PaneForeground), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="PaneBackground"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PaneBackgroundProperty = DependencyProperty.Register(nameof(PaneBackground), typeof(Brush), typeof(HamburgerMenu), new PropertyMetadata(null));
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ItemsSource"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null, OnItemsSourceChanged));
 
         /// <summary>
         /// Identifies the <see cref="ItemTemplate"/> dependency property.
@@ -70,12 +70,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(HamburgerMenu), new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
         /// Identifies the <see cref="SelectedIndex"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1));
+        public static readonly DependencyProperty SelectedIndexProperty = DependencyProperty.Register(nameof(SelectedIndex), typeof(int), typeof(HamburgerMenu), new PropertyMetadata(-1, OnSelectedIndexChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="UseNavigationViewWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseNavigationViewWhenPossibleProperty =
+            DependencyProperty.Register("UseNavigationViewWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false, OnUseNavigationViewWhenPossibleChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="UseNavigationViewSettingsWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseNavigationViewSettingsWhenPossibleProperty = DependencyProperty.Register("UseNavigationViewSettingsWhenPossible", typeof(bool), typeof(HamburgerMenu), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the width of the pane when it's fully expanded.
@@ -96,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets of sets a value that specifies how the pane and content areas are shown.
+        /// Gets or sets a value that specifies how the pane and content areas are shown.
         /// </summary>
         public SplitViewDisplayMode DisplayMode
         {
@@ -111,6 +122,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(CompactPaneLengthProperty); }
             set { SetValue(CompactPaneLengthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Brush to apply to the foreground of the Pane area of the control
+        /// (specifically, the hamburger button foreground).
+        /// </summary>
+        public Brush PaneForeground
+        {
+            get { return (Brush)GetValue(PaneForegroundProperty); }
+            set { SetValue(PaneForegroundProperty, value); }
         }
 
         /// <summary>
@@ -136,8 +157,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object ItemsSource
         {
-            get { return GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get
+            {
+                return GetValue(ItemsSourceProperty);
+            }
+
+            set
+            {
+                if (GetValue(ItemsSourceProperty) is INotifyCollectionChanged observableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    observableItemsCollection.CollectionChanged -= notifyCollectionChangedEventHandler;
+                }
+
+                if (value is INotifyCollectionChanged newObservableItemsCollection)
+                {
+                    CreateNotifyCollectionChangedEventHandlerIfNotExists();
+                    newObservableItemsCollection.CollectionChanged += notifyCollectionChangedEventHandler;
+                }
+
+                SetValue(ItemsSourceProperty, value);
+            }
         }
 
         /// <summary>
@@ -193,6 +233,100 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (int)GetValue(SelectedIndexProperty); }
             set { SetValue(SelectedIndexProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
+        /// When set to true and the device supports NavigationView, the HamburgerMenu will use a template based on NavigationView
+        /// </summary>
+        public bool UseNavigationViewWhenPossible
+        {
+            get { return (bool)GetValue(UseNavigationViewWhenPossibleProperty); }
+            set { SetValue(UseNavigationViewWhenPossibleProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu should try and automatically detect if any of the OptionsItems represent settings. If they do, the IsSettingsEnabled property of the NavigationView control will be set and the detected item invoked appropriately. (Fall Creators Update and above)
+        /// If an item is not detected automatically, the detection can be triggered by adding a Tag property with the value "setting" to the appropriate OptionsItem.
+        /// This property is ignored if UseNavigationViewWhenPossible is false.
+        /// </summary>
+        public bool UseNavigationViewSettingsWhenPossible
+        {
+            get { return (bool)GetValue(UseNavigationViewSettingsWhenPossibleProperty); }
+            set { SetValue(UseNavigationViewSettingsWhenPossibleProperty, value); }
+        }
+
+        private static void OnItemsSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HamburgerMenu hamburgerMenu && hamburgerMenu.UsingNavView)
+            {
+                hamburgerMenu.NavViewSetItemsSource();
+            }
+        }
+
+        private static void OnUseNavigationViewWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var menu = d as HamburgerMenu;
+            if (menu == null)
+            {
+                return;
+            }
+
+            if (menu.UseNavigationViewWhenPossible && HamburgerMenu.IsNavigationViewSupported)
+            {
+                ResourceDictionary dict = new ResourceDictionary();
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenuNavViewTemplate.xaml");
+                menu._previousTemplateUsed = menu.Template;
+                menu.Template = dict["HamburgerMenuNavViewTemplate"] as ControlTemplate;
+            }
+            else if (!menu.UseNavigationViewWhenPossible &&
+                     e.OldValue is bool oldValue &&
+                     oldValue &&
+                     menu._previousTemplateUsed != null)
+            {
+                menu.Template = menu._previousTemplateUsed;
+            }
+        }
+
+        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HamburgerMenu menu && menu.UsingNavView)
+            {
+                menu.NavViewSetSelectedItem(e.NewValue);
+            }
+        }
+
+        private static void OnSelectedIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HamburgerMenu menu && menu.UsingNavView)
+            {
+                if (menu.ItemsSource is IEnumerable<object> items)
+                {
+                    menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? items.ElementAt((int)e.NewValue) : null);
+                }
+            }
+        }
+
+        private static void OnSelectedOptionsIndexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is HamburgerMenu menu && menu.UsingNavView)
+            {
+                if (menu.ItemsSource is IEnumerable<object> options)
+                {
+                    menu.NavViewSetSelectedItem((int)e.NewValue >= 0 ? options.ElementAt((int)e.NewValue) : null);
+                }
+            }
+        }
+
+        private NotifyCollectionChangedEventHandler notifyCollectionChangedEventHandler;
+
+        private void CreateNotifyCollectionChangedEventHandlerIfNotExists()
+        {
+            if (notifyCollectionChangedEventHandler == null)
+            {
+                var hamburgerMenu = this;
+                notifyCollectionChangedEventHandler = (sender, eventArgs) => { hamburgerMenu.NavViewSetItemsSource(); };
+            }
         }
     }
 }

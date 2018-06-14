@@ -1,18 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.Web.Http;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 {
@@ -33,9 +26,11 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
 
         /// <summary>
         /// After obtaining a valid token, this class will cache it for this duration.
-        /// Use a duration of 5 minutes, which is less than the actual token lifetime of 10 minutes.
+        /// Use a duration of 8 minutes, which is less than the actual token lifetime of 10 minutes.
         /// </summary>
-        private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 5, 0);
+        private static readonly TimeSpan TokenCacheDuration = new TimeSpan(0, 8, 0);
+
+        private static HttpClient client = new HttpClient();
 
         private string _storedTokenValue = string.Empty;
         private DateTime _storedTokenTime = DateTime.MinValue;
@@ -79,14 +74,14 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
         /// This method uses a cache to limit the number of request to the token service.
         /// A fresh token can be re-used during its lifetime of 10 minutes. After a successful
         /// request to the token service, this method caches the access token. Subsequent
-        /// invocations of the method return the cached token for the next 5 minutes. After
-        /// 5 minutes, a new token is fetched from the token service and the cache is updated.
+        /// invocations of the method return the cached token for the next 8 minutes. After
+        /// 8 minutes, a new token is fetched from the token service and the cache is updated.
         /// </remarks>
         public async Task<string> GetAccessTokenAsync()
         {
-            if (string.IsNullOrEmpty(SubscriptionKey))
+            if (string.IsNullOrEmpty(_subscriptionKey))
             {
-                throw new ArgumentNullException(nameof(SubscriptionKey), "A subscription key is required");
+                throw new ArgumentNullException(nameof(SubscriptionKey), "A subscription key is required. Go to Azure Portal and sign up for Microsoft Translator: https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation");
             }
 
             // Re-use the cached token if there is one.
@@ -95,15 +90,21 @@ namespace Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
                 return _storedTokenValue;
             }
 
-            using (var request = new HttpHelperRequest(ServiceUrl, HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, ServiceUrl))
             {
                 request.Headers.Add(OcpApimSubscriptionKeyHeader, SubscriptionKey);
 
-                var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false);
-                var token = await response.GetTextResultAsync().ConfigureAwait(false);
+                var response = await client.SendAsync(request).ConfigureAwait(false);
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var error = JsonConvert.DeserializeObject<ErrorResponse>(content);
+                    throw new TranslatorServiceException(error.Message);
+                }
 
                 _storedTokenTime = DateTime.Now;
-                _storedTokenValue = $"Bearer {token}";
+                _storedTokenValue = $"Bearer {content}";
 
                 return _storedTokenValue;
             }

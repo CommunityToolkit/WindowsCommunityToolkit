@@ -5,10 +5,11 @@
     <Style TargetType="controls:ImageEx">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:ImageEx">
-                    <Grid Background="{TemplateBinding Background}">
+                    <Grid Background="{TemplateBinding Background}" CornerRadius="{TemplateBinding CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Image Name="PlaceholderImage"
                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
@@ -21,13 +22,6 @@
                                NineGrid="{TemplateBinding NineGrid}"
                                Opacity="0.0"
                                Stretch="{TemplateBinding Stretch}" />
-                        <ProgressRing Name="Progress"
-                                      Margin="16"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      Background="Transparent"
-                                      Foreground="{TemplateBinding Foreground}"
-                                      IsActive="False" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Failed">
@@ -46,11 +40,6 @@
                                 </VisualState>
                                 <VisualState x:Name="Loading">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Progress"
-                                                                       Storyboard.TargetProperty="IsActive">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="True" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Image"
                                                                        Storyboard.TargetProperty="Opacity">
                                             <DiscreteObjectKeyFrame KeyTime="0"
@@ -65,11 +54,6 @@
                                 </VisualState>
                                 <VisualState x:Name="Loaded">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Progress"
-                                                                       Storyboard.TargetProperty="IsActive">
-                                            <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="False" />
-                                        </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation AutoReverse="False"
                                                          BeginTime="0"
                                                          Storyboard.TargetName="Image"

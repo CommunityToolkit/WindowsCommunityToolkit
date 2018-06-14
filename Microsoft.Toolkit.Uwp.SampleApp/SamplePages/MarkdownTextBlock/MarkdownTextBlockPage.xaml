@@ -6,41 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <TextBlock Grid.Row="0"
-                   Margin="12,12,12,0"
-                   FontSize="18"
-                   Text="Regular Text" />
-        <TextBox x:Name="UiUnformattedText"
-                 Grid.Row="1"
-                 Margin="12"
-                 AcceptsReturn="True"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Auto"
-                 TextWrapping="Wrap" />
-
-        <TextBlock Grid.Row="2"
-                   Margin="12,12,12,0"
-                   FontSize="18"
-                   Text="Markdown Text" />
-        <ScrollViewer Grid.Row="3"
-                      Margin="12"
-                      BorderBrush="{ThemeResource AppBarBorderThemeBrush}"
-                      BorderThickness="2"
-                      HorizontalScrollBarVisibility="Disabled"
-                      VerticalScrollBarVisibility="Visible">
-            <controls:MarkdownTextBlock x:Name="UiMarkdownText"
-                                        Margin="6"
-                                        Foreground="Black"
-                                        LinkClicked="MarkdownText_LinkClicked"
-                                        Text="{Binding ElementName=UiUnformattedText, Path=Text}" />
-        </ScrollViewer>
+    <Grid Visibility="Collapsed">
+            <controls:MarkdownTextBlock />
     </Grid>
 </Page>

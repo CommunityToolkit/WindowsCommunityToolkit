@@ -1,22 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using System;
-using System.Numerics;
-using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Animations.Effects;
 using Windows.Foundation.Metadata;
-using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -26,23 +15,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public static partial class AnimationExtensions
     {
         /// <summary>
+        /// Gets the blur effect.
+        /// </summary>
+        /// <value>
+        /// The blur effect.
+        /// </value>
+        public static Blur BlurEffect { get; } = new Blur();
+
+        /// <summary>
         /// Gets a value indicating whether the platform supports blur.
         /// </summary>
         /// <remarks>
         /// A check should always be made to IsBlurSupported prior to calling Blur,
         /// since older operating systems will not support blurs.
         /// </remarks>
-        /// <seealso cref="Blur(FrameworkElement, double, double, double)"/>
+        /// <seealso cref="Blur(FrameworkElement, double, double, double, EasingType, EasingMode)"/>
         public static bool IsBlurSupported =>
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
-        /// Animates the gaussian blur of the the UIElement.
+        /// Animates the gaussian blur of the UIElement.
         /// </summary>
         /// <param name="associatedObject">The associated object.</param>
         /// <param name="value">The blur amount.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">The easing function</param>
+        /// <param name="easingMode">The easing mode</param>
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -51,7 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this FrameworkElement associatedObject,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
             if (associatedObject == null)
             {
@@ -59,16 +60,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             var animationSet = new AnimationSet(associatedObject);
-            return animationSet.Blur(value, duration, delay);
+            return animationSet.Blur(value, duration, delay, easingType, easingMode);
         }
 
         /// <summary>
-        /// Animates the gaussian blur of the the UIElement.
+        /// Animates the gaussian blur of the UIElement.
         /// </summary>
         /// <param name="animationSet">The animation set.</param>
         /// <param name="value">The blur amount.</param>
         /// <param name="duration">The duration in milliseconds.</param>
         /// <param name="delay">The delay. (ignored if duration == 0)</param>
+        /// <param name="easingType">The easing function</param>
+        /// <param name="easingMode">The easing mode</param>
         /// <returns>
         /// An Animation Set.
         /// </returns>
@@ -77,106 +80,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             this AnimationSet animationSet,
             double value = 0d,
             double duration = 500d,
-            double delay = 0d)
+            double delay = 0d,
+            EasingType easingType = EasingType.Default,
+            EasingMode easingMode = EasingMode.EaseOut)
         {
-            if (animationSet == null)
-            {
-                return null;
-            }
-
-            if (!IsBlurSupported)
-            {
-                // The operating system doesn't support blur.
-                // Fail gracefully by not applying blur.
-                // See 'IsBlurSupported' property
-                return null;
-            }
-
-            var visual = animationSet.Visual;
-            var associatedObject = animationSet.Element as FrameworkElement;
-
-            if (associatedObject == null)
-            {
-                return animationSet;
-            }
-
-            var compositor = visual?.Compositor;
-            const string blurName = "Blur";
-
-            if (compositor == null)
-            {
-                return null;
-            }
-
-            // check to see if the visual already has a blur applied.
-            var spriteVisual = ElementCompositionPreview.GetElementChildVisual(associatedObject) as SpriteVisual;
-            var blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
-
-            if (blurBrush == null || blurBrush.Comment != blurName)
-            {
-                var blurEffect = new GaussianBlurEffect
-                {
-                    Name = blurName,
-                    BlurAmount = 0f,
-                    Optimization = EffectOptimization.Balanced,
-                    BorderMode = EffectBorderMode.Hard,
-                    Source = new CompositionEffectSourceParameter("source")
-                };
-
-                // Create a brush to which I want to apply. I also have noted that BlurAmount should be left out of the compiled shader.
-                blurBrush = compositor.CreateEffectFactory(blurEffect, new[] { $"{blurName}.BlurAmount" }).CreateBrush();
-                blurBrush.Comment = blurName;
-
-                // Set the source of the blur as a backdrop brush
-                blurBrush.SetSourceParameter("source", compositor.CreateBackdropBrush());
-
-                var blurSprite = compositor.CreateSpriteVisual();
-                blurSprite.Brush = blurBrush;
-                ElementCompositionPreview.SetElementChildVisual(associatedObject, blurSprite);
-
-                blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-
-                associatedObject.SizeChanged += (s, e) =>
-                {
-                    blurSprite.Size = new Vector2((float)associatedObject.ActualWidth, (float)associatedObject.ActualHeight);
-                };
-            }
-
-            if (duration <= 0)
-            {
-                animationSet.AddEffectDirectPropertyChange(blurBrush, (float)value, $"{blurName}.BlurAmount");
-            }
-            else
-            {
-                // Create an animation to change the blur amount over time
-                var blurAnimation = compositor.CreateScalarKeyFrameAnimation();
-                blurAnimation.InsertKeyFrame(1f, (float)value);
-                blurAnimation.Duration = TimeSpan.FromMilliseconds(duration);
-                blurAnimation.DelayTime = TimeSpan.FromMilliseconds(delay);
-
-                animationSet.AddCompositionEffectAnimation(blurBrush, blurAnimation, $"{blurName}.BlurAmount");
-            }
-
-            if (value == 0)
-            {
-                animationSet.Completed += AnimationSet_Completed;
-            }
-
-            return animationSet;
-        }
-
-        private static void AnimationSet_Completed(object sender, EventArgs e)
-        {
-            var animationSet = sender as AnimationSet;
-            animationSet.Completed -= AnimationSet_Completed;
-
-            var spriteVisual = ElementCompositionPreview.GetElementChildVisual(animationSet.Element) as SpriteVisual;
-            var blurBrush = spriteVisual?.Brush as CompositionEffectBrush;
-
-            if (blurBrush != null && blurBrush.Comment == "Blur")
-            {
-                spriteVisual.Brush = null;
-            }
+            return BlurEffect.EffectAnimation(animationSet, value, duration, delay, easingType, easingMode);
         }
     }
 }

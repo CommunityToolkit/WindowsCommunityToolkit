@@ -1,28 +1,53 @@
+---
+title: ReorderGridAnimation
+author: nmetulev
+description: The ReorderGridAnimation class allows your GridView controls to animate items into position when the size of the GridView changes.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, ReorderGridAnimation
+dev_langs:
+  - csharp
+  - vb
+---
+
 # ReorderGridAnimation
 
-The **ReorderGridAnimation** class allows your GridView controls to animate items into position when the size of the GridView changes.
+The [ReorderGridAnimation class](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.reordergridanimation) allows your GridView controls to animate items into position when the size of the GridView changes.
 
 ## Syntax
 
-```xml
-
-<GridView x:Name="GridItems"
+```xaml
+<Page ...
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"/>
+<GridView x:Name="MyGridView"
           animations:ReorderGridAnimation.Duration="250"/>
-
 ```
 
-[ReorderGridAnimation Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ReorderGridAnimation)
+```csharp
+MyGridView.SetValue(ReorderGridAnimation.DurationProperty, 250);
+```
+```vb
+MyGridView.SetValue(ReorderGridAnimation.DurationProperty, 250)
+```
+## Sample Output
 
-## Example Image
+![ReorderGridAnimation](../resources/images/Animations/ReorderGridAnimation/Sample-Output.gif)
 
-![ReorderGridAnimation](../resources/images/ReorderGrid.gif "ReorderGridAnimation")
+## Properties
 
-## Requirements (Windows 10 Device Family)
+| Property | Type | Description |
+| -- | -- | -- |
+| Duration | double | The duration of the animation in milliseconds |
 
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.14393.0 or higher |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+## Sample Project
+
+[ReorderGridAnimation Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/ReorderGridAnimation). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ)
+
+## Requirements
+
+| Device family | Universal, 10.0.15063.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 
-* [ReorderGridAnimation source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ReorderGridAnimation.cs)
+* [ReorderGridAnimation source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Animations/ReorderGridAnimation.cs)

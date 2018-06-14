@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.Foundation.Collections;
@@ -31,6 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class AdaptiveGridView : GridView
     {
         private bool _isLoaded;
+        private ScrollMode _savedVerticalScrollMode;
+        private ScrollMode _savedHorizontalScrollMode;
+        private ScrollBarVisibility _savedVerticalScrollBarVisibility;
+        private ScrollBarVisibility _savedHorizontalScrollBarVisibility;
+        private Orientation _savedOrientation;
+        private bool _needToRestoreScrollStates;
+        private bool _needContainerMarginForLayout;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -44,13 +43,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
 
-            // Define ItemContainerStyle in code rather than using the DefaultStyle
-            // to avoid having to define the entire style of a GridView. This can still
-            // be set by the enduser to values of their chosing
-            var style = new Style(typeof(GridViewItem));
-            style.Setters.Add(new Setter(GridViewItem.HorizontalContentAlignmentProperty, HorizontalAlignment.Stretch));
-            style.Setters.Add(new Setter(GridViewItem.VerticalContentAlignmentProperty, VerticalAlignment.Stretch));
-            ItemContainerStyle = style;
+            // Prevent issues with higher DPIs and underlying panel. #1803
+            UseLayoutRounding = false;
         }
 
         /// <summary>
@@ -61,8 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void PrepareContainerForItemOverride(DependencyObject obj, object item)
         {
             base.PrepareContainerForItemOverride(obj, item);
-            var element = obj as FrameworkElement;
-            if (element != null)
+            if (obj is FrameworkElement element)
             {
                 var heightBinding = new Binding()
                 {
@@ -78,8 +71,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Mode = BindingMode.TwoWay
                 };
 
-                element.SetBinding(FrameworkElement.HeightProperty, heightBinding);
-                element.SetBinding(FrameworkElement.WidthProperty, widthBinding);
+                element.SetBinding(HeightProperty, heightBinding);
+                element.SetBinding(WidthProperty, widthBinding);
+            }
+
+            if (obj is ContentControl contentControl)
+            {
+                contentControl.HorizontalContentAlignment = HorizontalAlignment.Stretch;
+                contentControl.VerticalContentAlignment = VerticalAlignment.Stretch;
+            }
+
+            if (_needContainerMarginForLayout)
+            {
+                _needContainerMarginForLayout = false;
+                RecalculateLayout(ActualWidth);
             }
         }
 
@@ -90,9 +95,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The calculated item width.</returns>
         protected virtual double CalculateItemWidth(double containerWidth)
         {
-            double desiredWidth = double.IsNaN(DesiredWidth) ? containerWidth : DesiredWidth;
+            if (double.IsNaN(DesiredWidth))
+            {
+                return DesiredWidth;
+            }
 
-            var columns = CalculateColumns(containerWidth, desiredWidth);
+            var columns = CalculateColumns(containerWidth, DesiredWidth);
 
             // If there's less items than there's columns, reduce the column count (if requested);
             if (Items != null && Items.Count > 0 && Items.Count < columns && StretchContentForSingleRow)
@@ -100,7 +108,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 columns = Items.Count;
             }
 
-            return (containerWidth / columns) - 5;
+            // subtract the margin from the width so we place the correct width for placement
+            var fallbackThickness = default(Thickness);
+            var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, fallbackThickness);
+            if (itemMargin == fallbackThickness)
+            {
+                // No style explicitly defined, or no items or no container for the items
+                // We need to get an actual margin for proper layout
+                _needContainerMarginForLayout = true;
+            }
+
+            return (containerWidth / columns) - itemMargin.Left - itemMargin.Right;
         }
 
         /// <summary>
@@ -139,9 +157,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            // If the width of the internal list view changes, check if more or less columns needs to be rendered.
-            if (e.PreviousSize.Width != e.NewSize.Width)
+            // If we are in center alignment, we only care about relayout if the number of columns we can display changes
+            // Fixes #1737
+            if (HorizontalAlignment != HorizontalAlignment.Stretch)
             {
+                var prevColumns = CalculateColumns(e.PreviousSize.Width, DesiredWidth);
+                var newColumns = CalculateColumns(e.NewSize.Width, DesiredWidth);
+
+                // If the width of the internal list view changes, check if more or less columns needs to be rendered.
+                if (prevColumns != newColumns)
+                {
+                    RecalculateLayout(e.NewSize.Width);
+                }
+            }
+            else if (e.PreviousSize.Width != e.NewSize.Width)
+            {
+                // We need to recalculate width as our size changes to adjust internal items.
                 RecalculateLayout(e.NewSize.Width);
             }
         }
@@ -168,47 +199,67 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var b = new Binding()
                     {
                         Source = this,
-                        Path = new PropertyPath("ItemHeight")
+                        Path = new PropertyPath("ItemHeight"),
+                        Converter = new AdaptiveHeightValueConverter(),
+                        ConverterParameter = this
                     };
 
                     if (itemsWrapGridPanel != null)
                     {
+                        _savedOrientation = itemsWrapGridPanel.Orientation;
                         itemsWrapGridPanel.Orientation = Orientation.Vertical;
                     }
 
-                    this.SetBinding(GridView.MaxHeightProperty, b);
+                    SetBinding(MaxHeightProperty, b);
+
+                    _savedHorizontalScrollMode = ScrollViewer.GetHorizontalScrollMode(this);
+                    _savedVerticalScrollMode = ScrollViewer.GetVerticalScrollMode(this);
+                    _savedHorizontalScrollBarVisibility = ScrollViewer.GetHorizontalScrollBarVisibility(this);
+                    _savedVerticalScrollBarVisibility = ScrollViewer.GetVerticalScrollBarVisibility(this);
+                    _needToRestoreScrollStates = true;
 
                     ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Disabled);
-                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Hidden);
                     ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Visible);
                     ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Enabled);
                 }
                 else
                 {
-                    this.ClearValue(GridView.MaxHeightProperty);
-                    if (itemsWrapGridPanel != null)
+                    ClearValue(MaxHeightProperty);
+
+                    if (!_needToRestoreScrollStates)
                     {
-                        itemsWrapGridPanel.Orientation = Orientation.Horizontal;
+                        return;
                     }
 
-                    ScrollViewer.SetVerticalScrollMode(this, ScrollMode.Enabled);
-                    ScrollViewer.SetVerticalScrollBarVisibility(this, ScrollBarVisibility.Visible);
-                    ScrollViewer.SetHorizontalScrollBarVisibility(this, ScrollBarVisibility.Disabled);
-                    ScrollViewer.SetHorizontalScrollMode(this, ScrollMode.Disabled);
+                    _needToRestoreScrollStates = false;
+
+                    if (itemsWrapGridPanel != null)
+                    {
+                        itemsWrapGridPanel.Orientation = _savedOrientation;
+                    }
+
+                    ScrollViewer.SetVerticalScrollMode(this, _savedVerticalScrollMode);
+                    ScrollViewer.SetVerticalScrollBarVisibility(this, _savedVerticalScrollBarVisibility);
+                    ScrollViewer.SetHorizontalScrollBarVisibility(this, _savedHorizontalScrollBarVisibility);
+                    ScrollViewer.SetHorizontalScrollMode(this, _savedHorizontalScrollMode);
                 }
             }
         }
 
         private void RecalculateLayout(double containerWidth)
         {
+            var itemsPanel = ItemsPanelRoot as Panel;
+            var panelMargin = itemsPanel != null ?
+                              itemsPanel.Margin.Left + itemsPanel.Margin.Right :
+                              0;
+
+            // width should be the displayable width
+            containerWidth = containerWidth - Padding.Left - Padding.Right - panelMargin;
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
-
-                if (double.IsNaN(ItemWidth) || Math.Abs(newWidth - ItemWidth) > 1)
-                {
-                    ItemWidth = newWidth;
-                }
+                ItemWidth = Math.Floor(newWidth);
             }
         }
     }

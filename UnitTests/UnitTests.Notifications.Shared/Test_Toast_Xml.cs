@@ -1,21 +1,9 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
-#if WINDOWS_UWP
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-#else
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-#endif
 using Microsoft.Toolkit.Uwp.Notifications;
 
 namespace UnitTests.Notifications
@@ -93,6 +81,125 @@ namespace UnitTests.Notifications
             };
 
             AssertPayload("<toast duration='long' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintToastId()
+        {
+            var toast = new ToastContent()
+            {
+                HintToastId = "AppointmentReminder"
+            };
+
+            AssertPayload("<toast hint-toastId='AppointmentReminder' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_RemoteId()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    RemoteId = "1234"
+                }
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_EmailAddress()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com"
+                }
+            };
+
+            AssertPayload("<toast hint-people='mailto:johndoe@mydomain.com' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_PhoneNumber()
+        {
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    PhoneNumber = "888-888-8888"
+                }
+            };
+
+            AssertPayload("<toast hint-people='tel:888-888-8888' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_HintPeople_Precedence()
+        {
+            // Email should take precedence over phone number
+            var toast = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com",
+                    PhoneNumber = "888-888-8888"
+                }
+            };
+
+            AssertPayload("<toast hint-people='mailto:johndoe@mydomain.com' />", toast);
+
+            // RemoteId should take precedence over phone number
+            toast.HintPeople = new ToastPeople()
+            {
+                RemoteId = "1234",
+                PhoneNumber = "888-888-8888"
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+
+            // RemoteId should take precedence over all
+            toast.HintPeople = new ToastPeople()
+            {
+                RemoteId = "1234",
+                PhoneNumber = "888-888-8888",
+                EmailAddress = "johndoe@mydomain.com"
+            };
+
+            AssertPayload("<toast hint-people='remoteid:1234' />", toast);
+        }
+
+        [TestMethod]
+        public void Test_Toast_XML_Toast_AdditionalProperties()
+        {
+            AssertPayload("<toast hint-tacos='yummy://kind=beans,c=0' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "hint-tacos", "yummy://kind=beans,c=0" }
+                }
+            });
+
+            // Multiple
+            AssertPayload("<toast avacado='definitely' burrito='true' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "burrito", "true" },
+                    { "avacado", "definitely" }
+                }
+            });
+
+            // XML encoding
+            AssertPayload("<toast request='eggs &amp; beans' />", new ToastContent()
+            {
+                AdditionalProperties =
+                {
+                    { "request", "eggs & beans" }
+                }
+            });
         }
 
         [TestMethod]
@@ -276,6 +383,147 @@ namespace UnitTests.Notifications
         private static void AssertBindingGenericProperty(string expectedPropertyName, string expectedPropertyValue, ToastBindingGeneric binding)
         {
             AssertBindingGenericPayload($"<binding template='ToastGeneric' {expectedPropertyName}='{expectedPropertyValue}'/>", binding);
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_BaseUri()
+        {
+            AssertBindingShoulderTapProperty("baseUri", "http://msn.com/images/", new ToastBindingShoulderTap()
+            {
+                BaseUri = new Uri("http://msn.com/images/", UriKind.Absolute)
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_AddImageQuery()
+        {
+            AssertBindingShoulderTapProperty("addImageQuery", "false", new ToastBindingShoulderTap()
+            {
+                AddImageQuery = false
+            });
+
+            AssertBindingShoulderTapProperty("addImageQuery", "true", new ToastBindingShoulderTap()
+            {
+                AddImageQuery = true
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_BindingShoulderTap_Language()
+        {
+            AssertBindingShoulderTapProperty("lang", "en-US", new ToastBindingShoulderTap()
+            {
+                Language = "en-US"
+            });
+        }
+
+        private static void AssertBindingShoulderTapProperty(string expectedPropertyName, string expectedPropertyValue, ToastBindingShoulderTap binding)
+        {
+            AssertBindingShoulderTapPayload($"<binding template='ToastGeneric' experienceType='shoulderTap' {expectedPropertyName}='{expectedPropertyValue}'/>", binding);
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_ShoulderTapImage()
+        {
+            AssertShoulderTapImagePayload("<image src='img.png' addImageQuery='true' alt='alt text'/>", new ToastShoulderTapImage()
+            {
+                Source = "img.png",
+                AddImageQuery = true,
+                AlternateText = "alt text"
+            });
+
+            // Defaults shouldn't have anything assigned
+            AssertShoulderTapImagePayload("<image src='img.png'/>", new ToastShoulderTapImage()
+            {
+                Source = "img.png"
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_ShoulderTapImage_SourceRequired()
+        {
+            Assert.ThrowsException<NullReferenceException>(delegate
+            {
+                AssertShoulderTapImagePayload("exception should be thrown", new ToastShoulderTapImage());
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(delegate
+            {
+                new ToastShoulderTapImage()
+                {
+                    Source = null
+                };
+            });
+        }
+
+        private static void AssertShoulderTapImagePayload(string expectedImageXml, ToastShoulderTapImage image)
+        {
+            AssertBindingShoulderTapPayload($"<binding template='ToastGeneric' experienceType='shoulderTap'>{expectedImageXml}</binding>", new ToastBindingShoulderTap()
+            {
+                Image = image
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_SpriteSheet()
+        {
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png' spritesheet-height='80' spritesheet-fps='25' spritesheet-startingFrame='15'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png",
+                FrameHeight = 80,
+                Fps = 25,
+                StartingFrame = 15
+            });
+
+            // Defaults shouldn't have anything assigned
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png"
+            });
+
+            // Can assign invalid values
+            AssertSpriteSheetProperties("spritesheet-src='sprite.png' spritesheet-height='0' spritesheet-fps='150' spritesheet-startingFrame='15'", new ToastSpriteSheet()
+            {
+                Source = "sprite.png",
+                FrameHeight = 0,
+                Fps = 150,
+                StartingFrame = 15
+            });
+        }
+
+        [TestMethod]
+        public void Test_ToastV2_SpriteSheet_SourceRequired()
+        {
+            Assert.ThrowsException<NullReferenceException>(delegate
+            {
+                AssertSpriteSheetProperties("exception should be thrown", new ToastSpriteSheet());
+            });
+
+            Assert.ThrowsException<ArgumentNullException>(delegate
+            {
+                new ToastSpriteSheet()
+                {
+                    Source = null
+                };
+            });
+        }
+
+        private static void AssertSpriteSheetProperties(string expectedProperties, ToastSpriteSheet spriteSheet)
+        {
+            AssertShoulderTapImagePayload($"<image src='img.png' {expectedProperties} />", new ToastShoulderTapImage()
+            {
+                Source = "img.png",
+                SpriteSheet = spriteSheet
+            });
+        }
+
+        private static void AssertBindingShoulderTapPayload(string expectedBindingXml, ToastBindingShoulderTap binding)
+        {
+            AssertVisualPayload("<visual><binding template='ToastGeneric'/>" + expectedBindingXml + "</visual>", new ToastVisual()
+            {
+                BindingGeneric = new ToastBindingGeneric(),
+                BindingShoulderTap = binding
+            });
         }
 
         [TestMethod]
@@ -925,6 +1173,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_Button_HintActionId_Value()
+        {
+            ToastButton button = new ToastButton("my content", "myArgs")
+            {
+                HintActionId = "MyAction1"
+            };
+
+            AssertButtonPayload("<action content='my content' arguments='myArgs' hint-actionId='MyAction1' />", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_Defaults()
         {
             ToastButtonSnooze button = new ToastButtonSnooze();
@@ -941,6 +1200,17 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_Image()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                ImageUri = "Assets/Snooze.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' imageUri='Assets/Snooze.png'/>", button);
+        }
+
+        [TestMethod]
         public void Test_Toast_Xml_ButtonSnooze_SelectionId()
         {
             ToastButtonSnooze button = new ToastButtonSnooze()
@@ -949,6 +1219,17 @@ namespace UnitTests.Notifications
             };
 
             AssertButtonPayload("<action activationType='system' arguments='snooze' content='' hint-inputId='snoozeId'/>", button);
+        }
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonSnooze_HintActionId()
+        {
+            ToastButtonSnooze button = new ToastButtonSnooze()
+            {
+                HintActionId = "MySnoozeButton1"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='snooze' content='' hint-actionId='MySnoozeButton1'/>", button);
         }
 
         [TestMethod]
@@ -966,7 +1247,29 @@ namespace UnitTests.Notifications
 
             AssertButtonPayload("<action activationType='system' arguments='dismiss' content='my dismiss'/>", button);
         }
-        
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_Image()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                ImageUri = "Assets/Dismiss.png"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' imageUri='Assets/Dismiss.png'/>", button);
+        }
+
+        [TestMethod]
+        public void Test_Toast_Xml_ButtonDismiss_HintActionId()
+        {
+            ToastButtonDismiss button = new ToastButtonDismiss()
+            {
+                HintActionId = "MyDismissButton1"
+            };
+
+            AssertButtonPayload("<action activationType='system' arguments='dismiss' content='' hint-actionId='MyDismissButton1'/>", button);
+        }
+
         [TestMethod]
         public void Test_Toast_Xml_ContextMenuItem_Defaults()
         {
@@ -1032,6 +1335,17 @@ namespace UnitTests.Notifications
             };
 
             AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' activationType='protocol'/>", item);
+        }
+
+        [TestMethod]
+        public void Test_Toast_Xml_ContextMenuItem_HintActionId()
+        {
+            ToastContextMenuItem item = new ToastContextMenuItem("content", "args")
+            {
+                HintActionId = "MyContextMenu1"
+            };
+
+            AssertContextMenuItemPayload("<action placement='contextMenu' content='content' arguments='args' hint-actionId='MyContextMenu1'/>", item);
         }
 
         [TestMethod]
@@ -1310,6 +1624,15 @@ namespace UnitTests.Notifications
             {
                 DisplayTimestamp = new DateTimeOffset(2016, 10, 19, 9, 0, 0, TimeSpan.FromHours(-8))
             });
+
+            // If devs use DateTime.Now, or directly use ticks (like this code), they can actually end up with a seconds decimal
+            // value that is more than 3 decimal places. The platform notification parser will fail if there are
+            // more than three decimal places. Hence this test normally would produce "2017-04-04T10:28:34.7047925Z"
+            // but we've added code to ensure it strips to only at most 3 decimal places.
+            AssertPayload("<toast displayTimestamp='2017-04-04T10:28:34.704Z' />", new ToastContent()
+            {
+                DisplayTimestamp = new DateTimeOffset(636268985147047925, TimeSpan.FromHours(0))
+            });
         }
 
         [TestMethod]
@@ -1525,41 +1848,46 @@ namespace UnitTests.Notifications
         [TestMethod]
         public void Test_Toast_ProgressBar_Value()
         {
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar());
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar() { Status = "Downloading..." });
 
             // Only non-WinRT supports implicit converters
 #if !WINRT
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = 0.3
+                Value = 0.3,
+                Status = "Downloading..."
             });
 #endif
 
-            AssertProgressBar("<progressBar value='0.3'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0.3' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.FromValue(0.3)
+                Value = AdaptiveProgressBarValue.FromValue(0.3),
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='indeterminate'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='indeterminate' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Value = AdaptiveProgressBarValue.Indeterminate
+                Value = AdaptiveProgressBarValue.Indeterminate,
+                Status = "Downloading..."
             });
-            AssertProgressBar("<progressBar value='{progressValue}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
                 {
                     { AdaptiveProgressBarBindableProperty.Value, "progressValue" }
-                }
+                },
 #else
-                Value = new BindableProgressBarValue("progressValue")
+                Value = new BindableProgressBarValue("progressValue"),
 #endif
+                Status = "Downloading..."
             });
 
             try
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(-4)
+                    Value = AdaptiveProgressBarValue.FromValue(-4),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1569,7 +1897,8 @@ namespace UnitTests.Notifications
             {
                 new AdaptiveProgressBar()
                 {
-                    Value = AdaptiveProgressBarValue.FromValue(1.3)
+                    Value = AdaptiveProgressBarValue.FromValue(1.3),
+                    Status = "Downloading..."
                 };
                 Assert.Fail("Exception should have been thrown, only values 0-1 allowed");
             }
@@ -1581,24 +1910,32 @@ namespace UnitTests.Notifications
         {
             // There is NOT an escape string. Guidance to developers is if you're using data binding,
             // use data binding for ALL your user-generated strings.
-            AssertProgressBar("<progressBar value='0' title='{I like tacos}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' title='{I like tacos}' status='Downloading...'/>", new AdaptiveProgressBar()
             {
-                Title = "{I like tacos}"
+                Title = "{I like tacos}",
+                Status = "Downloading..."
             });
         }
 
         [TestMethod]
         public void Test_Toast_ProgressBar()
         {
-            AssertProgressBar("<progressBar value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Downloading...'/>", new AdaptiveProgressBar()
+            try
+            {
+                AssertProgressBar("Exception should be thrown", new AdaptiveProgressBar());
+                Assert.Fail("Exception should have been thrown, Status property is required");
+            }
+            catch (NullReferenceException) { }
+
+            AssertProgressBar("<progress value='0.3' title='Katy Perry' valueStringOverride='3/10 songs' status='Adding music...'/>", new AdaptiveProgressBar()
             {
                 Value = AdaptiveProgressBarValue.FromValue(0.3),
                 Title = "Katy Perry",
                 ValueStringOverride = "3/10 songs",
-                Status = "Downloading..."
+                Status = "Adding music..."
             });
 
-            AssertProgressBar("<progressBar value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='{progressValue}' title='{progressTitle}' valueStringOverride='{progressValueOverride}' status='{progressStatus}'/>", new AdaptiveProgressBar()
             {
 #if WINRT
                 Bindings =
@@ -1616,12 +1953,12 @@ namespace UnitTests.Notifications
 #endif
             });
 
-            AssertProgressBar("<progressBar value='0'/>", new AdaptiveProgressBar()
+            AssertProgressBar("<progress value='0' status='Downloading...'/>", new AdaptiveProgressBar()
             {
                 Value = null,
                 Title = null,
                 ValueStringOverride = null,
-                Status = null
+                Status = "Downloading..."
             });
         }
 
@@ -1634,6 +1971,68 @@ namespace UnitTests.Notifications
                     progressBar
                 }
             });
+        }
+
+        [TestMethod]
+        public void Test_Toast_FullPayload_ShoulderTap()
+        {
+            var content = new ToastContent()
+            {
+                HintPeople = new ToastPeople()
+                {
+                    EmailAddress = "johndoe@mydomain.com"
+                },
+
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Toast fallback"
+                            },
+
+                            new AdaptiveText()
+                            {
+                                Text = "Add your fallback toast content here"
+                            }
+                        }
+                    },
+
+                    BindingShoulderTap = new ToastBindingShoulderTap()
+                    {
+                        Image = new ToastShoulderTapImage()
+                        {
+                            Source = "img.png",
+                            SpriteSheet = new ToastSpriteSheet()
+                            {
+                                Source = "sprite.png",
+                                FrameHeight = 80,
+                                Fps = 25,
+                                StartingFrame = 15
+                            }
+                        }
+                    }
+                }
+            };
+
+            AssertPayload(@"<toast hint-people='mailto:johndoe@mydomain.com'>
+    <visual>
+        <binding template='ToastGeneric'>
+            <text>Toast fallback</text>
+            <text>Add your fallback toast content here</text>
+        </binding>
+        <binding template='ToastGeneric' experienceType='shoulderTap'>
+            <image src='img.png'
+                spritesheet-src='sprite.png'
+                spritesheet-height='80'
+                spritesheet-fps='25'
+                spritesheet-startingFrame='15'/>
+        </binding>
+    </visual>
+</toast>", content);
         }
 
         private static void AssertSelectionPayload(string expectedSelectionXml, ToastSelectionBoxItem selectionItem)

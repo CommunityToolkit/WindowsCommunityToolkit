@@ -1,27 +1,19 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Services.Exceptions;
+using Microsoft.Toolkit.Services;
 using Windows.Data.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
 using Windows.Storage;
-using Windows.Web.Http;
 
 namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 {
@@ -32,6 +24,8 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
     {
         private const string _oAuthBaseUrl = "https://www.linkedin.com/uas/oauth2/";
         private const string _baseUrl = "https://api.linkedin.com/v1";
+
+        private static HttpClient client = new HttpClient();
 
         /// <summary>
         /// Password vault used to store access tokens
@@ -161,20 +155,20 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
             var url = $"{_baseUrl}{config.Query}/~:({fields})?oauth2_access_token={Tokens.AccessToken}&format=json&count={maxRecords}&start={startRecord}";
 
-            using (HttpHelperRequest request = new HttpHelperRequest(new Uri(url), HttpMethod.Get))
+            using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, new Uri(url)))
             {
                 request.Headers.Connection.TryParseAdd("Keep-Alive");
 
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                    var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    if (response.Success && !string.IsNullOrEmpty(data))
+                    if (response.IsSuccessStatusCode && !string.IsNullOrEmpty(data))
                     {
                         return parser.Parse(data);
                     }
 
-                    throw new RequestFailedException(response.StatusCode, data);
+                    throw new RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
                 }
             }
         }
@@ -198,16 +192,15 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
                 var url = $"{_baseUrl}/people/~/shares?oauth2_access_token={Tokens.AccessToken}&format=json";
 
-                using (HttpHelperRequest request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
+                using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)))
                 {
-                    request.Headers["x-li-format"] = "json";
-
+                    request.Headers.Add("x-li-format", "json");
                     var stringContent = requestParser.Parse(shareRequest);
-                    request.Content = new HttpStringContent(stringContent, Windows.Storage.Streams.UnicodeEncoding.Utf8, "application/json");
+                    request.Content = new StringContent(stringContent, Encoding.UTF8, "application/json");
 
-                    using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
                     {
-                        var data = await response.GetTextResultAsync().ConfigureAwait(false);
+                        var data = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                         var responseParser = new LinkedInParser<U>();
 
@@ -240,11 +233,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             + "&client_id=" + tokens.ClientId
             + "&client_secret=" + tokens.ClientSecret;
 
-            using (var request = new HttpHelperRequest(new Uri(url), HttpMethod.Post))
+            using (var request = new HttpRequestMessage(HttpMethod.Post, new Uri(url)))
             {
-                using (var response = await HttpHelper.Instance.SendRequestAsync(request).ConfigureAwait(false))
+                using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
-                    var jsonString = await response.GetTextResultAsync().ConfigureAwait(false);
+                    var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                     var json = JsonObject.Parse(jsonString);
                     return json.GetNamedString("access_token");

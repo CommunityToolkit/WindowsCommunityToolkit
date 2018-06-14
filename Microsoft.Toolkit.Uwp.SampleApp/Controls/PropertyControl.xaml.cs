@@ -1,16 +1,9 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
@@ -26,10 +19,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public sealed partial class PropertyControl
     {
+        private static Dictionary<Color, string> _colorNames;
+
         private Sample _currentSample;
 
         public PropertyControl()
         {
+            if (_colorNames == null)
+            {
+                _colorNames = new Dictionary<Color, string>();
+                foreach (var color in typeof(Colors).GetRuntimeProperties())
+                {
+                    _colorNames[(Color)color.GetValue(null)] = color.Name;
+                }
+            }
+
             InitializeComponent();
         }
 
@@ -58,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Name + ":",
+                        Text = option.Label + ":",
                         Foreground = new SolidColorBrush(Colors.Black)
                     };
                     RootPanel.Children.Add(label);
@@ -67,6 +71,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     Control controlToAdd;
                     DependencyProperty dependencyProperty;
                     IValueConverter converter = null;
+
+                    IDictionary<string, object> propertyDict = propertyDesc.Expando;
 
                     switch (option.Kind)
                     {
@@ -86,6 +92,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 slider.StepFrequency = 0.01;
                             }
 
+                            if ((propertyDict[option.Name] as ValueHolder).Value is double value)
+                            {
+                                slider.Value = value;
+                            }
+
                             controlToAdd = slider;
                             dependencyProperty = RangeBase.ValueProperty;
 
@@ -95,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             var comboBox = new ComboBox
                             {
                                 ItemsSource = Enum.GetNames(enumType),
-                                SelectedItem = option.DefaultValue.ToString()
+                                SelectedItem = (propertyDict[option.Name] as ValueHolder).Value.ToString()
                             };
 
                             converter = new EnumConverter(enumType);
@@ -105,6 +116,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         case PropertyKind.Bool:
                             var checkBox = new ToggleSwitch();
 
+                            if ((propertyDict[option.Name] as ValueHolder).Value is bool isOn)
+                            {
+                                checkBox.IsOn = isOn;
+                            }
+
                             controlToAdd = checkBox;
                             dependencyProperty = ToggleSwitch.IsOnProperty;
                             break;
@@ -112,15 +128,51 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             var colorComboBox = new ComboBox();
                             var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
                             colorComboBox.ItemsSource = dataSource;
-                            colorComboBox.SelectedIndex = dataSource.IndexOf(option.DefaultValue.ToString());
+
+                            if ((propertyDict[option.Name] as ValueHolder).Value is SolidColorBrush brush &&
+                                _colorNames.TryGetValue(brush.Color, out var color))
+                            {
+                                colorComboBox.SelectedIndex = dataSource.IndexOf(color);
+                            }
+                            else
+                            {
+                                colorComboBox.SelectedIndex = dataSource.IndexOf(option.DefaultValue.ToString());
+                            }
 
                             converter = new SolidColorBrushConverter();
 
                             controlToAdd = colorComboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
+                        case PropertyKind.TimeSpan:
+                            var timeSlider = new Slider();
+                            var timeSliderOption = option as SliderPropertyOptions;
+                            if (timeSliderOption != null)
+                            {
+                                timeSlider.Minimum = timeSliderOption.MinValue;
+                                timeSlider.Maximum = timeSliderOption.MaxValue;
+                                timeSlider.StepFrequency = timeSliderOption.Step;
+                            }
+
+                            if ((propertyDict[option.Name] as ValueHolder).Value is double timeValue)
+                            {
+                                timeSlider.Value = timeValue;
+                            }
+
+                            controlToAdd = timeSlider;
+                            dependencyProperty = RangeBase.ValueProperty;
+                            converter = new TimeSpanConverter();
+
+                            break;
+                        case PropertyKind.Thickness:
+                            var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
+
+                            controlToAdd = thicknessTextBox;
+                            dependencyProperty = TextBox.TextProperty;
+                            converter = new ThicknessConverter();
+                            break;
                         default:
-                            var textBox = new TextBox { Text = option.DefaultValue.ToString() };
+                            var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
                             controlToAdd = textBox;
                             dependencyProperty = TextBox.TextProperty;
@@ -134,6 +186,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                         Mode = BindingMode.TwoWay,
                         Converter = converter
                     };
+
+                    // Make textboxes instantly respond to text rather than waiting for lost focus.
+                    if (controlToAdd is TextBox)
+                    {
+                        binding.UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged;
+                    }
 
                     controlToAdd.SetBinding(dependencyProperty, binding);
                     controlToAdd.Margin = new Thickness(0, 5, 0, 20);

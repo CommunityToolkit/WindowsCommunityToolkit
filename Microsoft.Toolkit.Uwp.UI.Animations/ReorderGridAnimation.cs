@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.Foundation.Metadata;
@@ -77,6 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 view.ContainerContentChanging -= OnContainerContentChanging;
                 view.ContainerContentChanging += OnContainerContentChanging;
+
+                view.ChoosingItemContainer -= OnChoosingItemContainer;
+                view.ChoosingItemContainer += OnChoosingItemContainer;
             }
         }
 
@@ -99,12 +94,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             var elementVisual = ElementCompositionPreview.GetElementVisual(args.ItemContainer);
             if (args.InRecycleQueue)
             {
-                elementVisual.ImplicitAnimations = null;
+                PokeUIElementZIndex(args.ItemContainer);
             }
             else
             {
                 var elementImplicitAnimation = sender.GetValue(ReorderAnimationProperty) as ImplicitAnimationCollection;
                 elementVisual.ImplicitAnimations = elementImplicitAnimation;
+            }
+        }
+
+        private static void OnChoosingItemContainer(ListViewBase sender, ChoosingItemContainerEventArgs args)
+        {
+            if (args.ItemContainer != null)
+            {
+                PokeUIElementZIndex(args.ItemContainer);
             }
         }
 
@@ -119,6 +122,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             animationGroup.Add(offsetAnimation);
 
             return animationGroup;
+        }
+
+        private static void PokeUIElementZIndex(UIElement element)
+        {
+            var oldZIndex = Canvas.GetZIndex(element);
+            Canvas.SetZIndex(element, oldZIndex + 1);
+            Canvas.SetZIndex(element, oldZIndex);
         }
     }
 }

@@ -1,17 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
@@ -19,7 +12,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Printing;
 
-namespace Microsoft.Toolkit.Uwp
+namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Helper class used to simplify document printing.
@@ -93,10 +86,21 @@ namespace Microsoft.Toolkit.Uwp
         private List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
+        /// Gets the options for the print dialog
+        /// </summary>
+        private PrintHelperOptions _printHelperOptions;
+
+        /// <summary>
+        /// Gets the default options for the print dialog
+        /// </summary>
+        private PrintHelperOptions _defaultPrintHelperOptions;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
-        public PrintHelper(Panel canvasContainer)
+        /// /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
+        public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
             if (canvasContainer == null)
             {
@@ -110,6 +114,8 @@ namespace Microsoft.Toolkit.Uwp
             _canvasContainer = canvasContainer;
 
             _elementsToPrint = new List<FrameworkElement>();
+
+            _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
 
             RegisterForPrinting();
         }
@@ -162,6 +168,20 @@ namespace Microsoft.Toolkit.Uwp
             // Launch print process
             _printTaskName = printTaskName;
             await PrintManager.ShowPrintUIAsync();
+        }
+
+        /// <summary>
+        /// Start the print task.
+        /// </summary>
+        /// <param name="printTaskName">Name of the print task to use</param>
+        /// <param name="printHelperOptions">Settings for the print task</param>
+        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with AddFrameworkElementToPrint method</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        public Task ShowPrintUIAsync(string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
+        {
+            _printHelperOptions = printHelperOptions;
+
+            return ShowPrintUIAsync(printTaskName, directPrint);
         }
 
         /// <summary>
@@ -221,6 +241,8 @@ namespace Microsoft.Toolkit.Uwp
             PrintTask printTask = null;
             printTask = e.Request.CreatePrintTask(_printTaskName, sourceRequested =>
             {
+                ApplyPrintSettings(printTask);
+
                 // Print Task event handler is invoked when the print job is completed.
                 printTask.Completed += async (s, args) =>
                 {
@@ -260,6 +282,83 @@ namespace Microsoft.Toolkit.Uwp
             });
         }
 
+        private void ApplyPrintSettings(PrintTask printTask)
+        {
+            _printHelperOptions = _printHelperOptions ?? _defaultPrintHelperOptions;
+
+            IEnumerable<string> displayedOptionsToAdd = _printHelperOptions.DisplayedOptions;
+
+            if (!_printHelperOptions.ExtendDisplayedOptions)
+            {
+                printTask.Options.DisplayedOptions.Clear();
+            }
+
+            foreach (var displayedOption in displayedOptionsToAdd)
+            {
+                if (!printTask.Options.DisplayedOptions.Contains(displayedOption))
+                {
+                    printTask.Options.DisplayedOptions.Add(displayedOption);
+                }
+            }
+
+            if (printTask.Options.Binding != PrintBinding.NotAvailable)
+            {
+                printTask.Options.Binding = _printHelperOptions.Binding == PrintBinding.Default ? printTask.Options.Binding : _printHelperOptions.Binding;
+            }
+
+            if (printTask.Options.Bordering != PrintBordering.NotAvailable)
+            {
+                printTask.Options.Bordering = _printHelperOptions.Bordering == PrintBordering.Default ? printTask.Options.Bordering : _printHelperOptions.Bordering;
+            }
+
+            if (printTask.Options.MediaType != PrintMediaType.NotAvailable)
+            {
+                printTask.Options.MediaType = _printHelperOptions.MediaType == PrintMediaType.Default ? printTask.Options.MediaType : _printHelperOptions.MediaType;
+            }
+
+            if (printTask.Options.MediaSize != PrintMediaSize.NotAvailable)
+            {
+                printTask.Options.MediaSize = _printHelperOptions.MediaSize == PrintMediaSize.Default ? printTask.Options.MediaSize : _printHelperOptions.MediaSize;
+            }
+
+            if (printTask.Options.HolePunch != PrintHolePunch.NotAvailable)
+            {
+                printTask.Options.HolePunch = _printHelperOptions.HolePunch == PrintHolePunch.Default ? printTask.Options.HolePunch : _printHelperOptions.HolePunch;
+            }
+
+            if (printTask.Options.Duplex != PrintDuplex.NotAvailable)
+            {
+                printTask.Options.Duplex = _printHelperOptions.Duplex == PrintDuplex.Default ? printTask.Options.Duplex : _printHelperOptions.Duplex;
+            }
+
+            if (printTask.Options.ColorMode != PrintColorMode.NotAvailable)
+            {
+                printTask.Options.ColorMode = _printHelperOptions.ColorMode == PrintColorMode.Default ? printTask.Options.ColorMode : _printHelperOptions.ColorMode;
+            }
+
+            if (printTask.Options.Collation != PrintCollation.NotAvailable)
+            {
+                printTask.Options.Collation = _printHelperOptions.Collation == PrintCollation.Default ? printTask.Options.Collation : _printHelperOptions.Collation;
+            }
+
+            if (printTask.Options.PrintQuality != PrintQuality.NotAvailable)
+            {
+                printTask.Options.PrintQuality = _printHelperOptions.PrintQuality == PrintQuality.Default ? printTask.Options.PrintQuality : _printHelperOptions.PrintQuality;
+            }
+
+            if (printTask.Options.Staple != PrintStaple.NotAvailable)
+            {
+                printTask.Options.Staple = _printHelperOptions.Staple == PrintStaple.Default ? printTask.Options.Staple : _printHelperOptions.Staple;
+            }
+
+            if (printTask.Options.Orientation != PrintOrientation.NotAvailable)
+            {
+                printTask.Options.Orientation = _printHelperOptions.Orientation == PrintOrientation.Default ? printTask.Options.Orientation : _printHelperOptions.Orientation;
+            }
+
+            _printHelperOptions = null;
+        }
+
         /// <summary>
         /// This is the event handler for PrintDocument.Paginate. It creates print preview pages for the app.
         /// </summary>
@@ -283,7 +382,10 @@ namespace Microsoft.Toolkit.Uwp
             else
             {
                 // Attach the canvas
-                _canvasContainer.Children.Add(_printCanvas);
+                if (!_canvasContainer.Children.Contains(_printCanvas))
+                {
+                    _canvasContainer.Children.Add(_printCanvas);
+                }
 
                 // Clear the cache of preview pages
                 ClearPageCache();

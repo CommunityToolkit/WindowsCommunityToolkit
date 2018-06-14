@@ -7,105 +7,11 @@
       xmlns:samples="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
-        <controls:BladeView x:Name="BladeView"
-                            Padding="0"
-                            HorizontalAlignment="Stretch"
-                            VerticalAlignment="Stretch"
-                            BladeMode="{Binding BladeMode.Value}">
-            <controls:BladeItem x:Name="FirstBlade"
-                                Title="Test"
-                                Width="400"
-                                Background="{StaticResource Brush-White}"
-                                BorderBrush="{StaticResource Brush-Grey-04}"
-                                IsOpen="True"
-                                TitleBarVisibility="Collapsed">
-                <StackPanel Margin="24">
-                    <TextBlock Text="This first blade has a hidden TitleBar, so you can't close it."
-                               TextWrapping="WrapWholeWords" />
-
-                    <TextBlock Margin="0,12,0,0"
-                               Text="The buttons below toggle more blades on and off. The blades appear in the order that they're opened."
-                               TextWrapping="WrapWholeWords" />
-                    <ToggleButton Margin="0,24,0,0"
-                                  Content="Default blade"
-                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=SecondBlade}" />
-                    <ToggleButton Margin="0,24,0,0"
-                                  Content="Custom titlebar"
-                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=ThirdBlade}" />
-                    <ToggleButton Margin="0,24,0,0"
-                                  Content="Custom close button"
-                                  IsChecked="{Binding IsOpen, Mode=TwoWay, ElementName=FourthBlade}" />
-                </StackPanel>
-            </controls:BladeItem>
-
-            <controls:BladeItem x:Name="SecondBlade"
-                                Title="Default blade"
-                                Width="400"
-                                Background="{StaticResource Brush-White}"
-                                BorderBrush="{StaticResource Brush-Grey-04}"
-                                IsOpen="False">
-                <TextBlock Margin="24"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Text="This is a blade with all settings set to default." />
-            </controls:BladeItem>
-
-            <controls:BladeItem x:Name="ThirdBlade"
-                                Title="Custom title bar"
-                                Width="400"
-                                Background="{StaticResource Brush-White}"
-                                BorderBrush="{StaticResource Brush-Grey-04}"
-                                CloseButtonForeground="{StaticResource Brush-White}"
-                                IsOpen="False"
-                                TitleBarBackground="{StaticResource Brush-Blue-01}"
-                                TitleBarForeground="{StaticResource Brush-White}">
-                <TextBlock Margin="24"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Text="This is a blade with custom titlebar colors." />
-            </controls:BladeItem>
-
-            <controls:BladeItem x:Name="FourthBlade"
-                                Title="Custom close button color"
-                                Width="400"
-                                Background="{StaticResource Brush-White}"
-                                BorderBrush="{StaticResource Brush-Grey-04}"
-                                CloseButtonBackground="{StaticResource Brush-Grey-01}"
-                                CloseButtonForeground="{StaticResource Brush-White}"
-                                IsOpen="False">
-                <TextBlock Margin="24"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Text="This is a blade with a custom close button color." />
+    <!-- Shallow Copy -->
+    <Grid>
+        <controls:BladeView>
+            <controls:BladeItem>
             </controls:BladeItem>
         </controls:BladeView>
-
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState x:Name="Full">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="600" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="Small">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-
-                    <VisualState.Setters>
-                        <Setter Target="BladeView.Padding" Value="12" />
-                        <Setter Target="FirstBlade.Width" Value="280" />
-                        <Setter Target="FirstBlade.FontSize" Value="12" />
-                        <Setter Target="SecondBlade.Width" Value="280" />
-                        <Setter Target="SecondBlade.FontSize" Value="12" />
-                        <Setter Target="ThirdBlade.Width" Value="280" />
-                        <Setter Target="ThirdBlade.FontSize" Value="12" />
-                        <Setter Target="FourthBlade.Width" Value="280" />
-                        <Setter Target="FourthBlade.FontSize" Value="12" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

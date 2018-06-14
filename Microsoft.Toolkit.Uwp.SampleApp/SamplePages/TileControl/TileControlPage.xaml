@@ -6,77 +6,12 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <Style x:Name="TextBlockStyle"
-               TargetType="TextBlock">
-            <Setter Property="FontSize" Value="40" />
-            <Setter Property="FontFamily" Value="Segoe UI" />
-            <Setter Property="FontWeight" Value="Light" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="Margin" Value="48" />
-        </Style>
-        <Style x:Name="BorderStyle"
-               TargetType="Border">
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Background" Value="#40000000" />
-        </Style>
-    </Page.Resources>
-
-    <Grid Background="{StaticResource Brush-Grey-05}">
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-        <TextBlock Margin="10,20"
-                   HorizontalAlignment="Center"
-                   FontSize="20"
-                   Text="TileControl can be used to highlight computer activity:" />
-        <controls:TileControl Grid.Row="1"
-                                AnimationDuration="{Binding AnimationDuration.Value, Mode=OneWay}"
-                                AnimationStepX="{Binding AnimationStepX.Value, Mode=OneWay}"
-                                AnimationStepY="{Binding AnimationStepY.Value, Mode=OneWay}"
-                                Background="{StaticResource Brush-Grey-04}"
-                                ImageAlignment="{Binding ImageAlignment.Value, Mode=TwoWay}"
-                                ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
-                                IsAnimated="{Binding IsAnimated.Value, Mode=TwoWay}"
-                                OffsetX="{Binding OffsetX.Value, Mode=OneWay}"
-                                OffsetY="{Binding OffsetY.Value, Mode=OneWay}"
-                                ScrollOrientation="{Binding ScrollOrientation.Value, Mode=TwoWay}">
-            <Border Style="{StaticResource BorderStyle}">
-                <TextBlock Style="{StaticResource TextBlockStyle}"
-                           Text="Processing, please wait..." />
-            </Border>
-        </controls:TileControl>
-
-        <TextBlock Grid.Row="2"
-                   Margin="10,20"
-                   HorizontalAlignment="Center"
-                   FontSize="20"
-                   Text="It can also be used for background painting:" />
-        <controls:TileControl Grid.Row="3"
-                                Background="{StaticResource Brush-Grey-04}"
-                                ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
-                                ParallaxSpeedRatio="{Binding ParallaxSpeedRatio.Value, Mode=OneWay}"
-                                ScrollViewerContainer="{x:Bind FlipView, Mode=OneTime}">
-            <FlipView x:Name="FlipView">
-
-                <Border Style="{StaticResource BorderStyle}">
-                    <TextBlock Style="{StaticResource TextBlockStyle}"
-                               Text="Parallax with FlipView &gt;" />
-                </Border>
-
-                <Border Style="{StaticResource BorderStyle}">
-                    <TextBlock Style="{StaticResource TextBlockStyle}"
-                               Text="&lt; Parallax with FlipView" />
-                </Border>
-
+    <!-- Shallow Copy -->
+    <Grid Visibility="Collapsed">
+        <controls:TileControl>
+            <FlipView>
+                <Border />
             </FlipView>
         </controls:TileControl>
-
     </Grid>
 </Page>

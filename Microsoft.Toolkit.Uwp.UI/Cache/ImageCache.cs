@@ -1,19 +1,13 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -30,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Private singleton field.
         /// </summary>
+        [ThreadStatic]
         private static ImageCache _instance;
 
         private List<string> _extendedPropertyNames = new List<string>();
@@ -45,37 +40,60 @@ namespace Microsoft.Toolkit.Uwp.UI
         public ImageCache()
         {
             _extendedPropertyNames.Add(DateAccessedProperty);
-            MaintainContext = true;
         }
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="stream">input stream</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(IRandomAccessStream stream)
+        protected override async Task<BitmapImage> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            if (stream.Size == 0)
+            if (stream.Length == 0)
             {
                 throw new FileNotFoundException();
             }
 
-            BitmapImage image = new BitmapImage();
-            await image.SetSourceAsync(stream).AsTask().ConfigureAwait(false);
+            return await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
+            {
+                BitmapImage image = new BitmapImage();
 
-            return image;
+                if (initializerKeyValues != null && initializerKeyValues.Count > 0)
+                {
+                    foreach (var kvp in initializerKeyValues)
+                    {
+                        if (string.IsNullOrWhiteSpace(kvp.Key))
+                        {
+                            continue;
+                        }
+
+                        var propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
+
+                        if (propInfo != null && propInfo.CanWrite)
+                        {
+                            propInfo.SetValue(image, kvp.Value);
+                        }
+                    }
+                }
+
+                await image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(false);
+
+                return image;
+            });
         }
 
         /// <summary>
         /// Cache specific hooks to process items from HTTP response
         /// </summary>
         /// <param name="baseFile">storage file</param>
+        /// <param name="initializerKeyValues">key value pairs used when initializing instance of generic type</param>
         /// <returns>awaitable task</returns>
-        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile)
+        protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenReadAsync().AsTask().ConfigureAwait(MaintainContext))
+            using (var stream = await baseFile.OpenStreamForReadAsync().ConfigureAwait(false))
             {
-                return await InitializeTypeAsync(stream).ConfigureAwait(false);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
             }
         }
 

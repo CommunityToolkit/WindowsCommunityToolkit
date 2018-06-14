@@ -1,36 +1,36 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TwitterPage
     {
+        private ObservableCollection<ITwitterResult> _tweets;
+
         public TwitterPage()
         {
             InitializeComponent();
 
             ShareBox.Visibility = Visibility.Collapsed;
             SearchBox.Visibility = Visibility.Collapsed;
+            LiveFeedBox.Visibility = Visibility.Collapsed;
             HideSearchPanel();
             HideTweetPanel();
+            HideLiveFeedPanel();
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -60,10 +60,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ShareBox.Visibility = Visibility.Visible;
             SearchBox.Visibility = Visibility.Visible;
+            LiveFeedBox.Visibility = Visibility.Visible;
 
             HideCredentialsPanel();
             ShowSearchPanel();
             ShowTweetPanel();
+            ShowLiveFeedPanel();
 
             TwitterUser user;
             try
@@ -87,7 +89,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            ListView.ItemsSource = await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
+            _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            ListView.ItemsSource = _tweets;
 
             Shell.Current.DisplayWaitRing = false;
         }
@@ -168,6 +171,47 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
+        private void LiveFeedPanel_OnToggled(object sender, RoutedEventArgs e)
+        {
+            if (LiveFeedToggle.IsOn)
+            {
+                Shell.Current.DisplayWaitRing = true;
+                GetUserStreams();
+                Shell.Current.DisplayWaitRing = false;
+            }
+            else
+            {
+                TwitterService.Instance.StopUserStream();
+            }
+        }
+
+        private async void GetUserStreams()
+        {
+            await TwitterService.Instance.StartUserStreamAsync(async tweet =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (tweet != null)
+                    {
+                        if (tweet is TwitterStreamDeletedEvent)
+                        {
+                            var toRemove = _tweets.Where(t => t is Tweet)
+                                .SingleOrDefault(t => ((Tweet)t).Id == ((TwitterStreamDeletedEvent)tweet).Id);
+
+                            if (toRemove != null)
+                            {
+                                _tweets.Remove(toRemove);
+                            }
+                        }
+                        else
+                        {
+                            _tweets.Insert(0, tweet);
+                        }
+                    }
+                });
+            });
+        }
+
         private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
         {
             if (CredentialsBox.Visibility == Visibility.Visible)
@@ -201,6 +245,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             else
             {
                 ShowSearchPanel();
+            }
+        }
+
+        private void LiveFeedBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (LiveFeedPanel.Visibility == Visibility.Visible)
+            {
+                HideLiveFeedPanel();
+            }
+            else
+            {
+                ShowLiveFeedPanel();
             }
         }
 
@@ -238,6 +294,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             SearchBoxExpandButton.Content = "";
             SearchPanel.Visibility = Visibility.Collapsed;
+        }
+
+        private void ShowLiveFeedPanel()
+        {
+            LiveFeedBoxExpandButton.Content = "";
+            LiveFeedPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideLiveFeedPanel()
+        {
+            LiveFeedBoxExpandButton.Content = "";
+            LiveFeedPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

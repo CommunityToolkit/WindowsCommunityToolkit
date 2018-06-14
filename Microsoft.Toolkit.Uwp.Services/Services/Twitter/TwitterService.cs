@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -202,11 +194,24 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <returns>Strongly typed list of data returned from the service.</returns>
         public async Task<List<Tweet>> RequestAsync(TwitterDataConfig config, int maxRecords = 20)
         {
+            return await RequestAsync<Tweet>(config, maxRecords);
+        }
+
+        /// <summary>
+        /// Request list data from service provider based upon a given config / query.
+        /// </summary>
+        /// <typeparam name="T">Model type expected back - e.g. Tweet.</typeparam>
+        /// <param name="config">TwitterDataConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return. Up to a maximum of 200 per distinct request.</param>
+        /// <returns>Strongly typed list of data returned from the service.</returns>
+        public async Task<List<T>> RequestAsync<T>(TwitterDataConfig config, int maxRecords = 20)
+            where T : Toolkit.Parsers.SchemaBase
+        {
             if (Provider.LoggedIn)
             {
-                List<Tweet> queryResults = new List<Tweet>();
+                List<T> queryResults = new List<T>();
 
-                var results = await Provider.LoadDataAsync(config, maxRecords);
+                var results = await Provider.LoadDataAsync<T>(config, maxRecords, 0, new TwitterParser<T>());
 
                 foreach (var result in results)
                 {
@@ -219,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await RequestAsync(config, maxRecords);
+                return await RequestAsync<T>(config, maxRecords);
             }
 
             return null;
@@ -278,6 +283,34 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Open a connection to user's stream service
+        /// </summary>
+        /// <param name="callback">Method called each time a tweet arrives</param>
+        /// <returns>Task</returns>
+        public async Task StartUserStreamAsync(TwitterStreamCallbacks.TwitterStreamCallback callback)
+        {
+            if (Provider.LoggedIn)
+            {
+                await Provider.StartUserStreamAsync(new TwitterUserStreamParser(), callback);
+                return;
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                await StartUserStreamAsync(callback);
+            }
+        }
+
+        /// <summary>
+        /// Close the connection to user's stream service
+        /// </summary>
+        public void StopUserStream()
+        {
+            Provider.StopStream();
         }
     }
 }

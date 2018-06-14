@@ -1,17 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -19,6 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Defines a control for providing a header for read-only text.
     /// </summary>
     [TemplatePart(Name = "HeaderContentPresenter", Type = typeof(ContentPresenter))]
+    [ContentProperty(Name = nameof(Inlines))]
     public partial class HeaderedTextBlock : Control
     {
         private ContentPresenter _headerContentPresenter;
@@ -43,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _textContent = GetTemplateChild("TextContent") as TextBlock;
 
             UpdateVisibility();
+            Inlines.AddItemsToTextBlock(_textContent);
+            UpdateForOrientation(this.Orientation);
         }
 
         private void UpdateVisibility()

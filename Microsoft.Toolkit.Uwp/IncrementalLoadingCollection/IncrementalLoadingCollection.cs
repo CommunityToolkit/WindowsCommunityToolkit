@@ -1,27 +1,16 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Collections;
 using Windows.Foundation;
-using Windows.UI.Core;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp
@@ -39,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<TSource, IType> : ObservableCollection<IType>,
          ISupportIncrementalLoading
-         where TSource : IIncrementalSource<IType>
+         where TSource : Collections.IIncrementalSource<IType>
     {
         /// <summary>
         /// Gets or sets an <see cref="Action"/> that is called when a retrieval operation begins.
@@ -74,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp
         private bool _isLoading;
         private bool _hasMoreItems;
         private CancellationToken _cancellationToken;
+        private bool _refreshOnLoad;
 
         /// <summary>
         /// Gets a value indicating whether new items are being loaded.
@@ -196,7 +186,34 @@ namespace Microsoft.Toolkit.Uwp
         /// An object of the <see cref="LoadMoreItemsAsync(uint)"/> that specifies how many items have been actually retrieved.
         /// </returns>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-            => AsyncInfo.Run((c) => LoadMoreItemsAsync(count, c));
+            => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
+
+        /// <summary>
+        /// Clears the collection and triggers/forces a reload of the first page
+        /// </summary>
+        /// <returns>This method does not return a result</returns>
+        public Task RefreshAsync()
+        {
+            if (IsLoading)
+            {
+                _refreshOnLoad = true;
+            }
+            else
+            {
+                var previousCount = Count;
+                Clear();
+                CurrentPageIndex = 0;
+                HasMoreItems = true;
+
+                if (previousCount == 0)
+                {
+                    // When the list was empty before clearing, the automatic reload isn't fired, so force a reload.
+                    return LoadMoreItemsAsync(0).AsTask();
+                }
+            }
+
+            return Task.CompletedTask;
+        }
 
         /// <summary>
         /// Actually performs the incremental loading.
@@ -239,18 +256,12 @@ namespace Microsoft.Toolkit.Uwp
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
                     {
-                        var dispatcher = Window.Current.Dispatcher;
                         resultCount = (uint)data.Count();
 
-                        await dispatcher.RunAsync(
-                            CoreDispatcherPriority.Normal,
-                            () =>
-                            {
-                                foreach (var item in data)
-                                {
-                                    Add(item);
-                                }
-                            });
+                        foreach (var item in data)
+                        {
+                            Add(item);
+                        }
                     }
                     else
                     {
@@ -261,6 +272,12 @@ namespace Microsoft.Toolkit.Uwp
             finally
             {
                 IsLoading = false;
+
+                if (_refreshOnLoad)
+                {
+                    _refreshOnLoad = false;
+                    await RefreshAsync();
+                }
             }
 
             return new LoadMoreItemsResult { Count = resultCount };

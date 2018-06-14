@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.ApplicationModel;
 using Windows.Foundation.Metadata;
@@ -67,25 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// On platforms not supporting drop shadows, this control has no effect.
         /// </remarks>
         public static bool IsSupported =>
-            !DesignMode.DesignModeEnabled &&
-            ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
-
-        /// <summary>
-        /// Gets or sets the casting element.
-        /// </summary>
-        [Deprecated("This property has been replaced with the Content property of the control. It is no longer required to place content within the Element property.", DeprecationType.Deprecate, 1)]
-        public FrameworkElement CastingElement
-        {
-            get
-            {
-                return this.Content as FrameworkElement;
-            }
-
-            set
-            {
-                this.Content = value;
-            }
-        }
+            (!DesignTimeHelpers.IsRunningInLegacyDesignerMode) && ApiInformation.IsTypePresent("Windows.UI.Composition.DropShadow"); // SDK >= 14393
 
         /// <summary>
          /// Gets DropShadow. Exposes the underlying composition object to allow custom Windows.UI.Composition animations.
@@ -212,7 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnBlurRadiusChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnBlurRadiusChanged((double)e.NewValue);
             }
         }
 
@@ -220,7 +195,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnColorChanged((Color)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnColorChanged((Color)e.NewValue);
             }
         }
 
@@ -228,7 +204,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetXChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetXChanged((double)e.NewValue);
             }
         }
 
@@ -236,7 +213,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetYChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetYChanged((double)e.NewValue);
             }
         }
 
@@ -244,7 +222,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnOffsetZChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnOffsetZChanged((double)e.NewValue);
             }
         }
 
@@ -252,7 +231,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (IsSupported)
             {
-                ((DropShadowPanel)d).OnShadowOpacityChanged((double)e.NewValue);
+                var panel = d as DropShadowPanel;
+                panel?.OnShadowOpacityChanged((double)e.NewValue);
             }
         }
     }

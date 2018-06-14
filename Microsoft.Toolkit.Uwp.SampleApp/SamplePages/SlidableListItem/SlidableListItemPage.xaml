@@ -7,76 +7,23 @@
       xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      x:Name="Page"
       mc:Ignorable="d">
-
+    
+    <!-- Shallow Copy -->
     <Page.Resources>
-        <converters:BoolToObjectConverter x:Key="BoolToVisibilityConverter"
-                                          FalseValue="Collapsed"
-                                          TrueValue="Visible" />
-        <DataTemplate x:Key="EmailsItemTemplate"
-                      x:DataType="data:Item">
-            <controls:SlidableListItem MinWidth="300"
-                                       MaxWidth="800"
-                                       HorizontalAlignment="Stretch"
-                                       ActivationWidth="{Binding DataContext.ActivationWidth.Value, ElementName=Root, Mode=OneWay}"
-                                       AutomationProperties.Name="{x:Bind Title}"
-                                       IsLeftCommandEnabled="{Binding DataContext.IsLeftCommandEnabled.Value, ElementName=Root, Mode=OneWay}"
-                                       IsOffsetLimited="{Binding DataContext.IsOffsetLimited.Value, ElementName=Root, Mode=OneWay}"
-                                       IsPointerReleasedOnSwipingHandled="{Binding DataContext.IsPointerReleasedOnSwipingHandled.Value, ElementName=Root, Mode=OneWay}"
-                                       IsRightCommandEnabled="{Binding DataContext.IsRightCommandEnabled.Value, ElementName=Root, Mode=OneWay}"
-                                       LeftBackground="{Binding DataContext.LeftBackground.Value, ElementName=Root, Mode=OneWay}"
-                                       LeftCommand="{x:Bind ToggleFavorite}"
-                                       LeftForeground="{Binding DataContext.LeftForeground.Value, ElementName=Root, Mode=OneWay}"
-                                       LeftIcon="{Binding DataContext.LeftIcon.Value, ElementName=Root, Mode=OneWay}"
-                                       LeftLabel="{Binding DataContext.LeftLabel.Value, ElementName=Root, Mode=OneWay}"
-                                       MouseSlidingEnabled="{Binding DataContext.MouseSlidingEnabled.Value, ElementName=Root, Mode=OneWay}"
-                                       RightBackground="{Binding DataContext.RightBackground.Value, ElementName=Root, Mode=OneWay}"
-                                       RightCommand="{Binding DeleteItem, ElementName=Page, Mode=OneWay}"
-                                       RightCommandParameter="{Binding}"
-                                       RightForeground="{Binding DataContext.RightForeground.Value, ElementName=Root, Mode=OneWay}"
-                                       RightIcon="{Binding DataContext.RightIcon.Value, ElementName=Root, Mode=OneWay}"
-                                       RightLabel="{Binding DataContext.RightLabel.Value, ElementName=Root, Mode=OneWay}">
-                <Grid Height="110"
-                      Background="{StaticResource ResourceKey=Brush-Grey-04}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="48" />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid x:Name="Checkmark"
-                          Background="SkyBlue"
-                          Visibility="{x:Bind IsFavorite, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <SymbolIcon Foreground="White"
-                                    Symbol="Accept" />
-                    </Grid>
-                    <TextBlock Grid.Column="1"
-                               Margin="12"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               FontWeight="Light"
-                               Style="{StaticResource CaptionTextBlockStyle}"
-                               Text="{x:Bind Title}"
-                               TextWrapping="NoWrap" />
-                </Grid>
-            </controls:SlidableListItem>
-        </DataTemplate>
+        <ResourceDictionary>
+            <local:RemoveItemCommand x:Key="RemoveItemCommand" />
+        </ResourceDictionary>
     </Page.Resources>
 
-    <Grid x:Name="Root"
-          Padding="24"
-          Background="{StaticResource Brush-Grey-05}">
-        <ListView x:Name="listView"
-                  HorizontalAlignment="Center"
-                  IsItemClickEnabled="False"
-                  ItemTemplate="{StaticResource EmailsItemTemplate}"
-                  ItemsSource="{x:Bind _items, Mode=OneWay}"
-                  SelectionMode="None">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                    <Setter Property="Margin" Value="0,1" />
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
-    </Grid>
+    <ListView>
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <controls:SlidableListItem>
+                    <Grid>
+                    </Grid>
+                </controls:SlidableListItem>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
 </Page>

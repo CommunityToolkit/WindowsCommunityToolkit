@@ -1,100 +1,160 @@
+---
+title: Offset animation behavior
+author: nmetulev
+description: The Offset animation behavior gets the number of pixels, from the origin of the associated control, then offsets the control.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, offset animation
+dev_langs:
+  - csharp
+  - vb
+---
+
 # Offset
 
-The **Offset animation behavior** gets the number of pixels, from the origin of the associated control, then offsets the control. 
+The [Offset animation](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.animations.animationextensions.offset) is used to move the control from one place to another. Offset animation is applied to all the XAML elements in its parent control/panel. Offset animation doesn't affect the functionality of the control.
 
 ## Syntax
 
-```xml
+```xaml
+<Page ...
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"  
+    xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"/>
 
-<behaviors:Offset x:Name="OffsetBehavior" 
-	OffsetX="25.0" 
-	OffsetY="25.0"
-	Duration="500" 
-	Delay="250" 
-	AutomaticallyStart="True"/>
-</behaviors:Offset>
-
+<interactivity:Interaction.Behaviors>
+    <behaviors:Offset x:Name="OffsetBehavior" 
+            OffsetX="25.0" 
+            OffsetY="25.0"
+            Duration="2500" 
+            Delay="250" 
+            EasingType="Linear"
+            AutomaticallyStart="True"/>
+</interactivity:Interaction.Behaviors>
 ```
-
-or directly from code:
 
 ```csharp
-
-MyRectangle.Offset(
-                offsetX: (float)OffsetX,
-                offsetY: (float)OffsetY
-                duration: Duration,
-                delay: Delay);
-
+MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).Start();
+await MyUIElement.Offset(offsetX: 25, offsetY: 25, duration: 2500, delay: 250, easingType: EasingType.Default).StartAsync();  //Offset animation can be awaited
 ```
+```vb
+MyUIElement.Offset(offsetX:=25, offsetY:=25, duration:=2500, delay:=250, easingType:=EasingType.[Default]).Start()
+Await MyUIElement.Offset(offsetX:=25, offsetY:=25, duration:=2500, delay:=250, easingType:=EasingType.[Default]).StartAsync()  ' Offset animation can be awaited
+```
+
+## Sample Output
+
+![Offset Behavior animation](../resources/images/Animations/Offset/Sample-Output.gif)
 
 ## Properties
 
-| Property Name | Type | Description |
-| --- | --- | --- |
-| OffsetX | float | The number of pixels to move along the x axis |
-| OffsetY | float | The number of pixels to move along the y axis |
-| Duration | double | The number of milliseconds the animation should run for |
-| Delay | double | The number of milliseconds before the animation is started |
+| Property | Type | Description |
+| -- | -- | -- |
+| OffsetX | float | The offset on the x axis |
+| OffsetY | float | The offset on the y axis |
+| Duration | double | The duration in milliseconds |
+| Delay | double | The delay for the animation to begin |
+| EasingType | EasingType | Used to describe how the animation interpolates between keyframes |
 
-## Chaining animations
+### EasingType
 
-Behavior animations can also be chained and awaited.
+You can change the way how the animation interpolates between keyframes by defining the EasingType.
 
-```csharp
+| EasingType | Explanation                                                                                                | Graphical Explanation                      |
+| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------ |
+| Default    | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic |                                                                                                                           |
+| Linear     | Creates an animation that accelerates or decelerates linear                                                                                             |                                                                                                                           |
+| Back       | Retracts the motion of an animation slightly before it begins to animate in the path indicated                                                          | ![BackEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/backease-graph.png)           |
+| Bounce     | Creates a bouncing effect                                                                                                                               | ![BounceEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/bounceease-graph.png)       |
+| Circle     | Creates an animation that accelerates or decelerates using a circular function                                                                          | ![CircleEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/circleease-graph.png)       |
+| Cubic      | Creates an animation that accelerates or decelerates using the formula f(t) = t3                                                                        | ![CubicEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/cubicease-graph.png)         |
+| Elastic    | Creates an animation that resembles a spring oscillating back and forth until it comes to rest                                                          | ![ElasticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/elasticease-graph.png)     |
+| Quadratic  | Creates an animation that accelerates or decelerates using the formula f(t) = t2                                                                        | ![QuadraticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quadraticease-graph.png) |
+| Quartic    | Creates an animation that accelerates or decelerates using the formula f(t) = t4                                                                        | ![QuarticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quarticease-graph.png)     |
+| Quintic    | Create an animation that accelerates or decelerates using the formula f(t) = t5                                                                         | ![QuinticEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/quinticease-graph.png)     |
+| Sine       | Creates an animation that accelerates or decelerates using a sine formula                                                                               | ![SineEase](https://docs.microsoft.com/dotnet/framework/wpf/graphics-multimedia/media/sineease-graph.png)           |
 
-    Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+## Methods
 
-    await Element.Rotate(value: 30f, duration: 0.3).StartAsync();
+| Methods | Return Type | Description |
+| -- | -- | -- |
+| Offset(AnimationSet, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the offset of the the UIElement |
+| Offset(UIElement, Single, Single, Double, Double, EasingType) | AnimationSet | Animates the offset of the the UIElement |
 
-    var anim = element.Rotate(30f).Fade(0.5).Blur(5);
-    anim.SetDurationForAll(2);
+## Examples
+
+- You can just call `Offset()` set the control in the original position
+
+    **Sample Code**
+
+    ```csharp
+    await MyUIElement.Offset().Start();
+    ```
+    ```vb
+    Await MyUIElement.Offset().Start()
+    ```
+- Use await to create a continuous movement
+
+    **Sample Code**
+
+    ```csharp
+    public async void OffsetAsync()
+    {
+        await MyUIElement.Offset(offsetX: 100, duration:1000).StartAsync();
+        await MyUIElement.Offset(offsetX: 100, offsetY: 100, duration: 1000).StartAsync();
+        await MyUIElement.Offset(offsetX: 0, offsetY:100, duration: 1000).StartAsync();
+        await MyUIElement.Offset(duration: 1000).StartAsync();
+    }
+    ```
+    ```vb
+    Public Async Function OffsetAsync() As Task
+        Await MyUIElement.Offset(offsetX:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(offsetX:=100, offsetY:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(offsetX:=0, offsetY:=100, duration:=1000).StartAsync()
+        Await MyUIElement.Offset(duration:=1000).StartAsync()
+    End Function
+    ```
+
+    **Sample Output**
+
+    ![Use Case 2 Output](../resources/images/Animations/Offset/Use-Case-1.gif)
+
+- Use this to create chaining animations with other animations. Visit the [AnimationSet](AnimationSet.md) documentation for more information.
+
+    **Sample Code**
+
+    ```csharp
+    var anim = MyUIElement.Light(5).Offset(offsetX: 100, offsetY: 100).Saturation(0.5).Scale(scaleX: 2, scaleY: 2);
+    anim.SetDurationForAll(2500);
+    anim.SetDelay(250);
     anim.Completed += animation_completed;
-    anim.StartAsync();
+    anim.Start();
+    ```
+    ```vb
+    Dim anim = MyUIElement.Light(5).Offset(offsetX:=100, offsetY:=100).Saturation(0.5).Scale(scaleX:=2, scaleY:=2)
+    anim.SetDurationForAll(2500)
+    anim.SetDelay(250)
+    AddHandler anim.Completed, AddressOf animation_completed
+    anim.Start()
+    ```
 
-    anim.Stop();
+    **Sample Output**
 
-```
+    ![Use Case 2 Output](../resources/images/Animations/Chaining-Animations-Light-Offset-Saturation-Scale.gif)
 
-[Offset Behavior Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Offset)
+## Sample Project
 
-## EasingType
+[Offset Behavior Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Offset). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
-You can change the way how the animation interpolates between keyframes by defining the EasingType using an optional parameter.
+## Requirements
 
-| EasingType | Explanation|
-| --- | --- |
-| Default | Creates an animation that accelerates with the default EasingType which is specified in AnimationExtensions.DefaultEasingType which is by default Cubic. |
-| Linear | Creates an animation that accelerates or decelerates linear. |
-| Cubic | Creates an animation that accelerates or decelerates using the formula f(t) = t3. |
-| Back | Retracts the motion of an animation slightly before it begins to animate in the path indicated. |
-| Bounce | Creates a bouncing effect. |
-| Elastic | Creates an animation that resembles a spring oscillating back and forth until it comes to rest.|
-| Circle | Creates an animation that accelerates or decelerates using a circular function. |
-| Quadratic | Creates an animation that accelerates or decelerates using the formula f(t) = t2. |
-| Quartic | Creates an animation that accelerates or decelerates using the formula f(t) = t4. |
-| Quintic | Create an animation that accelerates or decelerates using the formula f(t) = t5. |
-| Sine | Creates an animation that accelerates or decelerates using a sine formula. |
-
-**Example Usage:**
-```csharp
-MyRectangle.Offset(offsetX: 10, offsetY: 10, duration: 10, delay: 0, easingType: EasingType.Bounce);       
-```
-
-*Please note that EasingType is used only when AnimationSet.UseComposition == false*
-
-## Example Image
-
-![Offset Behavior animation](../resources/images/Animations-Offset.gif "Offset Behavior")
-
-## Requirements (Windows 10 Device Family)
-
-| [Device family](http://go.microsoft.com/fwlink/p/?LinkID=526370) | Universal, 10.0.10586.0 or higher |
-| --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.UI.Animations |
+| Device family | Universal, 10.0.15063.0 or higher   |
+| ---------------------------------------------------------------- | ----------------------------------- |
+| Namespace                                                        | Microsoft.Toolkit.Uwp.UI.Animations |
+| NuGet package | [Microsoft.Toolkit.Uwp.UI.Animations](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Animations/) |
 
 ## API
 
-* [Offset source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
+* [Offset source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors/Offset.cs)
 
+## Related Topics
 
+- [AnimationSet Class](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset)
+- [Storyboard Class](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard)

@@ -1,0 +1,332 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph">
+
+    <local:DriveItemIconConverter x:Key="DriveItemIconConverter" />
+    <local:FileSizeConverter x:Key="FileSizeConverter" />
+
+    <Style x:Name="MetaLabel"
+           TargetType="TextBlock">
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="10,5,10,0" />
+    </Style>
+    <Style x:Name="MetaValue"
+           TargetType="TextBlock">
+        <Setter Property="Margin" Value="10,5" />
+    </Style>
+    <Style x:Name="MetaValueLink"
+           TargetType="HyperlinkButton">
+        <Setter Property="Margin" Value="10,5" />
+    </Style>
+    <Style x:Name="MetaValueProfile"
+           TargetType="local:ProfileCard">
+        <Setter Property="Margin" Value="10,5" />
+    </Style>
+    <Style x:Name="ToolbarButton"
+           TargetType="Button">
+        <Setter Property="Height" Value="48" />
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style x:Name="ToolbarButtonImage"
+           TargetType="Image">
+        <Setter Property="Stretch" Value="Uniform" />
+    </Style>
+    <Style TargetType="local:SharePointFileList">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:SharePointFileList">
+                    <Border>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30" />
+                                <RowDefinition Height="60" />
+                                <RowDefinition Height="3*" />
+                                <RowDefinition Height="4*" />
+                                <RowDefinition Height="3*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="3*" />
+                                <ColumnDefinition Width="4*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Margin="17,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="{TemplateBinding CurrentPath}" />
+                            <StackPanel Grid.Row="1"
+                                        Grid.ColumnSpan="3"
+                                        Margin="12,0,0,0"
+                                        Orientation="Horizontal">
+                                <Button x:Name="back"
+                                        AutomationProperties.Name="Back"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="{TemplateBinding BackButtonVisibility}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Back" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Back" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="upload"
+                                        AutomationProperties.Name="Upload a new file"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Upload" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Upload" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="share"
+                                        AutomationProperties.Name="Get share link"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE72D;" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Share" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="download"
+                                        AutomationProperties.Name="Download selected file"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Download" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Download" />
+                                    </StackPanel>
+                                </Button>
+                                <Button Name="delete"
+                                        AutomationProperties.Name="Delete selected file"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Delete" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Delete" />
+                                    </StackPanel>
+                                </Button>
+
+                                <TextBlock Name="status"
+                                           VerticalAlignment="Center"
+                                           Text="{TemplateBinding StatusMessage}" />
+                                <HyperlinkButton Name="error"
+                                                 VerticalAlignment="Center"
+                                                 AutomationProperties.Name="Show error message"
+                                                 Content="Errors adding files."
+                                                 Visibility="Collapsed" />
+                                <Button Name="cancel"
+                                        AutomationProperties.Name="Cancel uploading"
+                                        Style="{StaticResource ToolbarButton}"
+                                        Visibility="Collapsed">
+                                    <StackPanel Orientation="Horizontal">
+                                        <SymbolIcon Symbol="Cancel" />
+                                        <TextBlock Margin="5,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   Text="Cancel" />
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                            <ListView x:Name="list"
+                                      Grid.Row="2"
+                                      Grid.RowSpan="3"
+                                      Grid.ColumnSpan="3"
+                                      AutomationProperties.Name="List"
+                                      IsItemClickEnabled="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Height="60"
+                                                    AutomationProperties.Name="{Binding Path=Name}"
+                                                    Orientation="Horizontal">
+                                            <Image Width="32"
+                                                   Height="32"
+                                                   Margin="0,10,10,10"
+                                                   Source="{Binding Converter={StaticResource DriveItemIconConverter}}" />
+                                            <TextBlock VerticalAlignment="Center"
+                                                       Text="{Binding Path=Name}" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.Footer>
+                                    <Button x:Name="hasMore"
+                                            Width="Auto"
+                                            HorizontalAlignment="Stretch"
+                                            AutomationProperties.Name="Load more items"
+                                            BorderThickness="0"
+                                            Style="{StaticResource ToolbarButton}"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HasMore}">
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Margin="0,0,5,0"
+                                                       VerticalAlignment="Center"
+                                                       Text="Load More" />
+                                            <SymbolIcon Symbol="More" />
+                                        </StackPanel>
+                                    </Button>
+                                </ListView.Footer>
+                            </ListView>
+                            <Grid x:Name="thumbnail"
+                                  Grid.Row="2"
+                                  Grid.Column="2"
+                                  Padding="5"
+                                  Background="{ThemeResource SystemBaseMediumColor}"
+                                  Visibility="Collapsed">
+                                <Image Source="{TemplateBinding ThumbnailImageSource}" />
+                            </Grid>
+                            <ScrollViewer x:Name="details"
+                                          Background="{ThemeResource SystemBaseLowColor}"
+                                          VerticalScrollBarVisibility="Auto"
+                                          Visibility="Collapsed">
+                                <StackPanel>
+                                    <TextBlock Style="{StaticResource MetaLabel}">Name</TextBlock>
+                                    <HyperlinkButton NavigateUri="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.WebUrl}"
+                                                     Style="{StaticResource MetaValueLink}">
+                                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.Name}"
+                                                   TextWrapping="Wrap" />
+                                    </HyperlinkButton>
+                                    <TextBlock Style="{StaticResource MetaLabel}">Size</TextBlock>
+                                    <TextBlock Style="{StaticResource MetaValue}"
+                                               Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FileSize, Converter={StaticResource FileSizeConverter}}" />
+                                    <TextBlock Style="{StaticResource MetaLabel}">Last Modified</TextBlock>
+                                    <TextBlock Style="{StaticResource MetaValue}"
+                                               Text="{TemplateBinding LastModified}" />
+                                    <TextBlock Style="{StaticResource MetaLabel}">Last Modified By</TextBlock>
+                                    <Viewbox MaxHeight="90"
+                                             HorizontalAlignment="Left">
+                                        <local:ProfileCard Width="Auto"
+                                                           DisplayMode="LargeProfilePhotoLeft"
+                                                           Style="{StaticResource MetaValueProfile}"
+                                                           UserId="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedFile.LastModifiedBy.User.Id}" />
+                                    </Viewbox>
+                                </StackPanel>
+                            </ScrollViewer>
+                        </Grid>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="NavStates">
+                                <VisualState x:Name="FolderReadonly">
+                                    <VisualState.Setters>
+                                        <Setter Target="upload.Visibility" Value="Collapsed" />
+                                        <Setter Target="share.Visibility" Value="Collapsed" />
+                                        <Setter Target="download.Visibility" Value="Collapsed" />
+                                        <Setter Target="delete.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="FolderEdit">
+                                    <VisualState.Setters>
+                                        <Setter Target="upload.Visibility" Value="Visible" />
+                                        <Setter Target="share.Visibility" Value="Collapsed" />
+                                        <Setter Target="download.Visibility" Value="Collapsed" />
+                                        <Setter Target="delete.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="FileReadonly">
+                                    <VisualState.Setters>
+                                        <Setter Target="share.Visibility" Value="Collapsed" />
+                                        <Setter Target="download.Visibility" Value="Visible" />
+                                        <Setter Target="delete.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="FileEdit">
+                                    <VisualState.Setters>
+                                        <Setter Target="share.Visibility" Value="Visible" />
+                                        <Setter Target="download.Visibility" Value="Visible" />
+                                        <Setter Target="delete.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="UploadStatus">
+                                <VisualState x:Name="NotUploading">
+                                    <VisualState.Setters>
+                                        <Setter Target="status.Visibility" Value="Collapsed" />
+                                        <Setter Target="error.Visibility" Value="Collapsed" />
+                                        <Setter Target="cancel.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Uploading">
+                                    <VisualState.Setters>
+                                        <Setter Target="status.Visibility" Value="Visible" />
+                                        <Setter Target="error.Visibility" Value="Collapsed" />
+                                        <Setter Target="cancel.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Error">
+                                    <VisualState.Setters>
+                                        <Setter Target="status.Visibility" Value="Collapsed" />
+                                        <Setter Target="error.Visibility" Value="Visible" />
+                                        <Setter Target="cancel.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DetailPaneStates">
+                                <VisualState x:Name="Hide">
+                                    <VisualState.Setters>
+                                        <Setter Target="list.Visibility" Value="Visible" />
+                                        <Setter Target="list.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="list.(Grid.ColumnSpan)" Value="3" />
+                                        <Setter Target="thumbnail.Visibility" Value="Collapsed" />
+                                        <Setter Target="details.Visibility" Value="Collapsed" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Side">
+                                    <VisualState.Setters>
+                                        <Setter Target="list.Visibility" Value="Visible" />
+                                        <Setter Target="list.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="list.(Grid.ColumnSpan)" Value="2" />
+                                        <Setter Target="thumbnail.Visibility" Value="Visible" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="2" />
+                                        <Setter Target="thumbnail.(Grid.RowSpan)" Value="1" />
+                                        <Setter Target="thumbnail.(Grid.Column)" Value="2" />
+                                        <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="details.Visibility" Value="Visible" />
+                                        <Setter Target="details.(Grid.Row)" Value="3" />
+                                        <Setter Target="details.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="details.(Grid.Column)" Value="2" />
+                                        <Setter Target="details.(Grid.ColumnSpan)" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Bottom">
+                                    <VisualState.Setters>
+                                        <Setter Target="list.Visibility" Value="Visible" />
+                                        <Setter Target="list.(Grid.RowSpan)" Value="2" />
+                                        <Setter Target="list.(Grid.ColumnSpan)" Value="3" />
+                                        <Setter Target="thumbnail.Visibility" Value="Visible" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="4" />
+                                        <Setter Target="thumbnail.(Grid.RowSpan)" Value="1" />
+                                        <Setter Target="thumbnail.(Grid.Column)" Value="0" />
+                                        <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="details.Visibility" Value="Visible" />
+                                        <Setter Target="details.(Grid.Row)" Value="4" />
+                                        <Setter Target="details.(Grid.RowSpan)" Value="1" />
+                                        <Setter Target="details.(Grid.Column)" Value="1" />
+                                        <Setter Target="details.(Grid.ColumnSpan)" Value="2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Full">
+                                    <VisualState.Setters>
+                                        <Setter Target="list.Visibility" Value="Collapsed" />
+                                        <Setter Target="thumbnail.Visibility" Value="Visible" />
+                                        <Setter Target="thumbnail.(Grid.Row)" Value="2" />
+                                        <Setter Target="thumbnail.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="thumbnail.(Grid.Column)" Value="0" />
+                                        <Setter Target="thumbnail.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="details.Visibility" Value="Visible" />
+                                        <Setter Target="details.(Grid.Row)" Value="2" />
+                                        <Setter Target="details.(Grid.RowSpan)" Value="3" />
+                                        <Setter Target="details.(Grid.Column)" Value="1" />
+                                        <Setter Target="details.(Grid.ColumnSpan)" Value="2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

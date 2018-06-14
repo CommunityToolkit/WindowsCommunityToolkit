@@ -1,18 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.Linq;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -23,7 +16,8 @@ namespace Microsoft.Toolkit.Uwp.UI
     public class InMemoryStorage<T>
     {
         private int _maxItemCount;
-        private OrderedDictionary _inMemoryStorage = new OrderedDictionary();
+        private ConcurrentDictionary<string, InMemoryStorageItem<T>> _inMemoryStorage = new ConcurrentDictionary<string, InMemoryStorageItem<T>>();
+        private object _settingMaxItemCountLocker = new object();
 
         /// <summary>
         /// Gets or sets the maximum count of Items that can be stored in this InMemoryStorage instance.
@@ -44,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 _maxItemCount = value;
 
-                lock (this)
+                lock (_settingMaxItemCountLocker)
                 {
                     EnsureStorageBounds(value);
                 }
@@ -56,10 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// </summary>
         public void Clear()
         {
-            lock (this)
-            {
-                _inMemoryStorage.Clear();
-            }
+            _inMemoryStorage.Clear();
         }
 
         /// <summary>
@@ -68,25 +59,13 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="duration">TimeSpan to identify expired items</param>
         public void Clear(TimeSpan duration)
         {
-            lock (this)
+            DateTime expirationDate = DateTime.Now.Subtract(duration);
+
+            var itemsToRemove = _inMemoryStorage.Where(kvp => kvp.Value.LastUpdated <= expirationDate).Select(kvp => kvp.Key);
+
+            if (itemsToRemove.Any())
             {
-                DateTime expirationDate = DateTime.Now.Subtract(duration);
-
-                // clears expired items in in-memory cache
-                var keysToDelete = new List<object>();
-
-                foreach (var k in _inMemoryStorage.Keys)
-                {
-                    if (((InMemoryStorageItem<T>)_inMemoryStorage[k]).LastUpdated <= expirationDate)
-                    {
-                        keysToDelete.Add(k);
-                    }
-                }
-
-                foreach (var key in keysToDelete)
-                {
-                    _inMemoryStorage.Remove(key);
-                }
+                Remove(itemsToRemove);
             }
         }
 
@@ -96,12 +75,18 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="keys">identified of the in-memory storage item</param>
         public void Remove(IEnumerable<string> keys)
         {
-            lock (this)
+            foreach (var key in keys)
             {
-                foreach (var key in keys)
+                if (string.IsNullOrWhiteSpace(key))
                 {
-                    _inMemoryStorage.Remove(key);
+                    continue;
                 }
+
+                InMemoryStorageItem<T> tempItem = null;
+
+                _inMemoryStorage.TryRemove(key, out tempItem);
+
+                tempItem = null;
             }
         }
 
@@ -111,21 +96,19 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <param name="item">item to be stored</param>
         public void SetItem(InMemoryStorageItem<T> item)
         {
-            lock (this)
+            if (MaxItemCount == 0)
             {
-                if (MaxItemCount == 0)
-                {
-                    return;
-                }
+                return;
+            }
 
-                _inMemoryStorage[item.Id] = item;
+            _inMemoryStorage[item.Id] = item;
 
-                // ensure max limit is maintained. trim older entries first
-                while (_inMemoryStorage.Count > MaxItemCount)
-                {
-                    _inMemoryStorage.RemoveAt(0);
-                }
-               }
+            // ensure max limit is maintained. trim older entries first
+            if (_inMemoryStorage.Count > MaxItemCount)
+            {
+                var itemsToRemove = _inMemoryStorage.OrderBy(kvp => kvp.Value.Created).Take(_inMemoryStorage.Count - MaxItemCount).Select(kvp => kvp.Key);
+                Remove(itemsToRemove);
+            }
         }
 
         /// <summary>
@@ -136,50 +119,41 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>Valid item if not out of date or return null if out of date or item does not exist</returns>
         public InMemoryStorageItem<T> GetItem(string id, TimeSpan duration)
         {
-            lock (this)
+            InMemoryStorageItem<T> tempItem = null;
+
+            if (!_inMemoryStorage.TryGetValue(id, out tempItem))
             {
-                object key = (object)id;
-                object entry = _inMemoryStorage[key];
-
-                if (entry == null)
-                {
-                    return null;
-                }
-
-                var item = (InMemoryStorageItem<T>)entry;
-
-                DateTime expirationDate = DateTime.Now.Subtract(duration);
-
-                if (item.LastUpdated > expirationDate)
-                {
-                    return item;
-                }
-
-                _inMemoryStorage.Remove(key);
-
                 return null;
             }
+
+            DateTime expirationDate = DateTime.Now.Subtract(duration);
+
+            if (tempItem.LastUpdated > expirationDate)
+            {
+                return tempItem;
+            }
+
+            _inMemoryStorage.TryRemove(id, out tempItem);
+
+            return null;
         }
 
         private void EnsureStorageBounds(int maxCount)
         {
-            lock (this)
+            if (_inMemoryStorage.Count == 0)
             {
-                if (_inMemoryStorage.Count == 0)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (maxCount == 0)
-                {
-                    _inMemoryStorage.Clear();
-                    return;
-                }
+            if (maxCount == 0)
+            {
+                _inMemoryStorage.Clear();
+                return;
+            }
 
-                while (_inMemoryStorage.Count > maxCount)
-                {
-                    _inMemoryStorage.RemoveAt(0);
-                }
+            if (_inMemoryStorage.Count > maxCount)
+            {
+                Remove(_inMemoryStorage.Keys.Take(_inMemoryStorage.Count - maxCount));
             }
         }
     }

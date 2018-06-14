@@ -37,14 +37,7 @@
                    Text="You haven't selected any items"
                    Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <controls:AdaptiveGridView x:Name="AdaptiveGridViewControl"
-                                   Grid.Row="1"
-                                   DesiredWidth="{Binding DesiredWidth.Value}"
-                                   IsItemClickEnabled="{Binding IsItemClickEnabled.Value, Mode=TwoWay}"
-                                   ItemHeight="{Binding ItemHeight.Value}"
-                                   ItemTemplate="{StaticResource PhotosTemplate}"
-                                   OneRowModeEnabled="{Binding OneRowModeEnabled.Value}"
-                                   SelectionMode="{Binding SelectionMode.Value, Mode=TwoWay}" />
+        <Grid x:Name="XamlRoot" Grid.Row="1"/>
     </Grid>
 </Page>
 

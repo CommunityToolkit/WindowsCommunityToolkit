@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -22,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// A sample implementation of the <see cref="IIncrementalSource{TSource}"/> interface.
     /// </summary>
     /// <seealso cref="IIncrementalSource{TSource}"/>
-    public class PeopleSource : IIncrementalSource<Person>
+    public class PeopleSource : Collections.IIncrementalSource<Person>
     {
         private readonly List<Person> _people;
 
@@ -63,7 +55,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                           select p).Skip(pageIndex * pageSize).Take(pageSize);
 
             // Simulates a longer request...
-            await Task.Delay(1000);
+            // Make sure the list is still in order after a refresh,
+            // even if the first page takes longer to load
+            if (pageIndex == 0)
+            {
+                await Task.Delay(2000);
+            }
+            else
+            {
+                await Task.Delay(1000);
+            }
 
             return result;
         }

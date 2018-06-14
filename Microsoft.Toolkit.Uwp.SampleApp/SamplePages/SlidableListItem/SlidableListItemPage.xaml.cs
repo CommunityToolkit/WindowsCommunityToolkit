@@ -1,51 +1,73 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.ObjectModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
+using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class SlidableListItemPage
+    public sealed partial class SlidableListItemPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
-
-        private DelegateCommand<Item> _deleteItem = default(DelegateCommand<Item>);
-
-        public DelegateCommand<Item> DeleteItem => _deleteItem ?? (_deleteItem = new DelegateCommand<Item>(ExecuteDeleteItemCommand, CanExecuteDeleteItemCommand));
+        public static ObservableCollection<Item> Items { get; set; }
 
         public SlidableListItemPage()
         {
             InitializeComponent();
-            ObservableCollection<Item> items = new ObservableCollection<Item>();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            var listView = control.FindChildByName("listView") as ListView;
+            if (listView != null)
+            {
+                listView.ItemsSource = Items;
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // Reset items when revisiting sample.
+            Items = new ObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)
             {
-                items.Add(new Item() { Title = "Item " + i });
+                Items.Add(new Item() { Title = "Item " + i });
+            }
+        }
+    }
+
+#pragma warning disable SA1402 // File may only contain a single class
+    internal class RemoveItemCommand : ICommand
+#pragma warning restore SA1402 // File may only contain a single class
+    {
+        event EventHandler ICommand.CanExecuteChanged
+        {
+            add
+            {
             }
 
-            _items = items;
+            remove
+            {
+            }
         }
 
-        private bool CanExecuteDeleteItemCommand(Item item)
+        public bool CanExecute(object parameter)
         {
             return true;
         }
 
-        private void ExecuteDeleteItemCommand(Item item)
+        public void Execute(object parameter)
         {
-            _items.Remove(item);
+            SlidableListItemPage.Items?.Remove(parameter as Item);
         }
     }
 }

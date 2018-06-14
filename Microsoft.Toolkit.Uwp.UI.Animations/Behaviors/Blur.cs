@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 
@@ -28,25 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
     /// </seealso>
     /// <seealso cref="AnimationExtensions.IsBlurSupported"/>
-    public class Blur : CompositionBehaviorBase
+    public class Blur : CompositionBehaviorBase<FrameworkElement>
     {
-        /// <summary>
-        /// The _framework element
-        /// </summary>
-        private FrameworkElement _frameworkElement;
-
-        /// <summary>
-        /// Called after the behavior is attached to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />.
-        /// </summary>
-        /// <remarks>
-        /// Override this to hook up functionality to the <see cref="P:Microsoft.Xaml.Interactivity.Behavior.AssociatedObject" />
-        /// </remarks>
-        protected override void OnAttached()
-        {
-            base.OnAttached();
-            _frameworkElement = AssociatedObject as FrameworkElement;
-        }
-
         /// <summary>
         /// The Blur value of the associated object
         /// </summary>
@@ -69,9 +44,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// </summary>
         public override void StartAnimation()
         {
-            if (AnimationExtensions.IsBlurSupported)
+            if (AnimationExtensions.BlurEffect.IsSupported)
             {
-                _frameworkElement?.Blur(duration: Duration, delay: Delay, value: (float)Value)?.StartAsync();
+                AssociatedObject?.Blur(duration: Duration, delay: Delay, value: (float)Value, easingType: EasingType, easingMode: EasingMode)?.Start();
             }
         }
     }
