@@ -195,18 +195,18 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             User = null;
 
-            bool result;
+            Task<bool> result;
 
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
-            result = Authentication.LogoutAsync(authenticationModel).Result;
+            result = Authentication.LogoutAsync(authenticationModel);
 #else
-            result = Authentication.Logout();
+            result = Task.Run(() => { return Authentication.Logout(); });
 #endif
 
-            IsAuthenticated = false;
-
-            return Task.FromResult(result);
+            // the IsAuthenticated change might cause UI changes (implemented in IsAuthenticatedChanged event),
+            // so we should do this in synchronization context to avoid cross-thread issue
+            return result.ContinueWith((o) => IsAuthenticated = false, TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         /// <summary>
