@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
     /// </remarks>
     /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
-    public class WebViewControlProcessOptions
+    public sealed class WebViewControlProcessOptions
     {
         /// <summary>
         /// Gets or sets the enterprise identifier for apps that are WIP-enabled.

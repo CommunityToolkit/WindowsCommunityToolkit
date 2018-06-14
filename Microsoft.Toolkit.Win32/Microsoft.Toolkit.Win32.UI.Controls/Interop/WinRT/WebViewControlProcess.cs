@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// A proxy for <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
     /// </summary>
-    public class WebViewControlProcess
+    public sealed class WebViewControlProcess
     {
         [SecurityCritical]
         private readonly Windows.Web.UI.Interop.WebViewControlProcess _process;
