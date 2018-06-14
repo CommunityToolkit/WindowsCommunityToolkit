@@ -55,6 +55,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
+        /// Identifies the <see cref="GroupId"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GroupIdProperty =
+            DependencyProperty.Register(
+                nameof(GroupId),
+                typeof(string),
+                typeof(PeoplePicker),
+                new PropertyMetadata(string.Empty));
+
+        /// <summary>
         /// Identifies the <see cref="PlaceholderText"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderTextProperty =
@@ -107,6 +117,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get => (int)GetValue(SearchResultLimitProperty);
             set => SetValue(SearchResultLimitProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets which group should search users in
+        /// </summary>
+        public string GroupId
+        {
+            get => (string)GetValue(GroupIdProperty);
+            set => SetValue(GroupIdProperty, value);
         }
 
         /// <summary>

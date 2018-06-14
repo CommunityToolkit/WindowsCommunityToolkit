@@ -46,64 +46,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void ClearAndHideSearchResultListBox()
         {
             SearchResults.Clear();
-            _searchResultPopup.IsOpen = false;
+            HideSearchResults();
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textboxSender = (TextBox)sender;
             string searchText = textboxSender.Text.Trim();
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                ClearAndHideSearchResultListBox();
-                return;
-            }
-
-            IsLoading = true;
-            try
-            {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-
-                if (graphClient != null)
-                {
-                    var options = new List<QueryOption>
-                    {
-                        new QueryOption("$search", $"\"{searchText}\""),
-                        new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'"),
-                        new QueryOption("$top", (SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit).ToString())
-                    };
-                    IUserPeopleCollectionPage rawResults = await graphClient.Me.People.Request(options).GetAsync();
-
-                    if (rawResults.Any())
-                    {
-                        SearchResults.Clear();
-
-                        var results = rawResults.Where(o => !Selections.Any(s => s.Id == o.Id))
-                            .Take(SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit);
-                        foreach (var item in results)
-                        {
-                            SearchResults.Add(item);
-                        }
-
-                        _searchResultPopup.IsOpen = true;
-                    }
-                    else
-                    {
-                        ClearAndHideSearchResultListBox();
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageDialog messageDialog = new MessageDialog(exception.Message);
-                await messageDialog.ShowAsync();
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            await SearchPeopleAsync(searchText);
         }
 
         private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)

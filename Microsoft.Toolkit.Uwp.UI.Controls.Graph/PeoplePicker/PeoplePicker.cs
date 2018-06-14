@@ -2,8 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -89,6 +95,126 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             base.OnApplyTemplate();
+        }
+
+        private Person GetPersonFromUser(User user)
+        {
+            Person person = new Person
+            {
+                Id = user.Id,
+                DisplayName = user.DisplayName,
+                GivenName = user.GivenName,
+                Surname = user.Surname,
+                JobTitle = user.JobTitle,
+                OfficeLocation = user.OfficeLocation,
+                UserPrincipalName = user.UserPrincipalName,
+                ScoredEmailAddresses = new ScoredEmailAddress[] { new ScoredEmailAddress() { Address = user.Mail } },
+                AdditionalData = new Dictionary<string, object>() { [EtagHelper.ODataEtagPropertyName] = user.GetEtag() }
+            };
+            return person;
+        }
+
+        private async Task SearchPeopleAsync(string searchPattern)
+        {
+            if (string.IsNullOrWhiteSpace(searchPattern) && string.IsNullOrWhiteSpace(GroupId))
+            {
+                ClearAndHideSearchResultListBox();
+                return;
+            }
+
+            IsLoading = true;
+            try
+            {
+                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                await graphService.TryLoginAsync();
+                GraphServiceClient graphClient = graphService.GraphProvider;
+
+                if (graphClient != null)
+                {
+                    int searchLimit = SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit;
+                    int queryLimit = searchLimit + Selections.Count;
+                    IEnumerable<Person> rawResults;
+                    if (string.IsNullOrWhiteSpace(GroupId))
+                    {
+                        var options = new List<QueryOption>
+                        {
+                            new QueryOption("$search", $"\"{searchPattern}\""),
+                            new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'"),
+                            new QueryOption("$top", queryLimit.ToString())
+                        };
+                        rawResults = await graphClient.Me.People.Request(options).GetAsync();
+                    }
+                    else
+                    {
+                        IGroupMembersCollectionWithReferencesPage userRequest = await graphClient.Groups[GroupId].Members.Request().GetAsync();
+                        List<Person> allPersons = new List<Person>();
+                        while (true)
+                        {
+                            foreach (User user in userRequest)
+                            {
+                                if (string.IsNullOrEmpty(searchPattern)
+                                    || (!string.IsNullOrEmpty(user.DisplayName) && user.DisplayName.StartsWith(searchPattern, StringComparison.OrdinalIgnoreCase))
+                                    || (!string.IsNullOrEmpty(user.Surname) && user.Surname.StartsWith(searchPattern, StringComparison.OrdinalIgnoreCase)))
+                                {
+                                    Person person = GetPersonFromUser(user);
+                                    allPersons.Add(person);
+                                }
+
+                                if (allPersons.Count >= queryLimit)
+                                {
+                                    break;
+                                }
+                            }
+
+                            if (allPersons.Count >= queryLimit
+                                || userRequest.NextPageRequest == null)
+                            {
+                                break;
+                            }
+
+                            userRequest = await userRequest.NextPageRequest.GetAsync();
+                        }
+
+                        rawResults = allPersons;
+                    }
+
+                    SearchResults.Clear();
+                    var results = rawResults.Where(o => !Selections.Any(s => s.Id == o.Id))
+                        .Take(searchLimit);
+                    foreach (var item in results)
+                    {
+                        SearchResults.Add(item);
+                    }
+
+                    if (SearchResults.Count > 0)
+                    {
+                        ShowSearchResults();
+                    }
+                    else
+                    {
+                        ClearAndHideSearchResultListBox();
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private void ShowSearchResults()
+        {
+            _searchResultPopup.IsOpen = true;
+        }
+
+        private void HideSearchResults()
+        {
+            _searchResultPopup.IsOpen = false;
         }
     }
 }
