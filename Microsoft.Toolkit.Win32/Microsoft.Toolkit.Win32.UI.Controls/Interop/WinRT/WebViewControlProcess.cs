@@ -7,6 +7,7 @@ using System.Security;
 using System.Threading.Tasks;
 
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Web.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
@@ -71,6 +72,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <value>The process identifier (PID).</value>
         public uint ProcessId => _process.ProcessId;
+
+        /// <summary>
+        /// Gets the user agent of the underlying web view
+        /// </summary>
+        /// <value>The user agent.</value>
+        public string UserAgent
+        {
+            get
+            {
+                if (ApiInformation.IsPropertyPresent(
+                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                    "UserAgent"))
+                {
+                    return _process.UserAgent;
+                }
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> to <see cref="WebViewControlProcess"/>.

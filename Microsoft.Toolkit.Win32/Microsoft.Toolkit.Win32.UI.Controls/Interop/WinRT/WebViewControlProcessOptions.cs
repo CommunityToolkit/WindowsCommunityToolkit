@@ -35,12 +35,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public WebViewControlProcessCapabilityState PrivateNetworkClientServerCapability { get; set; }
 
         /// <summary>
+        /// Gets or sets the user agent.
+        /// </summary>
+        /// <value>The user agent.</value>
+        public string UserAgent { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WebViewControlProcessOptions"/> class.
         /// </summary>
         public WebViewControlProcessOptions()
         {
             EnterpriseId = string.Empty;
             Partition = string.Empty;
+            UserAgent = string.Empty;
             PrivateNetworkClientServerCapability = WebViewControlProcessCapabilityState.Default;
         }
 
@@ -66,11 +73,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             {
                 if (!string.IsNullOrEmpty(options?.Partition))
                 {
-                    retval.Partition = options.Partition;
+                    retval.Partition = options?.Partition;
                 }
             }
 
             retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
+
+            if (ApiInformation.IsPropertyPresent(
+                "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                "UserAgent"))
+            {
+                if (!string.IsNullOrEmpty(options?.UserAgent))
+                {
+                    retval.UserAgent = options?.UserAgent;
+                }
+            }
+
             return retval;
         }
 
