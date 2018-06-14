@@ -65,7 +65,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Gets a value indicating the partition of the web view.
         /// </summary>
         /// <value>The partition.</value>
-        public string Partition => _process.Partition;
+        public string Partition
+        {
+            get
+            {
+                if (ApiInformation.IsPropertyPresent(
+                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                    "Partition"))
+                {
+                    return _process.Partition;
+                }
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Gets the process identifier (PID) of the underlying WWAHost.
