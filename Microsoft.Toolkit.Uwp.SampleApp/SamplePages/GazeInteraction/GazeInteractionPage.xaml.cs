@@ -5,6 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Shapes;
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class GazeInteractionPage : IXamlRenderListener
     {
         private GazeElement gazeButtonControl;
+        private GazePointer gazePointer;
 
         private int dwellCount = 0;
 
@@ -50,6 +52,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     gazeButtonControl.Invoked += OnGazeInvoked;
                     gazeButtonControl.StateChanged += GazeButtonControl_StateChanged;
                 }
+            }
+
+            gazePointer = GazeInput.GetGazePointer(control.FindParent<Page>());
+
+            CoreWindow.GetForCurrentThread().KeyDown += GazeInteractionPage_KeyDown;
+        }
+
+        private void GazeInteractionPage_KeyDown(CoreWindow sender, KeyEventArgs args)
+        {
+            if (args.VirtualKey == Windows.System.VirtualKey.GamepadA)
+            {
+                gazePointer.Click();
             }
         }
 
