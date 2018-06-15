@@ -72,7 +72,7 @@ static void OnInteractionChanged(DependencyObject^ ob, DependencyPropertyChanged
 {
     auto element = safe_cast<FrameworkElement^>(ob);
     auto interaction = safe_cast<Interaction>(args->NewValue);
-    GazePointerProxy::SetGazeInteraction(element, interaction);
+    GazePointerProxy::SetInteraction(element, interaction);
 }
 
 static void OnIsCursorVisibleChanged(DependencyObject^ ob, DependencyPropertyChangedEventArgs^ args)
