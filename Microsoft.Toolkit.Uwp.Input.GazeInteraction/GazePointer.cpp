@@ -97,19 +97,6 @@ GazePointer::GazePointer()
     _watcher->Added += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherAddedPreviewEventArgs^>(this, &GazePointer::OnDeviceAdded);
     _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
     _watcher->Start();
-
-    if (_isSwitchEnabled)
-    {
-        CoreWindow::GetForCurrentThread()->KeyDown += ref new TypedEventHandler<Windows::UI::Core::CoreWindow ^, Windows::UI::Core::KeyEventArgs ^>([this](Platform::Object^, KeyEventArgs^ keyEventArgs)
-        {
-            if (this->_isSwitchEnabled &&
-                this->_currentlyFixatedElement != nullptr &&
-                keyEventArgs->VirtualKey == Windows::System::VirtualKey::GamepadA)
-            {
-                this->_currentlyFixatedElement->Invoke();
-            }
-        });
-    }
 }
 
 void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherAddedPreviewEventArgs^ args)
@@ -701,6 +688,18 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
     _eyesOffTimer->Start();
     _lastTimestamp = fa->Timestamp;
+}
+
+/// <summary>
+/// When in switch mode, will issue a click on the currently fixated element
+/// </summary>
+void GazePointer::Click()
+{
+    if (_isSwitchEnabled && 
+        this->_currentlyFixatedElement != nullptr)
+    {
+        this->_currentlyFixatedElement->Invoke();
+    }
 }
 
 END_NAMESPACE_GAZE_INPUT

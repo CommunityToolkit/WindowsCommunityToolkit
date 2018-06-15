@@ -44,6 +44,11 @@ public:
     /// </summary>
     void LoadSettings(ValueSet^ settings);
 
+    /// <summary>
+    /// When in switch mode, will issue a click on the currently fixated element
+    /// </summary>
+    void Click();
+
 internal:
     Brush^ _enterBrush = nullptr;
 
