@@ -8,27 +8,27 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     public class TwitterMediaSizes
     {
         /// <summary>
+        /// Gets or sets small metadata.
+        /// </summary>
+        [JsonProperty("small")]
+        public TwitterMediaSizeData Small { get; set; }
+
+        /// <summary>
         /// Gets or sets thumbnail metadata.
         /// </summary>
         [JsonProperty("thumb")]
-        public TwitterMediaSizeData[] Thumb { get; set; }
+        public TwitterMediaSizeData Thumb { get; set; }
 
         /// <summary>
         /// Gets or sets large metadata.
         /// </summary>
         [JsonProperty("large")]
-        public TwitterMediaSizeData[] Large { get; set; }
+        public TwitterMediaSizeData Large { get; set; }
 
         /// <summary>
         /// Gets or sets medium metadata.
         /// </summary>
         [JsonProperty("medium")]
-        public TwitterMediaSizeData[] Medium { get; set; }
-
-        /// <summary>
-        /// Gets or sets small metadata.
-        /// </summary>
-        [JsonProperty("small")]
-        public TwitterMediaSizeData[] Small { get; set; }
+        public TwitterMediaSizeData Medium { get; set; }
     }
 }

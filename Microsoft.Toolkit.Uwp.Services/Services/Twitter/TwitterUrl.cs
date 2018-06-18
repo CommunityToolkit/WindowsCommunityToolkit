@@ -11,17 +11,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// </summary>
     public class TwitterUrl
     {
-        ///// <summary>
-        ///// Gets or sets DisplayUrl of the Url.
-        ///// </summary>
-        //[JsonProperty("display_url")]
-        //public string DisplayUrl { get; set; }
+        /// <summary>
+        /// Gets or sets DisplayUrl of the Url.
+        /// </summary>
+        [JsonProperty("display_url")]
+        public string DisplayUrl { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets ExpandedUrl of the Url.
-        ///// </summary>
-        //[JsonProperty("expanded_url")]
-        //public string ExpandedUrl { get; set; }
+        /// <summary>
+        /// Gets or sets ExpandedUrl of the Url.
+        /// </summary>
+        [JsonProperty("expanded_url")]
+        public string ExpandedUrl { get; set; }
 
         /// <summary>
         /// Gets or sets indices position of the tweet.
@@ -29,11 +29,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty("indices")]
         public int[] Indices { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets unwound Url metadata position of the tweet.
-        ///// </summary>
-        //[JsonProperty("unwound")]
-        //public TwitterUrlUnwound Unwound { get; set; }
+        /// <summary>
+        /// Gets or sets unwound Url metadata position of the tweet.
+        /// </summary>
+        [JsonProperty("unwound")]
+        public TwitterUrlUnwound Unwound { get; set; }
 
         /// <summary>
         /// Gets or sets t.co Url of the tweet.

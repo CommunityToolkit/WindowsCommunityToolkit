@@ -44,10 +44,16 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         }
 
         /// <summary>
+        /// Gets or sets truncated flag (true when tweet is longer than 140 characters)
+        /// </summary>
+        [JsonProperty("truncated")]
+        public bool Truncated { get; set; }
+
+        /// <summary>
         /// Gets or sets the extended mode.
         /// </summary>
         [JsonProperty("extended_tweet")]
-        public TwitterExtended Extended { get; set; }
+        public TwitterExtendedTweet ExtendedTweet { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
@@ -66,6 +72,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("retweeted_status")]
         public Tweet RetweetedStatus { get; set; }
+
+        [JsonProperty("quoted_status")]
+        public Tweet QuotedStates { get; set; }
 
         /// <summary>
         /// Gets the creation date

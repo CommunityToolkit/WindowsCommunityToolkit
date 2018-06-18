@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
     /// <summary>
     /// Twitter User type.
     /// </summary>
-    public class TwitterExtended
+    public class TwitterExtendedTweet
     {
         /// <summary>
         /// Gets or sets the text of the tweet (280 characters).
