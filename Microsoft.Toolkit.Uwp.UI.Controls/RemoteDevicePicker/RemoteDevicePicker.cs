@@ -2,11 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System.RemoteSystems;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -22,29 +23,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private Dictionary<string, RemoteSystem> DeviceMap { get; set; }
 
-        private ListView _listDevices;
-        private ComboBox _listDeviceTypes;
-        private ProgressRing _progressRing;
+        private ListView listDevices;
+        private ComboBox listDeviceTypes;
+        private ProgressRing progressRing;
 
         /// <summary>
-        /// Gets List of All Remote Systems based on Selection Filter
+        /// Gets or sets List of All Remote Systems based on Selection Filter
         /// </summary>
-        public ObservableCollection<RemoteSystem> RemoteSystems { get; private set; }
+        private ObservableCollection<RemoteSystem> RemoteSystems { get; set; }
 
         /// <summary>
         /// Gets or sets the Line Color on control Header. takes **SystemControlBackgroundAccentBrush** by default
         /// </summary>
-        public Brush HeaderLineColor
+        public Brush HeaderLineBrush
         {
-            get { return (Brush)GetValue(HeaderLineColorProperty); }
-            set { SetValue(HeaderLineColorProperty, value); }
+            get { return (Brush)GetValue(HeaderLineBrushProperty); }
+            set { SetValue(HeaderLineBrushProperty, value); }
         }
 
         /// <summary>
-        /// Gets the dependency property for <see cref="HeaderLineColor"/>.
+        /// Gets the dependency property for <see cref="HeaderLineBrush"/>.
         /// </summary>
-        public static readonly DependencyProperty HeaderLineColorProperty = DependencyProperty.Register(
-            nameof(HeaderLineColor),
+        public static readonly DependencyProperty HeaderLineBrushProperty = DependencyProperty.Register(
+            nameof(HeaderLineBrush),
             typeof(Brush),
             typeof(RemoteDevicePicker),
             new PropertyMetadata(Application.Current.Resources["SystemControlBackgroundAccentBrush"]));
@@ -52,25 +53,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the DeviceList Selection Mode. Defaults to ListViewSelectionMode.Single
         /// </summary>
-        public ListViewSelectionMode DeviceListSelectionMode
+        public ListViewSelectionMode SelectionMode
         {
-            get { return (ListViewSelectionMode)GetValue(DeviceListSelectionModeProperty); }
-            set { SetValue(DeviceListSelectionModeProperty, value); }
+            get { return (ListViewSelectionMode)GetValue(SelectionModeProperty); }
+            set { SetValue(SelectionModeProperty, value); }
         }
 
         /// <summary>
-        /// Gets the dependency property for <see cref="DeviceListSelectionMode"/>.
+        /// Gets the dependency property for <see cref="SelectionMode"/>.
         /// </summary>
-        public static readonly DependencyProperty DeviceListSelectionModeProperty = DependencyProperty.Register(
-            nameof(DeviceListSelectionMode),
+        public static readonly DependencyProperty SelectionModeProperty = DependencyProperty.Register(
+            nameof(SelectionMode),
             typeof(ListViewSelectionMode),
             typeof(RemoteDevicePicker),
             new PropertyMetadata(ListViewSelectionMode.Single));
-
-        /// <summary>
-        /// Fired when the Remote Device Picker is Closed.
-        /// </summary>
-        public event EventHandler<RemoteDevicePickerEventArgs> RemoteDevicePickerClosed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RemoteDevicePicker"/> class.
@@ -79,48 +75,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RemoteDevicePicker);
             SecondaryButtonText = "Done";
-            SecondaryButtonClick += RemoteDevicePicker_SecondaryButtonClick;
             RemoteSystems = new ObservableCollection<RemoteSystem>();
             DeviceMap = new Dictionary<string, RemoteSystem>();
-
-            Loading += RemoteDevicePicker_Loading;
         }
 
-        private void RemoteDevicePicker_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        /// <summary>
+        /// Initiate Picker UI
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<List<RemoteSystem>> PickDeviceAsync()
         {
-            ObservableCollection<RemoteSystem> selectedItems = new ObservableCollection<RemoteSystem>();
-            foreach (RemoteSystem sys in _listDevices.SelectedItems)
+            List<RemoteSystem> remoteSystems = new List<RemoteSystem>();
+            await ShowAsync();
+            foreach (RemoteSystem system in listDevices.SelectedItems)
             {
-                selectedItems.Add(sys);
+                remoteSystems.Add(system);
             }
 
-            RemoteDevicePickerEventArgs eventArgs = new RemoteDevicePickerEventArgs(selectedItems);
-            RemoteDevicePickerClosed?.Invoke(this, eventArgs);
-            Hide();
+            return remoteSystems;
         }
 
         /// <inheritdoc />
-        protected override void OnApplyTemplate()
+        protected async override void OnApplyTemplate()
         {
-            _listDevices = GetTemplateChild("PART_LISTDEVICES") as ListView;
-            _listDeviceTypes = GetTemplateChild("PART_LISTDEVICETYPES") as ComboBox;
-            _progressRing = GetTemplateChild("PART_PROGRESS") as ProgressRing;
+            listDevices = GetTemplateChild("PART_ListDevices") as ListView;
+            listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
+            progressRing = GetTemplateChild("PART_ProgressRing") as ProgressRing;
 
             var enumval = Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>();
-            _listDeviceTypes.ItemsSource = enumval.ToList();
-            _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
-            _listDeviceTypes.SelectedIndex = 0;
+            listDeviceTypes.ItemsSource = enumval.ToList();
+            listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
+            listDeviceTypes.SelectedIndex = 0;
 
-            base.OnApplyTemplate();
-        }
-
-        private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdateList();
-        }
-
-        private async void RemoteDevicePicker_Loading(FrameworkElement sender, object args)
-        {
             RemoteSystemAccessStatus accessStatus = await RemoteSystem.RequestAccessAsync();
             if (accessStatus == RemoteSystemAccessStatus.Allowed)
             {
@@ -131,15 +117,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 m_remoteSystemWatcher.Start();
             }
 
-            _progressRing.IsActive = true;
+            progressRing.IsActive = true;
             UpdateList();
+
+            base.OnApplyTemplate();
         }
+
+        private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateList();
 
         private async void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
         {
             await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                _progressRing.IsActive = true;
+                progressRing.IsActive = true;
                 if (DeviceMap.ContainsKey(args.RemoteSystem.Id))
                 {
                     RemoteSystems.Remove(DeviceMap[args.RemoteSystem.Id]);
@@ -158,27 +148,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 foreach (RemoteSystem sys in RemoteSystems)
                 {
-                    if (_listDeviceTypes.SelectedValue.ToString().Equals(DeviceType.All.ToString()))
+                    if (listDeviceTypes.SelectedValue.Equals(DeviceType.All))
                     {
                         bindingList = RemoteSystems;
                     }
-                    else if (_listDeviceTypes.SelectedValue.ToString().Equals(sys.Kind))
+                    else if (listDeviceTypes.SelectedValue.ToString().Equals(sys.Kind))
                     {
                         bindingList.Add(sys);
                     }
                 }
 
-                _progressRing.IsActive = false;
+                progressRing.IsActive = false;
             }
 
-            _listDevices.ItemsSource = bindingList;
+            listDevices.ItemsSource = bindingList;
         }
 
         private async void RemoteSystemWatcher_RemoteSystemRemoved(RemoteSystemWatcher sender, RemoteSystemRemovedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                _progressRing.IsActive = true;
+                progressRing.IsActive = true;
                 if (DeviceMap.ContainsKey(args.RemoteSystemId))
                 {
                     RemoteSystems.Remove(DeviceMap[args.RemoteSystemId]);
@@ -191,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                _progressRing.IsActive = true;
+                progressRing.IsActive = true;
                 RemoteSystems.Add(args.RemoteSystem);
                 DeviceMap.Add(args.RemoteSystem.Id, args.RemoteSystem);
             });

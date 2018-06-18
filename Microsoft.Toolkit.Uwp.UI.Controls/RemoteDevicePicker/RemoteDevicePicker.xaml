@@ -158,9 +158,9 @@
                                                 </Grid.ColumnDefinitions>
                                                 <StackPanel Orientation="Horizontal" >
                                                     <TextBlock Text="Device Type: " VerticalAlignment="Center"/>
-                                                    <ComboBox Style="{StaticResource ComboBoxStyleDevicePicker}" x:Name="PART_LISTDEVICETYPES" Foreground="{TemplateBinding HeaderLineColor}" Padding="10,3,0,0" VerticalAlignment="Center"/>
+                                                    <ComboBox x:Name="PART_ListDeviceTypes" Foreground="{TemplateBinding HeaderLineBrush}" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource ComboBoxStyleDevicePicker}"/>
                                                 </StackPanel>
-                                                <ProgressRing x:Name="PART_PROGRESS" Width="20" Height="20" IsActive="False" Grid.Column="1" Margin="5" />
+                                                <ProgressRing x:Name="PART_ProgressRing" Width="20" Height="20" IsActive="False" Grid.Column="1" Margin="5" />
                                             </Grid>
                                             <ScrollContentPresenter x:Name="Content"
                                                 FontSize="{ThemeResource ControlContentThemeFontSize}"
@@ -169,7 +169,7 @@
                                                 Foreground="{TemplateBinding Foreground}"
                                                 Grid.Row="3" TextWrapping="Wrap" >
                                                 <ContentPresenter.Content>
-                                                    <ListView x:Name="PART_LISTDEVICES" ItemsSource="{Binding RemoteSystems}" IsItemClickEnabled="True" SelectionMode="{TemplateBinding DeviceListSelectionMode}">
+                                                    <ListView x:Name="PART_ListDevices" ItemsSource="{Binding RemoteSystems}" IsItemClickEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Grid>
