@@ -8,15 +8,8 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 GazeCursor::GazeCursor()
 {
-    _cursorRadius = DEFAULT_CURSOR_RADIUS;
-
-    _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
-
     _gazePopup = ref new Popup();
     _gazePopup->IsHitTestVisible = false;
-
-    _gazeCanvas = ref new Canvas();
-    _gazeCanvas->IsHitTestVisible = false;
 
     _gazeCursor = ref new Shapes::Ellipse();
     _gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
@@ -26,52 +19,26 @@ GazeCursor::GazeCursor()
     _gazeCursor->Height = 2 * CursorRadius;
     _gazeCursor->IsHitTestVisible = false;
 
-    _origSignalCursor = ref new Shapes::Ellipse();
-    _origSignalCursor->Fill = ref new SolidColorBrush(Colors::Green);
-    _origSignalCursor->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
-    _origSignalCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
-    _origSignalCursor->Width = 2 * CursorRadius;
-    _origSignalCursor->Height = 2 * CursorRadius;
-    _origSignalCursor->IsHitTestVisible = false;
-
-    _gazeRect = ref new Shapes::Rectangle();
-    _gazeRect->IsHitTestVisible = false;
-
-    _gazeCanvas->Children->Append(_gazeCursor);
-    _gazeCanvas->Children->Append(_gazeRect);
-
-    // TODO: Reenable this once GazeCursor is refactored correctly
-    //_gazeCanvas->Children->Append(_origSignalCursor);
-
-    _gazePopup->Child = _gazeCanvas;
+    _gazePopup->Child = _gazeCursor;
 }
 
 void GazeCursor::CursorRadius::set(int value)
 {
     _cursorRadius = value;
-    if (_gazeCursor != nullptr)
-    {
-        _gazeCursor->Width = 2 * _cursorRadius;
-        _gazeCursor->Height = 2 * _cursorRadius;
-    }
+    _gazeCursor->Width = 2 * _cursorRadius;
+    _gazeCursor->Height = 2 * _cursorRadius;
 }
 
 void GazeCursor::IsCursorVisible::set(bool value)
 {
     _isCursorVisible = value;
-    if (_gazePopup != nullptr)
-    {
-        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
-    }
+    SetVisibility();
 }
 
 void GazeCursor::IsGazeEntered::set(bool value)
 {
     _isGazeEntered = value;
-    if (_gazePopup != nullptr)
-    {
-        _gazePopup->IsOpen = _isCursorVisible && _isGazeEntered;
-    }
+    SetVisibility();
 }
 
 void GazeCursor::LoadSettings(ValueSet^ settings)
@@ -83,6 +50,24 @@ void GazeCursor::LoadSettings(ValueSet^ settings)
     if (settings->HasKey("GazeCursor.CursorVisibility"))
     {
         IsCursorVisible = (bool)(settings->Lookup("GazeCursor.CursorVisibility"));
+    }
+}
+
+void GazeCursor::SetVisibility()
+{
+    auto isOpen = _isCursorVisible && _isGazeEntered;
+    if (_gazePopup->IsOpen != isOpen)
+    {
+        _gazePopup->IsOpen = isOpen;
+    }
+    else if (isOpen)
+    {
+        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current)->First()->Current;
+        if (_gazePopup != topmost)
+        {
+            _gazePopup->IsOpen = false;
+            _gazePopup->IsOpen = true;
+        }
     }
 }
 
