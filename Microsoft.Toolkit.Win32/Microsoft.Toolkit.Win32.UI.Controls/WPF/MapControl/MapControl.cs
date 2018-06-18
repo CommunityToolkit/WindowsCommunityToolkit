@@ -232,59 +232,59 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public uwpMaps.MapWatermarkMode WatermarkMode
         {
-            get { return (uwpMaps.MapWatermarkMode)GetValue(WatermarkModeProperty); } set { SetValue(WatermarkModeProperty, value); }
+            get { return (uwpMaps.MapWatermarkMode)GetValue(WatermarkModeProperty); } set => SetValue(WatermarkModeProperty, value);
         }
 
         public new uwpMaps.MapStyle Style
         {
-            get { return (uwpMaps.MapStyle)GetValue(StyleProperty); } set { SetValue(StyleProperty, value); }
+            get { return (uwpMaps.MapStyle)GetValue(StyleProperty); } set => SetValue(StyleProperty, value);
         }
 
         public string MapServiceToken
         {
-            get { return (string)GetValue(MapServiceTokenProperty); } set { SetValue(MapServiceTokenProperty, value); }
+            get { return (string)GetValue(MapServiceTokenProperty); } set => SetValue(MapServiceTokenProperty, value);
         }
 
         public global::Windows.Foundation.Point TransformOrigin { get; set; }
 
         public bool TrafficFlowVisible
         {
-            get { return (bool)GetValue(TrafficFlowVisibleProperty); } set { SetValue(TrafficFlowVisibleProperty, value); }
+            get { return (bool)GetValue(TrafficFlowVisibleProperty); } set => SetValue(TrafficFlowVisibleProperty, value);
         }
 
         public bool LandmarksVisible
         {
-            get { return (bool)GetValue(LandmarksVisibleProperty); } set { SetValue(LandmarksVisibleProperty, value); }
+            get { return (bool)GetValue(LandmarksVisibleProperty); } set => SetValue(LandmarksVisibleProperty, value);
         }
 
         public double Heading
         {
-            get { return (double)GetValue(HeadingProperty); } set { SetValue(HeadingProperty, value); }
+            get { return (double)GetValue(HeadingProperty); } set => SetValue(HeadingProperty, value);
         }
 
         public double DesiredPitch
         {
-            get { return (double)GetValue(DesiredPitchProperty); } set { SetValue(DesiredPitchProperty, value); }
+            get { return (double)GetValue(DesiredPitchProperty); } set => SetValue(DesiredPitchProperty, value);
         }
 
         public uwpMaps.MapColorScheme ColorScheme
         {
-            get { return (uwpMaps.MapColorScheme)GetValue(ColorSchemeProperty); } set { SetValue(ColorSchemeProperty, value); }
+            get { return (uwpMaps.MapColorScheme)GetValue(ColorSchemeProperty); } set => SetValue(ColorSchemeProperty, value);
         }
 
         public bool PedestrianFeaturesVisible
         {
-            get { return (bool)GetValue(PedestrianFeaturesVisibleProperty); } set { SetValue(PedestrianFeaturesVisibleProperty, value); }
+            get { return (bool)GetValue(PedestrianFeaturesVisibleProperty); } set => SetValue(PedestrianFeaturesVisibleProperty, value);
         }
 
         public double ZoomLevel
         {
-            get { return (double)GetValue(ZoomLevelProperty); } set { SetValue(ZoomLevelProperty, value); }
+            get { return (double)GetValue(ZoomLevelProperty); } set => SetValue(ZoomLevelProperty, value);
         }
 
         public Geopoint Center
         {
-            get { return (Geopoint)GetValue(CenterProperty); } set { SetValue(CenterProperty, value); }
+            get { return (Geopoint)GetValue(CenterProperty); } set => SetValue(CenterProperty, value);
         }
 
         public IList<DependencyObject> Children { get; }
@@ -311,32 +311,32 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public uwpMaps.MapInteractionMode ZoomInteractionMode
         {
-            get { return (uwpMaps.MapInteractionMode)GetValue(ZoomInteractionModeProperty); } set { SetValue(ZoomInteractionModeProperty, value); }
+            get { return (uwpMaps.MapInteractionMode)GetValue(ZoomInteractionModeProperty); } set => SetValue(ZoomInteractionModeProperty, value);
         }
 
         public bool TransitFeaturesVisible
         {
-            get { return (bool)GetValue(TransitFeaturesVisibleProperty); } set { SetValue(TransitFeaturesVisibleProperty, value); }
+            get { return (bool)GetValue(TransitFeaturesVisibleProperty); } set => SetValue(TransitFeaturesVisibleProperty, value);
         }
 
         public uwpMaps.MapInteractionMode TiltInteractionMode
         {
-            get { return (uwpMaps.MapInteractionMode)GetValue(TiltInteractionModeProperty); } set { SetValue(TiltInteractionModeProperty, value); }
+            get { return (uwpMaps.MapInteractionMode)GetValue(TiltInteractionModeProperty); } set => SetValue(TiltInteractionModeProperty, value);
         }
 
         public uwpMaps.MapScene Scene
         {
-            get { return (uwpMaps.MapScene)GetValue(SceneProperty); } set { SetValue(SceneProperty, value); }
+            get { return (uwpMaps.MapScene)GetValue(SceneProperty); } set => SetValue(SceneProperty, value);
         }
 
         public uwpMaps.MapInteractionMode RotateInteractionMode
         {
-            get { return (uwpMaps.MapInteractionMode)GetValue(RotateInteractionModeProperty); } set { SetValue(RotateInteractionModeProperty, value); }
+            get { return (uwpMaps.MapInteractionMode)GetValue(RotateInteractionModeProperty); } set => SetValue(RotateInteractionModeProperty, value);
         }
 
         public uwpMaps.MapPanInteractionMode PanInteractionMode
         {
-            get { return (uwpMaps.MapPanInteractionMode)GetValue(PanInteractionModeProperty); } set { SetValue(PanInteractionModeProperty, value); }
+            get { return (uwpMaps.MapPanInteractionMode)GetValue(PanInteractionModeProperty); } set => SetValue(PanInteractionModeProperty, value);
         }
 
         public uwpMaps.MapCustomExperience CustomExperience
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public bool BusinessLandmarksVisible
         {
-            get { return (bool)GetValue(BusinessLandmarksVisibleProperty); } set { SetValue(BusinessLandmarksVisibleProperty, value); }
+            get { return (bool)GetValue(BusinessLandmarksVisibleProperty); } set => SetValue(BusinessLandmarksVisibleProperty, value);
         }
 
         public uwpMaps.MapCamera ActualCamera { get => UwpControl.ActualCamera; }
@@ -365,34 +365,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public bool TransitFeaturesEnabled
         {
-            get { return (bool)GetValue(TransitFeaturesEnabledProperty); } set { SetValue(TransitFeaturesEnabledProperty, value); }
+            get { return (bool)GetValue(TransitFeaturesEnabledProperty); } set => SetValue(TransitFeaturesEnabledProperty, value);
         }
 
         public bool BusinessLandmarksEnabled
         {
-            get { return (bool)GetValue(BusinessLandmarksEnabledProperty); } set { SetValue(BusinessLandmarksEnabledProperty, value); }
+            get { return (bool)GetValue(BusinessLandmarksEnabledProperty); } set => SetValue(BusinessLandmarksEnabledProperty, value);
         }
 
         public Thickness ViewPadding
         {
-            get { return (Thickness)GetValue(ViewPaddingProperty); } set { SetValue(ViewPaddingProperty, value); }
+            get { return (Thickness)GetValue(ViewPaddingProperty); } set => SetValue(ViewPaddingProperty, value);
         }
 
         public uwpMaps.MapStyleSheet StyleSheet
         {
-            get { return (uwpMaps.MapStyleSheet)GetValue(StyleSheetProperty); } set { SetValue(StyleSheetProperty, value); }
+            get { return (uwpMaps.MapStyleSheet)GetValue(StyleSheetProperty); } set => SetValue(StyleSheetProperty, value);
         }
 
         public uwpMaps.MapProjection MapProjection
         {
-            get { return (uwpMaps.MapProjection)GetValue(MapProjectionProperty); } set { SetValue(MapProjectionProperty, value); }
+            get { return (uwpMaps.MapProjection)GetValue(MapProjectionProperty); } set => SetValue(MapProjectionProperty, value);
         }
 
         public IList<uwpMaps.MapLayer> Layers { get; set; }
 
         public string Region
         {
-            get { return (string)GetValue(RegionProperty); } set { SetValue(RegionProperty, value); }
+            get { return (string)GetValue(RegionProperty); } set => SetValue(RegionProperty, value);
         }
 
         public event TypedEventHandler<uwpMaps.MapControl, object> CenterChanged

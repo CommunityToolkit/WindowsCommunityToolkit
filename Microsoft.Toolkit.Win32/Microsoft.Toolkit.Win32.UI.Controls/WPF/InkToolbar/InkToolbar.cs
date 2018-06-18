@@ -81,44 +81,44 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public InkCanvas TargetInkCanvas
         {
-            get => (InkCanvas)GetValue(TargetInkCanvasProperty); set { SetValue(TargetInkCanvasProperty, value); }
+            get => (InkCanvas)GetValue(TargetInkCanvasProperty); set => SetValue(TargetInkCanvasProperty, value);
         }
 
         public bool IsRulerButtonChecked
         {
-            get => (bool)GetValue(IsRulerButtonCheckedProperty); set { SetValue(IsRulerButtonCheckedProperty, value); }
+            get => (bool)GetValue(IsRulerButtonCheckedProperty); set => SetValue(IsRulerButtonCheckedProperty, value);
         }
 
         public uwpControls.InkToolbarInitialControls InitialControls
         {
-            get => (uwpControls.InkToolbarInitialControls)GetValue(InitialControlsProperty); set { SetValue(InitialControlsProperty, value); }
+            get => (uwpControls.InkToolbarInitialControls)GetValue(InitialControlsProperty); set => SetValue(InitialControlsProperty, value);
         }
 
         public uwpControls.InkToolbarToolButton ActiveTool
         {
-            get => (uwpControls.InkToolbarToolButton)GetValue(ActiveToolProperty); set { SetValue(ActiveToolProperty, value); }
+            get => (uwpControls.InkToolbarToolButton)GetValue(ActiveToolProperty); set => SetValue(ActiveToolProperty, value);
         }
 
         public uwpXaml.DependencyObjectCollection Children
         {
-            get => (uwpXaml.DependencyObjectCollection)GetValue(ChildrenProperty); set { SetValue(ChildrenProperty, value); }
+            get => (uwpXaml.DependencyObjectCollection)GetValue(ChildrenProperty); set => SetValue(ChildrenProperty, value);
         }
 
         public uwpInking.InkDrawingAttributes InkDrawingAttributes { get => (uwpInking.InkDrawingAttributes)GetValue(InkDrawingAttributesProperty); }
 
         public Orientation Orientation
         {
-            get => (Orientation)GetValue(OrientationProperty); set { SetValue(OrientationProperty, value); }
+            get => (Orientation)GetValue(OrientationProperty); set => SetValue(OrientationProperty, value);
         }
 
         public bool IsStencilButtonChecked
         {
-            get => (bool)GetValue(IsStencilButtonCheckedProperty); set { SetValue(IsStencilButtonCheckedProperty, value); }
+            get => (bool)GetValue(IsStencilButtonCheckedProperty); set => SetValue(IsStencilButtonCheckedProperty, value);
         }
 
         public uwpControls.InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
         {
-            get => (uwpControls.InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty); set { SetValue(ButtonFlyoutPlacementProperty, value); }
+            get => (uwpControls.InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty); set => SetValue(ButtonFlyoutPlacementProperty, value);
         }
 
         public event TypedEventHandler<uwpControls.InkToolbar, object> ActiveToolChanged

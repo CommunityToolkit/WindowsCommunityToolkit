@@ -192,11 +192,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite
 
         public WebViewDeferredPermissionRequest DeferredPermissionRequestById(uint id) => UwpControl.DeferredPermissionRequestById(id);
 
-        public event LoadCompletedEventHandler LoadCompleted;
+        public event LoadCompletedEventHandler LoadCompleted
+        {
+            add { UwpControl.LoadCompleted += value; }
+            remove { UwpControl.LoadCompleted -= value; }
+        }
 
-        public event WebViewNavigationFailedEventHandler NavigationFailed;
+        public event WebViewNavigationFailedEventHandler NavigationFailed
+        {
+            add { UwpControl.NavigationFailed += value; }
+            remove { UwpControl.NavigationFailed -= value; }
+        }
 
-        public event NotifyEventHandler ScriptNotify;
+        public event NotifyEventHandler ScriptNotify
+        {
+            add { UwpControl.ScriptNotify += value; }
+            remove { UwpControl.ScriptNotify -= value; }
+        }
 
         public event TypedEventHandler<uwpControls.WebView, WebViewContentLoadingEventArgs> ContentLoading
         {

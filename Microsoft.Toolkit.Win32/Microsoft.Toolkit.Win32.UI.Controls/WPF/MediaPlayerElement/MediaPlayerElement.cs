@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     is rendered. The default value is **Uniform**.
         public Stretch Stretch
         {
-            get => (Stretch)GetValue(StretchProperty); set { SetValue(StretchProperty, value); }
+            get => (Stretch)GetValue(StretchProperty); set => SetValue(StretchProperty, value);
         }
 
         // Summary:
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     The source of the media. The default is **null**.
         public string Source
         {
-            get => (string)GetValue(SourceProperty); set { SetValue(SourceProperty, value); }
+            get => (string)GetValue(SourceProperty); set => SetValue(SourceProperty, value);
         }
 
         // Summary:
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     content area.
         public ImageSource PosterSource
         {
-            get => (ImageSource)GetValue(PosterSourceProperty); set { SetValue(PosterSourceProperty, value); }
+            get => (ImageSource)GetValue(PosterSourceProperty); set => SetValue(PosterSourceProperty, value);
         }
 
         // Summary:
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     The default is **false**.
         public bool IsFullWindow
         {
-            get => (bool)GetValue(IsFullWindowProperty); set { SetValue(IsFullWindowProperty, value); }
+            get => (bool)GetValue(IsFullWindowProperty); set => SetValue(IsFullWindowProperty, value);
         }
 
         // Summary:
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     **true** if playback is automatic; otherwise, **false**. The default is **true**.
         public bool AutoPlay
         {
-            get => (bool)GetValue(AutoPlayProperty); set { SetValue(AutoPlayProperty, value); }
+            get => (bool)GetValue(AutoPlayProperty); set => SetValue(AutoPlayProperty, value);
         }
 
         // Summary:
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     The default is **false**.
         public bool AreTransportControlsEnabled
         {
-            get => (bool)GetValue(AreTransportControlsEnabledProperty); set { SetValue(AreTransportControlsEnabledProperty, value); }
+            get => (bool)GetValue(AreTransportControlsEnabledProperty); set => SetValue(AreTransportControlsEnabledProperty, value);
         }
 
         // Summary:
