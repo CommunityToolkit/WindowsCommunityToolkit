@@ -79,9 +79,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WPF\SwapChainPanel\" />
-    <Folder Include="WPF\WebViewLite\" />
-  </ItemGroup>
 </Project>
