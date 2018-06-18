@@ -701,9 +701,9 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 void GazePointer::Click()
 {
     if (_isSwitchEnabled && 
-        this->_currentlyFixatedElement != nullptr)
+        _currentlyFixatedElement != nullptr)
     {
-        this->_currentlyFixatedElement->Invoke();
+        _currentlyFixatedElement->Invoke();
     }
 }
 
