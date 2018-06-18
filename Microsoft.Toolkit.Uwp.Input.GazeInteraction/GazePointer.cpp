@@ -180,6 +180,11 @@ void GazePointer::LoadSettings(ValueSet^ settings)
     {
         EyesOffDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.GazeIdleTime")));
     }
+
+    if (settings->HasKey("GazePointer.IsSwitchEnabled"))
+    {
+        IsSwitchEnabled = (bool)(settings->Lookup("GazePointer.IsSwitchEnabled"));
+    }
 }
 
 void GazePointer::InitializeHistogram()
