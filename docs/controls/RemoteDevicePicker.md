@@ -17,35 +17,18 @@ The [RemoteDevicePicker](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
 {
     Title = "Pick Remote Device",
-    DeviceListSelectionMode = ListViewSelectionMode.Single
+    SelectionMode = ListViewSelectionMode.Extended
 };
-remoteDevicePicker.RemoteDevicePickerClosed += RemoteDevicePicker_RemoteDevicePickerClosed;
-await remoteDevicePicker.ShowAsync();
+var result = await remoteDevicePicker.PickDeviceAsync();
+await new MessageDialog($"You picked {result.Count.ToString()} Device(s)" + Environment.NewLine + string.Join(",", result.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
 ```
 
 ## Properties
 
 | Property | Type | Description |
 | -- | -- | -- |
-| DeviceListSelectionMode | ListViewSelectionMode | Gets or sets the DeviceList Selection Mode. Defaults to ListViewSelectionMode.Single |
-| HeaderLineColor | Brush | Gets or sets the Line Color on control Header. takes **SystemControlBackgroundAccentBrush** by default |
-
-## Events
-
-| Events | Description |
-| -- | -- |
-| RemoteDevicePickerClosed | Fired when the Remote Device Picker is Closed. |
-
-### RemoteDevicePickerClosed
-
-Use this event to get the list of devices selected from RemoteDevicePicker
-
-```c#
-private async void RemoteDevicePicker_RemoteDevicePickerClosed(object sender, RemoteDevicePickerEventArgs e)
-{
-    await new MessageDialog($"You picked {e.Devices.Count.ToString()} Device(s)" + Environment.NewLine + string.Join(",", e.Devices.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
-}
-```
+| SelectionMode | ListViewSelectionMode | Gets or sets the DeviceList Selection Mode. Defaults to ListViewSelectionMode.Single |
+| HeaderLineBrush | Brush | Gets or sets the Line Color on control Header. takes **SystemControlBackgroundAccentBrush** by default |
 
 ## Sample Code
 
@@ -57,7 +40,7 @@ private async void RemoteDevicePicker_RemoteDevicePickerClosed(object sender, Re
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
