@@ -103,8 +103,7 @@
                                                     AutomationProperties.Name="Remove from selection"
                                                     Background="Transparent"
                                                     BorderThickness="0"
-                                                    FlowDirection="LeftToRight"
-                                                    Tag="{Binding}">
+                                                    FlowDirection="LeftToRight">
                                                     <SymbolIcon Symbol="Cancel" />
                                                 </Button>
                                             </Grid>

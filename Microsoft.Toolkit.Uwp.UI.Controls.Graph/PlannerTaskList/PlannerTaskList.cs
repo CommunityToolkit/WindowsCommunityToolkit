@@ -45,7 +45,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _list.ItemClick -= List_ItemClick;
                 _list.Tapped += List_Tapped;
-                _list.PreviewKeyUp -= List_PreviewKeyUp;
+                if (!IsWindowsPhone)
+                {
+                    _list.PreviewKeyUp -= List_PreviewKeyUp;
+                }
             }
 
             if (_add != null)
@@ -59,7 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _list = list;
                 _list.ItemClick += List_ItemClick;
                 _list.Tapped += List_Tapped;
-                _list.PreviewKeyUp += List_PreviewKeyUp;
+                if (!IsWindowsPhone)
+                {
+                    _list.PreviewKeyUp += List_PreviewKeyUp;
+                }
             }
 
             if (GetTemplateChild(ControlAdd) is Button add)

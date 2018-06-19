@@ -88,7 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (_selectionsListBox != null)
             {
                 _selectionsListBox.Tapped -= SelectionsListBox_Tapped;
-                _selectionsListBox.PreviewKeyUp -= SelectionsListBox_KeyUp;
+                if (!IsWindowsPhone)
+                {
+                    _selectionsListBox.PreviewKeyUp -= SelectionsListBox_KeyUp;
+                }
             }
 
             _searchBox = GetTemplateChild(SearchBoxPartName) as TextBox;
@@ -126,18 +129,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (_selectionsListBox != null)
             {
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
-                _selectionsListBox.PreviewKeyUp += SelectionsListBox_KeyUp;
+                if (!IsWindowsPhone)
+                {
+                    _selectionsListBox.PreviewKeyUp += SelectionsListBox_KeyUp;
+                }
             }
 
             base.OnApplyTemplate();
-        }
-
-        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (sender is TextBox textBox && !string.IsNullOrEmpty(textBox.Text))
-            {
-                textBox.Select(textBox.Text.Length, 0);
-            }
         }
 
         private void ClearAndHideSearchResultListBox()
@@ -285,11 +283,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             RaiseSelectionChanged();
-            _searchBox.Text = string.Empty;
-            if (!string.IsNullOrWhiteSpace(GroupId))
-            {
-                SearchBox_OnTextChanged(_searchBox, null);
-            }
+            SearchPattern = string.Empty;
         }
     }
 }

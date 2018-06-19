@@ -11,6 +11,7 @@ using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Newtonsoft.Json;
+using Windows.System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -236,9 +237,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void List_PreviewKeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async void List_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-                if (e.Key == Windows.System.VirtualKey.Enter
+                if (e.Key == VirtualKey.Enter
                 && e.OriginalSource is FrameworkElement removeButton
                 && removeButton.Name == DeleteTaskButtonName
                 && removeButton.DataContext is PlannerTaskViewModel task)

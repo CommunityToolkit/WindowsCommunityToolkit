@@ -2,14 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -47,33 +42,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            var textboxSender = (TextBox)sender;
-            string searchText = textboxSender.Text.Trim();
-            await SearchPeopleAsync(searchText);
-        }
-
-        private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (sender is ListBox listBox && listBox.SelectedItem is Person person)
+            if (sender is TextBox textBox && !string.IsNullOrEmpty(textBox.Text))
             {
-                if (!AllowMultiple && Selections.Any())
-                {
-                    Selections.Clear();
-                    Selections.Add(person);
-                }
-                else
-                {
-                    Selections.Add(person);
-                }
-
-                RaiseSelectionChanged();
-                _searchBox.Text = string.Empty;
-                if (!string.IsNullOrWhiteSpace(GroupId))
-                {
-                    SearchBox_OnTextChanged(_searchBox, null);
-                }
+                textBox.Select(textBox.Text.Length, 0);
             }
         }
 
@@ -105,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchResultListBox.Width = _searchBox.ActualWidth;
         }
 
-        private void SearchResultListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void SearchResultListBox_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement source)
             {
@@ -126,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private void SearchResultListBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void SearchResultListBox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter
                 && _searchResultListBox.SelectedItem is Person person)
