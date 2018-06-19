@@ -230,33 +230,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (e.OriginalSource is FrameworkElement sourceElement
                 && sourceElement.FindAscendantByName(DeleteTaskButtonName) is FrameworkElement removeButton
-                && removeButton.Tag is PlannerTaskViewModel task)
+                && removeButton.DataContext is PlannerTaskViewModel task)
             {
-                MessageDialog confirmDialog = new MessageDialog(DeleteConfirmDialogMessage);
-                confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogYes, Label = DeleteConfirmDialogYesLabel });
-                confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogNo, Label = DeleteConfirmDialogNoLabel });
-                confirmDialog.DefaultCommandIndex = 0;
-                confirmDialog.CancelCommandIndex = 1;
-                IUICommand result = await confirmDialog.ShowAsync();
-                if (result.Id.ToString() == DeleteConfirmDialogYes)
-                {
-                    try
-                    {
-                        MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                        await graphService.TryLoginAsync();
-                        GraphServiceClient graphClient = graphService.GraphProvider;
-                        PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
-                        await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
-                        Tasks.Remove(task);
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        await InitPlanAsync();
-                    }
-                    catch (Exception exception)
-                    {
-                        MessageDialog messageDialog = new MessageDialog(exception.Message);
-                        await messageDialog.ShowAsync();
-                    }
-                }
+                await DeleteTaskAsync(task);
+            }
+        }
+
+        private async void List_PreviewKeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+                if (e.Key == Windows.System.VirtualKey.Enter
+                && e.OriginalSource is FrameworkElement removeButton
+                && removeButton.Name == DeleteTaskButtonName
+                && removeButton.DataContext is PlannerTaskViewModel task)
+            {
+                await DeleteTaskAsync(task);
             }
         }
     }

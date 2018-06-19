@@ -7,13 +7,75 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:PeoplePicker">
-                    <StackPanel Name="PeoplePickerContainer" DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
+                    <StackPanel DataContext="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">
                         <Grid>
+                            <Line
+                                Name="FlyoutContainer"
+                                Height="1"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Top">
+                                <FlyoutBase.AttachedFlyout>
+                                    <Flyout Placement="Bottom">
+                                        <Flyout.FlyoutPresenterStyle>
+                                            <Style TargetType="FlyoutPresenter">
+                                                <Setter Property="Padding" Value="0" />
+                                                <Setter Property="BorderThickness" Value="0" />
+                                                <Setter Property="MaxWidth" Value="Auto" />
+                                                <Setter Property="Width" Value="Auto" />
+                                                <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="FlyoutPresenter">
+                                                            <ContentPresenter
+                                                                Margin="{TemplateBinding Padding}"
+                                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                Content="{TemplateBinding Content}"
+                                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                ContentTransitions="{TemplateBinding ContentTransitions}" />
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Flyout.FlyoutPresenterStyle>
+                                        <StackPanel>
+                                            <TextBox
+                                                Name="InternalSearchBox"
+                                                Margin="0"
+                                                AutomationProperties.Name="Keywords"
+                                                PlaceholderText="{TemplateBinding PlaceholderText}"
+                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SearchPattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                            <ListBox
+                                                Name="SearchResultListBox"
+                                                AutomationProperties.Name="Search Results"
+                                                ItemsSource="{TemplateBinding SearchResults}">
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem">
+                                                        <Setter Property="Padding" Value="0,0" />
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <controls:ProfileCard
+                                                            AutomationProperties.Name="{Binding DisplayName}"
+                                                            DisplayMode="SmallProfilePhotoLeft"
+                                                            UserId="{Binding Id}" />
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </StackPanel>
+                                    </Flyout>
+                                </FlyoutBase.AttachedFlyout>
+                            </Line>
                             <TextBox
                                 Name="SearchBox"
                                 Margin="0"
                                 AutomationProperties.Name="Keywords"
-                                PlaceholderText="{TemplateBinding PlaceholderText}" />
+                                PlaceholderText="{TemplateBinding PlaceholderText}"
+                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SearchPattern, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             <ProgressRing
                                 Margin="0,0,30,0"
                                 HorizontalAlignment="Right"
@@ -62,26 +124,6 @@
                                     <Run>selected</Run>
                                 </TextBlock>
                             </StackPanel>
-                            <Popup Name="SearchResultPopup">
-                                <ListBox
-                                    Name="SearchResultListBox"
-                                    AutomationProperties.Name="Search Results"
-                                    ItemsSource="{TemplateBinding SearchResults}">
-                                    <ListBox.ItemContainerStyle>
-                                        <Style TargetType="ListBoxItem">
-                                            <Setter Property="Padding" Value="0,0" />
-                                        </Style>
-                                    </ListBox.ItemContainerStyle>
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <controls:ProfileCard
-                                                AutomationProperties.Name="{Binding DisplayName}"
-                                                DisplayMode="SmallProfilePhotoLeft"
-                                                UserId="{Binding Id}" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Popup>
                         </Grid>
                     </StackPanel>
                 </ControlTemplate>

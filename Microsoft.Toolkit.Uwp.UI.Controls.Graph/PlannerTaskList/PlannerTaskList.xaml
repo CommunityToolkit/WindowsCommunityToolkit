@@ -49,8 +49,7 @@
                 AutomationProperties.Name="Delete Task"
                 Background="Transparent"
                 BorderThickness="0"
-                FlowDirection="LeftToRight"
-                Tag="{Binding}">
+                FlowDirection="LeftToRight">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
         </Grid>
@@ -138,8 +137,7 @@
                 AutomationProperties.Name="Delete Task"
                 Background="Transparent"
                 BorderThickness="0"
-                FlowDirection="LeftToRight"
-                Tag="{Binding}">
+                FlowDirection="LeftToRight">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
 
@@ -193,8 +191,7 @@
                 AutomationProperties.Name="Delete Task"
                 Background="Transparent"
                 BorderThickness="0"
-                FlowDirection="LeftToRight"
-                Tag="{Binding}">
+                FlowDirection="LeftToRight">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
         </Grid>
@@ -280,8 +277,7 @@
                 AutomationProperties.Name="Delete Task"
                 Background="Transparent"
                 BorderThickness="0"
-                FlowDirection="LeftToRight"
-                Tag="{Binding}">
+                FlowDirection="LeftToRight">
                 <SymbolIcon Symbol="Cancel" />
             </Button>
             <Border

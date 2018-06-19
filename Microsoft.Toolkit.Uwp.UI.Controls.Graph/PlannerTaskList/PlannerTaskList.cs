@@ -45,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _list.ItemClick -= List_ItemClick;
                 _list.Tapped += List_Tapped;
+                _list.PreviewKeyUp -= List_PreviewKeyUp;
             }
 
             if (_add != null)
@@ -58,6 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _list = list;
                 _list.ItemClick += List_ItemClick;
                 _list.Tapped += List_Tapped;
+                _list.PreviewKeyUp += List_PreviewKeyUp;
             }
 
             if (GetTemplateChild(ControlAdd) is Button add)
@@ -282,6 +284,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             foreach (PlannerTaskViewModel task in tasks)
             {
                 Tasks.Add(task);
+            }
+        }
+
+        private async Task DeleteTaskAsync(PlannerTaskViewModel task)
+        {
+            MessageDialog confirmDialog = new MessageDialog(DeleteConfirmDialogMessage);
+            confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogYes, Label = DeleteConfirmDialogYesLabel });
+            confirmDialog.Commands.Add(new UICommand { Id = DeleteConfirmDialogNo, Label = DeleteConfirmDialogNoLabel });
+            confirmDialog.DefaultCommandIndex = 0;
+            confirmDialog.CancelCommandIndex = 1;
+            IUICommand result = await confirmDialog.ShowAsync();
+            if (result.Id.ToString() == DeleteConfirmDialogYes)
+            {
+                try
+                {
+                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+                    await graphService.TryLoginAsync();
+                    GraphServiceClient graphClient = graphService.GraphProvider;
+                    PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
+                    await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
+                    Tasks.Remove(task);
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    await InitPlanAsync();
+                }
+                catch (Exception exception)
+                {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
+                }
             }
         }
     }

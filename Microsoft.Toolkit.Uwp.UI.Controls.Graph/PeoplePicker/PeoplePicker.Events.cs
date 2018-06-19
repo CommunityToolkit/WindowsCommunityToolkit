@@ -5,16 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Foundation;
-using Windows.Graphics.Display;
-using Windows.System;
 using Windows.UI.Popups;
-using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -43,67 +39,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private void ClearAndHideSearchResultListBox()
+        private static async void SearchPatternPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            SearchResults.Clear();
-            _searchResultPopup.IsOpen = false;
+            if (d is PeoplePicker peoplePicker)
+            {
+                await peoplePicker.SearchPeopleAsync(peoplePicker.SearchPattern);
+            }
         }
 
         private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
         {
             var textboxSender = (TextBox)sender;
             string searchText = textboxSender.Text.Trim();
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                ClearAndHideSearchResultListBox();
-                return;
-            }
-
-            IsLoading = true;
-            try
-            {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-
-                if (graphClient != null)
-                {
-                    var options = new List<QueryOption>
-                    {
-                        new QueryOption("$search", $"\"{searchText}\""),
-                        new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'"),
-                        new QueryOption("$top", (SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit).ToString())
-                    };
-                    IUserPeopleCollectionPage rawResults = await graphClient.Me.People.Request(options).GetAsync();
-
-                    if (rawResults.Any())
-                    {
-                        SearchResults.Clear();
-
-                        var results = rawResults.Where(o => !Selections.Any(s => s.Id == o.Id))
-                            .Take(SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit);
-                        foreach (var item in results)
-                        {
-                            SearchResults.Add(item);
-                        }
-
-                        _searchResultPopup.IsOpen = true;
-                    }
-                    else
-                    {
-                        ClearAndHideSearchResultListBox();
-                    }
-                }
-            }
-            catch (Exception exception)
-            {
-                MessageDialog messageDialog = new MessageDialog(exception.Message);
-                await messageDialog.ShowAsync();
-            }
-            finally
-            {
-                IsLoading = false;
-            }
+            await SearchPeopleAsync(searchText);
         }
 
         private void SearchResultListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -122,23 +70,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                 RaiseSelectionChanged();
                 _searchBox.Text = string.Empty;
+                if (!string.IsNullOrWhiteSpace(GroupId))
+                {
+                    SearchBox_OnTextChanged(_searchBox, null);
+                }
             }
         }
 
         private void SelectionsListBox_Tapped(object sender, TappedRoutedEventArgs e)
         {
             if (e.OriginalSource is FrameworkElement sourceElement
-                && sourceElement.FindAscendantByName("PersonRemoveButton") is FrameworkElement removeButton
-                && removeButton.Tag is Person person)
+                && sourceElement.FindAscendantByName(PeoplePicker.PersonRemoveButtonName) is FrameworkElement removeButton
+                && removeButton.DataContext is Person person)
             {
                 Selections.Remove(person);
                 RaiseSelectionChanged();
             }
         }
 
-        private void RaiseSelectionChanged()
+        private void SelectionsListBox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(Selections));
+            if (e.Key == Windows.System.VirtualKey.Enter
+                && e.OriginalSource is FrameworkElement source
+                && source.Name == PersonRemoveButtonName
+                && source.DataContext is Person person)
+            {
+                Selections.Remove(person);
+                RaiseSelectionChanged();
+            }
         }
 
         private void SearchBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -146,83 +105,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             _searchResultListBox.Width = _searchBox.ActualWidth;
         }
 
-        private void SearchResultListBox_OnLayoutUpdated(object sender, object e)
+        private void SearchResultListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            try
+            if (e.OriginalSource is FrameworkElement source)
             {
-                if (_searchResultListBox.Items.Count > 0 &&
-                    _searchResultListBox.ContainerFromIndex(0) is ListBoxItem item)
+                var parent = VisualTreeHelper.GetParent(source);
+                while (parent != null)
                 {
-                    double itemHeight = item.ActualHeight;
-                    double itemsHeight = itemHeight * _searchResultListBox.Items.Count;
-                    double height = Window.Current.Bounds.Height;
-                    if (Window.Current.Content is DependencyObject content)
+                    parent = VisualTreeHelper.GetParent(parent);
+                    if (parent is ListBoxItem item)
                     {
-                        while (VisualTreeHelper.GetParent(content) is DependencyObject parent)
+                        if (item.DataContext is Person person)
                         {
-                            content = parent;
+                            SelectPerson(person);
                         }
 
-                        if (content is ScrollViewer scrollViewer)
-                        {
-                            height = scrollViewer.ViewportHeight;
-                        }
+                        break;
                     }
-
-                    DisplayInformation information = DisplayInformation.GetForCurrentView();
-                    TextBoxAutomationPeer textBoxAutomationPeer = new TextBoxAutomationPeer(_searchBox);
-                    Rect textBoxBounding = textBoxAutomationPeer.GetBoundingRectangle();
-                    double baseY = textBoxBounding.Bottom / information.RawPixelsPerViewPixel;
-                    double inputHeight = _searchBox.ActualHeight;
-
-                    if (baseY != _lastBaseY || height != _lastHeight || _searchResultListBox.Items.Count != _lastSearchResultCount)
-                    {
-                        if (itemsHeight > height)
-                        {
-                            _searchResultListBox.Height = height;
-                            _searchResultPopup.VerticalOffset = -baseY;
-                        }
-                        else
-                        {
-                            _searchResultListBox.Height = double.NaN;
-                            if (baseY < 0)
-                            {
-                                _searchResultPopup.VerticalOffset = -baseY;
-                            }
-                            else if (height < baseY - inputHeight)
-                            {
-                                _searchResultPopup.VerticalOffset = height - baseY - itemsHeight;
-                            }
-                            else if (height - baseY > itemsHeight)
-                            {
-                                _searchResultPopup.VerticalOffset = 0d;
-                            }
-                            else if (baseY - inputHeight > itemsHeight)
-                            {
-                                _searchResultPopup.VerticalOffset = -itemsHeight - inputHeight;
-                            }
-                            else
-                            {
-                                _searchResultPopup.VerticalOffset = -baseY;
-                            }
-                        }
-                    }
-
-                    _lastBaseY = baseY;
-                    _lastHeight = height;
                 }
-                else
-                {
-                    _lastBaseY = 0d;
-                    _lastHeight = 0d;
-                }
-
-                _lastSearchResultCount = _searchResultListBox.Items.Count;
             }
-            catch
+        }
+
+        private void SearchResultListBox_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter
+                && _searchResultListBox.SelectedItem is Person person)
             {
-                _searchResultPopup.VerticalOffset = 0;
+                SelectPerson(person);
             }
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            _searchBox.Opacity = 1;
+            _searchBox.Focus(FocusState.Programmatic);
         }
     }
 }
