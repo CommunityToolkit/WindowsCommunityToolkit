@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task SearchPeopleAsync(string searchPattern)
         {
-            if (string.IsNullOrWhiteSpace(searchPattern) && string.IsNullOrWhiteSpace(GroupId))
+            if (string.IsNullOrWhiteSpace(searchPattern))
             {
                 ClearAndHideSearchResultListBox();
                 return;
