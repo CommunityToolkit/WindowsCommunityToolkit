@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Url of OneDrive to display
+        /// Identifies the <see cref="DriveUrl"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DriveUrlProperty =
             DependencyProperty.Register(
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(string.Empty, DriveUrlPropertyChanged));
 
         /// <summary>
-        /// How details of a file shows
+        /// Identifies the <see cref="DetailPane"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DetailPaneProperty =
             DependencyProperty.Register(
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(DetailPaneDisplayMode.Disabled, DetailPanePropertyChanged));
 
         /// <summary>
-        /// Page size of each request
+        /// Identifies the <see cref="PageSize"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PageSizeProperty =
             DependencyProperty.Register(
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(20));
 
         /// <summary>
-        /// Share link copied message
+        /// Identifies the <see cref="ShareLinkCopiedMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ShareLinkCopiedMessageProperty =
             DependencyProperty.Register(
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Link copied!"));
 
         /// <summary>
-        /// All files message
+        /// Identifies the <see cref="AllFilesMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AllFilesMessageProperty =
             DependencyProperty.Register(
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("All Files"));
 
         /// <summary>
-        /// Delete confirm message
+        /// Identifies the <see cref="DeleteConfirmMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmMessageProperty =
             DependencyProperty.Register(
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Do you want to delete this file?"));
 
         /// <summary>
-        /// Delete confirm Ok message
+        /// Identifies the <see cref="DeleteConfirmOkMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmOkMessageProperty =
             DependencyProperty.Register(
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("OK"));
 
         /// <summary>
-        /// Delete confirm cancel message
+        /// Identifies the <see cref="DeleteConfirmCancelMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmCancelMessageProperty =
             DependencyProperty.Register(
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Cancel"));
 
         /// <summary>
-        /// Uploading files message template
+        /// Identifies the <see cref="UploadingFilesMessageTemplate"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty UploadingFilesMessageTemplateProperty =
             DependencyProperty.Register(

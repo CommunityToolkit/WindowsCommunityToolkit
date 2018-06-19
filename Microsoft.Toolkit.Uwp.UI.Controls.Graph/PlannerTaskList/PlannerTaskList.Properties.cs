@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
-        /// Id of Planner Plan to Display
+        /// Identifies the <see cref="PlanId"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlanIdProperty =
             DependencyProperty.Register(
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(string.Empty, PlanIdPropertyChanged));
 
         /// <summary>
-        /// Show bucket list or not
+        /// Identifies the <see cref="DisplayBucketList"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DisplayBucketListProperty =
             DependencyProperty.Register(
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(true));
 
         /// <summary>
-        /// Show bucket list or not
+        /// Identifies the <see cref="DisplayPlanList"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DisplayPlanListProperty =
             DependencyProperty.Register(
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(true));
 
         /// <summary>
-        /// Label of all tasks
+        /// Identifies the <see cref="AllTasksLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AllTasksLabelProperty =
             DependencyProperty.Register(
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("All"));
 
         /// <summary>
-        /// Label of closed tasks
+        /// Identifies the <see cref="ClosedTasksLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ClosedTasksLabelProperty =
             DependencyProperty.Register(
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Closed"));
 
         /// <summary>
-        /// message of delete confirm dialog
+        /// Identifies the <see cref="DeleteConfirmDialogMessage"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmDialogMessageProperty =
             DependencyProperty.Register(
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Are you sure to delete this task?"));
 
         /// <summary>
-        /// label of Yes command of delete confirm dialog
+        /// Identifies the <see cref="DeleteConfirmDialogYesLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmDialogYesLabelProperty =
             DependencyProperty.Register(
@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("Yes"));
 
         /// <summary>
-        /// label of No command of delete confirm dialog
+        /// Identifies the <see cref="DeleteConfirmDialogNoLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty DeleteConfirmDialogNoLabelProperty =
             DependencyProperty.Register(
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata("No"));
 
         /// <summary>
-        /// Type of tasks to display
+        /// Identifies the <see cref="TaskType"/> dependency property.
         /// </summary>
         internal static readonly DependencyProperty TaskTypeProperty =
             DependencyProperty.Register(
@@ -117,17 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(string.Empty, TaskTypePropertyChanged));
 
         /// <summary>
-        /// Default date
-        /// </summary>
-        internal static readonly DependencyProperty TodayProperty =
-            DependencyProperty.Register(
-                nameof(Today),
-                typeof(DateTimeOffset),
-                typeof(PlannerTaskList),
-                new PropertyMetadata(DateTimeOffset.Now));
-
-        /// <summary>
-        /// Tasks to display in list
+        /// Identifies the <see cref="Tasks"/> dependency property.
         /// </summary>
         internal static readonly DependencyProperty TasksProperty =
             DependencyProperty.Register(
@@ -137,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(new ObservableCollection<PlannerTaskViewModel>()));
 
         /// <summary>
-        /// All types of tasks
+        /// Identifies the <see cref="TaskFilterSource"/> dependency property.
         /// </summary>
         internal static readonly DependencyProperty TaskFilterSourceProperty =
             DependencyProperty.Register(
@@ -147,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(new ObservableCollection<PlannerBucket>()));
 
         /// <summary>
-        /// All buckets in current plan
+        /// Identifies the <see cref="Buckets"/> dependency property.
         /// </summary>
         internal static readonly DependencyProperty BucketsProperty =
             DependencyProperty.Register(
@@ -157,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 new PropertyMetadata(new ObservableCollection<PlannerBucket>()));
 
         /// <summary>
-        /// All plans of current user
+        /// Identifies the <see cref="Plans"/> dependency property.
         /// </summary>
         internal static readonly DependencyProperty PlansProperty =
             DependencyProperty.Register(
@@ -267,12 +257,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (string)GetValue(TaskTypeProperty); }
             set { SetValue(TaskTypeProperty, value); }
-        }
-
-        internal DateTimeOffset Today
-        {
-            get { return (DateTimeOffset)GetValue(TodayProperty); }
-            set { SetValue(TodayProperty, value); }
         }
 
         internal ObservableCollection<PlannerPlan> Plans
