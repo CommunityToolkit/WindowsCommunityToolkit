@@ -146,6 +146,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                         plannerTaskViewModel.BucketName = bucketName;
                         task.Add(TaskBucketIdJsonName, plannerTaskViewModel.BucketId);
+                        if (string.IsNullOrEmpty(plannerTaskViewModel.BucketId))
+                        {
+                            skipUpdate = true;
+                        }
+
                         break;
                     case nameof(plannerTaskViewModel.DueDateTime):
                         task.Add(TaskDueDateTimeJsonName, plannerTaskViewModel.DueDateTime);
@@ -239,10 +244,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void List_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
         {
-                if (e.Key == VirtualKey.Enter
-                && e.OriginalSource is FrameworkElement removeButton
-                && removeButton.Name == DeleteTaskButtonName
-                && removeButton.DataContext is PlannerTaskViewModel task)
+            if (e.Key == VirtualKey.Enter
+            && e.OriginalSource is FrameworkElement removeButton
+            && removeButton.Name == DeleteTaskButtonName
+            && removeButton.DataContext is PlannerTaskViewModel task)
             {
                 await DeleteTaskAsync(task);
             }

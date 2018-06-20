@@ -41,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <inheritdoc/>
         protected async override void OnApplyTemplate()
         {
+            ClearTasks();
+
             if (_list != null)
             {
                 _list.ItemClick -= List_ItemClick;
@@ -131,6 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
+                ClearTasks();
                 MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
                 await graphService.TryLoginAsync();
                 GraphServiceClient graphClient = graphService.GraphProvider;
@@ -168,6 +171,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 MessageDialog messageDialog = new MessageDialog(exception.Message);
                 await messageDialog.ShowAsync();
+            }
+        }
+
+        private void ClearTasks()
+        {
+            if (_allTasks.Count > 0)
+            {
+                foreach (var task in _allTasks)
+                {
+                    task.PropertyChanged -= TaskViewModel_PropertyChanged;
+                }
+
+                _allTasks.Clear();
+            }
+
+            if (Tasks.Count > 0)
+            {
+                Tasks.Clear();
             }
         }
 
