@@ -12,12 +12,10 @@ using System.Net.Http.Headers;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services;
+using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
-using Windows.Security.Authentication.Web;
-using Windows.Security.Credentials;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
-using Windows.Storage;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -42,12 +40,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Base Url for service.
         /// </summary>
         private readonly TwitterOAuthTokens _tokens;
-
-        /// <summary>
-        /// Password vault used to store access tokens
-        /// </summary>
-        private readonly PasswordVault _vault;
-
+        private readonly IAuthenticationBroker _authenticationBroker;
+        private readonly IPasswordManager _passwordManager;
+        private readonly IStorageManager _storageManager;
         private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
@@ -65,10 +60,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Constructor.
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
-        public TwitterDataProvider(TwitterOAuthTokens tokens)
+        public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             _tokens = tokens;
-            _vault = new PasswordVault();
+            _authenticationBroker = authenticationBroker;
+            _passwordManager = passwordManager;
+            _storageManager = storageManager;
+
 
             if (_client == null)
             {
@@ -233,40 +231,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
-        private PasswordCredential PasswordCredential
-        {
-            get
-            {
-                // Password vault remains when app is uninstalled so checking the local settings value
-                if (ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] == null)
-                {
-                    return null;
-                }
-
-                var passwordCredentials = _vault.RetrieveAll();
-                var temp = passwordCredentials.FirstOrDefault(c => c.Resource == "TwitterAccessToken");
-
-                if (temp == null)
-                {
-                    return null;
-                }
-
-                return _vault.Retrieve(temp.Resource, temp.UserName);
-            }
-        }
-
         /// <summary>
         /// Log user in to Twitter.
         /// </summary>
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var twitterCredentials = PasswordCredential;
-            if (twitterCredentials != null)
+            var crendetials = _passwordManager.Get("TwitterAccessToken");
+            var user = _storageManager.Get("TwitterScreenName");
+            if (!string.IsNullOrEmpty(user) && crendetials != null)
             {
-                _tokens.AccessToken = twitterCredentials.UserName;
-                _tokens.AccessTokenSecret = twitterCredentials.Password;
-                UserScreenName = ApplicationData.Current.LocalSettings.Values["TwitterScreenName"].ToString();
+                _tokens.AccessToken = crendetials.UserName;
+                _tokens.AccessTokenSecret = crendetials.Password;
+                UserScreenName = user;
                 LoggedIn = true;
                 return true;
             }
@@ -283,20 +260,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             Uri startUri = new Uri(twitterUrl);
             Uri endUri = new Uri(_tokens.CallbackUri);
 
-            var result = await WebAuthenticationBroker.AuthenticateAsync(WebAuthenticationOptions.None, startUri, endUri);
+            var result = await _authenticationBroker.Authenticate(startUri, endUri);
 
             switch (result.ResponseStatus)
             {
-                case WebAuthenticationStatus.Success:
+                case AuthenticationResultStatus.Success:
                     LoggedIn = true;
                     return await ExchangeRequestTokenForAccessTokenAsync(result.ResponseData);
 
-                case WebAuthenticationStatus.ErrorHttp:
+                case AuthenticationResultStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     LoggedIn = false;
                     return false;
 
-                case WebAuthenticationStatus.UserCancel:
+                case AuthenticationResultStatus.UserCancel:
                     Debug.WriteLine("WAB user aborted.");
                     LoggedIn = false;
                     return false;
@@ -311,11 +288,11 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         public void Logout()
         {
-            var twitterCredentials = PasswordCredential;
-            if (twitterCredentials != null)
+            var credential = _passwordManager.Get("TwitterAccessToken");
+            if (credential != null)
             {
-                _vault.Remove(twitterCredentials);
-                ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = null;
+                _passwordManager.Remove("TwitterAccessToken");
+                _storageManager.Set("TwitterScreenName", null);
                 UserScreenName = null;
             }
 
@@ -792,9 +769,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             _tokens.AccessToken = accessToken;
             _tokens.AccessTokenSecret = accessTokenSecret;
 
-            var passwordCredential = new PasswordCredential("TwitterAccessToken", accessToken, accessTokenSecret);
-            ApplicationData.Current.LocalSettings.Values["TwitterScreenName"] = screenName;
-            _vault.Add(passwordCredential);
+            _passwordManager.Store("TwitterAccessToken", new PasswordCredential { UserName = accessToken, Password = accessTokenSecret });
+            _storageManager.Set("TwitterScreenName", screenName);
 
             return true;
         }

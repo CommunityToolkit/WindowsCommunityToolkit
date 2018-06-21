@@ -5,15 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services;
-using Windows.Data.Json;
-using Windows.Security.Authentication.Web;
-using Windows.Security.Credentials;
-using Windows.Storage;
+using Microsoft.Toolkit.Services.Core;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 {
@@ -27,10 +24,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
         private static HttpClient client = new HttpClient();
 
-        /// <summary>
-        /// Password vault used to store access tokens
-        /// </summary>
-        private readonly PasswordVault _vault;
 
         /// <summary>
         /// Gets or sets logged in user information.
@@ -47,6 +40,10 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         public LinkedInPermissions RequiredPermissions { get; set; }
 
+        private readonly IAuthenticationBroker _authentication;
+        private readonly IPasswordManager _passwordManager;
+        private readonly IStorageManager _storageManager;
+
         /// <summary>
         /// Gets or sets tokens property.
         /// </summary>
@@ -58,34 +55,13 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="requiredPermissions">Required permissions for the session.</param>
-        public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
-
-            _vault = new PasswordVault();
-        }
-
-        private PasswordCredential PasswordCredential
-        {
-            get
-            {
-                // Password vault remains when app is uninstalled so checking the local settings value
-                if (ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] == null)
-                {
-                    return null;
-                }
-
-                var passwordCredentials = _vault.RetrieveAll();
-                var temp = passwordCredentials.FirstOrDefault(c => c.Resource == LinkedInConstants.STORAGEKEYACCESSTOKEN);
-
-                if (temp == null)
-                {
-                    return null;
-                }
-
-                return _vault.Retrieve(temp.Resource, temp.UserName);
-            }
+            _authentication = authentication;
+            _storageManager = storageManager;
+            _passwordManager = passwordManager;
         }
 
         /// <summary>
@@ -94,11 +70,12 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var linkedInCredentials = PasswordCredential;
-            if (linkedInCredentials != null)
+            var user = _storageManager.Get(LinkedInConstants.STORAGEKEYUSER);
+            var credential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
+            if (!string.IsNullOrEmpty(user) && credential != null)
             {
-                Tokens.AccessToken = linkedInCredentials.Password;
-                Username = ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER].ToString();
+                Tokens.AccessToken = credential.Password;
+                Username = _storageManager.Get(LinkedInConstants.STORAGEKEYUSER);
                 LoggedIn = true;
                 return true;
             }
@@ -113,10 +90,8 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 {
                     Tokens.AccessToken = accessToken;
 
-                    var passwordCredential = new PasswordCredential(LinkedInConstants.STORAGEKEYACCESSTOKEN, LinkedInConstants.STORAGEKEYUSER, accessToken);
-                    ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] = LinkedInConstants.STORAGEKEYUSER;
-                    _vault.Add(passwordCredential);
-
+                    _passwordManager.Store(LinkedInConstants.STORAGEKEYACCESSTOKEN, new PasswordCredential { UserName = LinkedInConstants.STORAGEKEYUSER, Password = accessToken });
+                    _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, LinkedInConstants.STORAGEKEYUSER);
                     return true;
                 }
             }
@@ -130,11 +105,11 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         public void Logout()
         {
-            var linkedInCredentials = PasswordCredential;
-            if (linkedInCredentials != null)
+            var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN); ;
+            if (crendential != null)
             {
-                _vault.Remove(linkedInCredentials);
-                ApplicationData.Current.LocalSettings.Values[LinkedInConstants.STORAGEKEYUSER] = null;
+                _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
+                _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, null);
             }
 
             LoggedIn = false;
@@ -239,8 +214,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 {
                     var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                    var json = JsonObject.Parse(jsonString);
-                    return json.GetNamedString("access_token");
+
+                    var json = JObject.Parse(jsonString);
+                    return json.GetValue("access_token").Value<string>();
                 }
             }
         }
@@ -258,35 +234,33 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             var startUri = new Uri(url);
             var endUri = new Uri(tokens.CallbackUri);
 
-            WebAuthenticationResult result = await WebAuthenticationBroker.AuthenticateAsync(
-                WebAuthenticationOptions.None,
-                startUri,
-                endUri);
+            var result = await _authentication.Authenticate(startUri, endUri);
+
 
             switch (result.ResponseStatus)
             {
-                case WebAuthenticationStatus.Success:
-                {
-                    var response = result.ResponseData;
-                    IDictionary<string, string> dictionary = new Dictionary<string, string>();
-                    var split = response.Split('?');
-                    foreach (var keyValue in split[split.Length - 1].Split('&'))
+                case AuthenticationResultStatus.Success:
                     {
-                        var keyValueSplit = keyValue.Split('=');
-                        if (keyValueSplit.Length == 2)
+                        var response = result.ResponseData;
+                        IDictionary<string, string> dictionary = new Dictionary<string, string>();
+                        var split = response.Split('?');
+                        foreach (var keyValue in split[split.Length - 1].Split('&'))
                         {
-                            dictionary.Add(keyValueSplit[0], keyValueSplit[1]);
+                            var keyValueSplit = keyValue.Split('=');
+                            if (keyValueSplit.Length == 2)
+                            {
+                                dictionary.Add(keyValueSplit[0], keyValueSplit[1]);
+                            }
                         }
+
+                        return dictionary["code"];
                     }
 
-                    return dictionary["code"];
-                }
-
-                case WebAuthenticationStatus.ErrorHttp:
+                case AuthenticationResultStatus.ErrorHttp:
                     Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     return string.Empty;
 
-                case WebAuthenticationStatus.UserCancel:
+                case AuthenticationResultStatus.UserCancel:
                     Debug.WriteLine("WAB user aborted.");
                     return string.Empty;
             }
@@ -315,4 +289,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             return "scope=" + Uri.EscapeDataString(scope.ToString());
         }
     }
+
+
 }

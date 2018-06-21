@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -29,12 +30,17 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
         private LinkedInPermissions _requiredPermissions;
 
+        private IAuthenticationBroker _authenticationBroker;
+        private IPasswordManager _passwordManager;
+        private IStorageManager _storageManager;
+
+
         private bool _isInitialized = false;
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
-        public LinkedInDataProvider Provider => _provider ?? (_provider = new LinkedInDataProvider(_oAuthTokens, _requiredPermissions));
+        public LinkedInDataProvider Provider => _provider ?? (_provider = new LinkedInDataProvider(_oAuthTokens, _requiredPermissions, _authenticationBroker, _passwordManager, _storageManager));
 
         private LinkedInService()
         {
@@ -97,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="clientSecret">Client secret.</param>
         /// <param name="callbackUri">Callback URI. Has to match callback URI defined at www.linkedin.com/developer/apps/ (can be arbitrary).</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string clientId, string clientSecret, string callbackUri)
+        public bool Initialize(string clientId, string clientSecret, string callbackUri, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             if (string.IsNullOrEmpty(clientId))
             {
@@ -121,21 +127,26 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 CallbackUri = callbackUri
             };
 
-            return Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile);
+            return Initialize(oAuthTokens, authentication, passwordManager, storageManager, LinkedInPermissions.ReadBasicProfile);
         }
 
         /// <summary>
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="authentication">Complete</param>
         /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
+        public bool Initialize(LinkedInOAuthTokens oAuthTokens, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
         {
             if (oAuthTokens == null)
             {
                 throw new ArgumentNullException(nameof(oAuthTokens));
             }
+
+            _authenticationBroker = authentication;
+            _storageManager = storageManager;
+            _passwordManager = passwordManager;
 
             _oAuthTokens = oAuthTokens;
             _requiredPermissions = requiredPermissions;

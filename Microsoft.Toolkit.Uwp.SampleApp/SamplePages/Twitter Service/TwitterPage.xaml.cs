@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.Services;
 using Microsoft.Toolkit.Uwp.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
+            TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager());
 
             if (!await TwitterService.Instance.LoginAsync())
             {

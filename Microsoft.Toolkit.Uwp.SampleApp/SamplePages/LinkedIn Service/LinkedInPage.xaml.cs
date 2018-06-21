@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Services;
 using Microsoft.Toolkit.Uwp.Services.LinkedIn;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CallbackUri = CallbackUri.Text
             };
 
-            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
+            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
 
             var loggedIn = await LinkedInService.Instance.LoginAsync();
 
