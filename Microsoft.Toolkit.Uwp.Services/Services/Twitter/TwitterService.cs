@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Core;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -62,6 +62,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="consumerKey">Consumer key.</param>
         /// <param name="consumerSecret">Consumer secret.</param>
         /// <param name="callbackUri">Callback URI. Has to match callback URI defined at apps.twitter.com (can be arbitrary).</param>
+        /// <param name="authenticationBroker">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string consumerKey, string consumerSecret, string callbackUri, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
@@ -94,6 +97,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="authenticationBroker">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(TwitterOAuthTokens oAuthTokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {

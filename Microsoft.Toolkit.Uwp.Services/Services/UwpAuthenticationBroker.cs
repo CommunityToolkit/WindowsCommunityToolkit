@@ -9,18 +9,17 @@ using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
-
     /// <summary>
-    /// complete
+    /// Authentication Broker
     /// </summary>
     public class UwpAuthenticationBroker : IAuthenticationBroker
     {
         /// <summary>
-        /// Complete
+        /// Authentication process
         /// </summary>
-        /// <param name="requestUri"></param>
-        /// <param name="callbackUri"></param>
-        /// <returns></returns>
+        /// <param name="requestUri"> Request Uri</param>
+        /// <param name="callbackUri"> Uri result</param>
+        /// <returns> Returns login status</returns>
         public async Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri)
         {
             WebAuthenticationResult result = await WebAuthenticationBroker.AuthenticateAsync(

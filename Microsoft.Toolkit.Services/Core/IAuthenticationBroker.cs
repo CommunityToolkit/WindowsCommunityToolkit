@@ -6,45 +6,85 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Services.Core
 {
-    public interface IStorageManager
-    {
-        string Get(string key);
-        void Set(string key, string value);
-    }
-
-    public interface IPasswordManager
-    {
-        PasswordCredential Get(string key);
-        void Store(string resource, PasswordCredential credential);
-        void Remove(string key);
-    }
-
-    public class PasswordCredential
-    {
-        public string UserName { get; set; }
-        public string Password { get; set; }
-    }
-
-
     /// <summary>
-    /// TODO
+    /// This gets an Uri value.
     /// </summary>
     public interface IAuthenticationBroker
     {
+        /// <summary>
+        /// Returns the authentication status, it could be UserCancel, ErrorHttp and Success.
+        /// </summary>
+        /// <param name="requestUri"> Autorization base url</param>
+        /// <param name="callbackUri"> LinkedInOAuthTokens callbackUri</param>
+        /// <returns> Returns a status </returns>
         Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri);
     }
 
     /// <summary>
-    /// TODO
+    /// This interface store the key value
+    /// </summary>
+    public interface IStorageManager
+    {
+        /// <summary>
+        /// Gets the key value
+        /// </summary>
+        /// <param name="key"> Token value </param>
+        /// <returns> Returns a string value</returns>
+        string Get(string key);
+
+        /// <summary>
+        /// Sets the key value
+        /// </summary>
+        /// <param name="key"> Token key </param>
+        /// <param name="value"> String value </param>
+        void Set(string key, string value);
+    }
+
+    /// <summary>
+    /// This interface gets a PasswordCredential, store the credential and remove the key.
+    /// </summary>
+    public interface IPasswordManager
+    {
+        /// <summary>
+        /// Gets the user credentials.
+        /// </summary>
+        /// <param name="key"> Receive the storage key user and the access token </param>
+        /// <returns> Returns user credential.</returns>
+        PasswordCredential Get(string key);
+
+        /// <summary>
+        /// Store users credential.
+        /// </summary>
+        /// <param name="resource"> Resource</param>
+        /// <param name="credential"> Username and password.</param>
+        void Store(string resource, PasswordCredential credential);
+
+        /// <summary>
+        /// Remove users credential.
+        /// </summary>
+        /// <param name="key"> Credential unique key</param>
+        void Remove(string key);
+    }
+
+    /// <summary>
+    /// AuthenticationResult class, parameters: ResponseErrorDetail(uint), ResponseData(string) and ResponseStatus(AuthenticationResultStatus)
     /// </summary>
     public class AuthenticationResult
     {
+        /// <summary>
+        /// Gets or sets the authentication error detail
+        /// </summary>
         public uint ResponseErrorDetail { get; set; }
 
+        /// <summary>
+        /// Gets or sets the authentication result data
+        /// </summary>
         public string ResponseData { get; set; }
 
+        /// <summary>
+        /// Gets or sets the authentication status, could be UserCancel, ErrorHttp and Success.
+        /// </summary>
         public AuthenticationResultStatus ResponseStatus { get; set; }
-
     }
 
     /// <summary>

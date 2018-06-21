@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// A cached dictionary mapping easings to bezier control points
         /// </summary>
-        private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode), (Vector2, Vector2)>();
+        private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode),(Vector2, Vector2)>();
 
         /// <summary>
         /// Gets or sets the default EasingType used for storyboard animations

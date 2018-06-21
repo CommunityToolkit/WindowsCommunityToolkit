@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Core;
 
 namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 {
@@ -33,8 +33,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         private IAuthenticationBroker _authenticationBroker;
         private IPasswordManager _passwordManager;
         private IStorageManager _storageManager;
-
-
         private bool _isInitialized = false;
 
         /// <summary>
@@ -102,6 +100,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// <param name="clientId">Client Id.</param>
         /// <param name="clientSecret">Client secret.</param>
         /// <param name="callbackUri">Callback URI. Has to match callback URI defined at www.linkedin.com/developer/apps/ (can be arbitrary).</param>
+        /// <param name="authentication">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface.</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string clientId, string clientSecret, string callbackUri, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
@@ -134,7 +135,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// Initialize underlying provider with relevent token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
-        /// <param name="authentication">Complete</param>
+        /// <param name="authentication">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface.</param>
         /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(LinkedInOAuthTokens oAuthTokens, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)

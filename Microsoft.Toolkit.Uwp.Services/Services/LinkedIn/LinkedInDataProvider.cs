@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
 
         private static HttpClient client = new HttpClient();
 
-
         /// <summary>
         /// Gets or sets logged in user information.
         /// </summary>
@@ -55,6 +54,9 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="requiredPermissions">Required permissions for the session.</param>
+        /// <param name="authentication">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             Tokens = tokens;
@@ -105,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         /// </summary>
         public void Logout()
         {
-            var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN); ;
+            var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
             if (crendential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
@@ -213,8 +215,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
                     var jsonString = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-
-
                     var json = JObject.Parse(jsonString);
                     return json.GetValue("access_token").Value<string>();
                 }
@@ -235,8 +235,6 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             var endUri = new Uri(tokens.CallbackUri);
 
             var result = await _authentication.Authenticate(startUri, endUri);
-
-
             switch (result.ResponseStatus)
             {
                 case AuthenticationResultStatus.Success:
@@ -289,6 +287,4 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
             return "scope=" + Uri.EscapeDataString(scope.ToString());
         }
     }
-
-
 }

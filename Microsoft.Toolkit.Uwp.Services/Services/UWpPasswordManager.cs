@@ -9,37 +9,33 @@ using Windows.Storage;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
-
-    public class UwpStorageManager : IStorageManager
-    {
-        public string Get(string key)
-        {
-            return ApplicationData.Current.LocalSettings.Values[key]?.ToString();
-        }
-
-        public void Set(string key, string value)
-        {
-            ApplicationData.Current.LocalSettings.Values[key] = value;
-        }
-    }
-
+    /// <summary>
+    /// Password Manager
+    /// </summary>
     public class UWpPasswordManager : IPasswordManager
     {
         /// <summary>
         /// Password vault used to store access tokens
         /// </summary>
-
         private readonly PasswordVault _vault;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UWpPasswordManager"/> class.
+        /// </summary>
         public UWpPasswordManager()
         {
             _vault = new PasswordVault();
         }
 
+        /// <inheritdoc/>
         public Toolkit.Services.Core.PasswordCredential Get(string key)
         {
             var crendentials = RetrievePasswordCredential(key);
-            if (crendentials == null) return null;
+            if (crendentials == null)
+            {
+                return null;
+            }
+
             return new Toolkit.Services.Core.PasswordCredential { Password = crendentials.Password, UserName = crendentials.UserName };
         }
 
@@ -52,20 +48,21 @@ namespace Microsoft.Toolkit.Uwp.Services
             {
                 return null;
             }
+
             return _vault.Retrieve(temp.Resource, temp.UserName);
         }
 
+        /// <inheritdoc/>
         public void Remove(string key)
         {
             _vault.Remove(RetrievePasswordCredential(key));
         }
 
+        /// <inheritdoc/>
         public void Store(string resource, Toolkit.Services.Core.PasswordCredential credentials)
         {
             var passwordCredential = new Windows.Security.Credentials.PasswordCredential(resource, credentials.UserName, credentials.Password);
             _vault.Add(passwordCredential);
         }
     }
-
-
 }

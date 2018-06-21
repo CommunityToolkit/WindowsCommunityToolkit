@@ -60,14 +60,15 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Constructor.
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
+        /// <param name="authenticationBroker">Authentication result interface.</param>
+        /// <param name="passwordManager">Password Manager interface, store the password.</param>
+        /// <param name="storageManager">Storage Manager interface.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             _tokens = tokens;
             _authenticationBroker = authenticationBroker;
             _passwordManager = passwordManager;
             _storageManager = storageManager;
-
-
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
