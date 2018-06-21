@@ -4,9 +4,9 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Services.Twitter
+namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
-    class TwitterCoordinates
+    public class TwitterCoordinates
     {
         [JsonProperty("coordinates")]
         public long[] Coordinates { get; set; }

@@ -92,8 +92,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty("user")]
         public TwitterUser User { get; set; }
 
+        /// <summary>
+        /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
+        /// </summary>
         [JsonProperty("coordinates")]
-        public TwitterCoordinates Coordinates { get; set; } 
+        public TwitterCoordinates Coordinates { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Place object returned by Twitter for some locations
+        /// </summary>
+        [JsonProperty("place")]
+        public TwitterPlace Place { get; set; }
 
         /// <summary>
         /// Gets or sets the Retweeted Tweet
