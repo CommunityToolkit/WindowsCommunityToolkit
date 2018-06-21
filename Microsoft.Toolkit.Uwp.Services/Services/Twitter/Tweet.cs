@@ -72,19 +72,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets in_reply_to_screen_name
         /// </summary>
         [JsonProperty("in_reply_to_screen_name")]
-        private string InReplyToScreenName { get; set; }
+        public string InReplyToScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_status_id_str
         /// </summary>
         [JsonProperty("in_reply_to_status_id_str")]
-        private string InReplyToStatusId { get; set; }
+        public string InReplyToStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_user_id_str
         /// </summary>
         [JsonProperty("in_reply_to_user_id_str")]
-        private string InReplyToUserId { get; set; }
+        public string InReplyToUserId { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
@@ -131,18 +131,18 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets quoted_status
         /// </summary>
         [JsonProperty("quoted_status")]
-        private Tweet QuotedStatus { get; set; }
+        public Tweet QuotedStatus { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_id_str
         /// </summary>
         [JsonProperty("quoted_status_id_str")]
-        private string QuotedStatusId { get; set; }
+        public string QuotedStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_permalink
         /// </summary>
         [JsonProperty("quoted_status_permalink")]
-        private TwitterUrl QuotedStatusPermalink { get; set; }
+        public TwitterUrl QuotedStatusPermalink { get; set; }
     }
 }
