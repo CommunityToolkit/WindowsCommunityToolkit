@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.OAuth;
 
 namespace Microsoft.Toolkit.Services.Twitter
@@ -16,6 +17,8 @@ namespace Microsoft.Toolkit.Services.Twitter
     /// </summary>
     internal class TwitterOAuthRequestBuilder
     {
+        private ISignatureManager _signatureManager;
+
         /// <summary>
         /// Realm for request.
         /// </summary>
@@ -82,14 +85,27 @@ namespace Microsoft.Toolkit.Services.Twitter
         public OAuthParameter TokenSecret { get; private set; }
 
         /// <summary>
+        /// Gets signature getter.
+        /// </summary>
+        public OAuthParameter Signature => new OAuthParameter("oauth_signature", GenerateSignature());
+
+        /// <summary>
+        /// Gets authorization header getter.
+        /// </summary>
+        public string AuthorizationHeader => GenerateAuthorizationHeader();
+
+
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="TwitterOAuthRequestBuilder"/> class.
         /// Authorization request builder.
         /// </summary>
         /// <param name="requestUri">Request Uri.</param>
         /// <param name="tokens">Tokens to form request.</param>
         /// <param name="method">Method to use with request.</param>
-        public TwitterOAuthRequestBuilder(Uri requestUri, TwitterOAuthTokens tokens, string method = "GET")
+        public TwitterOAuthRequestBuilder(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager, string method = "GET")
         {
+            _signatureManager = signatureManager;
             Verb = method;
 
             RequestUriWithoutQuery = new Uri(requestUri.AbsoluteWithoutQuery());
@@ -161,6 +177,49 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             TimeSpan ts = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
             return Convert.ToInt64(ts.TotalSeconds, CultureInfo.CurrentCulture).ToString(CultureInfo.CurrentCulture);
+        }
+
+        /// <summary>
+        /// Generate signature.
+        /// </summary>
+        /// <returns>Generated signature string.</returns>
+        private string GenerateSignature()
+        {
+            string signatureBaseString = string.Format(
+                CultureInfo.InvariantCulture,
+                "{2}&{0}&{1}",
+                OAuthEncoder.UrlEncode(RequestUriWithoutQuery.Normalize()),
+                OAuthEncoder.UrlEncode(GetSignParameters()),
+                Verb);
+
+            string key = string.Format(
+                CultureInfo.InvariantCulture,
+                "{0}&{1}",
+                OAuthEncoder.UrlEncode(ConsumerSecret.Value),
+                OAuthEncoder.UrlEncode(TokenSecret.Value));
+
+#if WINRT
+            return _signatureManager.GetSignature(signatureBaseString, key);
+#else
+            return _signatureManager.GetSignature(signatureBaseString, key);
+#endif
+
+
+        }
+
+        /// <summary>
+        /// Generate authorization header.
+        /// </summary>
+        /// <returns>Generated authorizatin header string.</returns>
+        private string GenerateAuthorizationHeader()
+        {
+            StringBuilder authHeaderBuilder = new StringBuilder();
+
+            authHeaderBuilder.AppendFormat("OAuth realm=\"{0}\",", Realm);
+            authHeaderBuilder.Append(string.Join(",", GetAuthHeaderParameters().OrderBy(p => p.Key).Select(p => p.ToString(true)).ToArray()));
+            authHeaderBuilder.AppendFormat(",{0}", Signature.ToString(true));
+
+            return authHeaderBuilder.ToString();
         }
 
         /// <summary>

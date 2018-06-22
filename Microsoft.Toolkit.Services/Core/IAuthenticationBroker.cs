@@ -8,7 +8,7 @@ namespace Microsoft.Toolkit.Services.Core
 {
     public interface ISignatureManager
     {
-        string GetSignature(string baseSignature, string secret);
+        string GetSignature(string baseSignature, string secret, bool append = false);
     }
 
     /// <summary>

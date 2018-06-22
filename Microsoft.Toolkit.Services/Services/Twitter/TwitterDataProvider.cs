@@ -93,8 +93,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/users/show.json?screen_name={userScreenName}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                //TODO: Complete
-                rawResult = await request.ExecuteGetAsync(uri, _tokens, string.Empty);
+                rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
             catch (System.Net.Http.HttpRequestException wex)
@@ -151,8 +150,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={screenName}&count={maxRecords}&include_rts=1&tweet_mode=extended");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                //TODO: COMPLETE
-                rawResult = await request.ExecuteGetAsync(uri, _tokens, string.Empty);
+                rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -210,8 +208,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}&tweet_mode=extended");
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                // TODO: COMPLETE
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, string.Empty);
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
                 var result = parser.Parse(rawResult);
                 return result
@@ -350,7 +347,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                await request.ExecutePostAsync(uri, _tokens, "asd");
+                await request.ExecutePostAsync(uri, _tokens, _signatureManager);
 
                 return true;
             }
@@ -395,7 +392,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
             // TODO: COMPLETE
-            return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, string.Empty);
+            return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, _signatureManager);
         }
 #endif
 
@@ -414,7 +411,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 _streamRequest = new TwitterOAuthRequest();
 
                 // TODO: COMPLETE
-                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)), string.Empty);
+                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)), _signatureManager);
             }
             catch
             {
@@ -617,8 +614,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}&tweet_mode=extended");
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
-                // TODO: COMPLETE
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, string.Empty);
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
                 return parser.Parse(rawResult);
             }
@@ -655,8 +651,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 TwitterOAuthRequest request = new TwitterOAuthRequest();
 
-                // TODO: COMPLETE
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, string.Empty);
+                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
                 return parser.Parse(rawResult);
             }
@@ -697,7 +692,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             string timeStamp = GetTimeStamp();
             string sigBaseStringParams = GetSignatureBaseStringParams(_tokens.ConsumerKey, nonce, timeStamp, "oauth_callback=" + Uri.EscapeDataString(twitterCallbackUrl));
             string sigBaseString = "GET&" + Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
-            string signature = _signatureManager.GetSignature(sigBaseString, _tokens.ConsumerSecret);
+            string signature = _signatureManager.GetSignature(sigBaseString, _tokens.ConsumerSecret, true);
 
             twitterUrl += "?" + sigBaseStringParams + "&oauth_signature=" + Uri.EscapeDataString(signature);
 

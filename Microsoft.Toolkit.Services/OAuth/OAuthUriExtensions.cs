@@ -22,8 +22,8 @@ namespace Microsoft.Toolkit.Services.OAuth
         /// <returns>Dictionary of query parameters.</returns>
         public static IDictionary<string, string> GetQueryParams(this Uri uri)
         {
-            // TODO parse query;
-            return uri.Query.Split('&').ToDictionary(entry => entry, _ => string.Empty);
+            var dict = uri.Query.Remove(0, 1).Split('&').ToDictionary(c => c.Split('=')[0], c => Uri.UnescapeDataString(c.Split('=')[1]));
+            return dict;
         }
 
         /// <summary>

@@ -9,6 +9,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -42,13 +43,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
         /// <returns>String result.</returns>
-        public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens, string authorizationHeader)
+        public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "GET");
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "GET");
 
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(authorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
@@ -64,13 +65,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tokens">Tokens to pass in request.</param>
         /// <param name="callback">Function invoked when stream available.</param>
         /// <returns>awaitable task</returns>
-        public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback, string authorizationHeader)
+        public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback, ISignatureManager signatureManager)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Get, requestUri))
             {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens);
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager);
 
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(authorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
@@ -106,14 +107,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
         /// <returns>String result.</returns>
-        public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens, string authorizationHeader)
+        public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
             using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
             {
-                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
+                var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
 
-                //request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
-                request.Headers.Authorization = AuthenticationHeaderValue.Parse(authorizationHeader);
+                request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="boundary">Boundary used to separate data.</param>
         /// <param name="content">Data to post to server.</param>
         /// <returns>String result.</returns>
-        public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content, string authorizationHeader)
+        public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content, ISignatureManager signatureManager)
         {
             JToken mediaId = null;
 
@@ -144,9 +144,9 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                         using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
                         {
-                            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, "POST");
+                            var requestBuilder = new TwitterOAuthRequestBuilder(requestUri, tokens, signatureManager, "POST");
 
-                            request.Headers.Authorization = AuthenticationHeaderValue.Parse(authorizationHeader);
+                            request.Headers.Authorization = AuthenticationHeaderValue.Parse(requestBuilder.AuthorizationHeader);
 
                             request.Content = multipartFormDataContent;
 
