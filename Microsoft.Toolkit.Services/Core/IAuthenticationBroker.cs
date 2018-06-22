@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Services.Core
 {
+    public interface ISignatureManager
+    {
+        string GetSignature(string baseSignature, string secret);
+    }
+
     /// <summary>
     /// This gets an Uri value.
     /// </summary>

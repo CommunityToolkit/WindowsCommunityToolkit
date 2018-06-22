@@ -14,8 +14,6 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Services;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
-using Windows.Security.Cryptography;
-using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -43,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private readonly IAuthenticationBroker _authenticationBroker;
         private readonly IPasswordManager _passwordManager;
         private readonly IStorageManager _storageManager;
+        private readonly ISignatureManager _signatureManager;
         private TwitterOAuthRequest _streamRequest;
 
         /// <summary>
@@ -63,12 +62,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="authenticationBroker">Authentication result interface.</param>
         /// <param name="passwordManager">Password Manager interface, store the password.</param>
         /// <param name="storageManager">Storage Manager interface.</param>
-        public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
+        public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
             _tokens = tokens;
             _authenticationBroker = authenticationBroker;
             _passwordManager = passwordManager;
             _storageManager = storageManager;
+            _signatureManager = signatureManager;
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
@@ -300,6 +300,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             LoggedIn = false;
         }
 
+
         /// <summary>
         /// Tweets a status update.
         /// </summary>
@@ -361,6 +362,30 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             }
         }
 
+
+        /// <summary>
+        /// Publish a picture to Twitter user's medias.
+        /// </summary>
+        /// <param name="stream">Picture stream.</param>
+        /// <returns>Media ID</returns>
+        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
+        {
+            var uri = new Uri($"{PublishUrl}/media/upload.json");
+
+            // Get picture data
+            var fileBytes = new byte[stream.Size];
+
+            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
+
+            stream.Seek(0);
+
+            string boundary = DateTime.Now.Ticks.ToString("x");
+
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
+            return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes);
+        }
+
+
         /// <summary>
         /// Open a connection to user streams service (Events, DirectMessages...).
         /// </summary>
@@ -406,27 +431,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             _streamRequest = null;
         }
 
-        /// <summary>
-        /// Publish a picture to Twitter user's medias.
-        /// </summary>
-        /// <param name="stream">Picture stream.</param>
-        /// <returns>Media ID</returns>
-        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
-        {
-            var uri = new Uri($"{PublishUrl}/media/upload.json");
-
-            // Get picture data
-            var fileBytes = new byte[stream.Size];
-
-            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
-
-            stream.Seek(0);
-
-            string boundary = DateTime.Now.Ticks.ToString("x");
-
-            TwitterOAuthRequest request = new TwitterOAuthRequest();
-            return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes);
-        }
 
         /// <summary>
         /// Returns parser implementation for specified configuration.
@@ -664,7 +668,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string timeStamp = GetTimeStamp();
             string sigBaseStringParams = GetSignatureBaseStringParams(_tokens.ConsumerKey, nonce, timeStamp, "oauth_callback=" + Uri.EscapeDataString(twitterCallbackUrl));
             string sigBaseString = "GET&" + Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
-            string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
+            string signature = _signatureManager.GetSignature(sigBaseString, _tokens.ConsumerSecret);
 
             twitterUrl += "?" + sigBaseStringParams + "&oauth_signature=" + Uri.EscapeDataString(signature);
 
@@ -747,7 +751,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             string sigBaseString = "POST&";
             sigBaseString += Uri.EscapeDataString(twitterUrl) + "&" + Uri.EscapeDataString(sigBaseStringParams);
 
-            string signature = GetSignature(sigBaseString, _tokens.ConsumerSecret);
+            string signature = _signatureManager.GetSignature(sigBaseString, _tokens.ConsumerSecret);
             string data = null;
 
             string authorizationHeaderParams = "oauth_consumer_key=\"" + _tokens.ConsumerKey + "\", oauth_nonce=\"" + nonce + "\", oauth_signature_method=\"HMAC-SHA1\", oauth_signature=\"" + Uri.EscapeDataString(signature) + "\", oauth_timestamp=\"" + timeStamp + "\", oauth_token=\"" + Uri.EscapeDataString(requestToken) + "\", oauth_verifier=\"" + Uri.EscapeUriString(oAuthVerifier) + "\" , oauth_version=\"1.0\"";
@@ -797,22 +801,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             return Math.Round(sinceEpoch.TotalSeconds).ToString();
         }
 
-        /// <summary>
-        /// Generate request signature.
-        /// </summary>
-        /// <param name="sigBaseString">Base string.</param>
-        /// <param name="consumerSecretKey">Consumer secret key.</param>
-        /// <returns>Signature.</returns>
-        private string GetSignature(string sigBaseString, string consumerSecretKey)
-        {
-            IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(consumerSecretKey + "&", BinaryStringEncoding.Utf8);
-            MacAlgorithmProvider hmacSha1Provider = MacAlgorithmProvider.OpenAlgorithm("HMAC_SHA1");
-            CryptographicKey macKey = hmacSha1Provider.CreateKey(keyMaterial);
-            IBuffer dataToBeSigned = CryptographicBuffer.ConvertStringToBinary(sigBaseString, BinaryStringEncoding.Utf8);
-            IBuffer signatureBuffer = CryptographicEngine.Sign(macKey, dataToBeSigned);
-            string signature = CryptographicBuffer.EncodeToBase64String(signatureBuffer);
-
-            return signature;
-        }
+        
     }
 }

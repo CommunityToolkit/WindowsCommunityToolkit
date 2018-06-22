@@ -28,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         private IPasswordManager _passwordManager;
         private IStorageManager _storageManager;
         private IAuthenticationBroker _authenticationBroker;
+        private ISignatureManager _signatureManager;
 
         /// <summary>
         /// Field for tracking initialization status.
@@ -66,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="passwordManager">Password Manager interface, store the password.</param>
         /// <param name="storageManager">Storage Manager interface</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string consumerKey, string consumerSecret, string callbackUri, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
+        public bool Initialize(string consumerKey, string consumerSecret, string callbackUri, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
             if (string.IsNullOrEmpty(consumerKey))
             {
@@ -90,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 CallbackUri = callbackUri
             };
 
-            return Initialize(oAuthTokens, authenticationBroker, passwordManager, storageManager);
+            return Initialize(oAuthTokens, authenticationBroker, passwordManager, storageManager, signatureManager);
         }
 
         /// <summary>
@@ -101,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <param name="passwordManager">Password Manager interface, store the password.</param>
         /// <param name="storageManager">Storage Manager interface</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(TwitterOAuthTokens oAuthTokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
+        public bool Initialize(TwitterOAuthTokens oAuthTokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
             if (oAuthTokens == null)
             {
@@ -116,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             _authenticationBroker = authenticationBroker;
             _passwordManager = passwordManager;
             _storageManager = storageManager;
+            _signatureManager = signatureManager;
 
             return true;
         }
@@ -132,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                     throw new InvalidOperationException("Provider not initialized.");
                 }
 
-                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens, _authenticationBroker, _passwordManager, _storageManager));
+                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens, _authenticationBroker, _passwordManager, _storageManager, _signatureManager));
             }
         }
 

@@ -9,6 +9,7 @@ using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
+
     /// <summary>
     /// Authentication Broker
     /// </summary>
