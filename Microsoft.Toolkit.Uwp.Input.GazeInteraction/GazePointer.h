@@ -193,7 +193,7 @@ private:
     TimeSpan _defaultFixation = DEFAULT_FIXATION_DELAY;
     TimeSpan _defaultDwell = DEFAULT_DWELL_DELAY;
     TimeSpan _defaultDwellRepeatDelay = DEFAULT_DWELL_REPEAT_DELAY;
-    TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
+    TimeSpan _defaultRepeatDelay = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
 
     bool                                _isSwitchEnabled;
