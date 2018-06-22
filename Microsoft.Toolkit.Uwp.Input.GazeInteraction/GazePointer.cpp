@@ -150,14 +150,14 @@ void GazePointer::LoadSettings(ValueSet^ settings)
         _defaultDwell = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellDelay")));
     }
 
-    if (settings->HasKey("GazePointer.DwellDelay"))
+    if (settings->HasKey("GazePointer.DwellRepeatDelay"))
     {
         _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellRepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.RepeatDelay"))
     {
-        _defaultRepeat = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
+        _defaultRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.ThresholdDelay"))
@@ -241,7 +241,7 @@ TimeSpan GazePointer::GetDefaultPropertyValue(PointerState state)
     {
     case PointerState::Fixation: return _defaultFixation;
     case PointerState::Dwell: return _defaultDwell;
-    case PointerState::DwellRepeat: return _defaultRepeat;
+    case PointerState::DwellRepeat: return _defaultRepeatDelay;
     case PointerState::Enter: return _defaultThreshold;
     case PointerState::Exit: return _defaultThreshold;
     default: throw ref new NotImplementedException();
