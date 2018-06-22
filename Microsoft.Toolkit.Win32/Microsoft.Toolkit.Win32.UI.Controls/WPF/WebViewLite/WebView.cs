@@ -17,20 +17,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite
 {
     public class WebView : WindowsXamlHost
     {
-        protected uwpControls.WebView UwpControl => this.XamlRoot as uwpControls.WebView;
+        private uwpControls.WebView UwpControl => this.XamlRoot as uwpControls.WebView;
 
         // Summary:
         //     Initializes a new instance of the WebView class.
         public WebView()
-            : base()
+            : this("Windows.UI.Xaml.Controls.WebView")
         {
-            TypeName = "Windows.UI.Xaml.Controls.WebView";
         }
 
-        protected override void OnInitialized(EventArgs e)
+        public WebView(string typeName)
+            : base(typeName)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpControls.WebView.StyleProperty);

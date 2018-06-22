@@ -9,20 +9,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class MediaPlayerElement : WindowsXamlHost
     {
-        protected uwpControls.MediaPlayerElement UwpControl => this.XamlRoot as uwpControls.MediaPlayerElement;
+        private uwpControls.MediaPlayerElement UwpControl => this.XamlRoot as uwpControls.MediaPlayerElement;
 
         // Summary:
         //     Initializes a new instance of the MediaPlayerElement class.
         public MediaPlayerElement()
-            : base()
+            : this("Windows.UI.Xaml.Controls.MediaPlayerElement")
         {
-            TypeName = "Windows.UI.Xaml.Controls.MediaPlayerElement";
+        }
+
+        public MediaPlayerElement(string typeName)
+            : base(typeName)
+        {
         }
 
         protected override void OnInitialized(EventArgs e)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpControls.MediaPlayerElement.StyleProperty);
@@ -50,6 +52,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsFullWindow), IsFullWindowProperty, uwpControls.MediaPlayerElement.IsFullWindowProperty);
 
             // Bind(nameof(MediaPlayer), MediaPlayerProperty, uwpControls.MediaPlayerElement.MediaPlayerProperty);
+            base.OnInitialized(e);
         }
 
         // Summary:

@@ -6,11 +6,12 @@
 namespace Microsoft.Windows.Interop
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Reflection;
 
-    partial class WindowsXamlHost
+    public partial class WindowsXamlHost
     {
         #region Fields
 
@@ -22,7 +23,7 @@ namespace Microsoft.Windows.Interop
         /// working directory, load assemblies, and iterate through types.  For built-in 
         /// types, cache prevents having to iterate through types in all currently loaded assemblies.
         /// </summary>
-        Dictionary<string, object> CacheForUWPTypes = new Dictionary<string, object>();
+        static IDictionary<string, object> CacheForUWPTypes = new ConcurrentDictionary<string, object>();
 
         #endregion
 
@@ -34,6 +35,7 @@ namespace Microsoft.Windows.Interop
         /// ex: MyClassLibrary.MyCustomType
         /// </summary>
         /// <param name="xamlTypeName">XAML type name</param>
+        /// <returns>an instance of the requested type</returns>
         public global::Windows.UI.Xaml.FrameworkElement CreateXamlContentByType(string xamlTypeName)
         {
             // TODO: This needs to be significantly cleaned up.
@@ -43,7 +45,7 @@ namespace Microsoft.Windows.Interop
             Type systemType = null;
 
             object systemTypeOrXamlType = null;
-            if (this.CacheForUWPTypes.TryGetValue(xamlTypeName, out systemTypeOrXamlType))
+            if (CacheForUWPTypes.TryGetValue(xamlTypeName, out systemTypeOrXamlType))
             {
                 systemType = systemTypeOrXamlType as Type;
                 xamlType = systemTypeOrXamlType as global::Windows.UI.Xaml.Markup.IXamlType;
@@ -67,14 +69,14 @@ namespace Microsoft.Windows.Interop
 
             if (xamlType != null)
             {
-                this.CacheForUWPTypes.Add(xamlTypeName, xamlType);
+                CacheForUWPTypes[xamlTypeName] = xamlType;
 
                 // Create custom UWP XAML type
                 return (global::Windows.UI.Xaml.FrameworkElement)xamlType.ActivateInstance();
             }
             else if (systemType != null)
             {
-                this.CacheForUWPTypes.Add(xamlTypeName, systemType);
+                CacheForUWPTypes[xamlTypeName] = systemType;
 
                 // Create built-in UWP XAML type
                 return (global::Windows.UI.Xaml.FrameworkElement)Activator.CreateInstance(systemType);

@@ -1,30 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using Microsoft.Windows.Interop;
 using Windows.Foundation;
+using Windows.UI.Xaml.Media;
 using uwpControls = global::Windows.UI.Xaml.Controls;
 using uwpInking = Windows.UI.Input.Inking;
 using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    [ContentProperty(nameof(Children))]
     public class InkToolbar : WindowsXamlHost
     {
         protected uwpControls.InkToolbar UwpControl => this.XamlRoot as uwpControls.InkToolbar;
 
+        public InkToolbar()
+            : this("Windows.UI.Xaml.Controls.InkToolbar")
+        {
+        }
+
         // Summary:
         //     Initializes a new instance of the InkToolbar class.
-        public InkToolbar()
-            : base()
+        public InkToolbar(string typeName)
+            : base(typeName)
         {
-            TypeName = "Windows.UI.Xaml.Controls.InkToolbar";
+            Children = new List<DependencyObject>();
         }
 
         protected override void OnInitialized(EventArgs e)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpControls.InkToolbar.StyleProperty);
@@ -45,7 +55,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             // InkToolbar specific properties
             Bind(nameof(ActiveTool), ActiveToolProperty, uwpControls.InkToolbar.ActiveToolProperty);
-            Bind(nameof(Children), ChildrenProperty, uwpControls.InkToolbar.ChildrenProperty);
             Bind(nameof(InkDrawingAttributes), InkDrawingAttributesProperty, uwpControls.InkToolbar.InkDrawingAttributesProperty);
             Bind(nameof(Orientation), OrientationProperty, uwpControls.InkToolbar.OrientationProperty);
             Bind(nameof(IsStencilButtonChecked), IsStencilButtonCheckedProperty, uwpControls.InkToolbar.IsStencilButtonCheckedProperty);
@@ -53,11 +62,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(InitialControls), InitialControlsProperty, uwpControls.InkToolbar.InitialControlsProperty);
             Bind(nameof(IsRulerButtonChecked), IsRulerButtonCheckedProperty, uwpControls.InkToolbar.IsRulerButtonCheckedProperty);
             Bind(nameof(TargetInkCanvas), TargetInkCanvasProperty, uwpControls.InkToolbar.TargetInkCanvasProperty, new WindowsXamlHostWrapperConverter());
+
+            Children.OfType<WindowsXamlHost>().ToList().ForEach(RelocateChildToUwpControl);
+
+            base.OnInitialized(e);
+        }
+
+        private void RelocateChildToUwpControl(WindowsXamlHost obj)
+        {
+            VisualTreeHelper.DisconnectChildrenRecursive(obj.desktopWindowXamlSource.Content);
+            obj.desktopWindowXamlSource.Content = null;
+            Children.Remove(obj);
+            UwpControl.Children.Add(obj.XamlRoot);
         }
 
         public static DependencyProperty ActiveToolProperty { get; } = DependencyProperty.Register(nameof(ActiveTool), typeof(uwpControls.InkToolbarToolButton), typeof(InkToolbar));
-
-        public static DependencyProperty ChildrenProperty { get; } = DependencyProperty.Register(nameof(Children), typeof(uwpXaml.DependencyObjectCollection), typeof(InkToolbar));
 
         public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(uwpControls.InkToolbarInitialControls), typeof(InkToolbar));
 
@@ -99,9 +118,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get => (uwpControls.InkToolbarToolButton)GetValue(ActiveToolProperty); set => SetValue(ActiveToolProperty, value);
         }
 
-        public uwpXaml.DependencyObjectCollection Children
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
+        public List<DependencyObject> Children
         {
-            get => (uwpXaml.DependencyObjectCollection)GetValue(ChildrenProperty); set => SetValue(ChildrenProperty, value);
+            get; set;
         }
 
         public uwpInking.InkDrawingAttributes InkDrawingAttributes { get => (uwpInking.InkDrawingAttributes)GetValue(InkDrawingAttributesProperty); }

@@ -24,6 +24,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="WPF\DependencyObjectCollection.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

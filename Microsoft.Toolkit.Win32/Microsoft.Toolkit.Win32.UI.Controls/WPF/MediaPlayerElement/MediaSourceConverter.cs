@@ -12,6 +12,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return null;
+            }
+
             return ((MediaSource)value).Uri.ToString();
         }
 
@@ -22,6 +27,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         object global::Windows.UI.Xaml.Data.IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
+            if (value == null)
+            {
+                return null;
+            }
+
             return MediaSource.CreateFromUri(new Uri(value as string));
         }
 

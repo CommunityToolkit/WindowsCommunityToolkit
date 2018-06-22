@@ -10,20 +10,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class SwapChainPanel : WindowsXamlHost
     {
-        protected uwpControls.SwapChainPanel UwpControl => this.XamlRoot as uwpControls.SwapChainPanel;
+        protected virtual uwpControls.SwapChainPanel UwpControl => this.XamlRoot as uwpControls.SwapChainPanel;
 
         // Summary:
         //     Initializes a new instance of the SwapChainPanel class.
         public SwapChainPanel()
-            : base()
+            : this("Windows.UI.Xaml.Controls.SwapChainPanel")
         {
-            TypeName = "Windows.UI.Xaml.Controls.SwapChainPanel";
         }
 
-        protected override void OnInitialized(EventArgs e)
+        public SwapChainPanel(string typeName)
+            : base(typeName)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpControls.SwapChainPanel.StyleProperty);

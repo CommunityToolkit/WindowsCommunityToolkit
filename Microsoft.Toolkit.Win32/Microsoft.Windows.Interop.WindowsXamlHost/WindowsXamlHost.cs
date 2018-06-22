@@ -3,23 +3,20 @@
 // </copyright>
 // <author>Microsoft</author>
 
+using System;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Interop;
+
 namespace Microsoft.Windows.Interop
 {
-    using System;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
-    using System.Windows;
-    using System.Windows.Interop;
-    using System.Windows.Data;
-
-
-
-
     /// <summary>
     /// WindowsXamlHost control hosts UWP XAML content inside the Windows Presentation Foundation
     /// </summary>
-    partial class WindowsXamlHost : HwndHost
+    public partial class WindowsXamlHost : HwndHost
     {
         #region DependencyProperties
 
@@ -51,7 +48,7 @@ namespace Microsoft.Windows.Interop
         /// <summary>
         /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
         /// </summary>
-        private global::Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
+        public global::Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
 
         /// <summary>
         /// Has this wrapper control instance been disposed?
@@ -68,7 +65,21 @@ namespace Microsoft.Windows.Interop
         #endregion
 
         #region Constructors and Initialization
+
+        public WindowsXamlHost(string typeName)
+            : this()
+        {
+            TypeName = typeName;
+
+            // Create and set initial root UWP XAML content
+            if (this.TypeName != null)
+            {
+                this.XamlRoot = this.CreateXamlContentByType(this.TypeName);
+            }
+        }
+
         /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsXamlHost"/> class.
         /// Initializes a new instance of the WindowsXamlHost class: default constructor is required for use in WPF markup.
         /// (When the default constructor is called, object properties have not been set. Put WPF logic in OnInitialized.)
         /// </summary>
@@ -138,14 +149,13 @@ namespace Microsoft.Windows.Interop
         /// <param name="e"></param>
         protected override void OnInitialized(EventArgs e)
         {
-
             base.OnInitialized(e);
+
             // Create and set initial root UWP XAML content
-            if (this.TypeName != null)
+            if (this.TypeName != null && XamlRoot == null)
             {
                 this.XamlRoot = this.CreateXamlContentByType(this.TypeName);
             }
-
         }
 
         #endregion

@@ -1,19 +1,8 @@
-﻿using Microsoft.Toolkit.Win32.UI.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Windows.Media.Core;
+using Windows.UI.Xaml.Controls;
 
 namespace TestSample
 {
@@ -40,6 +29,25 @@ namespace TestSample
     Windows.UI.Core.CoreInputDeviceTypes.Mouse |
     Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
+
+
+
+
+        private void inkToolbar_Initialized(object sender, EventArgs e)
+        {
+            toolButtonLasso.Content = new SymbolIcon(Symbol.SelectAll);
+            //var selectButton = new InkToolbarCustomToolButton();// { Command = command, IsEnabled =true };
+            //ToolTipService.SetToolTip(selectButton, "testing");
+            //selectButton.Content = new SymbolIcon(Symbol.SelectAll);
+            //selectButton.Click += SelectButton_Click;
+            //inkToolbar.Children.Add(selectButton);
+        }
+
+        private void SelectButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 
 }

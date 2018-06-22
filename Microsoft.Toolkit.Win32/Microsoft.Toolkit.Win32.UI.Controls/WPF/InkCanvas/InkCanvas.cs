@@ -7,20 +7,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class InkCanvas : WindowsXamlHost
     {
-        protected uwpControls.InkCanvas UwpControl => this.XamlRoot as uwpControls.InkCanvas;
+        private uwpControls.InkCanvas UwpControl => this.XamlRoot as uwpControls.InkCanvas;
+
+        public InkCanvas()
+            : this("Windows.UI.Xaml.Controls.InkCanvas")
+        {
+        }
 
         // Summary:
         //     Initializes a new instance of the InkCanvas class.
-        public InkCanvas()
-            : base()
+        public InkCanvas(string typeName)
+            : base(typeName)
         {
-            TypeName = "Windows.UI.Xaml.Controls.InkCanvas";
-        }
-
-        protected override void OnInitialized(EventArgs e)
-        {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpControls.InkCanvas.StyleProperty);
@@ -38,8 +36,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Tag), TagProperty, uwpControls.InkCanvas.TagProperty);
             Bind(nameof(DataContext), DataContextProperty, uwpControls.InkCanvas.DataContextProperty);
             Bind(nameof(Width), WidthProperty, uwpControls.InkCanvas.WidthProperty);
-
-            // InkCanvas specific properties
         }
 
         /// <summary>

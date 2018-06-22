@@ -12,20 +12,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class MapControl : WindowsXamlHost
     {
-        protected uwpMaps.MapControl UwpControl => this.XamlRoot as uwpMaps.MapControl;
+        private uwpMaps.MapControl UwpControl => this.XamlRoot as uwpMaps.MapControl;
 
         // Summary:
         //     Initializes a new instance of the MapControl class.
         public MapControl()
-            : base()
+            : this("Windows.UI.Xaml.Controls.Maps.MapControl")
         {
-            TypeName = "Windows.UI.Xaml.Controls.MapControl";
         }
 
-        protected override void OnInitialized(EventArgs e)
+        // Summary:
+        //     Initializes a new instance of the MapControl class.
+        public MapControl(string typeName)
+            : base(typeName)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, uwpMaps.MapControl.StyleProperty);
