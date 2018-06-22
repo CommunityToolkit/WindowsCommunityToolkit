@@ -4,7 +4,7 @@
 
 using System;
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
     /// Strong type representation of Visibility.

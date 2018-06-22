@@ -12,7 +12,7 @@ using Microsoft.Toolkit.Services;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
     /// Data Provider for connecting to LinkedIn service.

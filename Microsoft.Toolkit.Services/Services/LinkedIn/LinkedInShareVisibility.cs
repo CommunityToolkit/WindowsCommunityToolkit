@@ -2,16 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+using System;
+
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
-    /// Configuration object for specifying richer query information.
+    /// List of user related data permissions
     /// </summary>
-    public class LinkedInDataConfig
+    [Flags]
+    public enum LinkedInShareVisibility
     {
         /// <summary>
-        /// Gets or sets the query string for filtering service results.
+        /// Connections only
         /// </summary>
-        public string Query { get; set; }
+        ConnectionsOnly = 1,
+
+        /// <summary>
+        /// Anyone
+        /// </summary>
+        Anyone = 2
     }
 }

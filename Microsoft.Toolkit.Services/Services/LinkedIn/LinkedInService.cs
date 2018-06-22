@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
     /// Class for connecting to LinkedIn.

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
     /// Parse results into strong type.

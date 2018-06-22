@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
+namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
     /// Strongly typed LinkedIn Basic Profile.  More details here https://developer.linkedin.com/docs/fields/basic-profile.
