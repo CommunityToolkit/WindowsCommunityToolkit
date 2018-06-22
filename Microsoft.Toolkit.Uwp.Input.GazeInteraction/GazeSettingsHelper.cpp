@@ -23,30 +23,14 @@ Windows::Foundation::IAsyncAction^ GazeSettingsHelper::RetrieveSharedSettings(Va
         connection->PackageFamilyName = "Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda";
 
         // open the connection
-        create_task(connection->OpenAsync()).then([settings, connection](AppServiceConnectionStatus status)
+        return create_task(connection->OpenAsync()).then([settings, connection](AppServiceConnectionStatus status)
         {
             switch (status)
             {
             case AppServiceConnectionStatus::Success:
                 // The new connection opened successfully
                 // Set up the inputs and send a message to the service
-                create_task(connection->SendMessageAsync(ref new ValueSet())).then([settings](AppServiceResponse^ response)
-                {
-                    switch (response->Status)
-                    {
-                    case AppServiceResponseStatus::Success:
-                        for each (auto item in response->Message)
-                        {
-                            settings->Insert(item->Key, item->Value);
-                        }
-                        break;
-                    default:
-                    case AppServiceResponseStatus::Failure:
-                    case AppServiceResponseStatus::ResourceLimitsExceeded:
-                    case AppServiceResponseStatus::Unknown:
-                        break;
-                    }
-                }); // create_task(connection->SendMessageAsync(inputs))
+                return create_task(connection->SendMessageAsync(ref new ValueSet()));
                 break;
 
             default:
@@ -54,9 +38,32 @@ Windows::Foundation::IAsyncAction^ GazeSettingsHelper::RetrieveSharedSettings(Va
             case AppServiceConnectionStatus::AppUnavailable:
             case AppServiceConnectionStatus::AppServiceUnavailable:
             case AppServiceConnectionStatus::Unknown:
+                // All return paths need to return a task of type AppServiceResponse, so fake it
+                AppServiceResponse ^ response = nullptr;
+                return task_from_result(response);
+            }
+        }).then([settings](AppServiceResponse^ response)
+        {
+            if (response == nullptr)
+            {
+                return;
+            }
+
+            switch (response->Status)
+            {
+            case AppServiceResponseStatus::Success:
+                for each (auto item in response->Message)
+                {
+                    settings->Insert(item->Key, item->Value);
+                }
+                break;
+            default:
+            case AppServiceResponseStatus::Failure:
+            case AppServiceResponseStatus::ResourceLimitsExceeded:
+            case AppServiceResponseStatus::Unknown:
                 break;
             }
-        }); // create_task(connection->OpenAsync())
+        });
     }); // create_async()
 }
 
