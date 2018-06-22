@@ -7,24 +7,24 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-//using Windows.Foundation;
 
-namespace Microsoft.Toolkit.Uwp.Services.OAuth
+namespace Microsoft.Toolkit.Services.OAuth
 {
     /// <summary>
     /// OAuth Uri extensions.
     /// </summary>
     internal static class OAuthUriExtensions
     {
-        ///// <summary>
-        ///// Get query parameters from Uri.
-        ///// </summary>
-        ///// <param name="uri">Uri to process.</param>
-        ///// <returns>Dictionary of query parameters.</returns>
-        //public static IDictionary<string, string> GetQueryParams(this Uri uri)
-        //{
-        //    return new WwwFormUrlDecoder(uri.Query).ToDictionary(decoderEntry => decoderEntry.Name, decoderEntry => decoderEntry.Value);
-        //}
+        /// <summary>
+        /// Get query parameters from Uri.
+        /// </summary>
+        /// <param name="uri">Uri to process.</param>
+        /// <returns>Dictionary of query parameters.</returns>
+        public static IDictionary<string, string> GetQueryParams(this Uri uri)
+        {
+            // TODO parse query;
+            return uri.Query.Split('&').ToDictionary(entry => entry, _ => string.Empty);
+        }
 
         /// <summary>
         /// Get absolute Uri.
