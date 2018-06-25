@@ -63,6 +63,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
+        /// Gets or sets extended attached content of the tweet
+        /// </summary>
+        [JsonProperty("extended_entities")]
+        public TwitterExtendedEntities ExtendedEntities { get; set; }
+
+        /// <summary>
         /// Gets or sets tweet source (client or website used)
         /// </summary>
         [JsonProperty("source")]

@@ -70,5 +70,17 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("source_status_id_str")]
         public string SourceIdStr { get; set; }
+
+        /// <summary>
+        /// Gets or sets metadata for video attached to tweet
+        /// </summary>
+        [JsonProperty("video_info")]
+        public TwitterMediaVideoInfo VideoInfo { get; set; }
+
+        /// <summary>
+        /// Gets or sets extended metadata for video attached to tweet.
+        /// </summary>
+        [JsonProperty("additional_media_info")]
+        public TwitterMediaAdditionalInfo AdditionalMediaInfo { get; set; }
     }
 }
