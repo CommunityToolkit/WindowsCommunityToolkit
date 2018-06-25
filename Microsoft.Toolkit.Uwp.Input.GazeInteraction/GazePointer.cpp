@@ -11,16 +11,39 @@
 #include "StateChangedEventArgs.h"
 
 using namespace Platform;
+using namespace Windows::UI::Xaml::Automation::Peers;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
+ref class NonInvokeGazeTargetItem sealed : GazeTargetItem
+{
+internal:
+
+    NonInvokeGazeTargetItem()
+        : GazeTargetItem(ref new Page())
+    {
+    }
+
+internal:
+
+    virtual property bool IsInvokable { bool get() override { return false; } }
+
+    void Invoke() override
+    {
+    }
+};
+
 GazePointer^ GazePointer::Instance::get()
 {
-    static auto value = ref new GazePointer();
+    thread_local static GazePointer^ value;
+    if (value == nullptr)
+    {
+        value = ref new GazePointer();
+    }
     return value;
 }
 
-void GazePointer::AddRoot(FrameworkElement^ element)
+void GazePointer::AddRoot(Object^ element)
 {
     _roots->InsertAt(0, element);
 
@@ -31,16 +54,16 @@ void GazePointer::AddRoot(FrameworkElement^ element)
     }
 }
 
-void GazePointer::RemoveRoot(FrameworkElement^ element)
+void GazePointer::RemoveRoot(Object^ element)
 {
     unsigned int index = 0;
-    while (index < _roots->Size && _roots->GetAt(index) != element)
-    {
-        index++;
-    }
-    if (index < _roots->Size)
+    if (_roots->IndexOf(element, &index))
     {
         _roots->RemoveAt(index);
+    }
+    else
+    {
+        assert(false);
     }
 
     if (_roots->Size == 0)
@@ -53,12 +76,12 @@ void GazePointer::RemoveRoot(FrameworkElement^ element)
 
 GazePointer::GazePointer()
 {
-    _coreDispatcher = CoreWindow::GetForCurrentThread()->Dispatcher;
+    _nonInvokeGazeTargetItem = ref new NonInvokeGazeTargetItem();
 
     // Default to not filtering sample data
     Filter = ref new NullFilter();
 
-    _gazeCursor = GazeCursor::Instance;
+    _gazeCursor = ref new GazeCursor();
 
     // timer that gets called back if there gaze samples haven't been received in a while
     _eyesOffTimer = ref new DispatcherTimer();
@@ -236,14 +259,46 @@ void GazePointer::SetElementStateDelay(UIElement ^element, PointerState relevant
     _maxHistoryTime = 2 * max(dwellTime, repeatTime);
 }
 
+/// <summary>
+/// Find the parent to inherit properties from.
+/// </summary>
+static UIElement^ GetInheritenceParent(UIElement^ child)
+{
+    // The result value.
+    Object^ parent = nullptr;
+
+    // Get the automation peer...
+    auto peer = FrameworkElementAutomationPeer::FromElement(child);
+    if (peer != nullptr)
+    {
+        // ...if it exists, get the peer's parent...
+        auto peerParent = dynamic_cast<FrameworkElementAutomationPeer^>(peer->Navigate(AutomationNavigationDirection::Parent));
+        if (peerParent != nullptr)
+        {
+            // ...and if it has a parent, get the corresponding object.
+            parent = peerParent->Owner;
+        }
+    }
+
+    // If the above failed to find a parent...
+    if (parent == nullptr)
+    {
+        // ...use the visual parent.
+        parent = VisualTreeHelper::GetParent(child);
+    }
+
+    // Safely pun the value we found to a UIElement reference.
+    return dynamic_cast<UIElement^>(parent);
+}
+
 TimeSpan GazePointer::GetElementStateDelay(UIElement ^element, DependencyProperty^ property, TimeSpan defaultValue)
 {
-    DependencyObject^ walker = element;
+    UIElement^ walker = element;
     Object^ valueAtWalker = walker->GetValue(property);
 
     while (GazeInput::UnsetTimeSpan.Equals(valueAtWalker) && walker != nullptr)
     {
-        walker = VisualTreeHelper::GetParent(walker);
+        walker = GetInheritenceParent(walker);
 
         if (walker != nullptr)
         {
@@ -283,38 +338,67 @@ void GazePointer::Reset()
 
 GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
 {
-    for each (auto rootElement in _roots)
+    GazeTargetItem^ invokable;
+
+    switch (Window::Current->CoreWindow->ActivationMode)
     {
-        auto targets = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, rootElement, false);
-        GazeTargetItem^ invokable = nullptr;
-        for each (auto target in targets)
+    default:
+        invokable = _nonInvokeGazeTargetItem;
+        break;
+
+    case CoreWindowActivationMode::ActivatedInForeground:
+    case CoreWindowActivationMode::ActivatedNotForeground:
+        auto elements = VisualTreeHelper::FindElementsInHostCoordinates(gazePoint, nullptr, false);
+        auto first = elements->First();
+        auto element = first->HasCurrent ? first->Current : nullptr;
+
+        invokable = nullptr;
+
+        if (element != nullptr)
         {
-            if (invokable == nullptr)
-            {
-                auto item = GazeTargetItem::GetOrCreate(target);
-                if (item->IsInvokable)
-                {
-                    invokable = item;
-                }
-            }
+            invokable = GazeTargetItem::GetOrCreate(element);
 
-            switch (GazeInput::GetInteraction(target))
+            while (element != nullptr && !invokable->IsInvokable)
             {
-            case Interaction::Enabled:
-                if (invokable != nullptr)
-                {
-                    return invokable;
-                }
-                break;
+                element = dynamic_cast<UIElement^>(VisualTreeHelper::GetParent(element));
 
-            case Interaction::Disabled:
-                return GazeTargetItem::NonInvokable;
+                if (element != nullptr)
+                {
+                    invokable = GazeTargetItem::GetOrCreate(element);
+                }
             }
         }
-        assert(invokable == nullptr);
+
+        if (element == nullptr || !invokable->IsInvokable)
+        {
+            invokable = _nonInvokeGazeTargetItem;
+        }
+        else
+        {
+            Interaction interaction;
+            do
+            {
+                interaction = GazeInput::GetInteraction(element);
+                if (interaction == Interaction::Inherited)
+                {
+                    element = GetInheritenceParent(element);
+                }
+            } while (interaction == Interaction::Inherited && element != nullptr);
+
+            if (interaction == Interaction::Inherited)
+            {
+                interaction = GazeInput::Interaction;
+            }
+
+            if (interaction != Interaction::Enabled)
+            {
+                invokable = _nonInvokeGazeTargetItem;
+            }
+        }
+        break;
     }
-    // TODO : Check if the location is offscreen
-    return GazeTargetItem::NonInvokable;
+
+    return invokable;
 }
 
 void GazePointer::ActivateGazeTargetItem(GazeTargetItem^ target)
@@ -481,7 +565,7 @@ wchar_t *PointerStates[] = {
 
 void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState state, TimeSpan elapsedTime)
 {
-    auto control = target != nullptr ? safe_cast<Control^>(target->TargetElement) : nullptr;
+    auto control = target != nullptr ? target->TargetElement : nullptr;
     //assert(target != _rootElement);
     auto gpea = ref new StateChangedEventArgs(control, state, elapsedTime);
     //auto buttonObj = dynamic_cast<Button ^>(target);
@@ -522,7 +606,7 @@ void GazePointer::RaiseGazePointerEvent(GazeTargetItem^ target, PointerState sta
 
 void GazePointer::OnGazeEntered(GazeInputSourcePreview^ provider, GazeEnteredPreviewEventArgs^ args)
 {
-    Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
+    //Debug::WriteLine(L"Entered at %ld", args->CurrentPoint->Timestamp);
     _gazeCursor->IsGazeEntered = true;
 }
 
@@ -541,7 +625,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
             }
             else
             {
-                Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
+                //Debug::WriteLine(L"Null position eaten at %ld", point->Timestamp);
             }
         }
     }
@@ -549,7 +633,7 @@ void GazePointer::OnGazeMoved(GazeInputSourcePreview^ provider, GazeMovedPreview
 
 void GazePointer::OnGazeExited(GazeInputSourcePreview^ provider, GazeExitedPreviewEventArgs^ args)
 {
-    Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
+    //Debug::WriteLine(L"Exited at %ld", args->CurrentPoint->Timestamp);
     _gazeCursor->IsGazeEntered = false;
 }
 
@@ -571,7 +655,7 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
     PointerState nextState = static_cast<PointerState>(static_cast<int>(targetItem->ElementState) + 1);
 
-    Debug::WriteLine(L"%llu -> State=%d, Elapsed=%d, NextStateTime=%d", targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime, targetItem->NextStateTime);
+    //Debug::WriteLine(L"%llu -> State=%d, Elapsed=%d, NextStateTime=%d", targetItem->TargetElement, targetItem->ElementState, targetItem->ElapsedTime, targetItem->NextStateTime);
 
     if (targetItem->ElapsedTime > targetItem->NextStateTime)
     {

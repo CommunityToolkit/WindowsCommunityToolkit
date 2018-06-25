@@ -20,13 +20,13 @@
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">Show Cursor</ToggleButton>
-        <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here">
+        <ToggleButton Grid.Row="0" Grid.Column="0" x:Name="ShowCursor" Checked="ShowCursor_Toggle" Unchecked="ShowCursor_Toggle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="4" Content="Show Cursor"/>
+        <Button       Grid.Row="0" Grid.Column="1" x:Name="Dwell" Click="Dwell_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Content="Eyes Here" Margin="4">
             <g:GazeInput.GazeElement>
                 <g:GazeElement StateChanged="OnStateChanged"/>
             </g:GazeInput.GazeElement>
         </Button>
-        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" g:GazeInput.MaxDwellRepeatCount="4">
+        <Button Grid.Row="1" Grid.Column="1" x:Name="HowButton" Content="0: Idle" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Click="OnLegacyInvoked" g:GazeInput.MaxDwellRepeatCount="4" Margin="4">
             <g:GazeInput.GazeElement>
                 <g:GazeElement Invoked="OnGazeInvoked"/>
             </g:GazeInput.GazeElement>
@@ -36,13 +36,21 @@
                 <RowDefinition Height="5*"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.DwellDuration="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <ToggleButton Grid.Row="0" Content="Click" g:GazeInput.DwellDuration="0:0:2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="4">
                 <g:GazeInput.GazeElement>
                     <g:GazeElement DwellProgressFeedback="OnInvokeProgress" />
                 </g:GazeInput.GazeElement>
             </ToggleButton>
             <ProgressBar Grid.Row="1" x:Name="ProgressShow" Maximum="100" />
         </Grid>
-        <TextBlock Grid.Row="2" Grid.ColumnSpan="2" x:Name="DeviceAvailable"  Text="Device availablility not yet detected"/>
+        <TextBlock Grid.Row="2" Grid.Column="0" x:Name="DeviceAvailable"  Text="Device availablility not yet detected"/>
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Spawn" Margin="4" HorizontalAlignment="Stretch" Click="SpawnClicked"/>
+            <Button Grid.Column="1" Content="Dialog" Margin="4" HorizontalAlignment="Stretch" Click="DialogClicked"/>
+        </Grid>
     </Grid>
 </Page>

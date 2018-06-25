@@ -3,6 +3,7 @@
 
 #include "pch.h"
 #include "GazeTargetItem.h"
+#include "GazePointer.h"
 
 #include "GazeElement.h"
 #include "GazeFeedbackPopupFactory.h"
@@ -15,123 +16,162 @@ BEGIN_NAMESPACE_GAZE_INPUT
 
 static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("_GazeTargetItem", GazeTargetItem::typeid, GazeTargetItem::typeid, ref new PropertyMetadata(nullptr));
 
-ref class InvokeGazeTargetItem sealed : public GazeTargetItem
+template<PatternInterface P, typename T>
+ref class PatternGazeTargetItem abstract : public GazeTargetItem
 {
-private:
-
-    IInvokeProvider ^ _invokeProvider;
-
 internal:
 
-    InvokeGazeTargetItem(UIElement^ element, IInvokeProvider^ invokeProvider)
+    PatternGazeTargetItem(UIElement^ element)
         : GazeTargetItem(element)
     {
-        _invokeProvider = invokeProvider;
     }
 
-    void Invoke() override
+    static T^ GetPattern(AutomationPeer^ peer)
     {
-        _invokeProvider->Invoke();
+        auto pattern = peer->GetPattern(P);
+        return safe_cast<T^>(pattern);
+    }
+
+    static bool IsCandidate(AutomationPeer^ peer)
+    {
+        auto provider = GetPattern(peer);
+        return provider != nullptr;
+    }
+
+    void Invoke() override sealed
+    {
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto provider = GetPattern(peer);
+        Invoke(provider);
+    }
+
+    virtual void Invoke(T^ provider) = 0;
+};
+
+ref class InvokePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Invoke, IInvokeProvider>
+{
+internal:
+
+    InvokePatternGazeTargetItem(UIElement^ element)
+        : PatternGazeTargetItem(element)
+    {
+    }
+
+    void Invoke(IInvokeProvider^ provider) override sealed
+    {
+        provider->Invoke();
     }
 };
 
-ref class ToggleGazeTargetItem sealed : public GazeTargetItem
+ref class TogglePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Toggle, IToggleProvider>
 {
-private:
-
-    IToggleProvider ^ _toggleProvider;
-
 internal:
 
-    ToggleGazeTargetItem(UIElement^ element, IToggleProvider^ toggleProvider)
-        : GazeTargetItem(element)
+    TogglePatternGazeTargetItem(UIElement^ element)
+        : PatternGazeTargetItem(element)
     {
-        _toggleProvider = toggleProvider;
     }
 
-    void Invoke() override
+    void Invoke(IToggleProvider^ provider) override
     {
-        _toggleProvider->Toggle();
+        provider->Toggle();
     }
 };
 
-ref class SelectionGazeTargetItem sealed : public GazeTargetItem
+ref class SelectionItemPatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::SelectionItem, ISelectionItemProvider>
 {
-private:
-
-    ISelectionItemProvider ^ _selectionItemProvider;
-
 internal:
 
-    SelectionGazeTargetItem(UIElement^ element, ISelectionItemProvider^ selectionItemProvider)
-        : GazeTargetItem(element)
+    SelectionItemPatternGazeTargetItem(UIElement^ element)
+        : PatternGazeTargetItem(element)
     {
-        _selectionItemProvider = selectionItemProvider;
     }
 
-    void Invoke() override
+    void Invoke(ISelectionItemProvider^ provider) override
     {
-        _selectionItemProvider->Select();
+        provider->Select();
     }
 };
 
-ref class NonInvokeGazeTargetItem sealed : GazeTargetItem
+ref class ExpandCollapsePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::ExpandCollapse, IExpandCollapseProvider>
 {
-private:
-
-    NonInvokeGazeTargetItem()
-        : GazeTargetItem(ref new Page())
-    {
-    }
-
 internal:
 
-    static property GazeTargetItem^ Instance
-    {
-        GazeTargetItem^ get()
-        {
-            static GazeTargetItem^ s_gazeTargetItem = ref new NonInvokeGazeTargetItem();
-            return s_gazeTargetItem;
-        }
-    }
-
-    virtual property bool IsInvokable { bool get() override { return false; } }
-
-    void Invoke() override
+    ExpandCollapsePatternGazeTargetItem(UIElement^ element)
+        : PatternGazeTargetItem(element)
     {
     }
-};
 
-ref class ExpandCollapseGazeTargetItem sealed : GazeTargetItem
-{
-private:
-
-    IExpandCollapseProvider ^ _expandCollapseProvider;
-
-internal:
-
-    ExpandCollapseGazeTargetItem(UIElement^ element, IExpandCollapseProvider^ expandCollapseProvider)
-        : GazeTargetItem(element)
+    void Invoke(IExpandCollapseProvider^ provider) override
     {
-        _expandCollapseProvider = expandCollapseProvider;
-    }
-
-    void Invoke() override
-    {
-        switch (_expandCollapseProvider->ExpandCollapseState)
+        switch (provider->ExpandCollapseState)
         {
         case ExpandCollapseState::Collapsed:
-            _expandCollapseProvider->Expand();
+            provider->Expand();
             break;
 
         case ExpandCollapseState::Expanded:
-            _expandCollapseProvider->Collapse();
+            provider->Collapse();
             break;
         }
     }
 };
 
-GazeTargetItem^ GazeTargetItem::NonInvokable::get() { return NonInvokeGazeTargetItem::Instance; }
+ref class ComboBoxItemGazeTargetItem sealed : GazeTargetItem
+{
+internal:
+
+    ComboBoxItemGazeTargetItem(UIElement^ element)
+        : GazeTargetItem(element)
+    {
+    }
+
+    void Invoke() override
+    {
+        auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
+        auto comboBoxItemAutomationPeer = dynamic_cast<ComboBoxItemAutomationPeer^>(peer);
+        auto comboBoxItem = safe_cast<ComboBoxItem^>(comboBoxItemAutomationPeer->Owner);
+
+        AutomationPeer^ ancestor = comboBoxItemAutomationPeer;
+        auto comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+        while (comboBoxAutomationPeer == nullptr)
+        {
+            ancestor = safe_cast<AutomationPeer^>(ancestor->Navigate(AutomationNavigationDirection::Parent));
+            comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+        }
+
+        comboBoxItem->IsSelected = true;
+        comboBoxAutomationPeer->Collapse();
+    }
+};
+
+ref class PivotItemGazeTargetItem sealed : GazeTargetItem
+{
+internal:
+
+    PivotItemGazeTargetItem(UIElement^ element)
+        : GazeTargetItem(element)
+    {
+    }
+
+    void Invoke() override
+    {
+        auto headerItem = safe_cast<PivotHeaderItem^>(TargetElement);
+        auto headerPanel = safe_cast<PivotHeaderPanel^>(VisualTreeHelper::GetParent(headerItem));
+        unsigned index;
+        headerPanel->Children->IndexOf(headerItem, &index);
+
+        DependencyObject^ walker = headerPanel;
+        Pivot^ pivot;
+        do
+        {
+            walker = VisualTreeHelper::GetParent(walker);
+            pivot = dynamic_cast<Pivot^>(walker);
+        } while (pivot == nullptr);
+
+        pivot->SelectedIndex = index;
+    }
+};
 
 GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 {
@@ -147,39 +187,42 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
     {
         auto peer = FrameworkElementAutomationPeer::FromElement(element);
 
-        auto invokeProvider = dynamic_cast<IInvokeProvider^>(peer);
-        if (invokeProvider != nullptr)
+        if (peer == nullptr)
         {
-            item = ref new InvokeGazeTargetItem(element, invokeProvider);
-        }
-        else
-        {
-            auto toggleProvider = dynamic_cast<IToggleProvider^>(peer);
-            if (toggleProvider != nullptr)
+            if (dynamic_cast<PivotHeaderItem^>(element) != nullptr)
             {
-                item = ref new ToggleGazeTargetItem(element, toggleProvider);
+                item = ref new PivotItemGazeTargetItem(element);
             }
             else
             {
-                auto selectionItemProvider = dynamic_cast<ISelectionItemProvider^>(peer);
-                if (selectionItemProvider != nullptr)
-                {
-                    item = ref new SelectionGazeTargetItem(element, selectionItemProvider);
-                }
-                else
-                {
-                    auto expandCollapseProvider = dynamic_cast<IExpandCollapseProvider^>(peer);
-                    if (expandCollapseProvider != nullptr)
-                    {
-                        item = ref new ExpandCollapseGazeTargetItem(element, expandCollapseProvider);
-                    }
-                    else
-                    {
-                        item = NonInvokeGazeTargetItem::Instance;
-                    }
-                }
+                item = GazePointer::Instance->_nonInvokeGazeTargetItem;
             }
         }
+        else if (InvokePatternGazeTargetItem::IsCandidate(peer))
+        {
+            item = ref new InvokePatternGazeTargetItem(element);
+        }
+        else if (TogglePatternGazeTargetItem::IsCandidate(peer))
+        {
+            item = ref new TogglePatternGazeTargetItem(element);
+        }
+        else if (SelectionItemPatternGazeTargetItem::IsCandidate(peer))
+        {
+            item = ref new SelectionItemPatternGazeTargetItem(element);
+        }
+        else if (ExpandCollapsePatternGazeTargetItem::IsCandidate(peer))
+        {
+            item = ref new ExpandCollapsePatternGazeTargetItem(element);
+        }
+        else if (dynamic_cast<ComboBoxItemAutomationPeer^>(peer) != nullptr)
+        {
+            item = ref new ComboBoxItemGazeTargetItem(element);
+        }
+        else
+        {
+            item = GazePointer::Instance->_nonInvokeGazeTargetItem;
+        }
+
         element->SetValue(GazeTargetItemProperty, item);
     }
 
@@ -208,10 +251,10 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
         {
             if (_feedbackPopup == nullptr)
             {
-                _feedbackPopup = GazeFeedbackPopupFactory::Get();
+                _feedbackPopup = GazePointer::Instance->_gazeFeedbackPopupFactory->Get();
             }
 
-            auto control = safe_cast<Control^>(TargetElement);
+            auto control = safe_cast<FrameworkElement^>(TargetElement);
 
             auto transform = control->TransformToVisual(_feedbackPopup);
             auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0),
@@ -234,7 +277,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
             }
             else
             {
-                rectangle->Stroke = state == DwellProgressState::Fixating ? 
+                rectangle->Stroke = state == DwellProgressState::Fixating ?
                     GazeInput::DwellFeedbackEnterBrush : GazeInput::DwellFeedbackCompleteBrush;
                 rectangle->Width = bounds.Width;
                 rectangle->Height = bounds.Height;
@@ -249,7 +292,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
         {
             if (_feedbackPopup != nullptr)
             {
-                GazeFeedbackPopupFactory::Return(_feedbackPopup);
+                GazePointer::Instance->_gazeFeedbackPopupFactory->Return(_feedbackPopup);
                 _feedbackPopup = nullptr;
             }
         }
