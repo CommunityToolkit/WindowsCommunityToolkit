@@ -227,7 +227,7 @@ The HamburgerMenu and NavigationView share the same concepts and provide the sam
         settingsItem.Icon = New FontIcon() With {.Glyph = "?"}
         ```
 
-    - Free-form content in the pane’s footer, by adding any content in the new *PaneFooter* property 
+    - Free-form content in the pane's footer, by adding any content in the new *PaneFooter* property 
 
     In addition, the NavigationView introduces new classes for quickly adding navigation items and grouping items. You can use the new NavigationViewItem, NavigationViewItemSeparator and NavigationViewItemHeader to directly populate the MenuItems and get the look you want
 
@@ -246,8 +246,6 @@ Version 3.0 of the Windows Community Toolkit adds another related property calle
 > [!NOTE]
 The `ItemClick` and `OptionsItemClick` events will continue to work but the EventArgs will be null when `UseNavigationViewWhenPossible` is set to true. There is a new event called `ItemInvoked` that should be used instead. This new event will include information about the clicked item and whether it is an item or options item. This event also works if UseNavigationViewWhenPossible is set to false. 
 
-*****
-
 > [!NOTE]
 The PaneBackground will not have any effect when `UseNavigationViewWhenPossible` is set to null. To change the pane background of the NavigationView, modify the two theme resources by overwriting them in your App.xaml. See the [NavigationVew documentation](https://docs.microsoft.com/en-us/windows/uwp/design/controls-and-patterns/navigationview#customizing-backgrounds) for more details.
 
@@ -264,20 +262,20 @@ There are several HamburgerMenu properties that have no effect when the Hamburge
 
 ## Sample Code
 
-[HamburgerMenu Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HamburgerMenu)
+[HamburgerMenu Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/HamburgerMenu)
 . You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[HamburgerMenu XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenu.xaml) is the XAML template used in the toolkit for the default styling.
+[HamburgerMenu XAML File](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu/HamburgerMenu.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 
-* [HamburgerMenu source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu)
+* [HamburgerMenu source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu)

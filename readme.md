@@ -6,8 +6,9 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 ## Build status
 | Target | Branch | Status | Recommended Nuget packages version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/2.2.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.2.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.2.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
-| Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
+| Pre-release beta testing | master | [![Build status](https://dotnetfoundation.visualstudio.com/_apis/public/build/definitions/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/10/badge)](https://dotnetfoundation.visualstudio.com/696bc9fd-f160-4e97-a1bd-7cbbb3b58f66/_build/index?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
+
+<!-- | Production | rel/3.0.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/3.0.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/3.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) | -->
 
 ## Getting started
 Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
@@ -42,9 +43,9 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
 
 ## <a name="supported"></a> Supported SDKs
-* Anniversary Update (14393)
 * Creators Update (15063)
 * Fall Creators Update (16299)
+* April 2018 Update (17134)
 
 ## Features
 
@@ -66,13 +67,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
 
 ### Brushes
-* [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
-* [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
-* [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
-* [BackdropSaturationBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSaturationBrush/)
-* [BackdropSepiaBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSepiaBrush/)
-* [ImageBlendBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/ImageBlendBrush/)
-* [RadialGradientBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/RadialGradientBrush/)
+* [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush/)
+* [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush/)
+* [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush/)
+* [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush/)
+* [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush/)
+* [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush/)
+* [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush/)
 
 ### Controls
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
@@ -89,6 +90,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock/)
 * [ImageEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageEx/)
 * [InAppNotification](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InAppNotification/)
+* [InfiniteCanvas](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InfiniteCanvas/)
 * [Loading](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Loading/)
 * [MarkdownTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MarkdownTextBlock/)
 * [MasterDetailsView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MasterDetailsView/)
@@ -116,7 +118,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
-* [NavigationView Styles](https://docs.uwpcommunitytoolkit.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
+* [NavigationView Styles](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
 * [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions/)
 * [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)

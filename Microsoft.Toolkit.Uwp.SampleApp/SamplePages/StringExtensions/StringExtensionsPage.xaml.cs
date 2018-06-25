@@ -1,18 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Extensions;
+using Windows.UI.Text;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,34 +16,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public StringExtensionsPage()
         {
             this.InitializeComponent();
+            ValidateCurrentText();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void OnTextChanged(object sender, TextChangedEventArgs e)
         {
-            Shell.Current.RegisterNewCommand("Is Valid Email?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsEmail());
-            });
+            ValidateCurrentText();
+        }
 
-            Shell.Current.RegisterNewCommand("Is Valid Number?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsNumeric());
-            });
+        private void ValidateCurrentText()
+        {
+            IsValidEmailResult.Text = InputTextBox.Text.IsEmail().ToString();
+            IsValidEmailResult.FontWeight = InputTextBox.Text.IsEmail() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid Decimal?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsDecimal());
-            });
+            IsValidNumberResult.Text = InputTextBox.Text.IsNumeric().ToString();
+            IsValidNumberResult.FontWeight = InputTextBox.Text.IsNumeric() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid String?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsCharacterString());
-            });
+            IsValidDecimalResult.Text = InputTextBox.Text.IsDecimal().ToString();
+            IsValidDecimalResult.FontWeight = InputTextBox.Text.IsDecimal() ? FontWeights.Bold : FontWeights.Normal;
 
-            Shell.Current.RegisterNewCommand("Is Valid PhoneNumber?", (s, a) =>
-            {
-                IsValid.Text = string.Format("IsValid: {0}", InputTextBox.Text.IsPhoneNumber());
-            });
+            IsValidStringResult.Text = InputTextBox.Text.IsCharacterString().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsCharacterString() ? FontWeights.Bold : FontWeights.Normal;
+
+            IsValidPhoneNumberResult.Text = InputTextBox.Text.IsPhoneNumber().ToString();
+            IsValidPhoneNumberResult.FontWeight = InputTextBox.Text.IsPhoneNumber() ? FontWeights.Bold : FontWeights.Normal;
         }
     }
 }

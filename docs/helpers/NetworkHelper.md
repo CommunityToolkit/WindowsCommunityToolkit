@@ -29,7 +29,7 @@ A metered connection is an Internet connection that has a data limit or cost ass
 | Property | Type | Description |
 | -- | -- | -- |
 | ConnectionCost | [ConnectionCost](https://docs.microsoft.com/uwp/api/Windows.Networking.Connectivity.ConnectionCost) | Gets connection cost for the current Internet Connection Profile |
-| ConnectionType | [ConnectionType(https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.connectivity.connectiontype)] | Gets connection type for the current Internet Connection Profile |
+| ConnectionType | [ConnectionType](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.connectivity.connectiontype)] | Gets connection type for the current Internet Connection Profile |
 | ConnectivityLevel | [NetworkConnectivityLevel](https://docs.microsoft.com/uwp/api/Windows.Networking.Connectivity.NetworkConnectivityLevel) | Gets connectivity level for the current Internet Connection Profile |
 | IsInternetAvailable | bool | Gets a value indicating whether internet is available across all connections |
 | IsInternetOnMeteredConnection | bool | Gets a value indicating whether if the current internet connection is metered |
@@ -104,16 +104,16 @@ End Select
 
 ## Sample Code
 
-[NetworkHelper sample page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NetworkHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[NetworkHelper sample page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NetworkHelper). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Connectivity |
 | NuGet package | [Microsoft.Toolkit.Uwp.Connectivity](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Connectivity/) |
 
 ## API
 
-* [NetworkHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.Connectivity/Network/NetworkHelper.cs)
+* [NetworkHelper source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.Connectivity/Network/NetworkHelper.cs)
 

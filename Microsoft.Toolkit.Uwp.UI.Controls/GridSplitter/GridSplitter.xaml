@@ -5,11 +5,38 @@
     <Style TargetType="local:GridSplitter">
         <Setter Property="IsTabStop" Value="True"></Setter>
         <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="VerticalAlignment" Value="Stretch"></Setter>
         <Setter Property="IsFocusEngagementEnabled" Value="True"></Setter>
+        <Setter Property="MinWidth" Value="16"></Setter>
+        <Setter Property="MinHeight" Value="16"></Setter>
+        <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}"></Setter>
+        <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
-                    <Grid Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="GridSplitterStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0"
+                                                        To="{ThemeResource SystemBaseLowColor}"
+                                                        Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                                        Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ColorAnimation Duration="0"
+                                                        To="{ThemeResource SystemBaseHighColor}"
+                                                        Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
+                                                        Storyboard.TargetName="RootGrid" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                         <ContentPresenter Content="{TemplateBinding Element}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
                     </Grid>
                 </ControlTemplate>

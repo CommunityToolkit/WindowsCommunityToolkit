@@ -87,6 +87,9 @@ $CAKE_EXE = Join-Path $TOOLS_DIR "Cake/Cake.exe"
 $NUGET_URL = "https://dist.nuget.org/win-x86-commandline/latest/nuget.exe"
 $PACKAGES_CONFIG = Join-Path $TOOLS_DIR "packages.config"
 $PACKAGES_CONFIG_MD5 = Join-Path $TOOLS_DIR "packages.config.md5sum"
+$MODULES_DIR = Join-Path $PSScriptRoot "tools/modules"
+$MODULES_PACKAGES_CONFIG = Join-Path $MODULES_DIR "packages.config"
+$MODULES_PACKAGES_CONFIG_MD5 = Join-Path $MODULES_DIR "packages.config.md5sum"
 
 # Should we use mono?
 $UseMono = "";
@@ -181,9 +184,49 @@ if (!(Test-Path $CAKE_EXE)) {
     Throw "Could not find Cake.exe at $CAKE_EXE"
 }
 
+# Make sure modules folder exists
+if ((Test-Path $PSScriptRoot) -and !(Test-Path $MODULES_DIR)) {
+    Write-Verbose -Message "Creating tools/modules directory..."
+    New-Item -Path $MODULES_DIR -Type directory | out-null
+}
+
+# Restore modules from NuGet?
+if(-Not $SkipToolPackageRestore.IsPresent) {
+    Push-Location
+    Set-Location $MODULES_DIR
+
+    # Check for changes in modules packages.config and remove installed tools if true.
+    [string] $md5Hash = MD5HashFile($MODULES_PACKAGES_CONFIG)
+    if((!(Test-Path $MODULES_PACKAGES_CONFIG_MD5)) -Or
+      ($md5Hash -ne (Get-Content $MODULES_PACKAGES_CONFIG_MD5 ))) {
+        Write-Verbose -Message "Missing or changed modules package.config hash..."
+        Remove-Item * -Recurse -Exclude packages.config,packages.config.md5sum,nuget.exe
+    }
+
+    Write-Verbose -Message "Restoring modules from NuGet..."
+    $NuGetOutput = Invoke-Expression "&`"$NUGET_EXE`" install -ExcludeVersion -OutputDirectory `"$MODULES_DIR`""
+
+    if ($LASTEXITCODE -ne 0) {
+        Throw "An error occured while restoring NuGet modules."
+    }
+    else
+    {
+        $md5Hash | Out-File $MODULES_PACKAGES_CONFIG_MD5 -Encoding "ASCII"
+    }
+    Write-Verbose -Message ($NuGetOutput | out-string)
+    Pop-Location
+}
+
 # Start Cake
-Write-Host "Running build script..."
 $path = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $Script = "$path/build.cake"
+
+Write-Host "Bootstrapping Cake..."
+Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" --bootstrap"
+if ($LASTEXITCODE -ne 0) {
+    throw "An error occured while bootstrapping Cake."
+}
+
+Write-Host "Running build script..."
 Invoke-Expression "& `"$CAKE_EXE`" `"$Script`" -verbosity=`"$Verbosity`" $UseMono $UseDryRun $UseExperimental $ScriptArgs"
 exit $LASTEXITCODE

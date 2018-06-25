@@ -1,21 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Collections;
-using Microsoft.Toolkit.Services.Core;
 
 namespace Microsoft.Toolkit.Services.Bing
 {
@@ -58,6 +49,20 @@ namespace Microsoft.Toolkit.Services.Bing
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
         public BingDataProvider Provider => bingDataProvider ?? (bingDataProvider = new BingDataProvider());
+
+#if WINRT
+        /// <summary>
+        /// Gets an instance of <see cref="Uwp.IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.
+        /// </summary>
+        /// <param name="config">BingSearchConfig instance.</param>
+        /// <param name="maxRecords">Upper limit of records to return.</param>
+        /// <returns>An instance of <see cref="Uwp.IncrementalLoadingCollection{TSource, IType}"/> class that is able to load search data incrementally.</returns>
+        public static Uwp.IncrementalLoadingCollection<BingService, BingResult> GetAsIncrementalLoading(BingSearchConfig config, int maxRecords = 20)
+        {
+            var service = new BingService(config);
+            return new Uwp.IncrementalLoadingCollection<BingService, BingResult>(service, maxRecords);
+        }
+#endif
 
         /// <summary>
         /// Request list data from service provider based upon a given config / query.

@@ -129,16 +129,34 @@
                                                     <QuarticEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0.0"
+                                                             Storyboard.TargetName="MasterPanel"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.25">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseIn" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="NoSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="HasSelection">
+                                <VisualState x:Name="HasSelectionWide">
                                     <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="MasterPanel.Visibility" Value="Collapsed" />
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -146,14 +164,12 @@
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="WidthStates">
                                 <VisualState x:Name="NarrowState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="320" />
-                                    </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="MasterColumn.Width" Value="*" />
                                         <Setter Target="DetailsColumn.Width" Value="0" />
@@ -164,9 +180,6 @@
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="720" />
-                                    </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

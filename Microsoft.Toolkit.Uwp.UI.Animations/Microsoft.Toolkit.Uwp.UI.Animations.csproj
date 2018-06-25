@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -10,6 +10,8 @@
 
   <ItemGroup>
     
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+    
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
 
@@ -17,5 +19,4 @@
 
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

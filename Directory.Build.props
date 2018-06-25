@@ -1,16 +1,14 @@
 <Project>
 
   <PropertyGroup>
-    <Authors>Microsoft</Authors>
+    <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/build/nuget.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Microsoft/UWPCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Microsoft/UWPCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
-    <PackageReleaseNotes>v2.0: https://github.com/Microsoft/UWPCommunityToolkit/releases/tag/v2.0.0 </PackageReleaseNotes>
-    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
-
-
+    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/Microsoft/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageReleaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
     
@@ -19,15 +17,49 @@
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
+    <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
  
-    
-    <UwpMetaPackageVersion>5.4.1</UwpMetaPackageVersion>
-    <DefaultTargetPlatformVersion>16299</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>14393</DefaultTargetPlatformMinVersion>
-	
+    <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(IsWin32Project)' == 'true'">
+      <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+
+        <!-- Compiler -->
+        <FileAlignment>512</FileAlignment>
+        <HighEntropyVA>true</HighEntropyVA>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <WarningsAsErrors />
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>1591</NoWarn>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
+
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+      </PropertyGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
+        <Optimize>false</Optimize>
+      </PropertyGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
+      </PropertyGroup>
+    </When>
+  </Choose>
 
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
@@ -38,21 +70,26 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsUwpProject)' == 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="('$(IsUwpProject)' == 'true' or '$(IsWin32Project)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>
-      
-      <ItemGroup>
-        <PackageReference Include="MSBuild.Sdk.Extras" Version="1.0.9" PrivateAssets="all" />
-      </ItemGroup>
     </When>
   </Choose>
 
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(SourceLinkEnabled)' != 'false' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
-      <ItemGroup>
-        <PackageReference Include="SourceLink.Create.CommandLine" Version="2.2.0" PrivateAssets="All" />
+      <PropertyGroup>
+        <!-- Optional: Declare that the Repository URL can be published to NuSpec -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <!-- Optional: Embed source files that are not tracked by the source control manager to the PDB -->
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <!-- Optional: Include PDB in the built .nupkg -->
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+      </PropertyGroup>
+      <ItemGroup>        
+        <PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-beta-62925-02" PrivateAssets="All"/>
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All"/>
       </ItemGroup>
     </When>
   </Choose>
@@ -79,7 +116,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\stylecop.json">
+    <AdditionalFiles Include="$(MSBuildThisFileDirectory)stylecop.json">
       <Link>stylecop.json</Link>
     </AdditionalFiles>
   </ItemGroup>

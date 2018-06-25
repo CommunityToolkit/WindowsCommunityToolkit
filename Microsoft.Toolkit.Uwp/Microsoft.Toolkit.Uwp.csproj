@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
@@ -14,11 +14,10 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
     <!-- TODO: Update to later version -->
-    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.0-preview" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.2-preview0008" />
 
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>
 
-  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 </Project>

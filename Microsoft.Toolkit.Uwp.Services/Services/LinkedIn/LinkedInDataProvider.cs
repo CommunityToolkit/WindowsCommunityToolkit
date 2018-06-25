@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services;
 using Windows.Data.Json;
 using Windows.Security.Authentication.Web;
 using Windows.Security.Credentials;
@@ -175,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
                         return parser.Parse(data);
                     }
 
-                    throw new Toolkit.Services.Exceptions.RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
+                    throw new RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
                 }
             }
         }
@@ -228,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.Services.LinkedIn
         {
             if (config?.Query == null)
             {
-                throw new Toolkit.Services.Exceptions.ConfigParameterNullException(nameof(config.Query));
+                throw new ConfigParameterNullException(nameof(config.Query));
             }
         }
 

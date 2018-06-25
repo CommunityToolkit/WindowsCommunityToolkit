@@ -54,7 +54,7 @@ to your application manifest to enable AAD authentication. Capabilities in the m
 Authentication, sign-in and permission scopes are discussed in more detail in this document, [Authorization and sign-in for OneDrive in Microsoft Graph](https://docs.microsoft.com/en-us/onedrive/developer/rest-api/getting-started/graph-oauth)
 
 ### Testing access to the OneDrive API
-Registering your applicatioin creates an App ID/Client and you can simply paste that into the Client Id field inside of the OneDrive services page.  To use the new flow, you need to select the "Work Or School Accounts Or Microsoft Account" authentication provider option.
+Registering your applicatioin creates an App ID/Client and you can simply paste that into the Client Id field inside of the OneDrive services page.  
 
 ## Syntax
 
@@ -64,7 +64,7 @@ Registering your applicatioin creates an App ID/Client and you can simply paste 
 // Using the new converged authentication of the Microsoft Graph we can simply
 // call the Initialize method on the OneDriveService singleton when initializing
 // in UWP applications
-Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
+Microsoft.Toolkit.Services.OneDrive.OneDriveService.Instance.Initialize
     (appClientId, 
      scopes, 
      null, 
@@ -74,7 +74,7 @@ Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize
 ' Using the new converged authentication of the Microsoft Graph we can simply
 ' call the Initialize method on the OneDriveService singleton when initializing
 ' in UWP applications
-Microsoft.Toolkit.Uwp.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, Nothing, Nothing)
+Microsoft.Toolkit.Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, Nothing, Nothing)
 ```
 
 ### Defining scopes
@@ -107,6 +107,7 @@ if (!await OneDriveService.Instance.LoginAsync())
 If Not Await OneDriveService.Instance.LoginAsync() Then
     Throw New Exception("Unable to sign in")
 End If
+```
 
 ### Retrieve the root of your OneDrive
 
@@ -291,15 +292,15 @@ End Using
   
 ## Sample Code
 
-[OneDrive Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[OneDrive Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/OneDrive%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
-| Namespace | Microsoft.Toolkit.Uwp.Services |
-| NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
+| Namespace | Microsoft.Toolkit.Services |
+| NuGet package | [Microsoft.Toolkit.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Services/) |
 
 ## API
 
-* [OneDrive Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/OneDrive)
+* [OneDrive Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Services/Services/OneDrive)

@@ -114,7 +114,7 @@ Private Sub SlidableListItem_SwipeStatusChanged(ByVal sender As SlidableListItem
 End Sub
 ```
 
-If you use `SlidableListItem` in a `ListView` with the `ItemClick` event, you need to be aware the `ItemClick` event is triggered by default when the control has been swiped. If you don’t want this behavior you can set `IsPointerReleasedOnSwipingHandled` to `true` to suppress the `ItemClick` event. If you need more control you can instead check the `SwipeStatus` property in the `ItemClick` event. The following code shows how to do that:
+If you use `SlidableListItem` in a `ListView` with the `ItemClick` event, you need to be aware the `ItemClick` event is triggered by default when the control has been swiped. If you don't want this behavior you can set `IsPointerReleasedOnSwipingHandled` to `true` to suppress the `ItemClick` event. If you need more control you can instead check the `SwipeStatus` property in the `ItemClick` event. The following code shows how to do that:
 
 ```csharp
 private void ListView_ItemClick(object sender, ItemClickEventArgs e)
@@ -170,19 +170,19 @@ There are several SlidableListItem properties that have no effect when the Slida
 
 ## Sample Code
 
-[SlidableListItem Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[SlidableListItem Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/SlidableListItem). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[SlidableListItem XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml) is the XAML template used in the toolkit for the default styling.
+[SlidableListItem XAML File](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 
-* [SlidableListItem source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem)
+* [SlidableListItem source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem)

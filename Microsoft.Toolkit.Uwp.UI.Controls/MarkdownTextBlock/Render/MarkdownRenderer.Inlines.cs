@@ -1,19 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
 using Windows.UI.Text;
@@ -241,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var inlineCollection = localContext.InlineCollection;
 
             var placeholder = InternalRenderTextRun(new TextRunInline { Text = element.Text, Type = MarkdownInlineType.TextRun }, context);
-            var resolvedImage = await ImageResolver.ResolveImageAsync(element.Url, element.Tooltip);
+            var resolvedImage = await ImageResolver.ResolveImageAsync(element.RenderUrl, element.Tooltip);
 
             // if image can not be resolved we have to return
             if (resolvedImage == null)
@@ -249,15 +241,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 return;
             }
 
-            var image = new Image();
-            var imageContainer = new InlineUIContainer() { Child = image };
+            var image = new Image
+            {
+                Source = resolvedImage,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Stretch = ImageStretch
+            };
 
-            LinkRegister.RegisterNewHyperLink(image, element.Url);
+            HyperlinkButton hyperlinkButton = new HyperlinkButton()
+            {
+                Content = image
+            };
 
-            image.Source = resolvedImage;
-            image.HorizontalAlignment = HorizontalAlignment.Left;
-            image.VerticalAlignment = VerticalAlignment.Top;
-            image.Stretch = ImageStretch;
+            var viewbox = new Viewbox
+            {
+                Child = hyperlinkButton,
+                StretchDirection = StretchDirection.DownOnly
+            };
+
+            viewbox.PointerWheelChanged += Preventative_PointerWheelChanged;
+
+            var scrollViewer = new ScrollViewer
+            {
+                Content = viewbox,
+                VerticalScrollMode = ScrollMode.Disabled,
+                VerticalScrollBarVisibility = ScrollBarVisibility.Disabled
+            };
+
+            var imageContainer = new InlineUIContainer() { Child = scrollViewer };
+
+            bool ishyperlink = false;
+            if (element.RenderUrl != element.Url)
+            {
+                ishyperlink = true;
+            }
+
+            LinkRegister.RegisterNewHyperLink(image, element.Url, ishyperlink);
+
+            if (ImageMaxHeight > 0)
+            {
+                viewbox.MaxHeight = ImageMaxHeight;
+            }
+
+            if (ImageMaxWidth > 0)
+            {
+                viewbox.MaxWidth = ImageMaxWidth;
+            }
 
             if (element.ImageWidth > 0)
             {
@@ -279,6 +309,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             if (element.ImageHeight > 0 && element.ImageWidth > 0)
             {
                 image.Stretch = Stretch.Fill;
+            }
+
+            // If image size is given then scroll to view overflown part
+            if (element.ImageHeight > 0 || element.ImageWidth > 0)
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Auto;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Auto;
+            }
+
+            // Else resize the image
+            else
+            {
+                scrollViewer.HorizontalScrollMode = ScrollMode.Disabled;
+                scrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled;
             }
 
             ToolTipService.SetToolTip(image, element.Tooltip);

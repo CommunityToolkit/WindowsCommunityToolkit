@@ -1,19 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -33,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartIndicatorTransform, Type = typeof(CompositeTransform))]
     [TemplatePart(Name = PartDefaultIndicatorContent, Type = typeof(TextBlock))]
     [TemplatePart(Name = PullAndReleaseIndicatorContent, Type = typeof(ContentPresenter))]
+    [Obsolete("The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows")]
     public class PullToRefreshListView : ListView
     {
         /// <summary>
@@ -95,6 +89,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsPullToRefreshWithMouseEnabledProperty =
             DependencyProperty.Register(nameof(IsPullToRefreshWithMouseEnabled), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Identifies the <see cref="UseRefreshContainerWhenPossible"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty UseRefreshContainerWhenPossibleProperty =
+            DependencyProperty.Register(nameof(UseRefreshContainerWhenPossible), typeof(bool), typeof(PullToRefreshListView), new PropertyMetadata(false, OnUseRefreshContainerWhenPossibleChanged));
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="RefreshContainer"/> is supported
+        /// </summary>
+        public static bool IsRefreshContainerSupported { get; } = ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.RefreshContainer");
+
         private const string PartRoot = "Root";
         private const string PartScroller = "ScrollViewer";
         private const string PartContentTransform = "ContentTransform";
@@ -103,6 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string PartIndicatorTransform = "RefreshIndicatorTransform";
         private const string PartDefaultIndicatorContent = "DefaultIndicatorContent";
         private const string PullAndReleaseIndicatorContent = "PullAndReleaseIndicatorContent";
+        private const string PartRefreshContainer = "RefreshContainer";
 
         private Border _root;
         private Border _refreshIndicatorBorder;
@@ -123,6 +129,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _overscrollMultiplier;
         private bool _isManipulatingWithMouse;
         private double _startingVerticalOffset;
+        private ControlTemplate _previousTemplateUsed;
+        private RefreshContainer _refreshContainer;
+
+        private bool UsingRefreshContainer => IsRefreshContainerSupported && UseRefreshContainerWhenPossible;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the HamburgerMenu should use the NavigationView when possible (Fall Creators Update and above)
+        /// When set to true and the device supports NavigationView, the HamburgerMenu will use a template based on NavigationView
+        /// </summary>
+        public bool UseRefreshContainerWhenPossible
+        {
+            get { return (bool)GetValue(UseRefreshContainerWhenPossibleProperty); }
+            set { SetValue(UseRefreshContainerWhenPossibleProperty, value); }
+        }
 
         /// <summary>
         /// Occurs when the user has requested content to be refreshed
@@ -185,6 +205,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _root.ManipulationCompleted -= Scroller_ManipulationCompleted;
             }
 
+            _root = null;
+            _refreshIndicatorBorder = null;
+            _refreshIndicatorTransform = null;
+            _scroller = null;
+            _contentTransform = null;
+            _headerTransform = null;
+            _footerTransform = null;
+            _scrollerContent = null;
+            _defaultIndicatorContent = null;
+            _pullAndReleaseIndicatorContent = null;
+            _scrollerVerticalScrollBar = null;
+
+            if (UsingRefreshContainer)
+            {
+                OnApplyRefreshContainerTemplate();
+            }
+
             _root = GetTemplateChild(PartRoot) as Border;
             _scroller = GetTemplateChild(PartScroller) as ScrollViewer;
             _scrollerContent = GetTemplateChild(PartScrollerContent) as ItemsPresenter;
@@ -223,6 +260,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             base.OnApplyTemplate();
+        }
+
+        private void OnApplyRefreshContainerTemplate()
+        {
+            if (_refreshContainer != null)
+            {
+                _refreshContainer.RefreshRequested -= RefreshContainer_RefreshRequested;
+            }
+
+            _refreshContainer = GetTemplateChild(PartRefreshContainer) as RefreshContainer;
+
+            if (_refreshContainer != null)
+            {
+                _refreshContainer.RefreshRequested += RefreshContainer_RefreshRequested;
+            }
         }
 
         private void Scroller_ManipulationStarted(object sender, ManipulationStartedRoutedEventArgs e)
@@ -629,6 +681,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void RefreshContainer_RefreshRequested(object sender, RefreshRequestedEventArgs args)
+        {
+            using (var deferral = args.GetDeferral())
+            {
+                RefreshRequested?.Invoke(this, EventArgs.Empty);
+                if (RefreshCommand != null && RefreshCommand.CanExecute(null))
+                {
+                    RefreshCommand.Execute(null);
+                }
+            }
+        }
+
         /// <summary>
         /// Gets or sets the Overscroll Limit. Value between 0 and 1 where 1 is the height of the control. Default is 0.3
         /// </summary>
@@ -661,6 +725,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnReleaseToRefreshLabelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             d.SetValue(ReleaseToRefreshLabelProperty, e.NewValue);
+        }
+
+        private static void OnUseRefreshContainerWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var list = d as PullToRefreshListView;
+            if (list == null)
+            {
+                return;
+            }
+
+            if (list.UseRefreshContainerWhenPossible && IsRefreshContainerSupported)
+            {
+                ResourceDictionary dict = new ResourceDictionary();
+                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView/PullToRefreshListViewRefreshContainerTemplate.xaml");
+                list._previousTemplateUsed = list.Template;
+                list.Template = dict["PullToRefreshListViewRefreshContainerTemplate"] as ControlTemplate;
+            }
+            else if (!list.UseRefreshContainerWhenPossible &&
+                     e.OldValue is bool oldValue &&
+                     oldValue &&
+                     list._previousTemplateUsed != null)
+            {
+                list.Template = list._previousTemplateUsed;
+            }
         }
 
         /// <summary>

@@ -1,14 +1,6 @@
-// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Net.Http;
@@ -16,7 +8,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.OneDrive.Platform;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.OneDrive
@@ -27,131 +18,104 @@ namespace Microsoft.Toolkit.Services.OneDrive
     public class OneDriveStorageItem
     {
         /// <summary>
-        /// Gets or sets platform-specific implementation of platform services.
+        /// Gets platform-specific implementation of platform services.
         /// </summary>
-        public IOneDriveStorageItemPlatform StorageItemPlatformService { get; set; }
-
-        private DateTimeOffset? _dateCreated;
+        public IOneDriveStorageItemPlatform StorageItemPlatformService { get; private set; }
 
         /// <summary>
         /// Gets the date and time that the current OneDrive item was created.
         /// </summary>
-        public DateTimeOffset? DateCreated
-        {
-            get
-            {
-                return _dateCreated;
-            }
-        }
-
-        private DateTimeOffset? _dateModified;
+        public DateTimeOffset? DateCreated { get; private set; }
 
         /// <summary>
         /// Gets the date and time that the current OneDrive item was last modified.
         /// </summary>
-        public DateTimeOffset? DateModified
-        {
-            get { return _dateModified; }
-        }
-
-        private string _displayName;
+        public DateTimeOffset? DateModified { get; private set; }
 
         /// <summary>
         /// Gets the user-friendly name of the current folder.
         /// </summary>
-        public string DisplayName
-        {
-            get
-            {
-                return _displayName;
-            }
-        }
-
-        private string _displayType;
+        public string DisplayName { get; private set; }
 
         /// <summary>
         /// Gets The user-friendly type of the item.
         /// </summary>
-        public string DisplayType
-        {
-            get
-            {
-                return _displayType;
-            }
-        }
-
-        private string _folderId;
+        public string DisplayType { get; private set; }
 
         /// <summary>
         /// Gets the id of the current OneDrive Item.
         /// </summary>
-        public string FolderRelativeId
-        {
-            get
-            {
-                return _folderId;
-            }
-        }
-
-        private string _name;
+        public string FolderRelativeId { get; private set; }
 
         /// <summary>
         /// Gets the name of the current OneDrive Item.
         /// </summary>
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
-
-        private string _path;
+        public string Name { get; private set; }
 
         /// <summary>
         /// Gets the path of the current item if the path is available
         /// </summary>
-        public string Path
+        public string Path { get; private set; }
+
+        /// <summary>
+        /// Gets the size of the current item if available
+        /// </summary>
+        public long? FileSize { get; private set; }
+
+        /// <summary>
+        /// Gets the file size with reasonable formatting
+        /// </summary>
+        public string FormattedFileSize
         {
             get
             {
-                return _path;
+                var size = FileSize.HasValue ? FileSize.Value : 0;
+                if (size < 1024)
+                {
+                    return size.ToString("F0") + " bytes";
+                }
+                else if ((size >> 10) < 1024)
+                {
+                    return (size / (float)1024).ToString("F1") + " KB";
+                }
+                else if ((size >> 20) < 1024)
+                {
+                    return ((size >> 10) / (float)1024).ToString("F1") + " MB";
+                }
+                else if ((size >> 30) < 1024)
+                {
+                    return ((size >> 20) / (float)1024).ToString("F1") + " GB";
+                }
+                else if ((size >> 40) < 1024)
+                {
+                    return ((size >> 30) / (float)1024).ToString("F1") + " TB";
+                }
+                else if ((size >> 50) < 1024)
+                {
+                    return ((size >> 40) / (float)1024).ToString("F1") + " PB";
+                }
+                else
+                {
+                    return ((size >> 50) / (float)1024).ToString("F0") + " EB";
+                }
             }
         }
 
         /// <summary>
-        /// Store a reference to an instance of the underlying data provider.
-        /// </summary>
-        private IBaseClient _oneDriveProvider;
-
-        /// <summary>
-        /// Store a reference to an instance of current request builder
-        /// </summary>
-        private IBaseRequestBuilder _requestBuilder;
-
-        /// <summary>
         /// Gets an Item Request Builder instance
         /// </summary>
-        public IBaseRequestBuilder RequestBuilder => _requestBuilder;
+        public IBaseRequestBuilder RequestBuilder { get; private set; }
 
         /// <summary>
-        /// Gets or sets IOneDriveServiceClient instance
+        /// Gets IOneDriveServiceClient instance
         /// </summary>
-        public IBaseClient Provider
-        {
-            get { return _oneDriveProvider; }
-            set { _oneDriveProvider = value; }
-        }
+        public IBaseClient Provider { get; private set; }
 
-        private DriveItem _oneDriveItem;
 
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
-        public DriveItem OneDriveItem
-        {
-            get { return _oneDriveItem; }
-        }
+        public DriveItem OneDriveItem { get; private set; }
 
         /// <summary>
         ///  Initializes a new instance of the <see cref="OneDriveStorageItem"/> class.
@@ -163,25 +127,26 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             StorageItemPlatformService = OneDriveService.ServicePlatformInitializer.CreateOneDriveStorageItemPlatformInstance(OneDriveService.Instance, this);
 
-            _requestBuilder = requestBuilder;
-            _oneDriveProvider = oneDriveProvider;
-            _oneDriveItem = oneDriveItem;
-            _name = oneDriveItem.Name;
-            _dateCreated = oneDriveItem.CreatedDateTime;
-            _dateModified = oneDriveItem.LastModifiedDateTime;
-            _displayName = _name;
-            _folderId = oneDriveItem.Id;
+            RequestBuilder = requestBuilder;
+            Provider = oneDriveProvider;
+            OneDriveItem = oneDriveItem;
+            Name = oneDriveItem.Name;
+            FileSize = oneDriveItem.Size;
+            DateCreated = oneDriveItem.CreatedDateTime;
+            DateModified = oneDriveItem.LastModifiedDateTime;
+            DisplayName = Name;
+            FolderRelativeId = oneDriveItem.Id;
             if (IsFile())
             {
-                _displayType = "File";
+                DisplayType = "File";
             }
             else if (IsFolder())
             {
-                _displayType = "Folder";
+                DisplayType = "Folder";
             }
             else
             {
-                _displayType = "OneNote";
+                DisplayType = "OneNote";
             }
 
             // ParentReference null means is root
@@ -191,7 +156,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
                 int index = oneDriveItem.ParentReference.Path.LastIndexOf(rootMarker) + rootMarker.Length;
                 if (index >= 0)
                 {
-                    _path = oneDriveItem.ParentReference.Path.Substring(index);
+                    Path = oneDriveItem.ParentReference.Path.Substring(index);
                 }
             }
         }
@@ -203,7 +168,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// <returns> No object or value is returned by this method when it completes.</returns>
         public Task DeleteAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (_name == "root")
+            if (Name == "root")
             {
                 throw new Microsoft.Graph.ServiceException(new Error { Message = "Could not delete the root folder" });
             }
@@ -231,7 +196,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             DriveItem newOneDriveItem = new DriveItem { Name = desiredName, Description = "Item Renamed from Windows Community Toolkit" };
             var itemRenamed = await ((IDriveItemRequestBuilder)RequestBuilder).Request().UpdateAsync(newOneDriveItem, cancellationToken).ConfigureAwait(false);
-            return new OneDriveStorageItem(_oneDriveProvider, RequestBuilder, itemRenamed);
+            return new OneDriveStorageItem(Provider, RequestBuilder, itemRenamed);
         }
 
         /// <summary>
@@ -316,28 +281,19 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// Check if the item is a folder
         /// </summary>
         /// <returns>Return true if it's a folder</returns>
-        public bool IsFolder()
-        {
-            return OneDriveItem.Folder != null;
-        }
+        public bool IsFolder() => OneDriveItem.Folder != null;
 
         /// <summary>
         /// Check if the item is a file
         /// </summary>
         /// <returns>Return true if it's a file</returns>
-        public bool IsFile()
-        {
-            return OneDriveItem.File != null;
-        }
+        public bool IsFile() => OneDriveItem.File != null;
 
         /// <summary>
         /// Check if the item is a OneNote focument
         /// </summary>
         /// <returns>Return true if it's a OneNote document</returns>
-        public bool IsOneNote()
-        {
-            return !IsFile() && !IsFolder();
-        }
+        public bool IsOneNote() => !IsFile() && !IsFolder();
 
         /// <summary>
         /// Initialize a GraphOneDriveStorageFolder
@@ -373,8 +329,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         }
 
         internal IDriveRequestBuilder GetDriveRequestBuilderFromDriveId(string driveId)
-        {
-            return (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drives[driveId] as IDriveRequestBuilder;
-        }
+            => (IBaseRequestBuilder)((IGraphServiceClient)Provider).Drives[driveId] as IDriveRequestBuilder;
     }
 }
