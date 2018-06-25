@@ -5,11 +5,11 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
+using Microsoft.Toolkit.Services.Twitter;
 using Windows.Security.Authentication.Web;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
-
     /// <summary>
     /// Authentication Broker
     /// </summary>

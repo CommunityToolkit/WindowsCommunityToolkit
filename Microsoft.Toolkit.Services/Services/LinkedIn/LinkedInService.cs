@@ -142,16 +142,11 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>Success or failure.</returns>
         public bool Initialize(LinkedInOAuthTokens oAuthTokens, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
         {
-            if (oAuthTokens == null)
-            {
-                throw new ArgumentNullException(nameof(oAuthTokens));
-            }
+            _oAuthTokens = oAuthTokens ?? throw new ArgumentNullException(nameof(oAuthTokens));
+            _authenticationBroker = authentication ?? throw new ArgumentNullException(nameof(authentication));
+            _storageManager = storageManager ?? throw new ArgumentNullException(nameof(storageManager));
+            _passwordManager = passwordManager ?? throw new ArgumentNullException(nameof(passwordManager));
 
-            _authenticationBroker = authentication;
-            _storageManager = storageManager;
-            _passwordManager = passwordManager;
-
-            _oAuthTokens = oAuthTokens;
             _requiredPermissions = requiredPermissions;
 
             Provider.RequiredPermissions = requiredPermissions;

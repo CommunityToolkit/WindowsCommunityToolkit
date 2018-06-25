@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
+            TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
             if (!await TwitterService.Instance.LoginAsync())
             {

@@ -27,10 +27,10 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         private TwitterOAuthTokens tokens;
 
-        private IPasswordManager _passwordManager;
-        private IStorageManager _storageManager;
-        private IAuthenticationBroker _authenticationBroker;
-        private ISignatureManager _signatureManager;
+        private IPasswordManager passwordManager;
+        private IStorageManager storageManager;
+        private IAuthenticationBroker authenticationBroker;
+        private ISignatureManager signatureManager;
 
         /// <summary>
         /// Field for tracking initialization status.
@@ -68,6 +68,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="authenticationBroker">Authentication result interface.</param>
         /// <param name="passwordManager">Password Manager interface, store the password.</param>
         /// <param name="storageManager">Storage Manager interface</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth request</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(string consumerKey, string consumerSecret, string callbackUri, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
@@ -84,6 +85,26 @@ namespace Microsoft.Toolkit.Services.Twitter
             if (string.IsNullOrEmpty(callbackUri))
             {
                 throw new ArgumentNullException(nameof(callbackUri));
+            }
+
+            if (authenticationBroker == null)
+            {
+                throw new ArgumentException(nameof(authenticationBroker));
+            }
+
+            if (passwordManager == null)
+            {
+                throw new ArgumentException(nameof(passwordManager));
+            }
+
+            if (storageManager == null)
+            {
+                throw new ArgumentException(nameof(storageManager));
+            }
+
+            if (signatureManager == null)
+            {
+                throw new ArgumentException(nameof(signatureManager));
             }
 
             var oAuthTokens = new TwitterOAuthTokens
@@ -103,23 +124,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="authenticationBroker">Authentication result interface.</param>
         /// <param name="passwordManager">Password Manager interface, store the password.</param>
         /// <param name="storageManager">Storage Manager interface</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth request</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize(TwitterOAuthTokens oAuthTokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
-            if (oAuthTokens == null)
-            {
-                throw new ArgumentNullException(nameof(oAuthTokens));
-            }
+            tokens = oAuthTokens ?? throw new ArgumentNullException(nameof(oAuthTokens));
+            this.authenticationBroker = authenticationBroker ?? throw new ArgumentNullException(nameof(authenticationBroker));
+            this.passwordManager = passwordManager ?? throw new ArgumentNullException(nameof(passwordManager));
+            this.storageManager = storageManager ?? throw new ArgumentNullException(nameof(storageManager));
+            this.signatureManager = signatureManager ?? throw new ArgumentNullException(nameof(signatureManager));
 
-            tokens = oAuthTokens;
             isInitialized = true;
 
             twitterDataProvider = null;
-
-            _authenticationBroker = authenticationBroker;
-            _passwordManager = passwordManager;
-            _storageManager = storageManager;
-            _signatureManager = signatureManager;
 
             return true;
         }
@@ -136,7 +153,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                     throw new InvalidOperationException("Provider not initialized.");
                 }
 
-                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens, _authenticationBroker, _passwordManager, _storageManager, _signatureManager));
+                return twitterDataProvider ?? (twitterDataProvider = new TwitterDataProvider(tokens, authenticationBroker, passwordManager, storageManager, signatureManager));
             }
         }
 
@@ -265,7 +282,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             Provider.Logout();
         }
-
 
 #if WINRT
         /// <summary>

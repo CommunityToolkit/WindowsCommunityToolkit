@@ -62,8 +62,9 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="authenticationBroker">Authentication result interface.</param>
-        /// <param name="passwordManager">Password Manager interface, store the password.</param>
-        /// <param name="storageManager">Storage Manager interface.</param>
+        /// <param name="passwordManager">Platform password manager</param>
+        /// <param name="storageManager">Platform storage provider</param>
+        /// <param name="signatureManager">Platform signature manager</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
             _tokens = tokens;
@@ -96,29 +97,9 @@ namespace Microsoft.Toolkit.Services.Twitter
                 rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
                 return JsonConvert.DeserializeObject<TwitterUser>(rawResult);
             }
-            catch (System.Net.Http.HttpRequestException wex)
+            catch (UserNotFoundException)
             {
-                // TODO REPLACE
-                //HttpWebResponse response = wex.Response as HttpWebResponse;
-                //if (response != null)
-                //{
-                //    if (response.StatusCode == HttpStatusCode.NotFound)
-                //    {
-                //        throw new UserNotFoundException(screenName);
-                //    }
-
-                //    if ((int)response.StatusCode == 429)
-                //    {
-                //        throw new TooManyRequestsException();
-                //    }
-
-                //    if (response.StatusCode == HttpStatusCode.Unauthorized)
-                //    {
-                //        throw new OAuthKeysRevokedException();
-                //    }
-                //}
-
-                throw;
+                throw new UserNotFoundException(screenName);
             }
             catch
             {
@@ -157,29 +138,10 @@ namespace Microsoft.Toolkit.Services.Twitter
                         .Take(maxRecords)
                         .ToList();
             }
-            //catch (WebException wex)
-            //{
-            //    HttpWebResponse response = wex.Response as HttpWebResponse;
-            //    if (response != null)
-            //    {
-            //        if (response.StatusCode == HttpStatusCode.NotFound)
-            //        {
-            //            throw new UserNotFoundException(screenName);
-            //        }
-
-            //        if ((int)response.StatusCode == 429)
-            //        {
-            //            throw new TooManyRequestsException();
-            //        }
-
-            //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            //        {
-            //            throw new OAuthKeysRevokedException();
-            //        }
-            //    }
-
-            //    throw;
-            //}
+            catch (UserNotFoundException)
+            {
+                throw new UserNotFoundException(screenName);
+            }
             catch
             {
                 if (!string.IsNullOrEmpty(rawResult))
@@ -204,39 +166,14 @@ namespace Microsoft.Toolkit.Services.Twitter
         public async Task<IEnumerable<TSchema>> SearchAsync<TSchema>(string hashTag, int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
             where TSchema : Toolkit.Parsers.SchemaBase
         {
-            try
-            {
-                var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}&tweet_mode=extended");
-                TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
+            var uri = new Uri($"{BaseUrl}/search/tweets.json?q={Uri.EscapeDataString(hashTag)}&count={maxRecords}&tweet_mode=extended");
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
+            var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
-                var result = parser.Parse(rawResult);
-                return result
-                        .Take(maxRecords)
-                        .ToList();
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
-            //catch (WebException wex)
-            //{
-            //    HttpWebResponse response = wex.Response as HttpWebResponse;
-            //    if (response != null)
-            //    {
-            //        if ((int)response.StatusCode == 429)
-            //        {
-            //            throw new TooManyRequestsException();
-            //        }
-
-            //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            //        {
-            //            throw new OAuthKeysRevokedException();
-            //        }
-            //    }
-
-            //    throw;
-            //}
+            var result = parser.Parse(rawResult);
+            return result
+                    .Take(maxRecords)
+                    .ToList();
         }
 
         /// <summary>
@@ -307,7 +244,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             LoggedIn = false;
         }
 
-
 #if WINRT
 
         /// <summary>
@@ -329,48 +265,26 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Success or failure.</returns>
         public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
         {
-            try
+            var mediaIds = string.Empty;
+
+            if (pictures != null && pictures.Length > 0)
             {
-                var mediaIds = string.Empty;
-
-                if (pictures != null && pictures.Length > 0)
+                var ids = new List<string>();
+                foreach (var picture in pictures)
                 {
-                    var ids = new List<string>();
-                    foreach (var picture in pictures)
-                    {
-                        ids.Add(await UploadPictureAsync(picture));
-                    }
-
-                    mediaIds = "&media_ids=" + string.Join(",", ids);
+                    ids.Add(await UploadPictureAsync(picture));
                 }
 
-                var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
-
-                TwitterOAuthRequest request = new TwitterOAuthRequest();
-                await request.ExecutePostAsync(uri, _tokens, _signatureManager);
-
-                return true;
+                mediaIds = "&media_ids=" + string.Join(",", ids);
             }
-            catch (WebException wex)
-            {
-                HttpWebResponse response = wex.Response as HttpWebResponse;
-                if (response != null)
-                {
-                    if ((int)response.StatusCode == 429)
-                    {
-                        throw new TooManyRequestsException();
-                    }
 
-                    if (response.StatusCode == HttpStatusCode.Unauthorized)
-                    {
-                        throw new OAuthKeysRevokedException();
-                    }
-                }
+            var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
 
-                throw;
-            }
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
+            await request.ExecutePostAsync(uri, _tokens, _signatureManager);
+
+            return true;
         }
-
 
         /// <summary>
         /// Publish a picture to Twitter user's medias.
@@ -391,7 +305,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             string boundary = DateTime.Now.Ticks.ToString("x");
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
-            // TODO: COMPLETE
             return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, _signatureManager);
         }
 #endif
@@ -404,37 +317,11 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Awaitable task.</returns>
         public Task StartUserStreamAsync(TwitterUserStreamParser parser, TwitterStreamCallbacks.TwitterStreamCallback callback)
         {
-            try
-            {
-                var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
+            var uri = new Uri($"{UserStreamUrl}/user.json?replies=all");
 
-                _streamRequest = new TwitterOAuthRequest();
+            _streamRequest = new TwitterOAuthRequest();
 
-                // TODO: COMPLETE
-                return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)), _signatureManager);
-            }
-            catch
-            {
-                throw;
-            }
-            //catch (WebException wex)
-            //{
-            //    HttpWebResponse response = wex.Response as HttpWebResponse;
-            //    if (response != null)
-            //    {
-            //        if ((int)response.StatusCode == 429)
-            //        {
-            //            throw new TooManyRequestsException();
-            //        }
-
-            //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            //        {
-            //            throw new OAuthKeysRevokedException();
-            //        }
-            //    }
-
-            //    throw;
-            //}
+            return _streamRequest.ExecuteGetStreamAsync(uri, _tokens, rawResult => callback(parser.Parse(rawResult)), _signatureManager);
         }
 
         /// <summary>
@@ -445,7 +332,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             _streamRequest?.Abort();
             _streamRequest = null;
         }
-
 
         /// <summary>
         /// Returns parser implementation for specified configuration.
@@ -609,74 +495,24 @@ namespace Microsoft.Toolkit.Services.Twitter
         private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
             where TSchema : Toolkit.Parsers.SchemaBase
         {
-            try
-            {
-                var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}&tweet_mode=extended");
+            var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}&tweet_mode=extended");
 
-                TwitterOAuthRequest request = new TwitterOAuthRequest();
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
+            var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
-                return parser.Parse(rawResult);
-            }
-            catch
-            {
-                throw;
-            }
-            //catch (WebException wex)
-            //{
-            //    HttpWebResponse response = wex.Response as HttpWebResponse;
-            //    if (response != null)
-            //    {
-            //        if ((int)response.StatusCode == 429)
-            //        {
-            //            throw new TooManyRequestsException();
-            //        }
-
-            //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            //        {
-            //            throw new OAuthKeysRevokedException();
-            //        }
-            //    }
-
-            //    throw;
-            //}
+            return parser.Parse(rawResult);
         }
 
         private async Task<IEnumerable<TSchema>> GetCustomSearch<TSchema>(string query, Toolkit.Parsers.IParser<TSchema> parser)
             where TSchema : Toolkit.Parsers.SchemaBase
         {
-            try
-            {
-                var uri = new Uri($"{BaseUrl}/{query}");
+            var uri = new Uri($"{BaseUrl}/{query}");
 
-                TwitterOAuthRequest request = new TwitterOAuthRequest();
+            TwitterOAuthRequest request = new TwitterOAuthRequest();
 
-                var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
+            var rawResult = await request.ExecuteGetAsync(uri, _tokens, _signatureManager);
 
-                return parser.Parse(rawResult);
-            }
-            catch
-            {
-                throw;
-            }
-            //catch (WebException wex)
-            //{
-            //    HttpWebResponse response = wex.Response as HttpWebResponse;
-            //    if (response != null)
-            //    {
-            //        if ((int)response.StatusCode == 429)
-            //        {
-            //            throw new TooManyRequestsException();
-            //        }
-
-            //        if (response.StatusCode == HttpStatusCode.Unauthorized)
-            //        {
-            //            throw new OAuthKeysRevokedException();
-            //        }
-            //    }
-
-            //    throw;
-            //}
+            return parser.Parse(rawResult);
         }
 
         /// <summary>
@@ -824,7 +660,5 @@ namespace Microsoft.Toolkit.Services.Twitter
             TimeSpan sinceEpoch = DateTime.UtcNow - new DateTime(1970, 1, 1);
             return Math.Round(sinceEpoch.TotalSeconds).ToString();
         }
-
-
     }
 }

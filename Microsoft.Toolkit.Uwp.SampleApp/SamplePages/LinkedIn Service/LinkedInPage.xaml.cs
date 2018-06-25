@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 CallbackUri = CallbackUri.Text
             };
 
-            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
+            var succeeded = LinkedInService.Instance.Initialize(oAuthTokens, LinkedInPermissions.ReadBasicProfile | LinkedInPermissions.WriteShare);
 
             var loggedIn = await LinkedInService.Instance.LoginAsync();
 

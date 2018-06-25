@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth request</param>
         /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
@@ -53,6 +54,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
+                    response.ThrowIfNotValid();
                     return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
@@ -64,6 +66,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
         /// <param name="callback">Function invoked when stream available.</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth requests</param>
         /// <returns>awaitable task</returns>
         public async Task ExecuteGetStreamAsync(Uri requestUri, TwitterOAuthTokens tokens, TwitterStreamCallbacks.RawJsonCallback callback, ISignatureManager signatureManager)
         {
@@ -75,6 +78,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 using (var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false))
                 {
+                    response.ThrowIfNotValid();
                     var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
 
                     using (var reader = new StreamReader(responseStream))
@@ -106,6 +110,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="requestUri">Uri to make OAuth request.</param>
         /// <param name="tokens">Tokens to pass in request.</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth requests</param>
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostAsync(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager)
         {
@@ -117,6 +122,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                 using (var response = await client.SendAsync(request).ConfigureAwait(false))
                 {
+                    response.ThrowIfNotValid();
                     return ProcessErrors(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
@@ -129,6 +135,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tokens">Tokens to pass in request.</param>
         /// <param name="boundary">Boundary used to separate data.</param>
         /// <param name="content">Data to post to server.</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth requests</param>
         /// <returns>String result.</returns>
         public async Task<string> ExecutePostMultipartAsync(Uri requestUri, TwitterOAuthTokens tokens, string boundary, byte[] content, ISignatureManager signatureManager)
         {
@@ -152,6 +159,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
                             using (var response = await client.SendAsync(request).ConfigureAwait(false))
                             {
+                                response.ThrowIfNotValid();
                                 string jsonResult = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                                 JObject jObj = JObject.Parse(jsonResult);

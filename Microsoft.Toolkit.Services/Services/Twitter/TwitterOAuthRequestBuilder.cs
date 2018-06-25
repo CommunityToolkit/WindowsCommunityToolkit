@@ -94,14 +94,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         public string AuthorizationHeader => GenerateAuthorizationHeader();
 
-
-
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterOAuthRequestBuilder"/> class.
         /// Authorization request builder.
         /// </summary>
         /// <param name="requestUri">Request Uri.</param>
         /// <param name="tokens">Tokens to form request.</param>
+        /// <param name="signatureManager">Signature manager to sign the OAuth request</param>
         /// <param name="method">Method to use with request.</param>
         public TwitterOAuthRequestBuilder(Uri requestUri, TwitterOAuthTokens tokens, ISignatureManager signatureManager, string method = "GET")
         {
@@ -198,13 +197,7 @@ namespace Microsoft.Toolkit.Services.Twitter
                 OAuthEncoder.UrlEncode(ConsumerSecret.Value),
                 OAuthEncoder.UrlEncode(TokenSecret.Value));
 
-#if WINRT
             return _signatureManager.GetSignature(signatureBaseString, key);
-#else
-            return _signatureManager.GetSignature(signatureBaseString, key);
-#endif
-
-
         }
 
         /// <summary>

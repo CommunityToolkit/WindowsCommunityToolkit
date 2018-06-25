@@ -9,35 +9,28 @@ using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
+    /// <summary>
+    /// Uwp specific signature generator using cryptographic library
+    /// </summary>
     public class UwpSignatureManager : ISignatureManager
     {
-
         /// <summary>
         /// Generate request signature.
         /// </summary>
-        /// <param name="baseSignature">Base string.</param>
-        /// <param name="secret">Consumer secret key.</param>
+        /// <param name="baseString">String to sign</param>
+        /// <param name="secret">Secret to use to sign</param>
+        /// <param name="append">If true append &amp; to the base string</param>
         /// <returns>Signature.</returns>
-
-        public string GetSignature(string baseSignature, string secret, bool append = false)
+        public string GetSignature(string baseString, string secret, bool append = false)
         {
             var key = append ? secret + "&" : secret;
 
             IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(key, BinaryStringEncoding.Utf8);
             MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm(MacAlgorithmNames.HmacSha1);
             CryptographicKey cryptoKey = mac.CreateKey(keyMaterial);
-            IBuffer dataToBeSigned = CryptographicBuffer.ConvertStringToBinary(baseSignature, BinaryStringEncoding.Utf8);
+            IBuffer dataToBeSigned = CryptographicBuffer.ConvertStringToBinary(baseString, BinaryStringEncoding.Utf8);
             IBuffer hash = CryptographicEngine.Sign(cryptoKey, dataToBeSigned);
             return CryptographicBuffer.EncodeToBase64String(hash);
-
-
-            
-            //IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(secret + "&", BinaryStringEncoding.Utf8);
-            //MacAlgorithmProvider mac = MacAlgorithmProvider.OpenAlgorithm("HMAC_SHA1");
-            //CryptographicKey cryptoKey = mac.CreateKey(keyMaterial);
-            //IBuffer dataToBeSigned = CryptographicBuffer.ConvertStringToBinary(baseSignature, BinaryStringEncoding.Utf8);
-            //IBuffer hash = CryptographicEngine.Sign(cryptoKey, dataToBeSigned);
-            //return CryptographicBuffer.EncodeToBase64String(hash);
         }
     }
 }
