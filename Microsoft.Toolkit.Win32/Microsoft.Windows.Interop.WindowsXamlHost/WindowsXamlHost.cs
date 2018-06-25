@@ -70,7 +70,7 @@ namespace Microsoft.Windows.Interop
             : this()
         {
             TypeName = typeName;
-
+            
             // Create and set initial root UWP XAML content
             if (this.TypeName != null)
             {
@@ -253,7 +253,7 @@ namespace Microsoft.Windows.Interop
         }
 
         public static global::Windows.UI.Xaml.DependencyProperty WrapperProperty { get; } =
-            global::Windows.UI.Xaml.DependencyProperty.RegisterAttached("Wrapper", typeof(global::Windows.UI.Xaml.UIElement), typeof(WindowsXamlHost), new global::Windows.UI.Xaml.PropertyMetadata(null));
+            global::Windows.UI.Xaml.DependencyProperty.RegisterAttached("Wrapper", typeof(System.Windows.UIElement), typeof(WindowsXamlHost), new global::Windows.UI.Xaml.PropertyMetadata(null));
 
 
         #endregion
