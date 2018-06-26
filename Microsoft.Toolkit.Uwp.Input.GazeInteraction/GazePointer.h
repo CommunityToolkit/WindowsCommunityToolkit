@@ -4,7 +4,9 @@
 #pragma once
 
 #include "GazeCursor.h"
+#include "GazeFeedbackPopupFactory.h"
 #include "IGazeFilter.h"
+#include "Interaction.h"
 #include "PointerState.h"
 
 using namespace Platform::Collections;
@@ -41,6 +43,19 @@ public:
     /// Loads a settings collection into GazePointer.
     /// </summary>
     void LoadSettings(ValueSet^ settings);
+
+internal:
+    Brush^ _enterBrush = nullptr;
+
+    Brush^ _progressBrush = ref new SolidColorBrush(Colors::Green);
+
+    Brush^ _completeBrush = ref new SolidColorBrush(Colors::Red);
+
+    Interaction _interaction = Interaction::Disabled;
+
+    GazeTargetItem^ _nonInvokeGazeTargetItem;
+
+    GazeFeedbackPopupFactory^ _gazeFeedbackPopupFactory = ref new GazeFeedbackPopupFactory();
 
 internal:
     void Reset();
@@ -83,11 +98,10 @@ internal:
 internal:
 
     static property GazePointer^ Instance { GazePointer^ get(); }
-    void OnPageUnloaded(Object^ sender, RoutedEventArgs^ args);
     EventRegistrationToken _unloadedToken;
 
-    void AddRoot(FrameworkElement^ element);
-    void RemoveRoot(FrameworkElement^ element);
+    void AddRoot(Object^ element);
+    void RemoveRoot(Object^ element);
 
 
     property bool IsDeviceAvailable { bool get() { return _deviceCount != 0; }}
@@ -133,7 +147,7 @@ private:
     void OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args);
 
 private:
-    Vector<FrameworkElement^>^ _roots = ref new Vector<FrameworkElement^>();
+    Vector<Object^>^ _roots = ref new Vector<Object^>();
 
     TimeSpan                               _eyesOffDelay;
 
@@ -160,7 +174,6 @@ private:
     EventRegistrationToken              _gazeEnteredToken;
     EventRegistrationToken              _gazeMovedToken;
     EventRegistrationToken              _gazeExitedToken;
-    CoreDispatcher^                     _coreDispatcher;
 
     GazeDeviceWatcherPreview^ _watcher;
     int _deviceCount;

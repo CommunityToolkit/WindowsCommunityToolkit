@@ -1,5 +1,5 @@
 {
-  "version": "3.0.0-build.{height}",
+  "version": "3.1.0-build.{height}",
   "publicReleaseRefSpec": [
     "^refs/heads/master$", // we release out of master
     "^refs/heads/dev$", // we release out of dev
