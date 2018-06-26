@@ -258,8 +258,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             return false;
         }
 
-
-
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
         /// </summary>
@@ -320,7 +318,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             Provider.Logout();
         }
-
 
         /// <summary>
         /// Open a connection to user's stream service

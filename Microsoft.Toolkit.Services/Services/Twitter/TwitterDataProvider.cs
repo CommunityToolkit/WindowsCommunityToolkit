@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,12 +13,6 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
-using System.IO;
-
-#if WINRT
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Storage.Streams;
-#endif
 
 namespace Microsoft.Toolkit.Services.Twitter
 {
@@ -276,7 +271,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             LoggedIn = false;
         }
-        
 
         /// <summary>
         /// Tweets a status update.
@@ -339,7 +333,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
             return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, _signatureManager);
-
         }
 
         /// <summary>

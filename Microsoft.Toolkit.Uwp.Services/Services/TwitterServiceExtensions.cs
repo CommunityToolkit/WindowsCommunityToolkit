@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Twitter;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Twitter;
 using Windows.Storage.Streams;
 
 namespace Microsoft.Toolkit.Uwp.Services
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="message">Tweet message.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public static async Task<bool> TweetStatusAsync(this TwitterService service,string message, params IRandomAccessStream[] pictures)
+        public static async Task<bool> TweetStatusAsync(this TwitterService service, string message, params IRandomAccessStream[] pictures)
         {
             return await service.TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
         }
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="status">The tweet information.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public static async Task<bool> TweetStatusAsync(this TwitterService service,TwitterStatus status, params IRandomAccessStream[] pictures)
+        public static async Task<bool> TweetStatusAsync(this TwitterService service, TwitterStatus status, params IRandomAccessStream[] pictures)
         {
             if (pictures.Length > 4)
             {

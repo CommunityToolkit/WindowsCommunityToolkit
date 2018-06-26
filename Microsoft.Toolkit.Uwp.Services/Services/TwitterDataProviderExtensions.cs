@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public static async Task<bool> TweetStatusAsync(this TwitterDataProvider provider,string tweet, params IRandomAccessStream[] pictures)
+        public static async Task<bool> TweetStatusAsync(this TwitterDataProvider provider, string tweet, params IRandomAccessStream[] pictures)
         {
             return await provider.TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
         }
@@ -66,7 +66,6 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <returns>Media ID</returns>
         public static async Task<string> UploadPictureAsync(this TwitterDataProvider provider, IRandomAccessStream stream)
         {
-
             var uri = new Uri($"{provider.PublishUrl}/media/upload.json");
 
             // Get picture data
