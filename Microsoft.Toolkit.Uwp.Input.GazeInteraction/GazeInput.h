@@ -74,7 +74,7 @@ public:
     /// <summary>
     /// Identifyes the IsSwitchEnabled dependency property
     /// </summary>
-    static property DependencyProperty^ IsSwitchEnabled { DependencyProperty^ get(); }
+    static property DependencyProperty^ IsSwitchEnabledProperty { DependencyProperty^ get(); }
 
     /// <summary>
     /// Gets or sets the brush to use when displaying the default indication that gaze entered a control
