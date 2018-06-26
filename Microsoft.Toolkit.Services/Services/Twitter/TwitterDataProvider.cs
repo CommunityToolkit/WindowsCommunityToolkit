@@ -12,6 +12,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
+using System.IO;
 
 #if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -28,10 +29,10 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private const string BaseUrl = "https://api.twitter.com/1.1";
+        private const string BASEURL = "https://api.twitter.com/1.1";
 
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
-        private const string PublishUrl = "https://upload.twitter.com/1.1";
+        private const string PUBLISHURL = "https://upload.twitter.com/1.1";
         private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
         private static HttpClient _client;
@@ -55,6 +56,38 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets a value indicating whether the provider is already logged in
         /// </summary>
         public bool LoggedIn { get; private set; }
+
+        /// <summary>
+        /// Gets the url for upload images for Twitter api.
+        /// </summary>
+        public string PublishUrl
+        {
+            get { return PUBLISHURL; }
+        }
+
+        /// <summary>
+        /// Gets the base Url for Twitter api.
+        /// </summary>
+        public string BaseUrl
+        {
+            get { return BASEURL; }
+        }
+
+        /// <summary>
+        /// Gets the tokens to execute request.
+        /// </summary>
+        public TwitterOAuthTokens Tokens
+        {
+            get { return _tokens; }
+        }
+
+        /// <summary>
+        /// Gets a reference for the SignatureManager used on the initialize.
+        /// </summary>
+        public ISignatureManager SigntureManager
+        {
+            get { return _signatureManager; }
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
@@ -243,8 +276,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             LoggedIn = false;
         }
-
-#if WINRT
+        
 
         /// <summary>
         /// Tweets a status update.
@@ -252,7 +284,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
+        public async Task<bool> TweetStatusAsync(string tweet, params Stream[] pictures)
         {
             return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
         }
@@ -263,7 +295,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="status">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        public async Task<bool> TweetStatusAsync(TwitterStatus status, params Stream[] pictures)
         {
             var mediaIds = string.Empty;
 
@@ -291,23 +323,24 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
-        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
+        public async Task<string> UploadPictureAsync(Stream stream)
         {
             var uri = new Uri($"{PublishUrl}/media/upload.json");
 
-            // Get picture data
-            var fileBytes = new byte[stream.Size];
+            byte[] fileBytes;
 
-            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
-
-            stream.Seek(0);
+            using (var ms = new MemoryStream())
+            {
+                await stream.CopyToAsync(ms);
+                fileBytes = ms.ToArray();
+            }
 
             string boundary = DateTime.Now.Ticks.ToString("x");
 
             TwitterOAuthRequest request = new TwitterOAuthRequest();
             return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, _signatureManager);
+
         }
-#endif
 
         /// <summary>
         /// Open a connection to user streams service (Events, DirectMessages...).
