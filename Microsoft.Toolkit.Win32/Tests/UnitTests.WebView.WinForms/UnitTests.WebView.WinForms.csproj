@@ -59,6 +59,7 @@
     <Compile Include="FunctionalTests\Navigation\StopTests.cs" />
     <Compile Include="FunctionalTests\NewWindow\NewWindowTests.cs" />
     <Compile Include="FunctionalTests\PartialTrust\PartialTrustTests.cs" />
+    <Compile Include="FunctionalTests\PreLoad\PreLoadTests.cs" />
     <Compile Include="FunctionalTests\Termination\TerminationTests.cs" />
     <Compile Include="FunctionalTests\TestHostForm.cs">
       <SubType>Form</SubType>
@@ -113,6 +114,11 @@
     <PackageReference Include="Should">
       <Version>1.1.20</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FunctionalTests\PreLoad\preload.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

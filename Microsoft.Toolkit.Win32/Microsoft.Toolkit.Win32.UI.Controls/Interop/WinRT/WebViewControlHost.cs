@@ -286,6 +286,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set;
         }
 
+        internal void AddPreLoadedScript(string script)
+        {
+            if (ApiInformation.IsMethodPresent(
+                "Windows.Web.UI.Interop.WebViewControl",
+                "AddPreLoadedScript",
+                1))
+            {
+                _webViewControl?.AddPreLoadedScript(script);
+            }
+        }
+
         internal Uri BuildStream(string contentIdentifier, string relativePath)
         {
             return _webViewControl?.BuildLocalStreamUri(contentIdentifier, relativePath);

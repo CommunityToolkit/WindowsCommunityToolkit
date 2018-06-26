@@ -490,6 +490,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <inheritdoc cref="IWebView2.AddPreLoadedScript" />
+        public void AddPreLoadedScript(string script)
+        {
+            VerifyAccess();
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.AddPreLoadedScript(script);
+        }
+
         /// <inheritdoc cref="IWebView.Close" />
         public override void Close()
         {

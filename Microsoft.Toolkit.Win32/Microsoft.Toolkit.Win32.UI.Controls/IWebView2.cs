@@ -16,5 +16,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <remarks>Value can be set prior to the component being initialized.</remarks>
         /// <see cref="WebViewControlProcessOptions.Partition"/>
         string Partition { get; set; }
+
+        /// <summary>
+        /// Adds the script to be loaded before any others on the page.
+        /// </summary>
+        /// <param name="script">The script.</param>
+        void AddPreLoadedScript(string script);
     }
 }

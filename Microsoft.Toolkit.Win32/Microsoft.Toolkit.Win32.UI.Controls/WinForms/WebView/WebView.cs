@@ -401,6 +401,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Version Version => _webViewControl?.Version;
 
+        /// <inheritdoc />
+        public void AddPreLoadedScript(string script)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.Implies(Initializing, !Initialized);
+            Verify.Implies(Initialized, WebViewControlInitialized);
+            _webViewControl?.AddPreLoadedScript(script);
+        }
+
         /// <summary>
         /// Closes this control.
         /// </summary>
