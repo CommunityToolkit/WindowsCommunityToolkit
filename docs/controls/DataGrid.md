@@ -23,11 +23,11 @@ The DataGrid control supports most of all features supported by the [Silverlight
 ```
 ![Gridlines](../resources/images/Controls/DataGrid/gridlines.png)
 
-### 2. AlternateRowBackground
+### 2. AlternatingRowBackground
 ```xml
-<controls:DataGrid AlternateRowBackground="LightGray"/>
+<controls:DataGrid AlternatingRowBackground="LightGray"/>
 ```
-![AlternateRowBackground](../resources/images/Controls/DataGrid/alternaterowbackground.png)
+![AlternatingRowBackground](../resources/images/Controls/DataGrid/alternaterowbackground.png)
 
 ### 3. Customizable Cells
 ```xml
@@ -118,12 +118,12 @@ e.Column.SortDirection = DataGridSortDirection.Ascending;
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | -- | -- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls.DataGrid](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/) |
 
 ## API
 
-* [DataGrid source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
+* [DataGrid source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
 * [Silverlight DataGrid API](https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc189753(v=vs.95))
