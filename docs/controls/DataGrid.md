@@ -114,7 +114,7 @@ e.Column.SortDirection = DataGridSortDirection.Ascending;
 
 ## Sample Code
 
-[DataGrid Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
+[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
 
 ## Requirements
 
