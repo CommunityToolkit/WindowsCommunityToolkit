@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Globalization;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
@@ -20,5 +21,20 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("type")]
         public string Type { get; set; }
+
+        public List<float[]> CoordArray
+        {
+            get
+            {
+                List<float[]> result = null;
+
+                if (Coordinates != null)
+                {
+                    result = Coordinates[0];
+                }
+
+                return result;
+            }
+        }
     }
 }
