@@ -56,15 +56,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             gazePointer = GazeInput.GetGazePointer(control.FindParent<Page>());
 
-            CoreWindow.GetForCurrentThread().KeyDown += GazeInteractionPage_KeyDown;
-        }
-
-        private void GazeInteractionPage_KeyDown(CoreWindow sender, KeyEventArgs args)
-        {
-            if (args.VirtualKey == Windows.System.VirtualKey.GamepadA)
+            CoreWindow.GetForCurrentThread().KeyDown += new Windows.Foundation.TypedEventHandler<CoreWindow, KeyEventArgs>(delegate(CoreWindow sender, KeyEventArgs args)
             {
                 gazePointer.Click();
-            }
+            });
         }
 
         private void GazeInput_IsDeviceAvailableChanged(object sender, object e)
