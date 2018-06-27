@@ -42,6 +42,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected async override void OnApplyTemplate()
         {
             ClearTasks();
+            Buckets.Clear();
+            Plans.Clear();
 
             if (_list != null)
             {
