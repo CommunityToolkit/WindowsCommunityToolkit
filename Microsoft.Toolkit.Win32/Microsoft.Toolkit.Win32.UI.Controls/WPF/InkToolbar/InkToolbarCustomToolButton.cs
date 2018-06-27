@@ -5,7 +5,7 @@ using Microsoft.Windows.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    [ContentProperty(nameof(Content))]
+    [ContentProperty("Content")]
     public class InkToolbarCustomToolButton : WindowsXamlHost
     {
         protected global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
@@ -56,6 +56,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(ConfigurationContentProperty, value);
         }
 
-        public global::Windows.UI.Xaml.UIElement Content { get; set; }
+        public object Content { get => UwpControl.Content; set => UwpControl.Content = value; }
     }
 }

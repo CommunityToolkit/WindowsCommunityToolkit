@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.TagProperty);
             Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.DataContextProperty);
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.WidthProperty);
+            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, System.ComponentModel.BindingDirection.OneWay);
 
             // MediaPlayerElement specific properties
             Bind(nameof(Stretch), StretchProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.StretchProperty);
@@ -47,7 +48,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsFullWindow), IsFullWindowProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.IsFullWindowProperty);
             Bind(nameof(AutoPlay), AutoPlayProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AutoPlayProperty);
             Bind(nameof(AreTransportControlsEnabled), AreTransportControlsEnabledProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabledProperty);
-            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, System.ComponentModel.BindingDirection.OneWay);
 
             base.OnInitialized(e);
         }

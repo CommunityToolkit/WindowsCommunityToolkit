@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // SwapChainPanel specific properties
             Bind(nameof(CompositionScaleX), CompositionScaleXProperty, global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleXProperty);
             Bind(nameof(CompositionScaleY), CompositionScaleYProperty, global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleYProperty);
+            UwpControl.CompositionScaleChanged += OnCompositionScaleChanged;
 
             base.OnInitialized(e);
         }
@@ -63,10 +64,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get => (float)GetValue(CompositionScaleYProperty);
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.SwapChainPanel, object> CompositionScaleChanged
+        public event EventHandler<DynamicForwardedEventArgs> CompositionScaleChanged;
+
+        private void OnCompositionScaleChanged(global::Windows.UI.Xaml.Controls.SwapChainPanel sender, object args)
         {
-            add { UwpControl.CompositionScaleChanged += value; }
-            remove { UwpControl.CompositionScaleChanged -= value; }
+            this.CompositionScaleChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
     }
 }

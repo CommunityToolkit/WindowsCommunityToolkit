@@ -21,8 +21,8 @@ namespace TestSample
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             inkCanvas.InkPresenter.InputDeviceTypes =
-    Windows.UI.Core.CoreInputDeviceTypes.Mouse |
-    Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
+                Windows.UI.Core.CoreInputDeviceTypes.Mouse |
+                Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
 
 
@@ -31,18 +31,38 @@ namespace TestSample
         private void inkToolbar_Initialized(object sender, EventArgs e)
         {
             toolButtonLasso.Content = new SymbolIcon(Symbol.SelectAll);
-            //var selectButton = new InkToolbarCustomToolButton();// { Command = command, IsEnabled =true };
-            //ToolTipService.SetToolTip(selectButton, "testing");
-            //selectButton.Content = new SymbolIcon(Symbol.SelectAll);
-            //selectButton.Click += SelectButton_Click;
-            //inkToolbar.Children.Add(selectButton);
+            ToolTipService.SetToolTip(toolButtonLasso.XamlRoot, "Select All");
         }
 
-        private void SelectButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void WebView1_ContainsFullScreenElementChanged(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
         {
-            throw new NotImplementedException();
+            //WebView1.NavigationCompleted += WebView1_NavigationCompleted1;
         }
 
+        private void WebView1_NavigationCompleted1(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        {
+            
+        }
+
+        private void WebView1_NavigationCompleted(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        {
+
+        }
+
+        private void WebView1_NavigationStarting(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        {
+
+        }
+
+        private void WebView1_PermissionRequested(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        {
+
+        }
+
+        private void WebView1_ScriptNotify(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        {
+
+        }
     }
 
 }

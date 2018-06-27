@@ -58,6 +58,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(ButtonFlyoutPlacement), ButtonFlyoutPlacementProperty, global::Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty);
 
             Children.OfType<WindowsXamlHost>().ToList().ForEach(RelocateChildToUwpControl);
+            UwpControl.ActiveToolChanged += OnActiveToolChanged;
+            UwpControl.EraseAllClicked += OnEraseAllClicked;
+            UwpControl.InkDrawingAttributesChanged += OnInkDrawingAttributesChanged;
+            UwpControl.IsRulerButtonCheckedChanged += OnIsRulerButtonCheckedChanged;
+            UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
 
             base.OnInitialized(e);
         }
@@ -139,34 +144,39 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(ButtonFlyoutPlacementProperty, value);
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.InkToolbar, object> ActiveToolChanged
+        public event EventHandler<DynamicForwardedEventArgs> ActiveToolChanged;
+
+        private void OnActiveToolChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            add { UwpControl.ActiveToolChanged += value; }
-            remove { UwpControl.ActiveToolChanged -= value; }
+            this.ActiveToolChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.InkToolbar, object> EraseAllClicked
+        public event EventHandler<DynamicForwardedEventArgs> EraseAllClicked;
+
+        private void OnEraseAllClicked(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            add { UwpControl.EraseAllClicked += value; }
-            remove { UwpControl.EraseAllClicked -= value; }
+            this.EraseAllClicked?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.InkToolbar, object> InkDrawingAttributesChanged
+        public event EventHandler<DynamicForwardedEventArgs> InkDrawingAttributesChanged;
+
+        private void OnInkDrawingAttributesChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            add { UwpControl.InkDrawingAttributesChanged += value; }
-            remove { UwpControl.InkDrawingAttributesChanged -= value; }
+            this.InkDrawingAttributesChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.InkToolbar, object> IsRulerButtonCheckedChanged
+        public event EventHandler<DynamicForwardedEventArgs> IsRulerButtonCheckedChanged;
+
+        private void OnIsRulerButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            add { UwpControl.IsRulerButtonCheckedChanged += value; }
-            remove { UwpControl.IsRulerButtonCheckedChanged -= value; }
+            this.IsRulerButtonCheckedChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.InkToolbar, global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs> IsStencilButtonCheckedChanged
+        public event EventHandler<DynamicForwardedEventArgs> IsStencilButtonCheckedChanged;
+
+        private void OnIsStencilButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
-            add { UwpControl.IsStencilButtonCheckedChanged += value; }
-            remove { UwpControl.IsStencilButtonCheckedChanged -= value; }
+            this.IsStencilButtonCheckedChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

@@ -61,6 +61,7 @@
   <ItemGroup>
     <Compile Include="IDesktopWindowXamlSourceNative.cs" />
     <Compile Include="IDesktopWindowXamlSourceNative.Visibility.cs" />
+    <Compile Include="DynamicForwardedEventArgs.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

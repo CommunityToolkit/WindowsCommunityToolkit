@@ -82,6 +82,24 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Region), RegionProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.RegionProperty);
 
             Children.OfType<WindowsXamlHost>().ToList().ForEach(RelocateChildToUwpControl);
+            UwpControl.CenterChanged += OnCenterChanged;
+            UwpControl.HeadingChanged += OnHeadingChanged;
+            UwpControl.LoadingStatusChanged += OnLoadingStatusChanged;
+            UwpControl.MapDoubleTapped += OnMapDoubleTapped;
+            UwpControl.MapHolding += OnMapHolding;
+            UwpControl.MapTapped += OnMapTapped;
+            UwpControl.PitchChanged += OnPitchChanged;
+            UwpControl.TransformOriginChanged += OnTransformOriginChanged;
+            UwpControl.ZoomLevelChanged += OnZoomLevelChanged;
+            UwpControl.ActualCameraChanged += OnActualCameraChanged;
+            UwpControl.ActualCameraChanging += OnActualCameraChanging;
+            UwpControl.CustomExperienceChanged += OnCustomExperienceChanged;
+            UwpControl.MapElementClick += OnMapElementClick;
+            UwpControl.MapElementPointerEntered += OnMapElementPointerEntered;
+            UwpControl.MapElementPointerExited += OnMapElementPointerExited;
+            UwpControl.TargetCameraChanged += OnTargetCameraChanged;
+            UwpControl.MapRightTapped += OnMapRightTapped;
+            UwpControl.MapContextRequested += OnMapContextRequested;
 
             base.OnInitialized(e);
         }
@@ -429,112 +447,130 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(RegionProperty, value);
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> CenterChanged
+        public event EventHandler<DynamicForwardedEventArgs> CenterChanged;
+
+        private void OnCenterChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.CenterChanged += value; }
-            remove { UwpControl.CenterChanged -= value; }
+            this.CenterChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> HeadingChanged
+        public event EventHandler<DynamicForwardedEventArgs> HeadingChanged;
+
+        private void OnHeadingChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.HeadingChanged += value; }
-            remove { UwpControl.HeadingChanged -= value; }
+            this.HeadingChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> LoadingStatusChanged
+        public event EventHandler<DynamicForwardedEventArgs> LoadingStatusChanged;
+
+        private void OnLoadingStatusChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.LoadingStatusChanged += value; }
-            remove { UwpControl.LoadingStatusChanged -= value; }
+            this.LoadingStatusChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs> MapDoubleTapped
+        public event EventHandler<DynamicForwardedEventArgs> MapDoubleTapped;
+
+        private void OnMapDoubleTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            add { UwpControl.MapDoubleTapped += value; }
-            remove { UwpControl.MapDoubleTapped -= value; }
+            this.MapDoubleTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs> MapHolding
+        public event EventHandler<DynamicForwardedEventArgs> MapHolding;
+
+        private void OnMapHolding(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            add { UwpControl.MapHolding += value; }
-            remove { UwpControl.MapHolding -= value; }
+            this.MapHolding?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs> MapTapped
+        public event EventHandler<DynamicForwardedEventArgs> MapTapped;
+
+        private void OnMapTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            add { UwpControl.MapTapped += value; }
-            remove { UwpControl.MapTapped -= value; }
+            this.MapTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> PitchChanged
+        public event EventHandler<DynamicForwardedEventArgs> PitchChanged;
+
+        private void OnPitchChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.PitchChanged += value; }
-            remove { UwpControl.PitchChanged -= value; }
+            this.PitchChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> TransformOriginChanged
+        public event EventHandler<DynamicForwardedEventArgs> TransformOriginChanged;
+
+        private void OnTransformOriginChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.TransformOriginChanged += value; }
-            remove { UwpControl.TransformOriginChanged -= value; }
+            this.TransformOriginChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, object> ZoomLevelChanged
+        public event EventHandler<DynamicForwardedEventArgs> ZoomLevelChanged;
+
+        private void OnZoomLevelChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            add { UwpControl.ZoomLevelChanged += value; }
-            remove { UwpControl.ZoomLevelChanged -= value; }
+            this.ZoomLevelChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangedEventArgs> ActualCameraChanged
+        public event EventHandler<DynamicForwardedEventArgs> ActualCameraChanged;
+
+        private void OnActualCameraChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangedEventArgs args)
         {
-            add { UwpControl.ActualCameraChanged += value; }
-            remove { UwpControl.ActualCameraChanged -= value; }
+            this.ActualCameraChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangingEventArgs> ActualCameraChanging
+        public event EventHandler<DynamicForwardedEventArgs> ActualCameraChanging;
+
+        private void OnActualCameraChanging(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangingEventArgs args)
         {
-            add { UwpControl.ActualCameraChanging += value; }
-            remove { UwpControl.ActualCameraChanging -= value; }
+            this.ActualCameraChanging?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapCustomExperienceChangedEventArgs> CustomExperienceChanged
+        public event EventHandler<DynamicForwardedEventArgs> CustomExperienceChanged;
+
+        private void OnCustomExperienceChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapCustomExperienceChangedEventArgs args)
         {
-            add { UwpControl.CustomExperienceChanged += value; }
-            remove { UwpControl.CustomExperienceChanged -= value; }
+            this.CustomExperienceChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs> MapElementClick
+        public event EventHandler<DynamicForwardedEventArgs> MapElementClick;
+
+        private void OnMapElementClick(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs args)
         {
-            add { UwpControl.MapElementClick += value; }
-            remove { UwpControl.MapElementClick -= value; }
+            this.MapElementClick?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerEnteredEventArgs> MapElementPointerEntered
+        public event EventHandler<DynamicForwardedEventArgs> MapElementPointerEntered;
+
+        private void OnMapElementPointerEntered(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerEnteredEventArgs args)
         {
-            add { UwpControl.MapElementPointerEntered += value; }
-            remove { UwpControl.MapElementPointerEntered -= value; }
+            this.MapElementPointerEntered?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs> MapElementPointerExited
+        public event EventHandler<DynamicForwardedEventArgs> MapElementPointerExited;
+
+        private void OnMapElementPointerExited(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs args)
         {
-            add { UwpControl.MapElementPointerExited += value; }
-            remove { UwpControl.MapElementPointerExited -= value; }
+            this.MapElementPointerExited?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapTargetCameraChangedEventArgs> TargetCameraChanged
+        public event EventHandler<DynamicForwardedEventArgs> TargetCameraChanged;
+
+        private void OnTargetCameraChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapTargetCameraChangedEventArgs args)
         {
-            add { UwpControl.TargetCameraChanged += value; }
-            remove { UwpControl.TargetCameraChanged -= value; }
+            this.TargetCameraChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapRightTappedEventArgs> MapRightTapped
+        public event EventHandler<DynamicForwardedEventArgs> MapRightTapped;
+
+        private void OnMapRightTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapRightTappedEventArgs args)
         {
-            add { UwpControl.MapRightTapped += value; }
-            remove { UwpControl.MapRightTapped -= value; }
+            this.MapRightTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
-        public event global::Windows.Foundation.TypedEventHandler<global::Windows.UI.Xaml.Controls.Maps.MapControl, global::Windows.UI.Xaml.Controls.Maps.MapContextRequestedEventArgs> MapContextRequested
+        public event EventHandler<DynamicForwardedEventArgs> MapContextRequested;
+
+        private void OnMapContextRequested(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapContextRequestedEventArgs args)
         {
-            add { UwpControl.MapContextRequested += value; }
-            remove { UwpControl.MapContextRequested -= value; }
+            this.MapContextRequested?.Invoke(this, new DynamicForwardedEventArgs(args));
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
