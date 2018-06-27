@@ -1,31 +1,61 @@
-﻿using System;
-using System.ComponentModel;
+using System;
 using System.Windows;
 using System.Windows.Markup;
-using System.Windows.Media;
-using Windows.UI.Xaml.Controls;
+using Microsoft.Windows.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     [ContentProperty(nameof(Content))]
-    public class InkToolbarCustomToolButton : InkToolbarToolButton
+    public class InkToolbarCustomToolButton : WindowsXamlHost
     {
+        protected global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
+
         public InkToolbarCustomToolButton()
             : this("Windows.UI.Xaml.Controls.InkToolbarCustomToolButton")
         {
         }
 
-        public InkToolbarCustomToolButton(string childType)
-           : base(childType)
+        // Summary:
+        //     Initializes a new instance of the InkToolbarCustomToolButton class.
+        public InkToolbarCustomToolButton(string typeName)
+            : base(typeName)
         {
-            Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty);
         }
 
-        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(UIElement), typeof(InkToolbarCustomToolButton));
+        protected override void OnInitialized(EventArgs e)
+        {
+            // Bind dependency properties across controls
+            // properties of FrameworkElement
+            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.NameProperty);
+            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.WidthProperty);
 
-        public UIElement ConfigurationContent { get => (UIElement)GetValue(ConfigurationContentProperty); set => SetValue(ConfigurationContentProperty, value); }
+            // InkToolbarCustomToolButton specific properties
+            Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty);
 
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public object Content { get => UwpControl.Content; set => UwpControl.Content = value; }
+            base.OnInitialized(e);
+        }
+
+        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(global::Windows.UI.Xaml.UIElement), typeof(InkToolbarCustomToolButton));
+
+        public global::Windows.UI.Xaml.UIElement ConfigurationContent
+        {
+            get => (global::Windows.UI.Xaml.UIElement)GetValue(ConfigurationContentProperty);
+            set => SetValue(ConfigurationContentProperty, value);
+        }
+
+        public global::Windows.UI.Xaml.UIElement Content { get; set; }
     }
 }

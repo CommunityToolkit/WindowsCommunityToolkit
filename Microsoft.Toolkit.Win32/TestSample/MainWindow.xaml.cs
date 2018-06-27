@@ -11,12 +11,7 @@ namespace TestSample
     /// </summary>
     public partial class MainWindow : Window
     {
-        public Uri CaptionedMediaUri { get; } =
-                new Uri("https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/elephantsdream-clip-h264_sd-aac_eng-aac_spa-aac_eng_commentary-srt_eng-srt_por-srt_swe.mkv");
-
-        public MediaSource MediaSource { get; } = MediaSource.CreateFromUri(
-            new Uri("https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/elephantsdream-clip-h264_sd-aac_eng-aac_spa-aac_eng_commentary-srt_eng-srt_por-srt_swe.mkv"));
-
+        
         public MainWindow()
         {
             InitializeComponent();
