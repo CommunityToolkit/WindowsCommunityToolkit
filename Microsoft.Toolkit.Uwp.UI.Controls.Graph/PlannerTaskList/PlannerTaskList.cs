@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null)
                 {
                     IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             try
             {
                 ClearTasks();
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null)
                 {
                     IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
@@ -200,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null)
                 {
                     IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 if (graphClient == null)
                 {
-                    graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 }
 
                 string assignments = string.Empty;
@@ -329,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();

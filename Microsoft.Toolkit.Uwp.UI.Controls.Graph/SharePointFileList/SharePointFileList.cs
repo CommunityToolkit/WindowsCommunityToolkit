@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     siteRelativePath = "/";
                 }
 
-                GraphServiceClient graphServiceClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphServiceClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphServiceClient != null)
                 {
                     Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl);
                 }
 
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null)
                 {
                     HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
 
-                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         Task<IDriveItemChildrenCollectionPage> taskFiles = graphClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);

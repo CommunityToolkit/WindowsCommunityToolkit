@@ -6,7 +6,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
     internal static class GraphServiceHelper
     {
-        internal static async Task<GraphServiceClient> GetGraphServiceClient()
+        internal static async Task<GraphServiceClient> GetGraphServiceClientAsync()
         {
             MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
             if (await graphService.TryLoginAsync())

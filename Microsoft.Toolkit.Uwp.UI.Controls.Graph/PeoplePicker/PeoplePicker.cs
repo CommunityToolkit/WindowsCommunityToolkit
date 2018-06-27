@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             IsLoading = true;
             try
             {
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null)
                 {
                     int searchLimit = SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit;

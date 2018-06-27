@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null
                     && !string.IsNullOrWhiteSpace(_input?.Text))
                 {
@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     plannerTaskViewModel.IsUpdating = true;
                     try
                     {
-                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                         if (graphClient != null)
                         {
                             PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();

@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 SharePointFileList control = d as SharePointFileList;
-                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                 if (graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
                 {
                     if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             VisualStateManager.GoToState(this, UploadStatusUploading, false);
                             try
                             {
-                                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                                 if (graphClient != null)
                                 {
                                     await graphClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    GraphServiceClient graphClient= await GraphServiceHelper.GetGraphServiceClient();
+                    GraphServiceClient graphClient= await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         Permission link = await graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         FileSavePicker picker = new FileSavePicker();
@@ -195,7 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     if ((int)result.Id == 0)
                     {
-                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                         if (graphClient != null)
                         {
                             await graphClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     ThumbnailImageSource = null;
                     VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
