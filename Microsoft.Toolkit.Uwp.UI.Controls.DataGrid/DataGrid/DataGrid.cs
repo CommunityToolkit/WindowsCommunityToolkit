@@ -5639,7 +5639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void DataGrid_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
             // Don't process if this is a generated replay of the event.
-            if (/* TODO this.IsRS3OrHigher &&*/ e.IsGenerated)
+            if (TypeHelper.IsRS3OrHigher && e.IsGenerated)
             {
                 return;
             }
@@ -5668,6 +5668,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Show the scroll bars as soon as a pointer is pressed on the DataGrid.
             ShowScrollBars();
+        }
+
+        private void DataGrid_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            if (this.CurrentColumnIndex != -1 && this.CurrentSlot != -1)
+            {
+                e.Handled = true;
+            }
         }
 
         private void DataGrid_Unloaded(object sender, RoutedEventArgs e)
@@ -6258,6 +6266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.PointerExited += new PointerEventHandler(DataGrid_PointerExited);
             this.PointerMoved += new PointerEventHandler(DataGrid_PointerMoved);
             this.PointerPressed += new PointerEventHandler(DataGrid_PointerPressed);
+            this.PointerReleased += new PointerEventHandler(DataGrid_PointerReleased);
             this.Unloaded += new RoutedEventHandler(DataGrid_Unloaded);
         }
 

@@ -17,6 +17,9 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         internal const char PropertyNameSeparator = '.';
         internal const char RightIndexerToken = ']';
 
+        private static bool isAPIContractAvailableInitialized = false;
+        private static bool isRS3OrHigher = false;
+
         // Methods
         private static Type FindGenericType(Type definition, Type type)
         {
@@ -405,6 +408,25 @@ namespace Microsoft.Toolkit.Uwp.Utilities
 #endif
 
             return instance == null ? null : instance.GetType();
+        }
+
+        internal static bool IsRS3OrHigher
+        {
+            get
+            {
+                if (!isAPIContractAvailableInitialized)
+                {
+                    InitializeAPIContractAvailable();
+                }
+
+                return isRS3OrHigher;
+            }
+        }
+
+        internal static void InitializeAPIContractAvailable()
+        {
+            isRS3OrHigher = Windows.Foundation.Metadata.ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 5);
+            isAPIContractAvailableInitialized = true;
         }
     }
 }
