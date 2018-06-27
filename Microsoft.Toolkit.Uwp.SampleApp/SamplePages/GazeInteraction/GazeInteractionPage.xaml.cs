@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             }
 
-            gazePointer = GazeInput.GetGazePointer(control.FindParent<Page>());
+            gazePointer = GazeInput.GetGazePointer(null);
 
             CoreWindow.GetForCurrentThread().KeyDown += new Windows.Foundation.TypedEventHandler<CoreWindow, KeyEventArgs>(delegate(CoreWindow sender, KeyEventArgs args)
             {
