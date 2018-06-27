@@ -5,6 +5,7 @@
 
 #include "Interaction.h"
 
+using namespace Windows::Foundation::Collections;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 
@@ -229,6 +230,13 @@ public:
         EventRegistrationToken add(EventHandler<Object^>^ handler);
         void remove(EventRegistrationToken token);
     }
+
+    /// <summary>
+    /// Loads a settings collection into GazeInput.
+    /// Note: This must be loaded from a UI thread to be valid, since the GazeInput
+    /// instance is tied to the UI thread.
+    /// </summary>
+    static void LoadSettings(ValueSet^ settings);
 
 internal:
 

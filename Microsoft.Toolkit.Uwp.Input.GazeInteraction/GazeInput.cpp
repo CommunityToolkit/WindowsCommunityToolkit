@@ -10,6 +10,7 @@
 #include "GazeTargetItem.h"
 
 using namespace Platform;
+using namespace Windows::Foundation::Collections;
 using namespace Windows::UI;
 
 BEGIN_NAMESPACE_GAZE_INPUT
@@ -151,6 +152,11 @@ void GazeInput::Invoke(UIElement^ element)
 {
     auto item = GazeTargetItem::GetOrCreate(element);
     item->Invoke();
+}
+
+void GazeInput::LoadSettings(ValueSet^ settings)
+{
+    GazePointer::Instance->LoadSettings(settings);
 }
 
 bool GazeInput::IsDeviceAvailable::get()
