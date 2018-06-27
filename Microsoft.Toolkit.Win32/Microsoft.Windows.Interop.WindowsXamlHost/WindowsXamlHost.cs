@@ -125,15 +125,19 @@ namespace Microsoft.Windows.Interop
         /// <param name="wpfProperty">the DependencyProperty of the wrapper</param>
         /// <param name="uwpProperty">the related DependencyProperty of the UWP control</param>
         /// <param name="converter">a converter, if one's needed</param>
-        public void Bind(string propertyName, DependencyProperty wpfProperty, global::Windows.UI.Xaml.DependencyProperty uwpProperty, object converter = null)
+        public void Bind(string propertyName, DependencyProperty wpfProperty, global::Windows.UI.Xaml.DependencyProperty uwpProperty, object converter = null, BindingDirection direction = BindingDirection.TwoWay)
         {
-            var binder = new global::Windows.UI.Xaml.Data.Binding()
+            if (direction == BindingDirection.TwoWay)
             {
-                Source = this,
-                Path = new global::Windows.UI.Xaml.PropertyPath(propertyName),
-                Converter = (global::Windows.UI.Xaml.Data.IValueConverter)converter
-            };
-            global::Windows.UI.Xaml.Data.BindingOperations.SetBinding(XamlRoot, uwpProperty, binder);
+                var binder = new global::Windows.UI.Xaml.Data.Binding()
+                {
+                    Source = this,
+                    Path = new global::Windows.UI.Xaml.PropertyPath(propertyName),
+                    Converter = (global::Windows.UI.Xaml.Data.IValueConverter)converter
+                };
+                global::Windows.UI.Xaml.Data.BindingOperations.SetBinding(XamlRoot, uwpProperty, binder);
+            }
+
             var rebinder = new Binding()
             {
                 Source = XamlRoot,
