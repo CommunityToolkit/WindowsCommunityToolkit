@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = ControlInput, Type = typeof(TextBox))]
     [TemplatePart(Name = ControlAdd, Type = typeof(Button))]
     [TemplateVisualState(GroupName = MobileVisualStateGroup, Name = MobileVisualState)]
-    public partial class PlannerTaskList : Control
+    public partial class PlannerTaskList : ListViewBase
     {
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
         private List<PlannerTaskViewModel> _allTasks = new List<PlannerTaskViewModel>();
@@ -97,29 +97,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-                IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
-                Plans.Clear();
-                while (true)
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphClient != null)
                 {
-                    foreach (PlannerPlan plan in plans)
+                    IPlannerUserPlansCollectionPage plans = await graphClient.Me.Planner.Plans.Request().GetAsync();
+                    Plans.Clear();
+                    while (true)
                     {
-                        Plans.Add(plan);
+                        foreach (PlannerPlan plan in plans)
+                        {
+                            Plans.Add(plan);
+                        }
+
+                        if (plans.NextPageRequest == null)
+                        {
+                            break;
+                        }
+
+                        plans = await plans.NextPageRequest.GetAsync();
                     }
 
-                    if (plans.NextPageRequest == null)
+                    if (!string.Equals(InternalPlanId, PlanId))
                     {
-                        break;
+                        InternalPlanId = PlanId;
                     }
-
-                    plans = await plans.NextPageRequest.GetAsync();
-                }
-
-                if (!string.Equals(InternalPlanId, PlanId))
-                {
-                    InternalPlanId = PlanId;
                 }
             }
             catch (Exception exception)
@@ -134,38 +135,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             try
             {
                 ClearTasks();
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-                IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
-                List<PlannerBucket> bucketList = new List<PlannerBucket>();
-                while (true)
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphClient != null)
                 {
-                    foreach (PlannerBucket bucket in buckets)
+                    IPlannerPlanBucketsCollectionPage buckets = await graphClient.Planner.Plans[PlanId].Buckets.Request().GetAsync();
+                    List<PlannerBucket> bucketList = new List<PlannerBucket>();
+                    while (true)
                     {
-                        bucketList.Add(bucket);
+                        foreach (PlannerBucket bucket in buckets)
+                        {
+                            bucketList.Add(bucket);
+                        }
+
+                        if (buckets.NextPageRequest == null)
+                        {
+                            break;
+                        }
+
+                        buckets = await buckets.NextPageRequest.GetAsync();
                     }
 
-                    if (buckets.NextPageRequest == null)
+                    TaskFilterSource.Clear();
+                    Buckets.Clear();
+                    TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = AllTasksLabel });
+                    foreach (PlannerBucket bucket in bucketList)
                     {
-                        break;
+                        Buckets.Add(bucket);
+                        TaskFilterSource.Add(bucket);
                     }
 
-                    buckets = await buckets.NextPageRequest.GetAsync();
+                    TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = ClosedTasksLabel });
+                    TaskType = TaskTypeAllTasksId;
+                    await LoadAllTasksAsync();
                 }
-
-                TaskFilterSource.Clear();
-                Buckets.Clear();
-                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeAllTasksId, Name = AllTasksLabel });
-                foreach (PlannerBucket bucket in bucketList)
-                {
-                    Buckets.Add(bucket);
-                    TaskFilterSource.Add(bucket);
-                }
-
-                TaskFilterSource.Add(new PlannerBucket { Id = TaskTypeClosedTasksId, Name = ClosedTasksLabel });
-                TaskType = TaskTypeAllTasksId;
-                await LoadAllTasksAsync();
             }
             catch (Exception exception)
             {
@@ -196,44 +198,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-                IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
-                Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
-                List<PlannerTaskViewModel> taskList = new List<PlannerTaskViewModel>();
-                PlannerPlan plan = Plans.FirstOrDefault(s => s.Id == InternalPlanId);
-                while (true)
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphClient != null)
                 {
-                    foreach (PlannerTask task in tasks)
+                    IPlannerPlanTasksCollectionPage tasks = await graphClient.Planner.Plans[PlanId].Tasks.Request().GetAsync();
+                    Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
+                    List<PlannerTaskViewModel> taskList = new List<PlannerTaskViewModel>();
+                    PlannerPlan plan = Plans.FirstOrDefault(s => s.Id == InternalPlanId);
+                    while (true)
                     {
-                        PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(task);
-                        if (plan != null)
+                        foreach (PlannerTask task in tasks)
                         {
-                            taskViewModel.GroupId = plan.Owner;
+                            PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(task);
+                            if (plan != null)
+                            {
+                                taskViewModel.GroupId = plan.Owner;
+                            }
+
+                            taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
+                            await GetAssignmentsAsync(taskViewModel, graphClient);
+                            if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))
+                            {
+                                taskViewModel.BucketName = buckets[taskViewModel.BucketId];
+                            }
+
+                            taskList.Add(taskViewModel);
                         }
 
-                        taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
-                        await GetAssignmentsAsync(taskViewModel, graphClient);
-                        if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))
+                        if (tasks.NextPageRequest == null)
                         {
-                            taskViewModel.BucketName = buckets[taskViewModel.BucketId];
+                            break;
                         }
 
-                        taskList.Add(taskViewModel);
+                        tasks = await tasks.NextPageRequest.GetAsync();
                     }
 
-                    if (tasks.NextPageRequest == null)
-                    {
-                        break;
-                    }
-
-                    tasks = await tasks.NextPageRequest.GetAsync();
+                    _allTasks.Clear();
+                    _allTasks.AddRange(taskList);
+                    LoadTasks();
                 }
-
-                _allTasks.Clear();
-                _allTasks.AddRange(taskList);
-                LoadTasks();
             }
             catch (Exception exception)
             {
@@ -248,9 +251,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 if (graphClient == null)
                 {
-                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                    await graphService.TryLoginAsync();
-                    graphClient = graphService.GraphProvider;
+                    graphClient = await GraphServiceHelper.GetGraphServiceClient();
                 }
 
                 string assignments = string.Empty;
@@ -326,14 +327,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                    await graphService.TryLoginAsync();
-                    GraphServiceClient graphClient = graphService.GraphProvider;
-                    PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
-                    await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
-                    Tasks.Remove(task);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    await InitPlanAsync();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    if (graphClient != null)
+                    {
+                        PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
+                        await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
+                        Tasks.Remove(task);
+                        await Task.Delay(TimeSpan.FromSeconds(5));
+                        await InitPlanAsync();
+                    }
                 }
                 catch (Exception exception)
                 {

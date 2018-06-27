@@ -69,10 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             try
             {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-                if (!string.IsNullOrWhiteSpace(_input.Text))
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphClient != null
+                    && !string.IsNullOrWhiteSpace(_input?.Text))
                 {
                     PlannerTask task = new PlannerTask
                     {
@@ -174,35 +173,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     plannerTaskViewModel.IsUpdating = true;
                     try
                     {
-                        MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                        await graphService.TryLoginAsync();
-                        GraphServiceClient graphClient = graphService.GraphProvider;
-                        PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
-                        if (task.ContainsKey(TaskAssignmentsJsonName))
+                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                        if (graphClient != null)
                         {
-                            PlannerAssignments assignments = task[TaskAssignmentsJsonName] as PlannerAssignments;
-                            string[] oldAssignees = taskToUpdate.Assignments.Assignees.ToArray();
-                            string[] newAssignees = assignments.Assignees.ToArray();
-                            foreach (string userId in oldAssignees)
+                            PlannerTask taskToUpdate = await graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetAsync();
+                            if (task.ContainsKey(TaskAssignmentsJsonName))
                             {
-                                if (!newAssignees.Contains(userId))
+                                PlannerAssignments assignments = task[TaskAssignmentsJsonName] as PlannerAssignments;
+                                string[] oldAssignees = taskToUpdate.Assignments.Assignees.ToArray();
+                                string[] newAssignees = assignments.Assignees.ToArray();
+                                foreach (string userId in oldAssignees)
                                 {
-                                    assignments.AddAssignee(userId);
-                                    assignments[userId] = null;
+                                    if (!newAssignees.Contains(userId))
+                                    {
+                                        assignments.AddAssignee(userId);
+                                        assignments[userId] = null;
+                                    }
                                 }
                             }
-                        }
 
-                        plannerTaskViewModel.ETag = taskToUpdate.GetEtag();
-                        using (HttpRequestMessage request = graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetHttpRequestMessage())
-                        {
-                            request.Method = new HttpMethod(HttpMethodPatch);
-                            string json = JsonConvert.SerializeObject(task);
-                            request.Content = new StringContent(json, System.Text.Encoding.UTF8, MediaTypeJson);
-                            request.Headers.Add(HttpHeaderIfMatch, plannerTaskViewModel.ETag);
-                            await graphClient.AuthenticationProvider.AuthenticateRequestAsync(request);
-                            HttpResponseMessage response = await graphClient.HttpProvider.SendAsync(request);
-                            response.Dispose();
+                            plannerTaskViewModel.ETag = taskToUpdate.GetEtag();
+                            using (HttpRequestMessage request = graphClient.Planner.Tasks[plannerTaskViewModel.Id].Request().GetHttpRequestMessage())
+                            {
+                                request.Method = new HttpMethod(HttpMethodPatch);
+                                string json = JsonConvert.SerializeObject(task);
+                                request.Content = new StringContent(json, System.Text.Encoding.UTF8, MediaTypeJson);
+                                request.Headers.Add(HttpHeaderIfMatch, plannerTaskViewModel.ETag);
+                                await graphClient.AuthenticationProvider.AuthenticateRequestAsync(request);
+                                HttpResponseMessage response = await graphClient.HttpProvider.SendAsync(request);
+                                response.Dispose();
+                            }
                         }
                     }
                     catch (Exception exception)

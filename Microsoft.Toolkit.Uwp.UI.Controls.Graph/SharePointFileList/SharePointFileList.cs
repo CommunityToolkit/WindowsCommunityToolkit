@@ -161,10 +161,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     siteRelativePath = "/";
                 }
 
-                if (await GraphService.TryLoginAsync())
+                GraphServiceClient graphServiceClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphServiceClient != null)
                 {
-                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-
                     Site site = await graphServiceClient.Sites.GetByPath(siteRelativePath, hostName).Request().GetAsync();
                     ISiteDrivesCollectionPage drives = await graphServiceClient.Sites[site.Id].Drives.Request().GetAsync();
 
@@ -200,26 +199,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     realDriveURL = await GetDriveUrlFromSharePointUrlAsync(driveUrl);
                 }
 
-                await GraphService.TryLoginAsync();
-                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
-                await graphServiceClient.AuthenticationProvider.AuthenticateRequestAsync(message);
-
-                HttpResponseMessage result = await graphServiceClient.HttpProvider.SendAsync(message);
-                if (result.StatusCode == HttpStatusCode.OK)
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                if (graphClient != null)
                 {
-                    string json = await result.Content.ReadAsStringAsync();
-                    Drive drive = JsonConvert.DeserializeObject<Drive>(json);
-                    if (drive != null)
+                    HttpRequestMessage message = new HttpRequestMessage(HttpMethod.Get, realDriveURL);
+                    await graphClient.AuthenticationProvider.AuthenticateRequestAsync(message);
+
+                    HttpResponseMessage result = await graphClient.HttpProvider.SendAsync(message);
+                    if (result.StatusCode == HttpStatusCode.OK)
                     {
-                        _driveId = drive.Id;
-                        _driveName = drive.Name;
-                        _driveItemPath.Clear();
-                        DriveItem rootDriveItem = await graphServiceClient.Drives[_driveId].Root.Request().GetAsync();
-                        _driveItemPath.Push(rootDriveItem);
-                        UpdateCurrentPath();
-                        await LoadFilesAsync(rootDriveItem.Id);
-                        BackButtonVisibility = Visibility.Collapsed;
+                        string json = await result.Content.ReadAsStringAsync();
+                        Drive drive = JsonConvert.DeserializeObject<Drive>(json);
+                        if (drive != null)
+                        {
+                            _driveId = drive.Id;
+                            _driveName = drive.Name;
+                            _driveItemPath.Clear();
+                            DriveItem rootDriveItem = await graphClient.Drives[_driveId].Root.Request().GetAsync();
+                            _driveItemPath.Push(rootDriveItem);
+                            UpdateCurrentPath();
+                            await LoadFilesAsync(rootDriveItem.Id);
+                            BackButtonVisibility = Visibility.Collapsed;
+                        }
                     }
                 }
             }
@@ -245,39 +246,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
                     QueryOption queryOption = new QueryOption("$top", PageSize.ToString());
 
-                    await GraphService.TryLoginAsync();
-                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                    Task<IDriveItemChildrenCollectionPage> taskFiles = graphServiceClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
-                    IDriveItemChildrenCollectionPage files = await taskFiles;
-                    if (!taskFiles.IsCanceled)
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
+                    if (graphClient != null)
                     {
-                        _list.Items.Clear();
-                        foreach (DriveItem file in files)
+                        Task<IDriveItemChildrenCollectionPage> taskFiles = graphClient.Drives[_driveId].Items[driveItemId].Children.Request(new List<Option> { queryOption }).GetAsync(_cancelLoadFile.Token);
+                        IDriveItemChildrenCollectionPage files = await taskFiles;
+                        if (!taskFiles.IsCanceled)
                         {
-                            _list.Items.Add(file);
-                        }
-
-                        _nextPageRequest = files.NextPageRequest;
-                        HasMore = _nextPageRequest != null;
-                        VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
-                        _pathVisualState = NavStatesFolderReadonly;
-                        if (_driveItemPath.Count > 1)
-                        {
-                            IDriveItemPermissionsCollectionPage permissions = await graphServiceClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
-                            foreach (Permission permission in permissions)
+                            _list.Items.Clear();
+                            foreach (DriveItem file in files)
                             {
-                                if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
+                                _list.Items.Add(file);
+                            }
+
+                            _nextPageRequest = files.NextPageRequest;
+                            HasMore = _nextPageRequest != null;
+                            VisualStateManager.GoToState(this, NavStatesFolderReadonly, false);
+                            _pathVisualState = NavStatesFolderReadonly;
+                            if (_driveItemPath.Count > 1)
+                            {
+                                IDriveItemPermissionsCollectionPage permissions = await graphClient.Drives[_driveId].Items[driveItemId].Permissions.Request().GetAsync();
+                                foreach (Permission permission in permissions)
                                 {
-                                    VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
-                                    _pathVisualState = NavStatesFolderEdit;
-                                    break;
+                                    if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
+                                    {
+                                        VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
+                                        _pathVisualState = NavStatesFolderEdit;
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        else
-                        {
-                            _pathVisualState = NavStatesFolderEdit;
-                            VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
+                            else
+                            {
+                                _pathVisualState = NavStatesFolderEdit;
+                                VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
+                            }
                         }
                     }
                 }

@@ -188,10 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             IsLoading = true;
             try
             {
-                MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClient();
                 if (graphClient != null)
                 {
                     int searchLimit = SearchResultLimit > 0 ? SearchResultLimit : DefaultSearchResultLimit;

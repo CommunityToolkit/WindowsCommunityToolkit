@@ -15,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     public partial class SharePointFileList
     {
         /// <summary>
-        /// Gets the <see cref="MicrosoftGraphService"/> instance
-        /// </summary>
-        public static MicrosoftGraphService GraphService => MicrosoftGraphService.Instance;
-
-        /// <summary>
         /// Gets required delegated permissions for the <see cref="SharePointFileList"/> control
         /// </summary>
         public static string[] RequiredDelegatedPermissions
