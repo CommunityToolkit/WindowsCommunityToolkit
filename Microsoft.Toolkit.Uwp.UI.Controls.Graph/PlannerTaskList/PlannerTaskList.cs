@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplatePart(Name = ControlInput, Type = typeof(TextBox))]
     [TemplatePart(Name = ControlAdd, Type = typeof(Button))]
     [TemplateVisualState(GroupName = MobileVisualStateGroup, Name = MobileVisualState)]
-    public partial class PlannerTaskList : ListViewBase
+    public partial class PlannerTaskList : Control
     {
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
         private List<PlannerTaskViewModel> _allTasks = new List<PlannerTaskViewModel>();
