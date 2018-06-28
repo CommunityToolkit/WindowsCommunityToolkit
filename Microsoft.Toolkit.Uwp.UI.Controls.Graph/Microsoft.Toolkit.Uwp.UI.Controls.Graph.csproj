@@ -9,17 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Assets\folder.svg" />
-    <None Remove="Assets\genericfile.png" />
-    <None Remove="Assets\person.png" />
-    <None Remove="Assets\photo.png" />
-    <None Remove="PlannerTaskList\PlannerTaskList.xaml" />
-    <None Remove="PowerBIEmbedded\EmbedReportFrame.html" />
-    <None Remove="PowerBIEmbedded\jquery-3.2.1.min.js" />
-    <None Remove="PowerBIEmbedded\powerbi.min.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="Assets\folder.svg" />
     <Content Include="Assets\genericfile.png" />
     <Content Include="Assets\person.png" />
