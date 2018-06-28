@@ -14,8 +14,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class PlannerTaskListPage : Page
     {
-        private PlannerTaskList _plannerTaskListControl;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PlannerTaskListPage"/> class.
         /// </summary>
