@@ -1,3 +1,4 @@
+trigger: none
 variables: 
   BuildConfiguration: Release
   
@@ -8,14 +9,13 @@ steps:
     arguments: -no_logo
     modifyEnvironment: true
   displayName: Setup Environment Variables
-
+  
 - task: NuGetToolInstaller@0
   displayName: Use NuGet 4.6.2
   inputs:
     versionSpec: 4.6.2
 
-- powershell: |
-    .\build\build.ps1 -target=Build
+- powershell: .\build\build.ps1 -target=Package
   displayName: Build 
 
 - task: PublishBuildArtifacts@1

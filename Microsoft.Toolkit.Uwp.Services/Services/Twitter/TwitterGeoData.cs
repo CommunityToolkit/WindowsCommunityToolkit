@@ -7,15 +7,18 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
-    public class TwitterCoordinates
+    /// <summary>
+    /// A class to contain the latitude and longitude of a tweet.
+    /// </summary>
+    public class TwitterGeoData
     {
         private const int LatitudeIndex = 0;
         private const int LongitudeIndex = 1;
         private const string PointType = "Point";
 
-        [JsonProperty("coordinates")]
-        public string[] Coordinates { get; set; }
-
+        /// <summary>
+        /// Gets or sets the type of data
+        /// </summary>
         [JsonProperty("type")]
         public string DataType { get; set; }
 
@@ -36,6 +39,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
                 return result;
             }
         }
+
+        /// <summary>
+        /// Gets or sets the coordinates of the geographic data
+        /// </summary>
+        [JsonProperty("coordinates")]
+        public string[] Coordinates { get; set; }
 
         /// <summary>
         /// Gets the numeric latitude (null if the value could not be converted)

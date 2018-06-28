@@ -63,6 +63,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterEntities Entities { get; set; }
 
         /// <summary>
+        /// Gets or sets extended attached content of the tweet
+        /// </summary>
+        [JsonProperty("extended_entities")]
+        public TwitterExtendedEntities ExtendedEntities { get; set; }
+
+        /// <summary>
+        /// Gets or sets full 280-character tweet text.
+        /// </summary>
+        [Obsolete("This member has been deprecated by Twitter. Use Text instead.")]
+        [JsonProperty("extended_tweet")]
+        public TwitterExtended Extended { get; set; }
+
+        /// <summary>
         /// Gets or sets tweet source (client or website used)
         /// </summary>
         [JsonProperty("source")]
@@ -72,19 +85,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets in_reply_to_screen_name
         /// </summary>
         [JsonProperty("in_reply_to_screen_name")]
-        private string InReplyToScreenName { get; set; }
+        public string InReplyToScreenName { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_status_id_str
         /// </summary>
         [JsonProperty("in_reply_to_status_id_str")]
-        private string InReplyToStatusId { get; set; }
+        public string InReplyToStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets in_reply_to_user_id_str
         /// </summary>
         [JsonProperty("in_reply_to_user_id_str")]
-        private string InReplyToUserId { get; set; }
+        public string InReplyToUserId { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
@@ -131,18 +144,25 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets quoted_status
         /// </summary>
         [JsonProperty("quoted_status")]
-        private Tweet QuotedStatus { get; set; }
+        public Tweet QuotedStatus { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_id_str
         /// </summary>
         [JsonProperty("quoted_status_id_str")]
-        private string QuotedStatusId { get; set; }
+        public string QuotedStatusId { get; set; }
 
         /// <summary>
         /// Gets or sets quoted_status_permalink
         /// </summary>
         [JsonProperty("quoted_status_permalink")]
-        private TwitterUrl QuotedStatusPermalink { get; set; }
+        public TwitterUrl QuotedStatusPermalink { get; set; }
+
+        /// <summary>
+        /// Gets or sets geographic data (latitude and longitude).
+        /// </summary>
+        [Obsolete("This member is deprecated by Twitter. Use Place and Coordinates instead.")]
+        [JsonProperty("geo")]
+        public TwitterGeoData GeoData { get; set; }
     }
 }
