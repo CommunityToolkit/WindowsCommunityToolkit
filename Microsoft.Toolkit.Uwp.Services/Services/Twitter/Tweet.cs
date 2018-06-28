@@ -22,6 +22,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string CreatedAt { get; set; }
 
         /// <summary>
+        /// Gets or sets geographic data (latitude and longitude).
+        /// </summary>
+        [Obsolete("This member is deprecated by Twitter. Use Place and Coordinates instead.")]
+        [JsonProperty("geo")]
+        public TwitterGeoData GeoData { get; set; }
+
+        /// <summary>
         /// Gets or sets item Id.
         /// </summary>
         [JsonProperty("id_str")]
@@ -36,6 +43,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
             get { return _text ?? FullText; }
             set { _text = value; }
         }
+
+        /// <summary>
+        /// Gets or sets full 280-character tweet text.
+        /// </summary>
+        [Obsolete("This member has been deprecated by Twitter. Use Text instead.")]
+        [JsonProperty("extended_tweet")]
+        public TwitterExtended Extended { get; set; }
 
         /// <summary>
         /// Gets or sets text of the tweet (280 characters).
@@ -67,13 +81,6 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("extended_entities")]
         public TwitterExtendedEntities ExtendedEntities { get; set; }
-
-        /// <summary>
-        /// Gets or sets full 280-character tweet text.
-        /// </summary>
-        [Obsolete("This member has been deprecated by Twitter. Use Text instead.")]
-        [JsonProperty("extended_tweet")]
-        public TwitterExtended Extended { get; set; }
 
         /// <summary>
         /// Gets or sets tweet source (client or website used)
@@ -157,12 +164,5 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("quoted_status_permalink")]
         public TwitterUrl QuotedStatusPermalink { get; set; }
-
-        /// <summary>
-        /// Gets or sets geographic data (latitude and longitude).
-        /// </summary>
-        [Obsolete("This member is deprecated by Twitter. Use Place and Coordinates instead.")]
-        [JsonProperty("geo")]
-        public TwitterGeoData GeoData { get; set; }
     }
 }
