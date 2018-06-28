@@ -113,6 +113,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public TwitterUser User { get; set; }
 
         /// <summary>
+        /// Gets or sets geo data (latitude and longitude).
+        /// </summary>
+        [Obsolete("This API has been deprecated by Twitter. Use Coordinates and Place instead.")]
+        [JsonProperty("geo")]
+        public TwitterGeoData GeoData { get; set; }
+
+        /// <summary>
         /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
         /// </summary>
         [JsonProperty("coordinates")]
