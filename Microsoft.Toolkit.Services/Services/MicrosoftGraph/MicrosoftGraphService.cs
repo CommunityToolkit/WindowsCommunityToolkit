@@ -204,7 +204,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             result = Authentication.Logout();
 #endif
 
-            IsAuthenticated = false;
+            if (result)
+            {
+                IsAuthenticated = false;
+            }
 
             return result;
         }
