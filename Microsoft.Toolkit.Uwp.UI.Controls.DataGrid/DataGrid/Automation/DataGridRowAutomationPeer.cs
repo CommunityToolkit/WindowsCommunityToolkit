@@ -39,5 +39,20 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
         {
             return Owner.GetType().Name;
         }
+
+        /// <summary>
+        /// Returns a human-readable string that contains the item type that the UIElement for this DataGridRowAutomationPeer represents.
+        /// </summary>
+        /// <returns>A human-readable string that contains the item type that the UIElement for this DataGridRowAutomationPeer represents.</returns>
+        protected override string GetItemTypeCore()
+        {
+            string itemType = base.GetItemTypeCore();
+            if (!string.IsNullOrEmpty(itemType))
+            {
+                return itemType;
+            }
+
+            return UI.Controls.Properties.Resources.DataGridRowAutomationPeer_ItemType;
+        }
     }
 }

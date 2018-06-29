@@ -79,6 +79,19 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
         /// <returns>The control type.</returns>
         protected override AutomationControlType GetAutomationControlTypeCore()
         {
+            if (this.OwningColumn != null)
+            {
+                if (this.OwningColumn is DataGridCheckBoxColumn)
+                {
+                    return AutomationControlType.CheckBox;
+                }
+
+                if (this.OwningColumn is DataGridTextColumn)
+                {
+                    return AutomationControlType.Text;
+                }
+            }
+
             return AutomationControlType.Custom;
         }
 
@@ -274,9 +287,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
         {
             get
             {
-                if (this.OwningGrid != null)
+                if (this.OwningGrid != null && this.OwningRow != null)
                 {
-                    return this.OwningGrid.CurrentSlot == this.OwningRow.Slot && this.OwningGrid.CurrentColumnIndex == this.OwningCell.ColumnIndex;
+                    return this.OwningRow.IsSelected;
                 }
 
                 throw DataGridError.DataGridAutomationPeer.OperationCannotBePerformed();

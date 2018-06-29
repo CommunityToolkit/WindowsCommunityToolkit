@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+// #define DEBUG_AUTOMATION
+
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.Utilities;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
@@ -558,6 +561,21 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
             return null;
         }
 
+        internal static void RaiseAutomationInvokeEvent(UIElement element)
+        {
+            if (AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked))
+            {
+                AutomationPeer peer = FrameworkElementAutomationPeer.FromElement(element);
+                if (peer != null)
+                {
+#if DEBUG_AUTOMATION
+                    Debug.WriteLine(peer.ToString() + ".RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked)");
+#endif
+                    peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
+                }
+            }
+        }
+
         internal List<AutomationPeer> GetChildPeers()
         {
             List<AutomationPeer> peers = new List<AutomationPeer>();
@@ -742,6 +760,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
             AutomationPeer cellPeer = GetCellPeer(slot, column);
             if (cellPeer != null)
             {
+#if DEBUG_AUTOMATION
+                Debug.WriteLine(cellPeer.ToString() + ".RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementSelected)");
+#endif
                 cellPeer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementSelected);
             }
         }
@@ -760,6 +781,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                         AutomationPeer headerPeer = CreatePeerForElement(header);
                         if (headerPeer != null)
                         {
+#if DEBUG_AUTOMATION
+                            Debug.WriteLine(headerPeer.ToString() + ".RaiseAutomationEvent(AutomationEvents.AutomationFocusChanged)");
+#endif
                             headerPeer.RaiseAutomationEvent(AutomationEvents.AutomationFocusChanged);
                         }
                     }
@@ -769,6 +793,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                     AutomationPeer cellPeer = GetCellPeer(slot, column);
                     if (cellPeer != null)
                     {
+#if DEBUG_AUTOMATION
+                        Debug.WriteLine(cellPeer.ToString() + ".RaiseAutomationEvent(AutomationEvents.AutomationFocusChanged)");
+#endif
                         cellPeer.RaiseAutomationEvent(AutomationEvents.AutomationFocusChanged);
                     }
                 }
@@ -794,6 +821,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
 
                     if (peer != null)
                     {
+#if DEBUG_AUTOMATION
+                        Debug.WriteLine(peer.ToString() + ".RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked)");
+#endif
                         peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
                     }
 
@@ -803,6 +833,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                 case DataGridEditingUnit.Row:
                 {
                     DataGridItemAutomationPeer peer = GetOrCreateItemPeer(row.DataContext);
+#if DEBUG_AUTOMATION
+                    Debug.WriteLine("DataGridItemAutomationPeer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked)");
+#endif
                     peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
                     break;
                 }
@@ -886,6 +919,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                 if (this.OwningDataGrid.SelectedItem != null && _itemPeers.ContainsKey(this.OwningDataGrid.SelectedItem))
                 {
                     DataGridItemAutomationPeer peer = _itemPeers[this.OwningDataGrid.SelectedItem];
+#if DEBUG_AUTOMATION
+                    Debug.WriteLine("DataGridItemAutomationPeer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementSelected)");
+#endif
                     peer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementSelected);
                 }
             }
@@ -900,6 +936,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                         if (e.AddedItems[i] != null && _itemPeers.ContainsKey(e.AddedItems[i]))
                         {
                             DataGridItemAutomationPeer peer = _itemPeers[e.AddedItems[i]];
+#if DEBUG_AUTOMATION
+                            Debug.WriteLine("DataGridItemAutomationPeer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementAddedToSelection)");
+#endif
                             peer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementAddedToSelection);
                         }
                     }
@@ -912,6 +951,9 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
                         if (e.RemovedItems[i] != null && _itemPeers.ContainsKey(e.RemovedItems[i]))
                         {
                             DataGridItemAutomationPeer peer = _itemPeers[e.RemovedItems[i]];
+#if DEBUG_AUTOMATION
+                            Debug.WriteLine("DataGridItemAutomationPeer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementRemovedFromSelection)");
+#endif
                             peer.RaiseAutomationEvent(AutomationEvents.SelectionItemPatternOnElementRemovedFromSelection);
                         }
                     }

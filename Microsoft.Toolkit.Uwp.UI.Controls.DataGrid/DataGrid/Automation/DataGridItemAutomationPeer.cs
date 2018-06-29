@@ -214,7 +214,16 @@ namespace Microsoft.Toolkit.Uwp.Automation.Peers
         /// <returns>The string that contains the help text.</returns>
         protected override string GetNameCore()
         {
-            return _item.ToString();
+            if (this.OwningRowPeer != null)
+            {
+                string owningRowPeerName = this.OwningRowPeer.GetName();
+                if (!string.IsNullOrEmpty(owningRowPeerName))
+                {
+                    return owningRowPeerName;
+                }
+            }
+
+            return string.Empty;
         }
 
         /// <summary>

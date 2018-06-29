@@ -432,15 +432,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     sortProcessed = true;
                 }
 #endif
-                if (AutomationPeer.ListenerExists(AutomationEvents.InvokePatternOnInvoked))
-                {
-                    // Send the Invoked event for the column header's automation peer.
-                    AutomationPeer peer = FrameworkElementAutomationPeer.FromElement(this);
-                    if (peer != null)
-                    {
-                        peer.RaiseAutomationEvent(AutomationEvents.InvokePatternOnInvoked);
-                    }
-                }
+
+                // Send the Invoked event for the column header's automation peer.
+                DataGridAutomationPeer.RaiseAutomationInvokeEvent(this);
             }
         }
 

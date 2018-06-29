@@ -62,6 +62,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to row.
+        /// </summary>
+        internal static string DataGridRowAutomationPeer_ItemType {
+            get {
+                return ResourceManager.GetString("DataGridRowAutomationPeer_ItemType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ({0} items).
         /// </summary>
         internal static string DataGridRowGroupHeader_ItemCountPlural {
