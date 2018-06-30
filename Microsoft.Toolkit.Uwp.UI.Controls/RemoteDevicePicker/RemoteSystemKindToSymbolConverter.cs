@@ -21,19 +21,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 case "Desktop":
                     finalvalue = "\xE770";
                     break;
+
                 case "Phone":
                 case "Unknown":
                     finalvalue = "\xE8EA";
                     break;
+
                 case "Xbox":
                     finalvalue = "\xE990";
                     break;
+
                 case "Tablet":
                     finalvalue = "\xE70A";
                     break;
+
                 case "Laptop":
                     finalvalue = "\xE7F8";
                     break;
+
+                case "Holographic":
+                    finalvalue = "\xF4BF";
+                    break;
+
+                case "Hub":
+                    finalvalue = "\xE8AE";
+                    break;
+
+                case "Iot":
+                    finalvalue = "\xF22C";
+                    break;
+
                 default:
                     finalvalue = "\xE770";
                     break;
