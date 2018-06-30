@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System.RemoteSystems;
@@ -19,13 +20,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Picker Control to show List of Remote Devices that are accessible
     /// </summary>
+    [TemplatePart(Name = "PART_ListDevices", Type = typeof(ListView))]
+    [TemplatePart(Name = "PART_ListDeviceTypes", Type = typeof(ComboBox))]
+    [TemplatePart(Name = "PART_ProgressRing", Type = typeof(ProgressRing))]
     public sealed class RemoteDevicePicker : ContentDialog
     {
-        private Dictionary<string, RemoteSystem> DeviceMap { get; set; }
-
-        private ListView listDevices;
-        private ComboBox listDeviceTypes;
-        private ProgressRing progressRing;
+        private ListView _listDevices;
+        private ComboBox _listDeviceTypes;
+        private ProgressRing _progressRing;
+        private RemoteSystemWatcher _remoteSystemWatcher;
 
         /// <summary>
         /// Gets or sets List of All Remote Systems based on Selection Filter
@@ -76,48 +79,51 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(RemoteDevicePicker);
             SecondaryButtonText = "Done";
             RemoteSystems = new ObservableCollection<RemoteSystem>();
-            DeviceMap = new Dictionary<string, RemoteSystem>();
         }
 
         /// <summary>
         /// Initiate Picker UI
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<List<RemoteSystem>> PickDeviceAsync()
+        public async Task<IEnumerable<RemoteSystem>> PickDeviceAsync()
         {
-            List<RemoteSystem> remoteSystems = new List<RemoteSystem>();
+            List<RemoteSystem> returnValue = new List<RemoteSystem>();
             await ShowAsync();
-            foreach (RemoteSystem system in listDevices.SelectedItems)
+            _remoteSystemWatcher.Stop();
+            foreach (RemoteSystem item in _listDevices.SelectedItems)
             {
-                remoteSystems.Add(system);
+                returnValue.Add(item);
             }
 
-            return remoteSystems;
+            return returnValue.AsEnumerable();
         }
 
         /// <inheritdoc />
         protected async override void OnApplyTemplate()
         {
-            listDevices = GetTemplateChild("PART_ListDevices") as ListView;
-            listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
-            progressRing = GetTemplateChild("PART_ProgressRing") as ProgressRing;
+            _listDevices = GetTemplateChild("PART_ListDevices") as ListView;
+            _listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
+            _progressRing = GetTemplateChild("PART_ProgressRing") as ProgressRing;
 
-            var enumval = Enum.GetValues(typeof(DeviceType)).Cast<DeviceType>();
-            listDeviceTypes.ItemsSource = enumval.ToList();
-            listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
-            listDeviceTypes.SelectedIndex = 0;
+            List<string> deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
+            deviceList.Add("All");
+            deviceList.Add("Unknown");
+
+            _listDeviceTypes.ItemsSource = deviceList.OrderBy(a => a.ToString());
+            _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
+            _listDeviceTypes.SelectedIndex = 0;
 
             RemoteSystemAccessStatus accessStatus = await RemoteSystem.RequestAccessAsync();
             if (accessStatus == RemoteSystemAccessStatus.Allowed)
             {
-                RemoteSystemWatcher m_remoteSystemWatcher = RemoteSystem.CreateWatcher();
-                m_remoteSystemWatcher.RemoteSystemAdded += RemoteSystemWatcher_RemoteSystemAdded;
-                m_remoteSystemWatcher.RemoteSystemRemoved += RemoteSystemWatcher_RemoteSystemRemoved;
-                m_remoteSystemWatcher.RemoteSystemUpdated += RemoteSystemWatcher_RemoteSystemUpdated;
-                m_remoteSystemWatcher.Start();
+                _remoteSystemWatcher = RemoteSystem.CreateWatcher();
+                _remoteSystemWatcher.RemoteSystemAdded += RemoteSystemWatcher_RemoteSystemAdded;
+                _remoteSystemWatcher.RemoteSystemRemoved += RemoteSystemWatcher_RemoteSystemRemoved;
+                _remoteSystemWatcher.RemoteSystemUpdated += RemoteSystemWatcher_RemoteSystemUpdated;
+                _remoteSystemWatcher.Start();
             }
 
-            progressRing.IsActive = true;
+            UpdateProgressRing(true);
             UpdateList();
 
             base.OnApplyTemplate();
@@ -125,18 +131,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateList();
 
-        private async void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
+        private void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
         {
-            await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                progressRing.IsActive = true;
-                if (DeviceMap.ContainsKey(args.RemoteSystem.Id))
-                {
-                    RemoteSystems.Remove(DeviceMap[args.RemoteSystem.Id]);
-                    DeviceMap.Remove(args.RemoteSystem.Id);
-                }
+                UpdateProgressRing(true);
+                RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystem.Id));
                 RemoteSystems.Add(args.RemoteSystem);
-                DeviceMap.Add(args.RemoteSystem.Id, args.RemoteSystem);
                 UpdateList();
             });
         }
@@ -146,34 +147,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ObservableCollection<RemoteSystem> bindingList = new ObservableCollection<RemoteSystem>();
             if (RemoteSystems != null)
             {
-                foreach (RemoteSystem sys in RemoteSystems)
-                {
-                    if (listDeviceTypes.SelectedValue.Equals(DeviceType.All))
-                    {
-                        bindingList = RemoteSystems;
-                    }
-                    else if (listDeviceTypes.SelectedValue.ToString().Equals(sys.Kind))
-                    {
-                        bindingList.Add(sys);
-                    }
-                }
+                var bindinglist = _listDeviceTypes.SelectedValue.ToString().Equals("All")
+                    ? RemoteSystems
+                    : new ObservableCollection<RemoteSystem>(RemoteSystems.Where(a => a.Kind.Equals(_listDeviceTypes.SelectedValue.ToString(), StringComparison.OrdinalIgnoreCase)).ToList());
 
-                progressRing.IsActive = false;
+                _listDevices.ItemsSource = bindinglist;
+                UpdateProgressRing(false);
             }
-
-            listDevices.ItemsSource = bindingList;
         }
 
         private async void RemoteSystemWatcher_RemoteSystemRemoved(RemoteSystemWatcher sender, RemoteSystemRemovedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                progressRing.IsActive = true;
-                if (DeviceMap.ContainsKey(args.RemoteSystemId))
-                {
-                    RemoteSystems.Remove(DeviceMap[args.RemoteSystemId]);
-                    DeviceMap.Remove(args.RemoteSystemId);
-                }
+                UpdateProgressRing(true);
+                RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystemId));
+                UpdateList();
             });
         }
 
@@ -181,10 +170,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                progressRing.IsActive = true;
+                UpdateProgressRing(true);
                 RemoteSystems.Add(args.RemoteSystem);
-                DeviceMap.Add(args.RemoteSystem.Id, args.RemoteSystem);
+                UpdateList();
             });
+        }
+
+        internal void UpdateProgressRing(bool state)
+        {
+            if (_progressRing != null)
+            {
+                _progressRing.IsActive = state;
+            }
         }
     }
 }

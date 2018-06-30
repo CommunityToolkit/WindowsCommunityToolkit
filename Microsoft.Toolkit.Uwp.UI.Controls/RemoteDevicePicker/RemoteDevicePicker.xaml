@@ -7,57 +7,57 @@
     <converters:RemoteSystemKindToSymbolConverter x:Key="KindToImageConverter" />
 
     <Style x:Key="ComboBoxStyleDevicePicker" TargetType="ComboBox">
-        <Setter Property="Padding" Value="12,5,0,7"/>
-        <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}"/>
-        <Setter Property="Foreground" Value="{ThemeResource ComboBoxForeground}"/>
-        <Setter Property="Background" Value="{ThemeResource ComboBoxBackground}"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ComboBoxBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxBorderThemeThickness}"/>
-        <Setter Property="TabNavigation" Value="Once"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
-        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
-        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True"/>
-        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
-        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
+        <Setter Property="Padding" Value="12,5,0,7" />
+        <Setter Property="MinWidth" Value="{ThemeResource ComboBoxThemeMinWidth}" />
+        <Setter Property="Foreground" Value="{ThemeResource ComboBoxForeground}" />
+        <Setter Property="Background" Value="{ThemeResource ComboBoxBackground}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource ComboBoxBorderBrush}" />
+        <Setter Property="BorderThickness" Value="{ThemeResource ComboBoxBorderThemeThickness}" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto" />
+        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="True" />
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+        <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <CarouselPanel/>
+                    <CarouselPanel />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBox">
-                    <Grid x:Name="LayoutRoot" >
+                    <Grid x:Name="LayoutRoot">
                         <Grid.Resources>
                             <Storyboard x:Key="OverlayOpeningAnimation">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0"/>
-                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.383" Value="1.0"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="0.0" />
+                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.383" Value="1.0" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                             <Storyboard x:Key="OverlayClosingAnimation">
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0"/>
-                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.216" Value="0.0"/>
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0" Value="1.0" />
+                                    <SplineDoubleKeyFrame KeySpline="0.1,0.9 0.2,1.0" KeyTime="0:0:0.216" Value="0.0" />
                                 </DoubleAnimationUsingKeyFrames>
                             </Storyboard>
                         </Grid.Resources>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="32"/>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="32" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <ContentPresenter x:Name="ContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" Grid.Row="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
                             <TextBlock x:Name="PlaceholderTextBlock" Foreground="{Binding PlaceholderForeground, RelativeSource={RelativeSource Mode=TemplatedParent}, TargetNullValue={ThemeResource ComboBoxPlaceHolderForeground}}" Text="{TemplateBinding PlaceholderText}" />
@@ -65,7 +65,7 @@
                         <Popup x:Name="Popup">
                             <Border x:Name="PopupBorder" Background="{ThemeResource ComboBoxDropDownBackground}" BorderThickness="{ThemeResource ComboBoxDropdownBorderThickness}" BorderBrush="{ThemeResource ComboBoxDropDownBorderBrush}" HorizontalAlignment="Stretch" Margin="0,-1,0,-1">
                                 <ScrollViewer x:Name="ScrollViewer" AutomationProperties.AccessibilityView="Raw" BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}" Foreground="{ThemeResource ComboBoxDropDownForeground}" HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}" IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}" IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}" IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}" MinWidth="{Binding TemplateSettings.DropDownContentMinWidth, RelativeSource={RelativeSource Mode=TemplatedParent}}" VerticalSnapPointsType="OptionalSingle" VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" VerticalSnapPointsAlignment="Near" ZoomMode="Disabled">
-                                    <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}"/>
+                                    <ItemsPresenter Margin="{ThemeResource ComboBoxDropdownContentMargin}" />
                                 </ScrollViewer>
                             </Border>
                         </Popup>
@@ -75,7 +75,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="local:RemoteDevicePicker" >
+    <Style TargetType="local:RemoteDevicePicker">
         <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -104,7 +104,7 @@
                                 MaxWidth="{TemplateBinding MaxWidth}"
                                 MaxHeight="{TemplateBinding MaxHeight}"
                                 MinWidth="{TemplateBinding MinWidth}"
-                                MinHeight="{TemplateBinding MinHeight}" >
+                                MinHeight="{TemplateBinding MinHeight}">
                                 <Grid x:Name="DialogSpace" VerticalAlignment="Stretch">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -121,7 +121,7 @@
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
                                                 <RowDefinition Height="Auto" />
-                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
                                             <ContentControl x:Name="Title"
@@ -135,7 +135,7 @@
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center"
                                                 IsTabStop="False"
-                                                MaxHeight="{ThemeResource ContentDialogTitleMaxHeight}" >
+                                                MaxHeight="{ThemeResource ContentDialogTitleMaxHeight}">
                                                 <ContentControl.Template>
                                                     <ControlTemplate TargetType="ContentControl">
                                                         <ContentPresenter
@@ -150,26 +150,26 @@
                                                     </ControlTemplate>
                                                 </ContentControl.Template>
                                             </ContentControl>
-                                            <Rectangle Fill="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Row="1" Height="2" Margin="0,0,0,10"/>
+                                            <Rectangle Fill="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Row="1" Height="2" Margin="0,0,0,10" />
                                             <Grid VerticalAlignment="Center" Grid.Row="2" Margin="10,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
                                                     <ColumnDefinition Width="Auto" />
                                                 </Grid.ColumnDefinitions>
-                                                <StackPanel Orientation="Horizontal" >
-                                                    <TextBlock Text="Device Type: " VerticalAlignment="Center"/>
-                                                    <ComboBox x:Name="PART_ListDeviceTypes" Foreground="{TemplateBinding HeaderLineBrush}" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource ComboBoxStyleDevicePicker}"/>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="Device Type: " VerticalAlignment="Center" />
+                                                    <ComboBox x:Name="PART_ListDeviceTypes" Foreground="{TemplateBinding HeaderLineBrush}" Margin="10,0,0,0" VerticalAlignment="Center" Style="{StaticResource ComboBoxStyleDevicePicker}" />
                                                 </StackPanel>
-                                                <ProgressRing x:Name="PART_ProgressRing" Width="20" Height="20" IsActive="False" Grid.Column="1" Margin="5" />
+                                                <ProgressRing x:Name="PART_ProgressRing" Width="25" Height="25" IsActive="True" Grid.Column="1" Margin="5" />
                                             </Grid>
                                             <ScrollContentPresenter x:Name="Content"
                                                 FontSize="{ThemeResource ControlContentThemeFontSize}"
                                                 FontFamily="{ThemeResource ContentControlThemeFontFamily}"
                                                 Margin="{ThemeResource ContentDialogContentMargin}"
                                                 Foreground="{TemplateBinding Foreground}"
-                                                Grid.Row="3" TextWrapping="Wrap" >
+                                                Grid.Row="3" TextWrapping="Wrap">
                                                 <ContentPresenter.Content>
-                                                    <ListView x:Name="PART_ListDevices" ItemsSource="{Binding RemoteSystems}" IsItemClickEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
+                                                    <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <Grid>
@@ -177,8 +177,8 @@
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                                                                    <TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Column="1" VerticalAlignment="Center" Margin="10,0"/>
+                                                                    <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" />
+                                                                    <TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Column="1" VerticalAlignment="Center" Margin="10,0" />
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
@@ -189,8 +189,8 @@
                                     </ScrollViewer>
                                     <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                            <ColumnDefinition/>
+                                            <ColumnDefinition />
+                                            <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <Border x:Name="Button1Host"
                                             Margin="{ThemeResource ContentDialogButton1HostMargin}"
