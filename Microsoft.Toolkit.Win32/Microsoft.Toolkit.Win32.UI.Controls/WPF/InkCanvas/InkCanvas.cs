@@ -8,7 +8,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
 
         public InkCanvas()
-            : this("Windows.UI.Xaml.Controls.InkCanvas")
+            : this(typeof(global::Windows.UI.Xaml.Controls.InkCanvas).FullName)
         {
         }
 

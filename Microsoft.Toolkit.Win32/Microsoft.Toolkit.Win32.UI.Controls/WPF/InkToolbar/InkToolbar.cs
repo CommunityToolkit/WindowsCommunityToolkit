@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.InkToolbar UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbar;
 
         public InkToolbar()
-            : this("Windows.UI.Xaml.Controls.InkToolbar")
+            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).FullName)
         {
         }
 
@@ -144,39 +144,39 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(ButtonFlyoutPlacementProperty, value);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ActiveToolChanged;
+        public event EventHandler<object> ActiveToolChanged = (sender, args) => { };
 
         private void OnActiveToolChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.ActiveToolChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ActiveToolChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> EraseAllClicked;
+        public event EventHandler<object> EraseAllClicked = (sender, args) => { };
 
         private void OnEraseAllClicked(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.EraseAllClicked?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.EraseAllClicked?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> InkDrawingAttributesChanged;
+        public event EventHandler<object> InkDrawingAttributesChanged = (sender, args) => { };
 
         private void OnInkDrawingAttributesChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.InkDrawingAttributesChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.InkDrawingAttributesChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> IsRulerButtonCheckedChanged;
+        public event EventHandler<object> IsRulerButtonCheckedChanged = (sender, args) => { };
 
         private void OnIsRulerButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.IsRulerButtonCheckedChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.IsRulerButtonCheckedChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> IsStencilButtonCheckedChanged;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs> IsStencilButtonCheckedChanged = (sender, args) => { };
 
         private void OnIsStencilButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
-            this.IsStencilButtonCheckedChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.IsStencilButtonCheckedChanged?.Invoke(this, args);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

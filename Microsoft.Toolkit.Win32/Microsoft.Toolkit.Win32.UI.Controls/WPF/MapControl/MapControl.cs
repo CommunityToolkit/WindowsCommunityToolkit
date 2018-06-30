@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.Maps.MapControl;
 
         public MapControl()
-            : this("Windows.UI.Xaml.Controls.Maps.MapControl")
+            : this(typeof(global::Windows.UI.Xaml.Controls.Maps.MapControl).FullName)
         {
         }
 
@@ -215,8 +215,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public void GetLocationFromOffset(global::Windows.Foundation.Point offset, out global::Windows.Devices.Geolocation.Geopoint location) => UwpControl.GetLocationFromOffset(offset, out location);
 
         public void GetOffsetFromLocation(global::Windows.Devices.Geolocation.Geopoint location, out global::Windows.Foundation.Point offset) => UwpControl.GetOffsetFromLocation(location, out offset);
-
-        public void IsLocationInView(global::Windows.Devices.Geolocation.Geopoint location, out bool isInView) => UwpControl.IsLocationInView(location, out isInView);
 
         public global::Windows.Foundation.IAsyncOperation<bool> TrySetViewAsync(global::Windows.Devices.Geolocation.Geopoint center) => UwpControl.TrySetViewAsync(center);
 
@@ -447,130 +445,130 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(RegionProperty, value);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> CenterChanged;
+        public event EventHandler<object> CenterChanged = (sender, args) => { };
 
         private void OnCenterChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.CenterChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.CenterChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> HeadingChanged;
+        public event EventHandler<object> HeadingChanged = (sender, args) => { };
 
         private void OnHeadingChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.HeadingChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.HeadingChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> LoadingStatusChanged;
+        public event EventHandler<object> LoadingStatusChanged = (sender, args) => { };
 
         private void OnLoadingStatusChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.LoadingStatusChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.LoadingStatusChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapDoubleTapped;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapInputEventArgs> MapDoubleTapped = (sender, args) => { };
 
         private void OnMapDoubleTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            this.MapDoubleTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapDoubleTapped?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapHolding;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapInputEventArgs> MapHolding = (sender, args) => { };
 
         private void OnMapHolding(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            this.MapHolding?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapHolding?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapTapped;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapInputEventArgs> MapTapped = (sender, args) => { };
 
         private void OnMapTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapInputEventArgs args)
         {
-            this.MapTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapTapped?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> PitchChanged;
+        public event EventHandler<object> PitchChanged = (sender, args) => { };
 
         private void OnPitchChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.PitchChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.PitchChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> TransformOriginChanged;
+        public event EventHandler<object> TransformOriginChanged = (sender, args) => { };
 
         private void OnTransformOriginChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.TransformOriginChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.TransformOriginChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ZoomLevelChanged;
+        public event EventHandler<object> ZoomLevelChanged = (sender, args) => { };
 
         private void OnZoomLevelChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, object args)
         {
-            this.ZoomLevelChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ZoomLevelChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ActualCameraChanged;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapActualCameraChangedEventArgs> ActualCameraChanged = (sender, args) => { };
 
         private void OnActualCameraChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangedEventArgs args)
         {
-            this.ActualCameraChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ActualCameraChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ActualCameraChanging;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapActualCameraChangingEventArgs> ActualCameraChanging = (sender, args) => { };
 
         private void OnActualCameraChanging(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapActualCameraChangingEventArgs args)
         {
-            this.ActualCameraChanging?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ActualCameraChanging?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> CustomExperienceChanged;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapCustomExperienceChangedEventArgs> CustomExperienceChanged = (sender, args) => { };
 
         private void OnCustomExperienceChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapCustomExperienceChangedEventArgs args)
         {
-            this.CustomExperienceChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.CustomExperienceChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapElementClick;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapElementClickEventArgs> MapElementClick = (sender, args) => { };
 
         private void OnMapElementClick(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs args)
         {
-            this.MapElementClick?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapElementClick?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapElementPointerEntered;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapElementPointerEnteredEventArgs> MapElementPointerEntered = (sender, args) => { };
 
         private void OnMapElementPointerEntered(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerEnteredEventArgs args)
         {
-            this.MapElementPointerEntered?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapElementPointerEntered?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapElementPointerExited;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapElementPointerExitedEventArgs> MapElementPointerExited = (sender, args) => { };
 
         private void OnMapElementPointerExited(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs args)
         {
-            this.MapElementPointerExited?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapElementPointerExited?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> TargetCameraChanged;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapTargetCameraChangedEventArgs> TargetCameraChanged = (sender, args) => { };
 
         private void OnTargetCameraChanged(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapTargetCameraChangedEventArgs args)
         {
-            this.TargetCameraChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.TargetCameraChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapRightTapped;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapRightTappedEventArgs> MapRightTapped = (sender, args) => { };
 
         private void OnMapRightTapped(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapRightTappedEventArgs args)
         {
-            this.MapRightTapped?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapRightTapped?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> MapContextRequested;
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.MapContextRequestedEventArgs> MapContextRequested = (sender, args) => { };
 
         private void OnMapContextRequested(global::Windows.UI.Xaml.Controls.Maps.MapControl sender, global::Windows.UI.Xaml.Controls.Maps.MapContextRequestedEventArgs args)
         {
-            this.MapContextRequested?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.MapContextRequested?.Invoke(this, args);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

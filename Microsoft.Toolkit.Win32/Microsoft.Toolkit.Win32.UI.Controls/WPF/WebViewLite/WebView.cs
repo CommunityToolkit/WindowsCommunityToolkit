@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite
         protected global::Windows.UI.Xaml.Controls.WebView UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.WebView;
 
         public WebView()
-            : this("Windows.UI.Xaml.Controls.WebView")
+            : this(typeof(global::Windows.UI.Xaml.Controls.WebView).FullName)
         {
         }
 
@@ -222,144 +222,144 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite
             set => SetValue(XYFocusDownProperty, value);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> LoadCompleted = (sender, e) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.NavigationEventArgs> LoadCompleted = (sender, e) => { };
 
         private void OnLoadCompleted(object sender, global::Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            this.LoadCompleted?.Invoke(this, new DynamicForwardedEventArgs(e));
+            this.LoadCompleted?.Invoke(this, e);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> NavigationFailed = (sender, e) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNavigationFailedEventArgs> NavigationFailed = (sender, e) => { };
 
         private void OnNavigationFailed(object sender, global::Windows.UI.Xaml.Controls.WebViewNavigationFailedEventArgs e)
         {
-            this.NavigationFailed?.Invoke(this, new DynamicForwardedEventArgs(e));
+            this.NavigationFailed?.Invoke(this, e);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ScriptNotify = (sender, e) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.NotifyEventArgs> ScriptNotify = (sender, e) => { };
 
         private void OnScriptNotify(object sender, global::Windows.UI.Xaml.Controls.NotifyEventArgs e)
         {
-            this.ScriptNotify?.Invoke(this, new DynamicForwardedEventArgs(e));
+            this.ScriptNotify?.Invoke(this, e);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ContentLoading = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewContentLoadingEventArgs> ContentLoading = (sender, args) => { };
 
         private void OnContentLoading(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewContentLoadingEventArgs args)
         {
-            this.ContentLoading?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ContentLoading?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> DOMContentLoaded = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewDOMContentLoadedEventArgs> DOMContentLoaded = (sender, args) => { };
 
         private void OnDOMContentLoaded(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewDOMContentLoadedEventArgs args)
         {
-            this.DOMContentLoaded?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.DOMContentLoaded?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> FrameContentLoading = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewContentLoadingEventArgs> FrameContentLoading = (sender, args) => { };
 
         private void OnFrameContentLoading(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewContentLoadingEventArgs args)
         {
-            this.FrameContentLoading?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.FrameContentLoading?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewDOMContentLoadedEventArgs> FrameDOMContentLoaded = (sender, args) => { };
 
         private void OnFrameDOMContentLoaded(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewDOMContentLoadedEventArgs args)
         {
-            this.FrameDOMContentLoaded?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.FrameDOMContentLoaded?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> FrameNavigationCompleted = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNavigationCompletedEventArgs> FrameNavigationCompleted = (sender, args) => { };
 
         private void OnFrameNavigationCompleted(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewNavigationCompletedEventArgs args)
         {
-            this.FrameNavigationCompleted?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.FrameNavigationCompleted?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> FrameNavigationStarting = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
         private void OnFrameNavigationStarting(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewNavigationStartingEventArgs args)
         {
-            this.FrameNavigationStarting?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.FrameNavigationStarting?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> LongRunningScriptDetected = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewLongRunningScriptDetectedEventArgs> LongRunningScriptDetected = (sender, args) => { };
 
         private void OnLongRunningScriptDetected(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewLongRunningScriptDetectedEventArgs args)
         {
-            this.LongRunningScriptDetected?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.LongRunningScriptDetected?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> NavigationCompleted = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNavigationCompletedEventArgs> NavigationCompleted = (sender, args) => { };
 
         private void OnNavigationCompleted(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewNavigationCompletedEventArgs args)
         {
-            this.NavigationCompleted?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.NavigationCompleted?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> NavigationStarting = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNavigationStartingEventArgs> NavigationStarting = (sender, args) => { };
 
         private void OnNavigationStarting(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewNavigationStartingEventArgs args)
         {
-            this.NavigationStarting?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.NavigationStarting?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> UnsafeContentWarningDisplaying = (sender, args) => { };
+        public event EventHandler<object> UnsafeContentWarningDisplaying = (sender, args) => { };
 
         private void OnUnsafeContentWarningDisplaying(global::Windows.UI.Xaml.Controls.WebView sender, object args)
         {
-            this.UnsafeContentWarningDisplaying?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.UnsafeContentWarningDisplaying?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> UnviewableContentIdentified = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewUnviewableContentIdentifiedEventArgs> UnviewableContentIdentified = (sender, args) => { };
 
         private void OnUnviewableContentIdentified(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewUnviewableContentIdentifiedEventArgs args)
         {
-            this.UnviewableContentIdentified?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.UnviewableContentIdentified?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> ContainsFullScreenElementChanged = (sender, args) => { };
+        public event EventHandler<object> ContainsFullScreenElementChanged = (sender, args) => { };
 
         private void OnContainsFullScreenElementChanged(global::Windows.UI.Xaml.Controls.WebView sender, object args)
         {
-            this.ContainsFullScreenElementChanged?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.ContainsFullScreenElementChanged?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> NewWindowRequested = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewNewWindowRequestedEventArgs> NewWindowRequested = (sender, args) => { };
 
         private void OnNewWindowRequested(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewNewWindowRequestedEventArgs args)
         {
-            this.NewWindowRequested?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.NewWindowRequested?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> PermissionRequested = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewPermissionRequestedEventArgs> PermissionRequested = (sender, args) => { };
 
         private void OnPermissionRequested(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewPermissionRequestedEventArgs args)
         {
-            this.PermissionRequested?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.PermissionRequested?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> UnsupportedUriSchemeIdentified = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewUnsupportedUriSchemeIdentifiedEventArgs> UnsupportedUriSchemeIdentified = (sender, args) => { };
 
         private void OnUnsupportedUriSchemeIdentified(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewUnsupportedUriSchemeIdentifiedEventArgs args)
         {
-            this.UnsupportedUriSchemeIdentified?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.UnsupportedUriSchemeIdentified?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> SeparateProcessLost = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewSeparateProcessLostEventArgs> SeparateProcessLost = (sender, args) => { };
 
         private void OnSeparateProcessLost(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewSeparateProcessLostEventArgs args)
         {
-            this.SeparateProcessLost?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.SeparateProcessLost?.Invoke(this, args);
         }
 
-        public event EventHandler<DynamicForwardedEventArgs> WebResourceRequested = (sender, args) => { };
+        public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite.WebViewWebResourceRequestedEventArgs> WebResourceRequested = (sender, args) => { };
 
         private void OnWebResourceRequested(global::Windows.UI.Xaml.Controls.WebView sender, global::Windows.UI.Xaml.Controls.WebViewWebResourceRequestedEventArgs args)
         {
-            this.WebResourceRequested?.Invoke(this, new DynamicForwardedEventArgs(args));
+            this.WebResourceRequested?.Invoke(this, args);
         }
     }
 }

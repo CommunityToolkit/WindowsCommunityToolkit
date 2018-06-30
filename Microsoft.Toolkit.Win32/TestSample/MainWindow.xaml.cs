@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Windows.Interop;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using Windows.Media.Core;
@@ -32,34 +33,20 @@ namespace TestSample
         {
             toolButtonLasso.Content = new SymbolIcon(Symbol.SelectAll);
             ToolTipService.SetToolTip(toolButtonLasso.XamlRoot, "Select All");
+            //inkToolbar.NativeActiveToolChanged += InkToolbar_NativeActiveToolChanged;
         }
 
-        private void WebView1_ContainsFullScreenElementChanged(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
-        {
-            //WebView1.NavigationCompleted += WebView1_NavigationCompleted1;
-        }
-
-        private void WebView1_NavigationCompleted1(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
-        {
-            
-        }
-
-        private void WebView1_NavigationCompleted(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        private void inkToolbar_ActiveToolChanged(object sender, object e)
         {
 
         }
 
-        private void WebView1_NavigationStarting(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        private void inkToolbar_InkDrawingAttributesChanged(object sender, object e)
         {
 
         }
 
-        private void WebView1_PermissionRequested(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
-        {
-
-        }
-
-        private void WebView1_ScriptNotify(object sender, Microsoft.Windows.Interop.DynamicForwardedEventArgs e)
+        private void inkToolbar_IsStencilButtonCheckedChanged(object sender, Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs e)
         {
 
         }

@@ -8,7 +8,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 
         public InkToolbarToggleButton()
-            : this("Windows.UI.Xaml.Controls.InkToolbarToggleButton")
+            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarToggleButton).FullName)
         {
         }
 

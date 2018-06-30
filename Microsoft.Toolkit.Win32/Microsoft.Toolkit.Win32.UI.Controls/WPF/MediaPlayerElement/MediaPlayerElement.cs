@@ -1,6 +1,17 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 using Microsoft.Windows.Interop;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media;
+using uwpControls = global::Windows.UI.Xaml.Controls;
+using uwpInking = Windows.UI.Input.Inking;
+using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -9,7 +20,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.MediaPlayerElement;
 
         public MediaPlayerElement()
-            : this("Windows.UI.Xaml.Controls.MediaPlayerElement")
+            : this(typeof(global::Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)
         {
         }
 
@@ -39,7 +50,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.TagProperty);
             Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.DataContextProperty);
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.WidthProperty);
-            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, System.ComponentModel.BindingDirection.OneWay);
 
             // MediaPlayerElement specific properties
             Bind(nameof(Stretch), StretchProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.StretchProperty);
@@ -48,6 +58,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsFullWindow), IsFullWindowProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.IsFullWindowProperty);
             Bind(nameof(AutoPlay), AutoPlayProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AutoPlayProperty);
             Bind(nameof(AreTransportControlsEnabled), AreTransportControlsEnabledProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabledProperty);
+            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, BindingDirection.OneWay);
 
             base.OnInitialized(e);
         }

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected global::Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarPenButton;
 
         public InkToolbarPenButton()
-            : this("Windows.UI.Xaml.Controls.InkToolbarPenButton")
+            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarPenButton).FullName)
         {
         }
 

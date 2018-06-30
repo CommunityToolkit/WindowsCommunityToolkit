@@ -37,7 +37,8 @@
             <TabItem>
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <StackPanel>
-                    <controls:InkToolbar x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" >
+                    <controls:InkToolbar x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"
+                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"      >
                         <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
                     </controls:InkToolbar>
 
@@ -48,8 +49,8 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
-                <!--<lite:WebView Name="WebView1"
-                     Source="https://www.bing.com" />-->
+                <!--lite:WebView Name="WebView1"  
+                      /-->
             </TabItem>
             <TabItem>
                 <TabItem.Header>MapControl</TabItem.Header>
