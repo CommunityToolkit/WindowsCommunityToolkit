@@ -97,26 +97,6 @@
                 </AppBarButton>
             </Grid>
 
-            <Grid x:Name="InfoAreaControlsWrapper"
-            Background="{ThemeResource Brush-Sample-HeaderBacking}"
-            Grid.Column="1"
-            Grid.Row="1"
-            Canvas.ZIndex="888">
-
-                <Grid x:Name="InfoAreaControls">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-
-                    <AppBarButton x:Name="ExpandPane"
-                    Visibility="{x:Bind CanChangePaneState}"
-                    Icon="ClosePane"
-                    Width="50"
-                    Click="{x:Bind ExpandCollapsePane}" />
-                </Grid>
-            </Grid>
-
             <Grid x:Name="DemoAreaGrid" Grid.Row="2">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -133,7 +113,7 @@
                 HorizontalContentAlignment="Stretch"
                 Margin="8,0,8,8"
                 Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
-                    
+
                     <Border
                     Background="{ThemeResource Commands-Background}"
                     CornerRadius="6">
@@ -173,16 +153,18 @@
                   Grid.RowSpan="3"
                   Canvas.ZIndex="99">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="50" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
                 <Pivot Style="{StaticResource PivotUnderlineStyle}" x:Name="InfoAreaPivot"
                         Grid.Row="1"
                         Padding="5,0"
                         HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
+                    <Pivot.LeftHeader>
+                        <AppBarButton x:Name="ExpandPane"
+                        Visibility="{x:Bind CanChangePaneState}"
+                        Icon="ClosePane"
+                        Width="50"
+                        Click="{x:Bind ExpandCollapsePane}" />
+                    </Pivot.LeftHeader>
 
                     <PivotItem x:Name="PropertiesPivotItem"
                                 Padding="0, 10,0,0"
@@ -231,7 +213,7 @@
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked"
                                                     IsFocusEngagementEnabled="False"
                                                     ImageMaxWidth="500"
-                                                    ImageMaxHeight="500"/>
+                                                    ImageMaxHeight="500" />
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>
@@ -265,7 +247,7 @@
                                         HorizontalAlignment="Center"
                                         StackMode="QueueBehind" 
                                         Margin="10"
-                                        Canvas.ZIndex="999"/>
+                                        Canvas.ZIndex="999" />
             <Grid x:Name="waitRing"
                     Grid.Row="1"
                     Grid.RowSpan="3"
@@ -288,14 +270,13 @@
                     <VisualState.Setters>
                         <Setter Target="NarrowInfoButton.Visibility" Value="Visible" />
                         <Setter Target="SampleTitleBar.(Grid.ColumnSpan)" Value="2" />
+                        <Setter Target="InfoAreaPivot.Margin" Value="0,50,0,0" />
 
                         <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
 
                         <Setter Target="Splitter.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControls.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControlsWrapper.Visibility" Value="Collapsed" />
-                        <Setter Target="InfoAreaControlsWrapper.Opacity" Value="0" />
+                        <Setter Target="ExpandPane.Visibility" Value="Collapsed" />
 
                         <Setter Target="SideColumn.Width" Value="0" />
                     </VisualState.Setters>
@@ -318,6 +299,9 @@
                     <VisualState.Setters>
                         <Setter Target="InfoAreaGrid.Visibility" Value="Visible" />
                         <Setter Target="ExpandPane.Icon" Value="OpenPane" />
+                        <Setter Target="SampleTitleBar.(Grid.ColumnSpan)" Value="1" />
+                        <Setter Target="SampleTitleBar.(Grid.Column)" Value="0" />
+                        <Setter Target="InfoAreaPivot.Margin" Value="0,50,0,0" />
 
                         <Setter Target="InfoAreaGrid.(Grid.Column)" Value="0" />
                         <Setter Target="InfoAreaGrid.(Grid.ColumnSpan)" Value="2" />
