@@ -5,6 +5,7 @@
 
 #include "Interaction.h"
 
+using namespace Windows::Foundation::Collections;
 using namespace Windows::UI::Xaml;
 using namespace Windows::UI::Xaml::Controls;
 
@@ -70,6 +71,11 @@ public:
     /// Identifies the MaxDwellRepeatCount dependency property
     /// </summary>
     static property DependencyProperty^ MaxDwellRepeatCountProperty { DependencyProperty^ get(); }
+
+    /// <summary>
+    /// Identifyes the IsSwitchEnabled dependency property
+    /// </summary>
+    static property DependencyProperty^ IsSwitchEnabledProperty { DependencyProperty^ get(); }
 
     /// <summary>
     /// Gets or sets the brush to use when displaying the default indication that gaze entered a control
@@ -142,6 +148,11 @@ public:
     static int GetMaxDwellRepeatCount(UIElement^ element);
 
     /// <summary>
+    /// Gets the Boolean indicating whether gaze plus switch is enabled.
+    /// </summary>
+    static bool GetIsSwitchEnabled(UIElement^ element);
+
+    /// <summary>
     /// Sets the status of gaze interaction over that particular XAML element.
     /// </summary>
     static void SetInteraction(UIElement^ element, GazeInteraction::Interaction value);
@@ -192,6 +203,11 @@ public:
     static void SetMaxDwellRepeatCount(UIElement^ element, int value);
 
     /// <summary>
+    /// Sets the Boolean indicating whether gaze plus switch is enabled.
+    /// </summary>
+    static void SetIsSwitchEnabled(UIElement^ element, bool value);
+
+    /// <summary>
     /// Gets the GazePointer object.
     /// </summary>
     static GazePointer^ GetGazePointer(Page^ page);
@@ -214,6 +230,13 @@ public:
         EventRegistrationToken add(EventHandler<Object^>^ handler);
         void remove(EventRegistrationToken token);
     }
+
+    /// <summary>
+    /// Loads a settings collection into GazeInput.
+    /// Note: This must be loaded from a UI thread to be valid, since the GazeInput
+    /// instance is tied to the UI thread.
+    /// </summary>
+    static void LoadSettings(ValueSet^ settings);
 
 internal:
 
