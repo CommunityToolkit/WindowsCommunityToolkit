@@ -76,12 +76,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ForegroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             PaddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
             RequestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
+
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
             UnhookListeners();
             themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            themeListener.Dispose();
             themeListener = null;
 
             // Register for property callbacks that are owned by our parent class.
