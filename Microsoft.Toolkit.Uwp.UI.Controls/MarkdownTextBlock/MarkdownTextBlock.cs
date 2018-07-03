@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
-            InitializeThemeListener();
+            RegisterThemeChangedHandler();
 
             // Register for property callbacks that are owned by our parent class.
             FontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
-            InitializeThemeListener();
+            RegisterThemeChangedHandler();
 
             // Grab our root
             _rootElement = GetTemplateChild("RootElement") as Border;
@@ -111,17 +111,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RenderMarkdown();
         }
 
-        private bool InitializeThemeListener()
+        private void RegisterThemeChangedHandler()
         {
-            bool wasNull = false;
-            if (themeListener == null)
-            {
-                wasNull = true;
-                themeListener = new Helpers.ThemeListener();
-                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
-            }
-
-            return wasNull;
+            themeListener = themeListener ?? new Helpers.ThemeListener();
+            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
         }
     }
 }
