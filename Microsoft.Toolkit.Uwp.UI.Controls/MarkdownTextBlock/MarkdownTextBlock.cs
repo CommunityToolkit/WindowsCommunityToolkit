@@ -48,7 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
-            themeListener = new Helpers.ThemeListener();
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
@@ -60,8 +59,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // Listens for theme changes and updates the rendering.
-            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
+            InitializeThemeListener();
 
             // Register for property callbacks that are owned by our parent class.
             FontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
@@ -76,7 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ForegroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             PaddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
             RequestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
-
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -103,11 +101,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
+            InitializeThemeListener();
+
             // Grab our root
             _rootElement = GetTemplateChild("RootElement") as Border;
 
             // And make sure to render any markdown we have.
             RenderMarkdown();
+        }
+
+        private bool InitializeThemeListener()
+        {
+            bool wasNull = false;
+            if (themeListener == null)
+            {
+                wasNull = true;
+                themeListener = new Helpers.ThemeListener();
+                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            }
+
+            return wasNull;
         }
     }
 }
