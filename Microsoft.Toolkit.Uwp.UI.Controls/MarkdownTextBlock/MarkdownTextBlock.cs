@@ -76,7 +76,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ForegroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
             PaddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
             RequestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
-
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -97,9 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UnregisterPropertyChangedCallback(ForegroundProperty, ForegroundPropertyToken);
             UnregisterPropertyChangedCallback(PaddingProperty, PaddingPropertyToken);
             UnregisterPropertyChangedCallback(RequestedThemeProperty, RequestedThemePropertyToken);
-            _rootElement = null;
         }
-
 
         /// <inheritdoc />
         protected override void OnApplyTemplate()
