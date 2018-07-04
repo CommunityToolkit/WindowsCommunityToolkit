@@ -59,7 +59,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
             RegisterThemeChangedHandler();
 
             // Register for property callbacks that are owned by our parent class.
@@ -79,10 +78,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            UnhookListeners();
-            themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
-            themeListener.Dispose();
-            themeListener = null;
+            if (themeListener != null)
+            {
+                UnhookListeners();
+                themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+                themeListener.Dispose();
+                themeListener = null;
+            }
 
             // Register for property callbacks that are owned by our parent class.
             UnregisterPropertyChangedCallback(FontSizeProperty, FontSizePropertyToken);
@@ -101,7 +103,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            // ThemeListener Initializer: Returns a boolean which indicates if the themeListener was previously null.
             RegisterThemeChangedHandler();
 
             // Grab our root
@@ -114,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RegisterThemeChangedHandler()
         {
             themeListener = themeListener ?? new Helpers.ThemeListener();
+            themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             themeListener.ThemeChanged += ThemeListener_ThemeChanged;
         }
     }
