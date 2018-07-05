@@ -14,29 +14,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
     {
 
-        private long FontSizePropertyToken { get; set; }
+        private long _fontSizePropertyToken { get; set; }
 
-        private long BackgroundPropertyToken { get; set; }
+        private long _backgroundPropertyToken { get; set; }
 
-        private long BorderBrushPropertyToken { get; set; }
+        private long _borderBrushPropertyToken { get; set; }
 
-        private long BorderThicknessPropertyToken { get; set; }
+        private long _borderThicknessPropertyToken { get; set; }
 
-        private long CharacterSpacingPropertyToken { get; set; }
+        private long _characterSpacingPropertyToken { get; set; }
 
-        private long FontFamilyPropertyToken { get; set; }
+        private long _fontFamilyPropertyToken { get; set; }
 
-        private long FontStretchPropertyToken { get; set; }
+        private long _fontStretchPropertyToken { get; set; }
 
-        private long FontStylePropertyToken { get; set; }
+        private long _fontStylePropertyToken { get; set; }
 
-        private long FontWeightPropertyToken { get; set; }
+        private long _fontWeightPropertyToken { get; set; }
 
-        private long ForegroundPropertyToken { get; set; }
+        private long _foregroundPropertyToken { get; set; }
 
-        private long PaddingPropertyToken { get; set; }
+        private long _paddingPropertyToken { get; set; }
 
-        private long RequestedThemePropertyToken { get; set; }
+        private long _requestedThemePropertyToken { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.
@@ -62,18 +62,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterThemeChangedHandler();
 
             // Register for property callbacks that are owned by our parent class.
-            FontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
-            BackgroundPropertyToken = RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
-            BorderBrushPropertyToken = RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
-            BorderThicknessPropertyToken = RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
-            CharacterSpacingPropertyToken = RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
-            FontFamilyPropertyToken = RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
-            FontStretchPropertyToken = RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
-            FontStylePropertyToken = RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
-            FontWeightPropertyToken = RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
-            ForegroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
-            PaddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
-            RequestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
+            _fontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
+            _backgroundPropertyToken = RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
+            _borderBrushPropertyToken = RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
+            _borderThicknessPropertyToken = RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
+            _characterSpacingPropertyToken = RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
+            _fontFamilyPropertyToken = RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
+            _fontStretchPropertyToken = RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
+            _fontStylePropertyToken = RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
+            _fontWeightPropertyToken = RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
+            _foregroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
+            _paddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
+            _requestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
@@ -87,17 +87,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Register for property callbacks that are owned by our parent class.
-            UnregisterPropertyChangedCallback(FontSizeProperty, FontSizePropertyToken);
-            UnregisterPropertyChangedCallback(BackgroundProperty, BackgroundPropertyToken);
-            UnregisterPropertyChangedCallback(BorderBrushProperty, BorderBrushPropertyToken);
-            UnregisterPropertyChangedCallback(BorderThicknessProperty, BorderThicknessPropertyToken);
-            UnregisterPropertyChangedCallback(CharacterSpacingProperty, CharacterSpacingPropertyToken);
-            UnregisterPropertyChangedCallback(FontFamilyProperty, FontFamilyPropertyToken);
-            UnregisterPropertyChangedCallback(FontStretchProperty, FontStylePropertyToken);
-            UnregisterPropertyChangedCallback(FontWeightProperty, FontWeightPropertyToken);
-            UnregisterPropertyChangedCallback(ForegroundProperty, ForegroundPropertyToken);
-            UnregisterPropertyChangedCallback(PaddingProperty, PaddingPropertyToken);
-            UnregisterPropertyChangedCallback(RequestedThemeProperty, RequestedThemePropertyToken);
+            UnregisterPropertyChangedCallback(FontSizeProperty, _fontSizePropertyToken);
+            UnregisterPropertyChangedCallback(BackgroundProperty, _backgroundPropertyToken);
+            UnregisterPropertyChangedCallback(BorderBrushProperty, _borderBrushPropertyToken);
+            UnregisterPropertyChangedCallback(BorderThicknessProperty, _borderThicknessPropertyToken);
+            UnregisterPropertyChangedCallback(CharacterSpacingProperty, _characterSpacingPropertyToken);
+            UnregisterPropertyChangedCallback(FontFamilyProperty, _fontFamilyPropertyToken);
+            UnregisterPropertyChangedCallback(FontStretchProperty, _fontStylePropertyToken);
+            UnregisterPropertyChangedCallback(FontWeightProperty, _fontWeightPropertyToken);
+            UnregisterPropertyChangedCallback(ForegroundProperty, _foregroundPropertyToken);
+            UnregisterPropertyChangedCallback(PaddingProperty, _paddingPropertyToken);
+            UnregisterPropertyChangedCallback(RequestedThemeProperty, _requestedThemePropertyToken);
         }
 
         /// <inheritdoc />
