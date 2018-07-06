@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void When()
         {
-            NavigateToLocalAndWaitForFormClose(new Uri("async.htm", UriKind.Relative), new TestStreamResolver());
+            NavigateToLocalAndWaitForFormClose(new Uri("sync.htm", UriKind.Relative), new TestStreamResolver());
         }
 
         [TestMethod]
