@@ -46,8 +46,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
 
-            // Set our style.
-            DefaultStyleKey = typeof(MarkdownTextBlock);
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
