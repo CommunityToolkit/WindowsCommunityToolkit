@@ -44,6 +44,11 @@ public:
     /// </summary>
     void LoadSettings(ValueSet^ settings);
 
+    /// <summary>
+    /// When in switch mode, will issue a click on the currently fixated element
+    /// </summary>
+    void Click();
+
 internal:
     Brush^ _enterBrush = nullptr;
 
@@ -95,6 +100,12 @@ internal:
         void set(int value) { _gazeCursor->CursorRadius = value; }
     }
 
+    property bool IsSwitchEnabled
+    {
+        bool get() { return _isSwitchEnabled; }
+        void set(bool value) { _isSwitchEnabled = value; }
+    }
+
 internal:
 
     static property GazePointer^ Instance { GazePointer^ get(); }
@@ -126,7 +137,6 @@ private:
     GazeTargetItem^          ResolveHitTarget(Point gazePoint, TimeSpan timestamp);
 
     void    CheckIfExiting(TimeSpan curTimestamp);
-    void    GotoState(UIElement^ control, PointerState state);
     void    RaiseGazePointerEvent(GazeTargetItem^ target, PointerState state, TimeSpan elapsedTime);
 
     void OnGazeEntered(
@@ -183,8 +193,11 @@ private:
     TimeSpan _defaultFixation = DEFAULT_FIXATION_DELAY;
     TimeSpan _defaultDwell = DEFAULT_DWELL_DELAY;
     TimeSpan _defaultDwellRepeatDelay = DEFAULT_DWELL_REPEAT_DELAY;
-    TimeSpan _defaultRepeat = DEFAULT_REPEAT_DELAY;
+    TimeSpan _defaultRepeatDelay = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
+
+    bool                                _isSwitchEnabled;
+    GazeTargetItem^                     _currentlyFixatedElement;
 };
 
 END_NAMESPACE_GAZE_INPUT
