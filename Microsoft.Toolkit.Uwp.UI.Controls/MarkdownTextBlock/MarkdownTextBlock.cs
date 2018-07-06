@@ -13,30 +13,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
     {
-
-        private long _fontSizePropertyToken { get; set; }
-
-        private long _backgroundPropertyToken { get; set; }
-
-        private long _borderBrushPropertyToken { get; set; }
-
-        private long _borderThicknessPropertyToken { get; set; }
-
-        private long _characterSpacingPropertyToken { get; set; }
-
-        private long _fontFamilyPropertyToken { get; set; }
-
-        private long _fontStretchPropertyToken { get; set; }
-
-        private long _fontStylePropertyToken { get; set; }
-
-        private long _fontWeightPropertyToken { get; set; }
-
-        private long _foregroundPropertyToken { get; set; }
-
-        private long _paddingPropertyToken { get; set; }
-
-        private long _requestedThemePropertyToken { get; set; }
+        private long _fontSizePropertyToken;
+        private long _backgroundPropertyToken;
+        private long _borderBrushPropertyToken;
+        private long _borderThicknessPropertyToken;
+        private long _characterSpacingPropertyToken;
+        private long _fontFamilyPropertyToken;
+        private long _fontStretchPropertyToken;
+        private long _fontStylePropertyToken;
+        private long _fontWeightPropertyToken;
+        private long _foregroundPropertyToken;
+        private long _paddingPropertyToken;
+        private long _requestedThemePropertyToken;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.
