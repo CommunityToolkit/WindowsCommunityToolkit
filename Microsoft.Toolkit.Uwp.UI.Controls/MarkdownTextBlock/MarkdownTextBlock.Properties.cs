@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
         public static readonly DependencyProperty SchemeListProperty = DependencyProperty.Register(
-            nameof(UriPrefix),
+            nameof(SchemeList),
             typeof(string),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
