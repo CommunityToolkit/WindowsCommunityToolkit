@@ -10,26 +10,28 @@
                 HorizontalAlignment="Center">
               <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="50"></ColumnDefinition>
-                  <ColumnDefinition Width="250"></ColumnDefinition>
+                  <ColumnDefinition Width="280"></ColumnDefinition>
                   <ColumnDefinition Width="50"></ColumnDefinition>
               </Grid.ColumnDefinitions>
               <controls:RadialGauge 
                   x:Name="RadialGauge"
                   Grid.Column="1"
-                  Value="@[Value:Slider:0:0-180]@"
+                  Value="@[Value:Slider:120:0-240]@"
                   Minimum="0"
-                  Maximum="180"
-                  StepSize="1"
-                  IsInteractive="@[IsInteractive:Bool:False]"
-                  TickSpacing="@[TickSpacing:Slider:20:10-30]"
-                  ScaleWidth="@[ScaleWidth:Slider:26:5-50]"
+                  Maximum="240"
+                  StepSize="30"
+                  IsInteractive="@[IsInteractive:Bool:True]"
+                  TickSpacing="@[TickSpacing:Slider:30:10-30]"
+                  ScaleWidth="@[ScaleWidth:Slider:4:4-50]"
                   MinAngle="@[MinAngle:Slider:210:0-360]"
                   MaxAngle="@[MaxAngle:Slider:150:0-360]"
-                  Unit="Units"
-                  TickBrush="Gainsboro"
-                  ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                  NeedleWidth="@[NeedleWidth:Slider:5:1-10]" 
-                  TickLength="@[TickLength:Slider:18:0-30]" />
+                  Unit="units"
+                  NeedleWidth="@[NeedleWidth:Slider:4:1-10]"
+                  NeedleLength="@[NeedleLength:Slider:100:20-100]" 
+                  TickLength="@[TickLength:Slider:10:0-30]"
+                  TickWidth="@[TickWidth:Slider:4:0-30]"
+                  ScalePadding="@[ScalePadding:Slider:23:0-100]@"
+                  ScaleTickWidth="@[ScaleTickWidth:Slider:4:2-20]@" />
           </Grid>
       </Grid>
 </Page>

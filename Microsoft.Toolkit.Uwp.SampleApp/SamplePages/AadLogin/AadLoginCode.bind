@@ -1,0 +1,19 @@
+protected override void OnNavigatedTo(NavigationEventArgs e)
+{
+	base.OnNavigatedTo(e);
+
+	AadLoginControl.SignInCompleted += AadLoginControl_SignInCompleted;
+	AadLoginControl.SignOutCompleted += AadLoginControl_SignOutCompleted;
+}
+
+private void AadLoginControl_SignInCompleted(object sender, SignInEventArgs e)
+{
+	GraphServiceClient graphServiceClient = e.GraphClient;
+
+    // TODO
+}
+
+private void AadLoginControl_SignOutCompleted(object sender, System.EventArgs e)
+{
+    // TODO
+}

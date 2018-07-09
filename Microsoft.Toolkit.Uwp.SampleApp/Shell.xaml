@@ -14,11 +14,11 @@
       xmlns:monaco="using:Monaco"
       xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
-      extensions:StatusBar.IsVisible="False"
-      extensions:TitleBar.BackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonBackgroundColor="{StaticResource Brand-Color}"
-      extensions:TitleBar.ButtonForegroundColor="{StaticResource Grey-04}"
-      extensions:TitleBar.ForegroundColor="{StaticResource Grey-04}"
+      extensions:StatusBarExtensions.IsVisible="False"
+      extensions:TitleBarExtensions.BackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonBackgroundColor="{StaticResource Brand-Color}"
+      extensions:TitleBarExtensions.ButtonForegroundColor="{StaticResource Grey-04}"
+      extensions:TitleBarExtensions.ForegroundColor="{StaticResource Grey-04}"
       mc:Ignorable="d">
     <Page.Resources>
         
@@ -160,6 +160,7 @@
                 </Grid>
                 <Pivot x:Name="InfoAreaPivot"
                         Grid.Row="1"
+                        Margin="4, 0, 0, 0"
                         HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                         SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <PivotItem x:Name="PropertiesPivotItem"
@@ -203,7 +204,9 @@
                                                     Foreground="{StaticResource Brush-Grey-01}"
                                                     ImageResolving="DocumentationTextblock_ImageResolving"
                                                     LinkClicked="DocumentationTextblock_OnLinkClicked" 
-                                                    IsFocusEngagementEnabled="False" />
+                                                    IsFocusEngagementEnabled="False"
+                                                    ImageMaxWidth="500"
+                                                    ImageMaxHeight="500"/>
                     </ScrollViewer>
                 </PivotItem>
             </Pivot>
@@ -230,8 +233,9 @@
                                         Grid.RowSpan="3"
                                         Style="{StaticResource ExceptionNotification}"
                                         Grid.ColumnSpan="2"
-                                        VerticalAlignment="Top"
+                                        VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
+                                        StackMode="QueueBehind"
                                         Margin="15"></controls:InAppNotification>
             <Grid x:Name="waitRing"
                     Grid.RowSpan="3"

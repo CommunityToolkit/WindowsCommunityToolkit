@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.ObjectModel;
@@ -17,7 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -54,6 +46,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var upn = LoginHint.Text;
             var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
             var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
 
@@ -76,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Login via Azure Active Directory
             try
             {
-                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
@@ -308,6 +301,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (DelegatedPermissionScopes != null)
             {
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+                LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
         }
     }

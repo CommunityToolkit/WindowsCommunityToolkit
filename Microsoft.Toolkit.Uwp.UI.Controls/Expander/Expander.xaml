@@ -6,13 +6,15 @@
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
+    <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlBackgroundChromeLowBrush" />
+
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="{ThemeResource ToggleButtonBorderThemeThickness}" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="40" />
-        <Setter Property="Padding" Value="8,4,8,4" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -36,10 +38,10 @@
                                 </VisualState>
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ToggleButtonBackgroundPointerOver}" />
+                                                                    Value="{ThemeResource SystemControlBackgroundListLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -50,10 +52,10 @@
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource ToggleButtonBackgroundPressed}" />
+                                                                    Value="{ThemeResource SystemControlBackgroundListMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="0.0"
@@ -64,8 +66,8 @@
                                 </VisualState>
                                 <VisualState x:Name="Disabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -77,10 +79,10 @@
                                 </VisualState>
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -91,10 +93,10 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
@@ -105,10 +107,10 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedPressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <DoubleAnimation BeginTime="0:0:0" Duration="0:0:0.1" To="{Binding ElementName=ArrowRotation, Path=Value}"
@@ -119,8 +121,8 @@
                                 </VisualState>
                                 <VisualState x:Name="CheckedDisabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -148,8 +150,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePointerOver">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -170,8 +172,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminatePressed">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -192,8 +194,8 @@
                                 </VisualState>
                                 <VisualState x:Name="IndeterminateDisabled">
                                     <Storyboard>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Background"
-                                                                       Storyboard.TargetName="RootGrid">
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
+                                                                       Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
                                                                     Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
@@ -238,16 +240,20 @@
 
                         <Slider x:Name="ArrowRotation" Visibility="Collapsed" Value="90" Minimum="-180" Maximum="180" />
 
-                        <SymbolIcon x:Name="Arrow" Width="40"
-                                    RenderTransformOrigin="0.5,0.5"
-                                    Symbol="Forward">
-                            <SymbolIcon.RenderTransform>
+                        <FontIcon x:Name="Arrow"
+                                  FontFamily="Segoe MDL2 Assets"
+                                  FontSize="12"
+                                  Glyph="&#xE76C;"
+                                  RenderTransformOrigin="0.5,0.5"
+                                  Margin="12">
+                            <FontIcon.RenderTransform>
                                 <RotateTransform />
-                            </SymbolIcon.RenderTransform>
-                        </SymbolIcon>
+                            </FontIcon.RenderTransform>
+                        </FontIcon>
 
                         <ContentPresenter Grid.Column="1"
-                                          x:Name="ContentPresenter" AutomationProperties.AccessibilityView="Raw"
+                                          x:Name="ContentPresenter" 
+                                          AutomationProperties.AccessibilityView="Raw"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -258,7 +264,11 @@
                                           Padding="{TemplateBinding Padding}"
                                           VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                          RenderTransformOrigin="0.5,0.5" />
+                                          RenderTransformOrigin="0.5,0.5"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Margin="0,0,12,0"/>
+
+                        <Rectangle x:Name="HoverPanel" Fill="Transparent" Grid.ColumnSpan="2"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -269,6 +279,7 @@
         <Setter Property="Header" Value="Header" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="HeaderStyle" Value="{StaticResource HeaderToggleButtonStyle}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeLowBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:Expander">
@@ -432,6 +443,7 @@
                                         <Setter Target="ColumnOne.Width" Value="*" />
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -451,6 +463,7 @@
                                 </VisualState>
                                 <VisualState x:Name="CollapsedDown">
                                     <VisualState.Setters>
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -483,6 +496,7 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.Column)" Value="1" />
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -518,6 +532,7 @@
                                         <Setter Target="RowTwo.Height" Value="Auto" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="0" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="0.5, 1" />
+                                        <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -537,7 +552,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="PART_RootGrid">
+                        <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
                             <Grid.RowDefinitions>
                                 <RowDefinition x:Name="RowOne" Height="Auto" />
                                 <RowDefinition x:Name="RowTwo" Height="*" />
@@ -578,7 +593,6 @@
                             </Grid>
                             <controls:LayoutTransformControl Grid.Row="0" Grid.RowSpan="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                              x:Name="PART_LayoutTransformer"
-                                                             Background="{TemplateBinding Background}"
                                                              RenderTransformOrigin="0.5,0.5">
                                 <controls:LayoutTransformControl.Transform>
                                     <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
@@ -588,8 +602,11 @@
                                               AutomationProperties.Name="Expand"
                                               Style="{TemplateBinding HeaderStyle}" 
                                               Foreground="{TemplateBinding Foreground}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}"
-                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                              Content="{TemplateBinding Header}" 
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              MinWidth="40"
+                                              MinHeight="40" />
                             </controls:LayoutTransformControl>
                         </Grid>
                     </Border>

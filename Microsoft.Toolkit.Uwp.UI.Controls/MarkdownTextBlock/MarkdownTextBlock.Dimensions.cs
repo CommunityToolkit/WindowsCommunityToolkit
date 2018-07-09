@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -300,6 +292,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(TextWrapping),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxHeight"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxHeightProperty = DependencyProperty.Register(
+            nameof(ImageMaxHeight),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxWidth"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxWidthProperty = DependencyProperty.Register(
+            nameof(ImageMaxWidth),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the MaxWidth for images.
+        /// </summary>
+        public double ImageMaxWidth
+        {
+            get { return (double)GetValue(ImageMaxWidthProperty); }
+            set { SetValue(ImageMaxWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the MaxHeight for images.
+        /// </summary>
+        public double ImageMaxHeight
+        {
+            get { return (double)GetValue(ImageMaxHeightProperty); }
+            set { SetValue(ImageMaxHeightProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the stretch used for images.

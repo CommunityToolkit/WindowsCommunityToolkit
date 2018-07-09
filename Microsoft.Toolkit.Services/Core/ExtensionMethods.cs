@@ -1,21 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Services.Bing;
 
-namespace Microsoft.Toolkit.Services.Core
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// This class offers general purpose methods.
@@ -60,28 +51,6 @@ namespace Microsoft.Toolkit.Services.Core
             }
 
             return output;
-        }
-
-        /// <summary>
-        /// Converts object into string.
-        /// </summary>
-        /// <param name="value">Object value.</param>
-        /// <returns>Returns string value.</returns>
-        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Extensions.StringExtensions.")]
-        public static string ToSafeString(this object value)
-        {
-            return StringExtensions.ToSafeString(value);
-        }
-
-        /// <summary>
-        /// Decode HTML string.
-        /// </summary>
-        /// <param name="htmlText">HTML string.</param>
-        /// <returns>Returns decoded HTML string.</returns>
-        [Obsolete("This method is being deprecated. Please use the counterpart in Microsoft.Toolkit.Extensions.StringExtensions.")]
-        public static string DecodeHtml(this string htmlText)
-        {
-            return StringExtensions.DecodeHtml(htmlText);
         }
     }
 }

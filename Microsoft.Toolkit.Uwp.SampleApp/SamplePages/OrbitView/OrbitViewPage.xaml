@@ -10,11 +10,6 @@
     <!-- Shallow Copy -->
     <Grid Visibility="Collapsed">
         <controls:OrbitView>
-            <controls:OrbitView.ItemTemplate>
-                <DataTemplate>
-                    <controls:DropShadowPanel/>
-                </DataTemplate>
-            </controls:OrbitView.ItemTemplate>
             <controls:OrbitView.ItemsSource>
                 <controls:OrbitViewDataItemCollection>
                     <controls:OrbitViewDataItem />

@@ -1,0 +1,3 @@
+string sharepointDocumentLibraryUrl = "https://TENANT.sharepoint.com/sites/SITENAME/LIBRARY";
+SharePointFileList sharepointFilesControl = new SharePointFileList();
+string driveURL = await sharepointFilesControl.GetDriveUrlFromSharePointUrlAsync(sharepointDocumentLibraryUrl);

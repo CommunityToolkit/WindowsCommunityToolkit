@@ -28,5 +28,7 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Menu/Menu.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/InAppNotification.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl/LayoutTransformControl.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview/CameraPreview.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas/InfiniteCanvas.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
@@ -32,7 +24,9 @@ namespace UnitTests.Markdown.Parse
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =1)",
                         Tooltip = "SVG logo",
                         ImageWidth = 1,
-                        ImageHeight = 0
+                        ImageHeight = 0,
+                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
+                        ReferenceId = string.Empty
                     }));
         }
 
@@ -49,7 +43,9 @@ namespace UnitTests.Markdown.Parse
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x1)",
                         Tooltip = "SVG logo",
                         ImageWidth = 0,
-                        ImageHeight = 1
+                        ImageHeight = 1,
+                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
+                        ReferenceId = string.Empty
                     }));
         }
 
@@ -66,7 +62,9 @@ namespace UnitTests.Markdown.Parse
                         Tooltip = "SVG logo",
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)",
                         ImageWidth = 128,
-                        ImageHeight = 64
+                        ImageHeight = 64,
+                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg",
+                        ReferenceId = string.Empty
                     }));
         }
 
@@ -83,7 +81,9 @@ namespace UnitTests.Markdown.Parse
                         Tooltip = "SVG logo",
                         Text = "![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg%20=32)",
                         ImageWidth = 0,
-                        ImageHeight = 0
+                        ImageHeight = 0,
+                        RenderUrl = "https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg%20=32",
+                        ReferenceId = string.Empty
                     }));
         }
     }
