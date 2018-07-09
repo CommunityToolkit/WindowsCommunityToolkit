@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -85,10 +86,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             try
             {
-                var xml = new XmlDocument();
-                xml.LoadXml(contents);
-                var attr = xml.DocumentElement.Attributes.GetNamedItem("name");
-                link = attr.Value;
+                var xml = XElement.Parse(contents);
+                var attr = xml.Attribute("name");
+                if (attr != null)
+                {
+                    link = attr.Value;
+                }
             }
             catch
             {
