@@ -87,34 +87,45 @@ void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
 
 void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
 {
-    assert(!_isLoaded);
     assert(IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
 
-    // Record that we are now loaded.
-    _isLoaded = true;
-
-    // If we were previously enabled...
-    if (_isEnabled)
+    if (!_isLoaded)
     {
-        // ...we can now be counted as actively enabled.
-        GazePointer::Instance->AddRoot(sender);
+        // Record that we are now loaded.
+        _isLoaded = true;
+
+        // If we were previously enabled...
+        if (_isEnabled)
+        {
+            // ...we can now be counted as actively enabled.
+            GazePointer::Instance->AddRoot(sender);
+        }
+    }
+    else
+    {
+        Debug::WriteLine(L"Unexpected Load");
     }
 }
 
 void GazePointerProxy::OnUnloaded(Object^ sender, RoutedEventArgs^ args)
 {
-    assert(_isLoaded);
     assert(!IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
 
-
-    // Record that we have left the visual tree.
-    _isLoaded = false;
-
-    // If we are set as enabled...
-    if (_isEnabled)
+    if (_isLoaded)
     {
-        // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
-        GazePointer::Instance->RemoveRoot(sender);
+        // Record that we have left the visual tree.
+        _isLoaded = false;
+
+        // If we are set as enabled...
+        if (_isEnabled)
+        {
+            // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
+            GazePointer::Instance->RemoveRoot(sender);
+        }
+    }
+    else
+    {
+        Debug::WriteLine(L"Unexpected unload");
     }
 }
 
