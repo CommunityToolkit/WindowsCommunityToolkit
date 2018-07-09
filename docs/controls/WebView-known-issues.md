@@ -100,7 +100,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 ## WebView browser
 
-* The [WebBrower.ObjectForScripting](https://msdn.microsoft.com/library/system.windows.controls.webbrowser.objectforscripting.aspx) property is not supported.
+* The [WebBrower.ObjectForScripting](https://msdn.microsoft.com/library/system.windows.controls.webbrowser.objectforscripting.aspx) property and [WebView.AddWebAllowedObject(String, Object)](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview.addweballowedobject) are not supported.
 
   Instead, use the [WebViewControl.InvokeScriptAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.invokescriptasync) method.
 
