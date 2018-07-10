@@ -11,15 +11,12 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid >
 
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="300"/>
             <RowDefinition Height="*"/>
 
-        </Grid.RowDefinitions>
-        <!--WebBrowser /-->
-        <controls:WebView Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <!--WebBrowser Source="http://www.bing.com"/-->
-        <!--<TabControl Grid.Row="1">
+        </Grid.RowDefinitions>-->
+        <TabControl>
             <TabItem>
                 <TabItem.Header>Samples</TabItem.Header>
                 <StackPanel Background="Azure">
@@ -45,15 +42,17 @@
                         <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
                     </controls:InkToolbar>
 
-                    --><!-- Inking area --><!--
+                    <!--Inking area -->
                     <controls:InkCanvas x:Name="inkCanvas" Height="Auto" Loaded="inkCanvas_Loaded"/>
 
                 </StackPanel>
             </TabItem>
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
-                --><!--lite:WebView Name="WebView1"  
-                      /--><!--
+                <!--WebBrowser /-->
+                <!--controls:WebView Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/-->
+                <!--WebBrowser Source="http://www.bing.com"/-->
+
             </TabItem>
             <TabItem>
                 <TabItem.Header>MapControl</TabItem.Header>
@@ -64,6 +63,6 @@
                 <TextBlock>Deferred</TextBlock>
             </TabItem>
 
-        </TabControl>-->
+        </TabControl>
     </Grid>
 </Window>
