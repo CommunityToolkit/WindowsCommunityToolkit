@@ -1,5 +1,7 @@
 # Set the URI for the SDK
-$uri = "https://software-download.microsoft.com/pr/Windows_InsiderPreview_SDK_en-us_17682.iso?t=6d2e1eab-5165-41f8-91db-0b984e6e3607&e=1528546451&h=e1883e07e28ccc29c2495c94bae6fef7"
+param([string]$buildNumber)
+
+$uri = "https://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Flight&sar=Sdsurl&o1=$buildNumber"
 
 if ($env:TEMP -eq $null) {
   $env:TEMP = Join-Path $env:SystemDrive 'temp'
