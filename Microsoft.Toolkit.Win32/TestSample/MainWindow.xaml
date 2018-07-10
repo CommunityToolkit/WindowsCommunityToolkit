@@ -6,17 +6,20 @@
         xmlns:local="clr-namespace:TestSample"
         xmlns:local1="clr-namespace:Microsoft.Windows.Interop.Sample;assembly=Microsoft.Windows.Interop.Sample"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls"
-        xmlns:lite="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewLite;assembly=Microsoft.Toolkit.Win32.UI.Controls"
-        xmlns:mediaCore="clr-namespace:Windows.Media.Core;assembly=Windows"
-        xmlns:controls1="clr-namespace:Windows.UI.Xaml.Controls;assembly=Windows"
+        xmlns:compatible="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible;assembly=Microsoft.Toolkit.Win32.UI.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
             <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
-        <TabControl Grid.Row="0">
+        <!--WebBrowser /-->
+        <controls:WebView Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <!--WebBrowser Source="http://www.bing.com"/-->
+        <!--<TabControl Grid.Row="1">
             <TabItem>
                 <TabItem.Header>Samples</TabItem.Header>
                 <StackPanel Background="Azure">
@@ -42,15 +45,15 @@
                         <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
                     </controls:InkToolbar>
 
-                    <!-- Inking area -->
+                    --><!-- Inking area --><!--
                     <controls:InkCanvas x:Name="inkCanvas" Height="Auto" Loaded="inkCanvas_Loaded"/>
 
                 </StackPanel>
             </TabItem>
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
-                <!--lite:WebView Name="WebView1"  
-                      /-->
+                --><!--lite:WebView Name="WebView1"  
+                      /--><!--
             </TabItem>
             <TabItem>
                 <TabItem.Header>MapControl</TabItem.Header>
@@ -61,6 +64,6 @@
                 <TextBlock>Deferred</TextBlock>
             </TabItem>
 
-        </TabControl>
+        </TabControl>-->
     </Grid>
 </Window>

@@ -3,60 +3,83 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
+namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
 {
-    public class WebBrowserCompatibilityAdapter : IWebViewCompatible
+    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter
     {
-        public Uri Source { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        private WebBrowser _browser = new WebBrowser();
 
-        public bool CanGoBack => throw new NotImplementedException();
-
-        public bool CanGoForward => throw new NotImplementedException();
-
-        public event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting;
-
-        public event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
-
-        public event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded;
-
-        public event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
-
-        public bool GoBack()
+        private void Browser_Navigated(object sender, NavigationEventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationCompleted?.Invoke(sender, e);
         }
 
-        public bool GoForward()
+        private void Browser_Navigating(object sender, NavigatingCancelEventArgs e)
         {
-            throw new NotImplementedException();
+            NavigationStarting?.Invoke(sender, e);
+            ContentLoading?.Invoke(sender, e);
         }
 
-        public string InvokeScript(string scriptName)
+        public override Uri Source { get => _browser.Source; set => _browser.Source = value; }
+
+        public override bool CanGoBack => _browser.CanGoBack;
+
+        public override bool CanGoForward => _browser.CanGoForward;
+
+        public override FrameworkElement View => _browser;
+
+        public override event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
+
+        public override event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
+
+        public override event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
+
+        public override bool GoBack()
         {
-            throw new NotImplementedException();
+            _browser.GoBack();
+            return true;
         }
 
-        public void Navigate(Uri url)
+        public override bool GoForward()
         {
-            throw new NotImplementedException();
+            _browser.GoForward();
+            return true;
         }
 
-        public void Navigate(string url)
+        public override string InvokeScript(string scriptName)
         {
-            throw new NotImplementedException();
+            return _browser.InvokeScript(scriptName)?.ToString();
         }
 
-        public void Refresh()
+        public override void Navigate(Uri url)
         {
-            throw new NotImplementedException();
+            _browser.Navigate(url);
         }
 
-        public void Stop()
+        public override void Navigate(string url)
         {
-            throw new NotImplementedException();
+            _browser.Navigate(url);
+        }
+
+        public override void Refresh()
+        {
+            _browser.Refresh();
+        }
+
+        public override void Stop()
+        {
+        }
+
+        protected override void Initialize()
+        {
+            _browser.Navigating += Browser_Navigating;
+            _browser.LoadCompleted += Browser_Navigated;
+            Bind(nameof(Source), SourceProperty, _browser);
         }
     }
 }

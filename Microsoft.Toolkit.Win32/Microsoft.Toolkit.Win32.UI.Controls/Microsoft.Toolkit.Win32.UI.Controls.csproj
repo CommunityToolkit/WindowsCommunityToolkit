@@ -12,10 +12,10 @@
     <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
 
     <!-- Need Metadata contract 6.0 or later -->
-    <!-- First introduced in 17686: Insider Preview (Fast) -->
-    <TargetPlatformMinVersion>10.0.17686.0</TargetPlatformMinVersion>
-    <!-- Most people will have RTM 17686: Insider Preview (Fast), Spring Creators (RS4) -->
-    <TargetPlatformVersion>10.0.17686.0</TargetPlatformVersion>
+    <!-- First introduced in 17704: Insider Preview (Fast) -->
+    <TargetPlatformMinVersion>10.0.17704.0</TargetPlatformMinVersion>
+    <!-- Most people will have RTM later than 17704: Insider Preview (Fast), Spring Creators (RS5) -->
+    <TargetPlatformVersion>10.0.17704.0</TargetPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

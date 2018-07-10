@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
+namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
 {
-    internal interface IWebViewCompatible
+    public interface IWebViewCompatible
     {
         Uri Source { get; set; }
 
@@ -11,11 +12,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         void Navigate(string url);
 
-        event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting;
+        event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
 
         event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
-
-        event EventHandler<WebViewControlDOMContentLoadedEventArgs> DOMContentLoaded;
 
         event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
 

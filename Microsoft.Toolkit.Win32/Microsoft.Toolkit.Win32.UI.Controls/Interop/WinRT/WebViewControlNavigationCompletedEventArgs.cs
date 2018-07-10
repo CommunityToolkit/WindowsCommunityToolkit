@@ -28,6 +28,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Uri = uri;
         }
 
+        internal WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            Uri = e.Uri;
+        }
+
         /// <summary>
         /// Gets a value indicating whether the navigation completed successfully.
         /// </summary>
@@ -61,6 +66,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <returns><see cref="WebViewControlNavigationCompletedEventArgs"/></returns>
         public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
             global::Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args) =>
+            new WebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigationEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigationEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs args) => ToWebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationCompletedEventArgs"/> from <see cref="System.Windows.Navigation.NavigationEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigationEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNavigationCompletedEventArgs"/>.</returns>
+        public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
+            System.Windows.Navigation.NavigationEventArgs args) =>
             new WebViewControlNavigationCompletedEventArgs(args);
     }
 }

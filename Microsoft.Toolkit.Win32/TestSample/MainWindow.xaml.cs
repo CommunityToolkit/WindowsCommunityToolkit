@@ -2,8 +2,6 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
-using Windows.Media.Core;
-using Windows.UI.Xaml.Controls;
 
 namespace TestSample
 {
@@ -21,19 +19,13 @@ namespace TestSample
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            inkCanvas.InkPresenter.InputDeviceTypes =
-                Windows.UI.Core.CoreInputDeviceTypes.Mouse |
-                Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
-        }
+         }
 
 
 
 
         private void inkToolbar_Initialized(object sender, EventArgs e)
         {
-            toolButtonLasso.Content = new SymbolIcon(Symbol.SelectAll);
-            ToolTipService.SetToolTip(toolButtonLasso.XamlRoot, "Select All");
-            //inkToolbar.NativeActiveToolChanged += InkToolbar_NativeActiveToolChanged;
         }
 
         private void inkToolbar_ActiveToolChanged(object sender, object e)
@@ -49,6 +41,10 @@ namespace TestSample
         private void inkToolbar_IsStencilButtonCheckedChanged(object sender, Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs e)
         {
 
+        }
+
+        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
+        {
         }
     }
 

@@ -19,6 +19,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         private readonly global::Windows.Web.UI.WebViewControlNavigationStartingEventArgs _args;
 
         [SecurityCritical]
+        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
+
+        [SecurityCritical]
         internal WebViewControlNavigationStartingEventArgs(global::Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
         {
             _args = args;
@@ -32,6 +35,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Uri = uri;
         }
 
+        [SecurityCritical]
+        internal WebViewControlNavigationStartingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs e)
+        {
+            _args = null;
+            _compatibleArgs = e;
+            Uri = e.Uri;
+        }
+
         /// <summary>
         /// Gets or sets a value indicating whether to cancel the <see cref="IWebView"/> navigation.
         /// </summary>
@@ -39,9 +50,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public bool Cancel
         {
             [SecurityCritical]
-            get => _args.Cancel;
+            get => _args?.Cancel ?? _compatibleArgs.Cancel;
             [SecurityCritical]
-            set => _args.Cancel = value;
+            set
+            {
+                if (_args == null)
+                {
+                    _compatibleArgs.Cancel = value;
+                }
+                else
+                {
+                    _args.Cancel = value;
+                }
+            }
         }
 
         /// <summary>
@@ -64,6 +85,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <returns><see cref="WebViewControlNavigationStartingEventArgs"/>.</returns>
         public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
             global::Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) =>
+            new WebViewControlNavigationStartingEventArgs(args);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> to <see cref="WebViewControlNavigationStartingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlNavigationStartingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs args) => ToWebViewControlNavigationStartingEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationStartingEventArgs"/> from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNavigationStartingEventArgs"/>.</returns>
+        public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
+            System.Windows.Navigation.NavigatingCancelEventArgs args) =>
             new WebViewControlNavigationStartingEventArgs(args);
     }
 }
