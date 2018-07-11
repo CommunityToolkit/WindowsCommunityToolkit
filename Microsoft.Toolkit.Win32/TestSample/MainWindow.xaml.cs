@@ -50,10 +50,10 @@ namespace TestSample
 
         private void myMap_Loaded(object sender, RoutedEventArgs e)
         {
-            myMap.UwpControl.Center = SeattleGeopoint;
-            myMap.UwpControl.ZoomLevel = 12;
-            myMap.UwpControl.Style = MapStyle.Road;
-            myMap.UwpControl.MapProjection = MapProjection.Globe;
+            myMap.Center = SeattleGeopoint;
+            myMap.ZoomLevel = 12;
+            myMap.Style = MapStyle.Road;
+            myMap.MapProjection = MapProjection.Globe;
             
         }
     }
