@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsRulerButtonCheckedProperty, value);
         }
 
-        public global::Windows.UI.Xaml.Controls.InkToolbarInitialControls InitialControls
+        public InkToolbarInitialControls InitialControls
         {
             get => (global::Windows.UI.Xaml.Controls.InkToolbarInitialControls)GetValue(InitialControlsProperty);
             set => SetValue(InitialControlsProperty, value);

@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //
         // Returns:
         //     Stores and manages one or more InkStroke objects.
-        public InkStrokeContainer StrokeContainer { get => uwpInstance.StrokeContainer; set => uwpInstance.StrokeContainer = value; }
+        public InkStrokeContainer StrokeContainer { get => uwpInstance.StrokeContainer; set => uwpInstance.StrokeContainer = value.UwpInstance; }
 
         // Summary:
         //     Gets or sets whether input is enabled for inking.
@@ -70,7 +70,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //     The input device types.
         public CoreInputDeviceTypes InputDeviceTypes { get => (CoreInputDeviceTypes)(uint)uwpInstance.InputDeviceTypes; set => uwpInstance.InputDeviceTypes = (global::Windows.UI.Core.CoreInputDeviceTypes)(uint)value; }
 
-        /*
         // Summary:
         //     Gets how input is processed by the InkPresenter object.
         //
@@ -100,7 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         //
         // Returns:
         //     The ink color (selected or system) that works best against the background color.
-        public InkHighContrastAdjustment HighContrastAdjustment { get => uwpInstance.HighContrastAdjustment; set => uwpInstance.HighContrastAdjustment = value; }
+        public InkHighContrastAdjustment HighContrastAdjustment { get => (InkHighContrastAdjustment)(int)uwpInstance.HighContrastAdjustment; set => uwpInstance.HighContrastAdjustment = (global::Windows.UI.Input.Inking.InkHighContrastAdjustment)(int)value; }
 
         // Summary:
         //     Gets which types of secondary input can be processed by the the InkPresenter
@@ -109,7 +108,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         // Returns:
         //     The types of secondary input that can be processed.
         public InkInputConfiguration InputConfiguration { get => uwpInstance.InputConfiguration; }
-        */
 
         public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.InkStrokesCollectedEventArgs> StrokesCollected = (sender, args) => { };
 

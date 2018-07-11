@@ -1,53 +1,52 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
-using Windows.UI.Input.Inking;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class InkStrokeContainer
     {
-        private global::Windows.UI.Input.Inking.InkStrokeContainer uwpInstance;
+        internal global::Windows.UI.Input.Inking.InkStrokeContainer UwpInstance { get; }
 
         public InkStrokeContainer(global::Windows.UI.Input.Inking.InkStrokeContainer args)
         {
-            this.uwpInstance = args;
+            this.UwpInstance = args;
         }
 
-        public void AddStroke(InkStroke stroke) => uwpInstance.AddStroke(stroke.ToUwp());
+        public void AddStroke(InkStroke stroke) => UwpInstance.AddStroke(stroke.UwpInstance);
 
-        public Rect DeleteSelected();
+        public Rect DeleteSelected() => UwpInstance.DeleteSelected().ToWpf();
 
-        public Rect MoveSelected(Point translation);
+        public Rect MoveSelected(Point translation) => UwpInstance.MoveSelected(translation.ToUwp()).ToWpf();
 
-        public Rect SelectWithPolyLine(IEnumerable<Point> polyline);
+        public Rect SelectWithPolyLine(IEnumerable<Point> polyline) => UwpInstance.SelectWithPolyLine(polyline.Select(p => p.ToUwp())).ToWpf();
 
-        public Rect SelectWithLine(Point from, Point to);
+        public Rect SelectWithLine(Point from, Point to) => UwpInstance.SelectWithLine(from.ToUwp(), to.ToUwp()).ToWpf();
 
-        public void CopySelectedToClipboard();
+        public void CopySelectedToClipboard() => UwpInstance.CopySelectedToClipboard();
 
-        public Rect PasteFromClipboard(Point position);
+        public Rect PasteFromClipboard(Point position) => UwpInstance.PasteFromClipboard(position.ToUwp()).ToWpf();
 
-        public bool CanPasteFromClipboard();
+        public bool CanPasteFromClipboard() => UwpInstance.CanPasteFromClipboard();
 
-        public IAsyncActionWithProgress<ulong> LoadAsync(IInputStream inputStream);
+        // public WrappedIAsyncOperationWithProgress<uint, uint> SaveAsync(WrappedIOutputStream outputStream, InkPersistenceFormat inkPersistenceFormat) => uwpInstance.SaveAsync(outputStream, inkPersistenceFormat).ToWpf();
 
-        public IAsyncOperationWithProgress<uint, uint> SaveAsync(IOutputStream outputStream);
+        // public WrappedIAsyncActionWithProgress<ulong> LoadAsync(IInputStream inputStream) => uwpInstance.LoadAsync(inputStream.Instance).ToWpf();
 
-        public void UpdateRecognitionResults(IReadOnlyList<InkRecognitionResult> recognitionResults);
+        // public WrappedIAsyncOperationWithProgress<uint, uint> SaveAsync(WrappedIOutputStream outputStream) => uwpInstance.SaveAsync(outputStream.Instance).ToWpf();
+        public void UpdateRecognitionResults(IReadOnlyList<InkRecognitionResult> recognitionResults) => UwpInstance.UpdateRecognitionResults(recognitionResults.ToUwp());
 
-        public IReadOnlyList<InkStroke> GetStrokes();
+        public IReadOnlyList<InkStroke> GetStrokes() => UwpInstance.GetStrokes().Cast<InkStroke>().ToList();
 
-        public IReadOnlyList<InkRecognitionResult> GetRecognitionResults();
+        public IReadOnlyList<InkRecognitionResult> GetRecognitionResults() => UwpInstance.GetRecognitionResults().Cast<InkRecognitionResult>().ToList();
 
-        public void AddStrokes(IEnumerable<InkStroke> strokes);
+        public void AddStrokes(IEnumerable<InkStroke> strokes) => UwpInstance.AddStrokes(strokes.Select(s => s.UwpInstance));
 
-        public void Clear();
+        public void Clear() => UwpInstance.Clear();
 
-        public IAsyncOperationWithProgress<uint, uint> SaveAsync(IOutputStream outputStream, InkPersistenceFormat inkPersistenceFormat);
+        public InkStroke GetStrokeById(uint id) => UwpInstance.GetStrokeById(id);
 
-        public InkStroke GetStrokeById(uint id);
-
-        public Rect BoundingRect { get; }
+        public Rect BoundingRect { get => UwpInstance.BoundingRect.ToWpf(); }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="global::Windows.UI.Input.Inking.InkStrokeContainer"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkStrokeContainer"/>.

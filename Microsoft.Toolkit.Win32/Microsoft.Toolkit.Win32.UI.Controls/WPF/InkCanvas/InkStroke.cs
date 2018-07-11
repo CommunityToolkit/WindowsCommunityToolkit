@@ -8,38 +8,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class InkStroke
     {
-        private global::Windows.UI.Input.Inking.InkStroke uwpInstance;
+        public global::Windows.UI.Input.Inking.InkStroke UwpInstance { get; }
 
         public InkStroke(global::Windows.UI.Input.Inking.InkStroke instance)
         {
-            uwpInstance = instance;
+            UwpInstance = instance;
         }
 
-        public IReadOnlyList<InkStrokeRenderingSegment> GetRenderingSegments() => uwpInstance.GetRenderingSegments().Cast<InkStrokeRenderingSegment>().ToList();
+        public IReadOnlyList<InkStrokeRenderingSegment> GetRenderingSegments() => UwpInstance.GetRenderingSegments().Cast<InkStrokeRenderingSegment>().ToList();
 
-        internal global::Windows.UI.Input.Inking.InkStroke ToUwp()
-        {
-            return uwpInstance;
-        }
+        public InkStroke Clone() => UwpInstance.Clone();
 
-        public InkStroke Clone() => uwpInstance.Clone();
+        public IReadOnlyList<InkPoint> GetInkPoints() => UwpInstance.GetInkPoints().Cast<InkPoint>().ToList();
 
-        public IReadOnlyList<InkPoint> GetInkPoints() => uwpInstance.GetInkPoints().Cast<InkPoint>().ToList();
+        public bool Selected { get => UwpInstance.Selected; set => UwpInstance.Selected = value; }
 
-        public bool Selected { get => uwpInstance.Selected; set => uwpInstance.Selected = value; }
+        public InkDrawingAttributes DrawingAttributes { get => UwpInstance.DrawingAttributes; set => UwpInstance.DrawingAttributes = value.ToUwp(); }
 
-        public InkDrawingAttributes DrawingAttributes { get => uwpInstance.DrawingAttributes; set => uwpInstance.DrawingAttributes = value.ToUwp(); }
+        public Rect BoundingRect { get => new Rect(UwpInstance.BoundingRect.X, UwpInstance.BoundingRect.Y, UwpInstance.BoundingRect.Width, UwpInstance.BoundingRect.Height); }
 
-        public Rect BoundingRect { get => new Rect(uwpInstance.BoundingRect.X, uwpInstance.BoundingRect.Y, uwpInstance.BoundingRect.Width, uwpInstance.BoundingRect.Height); }
-
-        public bool Recognized { get => uwpInstance.Recognized; }
+        public bool Recognized { get => UwpInstance.Recognized; }
 
         // public Matrix3x2 PointTransform { get; set; }
-        public DateTimeOffset? StrokeStartedTime { get => uwpInstance.StrokeStartedTime; set => uwpInstance.StrokeStartedTime = value; }
+        public DateTimeOffset? StrokeStartedTime { get => UwpInstance.StrokeStartedTime; set => UwpInstance.StrokeStartedTime = value; }
 
-        public TimeSpan? StrokeDuration { get => uwpInstance.StrokeDuration; set => uwpInstance.StrokeDuration = value; }
+        public TimeSpan? StrokeDuration { get => UwpInstance.StrokeDuration; set => UwpInstance.StrokeDuration = value; }
 
-        public uint Id { get => uwpInstance.Id; }
+        public uint Id { get => UwpInstance.Id; }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="global::Windows.UI.Input.Inking.InkStroke"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkStroke"/>.

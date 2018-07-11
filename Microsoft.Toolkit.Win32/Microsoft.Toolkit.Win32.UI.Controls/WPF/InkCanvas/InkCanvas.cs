@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public class InkCanvas : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
+        internal global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
 
         public InkCanvas()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkCanvas).FullName)
