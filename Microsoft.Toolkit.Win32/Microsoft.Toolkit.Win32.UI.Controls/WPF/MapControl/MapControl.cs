@@ -49,9 +49,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             // MapControl specific properties
             Bind(nameof(WatermarkMode), WatermarkModeProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.WatermarkModeProperty);
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.StyleProperty);
+
+            // Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.StyleProperty);
             Bind(nameof(MapServiceToken), MapServiceTokenProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.MapServiceTokenProperty);
-            Bind(nameof(TransformOrigin), TransformOriginProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.TransformOriginProperty);
+            Bind(nameof(TransformOrigin), TransformOriginProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.CenterProperty);
             Bind(nameof(TrafficFlowVisible), TrafficFlowVisibleProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.TrafficFlowVisibleProperty);
             Bind(nameof(LandmarksVisible), LandmarksVisibleProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.LandmarksVisibleProperty);
             Bind(nameof(Heading), HeadingProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.HeadingProperty);
@@ -76,7 +77,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsStreetsideSupported), IsStreetsideSupportedProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.IsStreetsideSupportedProperty);
             Bind(nameof(TransitFeaturesEnabled), TransitFeaturesEnabledProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.TransitFeaturesEnabledProperty);
             Bind(nameof(BusinessLandmarksEnabled), BusinessLandmarksEnabledProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.BusinessLandmarksEnabledProperty);
-            Bind(nameof(StyleSheet), StyleSheetProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.StyleSheetProperty);
+
+            // Bind(nameof(StyleSheet), StyleSheetProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.StyleSheetProperty);
             Bind(nameof(MapProjection), MapProjectionProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.MapProjectionProperty);
             Bind(nameof(Layers), LayersProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.LayersProperty);
             Bind(nameof(Region), RegionProperty, global::Windows.UI.Xaml.Controls.Maps.MapControl.RegionProperty);
@@ -112,6 +114,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             UwpControl.Children.Add(obj.XamlRoot);
         }
 
+        public static new DependencyProperty StyleProperty { get; } = DependencyProperty.Register(nameof(Style), typeof(global::Windows.UI.Xaml.Controls.Maps.MapStyle), typeof(MapControl));
+
         public static DependencyProperty ColorSchemeProperty { get; } = DependencyProperty.Register(nameof(ColorScheme), typeof(global::Windows.UI.Xaml.Controls.Maps.MapColorScheme), typeof(MapControl));
 
         public static DependencyProperty HeadingProperty { get; } = DependencyProperty.Register(nameof(Heading), typeof(double), typeof(MapControl));
@@ -120,14 +124,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public static DependencyProperty LoadingStatusProperty { get; } = DependencyProperty.Register(nameof(LoadingStatus), typeof(global::Windows.UI.Xaml.Controls.Maps.MapLoadingStatus), typeof(MapControl));
 
-        public static DependencyProperty LocationProperty { get; } = DependencyProperty.Register(nameof(Center), typeof(global::Windows.Devices.Geolocation.Geopoint), typeof(MapControl));
-
+        // public static DependencyProperty LocationProperty { get; } = DependencyProperty.Register(nameof(Center), typeof(global::Windows.Devices.Geolocation.Geopoint), typeof(MapControl));
         public static DependencyProperty MapElementsProperty { get; } = DependencyProperty.Register(nameof(MapElements), typeof(System.Collections.Generic.IList<global::Windows.UI.Xaml.Controls.Maps.MapElement>), typeof(MapControl));
 
         public static DependencyProperty MapServiceTokenProperty { get; } = DependencyProperty.Register(nameof(MapServiceToken), typeof(string), typeof(MapControl));
 
-        public static DependencyProperty NormalizedAnchorPointProperty { get; } = DependencyProperty.Register(nameof(Center), typeof(global::Windows.Devices.Geolocation.Geopoint), typeof(MapControl));
-
+        // public static DependencyProperty NormalizedAnchorPointProperty { get; } = DependencyProperty.Register(nameof(Center), typeof(global::Windows.Devices.Geolocation.Geopoint), typeof(MapControl));
         public static DependencyProperty PedestrianFeaturesVisibleProperty { get; } = DependencyProperty.Register(nameof(PedestrianFeaturesVisible), typeof(bool), typeof(MapControl));
 
         public static DependencyProperty PitchProperty { get; } = DependencyProperty.Register(nameof(Pitch), typeof(double), typeof(MapControl));
@@ -239,6 +241,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public global::Windows.Foundation.IAsyncOperation<bool> TryRotateAsync(double degrees) => UwpControl.TryRotateAsync(degrees);
 
         public global::Windows.Foundation.IAsyncOperation<bool> TryRotateToAsync(double angleInDegrees) => UwpControl.TryRotateToAsync(angleInDegrees);
+
+        public new global::Windows.UI.Xaml.Controls.Maps.MapStyle Style
+        {
+            get => (global::Windows.UI.Xaml.Controls.Maps.MapStyle)GetValue(StyleProperty);
+            set => SetValue(StyleProperty, value);
+        }
 
         public global::Windows.UI.Xaml.Controls.Maps.MapWatermarkMode WatermarkMode
         {

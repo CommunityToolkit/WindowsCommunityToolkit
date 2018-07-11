@@ -49,6 +49,7 @@
     <Compile Remove="WPF\InkCanvas\PointerEventArgs.cs" />
     <Compile Remove="WPF\InkCanvas\PointerPoint.cs" />
     <Compile Remove="WPF\InkCanvas\VirtualKeyModifiers.cs" />
+    <Compile Remove="WPF\InkToolbar\InkToolbarInitialControls.cs" />
     <Compile Remove="WPF\InternalConversionExtensions.cs" />
   </ItemGroup>
 

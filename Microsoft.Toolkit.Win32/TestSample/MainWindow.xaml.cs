@@ -2,6 +2,8 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using Windows.Devices.Geolocation;
+using Windows.UI.Xaml.Controls.Maps;
 
 namespace TestSample
 {
@@ -10,20 +12,17 @@ namespace TestSample
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        public static readonly Geopoint SeattleGeopoint = new Geopoint(new BasicGeoposition() { Latitude = 47.604, Longitude = -122.329 });
+
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
             inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
-
-
-
 
         private void inkToolbar_Initialized(object sender, EventArgs e)
         {
@@ -47,6 +46,15 @@ namespace TestSample
 
         private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
         {
+        }
+
+        private void myMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            myMap.UwpControl.Center = SeattleGeopoint;
+            myMap.UwpControl.ZoomLevel = 12;
+            myMap.UwpControl.Style = MapStyle.Road;
+            myMap.UwpControl.MapProjection = MapProjection.Globe;
+            
         }
     }
 
