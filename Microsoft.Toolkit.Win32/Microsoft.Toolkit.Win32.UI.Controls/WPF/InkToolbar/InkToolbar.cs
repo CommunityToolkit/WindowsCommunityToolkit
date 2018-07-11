@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public static DependencyProperty ActiveToolProperty { get; } = DependencyProperty.Register(nameof(ActiveTool), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToolButton), typeof(InkToolbar));
 
-        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(InkToolbarInitialControls), typeof(InkToolbar));
+        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(global::Windows.UI.Xaml.Controls.InkToolbarInitialControls), typeof(InkToolbar));
 
         public static DependencyProperty InkDrawingAttributesProperty { get; } = DependencyProperty.Register(nameof(InkDrawingAttributes), typeof(global::Windows.UI.Input.Inking.InkDrawingAttributes), typeof(InkToolbar));
 
@@ -109,9 +109,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             set => SetValue(IsRulerButtonCheckedProperty, value);
         }
 
-        public InkToolbarInitialControls InitialControls
+        public global::Windows.UI.Xaml.Controls.InkToolbarInitialControls InitialControls
         {
-            get => (InkToolbarInitialControls)GetValue(InitialControlsProperty);
+            get => (global::Windows.UI.Xaml.Controls.InkToolbarInitialControls)GetValue(InitialControlsProperty);
             set => SetValue(InitialControlsProperty, value);
         }
 

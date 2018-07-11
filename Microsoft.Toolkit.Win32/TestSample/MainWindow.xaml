@@ -38,7 +38,7 @@
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <StackPanel>
                     <controls:InkToolbar x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"
-                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"  InitialControls="All"  >
+                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"  >
                         <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
                     </controls:InkToolbar>
 

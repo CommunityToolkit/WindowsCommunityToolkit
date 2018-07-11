@@ -19,10 +19,7 @@ namespace TestSample
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            inkCanvas.InkPresenter.InputDeviceTypes = 
-                Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreInputDeviceTypes.Mouse 
-                | Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreInputDeviceTypes.Pen 
-                | Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreInputDeviceTypes.Touch;
+            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
 
 
