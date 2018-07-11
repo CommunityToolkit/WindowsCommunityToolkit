@@ -11,6 +11,7 @@
 #include "StateChangedEventArgs.h"
 
 using namespace Platform;
+using namespace Windows::Foundation;
 using namespace Windows::UI::Xaml::Automation::Peers;
 
 BEGIN_NAMESPACE_GAZE_INPUT
@@ -150,14 +151,14 @@ void GazePointer::LoadSettings(ValueSet^ settings)
         _defaultDwell = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellDelay")));
     }
 
-    if (settings->HasKey("GazePointer.DwellDelay"))
+    if (settings->HasKey("GazePointer.DwellRepeatDelay"))
     {
-        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellRepeatDelay")));
+        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.RepeatDelay"))
     {
-        _defaultRepeat = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
+        _defaultRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.ThresholdDelay"))
@@ -178,6 +179,11 @@ void GazePointer::LoadSettings(ValueSet^ settings)
     if (settings->HasKey("GazePointer.GazeIdleTime"))
     {
         EyesOffDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.GazeIdleTime")));
+    }
+
+    if (settings->HasKey("GazePointer.IsSwitchEnabled"))
+    {
+        IsSwitchEnabled = (bool)(settings->Lookup("GazePointer.IsSwitchEnabled"));
     }
 }
 
@@ -241,7 +247,7 @@ TimeSpan GazePointer::GetDefaultPropertyValue(PointerState state)
     {
     case PointerState::Fixation: return _defaultFixation;
     case PointerState::Dwell: return _defaultDwell;
-    case PointerState::DwellRepeat: return _defaultRepeat;
+    case PointerState::DwellRepeat: return _defaultRepeatDelay;
     case PointerState::Enter: return _defaultThreshold;
     case PointerState::Exit: return _defaultThreshold;
     default: throw ref new NotImplementedException();
@@ -480,33 +486,6 @@ GazeTargetItem^ GazePointer::ResolveHitTarget(Point gazePoint, TimeSpan timestam
     return target;
 }
 
-void GazePointer::GotoState(UIElement^ control, PointerState state)
-{
-    Platform::String^ stateName;
-
-    switch (state)
-    {
-    case PointerState::Enter:
-        return;
-    case PointerState::Exit:
-        stateName = "Normal";
-        break;
-    case PointerState::Fixation:
-        stateName = "Fixation";
-        break;
-    case PointerState::DwellRepeat:
-    case PointerState::Dwell:
-        stateName = "Dwell";
-        break;
-    default:
-        //assert(0);
-        return;
-    }
-
-    // TODO: Implement proper support for visual states
-    // VisualStateManager::GoToState(dynamic_cast<Control^>(control), stateName, true);
-}
-
 void GazePointer::OnEyesOff(Object ^sender, Object ^ea)
 {
     _eyesOffTimer->Stop();
@@ -527,7 +506,10 @@ void GazePointer::CheckIfExiting(TimeSpan curTimestamp)
         if (targetItem->ElementState != PointerState::PreEnter && idleDuration > exitDelay)
         {
             targetItem->ElementState = PointerState::PreEnter;
-            GotoState(targetElement, PointerState::Exit);
+
+            // Transitioning to exit - clear the cached fixated element
+            _currentlyFixatedElement = nullptr;
+
             RaiseGazePointerEvent(targetItem, PointerState::Exit, targetItem->ElapsedTime);
             targetItem->GiveFeedback();
 
@@ -689,7 +671,20 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
             }
         }
 
-        GotoState(targetItem->TargetElement, targetItem->ElementState);
+        if (targetItem->ElementState == PointerState::Fixation)
+        {
+            // Cache the fixated item
+            _currentlyFixatedElement = targetItem;
+
+            // We are about to transition into the Dwell state
+            // If switch input is enabled, make sure dwell never completes
+            // via eye gaze
+            if (_isSwitchEnabled)
+            {
+                // Don't allow the next state (Dwell) to progress
+                targetItem->NextStateTime = TimeSpan{ MAXINT64 };
+            }
+        }
 
         RaiseGazePointerEvent(targetItem, targetItem->ElementState, targetItem->ElapsedTime);
     }
@@ -698,6 +693,18 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 
     _eyesOffTimer->Start();
     _lastTimestamp = fa->Timestamp;
+}
+
+/// <summary>
+/// When in switch mode, will issue a click on the currently fixated element
+/// </summary>
+void GazePointer::Click()
+{
+    if (_isSwitchEnabled && 
+        _currentlyFixatedElement != nullptr)
+    {
+        _currentlyFixatedElement->Invoke();
+    }
 }
 
 END_NAMESPACE_GAZE_INPUT
