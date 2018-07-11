@@ -81,11 +81,11 @@ Demonstrates using Camera Helper to get video frames from a specific media frame
 
 using Microsoft.Toolkit.Uwp.Helpers.CameraHelper;
 
-var availableFrameSourceGroups == await CameraHelper.GetFrameSourceGroupsAsync();
+var availableFrameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
 if(availableFrameSourceGroups != null)
 {
   CameraHelper cameraHelper = new CameraHelper() { FrameSourceGroup = availableFrameSourceGroups.FirstOrDefault() };
-  var result = await _cameraHelper.InitializeAndStartCaptureAsync();
+  var result = await cameraHelper.InitializeAndStartCaptureAsync();
 
   // Camera Initialization succeeded
   if(result == CameraHelperResult.Success)
@@ -93,12 +93,12 @@ if(availableFrameSourceGroups != null)
     // Subscribe to get frames as they arrive
     cameraHelper.FrameArrived += CameraHelper_FrameArrived;
 	
-	// Optionally set a different frame source format
-	var newFormat = _cameraHelper.FrameFormatsAvailable.Find((format) => format.VideoFormat.Width == 640);
-	if (newFormat != null)
-	{
-		await _cameraHelper.FrameSource.SetFormatAsync(newFormat);
-	}
+    // Optionally set a different frame source format
+    var newFormat = cameraHelper.FrameFormatsAvailable.Find((format) => format.VideoFormat.Width == 640);
+    if (newFormat != null)
+    {
+      await cameraHelper.FrameSource.SetFormatAsync(newFormat);
+    }
   }
 }
 
