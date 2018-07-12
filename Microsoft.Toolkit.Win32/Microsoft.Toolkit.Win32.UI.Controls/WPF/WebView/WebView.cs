@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="IWebView" />
     [ToolboxItem(true)]
     [DesignTimeVisible(true)]
-    public sealed class WebView : WebViewHost, IWebView, IWebView2
+    public sealed class WebView : WebViewHost, IWebView
     {
         private const int InitializationBlockingTime = 200;
 
@@ -490,7 +490,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
-        /// <inheritdoc cref="IWebView2.AddPreLoadedScript" />
+        /// <inheritdoc cref="IWebView.AddPreLoadedScript" />
         public void AddPreLoadedScript(string script)
         {
             VerifyAccess();
