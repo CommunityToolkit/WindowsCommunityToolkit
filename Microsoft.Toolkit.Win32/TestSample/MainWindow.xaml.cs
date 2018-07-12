@@ -1,8 +1,9 @@
-﻿using Microsoft.Windows.Interop;
-using System;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using Windows.Devices.Geolocation;
+using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace TestSample
@@ -54,6 +55,50 @@ namespace TestSample
             myMap.ZoomLevel = 12;
             myMap.Style = MapStyle.Road;
             myMap.MapProjection = MapProjection.Globe;
+            
+        }
+
+        private void ColorspacesCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TonemappersCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void ScalingCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void WhiteLevelSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ScalingCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void swapChainPanel_Loaded(object sender, RoutedEventArgs e)
+        {
+            var uri = new Uri("https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/image-scrgb-icc.jxr");
+            var task = StorageFile.CreateStreamedFileFromUriAsync("image-scRGB-ICC.jxr", uri, null);
+            var file = (StorageFile)null;
+            task.Completed += new Windows.Foundation.AsyncOperationCompletedHandler<StorageFile>((t, s) => { file = t.GetResults(); });
             
         }
     }

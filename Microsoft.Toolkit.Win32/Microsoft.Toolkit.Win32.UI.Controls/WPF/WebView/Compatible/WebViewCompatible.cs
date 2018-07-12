@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
         public WebViewCompatible()
             : base()
         {
-            /*
             try
             {
                 OSVersionHelper.ThrowIfBeforeWindows10April2018();
@@ -25,8 +24,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
             {
                 _implementation = new WebBrowserCompatibilityAdapter();
             }
-            */
-            _implementation = new WebBrowserCompatibilityAdapter();
 
             AddChild(_implementation.View);
             _implementation.View.BeginInit();

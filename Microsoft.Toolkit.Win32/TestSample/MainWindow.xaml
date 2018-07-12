@@ -50,7 +50,7 @@
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
                 <!--WebBrowser /-->
-                <!--controls:WebView Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/-->
+                <compatible:WebViewCompatible Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!--WebBrowser Source="http://www.bing.com"/-->
 
             </TabItem>
@@ -67,7 +67,95 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>SwapChainPanel</TabItem.Header>
-                <TextBlock>Deferred</TextBlock>
+                <Grid>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Margin" Value="8" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Margin" Value="8" />
+                        </Style>
+                        <Style TargetType="CheckBox">
+                            <Setter Property="Margin" Value="8, 0, 0, 0" />
+                            <Setter Property="MinWidth" Value="32" />
+                        </Style>
+                        <Style TargetType="Slider">
+                            <Setter Property="Margin" Value="8, 0, 8, 0" />
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <!-- Sample overlay -->
+                    <StackPanel x:Name="OverlayPanel" Orientation="Horizontal" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <Image Source="Assets\\storelogo-sdk.png" VerticalAlignment="Top" Stretch="None" Margin="10" />
+                        <TextBlock Text="Advanced Color Image Viewer" Foreground="White" FontSize="36" TextWrapping="NoWrap" VerticalAlignment="Stretch" />
+                    </StackPanel>
+                    <StackPanel x:Name="ControlsPanel" Grid.Row="1" Grid.Column="0" Background="Black" Opacity="0.8">
+                        <Button Click="Button_Click">Open image</Button>
+                        <Button Click="Button_Click_1">Reset</Button>
+                        <StackPanel Orientation="Horizontal">
+                            <CheckBox x:Name="ScalingCheckBox" Checked="ScalingCheckBox_Checked" Unchecked="ScalingCheckBox_Unchecked"></CheckBox>
+                            <TextBlock>Disable scaling</TextBlock>
+                        </StackPanel>
+                        <TextBlock>Image colorspace:</TextBlock>
+                        <!--<ComboBox x:Name="ColorspacesCombo" ItemsSource="{x:Bind ViewModel.Colorspaces}" SelectionChanged="ComboChanged">
+                            --><!--<ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:ColorspaceOption">
+                                    <TextBlock Text="{x:Bind Description}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>--><!--
+                        </ComboBox>-->
+                        <ComboBox x:Name="ColorspacesCombo" SelectionChanged="ColorspacesCombo_SelectionChanged">
+                            <!--<ComboBox.ItemTemplate>
+                                <DataTemplate x:DataType="local:ColorspaceOption">
+                                    <TextBlock Text="{x:Bind Description}"/>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>-->
+                        </ComboBox>
+                        <StackPanel x:Name="TonemapperPanel">
+                            <TextBlock>Tonemapper:</TextBlock>
+                            <!--<ComboBox x:Name="TonemappersCombo" ItemsSource="{x:Bind ViewModel.Tonemappers}" SelectionChanged="ComboChanged">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="local:TonemapperOption">
+                                        <TextBlock Text="{x:Bind Description}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>-->
+                            <ComboBox x:Name="TonemappersCombo"  SelectionChanged="TonemappersCombo_SelectionChanged">
+                                <!--<ComboBox.ItemTemplate>
+                                    <DataTemplate x:DataType="local:TonemapperOption">
+                                        <TextBlock Text="{x:Bind Description}"/>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>-->
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel x:Name="WhiteLevelPanel">
+                            <TextBlock>White level scale:</TextBlock>
+                            <Slider x:Name="WhiteLevelSlider" Minimum="0.5" Maximum="10"  Value="1.0" ValueChanged="WhiteLevelSlider_ValueChanged"></Slider>
+                        </StackPanel>
+                        <TextBlock />
+                        <TextBlock>Image information</TextBlock>
+                        <TextBlock x:Name="ImageHasColorProfile">Color profile:</TextBlock>
+                        <TextBlock x:Name="ImageBitDepth">Bits per pixel:</TextBlock>
+                        <TextBlock x:Name="ImageIsFloat">Floating point:</TextBlock>
+                        <TextBlock />
+                        <TextBlock>Display information</TextBlock>
+                        <TextBlock x:Name="DisplayACState">Advanced color:</TextBlock>
+                        <TextBlock x:Name="DisplayPeakLuminance">Peak luminance:</TextBlock>
+                        <TextBlock x:Name="DisplayBitDepth">Bits per channel:</TextBlock>
+                        <TextBlock />
+                        <TextBlock>Press H to hide UI</TextBlock>
+                    </StackPanel>
+                    <controls:SwapChainPanel x:Name="swapChainPanel" Grid.Column="1" Grid.Row="1" Grid.RowSpan="2" Loaded="swapChainPanel_Loaded"/>
+                </Grid>
             </TabItem>
 
         </TabControl>
