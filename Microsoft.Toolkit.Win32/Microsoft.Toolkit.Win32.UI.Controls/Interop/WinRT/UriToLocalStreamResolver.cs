@@ -9,6 +9,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
+    [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
     internal class UriToLocalStreamResolver : IUriToStreamResolver
     {
         private readonly string _path;

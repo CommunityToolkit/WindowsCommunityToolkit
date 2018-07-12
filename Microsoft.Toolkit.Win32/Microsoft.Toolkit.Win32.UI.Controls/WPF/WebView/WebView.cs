@@ -583,6 +583,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         public void NavigateToLocal(string relativePath)
         {
             VerifyAccess();

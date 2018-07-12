@@ -513,6 +513,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Navigate(UriHelper.StringToUri(source));
         }
 
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         internal void NavigateToLocal(string relativePath)
         {
             var relativeUri = UriHelper.StringToRelativeUri(relativePath);

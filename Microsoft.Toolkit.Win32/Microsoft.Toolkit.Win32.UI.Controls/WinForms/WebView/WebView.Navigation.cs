@@ -109,6 +109,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         }
 
         /// <inheritdoc />
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
 
         /// <inheritdoc />
