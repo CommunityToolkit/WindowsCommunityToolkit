@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="IWebView" />
     [ToolboxItem(true)]
     [DesignTimeVisible(true)]
-    public sealed class WebView : WebViewHost, IWebView, IWebView2
+    public sealed class WebView : WebViewHost, IWebView
     {
         private const int InitializationBlockingTime = 200;
 

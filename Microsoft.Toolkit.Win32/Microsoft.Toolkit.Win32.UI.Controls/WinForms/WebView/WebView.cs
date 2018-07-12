@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     [SecurityCritical]
     [PermissionSet(SecurityAction.InheritanceDemand, Name = Constants.SecurityPermissionSetName)]
-    public sealed partial class WebView : Control, IWebView, IWebView2, ISupportInitialize
+    public sealed partial class WebView : Control, IWebView, ISupportInitialize
     {
         private string _delayedEnterpriseId = WebViewDefaults.EnterpriseId;
         private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;

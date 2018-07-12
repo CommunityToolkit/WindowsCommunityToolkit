@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
@@ -336,6 +337,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <see cref="Navigate(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
         /// navigation has completed.
         void Navigate(string source);
+
+        /// <summary>
+        /// Navigates the web view with the URI with a HTTP request and HTTP headers.
+        /// </summary>
+        /// <param name="requestUri">The Uniform Resource Identifier (URI) to send the request.</param>
+        /// <param name="httpMethod">The HTTP method of the request.</param>
+        /// <param name="content">Optional content to send with the request.</param>
+        /// <param name="headers">Optional headers to send with the request.</param>
+        /// <remarks>
+        /// This method only supports <see cref="HttpMethod.Get"/> and <see cref="HttpMethod.Post"/> for the <paramref name="httpMethod"/> parameter.
+        /// </remarks>
+        /// <seealso cref="Windows.Web.UI.Interop.WebViewControl.NavigateWithHttpRequestMessage"/>
+        void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null);
 
         /// <summary>
         /// Loads the specified HTML content relative to the location of the current executable.
