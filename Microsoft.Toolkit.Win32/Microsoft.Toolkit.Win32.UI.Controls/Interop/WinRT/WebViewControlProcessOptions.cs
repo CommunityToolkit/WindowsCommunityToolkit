@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             {
                 if (!string.IsNullOrEmpty(options?.Partition))
                 {
-                    retval.Partition = options?.Partition;
+                    retval.Partition = options.Partition;
                 }
             }
 
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             {
                 if (!string.IsNullOrEmpty(options?.UserAgent))
                 {
-                    retval.UserAgent = options?.UserAgent;
+                    retval.UserAgent = options.UserAgent;
                 }
             }
 
