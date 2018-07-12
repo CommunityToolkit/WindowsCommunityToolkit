@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     // Navigation Journaling
 
     /// <inheritdoc cref="IWebView" />
-    public partial class WebView : IWebView, IWebView2
+    public partial class WebView : IWebView
     {
         /// <inheritdoc />
         [Browsable(false)]
