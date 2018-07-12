@@ -400,7 +400,8 @@
                                 Width="90"
                                 Margin="0,5,0,0"
                                 HorizontalAlignment="Right"
-                                Content="Add" />
+                                Content="Add"
+                                IsEnabled="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CanAddTask}" />
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="MobileVisualStateGroup">

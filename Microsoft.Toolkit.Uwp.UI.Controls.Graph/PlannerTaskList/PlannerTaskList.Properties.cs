@@ -162,6 +162,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 typeof(PlannerTaskList),
                 new PropertyMetadata(string.Empty, InternalPlanIdPropertyChanged));
 
+        internal static readonly DependencyProperty CanAddTaskProperty =
+            DependencyProperty.Register(
+                nameof(CanAddTask),
+                typeof(bool),
+                typeof(PlannerTaskList),
+                new PropertyMetadata(false));
+
         /// <summary>
         /// Gets or sets Id of Planner Plan to Display, this is optional
         /// </summary>
@@ -268,6 +275,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return (string)GetValue(InternalPlanIdProperty); }
             set { SetValue(InternalPlanIdProperty, value); }
+        }
+
+        internal bool CanAddTask
+        {
+            get { return (bool)GetValue(CanAddTaskProperty); }
+            private set { SetValue(CanAddTaskProperty, value); }
         }
 
         internal bool IsWindowsPhone

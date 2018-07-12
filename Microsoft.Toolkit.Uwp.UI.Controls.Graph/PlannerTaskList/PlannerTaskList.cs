@@ -60,6 +60,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _add.Click -= Add_Click;
             }
 
+            if (_input != null)
+            {
+                _input.KeyUp -= Input_KeyUp;
+            }
+
             base.OnApplyTemplate();
             if (GetTemplateChild(ControlTasks) is ListView list)
             {
@@ -79,6 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             _input = GetTemplateChild(ControlInput) as TextBox;
+            if (_input != null)
+            {
+                _input.KeyUp += Input_KeyUp;
+            }
+
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 await LoadPlansAsync();
@@ -122,6 +132,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     if (!string.Equals(InternalPlanId, PlanId))
                     {
                         InternalPlanId = PlanId;
+                    }
+
+                    if (Plans.Count > 0
+                        && string.IsNullOrWhiteSpace(PlanId))
+                    {
+                        PlanId = Plans[0].Id;
                     }
                 }
             }
@@ -334,9 +350,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                     {
                         PlannerTask taskToUpdate = await graphClient.Planner.Tasks[task.Id].Request().GetAsync();
                         await graphClient.Planner.Tasks[task.Id].Request().Header(HttpHeaderIfMatch, taskToUpdate.GetEtag()).DeleteAsync();
+                        task.PropertyChanged -= TaskViewModel_PropertyChanged;
                         Tasks.Remove(task);
-                        await Task.Delay(TimeSpan.FromSeconds(5));
-                        await InitPlanAsync();
+                        _allTasks.Remove(task);
                     }
                 }
                 catch (Exception exception)

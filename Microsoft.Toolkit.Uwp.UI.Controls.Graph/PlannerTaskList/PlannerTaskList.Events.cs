@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -29,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (d is PlannerTaskList control
                 && !string.IsNullOrWhiteSpace(control.PlanId))
             {
+                control.CanAddTask = !string.IsNullOrWhiteSpace(control.PlanId);
                 if (!string.Equals(control.PlanId, control.InternalPlanId))
                 {
                     control.InternalPlanId = control.PlanId;
@@ -65,6 +65,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
+        private void Input_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == VirtualKey.Enter
+                && CanAddTask)
+            {
+                Add_Click(sender, e);
+            }
+        }
+
         private async void Add_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -84,9 +93,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     task.PlanId = PlanId;
                     _input.Text = string.Empty;
-                    await graphClient.Planner.Tasks.Request().AddAsync(task);
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    await InitPlanAsync();
+                    CanAddTask = false;
+                    PlannerTask taskCreated = await graphClient.Planner.Tasks.Request().AddAsync(task);
+                    PlannerPlan plan = Plans.FirstOrDefault(s => s.Id == InternalPlanId);
+                    PlannerTaskViewModel taskViewModel = new PlannerTaskViewModel(taskCreated);
+                    Dictionary<string, string> buckets = Buckets.ToDictionary(s => s.Id, s => s.Name);
+                    if (plan != null)
+                    {
+                        taskViewModel.GroupId = plan.Owner;
+                    }
+
+                    if (!string.IsNullOrEmpty(taskViewModel.BucketId) && buckets.ContainsKey(taskViewModel.BucketId))
+                    {
+                        taskViewModel.BucketName = buckets[taskViewModel.BucketId];
+                    }
+
+                    if (taskCreated.PlanId == InternalPlanId)
+                    {
+                        taskViewModel.PropertyChanged += TaskViewModel_PropertyChanged;
+                        _allTasks.Add(taskViewModel);
+                        Tasks.Insert(0, taskViewModel);
+                    }
                 }
             }
             catch (Exception exception)
@@ -94,6 +121,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 MessageDialog messageDialog = new MessageDialog(exception.Message);
                 await messageDialog.ShowAsync();
             }
+
+            CanAddTask = true;
         }
 
         private void List_ItemClick(object sender, ItemClickEventArgs e)
