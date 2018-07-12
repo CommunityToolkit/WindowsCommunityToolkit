@@ -15,6 +15,9 @@ steps:
   inputs:
     versionSpec: 4.6.2
 
+- powershell: .\build\Install-WindowsSdkISO.ps1 17704
+  displayName: Insider SDK
+
 - powershell: .\build\build.ps1 -target=Package
   displayName: Build 
 
