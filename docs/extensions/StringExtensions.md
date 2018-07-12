@@ -36,6 +36,18 @@ bool isvalid = str.IsDecimal();		//Returns false
 | Truncate(string, int) | string | Trims and Truncates the specified string to the specified length. |
 | Truncate(string, int, bool) | string | Trims and Truncates the specified string to the specified length and adds an ellipsis (...) at the end of the string when set to true. |
 
+### Formats Supported for **IsPhoneNumber** Extension
+
+```
+(987) 654-3210
+(987)654-3210
+987-654-3210
+9876543210
++1 9876543210
+001 9876543210
+001 987-654-3210
+```
+
 ## Requirements
 
 | Device family | Universal, 10.0.15063.0 or higher |
