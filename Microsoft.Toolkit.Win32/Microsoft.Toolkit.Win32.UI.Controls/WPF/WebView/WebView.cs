@@ -583,6 +583,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         public void NavigateToLocal(string relativePath)
         {
             VerifyAccess();
@@ -595,6 +596,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.IsNotNull(_webViewControl);
             _webViewControl.NavigateToLocal(relativePath);
+        }
+
+        /// <inheritdoc />
+        public void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.NavigateToLocalStreamUri(relativePath, streamResolver);
         }
 
         /// <inheritdoc />

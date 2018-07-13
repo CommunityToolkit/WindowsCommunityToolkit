@@ -55,6 +55,9 @@
     <Compile Include="FunctionalTests\Ctor\WebViewControlProcessCreateWebViewAsyncTests.cs" />
     <Compile Include="FunctionalTests\DocumentTitle\DocumentTitleTests.cs" />
     <Compile Include="FunctionalTests\FullScreen\FullScreenTests.cs" />
+    <Compile Include="FunctionalTests\NavigateToLocalStreamUri\BuildStreamTests.cs" />
+    <Compile Include="FunctionalTests\NavigateToLocalStreamUri\NavigateToLocalStreamUriTests.cs" />
+    <Compile Include="FunctionalTests\NavigateToLocalStreamUri\TestStreamResolver.cs" />
     <Compile Include="FunctionalTests\Navigation\NavigateTests.cs" />
     <Compile Include="FunctionalTests\Navigation\StopTests.cs" />
     <Compile Include="FunctionalTests\NewWindow\NewWindowTests.cs" />
@@ -113,6 +116,14 @@
     <PackageReference Include="Should">
       <Version>1.1.20</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="FunctionalTests\NavigateToLocalStreamUri\sync.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="FunctionalTests\NavigateToLocalStreamUri\async.htm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
