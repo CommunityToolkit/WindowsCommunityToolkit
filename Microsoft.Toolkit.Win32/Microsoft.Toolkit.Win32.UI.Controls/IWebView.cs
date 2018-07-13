@@ -346,6 +346,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         void NavigateToLocal(string relativePath);
 
         /// <summary>
+        /// Loads local web content at the specified Uniform Resource Identifier (URI) using an <see cref="IUriToStreamResolver"/>.
+        /// </summary>
+        /// <param name="relativePath">A path identifying the local HTML content to load.</param>
+        /// <param name="streamResolver">A <see cref="IUriToStreamResolver"/> instance that converts a Uniform Resource Identifier (URI) into a stream to load.</param>
+        void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver);
+
+        /// <summary>
         /// Loads the specified HTML content as a new document.
         /// </summary>
         /// <param name="text">The HTML content to display in the <see cref="IWebView"/>.</param>
