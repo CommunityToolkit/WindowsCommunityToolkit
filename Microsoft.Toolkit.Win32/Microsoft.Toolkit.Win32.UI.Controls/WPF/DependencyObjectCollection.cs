@@ -19,6 +19,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             VectorChanged -= null;
         }
 
+        private void OnVectorChanged()
+        {
+            VectorChanged?.Invoke(null, null);
+        }
+
         public int IndexOf(DependencyObject item)
         {
             throw new System.NotImplementedException();

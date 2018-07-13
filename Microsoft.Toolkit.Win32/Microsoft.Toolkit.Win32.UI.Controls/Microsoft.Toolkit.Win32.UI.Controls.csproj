@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
@@ -22,9 +22,9 @@
       - /.vsts-pr.yml
 
     This also needs to be installed on your local machine. Can do this with PowerShell:
-      ./build/Install-WindowsSDKISO.ps1 17704
+      ./build/Install-WindowsSDKISO.ps1 17709
     -->
-    <TargetPlatformVersion>10.0.17704.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.17709.0</TargetPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -82,5 +82,9 @@
 
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj" />
   </ItemGroup>
 </Project>

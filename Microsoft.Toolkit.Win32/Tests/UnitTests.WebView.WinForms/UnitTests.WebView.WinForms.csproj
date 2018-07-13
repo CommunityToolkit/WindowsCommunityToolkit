@@ -90,6 +90,7 @@
     <Compile Include="FunctionalTests\ProcessFactoryWebViewContextSpecification.cs" />
     <Compile Include="FunctionalTests\WebViewContextSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
