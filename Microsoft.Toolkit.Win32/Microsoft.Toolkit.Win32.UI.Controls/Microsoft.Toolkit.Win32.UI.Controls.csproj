@@ -32,32 +32,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="WPF\InkCanvas\CoreInputDeviceTypes.cs" />
-    <Compile Remove="WPF\InkCanvas\InkDrawingAttributes.cs" />
-    <Compile Remove="WPF\InkCanvas\InkDrawingAttributesKind.cs" />
-    <Compile Remove="WPF\InkCanvas\InkHighContrastAdjustment.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputProcessingConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputProcessingMode.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputRightDragAction.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPoint.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPresenter.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPresenterPredefinedConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStroke.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeContainer.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeInput.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeRenderingSegment.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokesCollectedEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokesErasedEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\InkSynchronizer.cs" />
-    <Compile Remove="WPF\InkCanvas\InkUnprocessedInput.cs" />
-    <Compile Remove="WPF\InkCanvas\PenTipShape.cs" />
-    <Compile Remove="WPF\InkCanvas\PointerEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\PointerPoint.cs" />
-    <Compile Remove="WPF\InkCanvas\VirtualKeyModifiers.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

@@ -49,6 +49,15 @@ namespace TestSample
         {
         }
 
+        private void myMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            myMap.Center = SeattleGeopoint;
+            myMap.ZoomLevel = 12;
+            myMap.Style = MapStyle.Road;
+            myMap.MapProjection = MapProjection.Globe;
+            
+        }
+
         private void ColorspacesCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
 
