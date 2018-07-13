@@ -41,10 +41,15 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
      - Read all users' basic profiles
      - Sign users in
    - Windows Azure Active Directory
-     - Access the directory as the signed-in user
      - Sign in and read user profile
    - Power BI Service (Microsoft.Azure.AnalysisServices)
-     - All permissions which don't require admin consent
+     - View all datapools
+     - View users Groups
+     - View all Groups
+     - View all Reports
+     - View all Datasets
+     - View all Dashboards
+     - View all workspaces
 
    ![PowerBIEmbedded Permissions](../resources/images/Graph/PowerBIEmbedded-Permissions.png)
 
