@@ -239,6 +239,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
+        private void OnGotFocus(object sender, object args)
+        {
+            OnGotFocus(EventArgs.Empty);
+        }
+
         private void OnLongRunningScriptDetected(object sender, WebViewControlLongRunningScriptDetectedEventArgs args)
         {
             var handler = LongRunningScriptDetected;
@@ -246,6 +251,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 handler(this, args);
             }
+        }
+
+        private void OnLostFocus(object sender, object args)
+        {
+            OnLostFocus(EventArgs.Empty);
         }
 
         private void OnMoveFocusRequested(object sender, WebViewControlMoveFocusRequestedEventArgs args)

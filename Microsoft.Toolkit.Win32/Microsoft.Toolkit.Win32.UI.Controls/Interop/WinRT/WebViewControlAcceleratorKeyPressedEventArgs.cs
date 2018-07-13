@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/>
     /// <summary>This class provides information for the <see cref="IWebView.AcceleratorKeyPressed"/> event.</summary>
     /// <seealso cref="System.EventArgs" />
-    public class WebViewControlAcceleratorKeyPressedEventArgs : EventArgs
+    public sealed class WebViewControlAcceleratorKeyPressedEventArgs : EventArgs
     {
         [SecurityCritical]
         private readonly global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs _args;

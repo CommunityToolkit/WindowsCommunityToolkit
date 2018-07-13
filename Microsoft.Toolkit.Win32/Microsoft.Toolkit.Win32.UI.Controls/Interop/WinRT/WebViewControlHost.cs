@@ -8,9 +8,11 @@ using System.Diagnostics;
 using System.IO;
 using System.Security;
 using System.Threading.Tasks;
-using global::Windows.Web.UI;
-using global::Windows.Web.UI.Interop;
+using Windows.Foundation.Metadata;
 using Windows.Web;
+using Windows.Web.UI;
+using Windows.Web.UI.Interop;
+
 using Rect = Windows.Foundation.Rect;
 
 // Suppress document warnings as the items are internal and are used to propagate exception info up to consuming classes
@@ -40,6 +42,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </remarks>
     internal sealed class WebViewControlHost : IDisposable
     {
+        private const string LocalContentIdentifier = "LocalContent";
+
         [SecurityCritical]
         private WebViewControl _webViewControl;
 
@@ -78,7 +82,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting = (sender, args) => { };
 
+        internal event EventHandler<object> GotFocus = (sender, args) => { };
+
         internal event EventHandler<WebViewControlLongRunningScriptDetectedEventArgs> LongRunningScriptDetected = (sender, args) => { };
+
+        internal event EventHandler<object> LostFocus = (sender, args) => { };
 
         internal event EventHandler<WebViewControlMoveFocusRequestedEventArgs> MoveFocusRequested = (sender, args) => { };
 
@@ -189,9 +197,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        internal global::Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
+        internal Windows.Web.UI.Interop.WebViewControlProcess Process { get; private set; }
 
-        internal global::Windows.Web.UI.WebViewControlSettings Settings
+        internal Windows.Web.UI.WebViewControlSettings Settings
         {
             get
             {
@@ -280,8 +288,42 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set;
         }
 
+        internal void AddPreLoadedScript(string script)
+        {
+            if (ApiInformation.IsMethodPresent(
+                "Windows.Web.UI.Interop.WebViewControl",
+                "AddPreLoadedScript",
+                1))
+            {
+                _webViewControl?.AddPreLoadedScript(script);
+            }
+        }
+
         internal Uri BuildStream(string contentIdentifier, string relativePath)
         {
+            if (string.IsNullOrWhiteSpace(contentIdentifier))
+            {
+                throw new ArgumentNullException(nameof(contentIdentifier));
+            }
+
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                throw new ArgumentNullException(nameof(relativePath));
+            }
+
+            // If not passing a relative path, the method faults. No exception is thrown, the application just fails fast
+            // Until that issue resolved, add our own error checking
+            if (PathUtilities.IsAbsolute(relativePath))
+            {
+                throw new ArgumentOutOfRangeException(nameof(relativePath), DesignerUI.E_WEBVIEW_INVALID_URI);
+            }
+
+            // The content identifier is used in conjunction with the application identity to create a guid. The
+            // guid is appended to the win32webviewhost identity and a ms-local-stream URI is created.
+            // Given a relative path of "/content.htm" the following is generated:
+            // ms-local-stream://microsoft.win32webviewhost_xxxxxxxxxxxxx_yyyyyyyyyyyyyyyyyyyyyyyy//content.htm
+            // If there is relative navigation items (e.g. "..\") they are resolved. URI will ALWAYS be relative to
+            // the application container, e.g. "..\..\..\..\..\..\file" will resolve to "/file"
             return _webViewControl?.BuildLocalStreamUri(contentIdentifier, relativePath);
         }
 
@@ -419,7 +461,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal void MoveFocus(WebViewControlMoveFocusReason reason)
         {
-            _webViewControl?.MoveFocus((global::Windows.Web.UI.Interop.WebViewControlMoveFocusReason)reason);
+            _webViewControl?.MoveFocus((Windows.Web.UI.Interop.WebViewControlMoveFocusReason)reason);
         }
 
         /// <exception cref="ArgumentException">The provided <paramref name="source"/> is a relative URI.</exception>
@@ -486,16 +528,49 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Navigate(UriHelper.StringToUri(source));
         }
 
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         internal void NavigateToLocal(string relativePath)
         {
-            var uri = BuildStream("LocalContent", relativePath);
-            var resolver = new UriToLocalStreamResolver();
-            NavigateToLocalStreamUri(uri, resolver);
+            var relativeUri = UriHelper.StringToRelativeUri(relativePath);
+            NavigateToLocalStreamUri(relativeUri, new UriToLocalStreamResolver());
         }
 
-        internal void NavigateToLocalStreamUri(Uri source, IUriToStreamResolver streamResolver)
+        internal void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)
         {
-            _webViewControl?.NavigateToLocalStreamUri(source, streamResolver);
+            if (relativePath == null)
+            {
+                throw new ArgumentNullException(nameof(relativePath));
+            }
+
+            if (relativePath.IsAbsoluteUri)
+            {
+                throw new ArgumentOutOfRangeException(nameof(relativePath), DesignerUI.E_WEBVIEW_INVALID_URI);
+            }
+
+            if (streamResolver == null)
+            {
+                throw new ArgumentNullException(nameof(streamResolver));
+            }
+
+            Windows.Web.IUriToStreamResolver AsWindowsRuntimeUriToStreamResolver(IUriToStreamResolver streamResolverInterop)
+            {
+                // Check to see if the stream resolver is actually a wrapper of a WinRT stream resolver
+                if (streamResolverInterop is Windows.Web.IUriToStreamResolver streamResolverAdapter)
+                {
+                    return streamResolverAdapter;
+                }
+
+                if (streamResolverInterop is GenericUriToStreamResolver genericAdapter)
+                {
+                    return genericAdapter;
+                }
+
+                // We have an unwrapped stream resolver
+                return new GenericUriToStreamResolver(streamResolver);
+            }
+
+            var uri = BuildStream(LocalContentIdentifier, UriHelper.UriToString(relativePath));
+            _webViewControl?.NavigateToLocalStreamUri(uri, AsWindowsRuntimeUriToStreamResolver(streamResolver));
         }
 
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
@@ -580,7 +655,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnAcceleratorKeyPressed(WebViewControl sender, global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args) => OnAcceleratorKeyPressed(args);
+        private void OnAcceleratorKeyPressed(WebViewControl sender, Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args) => OnAcceleratorKeyPressed(args);
 
         private void OnContainsFullScreenElementChanged(object args)
         {
@@ -602,7 +677,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnContentLoading(IWebViewControl sender, global::Windows.Web.UI.WebViewControlContentLoadingEventArgs args) => OnContentLoading(args);
+        private void OnContentLoading(IWebViewControl sender, Windows.Web.UI.WebViewControlContentLoadingEventArgs args) => OnContentLoading(args);
 
         private void OnDOMContentLoaded(WebViewControlDOMContentLoadedEventArgs args)
         {
@@ -613,7 +688,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnDOMContentLoaded(IWebViewControl sender, global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args)
+        private void OnDOMContentLoaded(IWebViewControl sender, Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args)
         {
             // When Source set to null or navigating to stream/string, we navigate to "about:blank" internally.
             if (NavigatingToAboutBlank)
@@ -639,7 +714,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnFrameContentLoading(IWebViewControl sender, global::Windows.Web.UI.WebViewControlContentLoadingEventArgs args) => OnFrameContentLoading(args);
+        private void OnFrameContentLoading(IWebViewControl sender, Windows.Web.UI.WebViewControlContentLoadingEventArgs args) => OnFrameContentLoading(args);
 
         private void OnFrameDOMContentLoaded(WebViewControlDOMContentLoadedEventArgs args)
         {
@@ -650,7 +725,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnFrameDOMContentLoaded(IWebViewControl sender, global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => OnFrameDOMContentLoaded(args);
+        private void OnFrameDOMContentLoaded(IWebViewControl sender, Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => OnFrameDOMContentLoaded(args);
 
         private void OnFrameNavigationCompleted(WebViewControlNavigationCompletedEventArgs args)
         {
@@ -661,7 +736,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnFrameNavigationCompleted(IWebViewControl sender, global::Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
+        private void OnFrameNavigationCompleted(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
             // TODO: Need to handle frame navigation like NavigationCompleted?
             OnFrameNavigationCompleted(args);
@@ -676,7 +751,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnFrameNavigationStarting(IWebViewControl sender, global::Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => OnFrameNavigationStarting(args);
+        private void OnGotFocus(object args)
+        {
+            var handler = GotFocus;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void OnFrameNavigationStarting(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) => OnFrameNavigationStarting(args);
+
+        private void OnGotFocus(IWebViewControl sender, object args) => OnGotFocus(args);
 
         private void OnLongRunningScriptDetected(WebViewControlLongRunningScriptDetectedEventArgs args)
         {
@@ -687,7 +773,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnLongRunningScriptDetected(IWebViewControl sender, global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => OnLongRunningScriptDetected(args);
+        private void OnLongRunningScriptDetected(IWebViewControl sender, Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => OnLongRunningScriptDetected(args);
+
+        private void OnLostFocus(object args)
+        {
+            var handler = LostFocus;
+            if (handler != null)
+            {
+                handler(this, args);
+            }
+        }
+
+        private void OnLostFocus(IWebViewControl sender, object args) => OnLostFocus(args);
 
         private void OnMoveFocusRequested(WebViewControlMoveFocusRequestedEventArgs args)
         {
@@ -698,7 +795,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnMoveFocusRequested(WebViewControl sender, global::Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => OnMoveFocusRequested(args);
+        private void OnMoveFocusRequested(WebViewControl sender, Windows.Web.UI.Interop.WebViewControlMoveFocusRequestedEventArgs args) => OnMoveFocusRequested(args);
 
         private void OnNavigationCompleted(WebViewControlNavigationCompletedEventArgs args)
         {
@@ -715,7 +812,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnNavigationCompleted(IWebViewControl sender, global::Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
+        private void OnNavigationCompleted(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args)
         {
             // When Source set to null or navigating to stream/string, we navigate to "about:blank" internally.
             if (NavigatingToAboutBlank)
@@ -741,7 +838,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnNavigationStarting(IWebViewControl sender, global::Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
+        private void OnNavigationStarting(IWebViewControl sender, Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
         {
             var newNavigationRequested = false;
             var cancelRequested = false;
@@ -819,9 +916,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnNewWindowRequested(IWebViewControl sender, global::Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs args) => OnNewWindowRequested(args);
+        private void OnNewWindowRequested(IWebViewControl sender, Windows.Web.UI.WebViewControlNewWindowRequestedEventArgs args) => OnNewWindowRequested(args);
 
-        private void OnOnScriptNotify(IWebViewControl sender, global::Windows.Web.UI.WebViewControlScriptNotifyEventArgs args) => OnScriptNotify(args);
+        private void OnOnScriptNotify(IWebViewControl sender, Windows.Web.UI.WebViewControlScriptNotifyEventArgs args) => OnScriptNotify(args);
 
         private void OnPermissionRequested(WebViewControlPermissionRequestedEventArgs args)
         {
@@ -832,7 +929,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnPermissionRequested(IWebViewControl sender, global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => OnPermissionRequested(args);
+        private void OnPermissionRequested(IWebViewControl sender, Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => OnPermissionRequested(args);
 
         private void OnProcessExited(object sender, object e)
         {
@@ -869,7 +966,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnUnsupportedUriSchemeIdentified(IWebViewControl sender, global::Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs args) => OnUnsupportedUriSchemeIdentified(args);
+        private void OnUnsupportedUriSchemeIdentified(IWebViewControl sender, Windows.Web.UI.WebViewControlUnsupportedUriSchemeIdentifiedEventArgs args) => OnUnsupportedUriSchemeIdentified(args);
 
         private void OnUnviewableContentIdentified(WebViewControlUnviewableContentIdentifiedEventArgs args)
         {
@@ -880,7 +977,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        private void OnUnviewableContentIdentified(IWebViewControl sender, global::Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => OnUnviewableContentIdentified(args);
+        private void OnUnviewableContentIdentified(IWebViewControl sender, Windows.Web.UI.WebViewControlUnviewableContentIdentifiedEventArgs args) => OnUnviewableContentIdentified(args);
 
         [SecurityCritical]
         private void SubscribeEvents()
@@ -908,6 +1005,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsafeContentWarningDisplaying += OnUnsafeContentWarningDisplaying;
             _webViewControl.UnsupportedUriSchemeIdentified += OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified += OnUnviewableContentIdentified;
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
+            {
+                _webViewControl.GotFocus += OnGotFocus;
+            }
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
+            {
+                _webViewControl.LostFocus += OnLostFocus;
+            }
         }
 
         [SecurityCritical]
@@ -946,6 +1053,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsafeContentWarningDisplaying -= OnUnsafeContentWarningDisplaying;
             _webViewControl.UnsupportedUriSchemeIdentified -= OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
+            {
+                _webViewControl.GotFocus -= OnGotFocus;
+            }
+
+            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
+            {
+                _webViewControl.LostFocus -= OnLostFocus;
+            }
         }
 
         private void UnsubscribeProcessExited()

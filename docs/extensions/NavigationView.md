@@ -51,7 +51,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 | Property | Type | Description |
 | -- | -- | -- |
 | NavigationViewExtensions.SelectedIndex | int | Changes the `NavigationView`'s selected item based on its index.  A value out of range will deselect any item. |
-| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so When a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
+| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so when a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
 
 ## Sample Code
 
