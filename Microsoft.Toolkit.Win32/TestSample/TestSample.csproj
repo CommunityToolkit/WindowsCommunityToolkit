@@ -34,10 +34,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Windows.Interop.Sample, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Microsoft.Windows.Interop.Sample\bin\Debug\Microsoft.Windows.Interop.Sample.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -49,7 +45,9 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, PublicKeyToken=null" />
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\Program Files (x86)\Windows Kits\10\UnionMetadata\10.0.17709.0\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -102,6 +100,10 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
       <Project>{740413d5-c399-49f9-be0a-1b5d45fb6a1c}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Interop.Sample\Microsoft.Windows.Interop.Sample.csproj">
+      <Project>{88c95ec5-6a53-4ba2-a885-24b23566c175}</Project>
+      <Name>Microsoft.Windows.Interop.Sample</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj">
       <Project>{04759899-4afa-4b15-bc7b-3cc20bbec829}</Project>

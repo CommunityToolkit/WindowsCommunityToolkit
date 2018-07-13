@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     [ContentProperty(nameof(Children))]
     public class InkToolbar : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.InkToolbar UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbar;
+        public global::Windows.UI.Xaml.Controls.InkToolbar UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbar;
 
         public InkToolbar()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).FullName)
