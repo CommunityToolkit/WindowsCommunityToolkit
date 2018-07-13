@@ -15,12 +15,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
         public WebViewCompatible()
             : base()
         {
-            try
+            if (global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl"))
             {
-                OSVersionHelper.ThrowIfBeforeWindows10April2018();
                 _implementation = new WebViewCompatibilityAdapter();
             }
-            catch (Exception)
+            else
             {
                 _implementation = new WebBrowserCompatibilityAdapter();
             }
