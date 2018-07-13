@@ -16,4 +16,4 @@ steps:
       env:
         SignClientUser: $(SignClientUser)
         SignClientSecret: $(SignClientSecret)
-        ArtifactDirectory: $(Build.DefaultWorkingDirectory)\bin\nupkg
+        ArtifactDirectory: bin\nupkg
