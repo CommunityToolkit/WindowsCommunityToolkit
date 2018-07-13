@@ -18,7 +18,6 @@ var target = Argument("target", "Default");
 //////////////////////////////////////////////////////////////////////
 
 var gitVersioningVersion = "2.1.23";
-var signClientVersion = "0.9.0";
 var inheritDocVersion = "1.1.1.1";
 
 //////////////////////////////////////////////////////////////////////
@@ -34,11 +33,6 @@ var toolsDir = buildDir + "/tools";
 var binDir = baseDir + "/bin";
 var nupkgDir = binDir + "/nupkg";
 
-var signClientSettings = MakeAbsolute(File("SignClientSettings.json")).ToString();
-var signClientSecret = EnvironmentVariable("SignClientSecret");
-var signClientUser = EnvironmentVariable("SignClientUser");
-var signClientAppPath = toolsDir + "/SignClient/Tools/netcoreapp2.0/SignClient.dll";
-
 var styler = toolsDir + "/XamlStyler.Console/tools/xstyler.exe";
 var stylerFile = baseDir + "/settings.xamlstyler";
 
@@ -47,9 +41,6 @@ string Version = null;
 
 var inheritDoc = toolsDir + "/InheritDoc/tools/InheritDoc.exe";
 var inheritDocExclude = "Foo.*";
-
-var name = "Windows Community Toolkit";
-var address = "https://developer.microsoft.com/en-us/windows/uwp-community-toolkit";
 
 //////////////////////////////////////////////////////////////////////
 // METHODS
@@ -254,52 +245,7 @@ Task("Package")
     }
 });
 
-Task("SignNuGet")
-    .Description("Sign the NuGet packages with the Code Signing service")
-    .IsDependentOn("Package")
-    .Does(() =>
-{
-    if(!string.IsNullOrWhiteSpace(signClientSecret))
-    {
-        Information("\nDownloading Sign Client...");
-        var installSettings = new NuGetInstallSettings {
-            ExcludeVersion  = true,
-            OutputDirectory = toolsDir,
-            Version = signClientVersion
-        };
-        NuGetInstall(new []{"SignClient"}, installSettings);
 
-        var packages = GetFiles(nupkgDir + "/*.nupkg");
-        Information("\n Signing " + packages.Count() + " Packages");
-        foreach(var package in packages)
-        {
-            Information("\nSubmitting " + package + " for signing...");
-            var arguments = new ProcessArgumentBuilder()
-                .AppendQuoted(signClientAppPath)
-                .Append("sign")
-                .AppendSwitchQuotedSecret("-s", signClientSecret)
-                .AppendSwitchQuotedSecret("-r", signClientUser)
-                .AppendSwitchQuoted("-c", signClientSettings)
-                .AppendSwitchQuoted("-i", MakeAbsolute(package).FullPath)
-                .AppendSwitchQuoted("-n", name)
-                .AppendSwitchQuoted("-d", name)
-                .AppendSwitchQuoted("-u", address);
-
-            // Execute Signing
-            var result = StartProcess("dotnet", new ProcessSettings {  Arguments = arguments });
-            if(result != 0)
-            {
-                throw new InvalidOperationException("Signing failed!");
-            }
-
-            Information("\nFinished signing " + package);
-        }
-    }
-    else
-    {
-        Warning("\nClient Secret not found, not signing packages...");
-    }
-});
 
 //////////////////////////////////////////////////////////////////////
 // TASK TARGETS
