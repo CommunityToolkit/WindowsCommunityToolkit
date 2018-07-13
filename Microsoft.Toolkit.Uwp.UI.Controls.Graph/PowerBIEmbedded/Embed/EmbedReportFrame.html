@@ -65,7 +65,7 @@
 
         function loadGroups(token, reports, defaultReport, orientation) {
             accessToken = token;
-            currentOrientation = orientation ;
+            currentOrientation = orientation;
 
             document.getElementById('dropdownContainer').style.visibility = 'visible';
 
@@ -106,9 +106,13 @@
                 embedUrl: embedReport.embedUrl,
                 id: embedReport.id,
                 permissions: models.Permissions.All,
-                settings: getSettings()
+                settings: {
+                    filterPaneEnabled: true,
+                    navContentPaneEnabled: false
+                }
             };
-            const report = powerbi.embed(reportContainer, config);
+
+            const report = powerbi.embed(document.getElementById('reportContainer'), config);
 
             document.getElementById('reportContainer').style.visibility = 'visible';
 
@@ -138,6 +142,7 @@
 
                         if (findPage) {
                             findPage.setActive();
+                            ApplyMobileSettings(findPage);
                         }
                     });
 
@@ -150,6 +155,10 @@
                             triggerEvent(pagesDDL, 'change');
                         }
                     });
+
+                    if (page.length > 0) {
+                        ApplyMobileSettings(pages[0]);
+                    }
                 })
                 .catch(function (error) {
                     alert(error);
@@ -177,26 +186,27 @@
                 });
         }
 
-        function getSettings() {
+        function ApplyMobileSettings(page) {
             const models = window['powerbi-client'].models;
 
-            switch (currentOrientation) {
-                case 'Portrait':
-                case 'PortraitFlipped':
-                    return {
-                        layoutType: models.LayoutType.MobilePortrait
-                    };
-                case 'Landscape':
-                case 'LandscapeFlipped':
-                    return {
-                        layoutType: models.LayoutType.MobileLandscape
-                    };
-                default:
-                    return {
-                        filterPaneEnabled: true,
-                        navContentPaneEnabled: false
-                    };
-            }
+            page.hasLayout(models.LayoutType.MobilePortrait).then(function (hasLayout) {
+                if (hasLayout) {
+                    switch (currentOrientation) {
+                        case 'Portrait':
+                        case 'PortraitFlipped':
+                            report.updateSettings({
+                                layoutType: models.LayoutType.MobilePortrait
+                            });
+                            break;
+                        case 'Landscape':
+                        case 'LandscapeFlipped':
+                            report.updateSettings({
+                                layoutType: models.LayoutType.MobileLandscape
+                            });
+                            break;
+                    }
+                }
+            });
         }
 
         function clearReport() {
