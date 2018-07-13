@@ -90,6 +90,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(WebView),
             new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
 
+        private static readonly DependencyProperty PartitionProperty = DependencyProperty.Register(
+            nameof(Partition),
+            typeof(string),
+            typeof(WebView),
+            new PropertyMetadata(WebViewDefaults.Partition, PropertyChangedCallback));
+
         private WebViewControlProcess _process;
 
         private volatile WebViewControlHost _webViewControl;
@@ -425,6 +431,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.Partition)]
+        public string Partition
+        {
+            get => (string)GetValue(PartitionProperty);
+            set => SetValue(PartitionProperty, value);
+        }
+
+        /// <inheritdoc />
         [Browsable(false)]
         public WebViewControlProcess Process
         {
@@ -473,6 +488,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 Verify.IsNotNull(_webViewControl);
                 return _webViewControl?.Version;
             }
+        }
+
+        /// <inheritdoc cref="IWebView.AddPreLoadedScript" />
+        public void AddPreLoadedScript(string script)
+        {
+            VerifyAccess();
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.AddPreLoadedScript(script);
         }
 
         /// <inheritdoc cref="IWebView.Close" />
@@ -661,13 +684,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 var enterpriseId = !Dispatcher.CheckAccess()
                     ? Dispatcher.Invoke(() => EnterpriseId)
                     : EnterpriseId;
+                var partition = !Dispatcher.CheckAccess()
+                    ? Dispatcher.Invoke(() => Partition)
+                    : Partition;
 
                 _process = new WebViewControlProcess(new WebViewControlProcessOptions
                 {
                     PrivateNetworkClientServerCapability = privateNetworkEnabled
                         ? WebViewControlProcessCapabilityState.Enabled
                         : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId
+                    EnterpriseId = enterpriseId,
+                    Partition = partition
                 });
             }
 
@@ -686,7 +713,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
                     Verify.IsNotNull(_webViewControl);
 
-                    UpdateSize(RenderSize);
+                    if (!Dispatcher.CheckAccess())
+                    {
+                        Dispatcher.Invoke(() => UpdateSize(RenderSize));
+                    }
+                    else
+                    {
+                        UpdateSize(RenderSize);
+                    }
 
                     DestroyWindowCore(ChildWindow);
 
@@ -841,6 +875,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                         throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
                     }
                 }
+                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Partition))
+                {
+                    Verify.IsFalse(wv.WebViewControlInitialized);
+                    if (wv.WebViewControlInitialized)
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
             }
         }
 
@@ -916,6 +958,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        private void OnGotFocus(object sender, object args)
+        {
+            OnGotFocus(new RoutedEventArgs(GotFocusEvent));
+        }
+
         private void OnLongRunningScriptDetected(object sender, WebViewControlLongRunningScriptDetectedEventArgs args)
         {
             var handler = LongRunningScriptDetected;
@@ -923,6 +970,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 handler(this, args);
             }
+        }
+
+        private void OnLostFocus(object sender, object args)
+        {
+            OnLostFocus(new RoutedEventArgs(GotFocusEvent));
         }
 
         private void OnMoveFocusRequested(object sender, WebViewControlMoveFocusRequestedEventArgs args)
@@ -1028,7 +1080,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded += OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted += OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting += OnFrameNavigationStarting;
+            _webViewControl.GotFocus += OnGotFocus;
             _webViewControl.LongRunningScriptDetected += OnLongRunningScriptDetected;
+            _webViewControl.LostFocus += OnLostFocus;
             _webViewControl.MoveFocusRequested += OnMoveFocusRequested;
             _webViewControl.NavigationCompleted += OnNavigationCompleted;
             _webViewControl.NavigationStarting += OnNavigationStarting;
@@ -1056,7 +1110,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded -= OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted -= OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting -= OnFrameNavigationStarting;
+            _webViewControl.GotFocus -= OnGotFocus;
             _webViewControl.LongRunningScriptDetected -= OnLongRunningScriptDetected;
+            _webViewControl.LostFocus -= OnLostFocus;
             _webViewControl.MoveFocusRequested -= OnMoveFocusRequested;
             _webViewControl.NavigationCompleted -= OnNavigationCompleted;
             _webViewControl.NavigationStarting -= OnNavigationStarting;
