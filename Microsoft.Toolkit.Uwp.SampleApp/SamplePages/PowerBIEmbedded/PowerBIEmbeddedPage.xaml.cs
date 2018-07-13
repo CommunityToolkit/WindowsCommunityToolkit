@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,9 +14,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
         }
 
-        private void PropertyDropdown_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private void PropertyDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PropertyValue.Text = string.Empty;
+
+            switch (PropertyDropdown.SelectedIndex)
+            {
+                case 0:
+                    if (PropertyTipsGroupId != null)
+                    {
+                        PropertyTipsGroupId.Visibility = Visibility.Visible;
+                        PropertyTipsEmbedUrl.Visibility = Visibility.Collapsed;
+                    }
+
+                    break;
+                case 1:
+                    if (PropertyTipsGroupId != null)
+                    {
+                        PropertyTipsGroupId.Visibility = Visibility.Collapsed;
+                        PropertyTipsEmbedUrl.Visibility = Visibility.Visible;
+                    }
+
+                    break;
+            }
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)

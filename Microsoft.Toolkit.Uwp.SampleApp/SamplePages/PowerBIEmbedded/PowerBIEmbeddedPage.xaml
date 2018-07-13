@@ -72,11 +72,13 @@
                                           Header="Property Name" Grid.Column="1" 
                                           SelectionChanged="PropertyDropdown_SelectionChanged">
                                 <ComboBox.Items>
-                                    <ComboBoxItem Tag="GroupId" Content="Group Id"  IsSelected="True"/>
+                                    <ComboBoxItem Tag="GroupId" Content="Group Id" IsSelected="True"/>
                                     <ComboBoxItem Tag="EmbedUrl" Content="Embed Url" />
                                 </ComboBox.Items>
                             </ComboBox>
                         </Grid>
+                        <TextBlock x:Name="PropertyTipsGroupId" TextWrapping="Wrap" Text="Id of the group associated with the workspace"/>
+                        <TextBlock x:Name="PropertyTipsEmbedUrl" TextWrapping="Wrap" Visibility="Collapsed" Text="Embed URL in format like this 'https://app.powerbi.com/reportEmbed?reportId={REPORT_ID}&amp;groupId={GROUP_ID}', could get this URL when open the report in https://app.powerbi.com/ and choose 'File > Embed in SharePoint Online'"/>
 
                         <Button x:Name="LoadButton"
                                     Width="75"
