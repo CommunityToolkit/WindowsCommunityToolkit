@@ -18,9 +18,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void PropertyDropdown_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             PropertyValue.Text = string.Empty;
-            PowerBIEmbeddedControl.GroupId = string.Empty;
-            PowerBIEmbeddedControl.EmbedUrl = string.Empty;
-
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)
