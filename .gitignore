@@ -223,4 +223,3 @@ project.lock.json
 msbuild.binlog
 *.project.lock.json
 /build/tools
-/Microsoft.Toolkit.Services/Services/MicrosoftTranslator
