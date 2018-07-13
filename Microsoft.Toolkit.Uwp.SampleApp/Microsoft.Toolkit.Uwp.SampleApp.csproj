@@ -525,7 +525,6 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
-    <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedXaml.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
   </ItemGroup>
   <ItemGroup>

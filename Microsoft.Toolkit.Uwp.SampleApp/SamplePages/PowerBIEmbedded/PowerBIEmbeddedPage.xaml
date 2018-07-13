@@ -8,7 +8,90 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <graphControls:PowerBIEmbedded/>
+    <Grid Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="24"
+              Background="{StaticResource Brush-Grey-04}"
+              BorderBrush="#FFCCCCCC"
+              BorderThickness="1"
+              CornerRadius="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!--  Azure Active Directory and property value area  -->
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid Background="#FFCCCCCC">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="ClientIdExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="ClientIdExpandButton_Click"
+                                    Content=""
+                                    FontFamily="Segoe MDL2 Assets" />
+                        <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Azure Active Directory and PowerBI Properties Configuration" />
+                    </Grid>
+
+                    <StackPanel x:Name="ClientIdBox"
+                                    Grid.Row="1"
+                                    Margin="24,24,24,21"
+                                    Orientation="Vertical">
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="ClientId" Header="Client Id:" />
+                        </Grid>
+
+                        <HyperlinkButton Margin="0,0,0,15"
+                                             Content="Show me how to get this ID"
+                                             NavigateUri="https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/graph/powerbiembedded" />
+
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="PropertyValue" Header="Property Value" />
+                            <ComboBox x:Name="PropertyDropdown" 
+                                          Header="Property Name" Grid.Column="1" 
+                                          SelectionChanged="PropertyDropdown_SelectionChanged">
+                                <ComboBox.Items>
+                                    <ComboBoxItem Tag="GroupId" Content="Group Id"  IsSelected="True"/>
+                                    <ComboBoxItem Tag="EmbedUrl" Content="Embed Url" />
+                                </ComboBox.Items>
+                            </ComboBox>
+                        </Grid>
+
+                        <Button x:Name="LoadButton"
+                                    Width="75"
+                                    Margin="0,10,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Click="LoadButton_Click"
+                                    Content="Load" />
+                    </StackPanel>
+                </Grid>
+
+                <!-- PowerBIEmbedded area -->
+                <Grid Grid.Row="1">
+                    <graphControls:PowerBIEmbedded x:Name="PowerBIEmbeddedControl"/>
+                </Grid>
+            </Grid>
+        </Grid>
     </Grid>
 </Page>
