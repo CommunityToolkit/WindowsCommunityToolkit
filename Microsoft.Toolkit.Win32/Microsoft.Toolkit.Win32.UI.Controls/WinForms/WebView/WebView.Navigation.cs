@@ -3,7 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Net.Http;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
@@ -95,5 +98,34 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 }
             }
         }
+
+        /// <inheritdoc />
+        public void Navigate(Uri source) => _webViewControl?.Navigate(source);
+
+        /// <inheritdoc />
+        public void Navigate(string source)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.Navigate(source);
+        }
+
+        /// <inheritdoc />
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
+        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
+
+        /// <inheritdoc />
+        public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
+
+        /// <inheritdoc />
+        public void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver) => _webViewControl?.NavigateToLocalStreamUri(relativePath, streamResolver);
+
+        /// <inheritdoc />
+        public void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null) =>
+            _webViewControl.Navigate(requestUri, httpMethod, content, headers);
     }
 }
