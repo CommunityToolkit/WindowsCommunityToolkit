@@ -14,6 +14,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public const bool IsJavaScriptEnabled = true;
         public const bool IsPrivateNetworkEnabled = false;
         public const bool IsScriptNotifyEnabled = false;
+        public const string Partition = "";
         public static readonly Uri AboutBlankUri = new Uri(AboutBlank);
     }
 }

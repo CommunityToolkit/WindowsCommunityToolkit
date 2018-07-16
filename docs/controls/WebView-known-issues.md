@@ -15,6 +15,8 @@ The **WebView** control does not implement these methods of the [IWebViewControl
 
 * [NavigateToLocalStreamUri](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.navigatetolocalstreamuri). Instead use `NavigateToLocal`.
 
+* [NavigateWithHttpRequestMessage](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.navigatewithhttprequestmessage)
+
 * [CapturePreviewToStreamAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.capturepreviewtostreamasync)
 
 * [CaptureSelectedContentToDataPackageAsync](https://docs.microsoft.com/uwp/api/windows.web.ui.iwebviewcontrol.captureselectedcontenttodatapackageasync)

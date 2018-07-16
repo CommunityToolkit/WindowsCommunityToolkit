@@ -7,6 +7,7 @@ using System.Security;
 using System.Threading.Tasks;
 
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Web.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// A proxy for <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
     /// </summary>
-    public class WebViewControlProcess
+    public sealed class WebViewControlProcess
     {
         [SecurityCritical]
         private readonly Windows.Web.UI.Interop.WebViewControlProcess _process;
@@ -61,10 +62,48 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public bool IsPrivateNetworkClientServerCapabilityEnabled => _process.IsPrivateNetworkClientServerCapabilityEnabled;
 
         /// <summary>
+        /// Gets a value indicating the partition of the web view.
+        /// </summary>
+        /// <value>The partition.</value>
+        public string Partition
+        {
+            get
+            {
+                if (ApiInformation.IsPropertyPresent(
+                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                    "Partition"))
+                {
+                    return _process.Partition;
+                }
+
+                return string.Empty;
+            }
+        }
+
+        /// <summary>
         /// Gets the process identifier (PID) of the underlying WWAHost.
         /// </summary>
         /// <value>The process identifier (PID).</value>
         public uint ProcessId => _process.ProcessId;
+
+        /// <summary>
+        /// Gets the user agent of the underlying web view
+        /// </summary>
+        /// <value>The user agent.</value>
+        public string UserAgent
+        {
+            get
+            {
+                if (ApiInformation.IsPropertyPresent(
+                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
+                    "UserAgent"))
+                {
+                    return _process.UserAgent;
+                }
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> to <see cref="WebViewControlProcess"/>.
