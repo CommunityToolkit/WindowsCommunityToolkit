@@ -19,6 +19,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared
 
             // Local navigation: when using a null value for Source the uri is about:blank
             public static readonly Uri AboutBlank = new Uri("about:blank");
+
+            // A simple HTTP Request & Response Service
+            public static readonly Uri HttpBin = new Uri("http://httpbin.org", UriKind.Absolute);
         }
     }
 }
