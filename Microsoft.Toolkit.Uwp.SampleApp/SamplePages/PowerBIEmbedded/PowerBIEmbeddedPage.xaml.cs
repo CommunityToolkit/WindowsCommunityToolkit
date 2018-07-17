@@ -17,26 +17,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void PropertyDropdown_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PropertyValue.Text = string.Empty;
-
-            switch (PropertyDropdown.SelectedIndex)
-            {
-                case 0:
-                    if (PropertyTipsGroupId != null)
-                    {
-                        PropertyTipsGroupId.Visibility = Visibility.Visible;
-                        PropertyTipsEmbedUrl.Visibility = Visibility.Collapsed;
-                    }
-
-                    break;
-                case 1:
-                    if (PropertyTipsGroupId != null)
-                    {
-                        PropertyTipsGroupId.Visibility = Visibility.Collapsed;
-                        PropertyTipsEmbedUrl.Visibility = Visibility.Visible;
-                    }
-
-                    break;
-            }
         }
 
         private void ClientIdExpandButton_Click(object sender, RoutedEventArgs e)
