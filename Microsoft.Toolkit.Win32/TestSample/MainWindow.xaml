@@ -55,13 +55,6 @@
             <TabItem>
                 <TabItem.Header>MapControl</TabItem.Header>
                 <controls:MapControl x:Name="myMap" Loaded="myMap_Loaded"/>
-                <!--<controls:MapControl x:Name="myMap" 
-                                     ZoomLevel="{Binding ElementName=zoomSlider,Path=Value, Mode=TwoWay}"
-                                     Heading="{Binding ElementName=headingSlider,Path=Value, Mode=TwoWay}"
-                                     DesiredPitch="{Binding ElementName=desiredPitchSlider,Path=Value, Mode=TwoWay}"    
-                                     Loaded="MyMap_Loaded"
-                                     MapTapped="MyMap_MapTapped"
-                                     />-->
             </TabItem>
             <TabItem>
                 <TabItem.Header>SwapChainPanel</TabItem.Header>
