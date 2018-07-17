@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:TestSample"
         xmlns:local1="clr-namespace:Microsoft.Windows.Interop.Sample;assembly=Microsoft.Windows.Interop.Sample"
         xmlns:controls="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls"
-        xmlns:compatible="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible;assembly=Microsoft.Toolkit.Win32.UI.Controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
@@ -48,7 +47,7 @@
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
                 <!--WebBrowser /-->
-                <compatible:WebViewCompatible Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                <controls:WebViewCompatible Source="http://www.bing.com" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
                 <!--WebBrowser Source="http://www.bing.com"/-->
 
             </TabItem>

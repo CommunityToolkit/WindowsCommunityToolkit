@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
+namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter, IWebViewCompatibleAdapter
     {

@@ -19,7 +19,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
-using Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible;
+using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using Point = Windows.Foundation.Point;
 using Size = Windows.Foundation.Size;
 

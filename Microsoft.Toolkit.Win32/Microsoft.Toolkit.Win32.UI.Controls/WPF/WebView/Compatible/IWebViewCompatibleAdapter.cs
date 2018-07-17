@@ -4,7 +4,7 @@
 
 using System.Windows;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
+namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public interface IWebViewCompatibleAdapter : IWebViewCompatible
     {
