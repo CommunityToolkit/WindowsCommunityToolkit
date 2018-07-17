@@ -485,7 +485,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
             }
-            else if (e.PropertyName == "" || e.PropertyName == null)
+            else if (string.IsNullOrEmpty(e.PropertyName))
             {
                 HandleSourceChanged();
             }
