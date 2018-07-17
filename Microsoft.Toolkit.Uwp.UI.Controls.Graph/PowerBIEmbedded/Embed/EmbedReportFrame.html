@@ -49,6 +49,7 @@
     <script>
         var accessToken;
         var currentOrientation;
+        var showFilterPane;
 
         function getReport() {
             const embedContainer = document.getElementById('reportContainer');
@@ -61,9 +62,10 @@
             report.setAccessToken(token);
         }
 
-        function loadGroups(token, reports, defaultReport, orientation) {
+        function loadGroups(token, reports, defaultReport, orientation, showFilter) {
             accessToken = token;
             currentOrientation = orientation;
+            showFilterPane = showFilter;
 
             document.getElementById('dropdownContainer').style.visibility = 'visible';
 
@@ -105,7 +107,7 @@
                 id: embedReport.id,
                 permissions: models.Permissions.Read,
                 settings: {
-                    filterPaneEnabled: true,
+                    filterPaneEnabled: showFilterPane,
                     navContentPaneEnabled: false
                 }
             };

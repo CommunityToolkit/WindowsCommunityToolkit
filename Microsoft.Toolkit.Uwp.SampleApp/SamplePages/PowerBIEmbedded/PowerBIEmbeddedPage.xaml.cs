@@ -43,14 +43,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (!string.IsNullOrEmpty(ClientId.Text.Trim())
                 && !string.IsNullOrEmpty(PropertyValue.Text.Trim()))
             {
+                PowerBIEmbeddedControl.ClientId = ClientId.Text.Trim();
+                PowerBIEmbeddedControl.ShowFilter = ShowFilterCheckBox.IsChecked ?? false;
+
                 switch (PropertyDropdown.SelectedIndex)
                 {
                     case 0:
-                        PowerBIEmbeddedControl.ClientId = ClientId.Text.Trim();
                         PowerBIEmbeddedControl.GroupId = PropertyValue.Text.Trim();
                         break;
                     case 1:
-                        PowerBIEmbeddedControl.ClientId = ClientId.Text.Trim();
                         PowerBIEmbeddedControl.EmbedUrl = PropertyValue.Text.Trim();
                         break;
                 }

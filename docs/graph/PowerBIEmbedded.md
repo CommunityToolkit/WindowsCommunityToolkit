@@ -31,6 +31,7 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 | ClientId | String | Gets or sets the client id of Azure AD app registration (v1) |
 | GroupId | String | Gets or sets the identifier of a Group. Optional when EmbedUrl is specified, if this is used, a dropdown will appear that lets users select amongst different reports in a Group |
 | EmbedUrl | String | Gets or sets the Url of the embed, optional when GroupId is specified |
+| ShowFilter | Boolean | Gets or sets a value indicating whether show the filter pane |
 
 ## Integration
 
