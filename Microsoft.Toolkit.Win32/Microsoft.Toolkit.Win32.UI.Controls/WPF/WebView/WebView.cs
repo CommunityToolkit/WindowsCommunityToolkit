@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
@@ -603,6 +604,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             // TODO: Support for pack://
             Source = source;
+        }
+
+        /// <inheritdoc />
+        public void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.Navigate(requestUri, httpMethod, content, headers);
         }
 
         /// <inheritdoc />
