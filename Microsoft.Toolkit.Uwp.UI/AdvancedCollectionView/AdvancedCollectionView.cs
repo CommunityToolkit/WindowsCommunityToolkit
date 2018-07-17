@@ -485,6 +485,10 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
             }
+            else if (e.PropertyName == "" || e.PropertyName == null)
+            {
+                HandleSourceChanged();
+            }
         }
 
         private void AttachPropertyChangedHandler(IEnumerable items)
