@@ -36,30 +36,35 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 1. Follow the
 [MicrosoftGraphService](../../docs/services/MicrosoftGraph.md#register-the-app-to-use-azure-ad-v1-endpoint) to create Azure AD app registration (v1), and grant the permissions below.
-   - Microsoft Graph
-     - Sign in and read user profile
-     - Read all users' basic profiles
-     - Sign users in
-   - Windows Azure Active Directory
-     - Sign in and read user profile
-   - Power BI Service (Microsoft.Azure.AnalysisServices)
-     - View all datapools
-     - View users Groups
-     - View all Groups
-     - View all Reports
-     - View all Datasets
-     - View all Dashboards
-     - View all workspaces
 
-   ![PowerBIEmbedded Permissions](../resources/images/Graph/PowerBIEmbedded-Permissions.png)
+   * Microsoft Graph
+      - Sign in and read user profile
+      - Read all users' basic profiles
+      - Sign users in
 
+   * Windows Azure Active Directory
+      - Sign in and read user profile
+
+   * Power BI Service (Microsoft.Azure.AnalysisServices)
+
+      - View all datapools
+      - View users Groups
+      - View all Groups
+      - View all Reports
+      - View all Datasets
+      - View all Dashboards
+      - View all workspaces
+        ![PowerBIEmbedded Permissions](../resources/images/Graph/PowerBIEmbedded-Permissions.png)
+
+<!-- workaround for bullets styling -->
 2. Follow this [article](https://docs.microsoft.com/en-us/power-bi/developer/embedding-content) to do the primary tasks below.
 
-   - Create Power BI Pro user account
-   - Create app workspaces
-   - Create Power BI Embedded capacity
-   - Create and publish reports
+   * Create Power BI Pro user account
+   * Create app workspaces
+   * Create Power BI Embedded capacity
+   * Create and publish reports
 
+<!-- workaround for bullets styling -->
 3. For better report experience in mobile, that's recommended to [design phone layout for mobile portrait view in PowerBI desktop](https://docs.microsoft.com/en-us/power-bi/desktop-create-phone-report).
 
 ## Sample Code
