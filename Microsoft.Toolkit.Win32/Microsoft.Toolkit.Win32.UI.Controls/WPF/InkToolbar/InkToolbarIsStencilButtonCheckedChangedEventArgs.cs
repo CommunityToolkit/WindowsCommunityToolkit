@@ -15,10 +15,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs"/>
     public sealed class InkToolbarIsStencilButtonCheckedChangedEventArgs : EventArgs
     {
-        [SecurityCritical]
         private readonly global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs _args;
 
-        [SecurityCritical]
         internal InkToolbarIsStencilButtonCheckedChangedEventArgs(global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
             _args = args;
@@ -26,13 +24,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton StencilButton
         {
-            [SecurityCritical]
             get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton)_args.StencilButton.GetWrapper();
         }
 
         public global::Windows.UI.Xaml.Controls.InkToolbarStencilKind StencilKind
         {
-            [SecurityCritical]
             get => (global::Windows.UI.Xaml.Controls.InkToolbarStencilKind)_args.StencilKind;
         }
 
@@ -41,7 +37,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// </summary>
         /// <param name="args">The <see cref="global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        [SecurityCritical]
         public static implicit operator InkToolbarIsStencilButtonCheckedChangedEventArgs(
             global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
