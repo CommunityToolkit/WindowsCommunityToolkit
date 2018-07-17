@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
     {
         private WebBrowser _browser = new WebBrowser();
 
-        private void Browser_Navigated(object sender, NavigationEventArgs e)
+        private void OnBrowserNavigated(object sender, NavigationEventArgs e)
         {
             NavigationCompleted?.Invoke(sender, e);
         }
 
-        private void Browser_Navigating(object sender, NavigatingCancelEventArgs e)
+        private void OnBrowserNavigating(object sender, NavigatingCancelEventArgs e)
         {
             NavigationStarting?.Invoke(sender, e);
             ContentLoading?.Invoke(sender, e);
@@ -81,8 +81,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF.Compatible
 
         protected override void Initialize()
         {
-            _browser.Navigating += Browser_Navigating;
-            _browser.LoadCompleted += Browser_Navigated;
+            _browser.Navigating += OnBrowserNavigating;
+            _browser.LoadCompleted += OnBrowserNavigated;
             Bind(nameof(Source), SourceProperty, _browser);
         }
     }
