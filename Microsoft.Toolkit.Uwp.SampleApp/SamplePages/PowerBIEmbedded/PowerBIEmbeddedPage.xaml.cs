@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+Ôªø// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -48,12 +48,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (box.Visibility == Visibility.Visible)
             {
-                switchButton.Content = "™≤";
+                switchButton.Content = "ÓÄë";
                 box.Visibility = Visibility.Collapsed;
             }
             else
             {
-                switchButton.Content = "™±";
+                switchButton.Content = "ÓÄê";
                 box.Visibility = Visibility.Visible;
             }
         }
