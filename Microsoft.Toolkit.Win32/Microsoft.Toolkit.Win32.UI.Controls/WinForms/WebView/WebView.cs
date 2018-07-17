@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private bool _delayedIsIndexDbEnabled = WebViewDefaults.IsIndexedDBEnabled;
         private bool _delayedIsJavaScriptEnabled = WebViewDefaults.IsJavaScriptEnabled;
         private bool _delayedIsScriptNotifyAllowed = WebViewDefaults.IsScriptNotifyEnabled;
+        private string _delayedPartition = WebViewDefaults.Partition;
         private bool _delayedPrivateNetworkEnabled = WebViewDefaults.IsPrivateNetworkEnabled;
         private Uri _delayedSource;
         private WebViewControlHost _webViewControl;
@@ -54,6 +55,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             Paint += OnWebViewPaint;
             Layout += OnWebViewLayout;
         }
+
+        internal WebViewControlHost Host => _webViewControl;
 
         /// <summary>
         /// Gets a value indicating whether <see cref="WebView"/> is supported in this environment.
@@ -291,6 +294,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             }
         }
 
+        /// <inheritdoc />
+        [StringResourceCategory(Constants.CategoryBehavior)]
+        [DefaultValue(WebViewDefaults.Partition)]
+        public string Partition
+        {
+            get
+            {
+                Verify.IsFalse(IsDisposed);
+                Verify.Implies(Initializing, !Initialized);
+                Verify.Implies(Initialized, WebViewControlInitialized);
+                return WebViewControlInitialized
+                    ? _webViewControl.Process.Partition
+                    : _delayedPartition;
+            }
+
+            set
+            {
+                Verify.IsFalse(IsDisposed);
+                _delayedPartition = value;
+                if (!DesignMode)
+                {
+                    EnsureInitialized();
+                    if (WebViewControlInitialized
+                        && !string.Equals(_delayedPartition, _webViewControl.Process.Partition, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Gets a <see cref="WebViewControlProcess" /> object that the control is hosted in.
         /// </summary>
@@ -369,6 +403,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Version Version => _webViewControl?.Version;
 
+        /// <inheritdoc />
+        public void AddPreLoadedScript(string script)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.Implies(Initializing, !Initialized);
+            Verify.Implies(Initialized, WebViewControlInitialized);
+            _webViewControl?.AddPreLoadedScript(script);
+        }
+
         /// <summary>
         /// Closes this control.
         /// </summary>
@@ -419,23 +462,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         /// <inheritdoc />
         public void MoveFocus(WebViewControlMoveFocusReason reason) => _webViewControl?.MoveFocus(reason);
-
-        /// <inheritdoc />
-        public void Navigate(Uri source) => _webViewControl?.Navigate(source);
-
-        /// <inheritdoc />
-        public void Navigate(string source)
-        {
-            Verify.IsFalse(IsDisposed);
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.Navigate(source);
-        }
-
-        /// <inheritdoc />
-        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
-
-        /// <inheritdoc />
-        public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
 
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.
