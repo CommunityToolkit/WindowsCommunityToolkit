@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Windows.Interop.Sample.Properties {
+namespace Microsoft.Toolkit.Win32.UI.Interop.Sample.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

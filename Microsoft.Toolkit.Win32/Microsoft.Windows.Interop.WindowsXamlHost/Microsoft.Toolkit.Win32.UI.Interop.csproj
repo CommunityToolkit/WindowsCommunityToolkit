@@ -1,0 +1,85 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Interop</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Interop</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit Win32 XAML Islands Interop</Title>
+    <Description>This library provides XAML islands interop helpers for WPF and WinForms. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>XAML Islands Win32 WPF WindowsForms</PackageTags>
+
+    <!-- Need Metadata contract 6.0 or later -->
+    <!-- First introduced in 17110: Insider Preview (Fast) -->
+    <!-- Most people will have RTM 17134: April 2018 Update -->
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <!--
+    When changing this value, ensure the SDK is installed with the build process.
+    Need to check several files:
+      - /.vsts-ci.yml
+      - /.vsts-pr.yml
+
+    This also needs to be installed on your local machine. Can do this with PowerShell:
+      ./build/Install-WindowsSDKISO.ps1 17709
+    -->
+    <TargetPlatformVersion>10.0.17709.0</TargetPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.WindowsRuntime, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Runtime.WindowsRuntime\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\System.Runtime.WindowsRuntime.UI.Xaml\v4.0_4.0.0.0__b77a5c561934e089\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="Windows">
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17709.0\Windows.winmd</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>

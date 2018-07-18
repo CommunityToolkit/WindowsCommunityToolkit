@@ -4,7 +4,7 @@
 
 using System;
 using System.Windows;
-using Microsoft.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

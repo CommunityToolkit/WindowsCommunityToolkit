@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

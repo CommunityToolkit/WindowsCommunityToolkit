@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Interop;
 
-namespace Microsoft.Windows.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop
 {
     /// <summary>
     /// WindowsXamlHost control hosts UWP XAML content inside the Windows Presentation Foundation

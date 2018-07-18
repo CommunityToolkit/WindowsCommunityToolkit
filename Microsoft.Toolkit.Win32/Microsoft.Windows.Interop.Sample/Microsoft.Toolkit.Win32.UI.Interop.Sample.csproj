@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{88C95EC5-6A53-4BA2-A885-24B23566C175}</ProjectGuid>
     <OutputType>library</OutputType>
-    <RootNamespace>Microsoft.Windows.Interop.Sample</RootNamespace>
-    <AssemblyName>Microsoft.Windows.Interop.Sample</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Interop.Sample</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Interop.Sample</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -88,9 +88,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj">
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Toolkit.Win32.UI.Interop.csproj">
       <Project>{04759899-4afa-4b15-bc7b-3cc20bbec829}</Project>
-      <Name>Microsoft.Windows.Interop.WPF</Name>
+      <Name>Microsoft.Toolkit.Win32.UI.Interop</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

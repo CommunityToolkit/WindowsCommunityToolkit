@@ -11,11 +11,11 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Windows.Interop.Sample")]
+[assembly: AssemblyTitle("Microsoft.Toolkit.Win32.UI.Interop.Sample")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Windows.Interop.Sample")]
+[assembly: AssemblyProduct("Microsoft.Toolkit.Win32.UI.Interop.Sample")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

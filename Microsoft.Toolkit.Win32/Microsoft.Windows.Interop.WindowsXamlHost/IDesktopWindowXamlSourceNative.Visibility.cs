@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Windows.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop
 {
     // IDesktopWindowXamlSourceNative and DesktopWindowXamlSourcExtensions
     // must be fully CLS-compliant or internal to work with the Microsoft-internal

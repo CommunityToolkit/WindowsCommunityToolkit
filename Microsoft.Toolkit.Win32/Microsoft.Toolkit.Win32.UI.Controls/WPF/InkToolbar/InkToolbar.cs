@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
-using Microsoft.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF

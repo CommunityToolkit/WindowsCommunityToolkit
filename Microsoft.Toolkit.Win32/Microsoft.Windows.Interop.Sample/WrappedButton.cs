@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Windows.Interop.Sample
+namespace Microsoft.Toolkit.Win32.UI.Interop.Sample
 {
     using System;
     using System.ComponentModel;
     using System.Windows.Media;
 
-    using Microsoft.Windows.Interop;
+    using Microsoft.Toolkit.Win32.UI.Interop;
 
     public class WrappedButton : WindowsXamlHost
     {

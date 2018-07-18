@@ -10,7 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
-using Microsoft.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
 using uwpControls = global::Windows.UI.Xaml.Controls;

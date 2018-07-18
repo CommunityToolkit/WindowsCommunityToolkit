@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Windows.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop
 {
     using System;
     using System.Collections.Generic;
@@ -80,12 +80,12 @@ namespace Microsoft.Windows.Interop
         /// <summary>
         /// Transform bounds relative to FrameworkElement
         /// </summary>
-        /// <param name="sibling1"></param>
-        /// <param name="sibling2"></param>
-        /// <returns></returns>
+        /// <param name="sibling1">TODO</param>
+        /// <param name="sibling2">TODO</param>
+        /// <returns>TODO</returns>
         private static global::Windows.Foundation.Rect BoundsRelativeTo(System.Windows.FrameworkElement sibling1, System.Windows.Media.Visual sibling2)
         {
-            global::Windows.Foundation.Rect origin = new global::Windows.Foundation.Rect();
+            global::Windows.Foundation.Rect origin = default(global::Windows.Foundation.Rect);
 
             if (sibling1 != null)
             {
