@@ -18,7 +18,8 @@
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
     <SignAssembly>false</SignAssembly>
-    <AssemblyOriginatorKeyFile></AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
     <DebugSymbols>true</DebugSymbols>
@@ -47,14 +48,29 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\ClientUtilities.cs">
+      <Link>Shared\ClientUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\DesignerUI.Designer.cs">
+      <Link>Shared\DesignerUI.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\UriToLocalStreamResolver.cs">
+      <Link>Shared\UriToLocalStreamResolver.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\WebViewDefaults.cs">
+      <Link>Shared\WebViewDefaults.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\PathUtilities.cs">
+      <Link>Shared\PathUtilities.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\UriHelper.cs">
+      <Link>Shared\UriHelper.cs</Link>
+    </Compile>
     <Compile Include="FunctionalTests\AcceleratorKeys\AcceleratorKeysTests.cs" />
     <Compile Include="AssemblyInitializer.cs" />
     <Compile Include="FunctionalTests\BlockTestStartEndContextSpecification.cs" />
     <Compile Include="FunctionalTests\Close\CloseTests.cs" />
-    <Compile Include="FunctionalTests\ControlProcess\EnterpriseIdTests.cs" />
     <Compile Include="FunctionalTests\Ctor\DesignerPropertySettingsTests.cs" />
-    <Compile Include="FunctionalTests\Ctor\MultipleWebViews.cs" />
-    <Compile Include="FunctionalTests\Ctor\WebViewControlProcessCreateWebViewAsyncTests.cs" />
     <Compile Include="FunctionalTests\DocumentTitle\DocumentTitleTests.cs" />
     <Compile Include="FunctionalTests\FullScreen\FullScreenTests.cs" />
     <Compile Include="FunctionalTests\NavigateToLocalStreamUri\BuildStreamTests.cs" />
@@ -90,7 +106,6 @@
     <Compile Include="FunctionalTests\Navigation\NavigationEvents.cs" />
     <Compile Include="FunctionalTests\Ctor\Ctor.cs" />
     <Compile Include="FunctionalTests\HostFormWebViewContextSpecification.cs" />
-    <Compile Include="FunctionalTests\ProcessFactoryWebViewContextSpecification.cs" />
     <Compile Include="FunctionalTests\WebViewContextSpecification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -131,6 +146,11 @@
     <Content Include="FunctionalTests\PreLoad\preload.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\DesignerUI.resx">
+      <Link>Shared\DesignerUI.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

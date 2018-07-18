@@ -36,6 +36,28 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ExternDll.cs">
+      <Link>ExternDll.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Facility.cs">
+      <Link>Facility.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\HRESULT.cs">
+      <Link>HRESULT.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\OSVERSIONINFOEX.cs">
+      <Link>OSVERSIONINFOEX.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ProductType.cs">
+      <Link>ProductType.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Win32Error.cs">
+      <Link>Win32Error.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs">
+      <Link>Verify.cs</Link>
+    </Compile>
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="OperatingSystemAssertions.cs" />
     <Compile Include="TestConstants.Builds.cs" />
     <Compile Include="TestConstants.Uris.cs" />
