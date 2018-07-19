@@ -24,7 +24,7 @@
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
 	  
-	  <SignAssembly Condition="'$(SignAssembly)' == ''">true</SignAssembly>
+	  <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
