@@ -4591,6 +4591,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 newCell.Visibility = column.Visibility;
             }
 
+            if (column is DataGridFillerColumn)
+            {
+                Windows.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(
+                    newCell,
+                    AccessibilityView.Raw);
+            }
+
             newCell.EnsureStyle(null);
             row.Cells.Insert(column.Index, newCell);
         }

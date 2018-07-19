@@ -57,7 +57,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal const int DATAGRIDROW_maximumHeight = 65536;
         internal const double DATAGRIDROW_minimumHeight = 0;
 
+#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
         private const string DATAGRIDROW_detailsVisibleTransition = "DetailsVisibleTransition";
+#endif
 
         private const string DATAGRIDROW_elementBottomGridLine = "BottomGridLine";
         private const string DATAGRIDROW_elementCells = "CellsPresenter";
@@ -477,6 +479,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_fillerCell == null)
                 {
                     _fillerCell = new DataGridCell();
+
+                    Windows.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(
+                        _fillerCell,
+                        AccessibilityView.Raw);
+
                     _fillerCell.Visibility = Visibility.Collapsed;
                     _fillerCell.OwningRow = this;
                     _fillerCell.EnsureStyle(null);

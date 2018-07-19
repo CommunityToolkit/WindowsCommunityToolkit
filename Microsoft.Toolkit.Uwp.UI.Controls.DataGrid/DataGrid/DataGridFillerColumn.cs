@@ -45,6 +45,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGridColumnHeader headerCell = base.CreateHeader();
             if (headerCell != null)
             {
+                Windows.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(
+                    headerCell,
+                    Windows.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
                 headerCell.IsEnabled = false;
             }
 
