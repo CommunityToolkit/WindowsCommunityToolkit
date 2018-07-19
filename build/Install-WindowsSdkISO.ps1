@@ -45,72 +45,93 @@ function Download-File
         $response = $_.Exception.Response
     }
 
-	if ($response.StatusCode -eq 200)
-	{
-		Unblock-File $downloadPath
-		[System.IO.File]::WriteAllText($etagFile, $response.Headers["ETag"])
+    if ($response.StatusCode -eq 200)
+    {
+        Unblock-File $downloadPath
+        [System.IO.File]::WriteAllText($etagFile, $response.Headers["ETag"])
 
-		$downloadDestTemp = $downloadPath;
+        $downloadDestTemp = $downloadPath;
 
-		# Delete and rename to final dest
-		if (Test-Path -PathType Container $downloadDest)
-		{
-			[System.IO.Directory]::Delete($downloadDest, $true)
-		}
+        # Delete and rename to final dest
+        if (Test-Path -PathType Container $downloadDest)
+        {
+            [System.IO.Directory]::Delete($downloadDest, $true)
+        }
 
-		Move-Item -Force $downloadDestTemp $downloadDest
-		Write-Host "Updated $downloadName"
-	}
-	elseif ($response.StatusCode -eq 304)
-	{
-		Write-Host "Done"
-	}
-	else
-	{
-		Write-Host
-		Write-Warning "Failed to fetch updated file from $downloadUrl"
-		if (!(Test-Path $downloadDest))
-		{
-			throw "$downloadName was not found at $downloadDest"
-		}
-		else
-		{
-			Write-Warning "$downloadName may be out of date"
-		}
-	}
+        Move-Item -Force $downloadDestTemp $downloadDest
+        Write-Host "Updated $downloadName"
+    }
+    elseif ($response.StatusCode -eq 304)
+    {
+        Write-Host "Done"
+    }
+    else
+    {
+        Write-Host
+        Write-Warning "Failed to fetch updated file from $downloadUrl"
+        if (!(Test-Path $downloadDest))
+        {
+            throw "$downloadName was not found at $downloadDest"
+        }
+        else
+        {
+            Write-Warning "$downloadName may be out of date"
+        }
+    }
 
-	return $downloadDest
+    return $downloadDest
+}
+
+function Get-ISODriveLetter
+{
+    param ([string] $isoPath)
+
+    $diskImage = Get-DiskImage -ImagePath $isoPath
+    if ($diskImage)
+    {
+        $volume = Get-Volume -DiskImage $diskImage
+
+        if ($volume)
+        {
+            $driveLetter = $volume.DriveLetter
+            if ($driveLetter)
+            {
+                $driveLetter += ":"
+                return $driveLetter
+            }
+        }
+    }
+
+    return $null
 }
 
 function Mount-ISO
 {
-	param ([string] $isoPath)
+    param ([string] $isoPath)
 
-	# Check if image is already mounted
-	$isoDrive = (Get-DiskImage -ImagePath $isoPath | Get-Volume).DriveLetter
+    # Check if image is already mounted
+    $isoDrive = Get-ISODriveLetter $isoPath
 
-	if (!$isoDrive)
-	{
-		Mount-DiskImage -ImagePath $isoPath -StorageType ISO
-	}
+    if (!$isoDrive)
+    {
+        Mount-DiskImage -ImagePath $isoPath -StorageType ISO | Out-Null
+    }
 
-	$isoVolume = (Get-DiskImage -ImagePath $isoPath | Get-Volume)
-	$isoDrive = $isoVolume.DriveLetter + ":"
-
-	Write-Host "$isoPath mounted to $isoDrive"
-
-	return $isoDrive
+    $isoDrive = Get-ISODriveLetter $isoPath
+    Write-Verbose "$isoPath mounted to ${isoDrive}:"
 }
 
 function Dismount-ISO
 {
-	param ([string] $isoPath)
+    param ([string] $isoPath)
 
-	$isoDrive = (Get-DiskImage -ImagePath $isoPath | Get-Volume).DriveLetter
-	if ($isoDrive)
-	{
-		Dismount-DiskImage -ImagePath $isoPath
-	}
+    $isoDrive = (Get-DiskImage -ImagePath $isoPath | Get-Volume).DriveLetter
+
+    if ($isoDrive)
+    {
+        Write-Verbose "$isoPath dismounted"
+        Dismount-DiskImage -ImagePath $isoPath | Out-Null
+    }
 }
 
 # Static(ish) link for Windows SDK
@@ -129,18 +150,38 @@ if (![System.IO.Directory]::Exists($winsdkTempDir))
   [void][System.IO.Directory]::CreateDirectory($winsdkTempDir)
 }
 
-$file = "winsdk.iso"
+$file = "winsdk_$buildNumber.iso"
 
-Write-Output "Getting WinSDK from $uri"
+Write-Verbose "Getting WinSDK from $uri"
 $downloadFile = Download-File $winsdkTempDir $uri $file
 
 # TODO Check if zip, exe, iso, etc.
-Write-Output "Mounting ISO $file..."
-$isoDrive = Mount-ISO $downloadFile
 
 
-Write-Host "Installing WinSDK"
-$setupPath = Join-Path $isoDrive "WinSDKSetup.exe"
-Start-Process -Wait $setupPath "/features OptionId.UWPCpp /q"
+try
+{
+    Write-Host -NoNewline "Mounting ISO $file..."
+    Mount-ISO $downloadFile
+    Write-Host "Done"
 
-Dismount-ISO $downloadFile
+    $isoDrive = Get-ISODriveLetter $downloadFile
+
+    if (Test-Path $isoDrive)
+    {
+        Write-Host -NoNewLine "Installing WinSDK..."
+
+        $setupPath = Join-Path "$isoDrive" "WinSDKSetup.exe"
+        Start-Process -Wait $setupPath "/features OptionId.UWPCpp /q"
+        Write-Host "Done"
+    }
+    else
+    {
+        throw "Could not find mounted ISO at ${isoDrive}"
+    }
+}
+finally
+{
+    Write-Host -NoNewline "Dismounting ISO $file..."
+    Dismount-ISO $downloadFile
+    Write-Host "Done"
+}
