@@ -134,6 +134,24 @@ function Dismount-ISO
     }
 }
 
+function Disable-StrongName
+{
+    param ([string] $publicKeyToken = "*")
+
+    reg ADD "HKLM\SOFTWARE\Microsoft\StrongName\Verification\*,$publicKeyToken" /f | Out-Null
+    if ($env:PROCESSOR_ARCHITECTURE -eq "AMD64")
+    {
+        reg ADD "HKLM\SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\*,$publicKeyToken" /f | Out-Null
+    }
+}
+
+function Test-Admin
+{
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal $identity
+    $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+}
+
 # Static(ish) link for Windows SDK
 # Note: there is a delay from Windows SDK announcements to availability via the static link
 $uri = "https://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Flight&sar=Sdsurl&o1=$buildNumber"
@@ -177,6 +195,18 @@ try
     else
     {
         throw "Could not find mounted ISO at ${isoDrive}"
+    }
+
+    Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
+    if (Test-Admin)
+    {
+        Disable-StrongName "31bf3856ad364e35"
+        Write-Host "Done"
+    }
+    else
+    {
+        Write-Host
+        throw "ERROR: Need elevation to edit registry to disable StrongName"
     }
 }
 finally
