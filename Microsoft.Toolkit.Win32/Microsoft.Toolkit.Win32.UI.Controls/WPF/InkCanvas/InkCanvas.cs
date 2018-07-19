@@ -7,17 +7,27 @@ using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>
+    /// </summary>
     public class InkCanvas : WindowsXamlHost
     {
-        public global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
+        protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkCanvas"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>
+        /// </summary>
         public InkCanvas()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkCanvas).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the InkCanvas class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkCanvas"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public InkCanvas(string typeName)
             : base(typeName)
         {
@@ -46,7 +56,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             base.OnInitialized(e);
         }
 
-        public global::Windows.UI.Input.Inking.InkPresenter InkPresenter
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenter InkPresenter
         {
             get => UwpControl.InkPresenter;
         }

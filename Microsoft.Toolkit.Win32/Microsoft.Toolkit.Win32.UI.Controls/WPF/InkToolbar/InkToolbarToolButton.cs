@@ -3,22 +3,43 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Interop;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media;
+using uwpControls = global::Windows.UI.Xaml.Controls;
+using uwpInking = Windows.UI.Input.Inking;
+using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
+    /// </summary>
     public class InkToolbarToolButton : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToolButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToolButton;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
+        /// </summary>
         public InkToolbarToolButton()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarToolButton).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the InkToolbarToolButton class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public InkToolbarToolButton(string typeName)
             : base(typeName)
         {
@@ -50,17 +71,26 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             base.OnInitialized(e);
         }
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShownProperty"/>
+        /// </summary>
         public static DependencyProperty IsExtensionGlyphShownProperty { get; } = DependencyProperty.Register(nameof(IsExtensionGlyphShown), typeof(bool), typeof(InkToolbarToolButton));
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShown"/>
+        /// </summary>
         public bool IsExtensionGlyphShown
         {
             get => (bool)GetValue(IsExtensionGlyphShownProperty);
             set => SetValue(IsExtensionGlyphShownProperty, value);
         }
 
-        public global::Windows.UI.Xaml.Controls.InkToolbarTool ToolKind
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool ToolKind
         {
-            get => UwpControl.ToolKind;
+            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool)(int)UwpControl.ToolKind;
         }
     }
 }

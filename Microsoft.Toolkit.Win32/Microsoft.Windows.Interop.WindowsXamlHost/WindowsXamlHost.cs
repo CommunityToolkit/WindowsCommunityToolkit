@@ -313,17 +313,4 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
 
         #endregion
     }
-
-    public static class UwpUIElementExtensions
-    {
-        public static WindowsXamlHost GetWrapper(this global::Windows.UI.Xaml.UIElement element)
-        {
-            return (WindowsXamlHost)element.GetValue(WindowsXamlHost.WrapperProperty);
-        }
-
-        public static void SetWrapper(this global::Windows.UI.Xaml.UIElement element, WindowsXamlHost wrapper)
-        {
-            element.SetValue(WindowsXamlHost.WrapperProperty, wrapper);
-        }
-    }
 }

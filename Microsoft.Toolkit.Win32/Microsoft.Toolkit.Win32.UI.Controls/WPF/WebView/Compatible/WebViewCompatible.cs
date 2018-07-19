@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public bool CanGoForward => _implementation.CanGoForward;
 
-        public bool IsLegacy { get; } = Environment.OSVersion.Version.Major > 6;
+        public bool IsLegacy { get; } = !global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
 
         public FrameworkElement View { get => _implementation.View; }
 

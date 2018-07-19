@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,8 +18,6 @@ namespace TestSample
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static readonly Geopoint SeattleGeopoint = new Geopoint(new BasicGeoposition() { Latitude = 47.604, Longitude = -122.329 });
-
         public MainWindow()
         {
             InitializeComponent();
@@ -26,7 +25,7 @@ namespace TestSample
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
+            inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
         }
 
         private void inkToolbar_Initialized(object sender, EventArgs e)
