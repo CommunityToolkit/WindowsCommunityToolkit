@@ -49,6 +49,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.Samples.WPF.WebView\Microsoft.Toolkit.Win32.Samples.WPF.WebView.csproj">
+      <Project>{2fe9aa6a-bd27-438f-9941-221033e4a1dd}</Project>
+      <Name>Microsoft.Toolkit.Win32.Samples.WPF.WebView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
       <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
       <Name>UnitTests.WebView.Shared</Name>

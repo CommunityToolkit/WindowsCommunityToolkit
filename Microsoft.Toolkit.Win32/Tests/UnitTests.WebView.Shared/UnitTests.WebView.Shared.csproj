@@ -54,6 +54,12 @@
       <Version>1.2.1</Version>
     </PackageReference>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj">
+      <Project>{E2CF9896-FE3B-49AB-8B53-1CF7B2FB1240}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->
