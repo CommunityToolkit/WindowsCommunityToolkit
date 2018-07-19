@@ -3,24 +3,43 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Markup;
 using Microsoft.Windows.Interop;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media;
+using uwpControls = global::Windows.UI.Xaml.Controls;
+using uwpInking = Windows.UI.Input.Inking;
+using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    [ContentProperty(nameof(Content))]
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+    /// </summary>
     public class InkToolbarCustomToolButton : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+        /// </summary>
         public InkToolbarCustomToolButton()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the InkToolbarCustomToolButton class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public InkToolbarCustomToolButton(string typeName)
             : base(typeName)
         {
@@ -47,23 +66,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.WidthProperty);
 
             // InkToolbarCustomToolButton specific properties
-            Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty);
+            /* Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty); */
 
             base.OnInitialized(e);
         }
 
-        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(global::Windows.UI.Xaml.UIElement), typeof(InkToolbarCustomToolButton));
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty"/>
+        /// </summary>
+        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(UIElement), typeof(InkToolbarCustomToolButton));
 
-        public global::Windows.UI.Xaml.UIElement ConfigurationContent
+        /// <summary>
+        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
+        /// </summary>
+        public UIElement ConfigurationContent
         {
-            get => (global::Windows.UI.Xaml.UIElement)GetValue(ConfigurationContentProperty);
+            get => (UIElement)GetValue(ConfigurationContentProperty);
             set => SetValue(ConfigurationContentProperty, value);
-        }
-
-        public object Content
-        {
-            get => UwpControl.Content;
-            set => UwpControl.Content = value;
         }
     }
 }

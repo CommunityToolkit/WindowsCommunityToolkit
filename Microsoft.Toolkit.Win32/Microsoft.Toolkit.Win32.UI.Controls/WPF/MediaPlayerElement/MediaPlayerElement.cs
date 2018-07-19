@@ -3,33 +3,32 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
 using Microsoft.Windows.Interop;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using uwpControls = global::Windows.UI.Xaml.Controls;
-using uwpInking = Windows.UI.Input.Inking;
-using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement"/>
+    /// </summary>
     public class MediaPlayerElement : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.MediaPlayerElement;
+        internal global::Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.MediaPlayerElement;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement"/>
+        /// </summary>
         public MediaPlayerElement()
             : this(typeof(global::Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the MediaPlayerElement class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public MediaPlayerElement(string typeName)
             : base(typeName)
         {
@@ -62,72 +61,120 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsFullWindow), IsFullWindowProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.IsFullWindowProperty);
             Bind(nameof(AutoPlay), AutoPlayProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AutoPlayProperty);
             Bind(nameof(AreTransportControlsEnabled), AreTransportControlsEnabledProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabledProperty);
-            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, BindingDirection.OneWay);
+            Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, System.ComponentModel.BindingDirection.OneWay);
 
             base.OnInitialized(e);
         }
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabledProperty"/>
+        /// </summary>
         public static DependencyProperty AreTransportControlsEnabledProperty { get; } = DependencyProperty.Register(nameof(AreTransportControlsEnabled), typeof(bool), typeof(MediaPlayerElement));
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.AutoPlayProperty"/>
+        /// </summary>
         public static DependencyProperty AutoPlayProperty { get; } = DependencyProperty.Register(nameof(AutoPlay), typeof(bool), typeof(MediaPlayerElement));
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.IsFullWindowProperty"/>
+        /// </summary>
         public static DependencyProperty IsFullWindowProperty { get; } = DependencyProperty.Register(nameof(IsFullWindow), typeof(bool), typeof(MediaPlayerElement));
 
-        public static DependencyProperty MediaPlayerProperty { get; } = DependencyProperty.Register(nameof(MediaPlayer), typeof(global::Windows.Media.Playback.MediaPlayer), typeof(MediaPlayerElement));
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty"/>
+        /// </summary>
+        public static DependencyProperty MediaPlayerProperty { get; } = DependencyProperty.Register(nameof(MediaPlayer), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer), typeof(MediaPlayerElement));
 
-        public static DependencyProperty PosterSourceProperty { get; } = DependencyProperty.Register(nameof(PosterSource), typeof(global::Windows.UI.Xaml.Media.ImageSource), typeof(MediaPlayerElement));
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.PosterSourceProperty"/>
+        /// </summary>
+        public static DependencyProperty PosterSourceProperty { get; } = DependencyProperty.Register(nameof(PosterSource), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource), typeof(MediaPlayerElement));
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.SourceProperty"/>
+        /// </summary>
         public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(nameof(Source), typeof(string), typeof(MediaPlayerElement));
 
-        public static DependencyProperty StretchProperty { get; } = DependencyProperty.Register(nameof(Stretch), typeof(global::Windows.UI.Xaml.Media.Stretch), typeof(MediaPlayerElement));
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.StretchProperty"/>
+        /// </summary>
+        public static DependencyProperty StretchProperty { get; } = DependencyProperty.Register(nameof(Stretch), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch), typeof(MediaPlayerElement));
 
-        public void SetMediaPlayer(global::Windows.Media.Playback.MediaPlayer mediaPlayer) => UwpControl.SetMediaPlayer(mediaPlayer);
+        /// <summary>
+        /// <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.SetMediaPlayer"/>
+        /// </summary>
+        public void SetMediaPlayer(Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer mediaPlayer) => UwpControl.SetMediaPlayer(mediaPlayer.UwpInstance);
 
-        public global::Windows.UI.Xaml.Controls.MediaTransportControls TransportControls
+        /// <summary>
+        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.TransportControls"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaTransportControls TransportControls
         {
             get => UwpControl.TransportControls;
-            set => UwpControl.TransportControls = value;
+            set => UwpControl.TransportControls = value.UwpInstance;
         }
 
-        public global::Windows.UI.Xaml.Media.Stretch Stretch
+        /// <summary>
+        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.Stretch"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch Stretch
         {
-            get => (global::Windows.UI.Xaml.Media.Stretch)GetValue(StretchProperty);
+            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch)GetValue(StretchProperty);
             set => SetValue(StretchProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.Source"/>
+        /// </summary>
         public string Source
         {
             get => (string)GetValue(SourceProperty);
             set => SetValue(SourceProperty, value);
         }
 
-        public global::Windows.UI.Xaml.Media.ImageSource PosterSource
+        /// <summary>
+        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.PosterSource"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource PosterSource
         {
-            get => (global::Windows.UI.Xaml.Media.ImageSource)GetValue(PosterSourceProperty);
+            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource)GetValue(PosterSourceProperty);
             set => SetValue(PosterSourceProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.IsFullWindow"/>
+        /// </summary>
         public bool IsFullWindow
         {
             get => (bool)GetValue(IsFullWindowProperty);
             set => SetValue(IsFullWindowProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.AutoPlay"/>
+        /// </summary>
         public bool AutoPlay
         {
             get => (bool)GetValue(AutoPlayProperty);
             set => SetValue(AutoPlayProperty, value);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabled"/>
+        /// </summary>
         public bool AreTransportControlsEnabled
         {
             get => (bool)GetValue(AreTransportControlsEnabledProperty);
             set => SetValue(AreTransportControlsEnabledProperty, value);
         }
 
-        public global::Windows.Media.Playback.MediaPlayer MediaPlayer
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayer"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer MediaPlayer
         {
-            get => (global::Windows.Media.Playback.MediaPlayer)GetValue(MediaPlayerProperty);
+            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer)GetValue(MediaPlayerProperty);
         }
     }
 }

@@ -19,15 +19,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             return new global::Windows.Foundation.Point(wpf.X, wpf.Y);
         }
-
-        public static IReadOnlyList<InkRecognitionResult> ToWpf(this IReadOnlyList<global::Windows.UI.Input.Inking.InkRecognitionResult> uwp)
-        {
-            return uwp.Cast<InkRecognitionResult>().ToList();
-        }
-
-        public static IReadOnlyList<global::Windows.UI.Input.Inking.InkRecognitionResult> ToUwp(this IReadOnlyList<InkRecognitionResult> wpf)
-        {
-            return wpf.Cast<global::Windows.UI.Input.Inking.InkRecognitionResult>().ToList();
-        }
     }
 }
