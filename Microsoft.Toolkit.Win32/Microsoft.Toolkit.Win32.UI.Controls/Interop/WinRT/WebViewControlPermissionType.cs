@@ -41,11 +41,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Permission is for screen.
         /// </summary>
         Screen,
-
-        /// <summary>
-        /// Permissions is for immersive view.
-        /// </summary>
-        /// <remarks>New for RS5</remarks>
-        ImmersiveView,
     }
 }
