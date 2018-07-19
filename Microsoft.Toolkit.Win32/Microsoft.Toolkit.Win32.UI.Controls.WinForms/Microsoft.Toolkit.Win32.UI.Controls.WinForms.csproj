@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls.WinForms</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls.WinForms</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
@@ -32,29 +32,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="WPF\InkCanvas\CoreInputDeviceTypes.cs" />
-    <Compile Remove="WPF\InkCanvas\InkDrawingAttributes.cs" />
-    <Compile Remove="WPF\InkCanvas\InkDrawingAttributesKind.cs" />
-    <Compile Remove="WPF\InkCanvas\InkHighContrastAdjustment.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputProcessingConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputProcessingMode.cs" />
-    <Compile Remove="WPF\InkCanvas\InkInputRightDragAction.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPoint.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPresenterPredefinedConfiguration.cs" />
-    <Compile Remove="WPF\InkCanvas\InkRecognitionResult.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStroke.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeContainer.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeInput.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokeRenderingSegment.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokesCollectedEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\InkStrokesErasedEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\InkSynchronizer.cs" />
-    <Compile Remove="WPF\InkCanvas\InkUnprocessedInput.cs" />
-    <Compile Remove="WPF\InkCanvas\PenTipShape.cs" />
-    <Compile Remove="WPF\InkCanvas\PointerEventArgs.cs" />
-    <Compile Remove="WPF\InkCanvas\PointerPoint.cs" />
-    <Compile Remove="WPF\InkCanvas\VirtualKeyModifiers.cs" />
+    <Compile Include="..\Shared\**\*.cs" LinkBase="Shared" />
   </ItemGroup>
 
   <ItemGroup>
@@ -73,41 +51,25 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="DesignerUI.Designer.cs">
-      <DependentUpon>DesignerUI.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-    <Compile Update="WinForms\WebView\WebView.BaseProperties.cs">
+    <Compile Update="WebView\WebView.BaseProperties.cs">
       <SubType>Component</SubType>
       <DependentUpon>WebView.cs</DependentUpon>
     </Compile>
-    <Compile Update="WinForms\WebView\WebView.cs">
+    <Compile Update="WebView\WebView.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="WinForms\WebView\WebView.Events.cs">
-      <SubType>Component</SubType>
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
-    <Compile Update="WinForms\WebView\WebView.Init.cs">
+    <Compile Update="WebView\WebView.Events.cs">
       <SubType>Component</SubType>
       <DependentUpon>WebView.cs</DependentUpon>
     </Compile>
-    <Compile Update="WinForms\WebView\WebView.Navigation.cs">
+    <Compile Update="WebView\WebView.Init.cs">
       <SubType>Component</SubType>
       <DependentUpon>WebView.cs</DependentUpon>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="DesignerUI.resx">
-      <LastGenOutput>DesignerUI.Designer.cs</LastGenOutput>
-      <Generator>ResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+    <Compile Update="WebView\WebView.Navigation.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

@@ -4,31 +4,30 @@
 
 using System.ComponentModel;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
+namespace Microsoft.Toolkit.Win32.UI.Controls
 {
     /// <summary>
-    /// Initialization states of <see cref="WebView"/> object.
+    /// Initialization states of WebView object.
     /// </summary>
-    /// <seealso cref="WebView"/>
     /// <seealso cref="ISupportInitialize"/>
     internal enum InitializationState
     {
         /// <summary>
-        /// The state in which the <see cref="WebView"/> has not been initialized.
+        /// The state in which the WebView has not been initialized.
         /// At this state, all operations on the object would cause InvalidOperationException.
         /// The object can only transit to 'IsInitializing' state with <see cref="ISupportInitialize.BeginInit"/> call.
         /// </summary>
         Uninitialized,
 
         /// <summary>
-        /// The state in which the <see cref="WebView"/> is being initialized. At this state, user can
+        /// The state in which the WebView is being initialized. At this state, user can
         /// set values into the required properties. The object can only transit to 'IsInitialized' state
         /// with <see cref="ISupportInitialize.EndInit"/> call.
         /// </summary>
         IsInitializing,
 
         /// <summary>
-        /// The state in which the <see cref="WebView"/> object is fully initialized. At this state the object
+        /// The state in which the WebView object is fully initialized. At this state the object
         /// is fully functional. There is no valid transition out of the state.
         /// </summary>
         IsInitialized

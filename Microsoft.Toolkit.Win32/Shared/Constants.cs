@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
+namespace Microsoft.Toolkit.Win32.UI.Controls
 {
     internal static class Constants
     {
         internal const string CategoryAction = "CatAction";
         internal const string CategoryBehavior = "CatBehavior";
-        internal const string ComponentDefaultProperty = nameof(WebView.Source);
-        internal const string ComponentDefaultEvent = nameof(WebView.DOMContentLoaded);
+        internal const string ComponentDefaultProperty = "Source";
+        internal const string ComponentDefaultEvent = "DOMContentLoaded";
         internal const string DescriptionEnterpriseId = "WebViewEnterpriseIdDesc";
         internal const string DescriptionSource = "WebViewSourceDesc";
 

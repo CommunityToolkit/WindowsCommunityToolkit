@@ -54,12 +54,6 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
-      <Project>{78d8b77b-2a55-4037-bcc9-b47806039d23}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="Pack">
     <!-- No-op to avoid build error when packing solution from commandline -->

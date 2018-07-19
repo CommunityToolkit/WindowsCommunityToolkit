@@ -11,8 +11,8 @@ using System.Security;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Windows Community Toolkit Controls for Windows Forms and WPF")]
-[assembly: AssemblyDescription("Wndows Forms and WPF controls for Windows Community Toolkit")]
+[assembly: AssemblyTitle("Windows Community Toolkit Controls for WPF")]
+[assembly: AssemblyDescription("WPF controls from Windows Community Toolkit")]
 
 // Make sure this is the same in the VisualToolsManifest.xml file
 [assembly: AssemblyProduct("Windows Community Toolkit")]
@@ -33,18 +33,6 @@ using System.Security;
 [assembly: Dependency("System", LoadHint.Always)]
 [assembly: Dependency("System.Core", LoadHint.Always)]
 [assembly: Dependency("System.Xml", LoadHint.Always)]
-
-// WinForms
-[assembly: Dependency("System.Windows.Forms", LoadHint.Sometimes)]
-
-[assembly: Dependency("System.Drawing", LoadHint.Sometimes)]
-[assembly: Dependency("System.Configuration", LoadHint.Sometimes)]
-
-[assembly: Dependency("Windows.Web.winmd", LoadHint.Sometimes)]
-[assembly: Dependency("System.Runtime.InteropServices.WindowsRuntime", LoadHint.Sometimes)]
-[assembly: Dependency("Windows.Foundation.winmd", LoadHint.Sometimes)]
-[assembly: Dependency("System.Runtime.WindowsRuntime", LoadHint.Sometimes)]
-[assembly: Dependency("System.Runtime", LoadHint.Sometimes)]
 
 // WPF
 [assembly: Dependency("PresentationFramework", LoadHint.Sometimes)]

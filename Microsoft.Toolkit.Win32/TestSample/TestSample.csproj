@@ -100,10 +100,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
-      <Project>{740413d5-c399-49f9-be0a-1b5d45fb6a1c}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Windows.Interop.Sample\Microsoft.Toolkit.Win32.UI.Interop.Sample.csproj">
       <Project>{88c95ec5-6a53-4ba2-a885-24b23566c175}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Interop.Sample</Name>
