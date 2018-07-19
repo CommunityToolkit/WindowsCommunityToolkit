@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Win32.UI.Controls.WPF;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
 using Windows.Storage;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 
 namespace TestSample
@@ -13,7 +15,7 @@ namespace TestSample
     /// </summary>
     public partial class MainWindow : Window
     {
-        public static readonly Geopoint SeattleGeopoint = new Geopoint(new BasicGeoposition() { Latitude = 47.604, Longitude = -122.329 });
+        public static readonly Windows.Devices.Geolocation.Geopoint SeattleGeopoint = new Windows.Devices.Geolocation.Geopoint(new BasicGeoposition() { Latitude = 47.604, Longitude = -122.329 });
 
         public MainWindow()
         {
@@ -22,12 +24,12 @@ namespace TestSample
 
         private void inkCanvas_Loaded(object sender, RoutedEventArgs e)
         {
-            inkCanvas.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
+            inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
         }
 
         private void inkToolbar_Initialized(object sender, EventArgs e)
         {
-            
+
         }
 
         private void inkToolbar_ActiveToolChanged(object sender, object e)
@@ -53,8 +55,8 @@ namespace TestSample
         {
             myMap.Center = SeattleGeopoint;
             myMap.ZoomLevel = 12;
-            myMap.Style = MapStyle.Road;
-            myMap.MapProjection = MapProjection.Globe;
+            myMap.Style = Microsoft.Toolkit.Win32.UI.Controls.WPF.MapStyle.Road;
+            myMap.MapProjection = Microsoft.Toolkit.Win32.UI.Controls.WPF.MapProjection.Globe;
             
         }
 

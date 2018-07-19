@@ -41,7 +41,6 @@
     <Compile Remove="WPF\InkCanvas\InkInputProcessingMode.cs" />
     <Compile Remove="WPF\InkCanvas\InkInputRightDragAction.cs" />
     <Compile Remove="WPF\InkCanvas\InkPoint.cs" />
-    <Compile Remove="WPF\InkCanvas\InkPresenter.cs" />
     <Compile Remove="WPF\InkCanvas\InkPresenterPredefinedConfiguration.cs" />
     <Compile Remove="WPF\InkCanvas\InkRecognitionResult.cs" />
     <Compile Remove="WPF\InkCanvas\InkStroke.cs" />
@@ -113,9 +112,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Windows.Interop.WPF.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WPF\Support\" />
   </ItemGroup>
 </Project>

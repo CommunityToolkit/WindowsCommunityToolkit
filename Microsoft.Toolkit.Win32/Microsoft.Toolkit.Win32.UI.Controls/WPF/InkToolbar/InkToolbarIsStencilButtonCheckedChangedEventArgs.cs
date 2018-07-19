@@ -11,24 +11,26 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs"/>
     public sealed class InkToolbarIsStencilButtonCheckedChangedEventArgs : EventArgs
     {
-        [SecurityCritical]
         private readonly global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs _args;
 
-        [SecurityCritical]
         internal InkToolbarIsStencilButtonCheckedChangedEventArgs(global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
             _args = args;
         }
 
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton StencilButton
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton"/>
+        /// </summary>
+        public InkToolbarStencilButton StencilButton
         {
-            [SecurityCritical]
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton)_args.StencilButton.GetWrapper();
+            get => (InkToolbarStencilButton)_args.StencilButton.GetWrapper();
         }
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilKind"/>
+        /// </summary>
         public global::Windows.UI.Xaml.Controls.InkToolbarStencilKind StencilKind
         {
-            [SecurityCritical]
             get => (global::Windows.UI.Xaml.Controls.InkToolbarStencilKind)_args.StencilKind;
         }
 

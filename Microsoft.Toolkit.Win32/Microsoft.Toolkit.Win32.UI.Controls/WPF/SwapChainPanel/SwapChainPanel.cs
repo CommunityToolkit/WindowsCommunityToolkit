@@ -1,31 +1,30 @@
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
 using Microsoft.Windows.Interop;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using uwpControls = global::Windows.UI.Xaml.Controls;
-using uwpInking = Windows.UI.Input.Inking;
-using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel"/>
+    /// </summary>
     public class SwapChainPanel : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.SwapChainPanel UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.SwapChainPanel;
+        internal global::Windows.UI.Xaml.Controls.SwapChainPanel UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.SwapChainPanel;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwapChainPanel"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel"/>
+        /// </summary>
         public SwapChainPanel()
             : this(typeof(global::Windows.UI.Xaml.Controls.SwapChainPanel).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the SwapChainPanel class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SwapChainPanel"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public SwapChainPanel(string typeName)
             : base(typeName)
         {
@@ -59,22 +58,41 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             base.OnInitialized(e);
         }
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleXProperty"/>
+        /// </summary>
         public static DependencyProperty CompositionScaleXProperty { get; } = DependencyProperty.Register(nameof(CompositionScaleX), typeof(float), typeof(SwapChainPanel));
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleYProperty"/>
+        /// </summary>
         public static DependencyProperty CompositionScaleYProperty { get; } = DependencyProperty.Register(nameof(CompositionScaleY), typeof(float), typeof(SwapChainPanel));
 
-        public global::Windows.UI.Core.CoreIndependentInputSource CreateCoreIndependentInputSource(global::Windows.UI.Core.CoreInputDeviceTypes deviceTypes) => UwpControl.CreateCoreIndependentInputSource(deviceTypes);
+        /// <summary>
+        /// <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CreateCoreIndependentInputSource"/>
+        /// </summary>
+        /// <returns>CoreIndependentInputSource</returns>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreIndependentInputSource CreateCoreIndependentInputSource(Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreInputDeviceTypes deviceTypes) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.CoreIndependentInputSource)UwpControl.CreateCoreIndependentInputSource((global::Windows.UI.Core.CoreInputDeviceTypes)(uint)deviceTypes);
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleX"/>
+        /// </summary>
         public float CompositionScaleX
         {
             get => (float)GetValue(CompositionScaleXProperty);
         }
 
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleY"/>
+        /// </summary>
         public float CompositionScaleY
         {
             get => (float)GetValue(CompositionScaleYProperty);
         }
 
+        /// <summary>
+        /// <see cref="global::Windows.UI.Xaml.Controls.SwapChainPanel.CompositionScaleChanged"/>
+        /// </summary>
         public event EventHandler<object> CompositionScaleChanged = (sender, args) => { };
 
         private void OnCompositionScaleChanged(global::Windows.UI.Xaml.Controls.SwapChainPanel sender, object args)

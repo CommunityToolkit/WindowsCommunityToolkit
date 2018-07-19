@@ -1,19 +1,41 @@
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Markup;
 using Microsoft.Windows.Interop;
+using Windows.Foundation;
+using Windows.UI.Xaml.Media;
+using uwpControls = global::Windows.UI.Xaml.Controls;
+using uwpInking = Windows.UI.Input.Inking;
+using uwpXaml = global::Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <summary>
+    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>
+    /// </summary>
     public class InkToolbarToggleButton : WindowsXamlHost
     {
-        protected global::Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToggleButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>
+        /// </summary>
         public InkToolbarToggleButton()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarToggleButton).FullName)
         {
         }
 
-        // Summary:
-        //     Initializes a new instance of the InkToolbarToggleButton class.
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
+        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>.
+        /// Intended for internal framework use only.
+        /// </summary>
         public InkToolbarToggleButton(string typeName)
             : base(typeName)
         {
@@ -42,9 +64,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             base.OnInitialized(e);
         }
 
-        public global::Windows.UI.Xaml.Controls.InkToolbarToggle ToggleKind
+        /// <summary>
+        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggleButton.ToggleKind"/>
+        /// </summary>
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggle ToggleKind
         {
-            get => UwpControl.ToggleKind;
+            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggle)(int)UwpControl.ToggleKind;
         }
     }
 }

@@ -804,15 +804,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 switch (webView.Visibility)
                 {
-                    case Visibility.Visible:
+                    case System.Windows.Visibility.Visible:
                         webView._webViewControl.IsVisible = true;
                         break;
 
-                    case Visibility.Hidden:
+                    case System.Windows.Visibility.Hidden:
                         webView._webViewControl.IsVisible = false;
                         break;
 
-                    case Visibility.Collapsed:
+                    case System.Windows.Visibility.Collapsed:
                         webView._webViewControl.IsVisible = false;
 
                         // TODO: Update bounds to set PreferredSize?
