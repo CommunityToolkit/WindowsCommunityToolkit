@@ -2,11 +2,15 @@
 param([Parameter(Mandatory=$true)]
       [string]$buildNumber)
 
-# Constants
-$WindowsSDKOptions = @("OptionId.UWPCpp")
-
 # Ensure the error action preference is set to the default for PowerShell3, 'Stop'
 $ErrorActionPreference = 'Stop'
+
+# Constants
+$WindowsSDKOptions = @("OptionId.UWPCpp")
+$WindowsSDKRegPath = "HKLM:\Software\Microsoft\Windows Kits\Installed Roots"
+$WindowsSDKRegRootKey = "KitsRoot10"
+$WindowsSDKVersion = "10.0.$buildNumber.0"
+$WindowsSDKInstalledRegPath = "$WindowsSDKRegPath\$WindowsSDKVersion\Installed Options"
 
 function Download-File
 {
@@ -153,66 +157,131 @@ function Test-Admin
     $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-# Static(ish) link for Windows SDK
-# Note: there is a delay from Windows SDK announcements to availability via the static link
-$uri = "https://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Flight&sar=Sdsurl&o1=$buildNumber"
-
-if ($env:TEMP -eq $null)
+function Test-RegistryPath
 {
-  $env:TEMP = Join-Path $env:SystemDrive 'temp'
-}
+    param (
+        [parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $path,
+        [parameter(Mandatory=$true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $value)
 
-$winsdkTempDir = Join-Path $env:TEMP "WindowsSDK"
-
-if (![System.IO.Directory]::Exists($winsdkTempDir))
-{
-  [void][System.IO.Directory]::CreateDirectory($winsdkTempDir)
-}
-
-$file = "winsdk_$buildNumber.iso"
-
-Write-Verbose "Getting WinSDK from $uri"
-$downloadFile = Download-File $winsdkTempDir $uri $file
-
-# TODO Check if zip, exe, iso, etc.
-
-
-try
-{
-    Write-Host -NoNewline "Mounting ISO $file..."
-    Mount-ISO $downloadFile
-    Write-Host "Done"
-
-    $isoDrive = Get-ISODriveLetter $downloadFile
-
-    if (Test-Path $isoDrive)
+    try
     {
-        Write-Host -NoNewLine "Installing WinSDK..."
+        if (Test-Path $path)
+        {
+            Get-ItemProperty -Path $path | Select-Object -ExpandProperty $value -ErrorAction Stop | Out-Null
+            return $true
+        }
+    }
+    catch
+    {
+    }
 
-        $setupPath = Join-Path "$isoDrive" "WinSDKSetup.exe"
-        Start-Process -Wait $setupPath "/features $WindowsSDKOptions /q"
+    return $false
+}
+
+$InstallWindowsSDK = $true
+
+Write-Host -NoNewline "Checking for installed Windows SDK $WindowsSDKVersion..."
+if (Test-RegistryPath -Path $WindowsSDKRegPath -Value $WindowsSDKRegRootKey)
+{
+    # A Windows SDK is installed
+    # Is an SDK of our version installed with the options we need?
+    if (Test-RegistryPath -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions")
+    {
+        # It appears we have what we need. Double check the disk
+        $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
+        if ($sdkRoot)
+        {
+            if (Test-Path $sdkRoot)
+            {
+                $refPath = Join-Path $sdkRoot "References\$WindowsSDKVersion"
+                if (Test-Path $refPath)
+                {
+                    $umdPath = Join-Path $sdkRoot "UnionMetadata\$WindowsSDKVersion"
+                    if (Test-Path $umdPath)
+                    {
+                        # Pretty sure we have what we need
+                        $InstallWindowsSDK = $false
+                    }
+                }
+            }
+        }
+    }
+}
+if ($InstallWindowsSDK)
+{
+    Write-Host "Installation required"
+}
+else
+{
+    Write-Host "Done"
+}
+
+
+if ($InstallWindowsSDK)
+{
+    # Static(ish) link for Windows SDK
+    # Note: there is a delay from Windows SDK announcements to availability via the static link
+    $uri = "https://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Flight&sar=Sdsurl&o1=$buildNumber"
+
+    if ($env:TEMP -eq $null)
+    {
+        $env:TEMP = Join-Path $env:SystemDrive 'temp'
+    }
+
+    $winsdkTempDir = Join-Path $env:TEMP "WindowsSDK"
+
+    if (![System.IO.Directory]::Exists($winsdkTempDir))
+    {
+        [void][System.IO.Directory]::CreateDirectory($winsdkTempDir)
+    }
+
+    $file = "winsdk_$buildNumber.iso"
+
+    Write-Verbose "Getting WinSDK from $uri"
+    $downloadFile = Download-File $winsdkTempDir $uri $file
+
+    # TODO Check if zip, exe, iso, etc.
+    try
+    {
+        Write-Host -NoNewline "Mounting ISO $file..."
+        Mount-ISO $downloadFile
+        Write-Host "Done"
+
+        $isoDrive = Get-ISODriveLetter $downloadFile
+
+        if (Test-Path $isoDrive)
+        {
+            Write-Host -NoNewLine "Installing WinSDK..."
+
+            $setupPath = Join-Path "$isoDrive" "WinSDKSetup.exe"
+            Start-Process -Wait $setupPath "/features $WindowsSDKOptions /q"
+            Write-Host "Done"
+        }
+        else
+        {
+            throw "Could not find mounted ISO at ${isoDrive}"
+        }        
+    }
+    finally
+    {
+        Write-Host -NoNewline "Dismounting ISO $file..."
+        #Dismount-ISO $downloadFile
         Write-Host "Done"
     }
-    else
-    {
-        throw "Could not find mounted ISO at ${isoDrive}"
-    }
-
-    Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
-    if (Test-Admin)
-    {
-        Disable-StrongName "31bf3856ad364e35"
-        Write-Host "Done"
-    }
-    else
-    {
-        Write-Host
-        throw "ERROR: Need elevation to edit registry to disable StrongName"
-    }
 }
-finally
+
+Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
+if (Test-Admin)
 {
-    Write-Host -NoNewline "Dismounting ISO $file..."
-    #Dismount-ISO $downloadFile
+    Disable-StrongName "31bf3856ad364e35"
     Write-Host "Done"
+}
+else
+{
+    Write-Host
+    throw "ERROR: Need elevation to edit registry to disable StrongName"
 }
