@@ -1079,7 +1079,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             ApiInformationExtensions.ExecuteIfEventPresent(
                 WinRtType,
                 "LostFocus",
-                () => { _webViewControl.GotFocus += OnLostFocus; });
+                () => { _webViewControl.LostFocus += OnLostFocus; });
         }
 
         [SecurityCritical]
@@ -1127,7 +1127,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             ApiInformationExtensions.ExecuteIfEventPresent(
                 WinRtType,
                 "LostFocus",
-                () => { _webViewControl.GotFocus -= OnLostFocus; });
+                () => { _webViewControl.LostFocus -= OnLostFocus; });
         }
 
         private void UnsubscribeProcessExited()
