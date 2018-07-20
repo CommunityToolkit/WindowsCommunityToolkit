@@ -3,6 +3,7 @@ param([Parameter(Mandatory=$true)]
       [string]$buildNumber)
 
 # Constants
+$WindowsSDKOptions = @("OptionId.UWPCpp")
 
 # Ensure the error action preference is set to the default for PowerShell3, 'Stop'
 $ErrorActionPreference = 'Stop'
@@ -189,7 +190,7 @@ try
         Write-Host -NoNewLine "Installing WinSDK..."
 
         $setupPath = Join-Path "$isoDrive" "WinSDKSetup.exe"
-        Start-Process -Wait $setupPath "/features OptionId.UWPCpp /q"
+        Start-Process -Wait $setupPath "/features $WindowsSDKOptions /q"
         Write-Host "Done"
     }
     else
@@ -212,6 +213,6 @@ try
 finally
 {
     Write-Host -NoNewline "Dismounting ISO $file..."
-    Dismount-ISO $downloadFile
+    #Dismount-ISO $downloadFile
     Write-Host "Done"
 }
