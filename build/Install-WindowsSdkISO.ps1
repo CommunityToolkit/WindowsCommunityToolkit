@@ -11,6 +11,8 @@ $WindowsSDKRegPath = "HKLM:\Software\Microsoft\Windows Kits\Installed Roots"
 $WindowsSDKRegRootKey = "KitsRoot10"
 $WindowsSDKVersion = "10.0.$buildNumber.0"
 $WindowsSDKInstalledRegPath = "$WindowsSDKRegPath\$WindowsSDKVersion\Installed Options"
+$StrongNameRegPath = "HKLM:\SOFTWARE\Microsoft\StrongName\Verification"
+$PublicKeyTokens = @("31bf3856ad364e35")
 
 function Download-File
 {
@@ -157,7 +159,7 @@ function Test-Admin
     $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Test-RegistryPath
+function Test-RegistryPathAndValue
 {
     param (
         [parameter(Mandatory=$true)]
@@ -182,44 +184,85 @@ function Test-RegistryPath
     return $false
 }
 
-$InstallWindowsSDK = $true
-
-Write-Host -NoNewline "Checking for installed Windows SDK $WindowsSDKVersion..."
-if (Test-RegistryPath -Path $WindowsSDKRegPath -Value $WindowsSDKRegRootKey)
+function Test-InstallWindowsSDK
 {
-    # A Windows SDK is installed
-    # Is an SDK of our version installed with the options we need?
-    if (Test-RegistryPath -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions")
+    $retval = $true
+
+    if (Test-RegistryPathAndValue -Path $WindowsSDKRegPath -Value $WindowsSDKRegRootKey)
     {
-        # It appears we have what we need. Double check the disk
-        $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
-        if ($sdkRoot)
+        # A Windows SDK is installed
+        # Is an SDK of our version installed with the options we need?
+        if (Test-RegistryPathAndValue -Path $WindowsSDKInstalledRegPath -Value "$WindowsSDKOptions")
         {
-            if (Test-Path $sdkRoot)
+            # It appears we have what we need. Double check the disk
+            $sdkRoot = Get-ItemProperty -Path $WindowsSDKRegPath | Select-Object -ExpandProperty $WindowsSDKRegRootKey
+            if ($sdkRoot)
             {
-                $refPath = Join-Path $sdkRoot "References\$WindowsSDKVersion"
-                if (Test-Path $refPath)
+                if (Test-Path $sdkRoot)
                 {
-                    $umdPath = Join-Path $sdkRoot "UnionMetadata\$WindowsSDKVersion"
-                    if (Test-Path $umdPath)
+                    $refPath = Join-Path $sdkRoot "References\$WindowsSDKVersion"
+                    if (Test-Path $refPath)
                     {
-                        # Pretty sure we have what we need
-                        $InstallWindowsSDK = $false
+                        $umdPath = Join-Path $sdkRoot "UnionMetadata\$WindowsSDKVersion"
+                        if (Test-Path $umdPath)
+                        {
+                            # Pretty sure we have what we need
+                            $retval = $false
+                        }
                     }
                 }
             }
         }
     }
+
+    return $retval
 }
+
+function Test-InstallStrongNameHijack
+{
+    foreach($publicKeyToken in $PublicKeyTokens)
+    {
+        $key = "$StrongNameRegPath\*,$publicKeyToken"
+        if (!(Test-Path $key))
+        {
+            return $true
+        }
+    }
+
+    return $false
+}
+
+Write-Host -NoNewline "Checking for installed Windows SDK $WindowsSDKVersion..."
+$InstallWindowsSDK = Test-InstallWindowsSDK
 if ($InstallWindowsSDK)
 {
     Write-Host "Installation required"
 }
 else
 {
+    Write-Host "INSTALLED"
+}
+
+$StrongNameHijack = Test-InstallStrongNameHijack
+Write-Host -NoNewline "Checking if StrongName bypass required..."
+
+if ($StrongNameHijack)
+{
+    Write-Host "REQUIRED"
+}
+else
+{
     Write-Host "Done"
 }
 
+if ($StrongNameHijack -or $InstallWindowsSDK)
+{
+    if (!(Test-Admin))
+    {
+        Write-Host
+        throw "ERROR: Elevation required"
+    }
+}
 
 if ($InstallWindowsSDK)
 {
@@ -264,7 +307,7 @@ if ($InstallWindowsSDK)
         else
         {
             throw "Could not find mounted ISO at ${isoDrive}"
-        }        
+        }
     }
     finally
     {
@@ -274,14 +317,14 @@ if ($InstallWindowsSDK)
     }
 }
 
-Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
-if (Test-Admin)
+if ($StrongNameHijack)
 {
-    Disable-StrongName "31bf3856ad364e35"
+    Write-Host -NoNewline "Disabling StrongName for Windows SDK..."
+
+    foreach($key in $PublicKeyTokens)
+    {
+        Disable-StrongName $key
+    }
+
     Write-Host "Done"
-}
-else
-{
-    Write-Host
-    throw "ERROR: Need elevation to edit registry to disable StrongName"
 }
