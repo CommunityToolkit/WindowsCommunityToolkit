@@ -12,11 +12,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
     /// </summary>
     partial class WindowsXamlHost : HwndHost
     {
-        #region DEBUG
         /// <summary>
         /// Debug tracing component instance for WindowsXamlHost
         /// </summary>
-        private static TraceSource traceSource = new TraceSource("WindowsXamlHost");
-        #endregion DEBUG
+        private static readonly TraceSource TraceSource = new TraceSource("WindowsXamlHost");
     }
 }

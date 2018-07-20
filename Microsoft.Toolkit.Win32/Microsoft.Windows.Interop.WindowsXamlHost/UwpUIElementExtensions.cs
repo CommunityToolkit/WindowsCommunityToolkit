@@ -1,19 +1,15 @@
-﻿// <copyright file="WindowsXamlHost.cs" company="Microsoft">
-//     Copyright (c) Microsoft Corporation.  All rights reserved.
-// </copyright>
-// <author>Microsoft</author>
+﻿
 
 namespace Microsoft.Toolkit.Win32.UI.Interop
 {
-
-    public static class UwpUIElementExtensions
+    public static class UwpUiElementExtensions
     {
-        public static WindowsXamlHost GetWrapper(this global::Windows.UI.Xaml.UIElement element)
+        public static WindowsXamlHost GetWrapper(this Windows.UI.Xaml.UIElement element)
         {
             return (WindowsXamlHost)element.GetValue(WindowsXamlHost.WrapperProperty);
         }
 
-        public static void SetWrapper(this global::Windows.UI.Xaml.UIElement element, WindowsXamlHost wrapper)
+        public static void SetWrapper(this Windows.UI.Xaml.UIElement element, WindowsXamlHost wrapper)
         {
             element.SetValue(WindowsXamlHost.WrapperProperty, wrapper);
         }
