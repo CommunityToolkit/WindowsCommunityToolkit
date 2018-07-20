@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// <returns></returns>
         protected override bool HasFocusWithinCore()
         {
-            return base.HasFocusWithinCore();
+            return DesktopWindowXamlSource.HasFocus;
         }
 
         /// <summary>
