@@ -287,6 +287,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
                 XamlRoot = null;
                 _desktopWindowXamlSource.Dispose();
                 _desktopWindowXamlSource = null;
+
+                _windowsXamlManager?.Dispose();
+                _windowsXamlManager = null;
             }
         }
     }
