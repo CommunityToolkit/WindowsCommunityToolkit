@@ -94,8 +94,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             {
                 return ApiInformationExtensions.ExecuteIfPropertyPresent(
                     WinRtType,
-                    "Partition",
-                    () => _process.Partition) ?? string.Empty;
+                    "UserAgent",
+                    () => _process.UserAgent) ?? string.Empty;
             }
         }
 
