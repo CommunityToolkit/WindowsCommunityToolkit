@@ -1,16 +1,16 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// <copyright file="WindowsXamlHostKeyboardFocus.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// <author>Microsoft</author>
 
 namespace Microsoft.Windows.Interop
 {
     using System;
     using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Input;
     using System.Windows.Interop;
 
-    partial class WindowsXamlHost : HwndHost
+    partial class WindowsXamlHostBase : HwndHost
     {
         #region KeyboardFocus
 
@@ -23,7 +23,7 @@ namespace Microsoft.Windows.Interop
         /// Dictionary that maps WPF (host framework) FocusNavigationDirection to UWP XAML XxamlSourceFocusNavigationReason
         /// </summary>
         private readonly static Dictionary<System.Windows.Input.FocusNavigationDirection, global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason>
-            MapDirectionToReason =
+            mapDirectionToReason =
                 new Dictionary<System.Windows.Input.FocusNavigationDirection, global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason>
                 {
                     { System.Windows.Input.FocusNavigationDirection.Next,     global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First },
@@ -40,7 +40,7 @@ namespace Microsoft.Windows.Interop
         /// Dictionary that maps UWP XAML XamlSourceFocusNavigationReason to WPF (host framework) FocusNavigationDirection
         /// </summary>
         private readonly static Dictionary<global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason, System.Windows.Input.FocusNavigationDirection>
-            MapReasonToDirection =
+            mapReasonToDirection =
                 new Dictionary<global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason, System.Windows.Input.FocusNavigationDirection>()
                 {
                     { global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First, System.Windows.Input.FocusNavigationDirection.Next },
@@ -71,7 +71,7 @@ namespace Microsoft.Windows.Interop
             {
                 // Last focus request is not initiated by us, so continue
                 this.lastFocusRequest = e.Request.CorrelationId;
-                System.Windows.Input.FocusNavigationDirection direction = MapReasonToDirection[e.Request.Reason];
+                System.Windows.Input.FocusNavigationDirection direction = mapReasonToDirection[e.Request.Reason];
                 var request = new System.Windows.Input.TraversalRequest(direction);
                 this.MoveFocus(request);
             }
@@ -113,7 +113,7 @@ namespace Microsoft.Windows.Interop
                 System.Windows.Input.FocusManager.GetFocusScope(this)) as System.Windows.FrameworkElement;
 
             global::Windows.Foundation.Rect origin = BoundsRelativeTo(focusedElement, this);
-            global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason reason = MapDirectionToReason[traversalRequest.FocusNavigationDirection];
+            global::Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason reason = mapDirectionToReason[traversalRequest.FocusNavigationDirection];
             if (this.lastFocusRequest == System.Guid.Empty)
             {
                 this.lastFocusRequest = System.Guid.NewGuid();

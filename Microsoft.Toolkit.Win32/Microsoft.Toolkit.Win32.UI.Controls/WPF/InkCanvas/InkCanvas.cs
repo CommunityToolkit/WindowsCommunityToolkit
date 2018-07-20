@@ -10,9 +10,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>
     /// </summary>
-    public class InkCanvas : WindowsXamlHost
+    public class InkCanvas : WindowsXamlHostBaseExt
     {
-        protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkCanvas;
+        protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkCanvas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a

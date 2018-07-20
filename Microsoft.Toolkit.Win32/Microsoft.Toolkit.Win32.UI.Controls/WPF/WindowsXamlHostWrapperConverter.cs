@@ -11,7 +11,7 @@ using uwpXaml = global::Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Dual interface IValueConverter, assumes that the conversion is between a WindowsXamlHost and its wrapped UIElement (XamlRoot) and attempts to return the correct instance of each.
+    /// Dual interface IValueConverter, assumes that the conversion is between a WindowsXamlHostBaseExt and its wrapped UIElement (XamlRoot) and attempts to return the correct instance of each.
     /// </summary>
     internal class WindowsXamlHostWrapperConverter : IValueConverter, global::Windows.UI.Xaml.Data.IValueConverter
     {
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         object global::Windows.UI.Xaml.Data.IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
-            return (value as WindowsXamlHost)?.XamlRoot;
+            return (value as WindowsXamlHostBaseExt)?.XamlRootInternal;
         }
 
         object global::Windows.UI.Xaml.Data.IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)

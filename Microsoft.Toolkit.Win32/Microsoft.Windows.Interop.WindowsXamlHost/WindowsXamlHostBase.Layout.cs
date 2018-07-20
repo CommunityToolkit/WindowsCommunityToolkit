@@ -1,6 +1,7 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// <copyright file="WindowsXamlHostLayout.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// <author>Microsoft</author>
 
 namespace Microsoft.Windows.Interop
 {
@@ -8,7 +9,7 @@ namespace Microsoft.Windows.Interop
     using System.Windows;
     using System.Windows.Interop;
 
-    partial class WindowsXamlHost : HwndHost
+    partial class WindowsXamlHostBase : HwndHost
     {
         #region Layout
 
@@ -49,20 +50,9 @@ namespace Microsoft.Windows.Interop
                 // until Arrange is called, and the UWP XAML content is expanded to fill the available space.
                 global::Windows.Foundation.Rect finalRect = new global::Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height);
                 this.desktopWindowXamlSource.Content.Arrange(finalRect);
-            } 
+            }
 
             return base.ArrangeOverride(finalSize);
-        }
-
-        /// <summary>
-        /// Notifies host control when wrapped UWP XAML content has become dirty and performed a layout pass
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Object</param>
-        private void XamlContentLayoutUpdated(object sender, object e)
-        {
-            // UWP XAML content has changed. Force parent control to re-measure.
-            InvalidateMeasure();
         }
 
         /// <summary>
@@ -70,9 +60,9 @@ namespace Microsoft.Windows.Interop
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">SizeChangedEventArgs</param>
-        private void XamlContentSizeChanged(object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e)
+        protected void XamlContentSizeChanged(object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            this.ParentLayoutInvalidated(this);
+            this.InvalidateMeasure();
         }
 
         #endregion

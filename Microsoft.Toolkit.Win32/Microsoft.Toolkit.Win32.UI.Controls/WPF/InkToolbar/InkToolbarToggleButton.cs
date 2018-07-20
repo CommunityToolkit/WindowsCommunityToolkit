@@ -22,9 +22,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>
     /// </summary>
-    public class InkToolbarToggleButton : WindowsXamlHost
+    public class InkToolbarToggleButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToggleButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
@@ -43,6 +43,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public InkToolbarToggleButton(string typeName)
             : base(typeName)
         {
+        }
+
+        protected override void SetHost()
+        {
+            if (this.VisualParent is InkToolbar parent)
+            {
+                if (parent.XamlRootInternal is global::Windows.UI.Xaml.Controls.InkToolbar toolbar)
+                {
+                    toolbar.Children.Add(this.UwpControl);
+                }
+            }
         }
 
         protected override void OnInitialized(EventArgs e)

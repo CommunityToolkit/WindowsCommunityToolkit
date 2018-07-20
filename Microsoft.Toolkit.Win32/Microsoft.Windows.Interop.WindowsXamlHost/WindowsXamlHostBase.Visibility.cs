@@ -1,13 +1,14 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// <copyright file="WindowsXamlHost.Visible.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// <author>Microsoft</author>
 
 namespace Microsoft.Windows.Interop
 {
     // WindowsXamlHost must be fully CLS-compliant or internal to work
     // with the Microsoft-internal UWP XAML test harness.  This file is 
     // required in the public project file to make the class public.
-    public partial class WindowsXamlHost
+    public partial class WindowsXamlHostBase
     {
     }
 }

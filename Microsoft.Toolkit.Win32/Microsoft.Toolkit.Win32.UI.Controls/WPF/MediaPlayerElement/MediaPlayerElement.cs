@@ -11,9 +11,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.MediaPlayerElement"/>
     /// </summary>
-    public class MediaPlayerElement : WindowsXamlHost
+    public class MediaPlayerElement : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.MediaPlayerElement;
+        internal global::Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.MediaPlayerElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a

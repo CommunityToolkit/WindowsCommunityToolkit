@@ -71,14 +71,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="UWPTypeFactory.cs" />
     <Compile Include="UwpUIElementExtensions.cs" />
     <Compile Include="WindowsXamlHost.cs" />
-    <Compile Include="WindowsXamlHost.Debugging.cs" />
-    <Compile Include="WindowsXamlHost.Focus.cs" />
-    <Compile Include="WindowsXamlHost.Layout.cs" />
-    <Compile Include="WindowsXamlHost.UWPTypeFactory.cs" />
-    <Compile Include="WindowsXamlHost.Visibility.cs" />
-    <Compile Include="WindowsXamlHost.XamlApplication.cs" />
+    <Compile Include="WindowsXamlHostBase.cs" />
+    <Compile Include="WindowsXamlHostBase.Focus.cs" />
+    <Compile Include="WindowsXamlHostBase.Layout.cs" />
+    <Compile Include="WindowsXamlHostBase.Visibility.cs" />
+    <Compile Include="XamlApplication.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
