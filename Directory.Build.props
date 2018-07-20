@@ -23,6 +23,9 @@
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+	  
+	  <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <Choose>
@@ -106,13 +109,9 @@
       </ItemGroup>
     </When>
   </Choose>
-  
-  <PropertyGroup>
-    <NerdbankGitVersioningVersion>2.1.23</NerdbankGitVersioningVersion>
-  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.23" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>
