@@ -26,6 +26,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
         private const string DATAGRIDTEXTCOLUMN_fontWeightName = "FontWeight";
         private const string DATAGRIDTEXTCOLUMN_foregroundName = "Foreground";
+        private const double DATAGRIDTEXTCOLUMN_leftMargin = 12.0;
+        private const double DATAGRIDTEXTCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
         private FontStyle? _fontStyle;
@@ -215,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             TextBlock textBlockElement = new TextBlock();
-            textBlockElement.Margin = new Thickness(12, 0, 12, 0);
+            textBlockElement.Margin = new Thickness(DATAGRIDTEXTCOLUMN_leftMargin, 0.0, DATAGRIDTEXTCOLUMN_rightMargin, 0.0);
             textBlockElement.VerticalAlignment = VerticalAlignment.Center;
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
             {

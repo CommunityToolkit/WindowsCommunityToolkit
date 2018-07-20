@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             this.OwningGrid.AvailableSlotElementRoom = availableSize.Height - totalHeight;
 
             // TODO: totalHeight can be negative if we've just collapsed details.  This is a workaround,
-            // the real fix is to correct NegVerticalOffset
+            // the real fix is to correct NegVerticalOffset.
             totalHeight = Math.Max(0, totalHeight);
 
             return new Size(totalCellsWidth + headerWidth, totalHeight);

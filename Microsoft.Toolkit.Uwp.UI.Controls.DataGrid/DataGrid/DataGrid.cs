@@ -1068,8 +1068,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 dataGrid.InvalidateRowsMeasure(true /*invalidateIndividualElements*/);
             }
 
-            // TODO: This isn't necessary if the TopLeftCorner and the TopRightCorner Autosize to 0
-            // see if their templates can be changed to do that
+            // TODO: This isn't necessary if the TopLeftCorner and the TopRightCorner Autosize to 0.
+            // See if their templates can be changed to do that.
             if (dataGrid._topLeftCornerHeader != null)
             {
                 dataGrid._topLeftCornerHeader.Visibility = (newValueRows && newValueCols) ? Visibility.Visible : Visibility.Collapsed;
@@ -1152,7 +1152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 dataGrid.UpdateRowsPresenterManipulationMode(true /*horizontalMode*/, false /*verticalMode*/);
 
-                if (!dataGrid.IsHorizontalScrollBarOverCells && dataGrid._hScrollBar != null)
+                if (dataGrid._hScrollBar != null)
                 {
                     dataGrid.InvalidateMeasure();
                 }
@@ -2042,7 +2042,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 dataGrid.UpdateRowsPresenterManipulationMode(false /*horizontalMode*/, true /*verticalMode*/);
 
-                if (!dataGrid.IsVerticalScrollBarOverCells && dataGrid._vScrollBar != null)
+                if (dataGrid._vScrollBar != null)
                 {
                     dataGrid.InvalidateMeasure();
                 }
@@ -4218,8 +4218,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Invalidate so the scroll happens on idle
                     InvalidateRowsMeasure(false /*invalidateIndividualElements*/);
                 }
-
-                // TODO: See if we need to update the vertical scrollbar's ViewRange
             }
             finally
             {
@@ -4602,7 +4600,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             row.Cells.Insert(column.Index, newCell);
         }
 
-        // TODO - Call this method once the UISettings has a public property for the "Automatically hide scroll bars in Windows" setting
+        // TODO: Call this method once the UISettings has a public property for the "Automatically hide scroll bars in Windows" setting
         // private void AutoHideScrollBarsChanged()
         // {
         //    if (UISettingsHelper.AreSettingsAutoHidingScrollBars)
@@ -4869,9 +4867,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _ignoreNextScrollBarsLayout = false;
 
-                // TODO: This optimization is causing problems with initial layout
-                // return; // TODO: Investigate why horizontal scrollbar sometimes has incorrect thumb size
-                // TODO  when it first appears after adding a row when this perf improvement is turned on.
+                // TODO: This optimization is causing problems with initial layout:
+                //       Investigate why horizontal ScrollBar sometimes has incorrect thumb size when
+                //       it first appears after adding a row when this perf improvement is turned on.
+                // return;
             }
 
             bool isHorizontalScrollBarOverCells = this.IsHorizontalScrollBarOverCells;
@@ -8342,9 +8341,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             updated = true;
                             row.SetDetailsVisibilityInternal(
                                 newDetailsVisibility,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                                false /*animate*/,
-#endif
                                 true /*raiseNotification*/);
                         }
                     }

@@ -69,9 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // Apply the new Binding to existing rows in the DataGrid
                         if (this.OwningGrid != null)
                         {
-                            // TODO: We want clear the Bindings if Binding is set to null
-                            // but there's no way to do that right now.  Revisit this if Silverlight
-                            // implements the equivalent of BindingOperations.ClearBinding
+                            // TODO: We want to clear the Bindings if Binding is set to null
+                            // but there's no way to do that right now.  Revisit this if UWP
+                            // implements the equivalent of BindingOperations.ClearBinding.
                             this.OwningGrid.OnColumnBindingChanged(this);
                         }
                     }

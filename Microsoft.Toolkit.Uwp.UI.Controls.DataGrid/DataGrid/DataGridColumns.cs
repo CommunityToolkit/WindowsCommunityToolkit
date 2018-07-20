@@ -226,7 +226,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _horizontalOffset = _negHorizontalOffset = 0;
 
-            // TODO: May use Enabled when available
             if (_hScrollBar != null && _hScrollBar.Visibility == Visibility.Visible)
             {
                 _hScrollBar.Value = 0;
@@ -814,7 +813,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _horizontalOffset -= GetEdgedColumnWidth(dataGridColumn);
                 }
 
-                // TODO: May use Enabled when available
                 if (_hScrollBar != null && _hScrollBar.Visibility == Visibility.Visible)
                 {
                     _hScrollBar.Value = _horizontalOffset;

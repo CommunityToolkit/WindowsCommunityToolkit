@@ -22,9 +22,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public class DataGridCheckBoxColumn : DataGridBoundColumn
     {
         private const string DATAGRIDCHECKBOXCOLUMN_isThreeStateName = "IsThreeState";
+        private const double DATAGRIDCHECKBOXCOLUMN_leftMargin = 12.0;
 
         private bool _beganEditWithKeyboard;
-        private bool _isThreeState; // TODO: remove once dependency properties are implemented.
+        private bool _isThreeState;
         private CheckBox _currentCheckBox;
         private DataGrid _owningGrid;
 
@@ -255,8 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ConfigureCheckBox(CheckBox checkBox, Brush computedRowForeground)
         {
-            // TODO - use constant for 12 as well as in DataGridTextColumn.cs
-            checkBox.Margin = new Thickness(12, 0, 0, 0);
+            checkBox.Margin = new Thickness(DATAGRIDCHECKBOXCOLUMN_leftMargin, 0.0, 0.0, 0.0);
             checkBox.HorizontalAlignment = HorizontalAlignment.Left;
             checkBox.VerticalAlignment = VerticalAlignment.Center;
             checkBox.IsThreeState = this.IsThreeState;

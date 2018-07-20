@@ -1349,17 +1349,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnsureRowDetailsVisibility(
             DataGridRow row,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-            bool animate,
-#endif
             bool raiseNotification)
         {
             // Show or hide RowDetails based on DataGrid settings
             row.SetDetailsVisibilityInternal(
                 GetRowDetailsVisibility(row.Index),
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                animate,
-#endif
                 raiseNotification);
         }
 
@@ -2445,8 +2439,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (row == this.EditingRow)
             {
-                // TODO: Investigate why this is required to prevent
-                // old edited cells to use a xxxFocused state.
                 row.ApplyCellsState(false /*animate*/);
             }
 
@@ -2471,9 +2463,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Show or hide RowDetails based on DataGrid settings
             EnsureRowDetailsVisibility(
                 row,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                false /*animate*/,
-#endif
                 false /*raiseNotification*/);
         }
 
@@ -2819,8 +2808,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             // Figure out what row we've scrolled down to and update the value for this.NegVerticalOffset
                             this.NegVerticalOffset = 0;
 
-                            // TODO: This optimization is a very complex and risky with details being VisibleWhenSelected and also taking into account other
-                            // details exceptions.  This is a temporary fix for DDB 181447 and DDB 199109.  Put in a real fix after Beta2
                             if (height > 2 * this.CellsHeight &&
                                 (this.RowDetailsVisibilityMode != DataGridRowDetailsVisibilityMode.VisibleWhenSelected || this.RowDetailsTemplate == null))
                             {
@@ -2883,8 +2870,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         deltaY = -this.NegVerticalOffset;
                         this.NegVerticalOffset = 0;
 
-                        // TODO: This optimization is a very complex and risky with details being VisibleWhenSelected and also taking into account other
-                        // details exception.  This is a temporary fix for DDB 181447 and DDB 199109.  Put in a real fix after Beta2
                         if (height < -2 * this.CellsHeight &&
                             (this.RowDetailsVisibilityMode != DataGridRowDetailsVisibilityMode.VisibleWhenSelected || this.RowDetailsTemplate == null))
                         {
@@ -3053,9 +3038,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 row.ApplyState(true /*animate*/);
                 EnsureRowDetailsVisibility(
                     row,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                    true /*animate*/,
-#endif
                     true /*raiseNotification*/);
             }
             else

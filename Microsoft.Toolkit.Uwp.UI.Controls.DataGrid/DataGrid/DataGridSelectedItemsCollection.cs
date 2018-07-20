@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public void CopyTo(Array array, int index)
         {
-            // TODO
+            // TODO: Not supported yet.
             throw new NotImplementedException();
         }
 

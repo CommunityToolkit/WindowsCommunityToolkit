@@ -52,7 +52,6 @@
 
     <x:Double x:Key="ListAccentLowOpacity">0.6</x:Double>
     <x:Double x:Key="ListAccentMediumOpacity">0.8</x:Double>
-    <!--<x:Double x:Key="ListAccentHighOpacity">0.9</x:Double>-->
 
     <StaticResource x:Key="GridLinesBrush" ResourceKey="SystemControlGridLinesBaseMediumLowBrush"/>
     <StaticResource x:Key="DataGridColumnHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
@@ -72,10 +71,6 @@
     <StaticResource x:Key="DataGridRowSelectedUnfocusedBackgroundOpacity" ResourceKey="ListAccentLowOpacity"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundColor" ResourceKey="SystemAccentColor"/>
     <StaticResource x:Key="DataGridRowSelectedHoveredUnfocusedBackgroundOpacity" ResourceKey="ListAccentMediumOpacity"/>
-    <!--
-    <StaticResource x:Key="DataGridRowSelectedPressedBackgroundColor" ResourceKey="SystemAccentColor"/>
-    <StaticResource x:Key="DataGridRowSelectedPressedBackgroundOpacity" ResourceKey="ListAccentHighOpacity"/>
-    -->
     <StaticResource x:Key="DataGridRowHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
     <StaticResource x:Key="DataGridRowHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundAltHighBrush"/>
     <StaticResource x:Key="DataGridRowGroupHeaderBackgroundBrush" ResourceKey="SystemControlBackgroundChromeMediumBrush"/>
@@ -583,13 +578,6 @@
                                         <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource SystemListLowColor}"/>
                                     </Storyboard>
                                 </VisualState>
-                                <!--
-                                <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource SystemListMediumColor}"/>
-                                    </Storyboard>
-                                </VisualState>
-                                -->
                                 <VisualState x:Name="NormalSelected">
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridRowSelectedBackgroundColor}"/>
@@ -608,14 +596,6 @@
                                         <DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="{ThemeResource DataGridRowSelectedHoveredUnfocusedBackgroundOpacity}"/>
                                     </Storyboard>
                                 </VisualState>
-                                <!--
-                                <VisualState x:Name="PressedSelected">
-                                    <Storyboard>
-                                        <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridRowSelectedPressedBackgroundColor}"/>
-                                        <DoubleAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="Opacity" Duration="0" To="{ThemeResource DataGridRowSelectedPressedBackgroundOpacity}"/>
-                                    </Storyboard>
-                                </VisualState>
-                                -->
                                 <VisualState x:Name="UnfocusedSelected">
                                     <Storyboard>
                                         <ColorAnimation Storyboard.TargetName="BackgroundRectangle" Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Duration="0" To="{ThemeResource DataGridRowSelectedUnfocusedBackgroundColor}"/>
@@ -644,14 +624,6 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                        <!-- Animating row details height is not supported
-                        <Grid.Resources>
-                            <Storyboard x:Key="DetailsVisibleTransition">
-                                <DoubleAnimation Storyboard.TargetName="DetailsPresenter" Storyboard.TargetProperty="ContentHeight" Duration="00:00:0.1"/>
-                            </Storyboard>
-                        </Grid.Resources>
-                        -->
 
                         <Rectangle x:Name="BackgroundRectangle" Grid.ColumnSpan="2" Fill="{ThemeResource SystemControlTransparentBrush}"/>
                         <Rectangle x:Name="InvalidVisualElement" Grid.ColumnSpan="2" Opacity="0" Fill="{ThemeResource DataGridRowInvalidBrush}"/>

@@ -18,9 +18,6 @@ using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-using Windows.UI.Xaml.Media.Animation;
-#endif
 using Windows.UI.Xaml.Shapes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -56,10 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const byte DATAGRIDROW_defaultMinHeight = 0;
         internal const int DATAGRIDROW_maximumHeight = 65536;
         internal const double DATAGRIDROW_minimumHeight = 0;
-
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private const string DATAGRIDROW_detailsVisibleTransition = "DetailsVisibleTransition";
-#endif
 
         private const string DATAGRIDROW_elementBottomGridLine = "BottomGridLine";
         private const string DATAGRIDROW_elementCells = "CellsPresenter";
@@ -140,10 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DATAGRIDROW_stateSelectedFocused
         };
 
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private bool _animatingDetails;
-#endif
-
         // Locally cache whether or not details are visible so we don't run redundant storyboards
         // The Details Template that is actually applied to the Row
         private DataTemplate _appliedDetailsTemplate;
@@ -160,14 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Optimal height of the details based on the Element created by the DataTemplate
         private double _detailsDesiredHeight;
         private bool _detailsLoaded;
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private Storyboard _detailsVisibleStoryboard;
-#endif
         private bool _detailsVisibilityNotificationPending;
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private DoubleAnimation _detailsHeightAnimation;
-        private double? _detailsHeightAnimationToOverride;
-#endif
         private FrameworkElement _detailsContent;
         private DataGridDetailsPresenter _detailsElement;
         private DataGridCell _fillerCell;
@@ -300,9 +282,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 row.OwningGrid.OnRowDetailsVisibilityPropertyChanged(row.Index, newValue);
                 row.SetDetailsVisibilityInternal(
                     newValue,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                    true /*animate*/,
-#endif
                     true /*raiseNotification*/);
             }
         }
@@ -688,34 +667,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private Storyboard DetailsVisibleStoryboard
-        {
-            get
-            {
-                if (_detailsVisibleStoryboard == null && this.RootElement != null)
-                {
-                    _detailsVisibleStoryboard = this.RootElement.Resources[DATAGRIDROW_detailsVisibleTransition] as Storyboard;
-                    if (_detailsVisibleStoryboard != null)
-                    {
-                        _detailsVisibleStoryboard.Completed += new EventHandler<object>(DetailsVisibleStoryboard_Completed);
-                        if (_detailsVisibleStoryboard.Children.Count > 0)
-                        {
-                            // If the user set a To value for the animation, we want to respect it.
-                            _detailsHeightAnimation = _detailsVisibleStoryboard.Children[0] as DoubleAnimation;
-                            if (_detailsHeightAnimation != null)
-                            {
-                                _detailsHeightAnimationToOverride = _detailsHeightAnimation.To;
-                            }
-                        }
-                    }
-                }
-
-                return _detailsVisibleStoryboard;
-            }
-        }
-#endif
-
         private DataGridInteractionInfo InteractionInfo
         {
             get;
@@ -876,7 +827,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.RootElement = GetTemplateChild(DATAGRIDROW_elementRoot) as Panel;
 
-            // TODO: Remove this workaround for Control not having a Background property
             if (this.RootElement != null)
             {
                 EnsureBackground();
@@ -914,9 +864,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // Apply the DetailsTemplate now that the row template is applied.
                     SetDetailsVisibilityInternal(
                         this.ActualDetailsVisibility,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                        false /*animate*/
-#endif
                         _detailsVisibilityNotificationPending /*raiseNotification*/);
                     _detailsVisibilityNotificationPending = false;
                 }
@@ -1120,9 +1067,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-            StopDetailsAnimation();
-#endif
             this.Slot = -1;
         }
 
@@ -1300,9 +1244,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Sets AreDetailsVisible on the row and animates if necessary
         internal void SetDetailsVisibilityInternal(
             Visibility visibility,
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-            bool animate,
-#endif
             bool raiseNotification)
         {
             Debug.Assert(this.OwningGrid != null, "Exptected non-null owning DataGrid.");
@@ -1323,10 +1264,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _appliedDetailsVisibility = visibility;
                 this.SetValueNoCallback(DetailsVisibilityProperty, visibility);
 
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                StopDetailsAnimation();
-#endif
-
                 // Applies a new DetailsTemplate only if it has changed either here or at the DataGrid level
                 ApplyDetailsTemplate(true /*initializeDetailsPreferredHeight*/);
 
@@ -1341,39 +1278,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                if (animate && this.DetailsVisibleStoryboard != null && _detailsHeightAnimation != null)
+                if (this.AreDetailsVisible)
                 {
-                    if (this.AreDetailsVisible)
-                    {
-                        // Expand
-                        _detailsHeightAnimation.From = 0.0;
-                        _detailsHeightAnimation.To = _detailsHeightAnimationToOverride.HasValue ? _detailsHeightAnimationToOverride.Value : _detailsDesiredHeight;
-                        _checkDetailsContentHeight = true;
-                    }
-                    else
-                    {
-                        // Collapse
-                        _detailsHeightAnimation.From = _detailsElement.ActualHeight;
-                        _detailsHeightAnimation.To = 0.0;
-                    }
-
-                    _animatingDetails = true;
-                    this.DetailsVisibleStoryboard.Begin();
+                    // Set the details height directly
+                    _detailsElement.ContentHeight = _detailsDesiredHeight;
+                    _checkDetailsContentHeight = true;
                 }
                 else
-#endif
                 {
-                    if (this.AreDetailsVisible)
-                    {
-                        // Set the details height directly
-                        _detailsElement.ContentHeight = _detailsDesiredHeight;
-                        _checkDetailsContentHeight = true;
-                    }
-                    else
-                    {
-                        _detailsElement.ContentHeight = 0;
-                    }
+                    _detailsElement.ContentHeight = 0;
                 }
 
                 OnRowDetailsChanged();
@@ -1485,13 +1398,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (this.AreDetailsVisible && _appliedDetailsTemplate != null)
                 {
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                    if (this.DetailsVisibleStoryboard != null)
-                    {
-                        this.DetailsVisibleStoryboard.SkipToFill();
-                        StopDetailsAnimation();
-                    }
-#endif
                     _detailsElement.ContentHeight = e.NewSize.Height;
 
                     // Calling this when details are not visible invalidates during layout when we have no work
@@ -1500,31 +1406,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
         }
-
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private void DetailsVisibleStoryboard_Completed(object sender, object e)
-        {
-            _animatingDetails = false;
-            if (this.OwningGrid != null && (this.Slot != -1) && this.OwningGrid.IsSlotVisible(this.Slot))
-            {
-                if (this.AreDetailsVisible)
-                {
-                    Debug.Assert(!double.IsNaN(_detailsDesiredHeight), "Expected _detailsDesiredHeight different from double.NaN.");
-                    Debug.Assert(_detailsContent != null, "Expected non-null _detailsContent");
-
-                    // The height of the DetailsContents may have changed while we were animating its height.
-                    _detailsElement.ContentHeight = _detailsDesiredHeight;
-                }
-                else
-                {
-                    // Ensure that the row details are collapsed at the end of the animation.
-                    _detailsElement.ContentHeight = 0;
-                }
-
-                this.OwningGrid.OnRowDetailsChanged();
-            }
-        }
-#endif
 
         // Makes sure the _detailsDesiredHeight is initialized.  We need to measure it to know what
         // height we want to animate to.  Subsequently, we just update that height in response to SizeChanged.
@@ -1557,12 +1438,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 this.Slot != -1)
             {
                 _detailsDesiredHeight = _detailsContent.ActualHeight;
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-                if (!_animatingDetails)
-#endif
-                {
-                    _detailsElement.ContentHeight = _detailsDesiredHeight;
-                }
+                _detailsElement.ContentHeight = _detailsDesiredHeight;
             }
         }
 
@@ -1587,17 +1463,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.InteractionInfo = null;
             this.IsRecycled = true;
         }
-
-#if FEATURE_ROW_DETAILS_HEIGHT_ANIMATION
-        private void StopDetailsAnimation()
-        {
-            if (this.DetailsVisibleStoryboard != null)
-            {
-                this.DetailsVisibleStoryboard.Stop();
-                _animatingDetails = false;
-            }
-        }
-#endif
 
         private void UnloadDetailsTemplate(bool recycle, bool setDetailsVisibilityToCollapsed)
         {
