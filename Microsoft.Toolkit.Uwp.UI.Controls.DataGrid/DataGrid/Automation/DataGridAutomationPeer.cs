@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 // #define DEBUG_AUTOMATION
-
 using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls;
