@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample", "TestSample\Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8D127EC7-4CDC-4DC2-8D95-A7E816282787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Win32.UI.Interop.Sample", "Microsoft.Windows.Interop.Sample\Microsoft.Toolkit.Win32.UI.Interop.Sample.csproj", "{88C95EC5-6A53-4BA2-A885-24B23566C175}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Win32.Samples.WrappedControls", "Microsoft.Toolkit.Win32.Samples.WrappedControls\Microsoft.Toolkit.Win32.Samples.WrappedControls.csproj", "{88C95EC5-6A53-4BA2-A885-24B23566C175}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.Controls.WinForms", "Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj", "{E2CF9896-FE3B-49AB-8B53-1CF7B2FB1240}"
 EndProject
