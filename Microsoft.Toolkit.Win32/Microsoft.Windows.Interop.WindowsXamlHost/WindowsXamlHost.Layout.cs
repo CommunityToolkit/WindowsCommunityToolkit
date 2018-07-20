@@ -19,11 +19,11 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         {
             var desiredSize = new Size(0, 0);
 
-            if (DesktopWindowXamlSource.Content != null)
+            if (_desktopWindowXamlSource.Content != null)
             {
-                DesktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(constraint.Width, constraint.Height));
-                desiredSize.Width = DesktopWindowXamlSource.Content.DesiredSize.Width;
-                desiredSize.Height = DesktopWindowXamlSource.Content.DesiredSize.Height;
+                _desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(constraint.Width, constraint.Height));
+                desiredSize.Width = _desktopWindowXamlSource.Content.DesiredSize.Width;
+                desiredSize.Height = _desktopWindowXamlSource.Content.DesiredSize.Height;
             }
 
             desiredSize.Width = Math.Min(desiredSize.Width, constraint.Width);
@@ -39,13 +39,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// <returns>Size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (DesktopWindowXamlSource.Content != null)
+            if (_desktopWindowXamlSource.Content != null)
             {
                 // Arrange is required to support HorizontalAlignment and VerticalAlignment properties
                 // set to 'Stretch'.  The UWP XAML content will be 0 in the stretch alignment direction
                 // until Arrange is called, and the UWP XAML content is expanded to fill the available space.
                 var finalRect = new Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height);
-                DesktopWindowXamlSource.Content.Arrange(finalRect);
+                _desktopWindowXamlSource.Content.Arrange(finalRect);
             }
 
             return base.ArrangeOverride(finalSize);

@@ -37,11 +37,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// </summary>
         public static DependencyProperty XamlRootProperty = DependencyProperty.Register(nameof(XamlRoot), typeof(Windows.UI.Xaml.UIElement), typeof(WindowsXamlHost));
 
-
         /// <summary>
         /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
         /// </summary>
-        public Windows.UI.Xaml.Hosting.DesktopWindowXamlSource DesktopWindowXamlSource;
+        private Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _desktopWindowXamlSource;
 
         /// <summary>
         /// Has this wrapper control instance been disposed?
@@ -100,10 +99,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            DesktopWindowXamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            _desktopWindowXamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
 
             // Hook OnTakeFocus event for Focus processing
-            DesktopWindowXamlSource.TakeFocusRequested += OnTakeFocusRequested;
+            _desktopWindowXamlSource.TakeFocusRequested += OnTakeFocusRequested;
         }
 
         /// <summary>
@@ -214,9 +213,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
                 SetValue(XamlRootProperty, value);
                 value?.SetWrapper(this);
 
-                if (DesktopWindowXamlSource != null)
+                if (_desktopWindowXamlSource != null)
                 {
-                    DesktopWindowXamlSource.Content = value;
+                    _desktopWindowXamlSource.Content = value;
                 }
 
                 var frameworkElement = value as Windows.UI.Xaml.FrameworkElement;
@@ -255,7 +254,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
             // to call it directly here.
 
             // Create DesktopWindowXamlSource instance
-            var desktopWindowXamlSourceNative = DesktopWindowXamlSource.GetInterop();
+            var desktopWindowXamlSourceNative = _desktopWindowXamlSource.GetInterop();
 
             // Associate the window where UWP XAML will display content
             desktopWindowXamlSourceNative.AttachToWindow(hwndParent.Handle);
@@ -284,10 +283,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
             if (disposing && !IsDisposed)
             {
                 IsDisposed = true;
-                DesktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                _desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
                 XamlRoot = null;
-                DesktopWindowXamlSource.Dispose();
-                DesktopWindowXamlSource = null;
+                _desktopWindowXamlSource.Dispose();
+                _desktopWindowXamlSource = null;
             }
         }
     }

@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
                 // by "Restoring" the focus back to us under a new correctationId
                 var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
-                DesktopWindowXamlSource.NavigateFocus(newRequest);
+                _desktopWindowXamlSource.NavigateFocus(newRequest);
             }
             else
             {
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
             var request = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, origin, _lastFocusRequest);
             try
             {
-                var result = DesktopWindowXamlSource.NavigateFocus(request);
+                var result = _desktopWindowXamlSource.NavigateFocus(request);
 
                 // Returning true indicates that focus moved.  This will cause the HwndHost to
                 // move focus to the source’s hwnd (call SetFocus Win32 API)
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// <returns></returns>
         protected override bool HasFocusWithinCore()
         {
-            return DesktopWindowXamlSource.HasFocus;
+            return _desktopWindowXamlSource.HasFocus;
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         {
             base.OnGotFocus(e);
 
-            if (!DesktopWindowXamlSource.HasFocus)
+            if (!_desktopWindowXamlSource.HasFocus)
             {
-                DesktopWindowXamlSource.NavigateFocus(
+                _desktopWindowXamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Programmatic));
             }
