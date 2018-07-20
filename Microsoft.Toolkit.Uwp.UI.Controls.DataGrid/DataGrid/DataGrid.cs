@@ -1154,7 +1154,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (dataGrid._hScrollBar != null)
                 {
-                    dataGrid.InvalidateMeasure();
+                    if (dataGrid.IsHorizontalScrollBarOverCells)
+                    {
+                        dataGrid.ComputeScrollBarsLayout();
+                    }
+                    else
+                    {
+                        dataGrid.InvalidateMeasure();
+                    }
                 }
             }
         }
@@ -2044,7 +2051,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (dataGrid._vScrollBar != null)
                 {
-                    dataGrid.InvalidateMeasure();
+                    if (dataGrid.IsVerticalScrollBarOverCells)
+                    {
+                        dataGrid.ComputeScrollBarsLayout();
+                    }
+                    else
+                    {
+                        dataGrid.InvalidateMeasure();
+                    }
                 }
             }
         }
