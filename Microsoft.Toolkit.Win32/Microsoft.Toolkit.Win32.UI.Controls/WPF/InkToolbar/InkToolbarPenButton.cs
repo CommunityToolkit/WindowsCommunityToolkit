@@ -47,13 +47,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         protected override void SetHost()
         {
-            if (this.VisualParent is InkToolbar parent)
-            {
-                if (parent.XamlRootInternal is global::Windows.UI.Xaml.Controls.InkToolbar toolbar)
-                {
-                    toolbar.Children.Add(this.UwpControl);
-                }
-            }
+            // intentionally empty
         }
 
         protected override void OnInitialized(EventArgs e)

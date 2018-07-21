@@ -45,8 +45,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         protected override void OnInitialized(EventArgs e)
         {
-            base.OnInitialized(e);
-
             // Bind dependency properties across controls
             // properties of FrameworkElement
             Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkToolbar.StyleProperty);
@@ -75,13 +73,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(IsStencilButtonChecked), IsStencilButtonCheckedProperty, global::Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty);
             Bind(nameof(ButtonFlyoutPlacement), ButtonFlyoutPlacementProperty, global::Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty, new WindowsXamlHostWrapperConverter());
 
-            base.OnInitialized(e);
+            Children.OfType<WindowsXamlHostBaseExt>().ToList().ForEach(RelocateChildToUwpControl);
 
             UwpControl.ActiveToolChanged += OnActiveToolChanged;
             UwpControl.EraseAllClicked += OnEraseAllClicked;
             UwpControl.InkDrawingAttributesChanged += OnInkDrawingAttributesChanged;
             UwpControl.IsRulerButtonCheckedChanged += OnIsRulerButtonCheckedChanged;
             UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
+
+            base.OnInitialized(e);
+        }
+
+        private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)
+        {
+            // VisualTreeHelper.DisconnectChildrenRecursive(obj.desktopWindowXamlSource.Content);
+            // obj.desktopWindowXamlSource.Content = null;
+            // Children.Remove(obj);
+            UwpControl.Children.Add(obj.XamlRootInternal);
         }
 
         /// <summary>

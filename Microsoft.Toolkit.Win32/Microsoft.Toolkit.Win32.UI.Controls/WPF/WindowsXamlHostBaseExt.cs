@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
 using Microsoft.Windows.Interop;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
