@@ -119,6 +119,7 @@
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               SelectedIndex="{Binding SelectedIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SingleSelectionFollowsFocus="False"
                                               TabIndex="1">
                         </ListView>
                         <ListView x:Name="OptionsListView"
@@ -134,6 +135,7 @@
                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                               SelectedIndex="{Binding SelectedOptionsIndex, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                               SelectedItem="{Binding SelectedOptionsItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              SingleSelectionFollowsFocus="False"
                                               TabIndex="2"
                                               Margin="0,20,0,8">
                         </ListView>

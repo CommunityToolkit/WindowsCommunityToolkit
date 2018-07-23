@@ -121,6 +121,19 @@ If Not Await MicrosoftGraphService.Instance.LoginAsync() Then
 End If
 ```
 
+```csharp
+// Register event handler to capture authentication state changes
+MicrosoftGraphService.Instance.IsAuthenticatedChanged += (sender, e) =>
+{
+    // do something
+};
+// Register event handler to capture sign in exceptions
+MicrosoftGraphService.Instance.SignInFailed += (sender, e) =>
+{
+    // do something
+};
+```
+
 ### Get the connected user's info
 
 ```csharp
