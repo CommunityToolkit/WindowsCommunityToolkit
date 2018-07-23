@@ -36,7 +36,7 @@
                         <Button x:Name="ClientIdExpandButton"
                                     VerticalAlignment="Stretch"
                                     Click="ClientIdExpandButton_Click"
-                                    Content=""
+                                    Content="&#xE70E;"
                                     FontFamily="Segoe MDL2 Assets" />
                         <TextBlock Grid.Column="1"
                                        Margin="12,6"

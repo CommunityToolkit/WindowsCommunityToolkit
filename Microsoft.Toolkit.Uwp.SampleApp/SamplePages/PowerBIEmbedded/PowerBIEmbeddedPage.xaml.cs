@@ -48,12 +48,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (box.Visibility == Visibility.Visible)
             {
-                switchButton.Content = "ª²";
+                switchButton.Content = "\xE70D";
                 box.Visibility = Visibility.Collapsed;
             }
             else
             {
-                switchButton.Content = "ª±";
+                switchButton.Content = "\xE70E";
                 box.Visibility = Visibility.Visible;
             }
         }
