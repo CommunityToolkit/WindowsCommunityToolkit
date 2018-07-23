@@ -3,6 +3,7 @@ namespace Microsoft.Windows.Interop.Sample
     using System;
     using System.ComponentModel;
     using System.Windows.Media;
+    using Microsoft.Toolkit.Win32.UI.Interop;
     using Microsoft.Toolkit.Win32.UI.Interop.WPF;
 
 
