@@ -49,7 +49,7 @@ The [AadLogin Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.u
 | Method | Type | Description |
 | -- | -- | -- |
 | SignInCompleted | EventHandler&lt;SignInEventArgs&gt; | Occurs when a user signs in |
-| SignInFailed | EventHandler&lt;SignInFailedEventArgs&gt; | Occurs when sign in failed when attempting to sign in. Only fires when an exception occurs during the sign in process and not when the user cancels sign in. |
+| SignInFailed | EventHandler&lt;SignInFailedEventArgs&gt; | Obsolete. Occurs when sign in failed when attempting to sign in. Only fires when an exception occurs during the sign in process and not when the user cancels sign in. |
 | SignOutCompleted | EventHandler | Occurs when the user clicks on SignOut, or the SignOut() method is called. Developers should clear any cached usage of GraphServiceClient objects they receive this event |
 
 ## Sample Code
