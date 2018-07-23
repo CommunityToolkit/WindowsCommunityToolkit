@@ -51,6 +51,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
 
             MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+            MicrosoftGraphService.Instance.SignInFailed += async (ss, se) =>
+            {
+                var error = new MessageDialog(se.Exception.ToString());
+                await error.ShowAsync();
+            };
 
             // Initialize the service
             switch (endpointVersion)
