@@ -7,114 +7,31 @@ keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, DataGrid, xaml co
 
 # DataGrid XAML control
 
-> [!NOTE] 
-This control is in preview and can be found as a prerelease package. The control could change between now and the final release
-
-The DataGrid control you know and love from Silverlight and WPF is now available for Windows10. This control presents data in a customizable table of rows and columns.
+The DataGrid control provides a flexible way to display a collection of data in rows and columns. 
 
 ![DataGrid control](../resources/images/Controls/DataGrid/DataGrid.gif)
 
-## High level feature list
-The DataGrid control supports most of all features supported by the [Silverlight DataGrid](https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc189753(v=vs.95)). This includes:
+The built-in column types include a text column, a check box column, and a template column for hosting custom content. The built-in row type includes a drop-down details section that you can use to display additional content below the cell values.
 
-### 1. GridLines
-```xml
-<controls:DataGrid GridLinesVisibility="All"/>
-```
-![Gridlines](../resources/images/Controls/DataGrid/gridlines.png)
+The DataGrid control supports common table formatting options, such as alternating row backgrounds and foregrounds and the ability to show or hide headers, grid lines, and scroll bars. Additionally, the control provides several style and template properties that you can use to completely change the appearance of the control and its rows, columns, cells, and row or column headers.
 
-### 2. AlternatingRowBackground
-```xml
-<controls:DataGrid AlternatingRowBackground="LightGray"/>
-```
-![AlternateRowBackground](../resources/images/Controls/DataGrid/alternaterowbackground.png)
+The DataGrid has built-in support for Narrator and Touch Narrator to help blind users to navigate and interact easily with the control. Additionally, the control has built-in support for extensive keyboard navigation through cells, headers, rows and columns. 
 
-### 3. Customizable Cells
-```xml
-<controls:DataGrid CellStyle="{StaticResource cellStyle}" />
+## How-Tos
 
-<controls:DataGridTemplateColumn Header="Range" CellTemplate="{StaticResource cellTemplate}" />
-```
-
-### 4. Row details with customization
-
-```xml
-<controls:DataGrid RowDetailsTemplate="{StaticResource rt}" RowDetailsVisibilityMode="VisibleWhenSelected"/>
-```
-
-![RowDetails](../resources/images/Controls/DataGrid/rowdetails.png)
-
-### 5. Autogenerate columns
-
-```xml
-<controls:DataGrid AutoGenerateColumns="True"/>
-<!-- Autogenerates column headers and columns based on the Data model provided -->
-```
-
-### 6. Frozen columns
-
-```xml
-<controls:DataGrid FrozenColumnCount="2"/>
-```
-![FrozenColumns](../resources/images/Controls/DataGrid/frozencolumns.png)
-
-### 7. Reorder and resize columns
-
-```xml
-<controls:DataGrid CanUserReorderColumns="True" CanUserResizeColumns="True"/>
-```
-
-![ResizeColumns](../resources/images/Controls/DataGrid/resizecolumns.png)
-
-### 8. Cell and Row editing
-
-```xml
-<controls:DataGrid BeginningEdit="dg_Editing" CellEditEnding="dg_CellEditEnding" RowEditEnding="dg_RowEditEnding" />
-```
-
-![Editing](../resources/images/Controls/DataGrid/editing.png)
-
-### 9. Built-in validation UI
-
-* Use INotifyDataErrorInfo in your DataModel or ViewModel
-* Implement data validation using DataErrorsChangedEventArgs, HasErrors and GetErrors
-* The DataGrid control automatically shows the error UI when the error conditions are met
-
-![Validation](../resources/images/Controls/DataGrid/validation.png)
-
-### 10. Single and extended selection modes
-```xml
-<controls:DataGrid SelectionMode="Extended"/>
-```
-![Selection](../resources/images/Controls/DataGrid/selection.png)
-
-### 11. Sorting, Grouping, Filtering
-* In V1 DataGrid control has built-in UI for sorting on column headers and supports one-level grouping on row headers. Filtering UI is not built into the control. 
-* The Sample app shows how to implement sorting, grouping and filtering using this DataGrid control.
-
-```xml
-<controls:DataGrid CanUserSortColumns="True" Sorting="dg_Sorting"/>
-<controls:DataGrid LoadingRowGroup="dg_loadingrowgroup" RowGroupHeaderPropertyNameAlternative="Range"/>
-```
-```C#
-//implement sort, group and filter using LINQ in the view model
-dataGrid.ItemsSource = ViewModel.SortData(...);
-
-//Use DataGridSortDirection enum for showing the buil-in sort icon in column header
-e.Column.SortDirection = DataGridSortDirection.Ascending;
-```
-
-![Sort](../resources/images/Controls/DataGrid/sorting.png)
-![Group](../resources/images/Controls/DataGrid/grouping.png)
-
-### 13. Accessibility
-* DataGrid supports Narrator and Touch Narrator for navigation and interaction for blind users
-* DataGrid has built in keyboard navigation support through headers and cells. Supports arrow key navigation as well as Home/End/PageDown/PageUp/Ctrl+ combinations etc., Use Enter key to sort on Column headers and collpase/open group headers etc.,  
-* UIAutomation is also supported 
+The following guidance sections describe the additional concepts and techniques that you can use to build DataGrid control features into your applications:
+* [Add a DataGrid control to a page](datagrid_guidance/datagrid_basics.md)
+* [Customize the DataGrid control using styling and formatting options](datagrid_guidance/styling_formatting_options.md)
+* [Sizing options in the DataGrid control](datagrid_guidance/sizing_options.md)
+* [Default keybaord navigation and selection patterns](datagrid_guidance/keyboard_navigation_selection.md)
+* [Display and configure Row Details](datagrid_guidance/rowdetails.md)
+* [Configure Auto-generated columns in the DataGrid control](datagrid_guidance/customize_autogenerated_columns.md)
+* [Group, sort and filter data using LINQ and the DataGrid control](datagrid_guidance/group_sort_filter.md)
+* [Editing and input validation in the DataGrid control](datagrid_guidance/editing_inputvalidation.md)
 
 ## Sample Code
 
-[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
+[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid)
 
 ## Requirements
 
