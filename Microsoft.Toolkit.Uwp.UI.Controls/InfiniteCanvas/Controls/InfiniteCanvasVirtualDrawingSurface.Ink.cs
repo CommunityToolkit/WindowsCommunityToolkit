@@ -9,11 +9,11 @@ using Windows.Foundation;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// The virtual Drawing surface renderer used to render the ink and text. This control is used as part of the <see cref="InfiniteCanvas"/>
     /// </summary>
-    internal partial class InfiniteCanvasVirtualDrawingSurface
+    public partial class InfiniteCanvasVirtualDrawingSurface
     {
-        public void Erase(Point point, Rect viewPort, float zoomFactor)
+        internal void Erase(Point point, Rect viewPort, float zoomFactor)
         {
             const int tolerance = 5;
             float toleranceWithZoom = tolerance;
