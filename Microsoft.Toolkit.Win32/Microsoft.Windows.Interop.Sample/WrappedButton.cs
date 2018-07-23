@@ -1,31 +1,43 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-namespace Microsoft.Toolkit.Win32.UI.Interop.Sample
+namespace Microsoft.Windows.Interop.Sample
 {
     using System;
     using System.ComponentModel;
     using System.Windows.Media;
 
-    using Microsoft.Toolkit.Win32.UI.Interop;
+    using Microsoft.Windows.Interop;
 
-    public class WrappedButton : WindowsXamlHost
+    public class WrappedButton : WindowsXamlHostBase
     {
 
         #region Constructors and Initialization
         public WrappedButton() : base()
         {
-            base.TypeName = "Windows.UI.Xaml.Controls.Button";
         }
 
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
 
+            this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Button");
+
+            // Make button expand to the size of its host control
+            global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.xamlRoot as global::Windows.UI.Xaml.FrameworkElement;
+            frameworkElement.SizeChanged += FrameworkElement_SizeChanged;
+            frameworkElement.HorizontalAlignment = global::Windows.UI.Xaml.HorizontalAlignment.Stretch;
+            frameworkElement.VerticalAlignment = global::Windows.UI.Xaml.VerticalAlignment.Stretch;
+
+            // Set DesktopWindowXamlSource
+            this.desktopWindowXamlSource.Content = this.XamlRootInternal;
+
+
             // Properties set in markup need to be re-applied in OnInitialized.  
             Background = background;
             Content = content;
+        }
+
+        private void FrameworkElement_SizeChanged(object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e)
+        {
+            this.InvalidateMeasure();
         }
 
         #endregion
@@ -42,9 +54,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.Sample
                 background = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (value != null && this.XamlRoot != null)
+                if (value != null && this.xamlRoot != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRoot as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.xamlRoot as global::Windows.UI.Xaml.Controls.Button;
 
                     Color wpfColor = (Color)ColorConverter.ConvertFromString(value);
 
@@ -67,26 +79,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.Sample
                 content = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (this.XamlRoot != null)
+                if (this.xamlRoot != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRoot as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.xamlRoot as global::Windows.UI.Xaml.Controls.Button;
 
                     button.Content = value;
                 }
-            }
-        }
-            
-
-        [Browsable(false)]
-        public override string TypeName
-        {
-            get
-            {
-                return base.TypeName;
-            }
-            set
-            {
-                // Don't allow setting TypeName
             }
         }
 

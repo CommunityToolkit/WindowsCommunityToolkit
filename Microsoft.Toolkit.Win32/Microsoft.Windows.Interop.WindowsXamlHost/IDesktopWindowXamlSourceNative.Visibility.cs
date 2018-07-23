@@ -1,8 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
+﻿// <copyright file="IDesktopWindowsXamlHostNative.Visibility.cs" company="Microsoft">
+//     Copyright (c) Microsoft Corporation.  All rights reserved.
+// </copyright>
+// <author>Microsoft</author>
 
-namespace Microsoft.Toolkit.Win32.UI.Interop
+namespace Microsoft.Windows.Interop
 {
     // IDesktopWindowXamlSourceNative and DesktopWindowXamlSourcExtensions
     // must be fully CLS-compliant or internal to work with the Microsoft-internal
