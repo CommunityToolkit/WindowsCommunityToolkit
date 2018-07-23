@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
-using Microsoft.Windows.Interop;
+using Microsoft.Toolkit.Win32.UI.Interop.WPF;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

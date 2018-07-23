@@ -3,7 +3,7 @@
 // </copyright>
 // <author>Microsoft</author>
 
-namespace Microsoft.Windows.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
     // IDesktopWindowXamlSourceNative and DesktopWindowXamlSourcExtensions
     // must be fully CLS-compliant or internal to work with the Microsoft-internal

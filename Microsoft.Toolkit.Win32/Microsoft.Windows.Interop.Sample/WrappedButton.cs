@@ -3,8 +3,8 @@ namespace Microsoft.Windows.Interop.Sample
     using System;
     using System.ComponentModel;
     using System.Windows.Media;
+    using Microsoft.Toolkit.Win32.UI.Interop.WPF;
 
-    using Microsoft.Windows.Interop;
 
     public class WrappedButton : WindowsXamlHostBase
     {

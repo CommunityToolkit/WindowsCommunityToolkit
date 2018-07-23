@@ -3,7 +3,7 @@
 // </copyright>
 // <author>Microsoft</author>
 
-namespace Microsoft.Windows.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
     using System;
     using System.Windows;

@@ -3,9 +3,8 @@ namespace Microsoft.Windows.Interop.Sample
     using System;
     using System.ComponentModel;
     using System.Windows.Media;
-    using global::Windows.UI.Xaml.Markup;
-    using Microsoft.Windows.Interop;
-
+    using Microsoft.Toolkit.Win32.UI.Interop.WPF;
+    
     public class MyClass
     {
         public MyClass() { }
