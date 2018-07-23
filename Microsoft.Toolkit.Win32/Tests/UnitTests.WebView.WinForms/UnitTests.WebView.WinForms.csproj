@@ -79,6 +79,7 @@
     <Compile Include="FunctionalTests\ScriptNotify\ScriptNotifyOnNavigate.cs" />
     <Compile Include="FunctionalTests\ScriptNotify\ScriptNotifyOnNavigateToString.cs" />
     <Compile Include="FunctionalTests\UnsupportedUriScheme\UnsupportedUriSchemeTests.cs" />
+    <Compile Include="FunctionalTests\UserAgent\UserAgentTests.cs" />
     <Compile Include="FunctionalTests\WebResourceRequested\WebResourceRequestedTests.cs" />
     <Compile Include="FunctionalTests\WebViewFormContextSpecification.cs" />
     <Compile Include="FunctionalTests\Ctor\ISupportInitializeDefaultsTests.cs" />
