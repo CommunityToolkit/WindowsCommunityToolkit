@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.Controls.WPF", "Microsoft.Toolkit.Win32.UI.Controls.WPF\Microsoft.Toolkit.Win32.UI.Controls.WPF.csproj", "{5D82B4F7-13DD-4749-B213-802D69FCECE4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.Interop.WinForms", "Microsoft.Windows.Interop.WindowsXamlHost.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj", "{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -201,6 +203,22 @@ Global
 		{5D82B4F7-13DD-4749-B213-802D69FCECE4}.Release|x64.Build.0 = Release|Any CPU
 		{5D82B4F7-13DD-4749-B213-802D69FCECE4}.Release|x86.ActiveCfg = Release|Any CPU
 		{5D82B4F7-13DD-4749-B213-802D69FCECE4}.Release|x86.Build.0 = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|ARM.Build.0 = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|x64.Build.0 = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Debug|x86.Build.0 = Debug|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|ARM.ActiveCfg = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|ARM.Build.0 = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|x64.ActiveCfg = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|x64.Build.0 = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|x86.ActiveCfg = Release|Any CPU
+		{E944017D-F78C-4CA2-9EC3-6CBE3ABE525B}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
