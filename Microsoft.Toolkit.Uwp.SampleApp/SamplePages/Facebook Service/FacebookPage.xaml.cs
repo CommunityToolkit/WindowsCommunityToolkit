@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             Shell.Current.DisplayWaitRing = true;
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos);
+            FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.UserPhotos);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
@@ -101,30 +101,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await FacebookService.Instance.PostToFeedWithDialogAsync(UrlText.Text);
             var message = new MessageDialog("Post sent to facebook");
             await message.ShowAsync();
-        }
-
-        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!await Tools.CheckInternetConnectionAsync())
-            {
-                return;
-            }
-
-            var openPicker = new FileOpenPicker
-            {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary
-            };
-            openPicker.FileTypeFilter.Add(".jpg");
-            openPicker.FileTypeFilter.Add(".png");
-            StorageFile picture = await openPicker.PickSingleFileAsync();
-            if (picture != null)
-            {
-                using (var stream = await picture.OpenReadAsync())
-                {
-                    await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
-                }
-            }
         }
 
         private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
