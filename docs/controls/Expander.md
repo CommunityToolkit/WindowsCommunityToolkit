@@ -80,14 +80,7 @@ For instance to remove the header entirely from the Expander:
 ```xaml
   <Page.Resources>
     <Style x:Key="NoExpanderHeaderStyle" TargetType="ToggleButton">
-      <Setter Property="Height" Value="0"/>
-      <Setter Property="Template">
-        <Setter.Value>
-          <ControlTemplate TargetType="ToggleButton">
-            <Grid/>
-          </ControlTemplate>
-        </Setter.Value>
-      </Setter>
+      <Setter Property="Visibility" Value="Collapsed"/>
     </Style>
   </Page.Resources>
 

@@ -3,7 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
+using System.Text;
 using Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -81,6 +84,187 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             {
                 WebView.Navigate(new Uri(path));
             });
+        }
+    }
+
+    [TestClass]
+    public class Navigate2Tests : HostFormWebViewContextSpecification
+    {
+        private bool _navigationCompleted;
+
+        protected override void Given()
+        {
+            base.Given();
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _navigationCompleted = e.IsSuccess;
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                WebView.Navigate(TestConstants.Uris.HttpBin, HttpMethod.Get);
+            });
+        }
+
+        [TestMethod]
+        public void Explict_HTTP_GET_succeeds()
+        {
+            _navigationCompleted.ShouldBeTrue();
+        }
+    }
+
+    [TestClass]
+    public class NavigateGetWithHeaders : HostFormWebViewContextSpecification
+    {
+        private bool _navigationCompleted;
+
+        protected override void Given()
+        {
+            base.Given();
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _navigationCompleted = e.IsSuccess;
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                WebView.Navigate(
+                    TestConstants.Uris.HttpBin,
+                    HttpMethod.Get,
+                    null,
+                    new[] { new KeyValuePair<string, string>("pragma", "no-cache") });
+            });
+        }
+
+        [TestMethod]
+        public void Explict_HTTP_GET_with_HEADERS_succeeds()
+        {
+            _navigationCompleted.ShouldBeTrue();
+        }
+    }
+
+    [TestClass]
+    public class NavigateGetWithBasicAuth : HostFormWebViewContextSpecification
+    {
+        private bool _navigationCompleted;
+
+        protected override void Given()
+        {
+            base.Given();
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _navigationCompleted = e.IsSuccess;
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                const string user = "usr";
+                const string password = "pwd";
+                const string header = "Authorization";
+
+                var authInfo = Convert.ToBase64String(Encoding.Default.GetBytes($"{user}:{password}"));
+
+                WebView.Navigate(
+                    new Uri(TestConstants.Uris.HttpBin, new Uri($"/basic-auth/{user}/{password}", UriKind.Relative)),
+                    HttpMethod.Get,
+                    null,
+                    new[] { new KeyValuePair<string, string>(header, $"Basic {authInfo}") });
+            });
+        }
+
+        [TestMethod]
+        public void Explict_HTTP_GET_with_AUTH_BASIC_succeeds()
+        {
+            _navigationCompleted.ShouldBeTrue();
+        }
+    }
+
+    [TestClass]
+    public class NavigateOption : HostFormWebViewContextSpecification
+    {
+        private bool _navigationCompleted;
+
+        protected override void Given()
+        {
+            base.Given();
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _navigationCompleted = e.IsSuccess;
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+
+
+                WebView.Navigate(
+                    TestConstants.Uris.ExampleCom,
+                    HttpMethod.Options
+                    );
+            });
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [Ignore("Pops UI that stalls test")]
+        public void Explict_HTTP_OPTION_fails()
+        {
+            _navigationCompleted.ShouldBeFalse();
+        }
+    }
+
+    [TestClass]
+    public class NavigatePostWithContent : HostFormWebViewContextSpecification
+    {
+        private bool _navigationCompleted;
+
+        protected override void Given()
+        {
+            base.Given();
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _navigationCompleted = e.IsSuccess;
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            PerformActionAndWaitForFormClose(() =>
+            {
+                string Foo()
+                {
+                    var c = new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("Foo", "Bar"), });
+                    return c.ReadAsStringAsync().Result;
+                }
+
+                WebView.Navigate(
+                    new Uri(TestConstants.Uris.HttpBin, "/post"),
+                    HttpMethod.Post,
+                    Foo()
+                );
+            });
+        }
+
+        [TestMethod]
+        public void Explict_HTTP_POST_with_data_succeeds()
+        {
+            _navigationCompleted.ShouldBeTrue();
         }
     }
 }

@@ -10,6 +10,8 @@ using System.Security;
 using System.Threading.Tasks;
 using global::Windows.Web.UI.Interop;
 using Windows.Foundation.Metadata;
+using Windows.Web;
+using Windows.Web.Http;
 using Windows.Web.UI;
 using Rect = Windows.Foundation.Rect;
 
@@ -569,6 +571,66 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
             var uri = BuildStream(LocalContentIdentifier, UriHelper.UriToString(relativePath));
             _webViewControl?.NavigateToLocalStreamUri(uri, AsWindowsRuntimeUriToStreamResolver(streamResolver));
+        }
+
+        internal void Navigate(
+            Uri requestUri,
+            System.Net.Http.HttpMethod method,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null)
+        {
+            if (requestUri == null)
+            {
+                throw new ArgumentNullException(nameof(requestUri));
+            }
+
+            if (method == null)
+            {
+                throw new ArgumentNullException(nameof(method));
+            }
+
+            // Convert a System.Net.Http.HttpMethod to Windows.Web.Http.HttpMethod
+            HttpMethod ToHttpMethod(System.Net.Http.HttpMethod httpMethod)
+            {
+                if (System.Net.Http.HttpMethod.Get.Equals(httpMethod))
+                {
+                    return HttpMethod.Get;
+                }
+
+                if (System.Net.Http.HttpMethod.Post.Equals(httpMethod))
+                {
+                    return HttpMethod.Post;
+                }
+
+                // For compatabilty with WebView.NavigateWithHttpRequestMessage, this only supports POST and GET
+                throw new ArgumentOutOfRangeException(nameof(httpMethod));
+            }
+
+            var requestMessage = new HttpRequestMessage
+            {
+                RequestUri = requestUri,
+                Method = ToHttpMethod(method)
+            };
+
+            if (content != null)
+            {
+                requestMessage.Content = new HttpStringContent(content);
+            }
+
+            if (headers != null)
+            {
+                foreach (var header in headers)
+                {
+                    requestMessage.Headers.Add(header);
+                }
+            }
+
+            NavigateWithHttpRequestMessage(requestMessage);
+        }
+
+        internal void NavigateWithHttpRequestMessage(HttpRequestMessage requestMessage)
+        {
+            _webViewControl?.NavigateWithHttpRequestMessage(requestMessage);
         }
 
         /// <exception cref="ArgumentNullException"><paramref name="text"/> is <see langword="null"/></exception>
