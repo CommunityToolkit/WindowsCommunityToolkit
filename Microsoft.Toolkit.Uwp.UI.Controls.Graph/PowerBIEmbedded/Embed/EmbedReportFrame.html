@@ -41,6 +41,9 @@
         }
 
         @media (max-width: 720px) {
+            #dropdownContainer {
+                position: static;
+            }
             #dropdownContainer select {
                 width: 100%;
                 margin-bottom: 5px;
@@ -63,7 +66,6 @@
     <script>
         var accessToken;
         var currentOrientation;
-        var storage = window.localStorage;
 
         function getReport() {
             const embedContainer = document.getElementById('reportContainer');
@@ -76,9 +78,10 @@
             report.setAccessToken(token);
         }
 
-        function loadGroups(token, reports, defaultReport, orientation) {
+        function loadGroups(token, reports, defaultReport, orientation, showFilter) {
             accessToken = token;
             currentOrientation = orientation;
+            showFilterPane = showFilter;
 
             document.getElementById('dropdownContainer').style.visibility = 'visible';
 
@@ -124,7 +127,7 @@
                 id: embedReport.id,
                 permissions: models.Permissions.Read,
                 settings: {
-                    filterPaneEnabled: false,
+                    filterPaneEnabled: showFilterPane,
                     navContentPaneEnabled: false
                 }
             };

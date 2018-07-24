@@ -42,6 +42,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             new PropertyMetadata(null, OnPropertyChanged));
 
         /// <summary>
+        /// Identifies the <see cref="ShowFilter"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ShowFilterProperty = DependencyProperty.Register(
+            nameof(ShowFilter),
+            typeof(bool),
+            typeof(PowerBIEmbedded),
+            new PropertyMetadata(true, OnPropertyChanged));
+
+        /// <summary>
         /// Gets or sets the client id of Azure AD app registration (v1)
         /// </summary>
         public string ClientId
@@ -66,6 +75,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             get { return ((string)GetValue(EmbedUrlProperty))?.Trim(); }
             set { SetValue(EmbedUrlProperty, value?.Trim()); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether show the filter pane
+        /// </summary>
+        public bool ShowFilter
+        {
+            get { return (bool)GetValue(ShowFilterProperty); }
+            set { SetValue(ShowFilterProperty, value); }
         }
 
         private bool IsWindowsPhone

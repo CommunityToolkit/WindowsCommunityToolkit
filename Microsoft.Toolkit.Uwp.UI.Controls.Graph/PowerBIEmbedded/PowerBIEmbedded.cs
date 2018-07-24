@@ -147,7 +147,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                 $"'{token}', " +
                                 $"{JsonConvert.SerializeObject(new Report[] { report })}, " +
                                 $"{JsonConvert.SerializeObject(report)}, " +
-                                (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}')" : "'')"));
+                                (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}',)" : "'', " +
+                                $"{ShowFilter.ToString().ToLower()}" +
+                                ")");
 
                             return;
                         }
@@ -190,7 +192,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         $"'{token}', " +
                         $"{JsonConvert.SerializeObject(reports)}, " +
                         $"{JsonConvert.SerializeObject(selectionReport)}, " +
-                        (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}')" : "'')"));
+                        (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}',)" : "'', " +
+                        $"{ShowFilter.ToString().ToLower()}" +
+                        ")");
                 }
             }
             else

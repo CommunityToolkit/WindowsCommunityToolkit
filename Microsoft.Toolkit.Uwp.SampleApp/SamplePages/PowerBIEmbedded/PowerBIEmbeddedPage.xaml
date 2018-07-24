@@ -5,6 +5,8 @@
     xmlns:graphControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core" 
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
@@ -43,7 +45,7 @@
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource Brush-Grey-01}"
-                                       Text="Azure Active Directory and PowerBI Properties Configuration" />
+                                       Text="Azure Active Directory v1 and PowerBI Properties Configuration" />
                     </Grid>
 
                     <StackPanel x:Name="ClientIdBox"
@@ -75,10 +77,22 @@
                                     <ComboBoxItem Tag="GroupId" Content="Group Id" IsSelected="True"/>
                                     <ComboBoxItem Tag="EmbedUrl" Content="Embed Url" />
                                 </ComboBox.Items>
+                                <interactivity:Interaction.Behaviors>
+                                    <core:DataTriggerBehavior Binding="{Binding SelectedIndex, ElementName=PropertyDropdown}" Value="0">
+                                        <core:ChangePropertyAction PropertyName="Visibility" Value="Visible" TargetObject="{Binding ElementName=PropertyTipsGroupId}"/>
+                                        <core:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" TargetObject="{Binding ElementName=PropertyTipsEmbedUrl}"/>
+                                    </core:DataTriggerBehavior>
+                                    <core:DataTriggerBehavior Binding="{Binding SelectedIndex, ElementName=PropertyDropdown}" Value="1">
+                                        <core:ChangePropertyAction PropertyName="Visibility" Value="Collapsed" TargetObject="{Binding ElementName=PropertyTipsGroupId}"/>
+                                        <core:ChangePropertyAction PropertyName="Visibility" Value="Visible" TargetObject="{Binding ElementName=PropertyTipsEmbedUrl}"/>
+                                    </core:DataTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
                             </ComboBox>
                         </Grid>
-                        <TextBlock x:Name="PropertyTipsGroupId" TextWrapping="Wrap" Text="Id of the group associated with the workspace"/>
+                        <TextBlock x:Name="PropertyTipsGroupId" TextWrapping="Wrap" Visibility="Collapsed" Text="Id of the group associated with the workspace"/>
                         <TextBlock x:Name="PropertyTipsEmbedUrl" TextWrapping="Wrap" Visibility="Collapsed" Text="Embed URL in format like this 'https://app.powerbi.com/reportEmbed?reportId={REPORT_ID}&amp;groupId={GROUP_ID}', could get this URL when open the report in https://app.powerbi.com/ and choose 'File > Embed in SharePoint Online'"/>
+
+                        <CheckBox x:Name="ShowFilterCheckBox" Content="Show Filter Pane" Margin="0,12,0,0"/>
 
                         <Button x:Name="LoadButton"
                                     Width="75"
