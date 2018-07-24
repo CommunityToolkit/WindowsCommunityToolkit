@@ -33,7 +33,7 @@
             const reportId = storage.reportId;
             const pageName = storage.pageName;
             const viewType = storage.viewType;
-            const showFilterPane = storage.showFilterPane;
+            const showFilterPane = storage.showFilterPane == "true"? true : false;
             let settings = {};
 
             if (token && embedUrl && reportId && pageName && viewType) {
