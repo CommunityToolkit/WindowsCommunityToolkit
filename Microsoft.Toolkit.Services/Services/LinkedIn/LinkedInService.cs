@@ -6,6 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
+using Microsoft.Toolkit.Services.Internal;
+
 
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
@@ -43,6 +45,20 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         private LinkedInService()
         {
         }
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information for Uwp.
+        /// </summary>
+        /// <param name="service">The LinkedInService.</param>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
+        /// <returns>Success or failure.</returns>
+#if WINRT
+        public bool Initialize( LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
+        {
+            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), requiredPermissions);
+        }
+#endif
 
         /// <summary>
         /// Log user in to LinkedIn.

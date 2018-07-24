@@ -7,12 +7,13 @@ using Microsoft.Toolkit.Services.Core;
 using Windows.Security.Credentials;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Services.Internal
 {
+
     /// <summary>
     /// Password Manager
     /// </summary>
-    public class UWpPasswordManager : IPasswordManager
+    internal class UWpPasswordManager : IPasswordManager
     {
         /// <summary>
         /// Password vault used to store access tokens
@@ -27,9 +28,11 @@ namespace Microsoft.Toolkit.Uwp.Services
             _vault = new PasswordVault();
         }
 
+
         /// <inheritdoc/>
         public Toolkit.Services.Core.PasswordCredential Get(string key)
         {
+#if WINRT
             var crendentials = RetrievePasswordCredential(key);
             if (crendentials == null)
             {
@@ -37,10 +40,14 @@ namespace Microsoft.Toolkit.Uwp.Services
             }
 
             return new Toolkit.Services.Core.PasswordCredential { Password = crendentials.Password, UserName = crendentials.UserName };
+#endif
+
+            return null;
         }
 
         private Windows.Security.Credentials.PasswordCredential RetrievePasswordCredential(string key)
         {
+#if WINRT
             var passwordCredentials = _vault.RetrieveAll();
             var temp = passwordCredentials.FirstOrDefault(c => c.Resource == key);
 
@@ -50,19 +57,26 @@ namespace Microsoft.Toolkit.Uwp.Services
             }
 
             return _vault.Retrieve(temp.Resource, temp.UserName);
+#endif
+
+            return null;
         }
 
         /// <inheritdoc/>
         public void Remove(string key)
         {
+            #if WINRT
             _vault.Remove(RetrievePasswordCredential(key));
+            #endif
         }
 
         /// <inheritdoc/>
         public void Store(string resource, Toolkit.Services.Core.PasswordCredential credentials)
         {
+            #if WINRT
             var passwordCredential = new Windows.Security.Credentials.PasswordCredential(resource, credentials.UserName, credentials.Password);
             _vault.Add(passwordCredential);
+            #endif
         }
     }
 }

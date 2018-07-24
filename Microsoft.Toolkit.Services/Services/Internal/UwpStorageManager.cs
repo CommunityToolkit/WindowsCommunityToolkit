@@ -2,12 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WINRT
 using System.Linq;
 using Microsoft.Toolkit.Services.Core;
 using Windows.Security.Credentials;
 using Windows.Storage;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Services.Internal
 {
     /// <summary>
     /// Uwp specific implementation for IStorageManager using ApplicationData and LocalSettings
@@ -35,3 +36,4 @@ namespace Microsoft.Toolkit.Uwp.Services
         }
     }
 }
+#endif

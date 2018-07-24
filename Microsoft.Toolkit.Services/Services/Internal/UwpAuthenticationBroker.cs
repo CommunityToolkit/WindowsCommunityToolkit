@@ -5,16 +5,16 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-using Microsoft.Toolkit.Services.Twitter;
 using Windows.Security.Authentication.Web;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Services.Internal
 {
     /// <summary>
     /// Authentication Broker
     /// </summary>
-    public class UwpAuthenticationBroker : IAuthenticationBroker
+    internal class UwpAuthenticationBroker : IAuthenticationBroker
     {
+
         /// <summary>
         /// Authentication process
         /// </summary>
@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <returns> Returns login status</returns>
         public async Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri)
         {
+#if WINRT
             WebAuthenticationResult result = await WebAuthenticationBroker.AuthenticateAsync(
                 WebAuthenticationOptions.None,
                 requestUri,
@@ -40,6 +41,8 @@ namespace Microsoft.Toolkit.Uwp.Services
                     // TODO: Change with correct name;
                     throw new ArgumentException("error");
             }
+#endif
+            return null;
         }
     }
 }

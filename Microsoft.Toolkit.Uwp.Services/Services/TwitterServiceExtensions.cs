@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.Internal;
 using Microsoft.Toolkit.Services.Twitter;
 using Windows.Storage.Streams;
 
