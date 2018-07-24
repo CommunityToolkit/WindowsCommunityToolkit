@@ -67,10 +67,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     case 0:
                         PowerBIEmbeddedControl.ClientId = ClientId.Text.Trim();
+                        PowerBIEmbeddedControl.EmbedUrl = string.Empty;
                         PowerBIEmbeddedControl.GroupId = PropertyValue.Text.Trim();
                         break;
                     case 1:
                         PowerBIEmbeddedControl.ClientId = ClientId.Text.Trim();
+                        PowerBIEmbeddedControl.GroupId = string.Empty;
                         PowerBIEmbeddedControl.EmbedUrl = PropertyValue.Text.Trim();
                         break;
                 }

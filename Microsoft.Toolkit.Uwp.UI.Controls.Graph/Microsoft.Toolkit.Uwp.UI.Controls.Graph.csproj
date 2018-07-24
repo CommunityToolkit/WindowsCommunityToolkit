@@ -15,6 +15,7 @@
     <Content Include="Assets\photo.png" />
     <Content Include="PowerBIEmbedded\Embed\EmbedReportFrame.html" />
     <Content Include="PowerBIEmbedded\Embed\powerbi.min.js" />
+    <Content Include="PowerBIEmbedded\Embed\ReportContainer.html" />
   </ItemGroup>
 
   <ItemGroup>

@@ -12,45 +12,58 @@
             font-family: 'Segoe UI Web Light', 'Segoe UI Light', 'Segoe WP Light', 'Segoe UI', 'Segoe WP', Tahoma, Arial, sans-serif;
             overflow: hidden;
         }
-        #dropdownContainer {
-            position: absolute;
-            left: 10px;
-            top: 10px;
-        }
-        #dropdownContainer select {
-            margin-right: 15px;
-            padding: 3px;
-            font-size: 1em;
-            display: inline-block;
-        }
-        #reportContainer {
+
+        .wrapper {
+            display: flex;
+            width: 100%;
             height: 100%;
+            flex-direction: column;
+        }
+
+        #dropdownContainer {
+            min-height: 30px;
+            padding: 5px;
+            flex-grow: 0;
+            visibility: hidden;
+        }
+
+            #dropdownContainer select {
+                display: inline-block;
+                margin-right: 15px;
+                padding: 3px;
+                font-size: 1em;
+            }
+
+        #reportFrame {
+            width: 100%;
+            flex-grow: 1;
+            border: 0;
         }
 
         @media (max-width: 720px) {
-            #dropdownContainer {
-                position: static;
-            }
             #dropdownContainer select {
                 width: 100%;
-                display: block;
+                margin-bottom: 5px;
             }
         }
     </style>
     <script src="powerbi.min.js"></script>
 </head>
 <body>
-    <div id="dropdownContainer" style="visibility:hidden">
-        <select id="reportsDropdown" style="display:none">
-            <option>Loading</option>
-        </select>
-        <select id="pagesDropdown"></select>
+    <div class="wrapper">
+        <div id="dropdownContainer">
+            <select id="reportsDropdown">
+                <option>Loading</option>
+            </select>
+            <select id="pagesDropdown"></select>
+        </div>
+        <iframe id="reportFrame"></iframe>
     </div>
-    <div id="reportContainer"></div>
-
+    <div id="reportContainer" style="display:none"></div>
     <script>
         var accessToken;
         var currentOrientation;
+        var storage = window.localStorage;
 
         function getReport() {
             const embedContainer = document.getElementById('reportContainer');
@@ -99,6 +112,10 @@
         function loadReport(embedReport) {
             const models = window['powerbi-client'].models;
 
+            storage.accessToken = accessToken;
+            storage.embedUrl = embedReport.embedUrl;
+            storage.reportId = embedReport.id;
+
             const config = {
                 type: 'report',
                 tokenType: models.TokenType.Aad,
@@ -107,14 +124,14 @@
                 id: embedReport.id,
                 permissions: models.Permissions.Read,
                 settings: {
-                    filterPaneEnabled: true,
+                    filterPaneEnabled: false,
                     navContentPaneEnabled: false
                 }
             };
 
-            const report = powerbi.embed(document.getElementById('reportContainer'), config);
+            const report = powerbi.load(document.getElementById('reportContainer'), config);
 
-            document.getElementById('reportContainer').style.visibility = 'visible';
+            document.getElementById('reportFrame').style.visibility = 'visible';
 
             var pagesDDL = resetDropdown('pagesDropdown', '<option>Loading</option>');
 
@@ -142,7 +159,7 @@
 
                         if (findPage) {
                             findPage.setActive();
-                            ApplyMobileSettings(findPage);
+                            RefreshReport(findPage);
                         }
                     });
 
@@ -156,62 +173,77 @@
                         }
                     });
 
-                    if (page.length > 0) {
-                        ApplyMobileSettings(pages[0]);
+                    if (pages.length > 0) {
+                        RefreshReport(pages[0]);
                     }
                 })
                 .catch(function (error) {
-                    alert(error);
                 });
         }
 
         function rotate(orientation) {
+            const report = getReport();
+
             // do rotate only when the report is already loaded previously
             if (!currentOrientation) {
                 return;
             }
 
             currentOrientation = orientation;
-
-            const settings = getSettings();
-
-            const report = getReport();
-
-            report.updateSettings(settings)
-                .then(function () {
-
+            report.getPages()
+                .then(function (pages) {
+                    var selectedPageName = document.getElementById("pagesDropdown").value;
+                    var findPage = pages.find(function (page) {
+                        return page.name == selectedPageName;
+                    });
+                    if (findPage) {
+                        RefreshReport(findPage);
+                    }
                 })
-                .catch(function (error) {
-                    alert(error);
-                });
         }
 
-        function ApplyMobileSettings(page) {
+        function RefreshReport(page) {
             const models = window['powerbi-client'].models;
+            const report = getReport();
+            storage.pageName = page.name;
 
-            page.hasLayout(models.LayoutType.MobilePortrait).then(function (hasLayout) {
-                if (hasLayout) {
-                    switch (currentOrientation) {
-                        case 'Portrait':
-                        case 'PortraitFlipped':
-                            report.updateSettings({
-                                layoutType: models.LayoutType.MobilePortrait
-                            });
-                            break;
-                        case 'Landscape':
-                        case 'LandscapeFlipped':
-                            report.updateSettings({
-                                layoutType: models.LayoutType.MobileLandscape
-                            });
-                            break;
-                    }
-                }
-            });
+            if (currentOrientation == "Portrait"
+                || currentOrientation == "PortraitFlipped") {
+                page.hasLayout(models.LayoutType.MobilePortrait)
+                    .then(function (hasLayout) {
+                        if (hasLayout) {
+                            storage.viewType = "MobilePortrait";
+                        }
+                        else {
+                            storage.viewType = "Desktop";
+                        }
+                        document.getElementById('reportFrame').src = "ReportContainer.html";
+                    });
+            }
+            else if (currentOrientation == "Landscape"
+                || currentOrientation == "LandscapeFlipped") {
+                page.hasLayout(models.LayoutType.MobileLandscape)
+                    .then(function (hasLayout) {
+                        if (hasLayout) {
+                            storage.viewType = "MobileLandscape";
+                        }
+                        else {
+                            storage.viewType = "Desktop";
+                        }
+                        document.getElementById('reportFrame').src = "ReportContainer.html";
+                    });
+
+            }
+            else if (currentOrientation == "") {
+                storage.viewType = "Desktop";
+                document.getElementById('reportFrame').src = "";
+                document.getElementById('reportFrame').src = "ReportContainer.html";
+            }
         }
 
         function clearReport() {
             document.getElementById('dropdownContainer').style.visibility = 'hidden';
-            document.getElementById('reportContainer').style.visibility = 'hidden';
+            document.getElementById('reportFrame').style.visibility = 'hidden';
 
             resetDropdown('pagesDropdown');
         }
