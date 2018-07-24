@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
@@ -27,6 +28,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         private IWebViewCompatibleAdapter _implementation;
 
+        [Category("Web")]
+        [Bindable(true)]
         public Uri Source { get => _implementation.Source; set => _implementation.Source = value; }
 
         public bool CanGoBack => _implementation.CanGoBack;
