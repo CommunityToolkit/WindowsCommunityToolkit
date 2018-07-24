@@ -63,6 +63,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(AreTransportControlsEnabled), AreTransportControlsEnabledProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.AreTransportControlsEnabledProperty);
             Bind(nameof(MediaPlayer), MediaPlayerProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty, null, System.ComponentModel.BindingDirection.OneWay);
 
+            // Full-screen not supported yet.
+            UwpControl.TransportControls.IsFullWindowButtonVisible = false;
+
             base.OnInitialized(e);
         }
 
