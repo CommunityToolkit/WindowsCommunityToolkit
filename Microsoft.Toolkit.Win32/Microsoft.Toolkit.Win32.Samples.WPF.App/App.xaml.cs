@@ -10,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace TestSample
+namespace Microsoft.Toolkit.Win32.Samples.WPF.App
 {
     /// <summary>
     /// Interaction logic for App.xaml

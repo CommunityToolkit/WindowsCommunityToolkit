@@ -6,7 +6,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using System;
 using System.Windows;
 
-namespace TestSample
+namespace Microsoft.Toolkit.Win32.Samples.WPF.App
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
