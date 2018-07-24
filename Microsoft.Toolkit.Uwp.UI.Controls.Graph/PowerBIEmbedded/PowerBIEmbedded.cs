@@ -147,7 +147,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                 $"'{token}', " +
                                 $"{JsonConvert.SerializeObject(new Report[] { report })}, " +
                                 $"{JsonConvert.SerializeObject(report)}, " +
-                                $"'{DisplayInformation.CurrentOrientation.ToString()}', " +
+                                (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}'," : "'', ") +
                                 $"{ShowFilter.ToString().ToLower()}" +
                                 ")");
 
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         $"'{token}', " +
                         $"{JsonConvert.SerializeObject(reports)}, " +
                         $"{JsonConvert.SerializeObject(selectionReport)}, " +
-                        $"'{DisplayInformation.CurrentOrientation.ToString()}', " +
+                        (IsWindowsPhone ? $"'{DisplayInformation.CurrentOrientation.ToString()}'," : "'', ") +
                         $"{ShowFilter.ToString().ToLower()}" +
                         ")");
                 }

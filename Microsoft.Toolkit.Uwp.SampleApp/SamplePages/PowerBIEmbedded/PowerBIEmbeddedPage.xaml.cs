@@ -1,4 +1,4 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -28,12 +28,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (box.Visibility == Visibility.Visible)
             {
-                switchButton.Content = "";
+                switchButton.Content = "\xE70D";
                 box.Visibility = Visibility.Collapsed;
             }
             else
             {
-                switchButton.Content = "";
+                switchButton.Content = "\xE70E";
                 box.Visibility = Visibility.Visible;
             }
         }
@@ -49,9 +49,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 switch (PropertyDropdown.SelectedIndex)
                 {
                     case 0:
+                        PowerBIEmbeddedControl.EmbedUrl = string.Empty;
                         PowerBIEmbeddedControl.GroupId = PropertyValue.Text.Trim();
                         break;
                     case 1:
+                        PowerBIEmbeddedControl.GroupId = string.Empty;
                         PowerBIEmbeddedControl.EmbedUrl = PropertyValue.Text.Trim();
                         break;
                 }
