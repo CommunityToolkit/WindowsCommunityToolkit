@@ -30,26 +30,50 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public async void OnXamlRendered(FrameworkElement control)
         {
             dataGrid = control.FindDescendantByName("dataGrid") as DataGrid;
-            dataGrid.ItemsSource = await viewModel.GetDataAsync();
-            dataGrid.Sorting += DataGrid_Sorting;
-            dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = await viewModel.GetDataAsync();
+                dataGrid.Sorting += DataGrid_Sorting;
+                dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
+            }
 
             groupButton = control.FindDescendantByName("groupButton") as AppBarButton;
-            groupButton.Click += GroupButton_Click;
+            if (groupButton != null)
+            {
+                groupButton.Click += GroupButton_Click;
+            }
 
             rankLowItem = control.FindName("rankLow") as MenuFlyoutItem;
-            rankLowItem.Click += RankLowItem_Click;
+            if (rankLowItem != null)
+            {
+                rankLowItem.Click += RankLowItem_Click;
+            }
+
             rankHighItem = control.FindName("rankHigh") as MenuFlyoutItem;
-            rankHighItem.Click += RankHigh_Click;
+            if (rankHighItem != null)
+            {
+                rankHighItem.Click += RankHigh_Click;
+            }
+
             heightLowItem = control.FindName("heightLow") as MenuFlyoutItem;
-            heightLowItem.Click += HeightLow_Click;
+            if (heightLowItem != null)
+            {
+                heightLowItem.Click += HeightLow_Click;
+            }
+
             heightHighItem = control.FindName("heightHigh") as MenuFlyoutItem;
-            heightHighItem.Click += HeightHigh_Click;
+            if (heightHighItem != null)
+            {
+                heightHighItem.Click += HeightHigh_Click;
+            }
         }
 
         private void RankLowItem_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_Low);
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_Low);
+            }
         }
 
         private void DataGrid_LoadingRowGroup(object sender, DataGridRowGroupHeaderEventArgs e)
@@ -61,7 +85,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void GroupButton_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = viewModel.GroupData().View;
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.GroupData().View;
+            }
         }
 
         private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
@@ -69,47 +96,59 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             string previousSortedColumn = viewModel.CachedSortedColumn;
             if (previousSortedColumn != string.Empty)
             {
-                foreach (DataGridColumn c in dataGrid.Columns)
+                foreach (DataGridColumn dataGridColumn in dataGrid.Columns)
                 {
-                    if (c.Tag.ToString() == previousSortedColumn)
+                    if (dataGridColumn.Tag != null && dataGridColumn.Tag.ToString() == previousSortedColumn)
                     {
-                        if (previousSortedColumn != e.Column.Tag.ToString())
+                        if (e.Column.Tag == null || previousSortedColumn != e.Column.Tag.ToString())
                         {
-                            c.SortDirection = null;
+                            dataGridColumn.SortDirection = null;
                             previousSortDirection = null;
                         }
                     }
                 }
             }
 
-            if ((e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Ascending)
-                && previousSortDirection != DataGridSortDirection.Ascending)
+            if (e.Column.Tag != null)
             {
-                dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), true);
-                e.Column.SortDirection = DataGridSortDirection.Ascending;
-                previousSortDirection = DataGridSortDirection.Ascending;
-            }
-            else
-            {
-                dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), false);
-                e.Column.SortDirection = DataGridSortDirection.Descending;
-                previousSortDirection = DataGridSortDirection.Descending;
+                if ((e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Ascending)
+                    && previousSortDirection != DataGridSortDirection.Ascending)
+                {
+                    dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), true);
+                    e.Column.SortDirection = DataGridSortDirection.Ascending;
+                    previousSortDirection = DataGridSortDirection.Ascending;
+                }
+                else
+                {
+                    dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), false);
+                    e.Column.SortDirection = DataGridSortDirection.Descending;
+                    previousSortDirection = DataGridSortDirection.Descending;
+                }
             }
         }
 
         private void RankHigh_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_High);
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_High);
+            }
         }
 
         private void HeightLow_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Height_Low);
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Height_Low);
+            }
         }
 
         private void HeightHigh_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Height_High);
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Height_High);
+            }
         }
     }
 }

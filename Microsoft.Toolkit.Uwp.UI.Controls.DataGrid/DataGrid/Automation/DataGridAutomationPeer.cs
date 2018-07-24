@@ -16,7 +16,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 
-namespace Microsoft.Toolkit.Uwp.Automation.Peers
+namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
     /// <summary>
     /// Exposes <see cref="DataGrid" /> types to UI Automation.

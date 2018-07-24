@@ -79,7 +79,7 @@ Once you search you should see a list similar to the one below (versions may be 
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
 * [BladeView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/BladeView/)
 * [Carousel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Carousel/)
-* [DataGrid](docs/controls/DataGrid.md)
+* [DataGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DataGrid/)
 * [DockPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DockPanel/)
 * [DropShadowPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DropShadowPanel/)
 * [Expander](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Expander/)

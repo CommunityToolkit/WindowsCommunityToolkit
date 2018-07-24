@@ -11,36 +11,36 @@ using Microsoft.Toolkit.Uwp.Design.Common;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 {
-	public class MetadataRegistration : MetadataRegistrationBase, IProvideAttributeTable
-	{
-		public MetadataRegistration() : base()
-		{
-			// Note:
-			// The default constructor sets value of AssemblyFullName and 
-			// XmlResourceName used by MetadataRegistrationBase.AddDescriptions().
-			// The convention here is that the <RootNamespace> in .design.csproj
-			// (or Default namespace in Project -> Properties -> Application tab)
-			// must be the same as runtime assembly's main namespace (t.Namespace)
-			// plus .Design.
+    public class MetadataRegistration : MetadataRegistrationBase, IProvideAttributeTable
+    {
+        public MetadataRegistration() : base()
+        {
+            // Note:
+            // The default constructor sets value of AssemblyFullName and 
+            // XmlResourceName used by MetadataRegistrationBase.AddDescriptions().
+            // The convention here is that the <RootNamespace> in .design.csproj
+            // (or Default namespace in Project -> Properties -> Application tab)
+            // must be the same as runtime assembly's main namespace (t.Namespace)
+            // plus .Design.
             Type t = typeof(Microsoft.Toolkit.Uwp.UI.Controls.DataGrid);
-			AssemblyName an = t.Assembly.GetName();
-			AssemblyFullName = ", " + an.FullName;
-			XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
-		}
+            AssemblyName an = t.Assembly.GetName();
+            AssemblyFullName = ", " + an.FullName;
+            XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
+        }
 
-		#region IProvideAttributeTable Members
+        #region IProvideAttributeTable Members
 
-		/// <summary>
-		/// Gets the AttributeTable for design time metadata.
-		/// </summary>
-		public AttributeTable AttributeTable
-		{
-			get
-			{
-				return BuildAttributeTable();
-			}
-		}
+        /// <summary>
+        /// Gets the AttributeTable for design time metadata.
+        /// </summary>
+        public AttributeTable AttributeTable
+        {
+            get
+            {
+                return BuildAttributeTable();
+            }
+        }
 
-		#endregion
-	}
+        #endregion
+    }
 }

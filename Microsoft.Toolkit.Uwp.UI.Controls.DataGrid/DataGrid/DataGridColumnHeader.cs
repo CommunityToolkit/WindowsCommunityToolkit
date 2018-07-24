@@ -4,7 +4,7 @@
 
 using System;
 using System.Diagnostics;
-using Microsoft.Toolkit.Uwp.Automation.Peers;
+using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Controls.Utilities;
 using Microsoft.Toolkit.Uwp.UI.Utilities;

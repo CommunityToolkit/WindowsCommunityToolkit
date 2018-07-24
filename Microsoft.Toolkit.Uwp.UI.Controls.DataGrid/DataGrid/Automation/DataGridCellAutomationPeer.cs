@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 
-namespace Microsoft.Toolkit.Uwp.Automation.Peers
+namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
     /// <summary>
     /// AutomationPeer for DataGridCell

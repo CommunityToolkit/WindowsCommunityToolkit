@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
 using Windows.UI.Xaml.Automation.Peers;
 
-namespace Microsoft.Toolkit.Uwp.Automation.Peers
+namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
     /// <summary>
     /// AutomationPeer for the <see cref="DataGridRowsPresenter"/> class.
