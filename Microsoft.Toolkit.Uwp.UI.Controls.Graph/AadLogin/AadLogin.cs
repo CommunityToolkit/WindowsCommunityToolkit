@@ -58,6 +58,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 CurrentUserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
             }
+
+            GraphService.SignInFailed -= GraphService_SignInFailed;
+            GraphService.SignInFailed += GraphService_SignInFailed;
+        }
+
+        private void GraphService_SignInFailed(object sender, Services.MicrosoftGraph.SignInFailedEventArgs e)
+        {
+            SignInFailed?.Invoke(sender, new SignInFailedEventArgs(e.Exception));
         }
 
         private async void GraphService_StateChanged(object sender, EventArgs e)
@@ -78,18 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
-            var success = false;
-
-            try
-            {
-                success = await GraphService.TryLoginAsync();
-            }
-            catch (Exception ex)
-            {
-                SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
-            }
-
-            if (success)
+            if (await GraphService.TryLoginAsync())
             {
                 AutomationProperties.SetName(this, string.Empty);
 

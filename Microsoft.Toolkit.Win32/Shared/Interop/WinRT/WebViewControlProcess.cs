@@ -15,6 +15,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public sealed class WebViewControlProcess
     {
+        private const string WinRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
+
         [SecurityCritical]
         private readonly global::Windows.Web.UI.Interop.WebViewControlProcess _process;
 
@@ -67,14 +69,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             get
             {
-                if (ApiInformation.IsPropertyPresent(
-                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
-                    "Partition"))
-                {
-                    return _process.Partition;
-                }
-
-                return string.Empty;
+                return ApiInformationExtensions.ExecuteIfPropertyPresent(
+                    WinRtType,
+                    "Partition",
+                    () => _process.Partition) ?? string.Empty;
             }
         }
 
@@ -92,14 +90,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             get
             {
-                if (ApiInformation.IsPropertyPresent(
-                    "Windows.Web.UI.Interop.WebViewControlProcessOptions",
-                    "UserAgent"))
-                {
-                    return _process.UserAgent;
-                }
-
-                return string.Empty;
+                return ApiInformationExtensions.ExecuteIfPropertyPresent(
+                    WinRtType,
+                    "UserAgent",
+                    () => _process.UserAgent) ?? string.Empty;
             }
         }
 
