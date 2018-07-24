@@ -33,6 +33,7 @@
             const reportId = storage.reportId;
             const pageName = storage.pageName;
             const viewType = storage.viewType;
+            const showFilterPane = storage.showFilterPane;
             let settings = {};
 
             if (token && embedUrl && reportId && pageName && viewType) {
@@ -49,7 +50,7 @@
                         break;
                     case "Desktop":
                         settings = {
-                            filterPaneEnabled: false,
+                            filterPaneEnabled: showFilterPane,
                             navContentPaneEnabled: false
                         };
                         break;

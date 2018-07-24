@@ -66,6 +66,8 @@
     <script>
         var accessToken;
         var currentOrientation;
+        var showFilterPane;
+        var storage = window.localStorage;
 
         function getReport() {
             const embedContainer = document.getElementById('reportContainer');
@@ -118,6 +120,7 @@
             storage.accessToken = accessToken;
             storage.embedUrl = embedReport.embedUrl;
             storage.reportId = embedReport.id;
+            storage.showFilterPane = showFilterPane;
 
             const config = {
                 type: 'report',
@@ -127,7 +130,7 @@
                 id: embedReport.id,
                 permissions: models.Permissions.Read,
                 settings: {
-                    filterPaneEnabled: showFilterPane,
+                    filterPaneEnabled: false,
                     navContentPaneEnabled: false
                 }
             };
