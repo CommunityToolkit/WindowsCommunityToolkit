@@ -64,7 +64,8 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public int[] DisplayTextRange { get; set; }
 
         /// <summary>
-        /// Gets or sets truncated flag (true when tweet is longer than 140 characters)
+        /// Gets or sets a value indicating whether tweet is truncated
+        /// (true when tweet is longer than 140 characters)
         /// This entity may be deprecated - it never seems to be set to true.
         /// </summary>
         [JsonProperty("truncated")]
@@ -116,6 +117,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
         /// </summary>
         [JsonProperty("coordinates")]
+        [JsonConverter(typeof(TwitterCoordinatesConverter))]
         public TwitterCoordinates Coordinates { get; set; }
 
         /// <summary>

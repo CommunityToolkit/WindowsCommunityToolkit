@@ -48,13 +48,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets protected status of user.
+        /// Gets or sets a value indicating whether protected status of user.
         /// </summary>
         [JsonProperty("protected")]
         public bool Protected { get; set; }
 
         /// <summary>
-        /// Gets or sets verified (blue checkmark) status of user.
+        /// Gets or sets a value indicating whether account is verified (blue checkmark).
         /// </summary>
         [JsonProperty("verified")]
         public bool Verified { get; set; }
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public int StatusesCount { get; set; }
 
         /// <summary>
-        /// Gets or sets geotagging status of account.
+        /// Gets or sets a value indicating whether geotagging is enabled.
         /// This determines whether or not to geotag the user's posts.
         /// </summary>
         [JsonProperty("geo_enabled")]
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Lang { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not contributor mode is enabled.
+        /// Gets or sets a value indicating whether contributor mode is enabled.
         /// </summary>
         [JsonProperty("contributors_enabled")]
         public bool ContributorsEnabled { get; set; }
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string ProfileBackgroundImageUrlHttps { get; set; }
 
         /// <summary>
-        /// Gets or sets whether profile background image is tiled.
+        /// Gets or sets a value indicating whether profile background image is tiled.
         /// </summary>
         [JsonProperty("profile_background_tile")]
         public bool ProfileBackgroundTile { get; set; }
@@ -175,19 +175,19 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string ProfileTextColor { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not user has selected to use their uploaded background image in their profile.
+        /// Gets or sets a value indicating whether the user has selected to use their uploaded background image in their profile.
         /// </summary>
         [JsonProperty("profile_use_background_image")]
         public bool ProfileUseBackgroundImage { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not user is using the default profile theme and background.
+        /// Gets or sets a value indicating whether or not user is using the default profile theme and background.
         /// </summary>
         [JsonProperty("default_profile")]
         public bool DefaultProfile { get; set; }
 
         /// <summary>
-        /// Gets or sets whether or not the user is using the default profile image.
+        /// Gets or sets a value indicating whether or not the user is using the default profile image.
         /// </summary>
         [JsonProperty("default_profile_image")]
         public bool DefaultProfileImage { get; set; }

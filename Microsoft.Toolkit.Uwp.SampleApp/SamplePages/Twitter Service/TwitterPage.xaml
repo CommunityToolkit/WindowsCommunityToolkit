@@ -68,7 +68,7 @@
                                    Text="{x:Bind CreationDate}" />
                         <TextBlock Margin="4,0,0,0"
                                    FontWeight="ExtraLight"
-                                   Text="{x:Bind Coordinates.Coordinates}" />
+                                   Text="{x:Bind Coordinates}" />
                     </StackPanel>
 
                     <Image Grid.Row="3"

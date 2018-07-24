@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
+    /// <summary>
+    /// Twitter Media Info
+    /// </summary>
     public class TwitterMediaAdditionalInfo
     {
         /// <summary>
@@ -21,13 +24,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         public string Description { get; set; }
 
         /// <summary>
-        /// Gets or sets "embeddable" flag of video
+        /// Gets or sets a value indicating whether video is embeddable
         /// </summary>
         [JsonProperty("embeddable")]
         public bool Embeddable { get; set; }
 
         /// <summary>
-        /// Gets or sets "monetizable" flag of video
+        /// Gets or sets a value indicating whether "monetizable"
         /// </summary>
         [JsonProperty("monetizable")]
         public bool Monetizable { get; set; }

@@ -34,7 +34,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <summary>
         /// Gets end timestamp as a DateTime object.
         /// </summary>
-        public DateTime PollEnd { get { return FormatDate(EndDateTime); } }
+        public DateTime PollEnd
+        {
+            get { return FormatDate(EndDateTime); }
+        }
 
         private DateTime FormatDate(string input)
         {
