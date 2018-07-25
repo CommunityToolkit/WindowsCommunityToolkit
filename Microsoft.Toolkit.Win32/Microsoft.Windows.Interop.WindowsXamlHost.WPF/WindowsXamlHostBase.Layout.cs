@@ -41,7 +41,6 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// <returns>Size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            
             if (this.desktopWindowXamlSource.Content != null)
             {
                 // Arrange is required to support HorizontalAlignment and VerticalAlignment properties
