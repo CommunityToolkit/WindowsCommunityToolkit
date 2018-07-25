@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
@@ -19,20 +18,20 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
                 new Dictionary<System.Windows.Input.FocusNavigationDirection, Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason>
                 {
                     { System.Windows.Input.FocusNavigationDirection.Next,     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First },
-                    { System.Windows.Input.FocusNavigationDirection.First ,   Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First },
+                    { System.Windows.Input.FocusNavigationDirection.First,   Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First },
                     { System.Windows.Input.FocusNavigationDirection.Previous, Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last },
                     { System.Windows.Input.FocusNavigationDirection.Last,     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last },
                     { System.Windows.Input.FocusNavigationDirection.Up,       Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Up },
-                    { System.Windows.Input.FocusNavigationDirection.Down ,    Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Down },
+                    { System.Windows.Input.FocusNavigationDirection.Down,    Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Down },
                     { System.Windows.Input.FocusNavigationDirection.Left,     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Left },
-                    { System.Windows.Input.FocusNavigationDirection.Right ,   Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right },
+                    { System.Windows.Input.FocusNavigationDirection.Right,   Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right },
                 };
 
         /// <summary>
         /// Dictionary that maps UWP XAML XamlSourceFocusNavigationReason to WPF (host framework) FocusNavigationDirection
         /// </summary>
         private static readonly Dictionary<Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason, System.Windows.Input.FocusNavigationDirection>
-            mapReasonToDirection =
+            MapReasonToDirection =
                 new Dictionary<Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason, System.Windows.Input.FocusNavigationDirection>()
                 {
                     { Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First, System.Windows.Input.FocusNavigationDirection.Next },
@@ -141,7 +140,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
             {
                 // Last focus request is not initiated by us, so continue
                 _lastFocusRequest = e.Request.CorrelationId;
-                var direction = mapReasonToDirection[e.Request.Reason];
+                var direction = MapReasonToDirection[e.Request.Reason];
                 var request = new System.Windows.Input.TraversalRequest(direction);
                 MoveFocus(request);
             }
