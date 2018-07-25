@@ -31,8 +31,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WPF.WebViewCompatible();
+            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -50,7 +49,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.elementHost1);
+            this.tabPage1.Controls.Add(this.webViewCompatible1);
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -69,15 +68,15 @@
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // elementHost1
+            // webViewCompatible1
             // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(3, 3);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(786, 411);
-            this.elementHost1.TabIndex = 0;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.webViewCompatible1;
+            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
+            this.webViewCompatible1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webViewCompatible1.Name = "webViewCompatible1";
+            this.webViewCompatible1.Size = new System.Drawing.Size(786, 411);
+            this.webViewCompatible1.TabIndex = 0;
+            this.webViewCompatible1.Text = "webViewCompatible1";
             // 
             // Form1
             // 
@@ -97,9 +96,8 @@
 
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private UI.Controls.WPF.WebViewCompatible webViewCompatible1;
         private System.Windows.Forms.TabPage tabPage2;
+        private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
     }
 }
 

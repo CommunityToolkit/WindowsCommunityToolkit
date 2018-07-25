@@ -85,9 +85,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls.WPF\Microsoft.Toolkit.Win32.UI.Controls.WPF.csproj">
-      <Project>{5D82B4F7-13DD-4749-B213-802D69FCECE4}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls.WPF</Name>
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj">
+      <Project>{e2cf9896-fe3b-49ab-8b53-1cf7b2fb1240}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -9,6 +9,11 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
+    [Designer(typeof(WebViewCompatibleDesigner))]
+    [DefaultProperty(Constants.ComponentDefaultProperty)]
+    [DefaultEvent(Constants.ComponentDefaultEvent)]
+    [Docking(DockingBehavior.AutoDock)]
+    [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     public class WebViewCompatible : Control, IWebViewCompatible
     {
         public WebViewCompatible()
