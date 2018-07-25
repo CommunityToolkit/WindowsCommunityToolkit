@@ -43,7 +43,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             throw new System.NotImplementedException();
         }
 
-        public DependencyObject this[int index] { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+        public DependencyObject this[int index]
+        {
+            get => throw new System.NotSupportedException();
+            set => throw new System.NotSupportedException();
+        }
 
         public void Add(DependencyObject item)
         {
@@ -70,9 +74,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             throw new System.NotImplementedException();
         }
 
-        public int Count => throw new System.NotImplementedException();
+        public int Count => throw new System.NotSupportedException();
 
-        public bool IsReadOnly => throw new System.NotImplementedException();
+        public bool IsReadOnly => throw new System.NotSupportedException();
 
         public IEnumerator<DependencyObject> GetEnumerator()
         {
