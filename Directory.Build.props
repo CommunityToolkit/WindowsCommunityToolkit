@@ -30,8 +30,21 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-        <TargetPlatformVersion>10.0.17713.0</TargetPlatformVersion>
+        
+        
+        <!-- Need RS5 or later. -->
         <TargetPlatformMinVersion>10.0.17713.0</TargetPlatformMinVersion>
+        <!--
+        When changing this value, ensure the SDK is installed with the build process.
+        Need to check several files:
+          - /.vsts-ci.yml
+          - /.vsts-pr.yml
+
+        This also needs to be installed on your local machine. Can do this with PowerShell:
+          ./build/Install-WindowsSDKISO.ps1 17713
+        -->
+        <TargetPlatformMinVersion>10.0.17713.0</TargetPlatformMinVersion>
+   
         <!-- Compiler -->
         <FileAlignment>512</FileAlignment>
         <HighEntropyVA>true</HighEntropyVA>
