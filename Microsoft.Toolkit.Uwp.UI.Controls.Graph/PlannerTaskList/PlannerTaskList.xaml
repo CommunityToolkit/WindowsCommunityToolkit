@@ -417,9 +417,6 @@
                                         <Setter Target="tasks.ItemTemplate" Value="{StaticResource MobileDefaultPlannerTaskDataTemplate}" />
                                         <Setter Target="tasks.ItemTemplateSelector" Value="{StaticResource MobilePlannerTaskItemSelector}" />
                                     </VisualState.Setters>
-                                    <VisualState.StateTriggers>
-                                        <StateTrigger IsActive="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneTime, Path=IsWindowsPhone}" />
-                                    </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
