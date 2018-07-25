@@ -48,6 +48,12 @@ MicrosoftGraphService.Instance.Initialize(
 );
 ```
 
+The sign in will be processed by the [AadLogin](../../docs/graph/AadLogin.md) control, however, you could do sign in with the following alternatively.
+
+```c#
+await MicrosoftGraphService.Instance.LoginAsync();
+```
+
 [PeoplePicker Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
