@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Win32.UI.Interop
+namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
     using System;
     using System.Windows;
     using System.Windows.Interop;
 
-    partial class WindowsXamlHost : HwndHost
+    partial class WindowsXamlHostBase : HwndHost
     {
         /// <summary>
         /// Measures wrapped UWP XAML content using passed in size constraint
@@ -52,24 +52,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         }
 
         /// <summary>
-        /// Notifies host control when wrapped UWP XAML content has become dirty and performed a layout pass
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">Object</param>
-        private void XamlContentLayoutUpdated(object sender, object e)
-        {
-            // UWP XAML content has changed. Force parent control to re-measure.
-            InvalidateMeasure();
-        }
-
-        /// <summary>
         /// UWP XAML content size changed
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">SizeChangedEventArgs</param>
         private void XamlContentSizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            ParentLayoutInvalidated(this);
+            this.InvalidateMeasure();
         }
     }
 }

@@ -9,20 +9,18 @@
     <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
-    
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
-    
     <DefaultLanguage>en-US</DefaultLanguage>
-
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
- 
-    <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
+    <DefaultTargetPlatformVersion>17713</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+	  <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <Choose>
@@ -32,7 +30,8 @@
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-
+        <TargetPlatformVersion>10.0.17713.0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.17713.0</TargetPlatformMinVersion>
         <!-- Compiler -->
         <FileAlignment>512</FileAlignment>
         <HighEntropyVA>true</HighEntropyVA>
@@ -45,6 +44,7 @@
         <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
 
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugSymbols>true</DebugSymbols>
@@ -106,13 +106,9 @@
       </ItemGroup>
     </When>
   </Choose>
-  
-  <PropertyGroup>
-    <NerdbankGitVersioningVersion>2.1.23</NerdbankGitVersioningVersion>
-  </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.23" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

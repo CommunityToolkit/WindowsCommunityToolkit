@@ -60,34 +60,38 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         public static global::Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
         {
-            var retval = new global::Windows.Web.UI.Interop.WebViewControlProcessOptions();
+            const string winRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
+
+            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
 
             if (!string.IsNullOrEmpty(options?.EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, options?.EnterpriseId))
             {
                 retval.EnterpriseId = options.EnterpriseId;
             }
 
-            if (ApiInformation.IsPropertyPresent(
-                   "Windows.Web.UI.Interop.WebViewControlProcessOptions",
-                   "Partition"))
-            {
-                if (!string.IsNullOrEmpty(options?.Partition))
-                {
-                    retval.Partition = options.Partition;
-                }
-            }
+            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
 
-            retval.PrivateNetworkClientServerCapability = (global::Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
-
-            if (ApiInformation.IsPropertyPresent(
-                "Windows.Web.UI.Interop.WebViewControlProcessOptions",
-                "UserAgent"))
-            {
-                if (!string.IsNullOrEmpty(options?.UserAgent))
+            ApiInformationExtensions.ExecuteIfPropertyPresent(
+                winRtType,
+                "Partition",
+                () =>
                 {
-                    retval.UserAgent = options.UserAgent;
-                }
-            }
+                    if (!string.IsNullOrEmpty(options?.Partition))
+                    {
+                        retval.Partition = options.Partition;
+                    }
+                });
+
+            ApiInformationExtensions.ExecuteIfPropertyPresent(
+                winRtType,
+                "UserAgent",
+                () =>
+                {
+                    if (!string.IsNullOrEmpty(options?.UserAgent))
+                    {
+                        retval.UserAgent = options.UserAgent;
+                    }
+                });
 
             return retval;
         }
@@ -98,7 +102,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <returns>A <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
         internal global::Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
-            return ToWinRtWebViewControlProcessOptions(this);
+             return ToWinRtWebViewControlProcessOptions(this);
         }
     }
 }

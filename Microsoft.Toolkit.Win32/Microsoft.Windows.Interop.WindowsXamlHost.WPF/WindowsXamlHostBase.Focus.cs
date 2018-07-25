@@ -2,15 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Win32.UI.Interop
+using System.Windows.Input;
+
+namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
     using System;
     using System.Collections.Generic;
     using System.Windows;
-    using System.Windows.Input;
     using System.Windows.Interop;
 
-    partial class WindowsXamlHost : HwndHost
+    partial class WindowsXamlHostBase : HwndHost
     {
         /// <summary>
         /// Dictionary that maps WPF (host framework) FocusNavigationDirection to UWP XAML XxamlSourceFocusNavigationReason

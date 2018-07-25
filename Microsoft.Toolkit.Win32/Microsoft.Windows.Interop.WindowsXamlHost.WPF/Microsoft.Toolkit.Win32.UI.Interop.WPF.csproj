@@ -2,29 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <RootNamespace>Microsoft.Toolkit.Win32.UI.Interop</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Win32.UI.Interop</AssemblyName>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Interop.WPF</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Interop.WPF</AssemblyName>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit Win32 XAML Islands Interop</Title>
     <Description>This library provides XAML islands interop helpers for WPF and WinForms. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>XAML Islands Win32 WPF WindowsForms</PackageTags>
-
-    <!-- Need Metadata contract 6.0 or later -->
-    <!-- First introduced in 17110: Insider Preview (Fast) -->
-    <!-- Most people will have RTM 17134: April 2018 Update -->
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
-    <!--
-    When changing this value, ensure the SDK is installed with the build process.
-    Need to check several files:
-      - /.vsts-ci.yml
-      - /.vsts-pr.yml
-
-    This also needs to be installed on your local machine. Can do this with PowerShell:
-      ./build/Install-WindowsSDKISO.ps1 17709
-    -->
-    <TargetPlatformVersion>10.0.17709.0</TargetPlatformVersion>
+    <PackageId>Microsoft.Toolkit.Win32.UI.Interop.WPF</PackageId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,6 +18,12 @@
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <WarningsAsErrors />
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
+    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
+    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System" />

@@ -2,22 +2,6 @@
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <!-- Need Metadata contract 6.0 or later -->
-    <!-- First introduced in 17110: Insider Preview (Fast) -->
-    <!-- Most people will have RTM 17134: April 2018 Update -->
-    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
-    <!--
-    When changing this value, ensure the SDK is installed with the build process.
-    Need to check several files:
-      - /.vsts-ci.yml
-      - /.vsts-pr.yml
-
-    This also needs to be installed on your local machine. Can do this with PowerShell:
-      ./build/Install-WindowsSDKISO.ps1 17709
-    -->
-    <TargetPlatformVersion>10.0.17709.0</TargetPlatformVersion>
-  </PropertyGroup>
-  <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}</ProjectGuid>
@@ -113,13 +97,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls.WPF\Microsoft.Toolkit.Win32.UI.Controls.WPF.csproj">
+      <Project>{5d82b4f7-13dd-4749-b213-802d69fcece4}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Win32.Samples.WrappedControls\Microsoft.Toolkit.Win32.Samples.WrappedControls.csproj">
       <Project>{88c95ec5-6a53-4ba2-a885-24b23566c175}</Project>
-      <Name>Microsoft.Toolkit.Win32.Samples.WrappedControls</Name>
+      <Name>Microsoft.Toolkit.Win32.UI.Interop.Sample</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost\Microsoft.Toolkit.Win32.UI.Interop.csproj">
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj">
       <Project>{04759899-4afa-4b15-bc7b-3cc20bbec829}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Interop</Name>
+      <Name>Microsoft.Toolkit.Win32.UI.Interop.WPF</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

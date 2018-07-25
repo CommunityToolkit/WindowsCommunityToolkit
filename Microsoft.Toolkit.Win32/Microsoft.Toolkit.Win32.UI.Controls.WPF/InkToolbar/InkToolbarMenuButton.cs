@@ -11,9 +11,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
     /// </summary>
-    public class InkToolbarMenuButton : WindowsXamlHost
+    public class InkToolbarMenuButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarMenuButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarMenuButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
@@ -32,6 +32,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public InkToolbarMenuButton(string typeName)
             : base(typeName)
         {
+        }
+
+        protected override void SetHost()
+        {
+            // intentionally empty
         }
 
         protected override void OnInitialized(EventArgs e)

@@ -22,9 +22,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
     /// </summary>
-    public class InkToolbarToolButton : WindowsXamlHost
+    public class InkToolbarToolButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarToolButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarToolButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
@@ -43,6 +43,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public InkToolbarToolButton(string typeName)
             : base(typeName)
         {
+        }
+
+        protected override void SetHost()
+        {
+            // intentionally empty
         }
 
         protected override void OnInitialized(EventArgs e)

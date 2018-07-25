@@ -22,9 +22,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton"/>
     /// </summary>
-    public class InkToolbarStencilButton : WindowsXamlHost
+    public class InkToolbarStencilButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarStencilButton UwpControl => this.XamlRoot as global::Windows.UI.Xaml.Controls.InkToolbarStencilButton;
+        internal global::Windows.UI.Xaml.Controls.InkToolbarStencilButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarStencilButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarStencilButton"/> class, a
@@ -43,6 +43,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public InkToolbarStencilButton(string typeName)
             : base(typeName)
         {
+        }
+
+        protected override void SetHost()
+        {
+            // intentionally empty
         }
 
         protected override void OnInitialized(EventArgs e)

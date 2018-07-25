@@ -5,6 +5,8 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.Serialization;
+using Windows.Foundation;
+using Windows.UI;
 using Newtonsoft.Json;
 using Windows.UI.Input.Inking;
 
@@ -15,7 +17,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         [JsonIgnore]
         public List<InkPoint> FinalPointList { get; set; }
 
-        public InkDrawingAttributes DrawingAttributes { get; set; }
+        [JsonIgnore]
+        public InkDrawingAttributes DrawingAttributesIgnored { get; set; }
+
+        // This class is created to avoid breaking Changes
+        public CustomInkDrawingAttribute DrawingAttributes { get; set; }
 
         public List<SerializablePoint> SerializableFinalPointList { get; set; }
 
@@ -40,10 +46,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 SerializableFinalPointList.Add(serializablePoint);
             }
 
-            if (DrawingAttributes != null)
+            if (DrawingAttributesIgnored != null)
             {
-                SerializableDrawingAttributesKind = (short)DrawingAttributes.Kind;
-                SerializableDrawingAttributesPencilProperties = DrawingAttributes.PencilProperties?.Opacity;
+                SerializableDrawingAttributesKind = (short)DrawingAttributesIgnored.Kind;
+                SerializableDrawingAttributesPencilProperties = DrawingAttributesIgnored.PencilProperties?.Opacity;
+                DrawingAttributes = new CustomInkDrawingAttribute
+                {
+                    Color = DrawingAttributesIgnored.Color,
+                    FitToCurve = DrawingAttributesIgnored.FitToCurve,
+                    IgnorePressure = DrawingAttributesIgnored.IgnorePressure,
+                    IgnoreTilt = DrawingAttributesIgnored.IgnoreTilt,
+                    Size = DrawingAttributesIgnored.Size,
+                    PenTip = DrawingAttributesIgnored.PenTip,
+                    PenTipTransform = DrawingAttributesIgnored.PenTipTransform,
+                    DrawAsHighlighter = DrawingAttributesIgnored.DrawAsHighlighter
+                };
             }
         }
 
@@ -59,24 +76,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             FinalPointList = finalPointList;
 
-            if (DrawingAttributes != null && SerializableDrawingAttributesKind.HasValue && SerializableDrawingAttributesKind == (short)InkDrawingAttributesKind.Pencil)
+            InkDrawingAttributes pencilAttributes;
+            if (SerializableDrawingAttributesKind.HasValue &&
+                SerializableDrawingAttributesKind == (short)InkDrawingAttributesKind.Pencil)
             {
-                var pencilAttributes = InkDrawingAttributes.CreateForPencil();
-                pencilAttributes.Color = DrawingAttributes.Color;
-
-                // work around argument null exception.
-                pencilAttributes.FitToCurve = DrawingAttributes.FitToCurve;
-                pencilAttributes.IgnorePressure = DrawingAttributes.IgnorePressure;
-                pencilAttributes.IgnoreTilt = DrawingAttributes.IgnoreTilt;
-                pencilAttributes.Size = DrawingAttributes.Size;
-
-                if (SerializableDrawingAttributesPencilProperties.HasValue)
-                {
-                    pencilAttributes.PencilProperties.Opacity = SerializableDrawingAttributesPencilProperties.Value;
-                }
-
-                DrawingAttributes = pencilAttributes;
+                pencilAttributes = InkDrawingAttributes.CreateForPencil();
             }
+            else
+            {
+                pencilAttributes = new InkDrawingAttributes
+                {
+                    PenTip = DrawingAttributes.PenTip,
+                    PenTipTransform = DrawingAttributes.PenTipTransform,
+                    DrawAsHighlighter = DrawingAttributes.DrawAsHighlighter
+                };
+            }
+
+            pencilAttributes.Color = DrawingAttributes.Color;
+            pencilAttributes.FitToCurve = DrawingAttributes.FitToCurve;
+            pencilAttributes.IgnorePressure = DrawingAttributes.IgnorePressure;
+            pencilAttributes.IgnoreTilt = DrawingAttributes.IgnoreTilt;
+            pencilAttributes.Size = DrawingAttributes.Size;
+
+            if (SerializableDrawingAttributesPencilProperties.HasValue)
+            {
+                pencilAttributes.PencilProperties.Opacity = SerializableDrawingAttributesPencilProperties.Value;
+            }
+
+            DrawingAttributesIgnored = pencilAttributes;
 
             // Empty unused values
             SerializableDrawingAttributesPencilProperties = null;

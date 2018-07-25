@@ -4,12 +4,7 @@
 
 using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using System;
-using System.Threading.Tasks;
 using System.Windows;
-using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.UI.Xaml.Controls.Maps;
 
 namespace TestSample
 {
@@ -89,10 +84,7 @@ namespace TestSample
 
         private void swapChainPanel_Loaded(object sender, RoutedEventArgs e)
         {
-            var uri = new Uri("https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/image-scrgb-icc.jxr");
-            var task = StorageFile.CreateStreamedFileFromUriAsync("image-scRGB-ICC.jxr", uri, null);
-            var file = (StorageFile)null;
-            task.Completed += new Windows.Foundation.AsyncOperationCompletedHandler<StorageFile>((t, s) => { file = t.GetResults(); });
+
             
         }
     }
