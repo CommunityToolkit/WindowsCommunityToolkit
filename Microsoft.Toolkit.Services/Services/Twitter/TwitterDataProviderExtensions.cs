@@ -4,17 +4,19 @@
 
 using System;
 using System.Collections.Generic;
+#if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Storage.Streams;
+#endif
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Twitter;
-using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// TwitterDataProvider extensions for help methods using Uwp
     /// </summary>
-    internal static class TwitterDataProviderExtensions
+    public static class TwitterDataProviderExtensions
     {
         /// <summary>
         /// Tweets a status update.
@@ -23,10 +25,12 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
+        #if WINRT
         public static async Task<bool> TweetStatusAsync(this TwitterDataProvider provider, string tweet, params IRandomAccessStream[] pictures)
         {
             return await provider.TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
         }
+        #endif
 
         /// <summary>
         /// Tweets a status update.
@@ -35,6 +39,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="status">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
+        #if WINRT
         public static async Task<bool> TweetStatusAsync(this TwitterDataProvider provider, TwitterStatus status, params IRandomAccessStream[] pictures)
         {
             var mediaIds = string.Empty;
@@ -57,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.Services
 
             return true;
         }
+        #endif
 
         /// <summary>
         /// Publish a picture to Twitter user's medias.
@@ -64,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <param name="provider">The TwitterDataProvider.</param>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
+        #if WINRT
         public static async Task<string> UploadPictureAsync(this TwitterDataProvider provider, IRandomAccessStream stream)
         {
             var uri = new Uri($"{provider.PublishUrl}/media/upload.json");
@@ -80,5 +87,6 @@ namespace Microsoft.Toolkit.Uwp.Services
             TwitterOAuthRequest request = new TwitterOAuthRequest();
             return await request.ExecutePostMultipartAsync(uri, provider.Tokens, boundary, fileBytes, provider.SigntureManager);
         }
+        #endif
     }
 }

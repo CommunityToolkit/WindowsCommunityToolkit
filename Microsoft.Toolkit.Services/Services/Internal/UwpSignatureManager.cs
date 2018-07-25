@@ -3,9 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Services.Core;
+#if WINRT
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.Services
 {
@@ -23,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.Services
         /// <returns>Signature.</returns>
         public string GetSignature(string baseString, string secret, bool append = false)
         {
+            #if WINRT
             var key = append ? secret + "&" : secret;
 
             IBuffer keyMaterial = CryptographicBuffer.ConvertStringToBinary(key, BinaryStringEncoding.Utf8);
@@ -31,6 +34,9 @@ namespace Microsoft.Toolkit.Uwp.Services
             IBuffer dataToBeSigned = CryptographicBuffer.ConvertStringToBinary(baseString, BinaryStringEncoding.Utf8);
             IBuffer hash = CryptographicEngine.Sign(cryptoKey, dataToBeSigned);
             return CryptographicBuffer.EncodeToBase64String(hash);
+            #endif
+
+            return null;
         }
     }
 }
