@@ -43,6 +43,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     internal sealed class WebViewControlHost : IDisposable
     {
         private const string LocalContentIdentifier = "LocalContent";
+        private const string WinRtType = "Windows.Web.UI.Interop.WebViewControl";
 
         [SecurityCritical]
         private WebViewControl _webViewControl;
@@ -290,13 +291,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         internal void AddPreLoadedScript(string script)
         {
-            if (ApiInformation.IsMethodPresent(
-                "Windows.Web.UI.Interop.WebViewControl",
+            ApiInformationExtensions.ExecuteIfMethodPresent(
+                WinRtType,
                 "AddPreLoadedScript",
-                1))
-            {
-                _webViewControl?.AddPreLoadedScript(script);
-            }
+                1,
+                () => { _webViewControl?.AddPreLoadedScript(script); });
         }
 
         internal Uri BuildStream(string contentIdentifier, string relativePath)
@@ -1066,15 +1065,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsupportedUriSchemeIdentified += OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified += OnUnviewableContentIdentified;
 
-            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
-            {
-                _webViewControl.GotFocus += OnGotFocus;
-            }
+            ApiInformationExtensions.ExecuteIfEventPresent(
+                WinRtType,
+                "GotFocus",
+                () => { _webViewControl.GotFocus += OnGotFocus; });
 
-            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
-            {
-                _webViewControl.LostFocus += OnLostFocus;
-            }
+            ApiInformationExtensions.ExecuteIfEventPresent(
+                WinRtType,
+                "LostFocus",
+                () => { _webViewControl.LostFocus += OnLostFocus; });
         }
 
         [SecurityCritical]
@@ -1114,15 +1113,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             _webViewControl.UnsupportedUriSchemeIdentified -= OnUnsupportedUriSchemeIdentified;
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
 
-            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "GotFocus"))
-            {
-                _webViewControl.GotFocus -= OnGotFocus;
-            }
+            ApiInformationExtensions.ExecuteIfEventPresent(
+                WinRtType,
+                "GotFocus",
+                () => { _webViewControl.GotFocus -= OnGotFocus; });
 
-            if (ApiInformation.IsEventPresent("Windows.Web.UI.Interop", "LostFocus"))
-            {
-                _webViewControl.LostFocus -= OnLostFocus;
-            }
+            ApiInformationExtensions.ExecuteIfEventPresent(
+                WinRtType,
+                "LostFocus",
+                () => { _webViewControl.LostFocus -= OnLostFocus; });
         }
 
         private void UnsubscribeProcessExited()
