@@ -22,6 +22,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSample", "TestSample\TestSample.csproj", "{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8D127EC7-4CDC-4DC2-8D95-A7E816282787}"
+	ProjectSection(SolutionItems) = preProject
+		..\Directory.Build.props = ..\Directory.Build.props
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Win32.UI.Interop.Sample", "Microsoft.Windows.Interop.Sample\Microsoft.Toolkit.Win32.UI.Interop.Sample.csproj", "{88C95EC5-6A53-4BA2-A885-24B23566C175}"
 EndProject
