@@ -2,34 +2,31 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Windows;
+
 namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
-    using System;
-    using System.Windows;
-    using System.Windows.Interop;
-
-    partial class WindowsXamlHostBase : HwndHost
+    public partial class WindowsXamlHostBase
     {
-        #region Layout
-
         /// <summary>
         /// Measures wrapped UWP XAML content using passed in size constraint
         /// </summary>
-        /// <param name="availableSize">Available Size</param>
+        /// <param name="constraint">Available Size</param>
         /// <returns>XAML DesiredSize</returns>
-        protected override Size MeasureOverride(Size availableSize)
+        protected override Size MeasureOverride(Size constraint)
         {
-            Size desiredSize = new Size(0, 0);
+            var desiredSize = new Size(0, 0);
 
-            if (this.desktopWindowXamlSource.Content != null)
+            if (desktopWindowXamlSource.Content != null)
             {
-                this.desktopWindowXamlSource.Content.Measure(new global::Windows.Foundation.Size(availableSize.Width, availableSize.Height));
-                desiredSize.Width = this.desktopWindowXamlSource.Content.DesiredSize.Width;
-                desiredSize.Height = this.desktopWindowXamlSource.Content.DesiredSize.Height;
+                desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(constraint.Width, constraint.Height));
+                desiredSize.Width = desktopWindowXamlSource.Content.DesiredSize.Width;
+                desiredSize.Height = desktopWindowXamlSource.Content.DesiredSize.Height;
             }
 
-            desiredSize.Width = Math.Min(desiredSize.Width, availableSize.Width);
-            desiredSize.Height = Math.Min(desiredSize.Height, availableSize.Height);
+            desiredSize.Width = Math.Min(desiredSize.Width, constraint.Width);
+            desiredSize.Height = Math.Min(desiredSize.Height, constraint.Height);
 
             return desiredSize;
         }
@@ -41,13 +38,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// <returns>Size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (this.desktopWindowXamlSource.Content != null)
+            if (desktopWindowXamlSource.Content != null)
             {
                 // Arrange is required to support HorizontalAlignment and VerticalAlignment properties
                 // set to 'Stretch'.  The UWP XAML content will be 0 in the stretch alignment direction
                 // until Arrange is called, and the UWP XAML content is expanded to fill the available space.
-                global::Windows.Foundation.Rect finalRect = new global::Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height);
-                this.desktopWindowXamlSource.Content.Arrange(finalRect);
+                var finalRect = new Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height);
+                desktopWindowXamlSource.Content.Arrange(finalRect);
             }
 
             return base.ArrangeOverride(finalSize);
@@ -58,11 +55,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// </summary>
         /// <param name="sender">Sender</param>
         /// <param name="e">SizeChangedEventArgs</param>
-        protected void XamlContentSizeChanged(object sender, global::Windows.UI.Xaml.SizeChangedEventArgs e)
+        protected void XamlContentSizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
-            this.InvalidateMeasure();
+            InvalidateMeasure();
         }
-
-        #endregion
     }
 }

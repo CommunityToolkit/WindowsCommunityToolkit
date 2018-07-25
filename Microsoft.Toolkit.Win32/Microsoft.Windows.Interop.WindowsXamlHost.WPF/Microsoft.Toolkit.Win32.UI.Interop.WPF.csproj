@@ -23,6 +23,7 @@
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
+    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WinForms\DesktopWindowXamlSourceExtensions.cs" Link="DesktopWindowXamlSourceExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

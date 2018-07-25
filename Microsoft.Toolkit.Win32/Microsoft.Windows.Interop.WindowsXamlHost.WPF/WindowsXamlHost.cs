@@ -2,51 +2,32 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows;
+using System.Windows.Interop;
+
 namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
-    using System;
-    using System.Collections;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.Runtime.InteropServices;
-    using System.Windows;
-    using System.Windows.Interop;
-
     /// <summary>
     /// WindowsXamlHost control hosts UWP XAML content inside the Windows Presentation Foundation
     /// </summary>
     public partial class WindowsXamlHost : WindowsXamlHostBase
     {
-        #region DependencyProperties
-
         /// <summary>
         /// XAML Content by type name : MyNamespace.MyClass.MyType
         /// ex: XamlClassLibrary.MyUserControl
         /// </summary>
         public static DependencyProperty InitialTypeNameProperty = DependencyProperty.Register("InitialTypeName", typeof(string), typeof(WindowsXamlHost));
 
-        #endregion
-
-        #region Constructors and Initialization
-        /// <summary>
-        /// Initializes a new instance of the WindowsXamlHost class: default constructor is required for use in WPF markup.
-        /// (When the default constructor is called, object properties have not been set. Put WPF logic in OnInitialized.)
-        /// </summary>
-        public WindowsXamlHost() : base()
-        {
-        }
-
-        #endregion
-
-        #region Events
         /// <summary>
         ///     Fired when WindowsXamlHost root UWP XAML content has been updated
         /// </summary>
         public event EventHandler XamlRootChanged;
-        #endregion
 
-        #region Properties
- 
         /// <summary>
         /// Gets or sets XAML Content by type name : MyNamespace.MyClass.MyType
         /// ex: XamlClassLibrary.MyUserControl
@@ -56,68 +37,55 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         [Category("XAML")]
         public string InitialTypeName
         {
-            get
-            {
-                return (string)GetValue(InitialTypeNameProperty);
-            }
+            get => (string)GetValue(InitialTypeNameProperty);
 
-            set
-            {
-                SetValue(InitialTypeNameProperty, value);
-            }
+            set => SetValue(InitialTypeNameProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.  This UWP XAML element is 
+        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.  This UWP XAML element is
         /// the root element of the wrapped DesktopWindowXamlSource.
         /// </summary>
         [Browsable(true)]
-        public global::Windows.UI.Xaml.UIElement XamlRoot
+        public Windows.UI.Xaml.UIElement XamlRoot
         {
-            get
-            {
-                return this.xamlRoot;
-            }
+            get => xamlRoot;
 
             set
             {
-                if (value == this.xamlRoot)
+                if (value == xamlRoot)
                 {
                     return;
                 }
 
-                global::Windows.UI.Xaml.FrameworkElement currentRoot = (global::Windows.UI.Xaml.FrameworkElement)this.xamlRoot;
+                var currentRoot = (Windows.UI.Xaml.FrameworkElement)xamlRoot;
                 if (currentRoot != null)
-                { 
-                    currentRoot.SizeChanged -= this.XamlContentSizeChanged;
-                }
-
-                this.xamlRoot = value;
-
-                if (this.desktopWindowXamlSource != null)
                 {
-                    this.desktopWindowXamlSource.Content = this.xamlRoot;
+                    currentRoot.SizeChanged -= XamlContentSizeChanged;
                 }
 
-                global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.xamlRoot as global::Windows.UI.Xaml.FrameworkElement;
+                xamlRoot = value;
+
+                if (desktopWindowXamlSource != null)
+                {
+                    desktopWindowXamlSource.Content = xamlRoot;
+                }
+
+                var frameworkElement = xamlRoot as Windows.UI.Xaml.FrameworkElement;
                 if (frameworkElement != null)
                 {
-                    // If XAML content has changed, check XAML size 
+                    // If XAML content has changed, check XAML size
                     // to determine if WindowsXamlHost needs to re-run layout.
-                    frameworkElement.SizeChanged += this.XamlContentSizeChanged;
+                    frameworkElement.SizeChanged += XamlContentSizeChanged;
 
                     // WindowsXamlHost DataContext should flow through to UWP XAML content
-                    frameworkElement.DataContext = this.DataContext;
+                    frameworkElement.DataContext = DataContext;
                 }
 
                 // Fire updated event
-                this.XamlRootChanged?.Invoke(this, new System.EventArgs());
+                XamlRootChanged?.Invoke(this, new EventArgs());
             }
         }
-
-        #endregion
-
-        #region Methods
 
         /// <summary>
         /// Creates global::Windows.UI.Xaml.Application object, wrapped DesktopWindowXamlSource instance; creates and
@@ -128,20 +96,20 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             // Create and set initial root UWP XAML content
-            if (!string.IsNullOrEmpty(this.InitialTypeName) && this.XamlRoot == null)
+            if (!string.IsNullOrEmpty(InitialTypeName) && XamlRoot == null)
             {
-                this.XamlRoot = UWPTypeFactory.CreateXamlContentByType(this.InitialTypeName);
+                XamlRoot = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
 
-                global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.XamlRoot as global::Windows.UI.Xaml.FrameworkElement;
+                var frameworkElement = XamlRoot as Windows.UI.Xaml.FrameworkElement;
+
+                // TODO: Check frameworkElement is not NULL
 
                 // Default to stretch : UWP XAML content will conform to the size of WindowsXamlHost
-                frameworkElement.HorizontalAlignment = global::Windows.UI.Xaml.HorizontalAlignment.Stretch;
-                frameworkElement.VerticalAlignment = global::Windows.UI.Xaml.VerticalAlignment.Stretch;
+                frameworkElement.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
+                frameworkElement.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch;
             }
 
             return base.BuildWindowCore(hwndParent);
         }
-
-        #endregion
     }
 }
