@@ -13,10 +13,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     /// <inheritdoc />
     internal class WebViewCompatibleDesigner : ControlDesigner
     {
-        public Uri Source
+        public string Source
         {
-            get => (Uri)ShadowProperties[nameof(WebViewCompatible.Source)];
-            set => ShadowProperties[nameof(WebViewCompatible.Source)] = value;
+            get => ((Uri)ShadowProperties[nameof(WebViewCompatible.Source)]).OriginalString;
+            set => ShadowProperties[nameof(WebViewCompatible.Source)] = new Uri(value);
         }
 
         protected override InheritanceAttribute InheritanceAttribute

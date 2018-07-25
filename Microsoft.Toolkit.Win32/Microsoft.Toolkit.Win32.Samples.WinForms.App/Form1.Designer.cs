@@ -75,6 +75,7 @@
             this.webViewCompatible1.MinimumSize = new System.Drawing.Size(20, 20);
             this.webViewCompatible1.Name = "webViewCompatible1";
             this.webViewCompatible1.Size = new System.Drawing.Size(786, 411);
+            this.webViewCompatible1.SourceUrl = "http://www.bing.com";
             this.webViewCompatible1.TabIndex = 0;
             this.webViewCompatible1.Text = "webViewCompatible1";
             // 

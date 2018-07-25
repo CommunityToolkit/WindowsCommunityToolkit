@@ -34,7 +34,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private IWebViewCompatibleAdapter _implementation;
 
         [Category("Web")]
+        [DisplayName("Source")]
         [Bindable(true)]
+        public string SourceUrl { get => _implementation.Source?.OriginalString; set => _implementation.Source = new Uri(value); }
+
         public Uri Source { get => _implementation.Source; set => _implementation.Source = value; }
 
         public bool CanGoBack => _implementation.CanGoBack;

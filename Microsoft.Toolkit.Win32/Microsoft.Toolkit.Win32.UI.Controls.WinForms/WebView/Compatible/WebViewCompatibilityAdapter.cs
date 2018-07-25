@@ -81,6 +81,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         protected override void Initialize()
         {
+            _webView.Dock = DockStyle.Fill;
         }
     }
 }
