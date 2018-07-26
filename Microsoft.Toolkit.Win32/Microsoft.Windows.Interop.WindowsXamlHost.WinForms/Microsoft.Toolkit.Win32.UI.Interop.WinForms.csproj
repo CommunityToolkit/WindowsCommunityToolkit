@@ -27,21 +27,16 @@
 
   <ItemGroup>
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.Visibility.cs" Link="IDesktopWindowXamlSourceNative.Visibility.cs" />
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
     <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
+    <Compile Include="..\Shared\Interop\Win32\ExternDll.cs" Link="Shared\Interop\Win32\ExternDll.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>    
@@ -72,6 +67,10 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.0.0" />
     <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Shared\Interop\Win32\" />
   </ItemGroup>
 
 </Project>
