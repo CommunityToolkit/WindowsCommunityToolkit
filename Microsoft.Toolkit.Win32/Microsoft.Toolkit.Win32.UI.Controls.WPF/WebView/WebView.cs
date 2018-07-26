@@ -510,6 +510,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _process = null;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _initializationComplete.Dispose();
+        }
+
         /// <inheritdoc />
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id)
         {

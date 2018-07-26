@@ -26,7 +26,7 @@ namespace Microsoft.Windows.Interop.Sample
             this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Button");
 
             // Make button expand to the size of its host control
-            global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.xamlRoot as global::Windows.UI.Xaml.FrameworkElement;
+            global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.XamlRootInternal as global::Windows.UI.Xaml.FrameworkElement;
             frameworkElement.SizeChanged += FrameworkElement_SizeChanged;
             frameworkElement.HorizontalAlignment = global::Windows.UI.Xaml.HorizontalAlignment.Stretch;
             frameworkElement.VerticalAlignment = global::Windows.UI.Xaml.VerticalAlignment.Stretch;
@@ -59,9 +59,9 @@ namespace Microsoft.Windows.Interop.Sample
                 background = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (value != null && this.xamlRoot != null)
+                if (value != null && this.XamlRootInternal != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.xamlRoot as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRootInternal as global::Windows.UI.Xaml.Controls.Button;
 
                     Color wpfColor = (Color)ColorConverter.ConvertFromString(value);
 
@@ -84,9 +84,9 @@ namespace Microsoft.Windows.Interop.Sample
                 content = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (this.xamlRoot != null)
+                if (this.XamlRootInternal != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.xamlRoot as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRootInternal as global::Windows.UI.Xaml.Controls.Button;
 
                     button.Content = value;
                 }

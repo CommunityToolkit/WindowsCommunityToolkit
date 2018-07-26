@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     public partial class WindowsXamlHostBase
     {
         /// <summary>
-        ///     Does this Control currently have focus? Check both the Control's
+        ///     Gets a value indicating whether this Control currently has focus. Check both the Control's
         ///     window handle and the hosted Xaml window handle. If either has focus
         ///     then this Control currently has focus.
         /// </summary>
@@ -38,9 +38,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            if (!DesktopWindowXamlSource.HasFocus)
+            if (!desktopWindowXamlSource.HasFocus)
             {
-                DesktopWindowXamlSource.NavigateFocus(
+                desktopWindowXamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First));
             }
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         ///     to handle the command before normal Windows Forms processing.
         ///     (Xaml must be notified of keys that invoke focus navigation.)
         /// </summary>
-        /// <returns></returns>
+        /// <returns>true if the command was processed</returns>
         protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
         {
             if (DesignMode)
@@ -90,9 +90,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
             Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationResult focusResult;
-            if (DesktopWindowXamlSource.HasFocus)
+            if (desktopWindowXamlSource.HasFocus)
             {
-                focusResult = DesktopWindowXamlSource.NavigateFocus(
+                focusResult = desktopWindowXamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         xamlSourceFocusNavigationReason.Value));
 

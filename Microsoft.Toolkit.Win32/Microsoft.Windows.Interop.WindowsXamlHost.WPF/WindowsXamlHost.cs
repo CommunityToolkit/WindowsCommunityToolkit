@@ -18,10 +18,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
     public partial class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
-        /// XAML Content by type name : MyNamespace.MyClass.MyType
+        /// Gets xAML Content by type name : MyNamespace.MyClass.MyType
         /// ex: XamlClassLibrary.MyUserControl
         /// </summary>
-        public static DependencyProperty InitialTypeNameProperty = DependencyProperty.Register("InitialTypeName", typeof(string), typeof(WindowsXamlHost));
+        public static DependencyProperty InitialTypeNameProperty { get; } = DependencyProperty.Register("InitialTypeName", typeof(string), typeof(WindowsXamlHost));
 
         /// <summary>
         ///     Fired when WindowsXamlHost root UWP XAML content has been updated
@@ -49,29 +49,29 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         [Browsable(true)]
         public Windows.UI.Xaml.UIElement XamlRoot
         {
-            get => xamlRoot;
+            get => XamlRootInternal;
 
             set
             {
-                if (value == xamlRoot)
+                if (value == XamlRootInternal)
                 {
                     return;
                 }
 
-                var currentRoot = (Windows.UI.Xaml.FrameworkElement)xamlRoot;
+                var currentRoot = (Windows.UI.Xaml.FrameworkElement)XamlRootInternal;
                 if (currentRoot != null)
                 {
                     currentRoot.SizeChanged -= XamlContentSizeChanged;
                 }
 
-                xamlRoot = value;
+                XamlRootInternal = value;
 
                 if (desktopWindowXamlSource != null)
                 {
-                    desktopWindowXamlSource.Content = xamlRoot;
+                    desktopWindowXamlSource.Content = XamlRootInternal;
                 }
 
-                var frameworkElement = xamlRoot as Windows.UI.Xaml.FrameworkElement;
+                var frameworkElement = XamlRootInternal as Windows.UI.Xaml.FrameworkElement;
                 if (frameworkElement != null)
                 {
                     // If XAML content has changed, check XAML size

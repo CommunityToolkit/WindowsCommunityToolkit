@@ -15,6 +15,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
+        /// <summary>
+        /// Internal only
+        /// </summary>
         /// <internalonly>
         ///     Hide GDI painting because the HwndTarget is going to just bitblt the root
         ///     visual on top of everything.
@@ -50,6 +53,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             base.OnPaint(e);
         }
 
+        /// <summary>
+        /// Internal Only
+        /// </summary>
         /// <internalonly>
         ///     Paint our parent's background into an offscreen HBITMAP.
         ///     We then draw this as our background in the hosted Avalon
@@ -65,7 +71,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// <summary>
         /// Processes Windows messages for XamlContentHost control window (not XAML window)
         /// </summary>
-        /// <param name="m"></param>
+        /// <param name="m">message to process</param>
         [SecurityPermission(SecurityAction.InheritanceDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {

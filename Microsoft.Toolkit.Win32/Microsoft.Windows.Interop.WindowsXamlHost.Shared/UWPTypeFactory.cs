@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// </summary>
         /// <param name="xamlTypeName">XAML type name</param>
         /// <exception cref="InvalidOperationException">Condition.</exception>
+        /// <returns>instance of object described by xamlTypeName string</returns>
         public static Windows.UI.Xaml.FrameworkElement CreateXamlContentByType(string xamlTypeName)
         {
             Windows.UI.Xaml.Markup.IXamlType xamlType = null;

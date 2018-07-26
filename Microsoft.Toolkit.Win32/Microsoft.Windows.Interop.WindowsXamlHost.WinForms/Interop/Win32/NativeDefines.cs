@@ -17,7 +17,8 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms.Interop.Win32
         public const int WM_SETFOCUS = 0x0007;
         public const int WM_KILLFOCUS = 0x0008;
 
-        public static IntPtr HWND_TOP = IntPtr.Zero;
-        public static IntPtr HWND_TOPMOST = IntPtr.Zero - 1;
+        public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
+
+        public static IntPtr HWND_TOPMOST { get; } = IntPtr.Zero - 1;
     }
 }

@@ -16,17 +16,25 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms.Interop.Win32
         [ResourceExposure(ResourceScope.None)]
         public static extern IntPtr GetFocus();
 
+        /// <summary>
+        /// This code returns a pointer to a native control with focus.
+        /// </summary>
         /// <SecurityNote>
         ///  SecurityCritical: This code happens to return a critical resource and causes unmanaged code elevation
         /// </SecurityNote>
+        /// <returns>handle</returns>
         [SecurityCritical]
         [SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.User32, EntryPoint = "SetFocus", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr IntSetFocus(IntPtr hWnd);
 
+        /// <summary>
+        /// Enables a window and returns an unmanaged handle to it.
+        /// </summary>
         /// <SecurityNote>
         ///    Critical: This code calls into unmanaged code which elevates
         /// </SecurityNote>
+        /// <returns>handle</returns>
         [SecurityCritical]
         [SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.User32, EntryPoint = "EnableWindow", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]

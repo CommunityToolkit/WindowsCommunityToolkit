@@ -12,7 +12,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    public class WebViewCompatible : UserControl, IWebViewCompatible
+    public class WebViewCompatible : UserControl, IWebViewCompatible, IDisposable
     {
         public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(nameof(Source), typeof(Uri), typeof(WebViewCompatible));
 
@@ -28,6 +28,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 _implementation = new WebBrowserCompatibilityAdapter();
             }
 
+            _implementation.Initialize();
+
             AddChild(_implementation.View);
             _implementation.View.BeginInit();
             _implementation.View.EndInit();
@@ -40,6 +42,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             BindingOperations.SetBinding(this, SourceProperty, binder);
         }
 
+        public static bool IsLegacy { get; } = !global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
+
         private IWebViewCompatibleAdapter _implementation;
 
         public Uri Source { get => (Uri)GetValue(SourceProperty); set => SetValue(SourceProperty, value); }
@@ -47,8 +51,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public bool CanGoBack => _implementation.CanGoBack;
 
         public bool CanGoForward => _implementation.CanGoForward;
-
-        public bool IsLegacy { get; } = !global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
 
         public FrameworkElement View { get => _implementation.View; }
 
@@ -71,5 +73,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public void Stop() => _implementation.Stop();
 
         public string InvokeScript(string scriptName) => _implementation.InvokeScript(scriptName);
+
+        public void Dispose()
+        {
+            Dispose(true);
+
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                _implementation.Dispose();
+            }
+        }
     }
 }

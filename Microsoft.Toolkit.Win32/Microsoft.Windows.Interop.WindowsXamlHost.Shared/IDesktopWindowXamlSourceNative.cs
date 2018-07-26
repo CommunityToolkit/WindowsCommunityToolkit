@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop
         /// The associated window will be used to parent UWP XAML visuals, appearing
         /// as UWP XAML's logical render target.
         /// </summary>
-        /// <param name="parentWnd"></param>
+        /// <param name="parentWnd">pointer to parent Wnd</param>
         void AttachToWindow(IntPtr parentWnd);
 
         /// <summary>

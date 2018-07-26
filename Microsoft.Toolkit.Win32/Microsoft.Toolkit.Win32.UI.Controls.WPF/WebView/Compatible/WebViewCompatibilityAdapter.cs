@@ -83,9 +83,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public override void Stop() => _webView.Stop();
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             Bind(nameof(Source), SourceProperty, _webView);
+        }
+
+        public override void Dispose()
+        {
+            _webView.Dispose();
         }
     }
 }

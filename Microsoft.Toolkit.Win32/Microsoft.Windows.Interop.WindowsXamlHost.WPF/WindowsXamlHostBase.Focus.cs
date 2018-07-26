@@ -8,6 +8,9 @@ using System.Windows;
 
 namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
+    /// <summary>
+    /// Focus portion of WindowsXamlHostBase
+    /// </summary>
     public partial class WindowsXamlHostBase
     {
         /// <summary>
@@ -99,12 +102,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// <summary>
         /// Transform bounds relative to FrameworkElement
         /// </summary>
-        /// <param name="sibling1"></param>
-        /// <param name="sibling2"></param>
-        /// <returns></returns>
+        /// <param name="sibling1">base rectangle</param>
+        /// <param name="sibling2">second of pair to transform</param>
+        /// <returns>result of transformed rectangle</returns>
         private static Windows.Foundation.Rect BoundsRelativeTo(FrameworkElement sibling1, System.Windows.Media.Visual sibling2)
         {
-            var origin = new Windows.Foundation.Rect();
+            Windows.Foundation.Rect origin;
 
             if (sibling1 != null)
             {
@@ -123,8 +126,8 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// <summary>
         /// Take Focus Requested
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">event source</param>
+        /// <param name="e">event arguments</param>
         private void OnTakeFocusRequested(object sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs e)
         {
             if (_lastFocusRequest == e.Request.CorrelationId)

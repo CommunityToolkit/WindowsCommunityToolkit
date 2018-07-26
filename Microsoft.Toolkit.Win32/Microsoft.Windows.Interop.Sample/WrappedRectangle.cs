@@ -32,7 +32,7 @@ namespace Microsoft.Windows.Interop.Sample
             // Set DesktopWindowXamlSource
             this.desktopWindowXamlSource.Content = this.XamlRootInternal;
 
-            global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.xamlRoot as global::Windows.UI.Xaml.Shapes.Rectangle;
+            global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.XamlRootInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
 
             // Properties set in markup need to be re-applied in OnInitialized
             Fill = fill;
@@ -49,9 +49,9 @@ namespace Microsoft.Windows.Interop.Sample
                 fill = value;
 
                 // UWP XAML content is not created in base.OnInitialized
-                if (this.xamlRoot != null)
+                if (this.XamlRootInternal != null)
                 {
-                    global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.xamlRoot as global::Windows.UI.Xaml.Shapes.Rectangle;
+                    global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.XamlRootInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
 
                     Color wpfColor = (Color)ColorConverter.ConvertFromString(value);
 

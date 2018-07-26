@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         public event EventHandler XamlRootUpdated;
 
         /// <summary>
-        /// AutoSize determines whether the Control dynamically sizes to its content
+        /// Gets or sets a value indicating whether the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
         [Browsable(true)]
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         }
 
         /// <summary>
-        /// AutoSizeMode determines whether the Control dynamically sizes to its content
+        /// Gets or sets autoSizeMode, a value indicating if the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
         [Browsable(true)]
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         }
 
         /// <summary>
-        /// XAML Content by type name : MyNamespace.MyClass.MyType
+        /// Gets or sets xAML Content by type name : MyNamespace.MyClass.MyType
         /// ex: XamlClassLibrary.MyUserControl
         /// (Content creation is deferred until after the parent hwnd has been created.)
         /// </summary>
@@ -72,14 +72,14 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Windows.UI.Xaml.UIElement XamlRoot
         {
-            get => DesktopWindowXamlSource.Content;
+            get => desktopWindowXamlSource.Content;
 
             set
             {
                 if (!DesignMode)
                 {
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = DesktopWindowXamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = desktopWindowXamlSource.Content as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                         newFrameworkElement.SizeChanged += FrameworkElement_SizeChanged;
                     }
 
-                    DesktopWindowXamlSource.Content = value;
+                    desktopWindowXamlSource.Content = value;
 
                     PerformLayout();
 

@@ -11,11 +11,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     internal abstract class WebBaseCompatibilityAdapter : DependencyObject, IWebViewCompatibleAdapter
     {
-        protected WebBaseCompatibilityAdapter()
-        {
-            Initialize();
-        }
-
         public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(nameof(Source), typeof(Uri), typeof(WebBaseCompatibilityAdapter));
 
         public abstract FrameworkElement View { get; }
@@ -46,7 +41,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public abstract void Stop();
 
-        protected abstract void Initialize();
+        public abstract void Initialize();
 
         protected void Bind(string propertyName, DependencyProperty wpfProperty, DependencyObject source)
         {
@@ -58,5 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             };
             BindingOperations.SetBinding(this, wpfProperty, binder);
         }
+
+        public abstract void Dispose();
     }
 }

@@ -14,7 +14,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter
+    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter, IDisposable
     {
         private WebBrowser _browser = new WebBrowser();
 
@@ -79,11 +79,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
         }
 
-        protected override void Initialize()
+        public override void Initialize()
         {
             _browser.Navigating += OnBrowserNavigating;
             _browser.LoadCompleted += OnBrowserNavigated;
             Bind(nameof(Source), SourceProperty, _browser);
+        }
+
+        public override void Dispose()
+        {
+            _browser.Dispose();
         }
     }
 }

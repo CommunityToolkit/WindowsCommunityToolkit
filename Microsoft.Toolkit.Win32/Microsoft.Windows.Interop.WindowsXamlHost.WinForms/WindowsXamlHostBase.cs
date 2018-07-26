@@ -15,10 +15,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     [System.ComponentModel.DesignerCategory("code")]
     public partial class WindowsXamlHostBase : Control
     {
-        /// <summary>
-        /// DesktopWindowXamlSource instance
-        /// </summary>
-        protected Windows.UI.Xaml.Hosting.DesktopWindowXamlSource DesktopWindowXamlSource;
+#pragma warning disable SA1401 // Fields must be private
+                              /// <summary>
+                              /// DesktopWindowXamlSource instance
+                              /// </summary>
+        protected Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
+#pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
         /// UWP XAML Application instance and root UWP XamlMetadataProvider.  Custom implementation required to
@@ -31,7 +33,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// <summary>
         ///    Last preferredSize returned by UWP XAML during WinForms layout pass
         /// </summary>
-        private Size _lastXamlContentPreferredSize = new Size();
+        private Size _lastXamlContentPreferredSize;
 
         /// <summary>
         /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
@@ -46,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         private IntPtr _xamlIslandWindowHandle = IntPtr.Zero;
 
         /// <summary>
-        ///     Initializes a new instance of the XamlContentHost class.
+        /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
         /// </summary>
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public WindowsXamlHostBase()
@@ -84,7 +86,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            DesktopWindowXamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            desktopWindowXamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
         }
 
         /// <summary>
@@ -97,7 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             {
                 SizeChanged -= WindowsXamlHost_SizeChanged;
 
-                DesktopWindowXamlSource?.Dispose();
+                desktopWindowXamlSource?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -112,7 +114,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
-                var desktopWindowXamlSourceNative = DesktopWindowXamlSource.GetInterop();
+                var desktopWindowXamlSourceNative = desktopWindowXamlSource.GetInterop();
                 desktopWindowXamlSourceNative.AttachToWindow(Handle);
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
             }

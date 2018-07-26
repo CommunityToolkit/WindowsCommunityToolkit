@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 {
+    /// <summary>
+    /// Layout portion of windows XamlHostBase
+    /// </summary>
     public partial class WindowsXamlHostBase
     {
         /// <summary>

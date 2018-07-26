@@ -22,10 +22,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         [ThreadStatic]
         private readonly Windows.UI.Xaml.Application _application;
 
-        /// <summary>
-        /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
-        /// </summary>
+#pragma warning disable SA1401 // Fields must be private // not sure why this is even an issue.
+                              /// <summary>
+                              /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
+                              /// </summary>
         protected Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
+#pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
         /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
@@ -35,12 +37,8 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         private Windows.UI.Xaml.Hosting.WindowsXamlManager _windowsXamlManager;
 
         /// <summary>
-        ///    Root UWP XAML content attached to WindowsXamlHost
-        /// </summary>
-        protected Windows.UI.Xaml.UIElement xamlRoot;
-
-        /// <summary>
-        /// Initializes a new instance of the WindowsXamlHost class: default constructor is required for use in WPF markup.
+        /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
+        /// Default constructor is required for use in WPF markup.
         /// (When the default constructor is called, object properties have not been set. Put WPF logic in OnInitialized.)
         /// </summary>
         public WindowsXamlHostBase()
@@ -81,15 +79,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// Gets or sets the root UWP XAML element displayed in the WPF control instance.  This UWP XAML element is
         /// the root element of the wrapped DesktopWindowXamlSource.
         /// </summary>
-        public Windows.UI.Xaml.UIElement XamlRootInternal
-        {
-            get => xamlRoot;
-
-            set => xamlRoot = value;
-        }
+        public Windows.UI.Xaml.UIElement XamlRootInternal { get; set; }
 
         /// <summary>
-        /// Has this wrapper control instance been disposed?
+        /// Gets or sets a value indicating whether this wrapper control instance been disposed
         /// </summary>
         private bool IsDisposed { get; set; }
 
@@ -135,7 +128,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
             {
                 IsDisposed = true;
                 desktopWindowXamlSource.TakeFocusRequested -= OnTakeFocusRequested;
-                xamlRoot = null;
+                XamlRootInternal = null;
                 desktopWindowXamlSource.Dispose();
                 desktopWindowXamlSource = null;
             }

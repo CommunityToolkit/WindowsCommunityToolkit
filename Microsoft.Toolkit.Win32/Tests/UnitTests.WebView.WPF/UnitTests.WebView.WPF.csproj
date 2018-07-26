@@ -53,6 +53,10 @@
       <Project>{2fe9aa6a-bd27-438f-9941-221033e4a1dd}</Project>
       <Name>Microsoft.Toolkit.Win32.Samples.WPF.WebView</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls.WPF\Microsoft.Toolkit.Win32.UI.Controls.WPF.csproj">
+      <Project>{5d82b4f7-13dd-4749-b213-802d69fcece4}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls.WPF</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
       <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
       <Name>UnitTests.WebView.Shared</Name>

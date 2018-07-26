@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         ///     Overrides the base class implementation of GetPreferredSize to provide
         ///     correct layout behavior for the hosted XAML content.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>preferred size</returns>
         public override Size GetPreferredSize(Size proposedSize)
         {
             if (DesignMode)
@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 return Size;
             }
 
-            if (DesktopWindowXamlSource.Content != null)
+            if (desktopWindowXamlSource.Content != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                     proposedWidth = double.PositiveInfinity;
                 }
 
-                DesktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
+                desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
             }
 
             var preferredSize = Size.Empty;
-            if (DesktopWindowXamlSource.Content != null)
+            if (desktopWindowXamlSource.Content != null)
             {
-                preferredSize = new Size((int)DesktopWindowXamlSource.Content.DesiredSize.Width, (int)DesktopWindowXamlSource.Content.DesiredSize.Height);
+                preferredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
@@ -57,12 +57,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         ///     Gets XAML content's 'DesiredSize' post-Measure. Called by
         ///     XamlContentHost's XAML LayoutUpdated event handler.
         /// </summary>
+        /// <returns>desired size</returns>
         private Size GetRootXamlElementDesiredSize()
         {
-            var desiredSize = new Size();
-
-            desiredSize.Height = (int)DesktopWindowXamlSource.Content.DesiredSize.Height;
-            desiredSize.Width = (int)DesktopWindowXamlSource.Content.DesiredSize.Width;
+            var desiredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
 
             return desiredSize;
         }
@@ -120,14 +118,14 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
 
             if (AutoSize)
             {
-                if (DesktopWindowXamlSource.Content != null)
+                if (desktopWindowXamlSource.Content != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
                     // 'VerticalStretch' properties to the bounds of the XamlContentHost Control.
                     var rect = new Windows.Foundation.Rect(0, 0, Width, Height);
-                    DesktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
-                    DesktopWindowXamlSource.Content.Arrange(rect);
+                    desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
+                    desktopWindowXamlSource.Content.Arrange(rect);
                     PerformLayout();
                 }
             }

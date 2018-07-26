@@ -10,7 +10,6 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls
 {
-    /// <inheritdoc />
     /// <summary>
     /// Provides a control that hosts HTML content in an app.
     /// </summary>
@@ -18,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
     /// <remarks>
     /// Subset of functionality from <see cref="T:Windows.Web.UI.IWebViewControl" />
     /// </remarks>
-    public interface IWebView : IDisposable
+    public interface IWebView
     {
         /// <summary>
         /// An event that is triggered when the accelerator key is pressed.
@@ -119,6 +118,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <summary>
         /// Occurs when <see cref="IWebView" /> shows a warning page for content that was reported as unsafe by SmartScreen filter.
         /// </summary>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1009:DeclareEventHandlersCorrectly", Justification = "This is the declaration from WinRT")]
         event EventHandler<object> UnsafeContentWarningDisplaying;
 
         /// <summary>
