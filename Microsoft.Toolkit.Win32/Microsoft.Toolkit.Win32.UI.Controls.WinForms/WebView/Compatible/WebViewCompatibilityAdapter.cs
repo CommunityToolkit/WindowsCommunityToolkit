@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
@@ -81,6 +82,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         protected override void Initialize()
         {
+            var initWebView = (ISupportInitialize)_webView;
+            initWebView.BeginInit();
+            initWebView.EndInit();
             _webView.Dock = DockStyle.Fill;
         }
     }
