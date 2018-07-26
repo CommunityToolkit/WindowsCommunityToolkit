@@ -9,7 +9,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    [Designer(typeof(WebViewCompatibleDesigner))]
+    // [Designer(typeof(WebViewCompatibleDesigner))]
     [DefaultProperty(Constants.ComponentDefaultProperty)]
     [DefaultEvent(Constants.ComponentDefaultEvent)]
     [Docking(DockingBehavior.AutoDock)]
@@ -28,16 +28,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 _implementation = new WebBrowserCompatibilityAdapter();
             }
 
+            _implementation.View.Dock = DockStyle.Fill;
             Controls.Add(_implementation.View);
         }
 
         private IWebViewCompatibleAdapter _implementation;
 
         [Category("Web")]
-        [DisplayName("Source")]
         [Bindable(true)]
-        public string SourceUrl { get => _implementation.Source?.OriginalString; set => _implementation.Source = new Uri(value); }
-
+        [DefaultValue(null)]
+        [TypeConverter(typeof(WebBrowserUriTypeConverter))]
         public Uri Source { get => _implementation.Source; set => _implementation.Source = value; }
 
         public bool CanGoBack => _implementation.CanGoBack;

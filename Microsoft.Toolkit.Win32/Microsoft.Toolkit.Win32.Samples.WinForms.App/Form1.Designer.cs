@@ -30,8 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -58,17 +58,6 @@
             this.tabPage1.Text = "WebViewCompatible";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // webViewCompatible1
-            // 
-            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
-            this.webViewCompatible1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webViewCompatible1.Name = "webViewCompatible1";
-            this.webViewCompatible1.Size = new System.Drawing.Size(1575, 1048);
-            this.webViewCompatible1.SourceUrl = "http://www.bing.com";
-            this.webViewCompatible1.TabIndex = 0;
-            this.webViewCompatible1.Text = "webViewCompatible1";
-            // 
             // tabPage2
             // 
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
@@ -78,6 +67,16 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // webViewCompatible1
+            // 
+            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
+            this.webViewCompatible1.Name = "webViewCompatible1";
+            this.webViewCompatible1.Size = new System.Drawing.Size(1575, 1048);
+            this.webViewCompatible1.Source = new System.Uri("http://www.bing.com", System.UriKind.Absolute);
+            this.webViewCompatible1.TabIndex = 0;
+            this.webViewCompatible1.Text = "webViewCompatible1";
             // 
             // Form1
             // 
