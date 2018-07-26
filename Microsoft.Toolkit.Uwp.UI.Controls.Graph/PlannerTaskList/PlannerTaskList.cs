@@ -98,11 +98,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 MicrosoftGraphService.Instance.IsAuthenticatedChanged -= Instance_IsAuthenticatedChanged;
                 MicrosoftGraphService.Instance.IsAuthenticatedChanged += Instance_IsAuthenticatedChanged;
             }
-
-            if (IsWindowsPhone)
-            {
-                VisualStateManager.GoToState(this, MobileVisualState, false);
-            }
         }
 
         private async Task LoadPlansAsync()
