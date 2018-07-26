@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WINRT
 using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
@@ -14,7 +15,6 @@ namespace Microsoft.Toolkit.Services.Internal
     /// </summary>
     internal class UwpAuthenticationBroker : IAuthenticationBroker
     {
-
         /// <summary>
         /// Authentication process
         /// </summary>
@@ -23,7 +23,6 @@ namespace Microsoft.Toolkit.Services.Internal
         /// <returns> Returns login status</returns>
         public async Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri)
         {
-#if WINRT
             WebAuthenticationResult result = await WebAuthenticationBroker.AuthenticateAsync(
                 WebAuthenticationOptions.None,
                 requestUri,
@@ -41,8 +40,7 @@ namespace Microsoft.Toolkit.Services.Internal
                     // TODO: Change with correct name;
                     throw new ArgumentException("error");
             }
-#endif
-            return null;
         }
     }
 }
+#endif
