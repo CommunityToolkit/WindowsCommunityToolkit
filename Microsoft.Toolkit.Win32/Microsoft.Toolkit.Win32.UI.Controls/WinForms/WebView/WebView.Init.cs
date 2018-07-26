@@ -6,7 +6,6 @@ using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using WebViewControlProcess = Windows.Web.UI.Interop.WebViewControlProcess;
 using WebViewControlProcessCapabilityState = Windows.Web.UI.Interop.WebViewControlProcessCapabilityState;
 using WebViewControlProcessOptions = Windows.Web.UI.Interop.WebViewControlProcessOptions;
 
@@ -119,14 +118,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                     Verify.IsNull(Process);
 
                     // Was not injected via ctor, create using defaults
-                    Process = new WebViewControlProcess(new WebViewControlProcessOptions
+                    var options = new Interop.WinRT.WebViewControlProcessOptions()
                     {
-                        PrivateNetworkClientServerCapability = _delayedPrivateNetworkEnabled
-                                                                    ? WebViewControlProcessCapabilityState.Enabled
-                                                                    : WebViewControlProcessCapabilityState.Disabled,
+                        PrivateNetworkClientServerCapability = (Interop.WinRT.WebViewControlProcessCapabilityState)(_delayedPrivateNetworkEnabled
+                            ? WebViewControlProcessCapabilityState.Enabled
+                            : WebViewControlProcessCapabilityState.Disabled),
                         EnterpriseId = _delayedEnterpriseId,
                         Partition = _delayedPartition
-                    });
+                    };
+
+                    Process = new WebViewControlProcess(options);
                     _webViewControl = Process.CreateWebViewControlHost(Handle, ClientRectangle);
                     SubscribeEvents();
 

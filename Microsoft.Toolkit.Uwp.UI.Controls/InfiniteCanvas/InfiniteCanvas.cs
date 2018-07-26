@@ -326,6 +326,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>json string</returns>
         public string ExportAsJson()
         {
+            // We need to introduce versioning in the next release.
             return _drawingSurfaceRenderer.GetSerializedList();
         }
 
