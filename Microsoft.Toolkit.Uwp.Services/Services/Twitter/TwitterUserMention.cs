@@ -7,14 +7,14 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Twitter User type.
+    /// Twitter user object containing user mention indices.
     /// </summary>
-    public class TwitterExtended
+    public class TwitterUserMention : TwitterUser
     {
         /// <summary>
-        /// Gets or sets the text of the tweet (280 characters).
+        /// Gets or sets the start and end position of the user mention
         /// </summary>
-        [JsonProperty("full_text")]
-        public string FullText { get; set; }
+        [JsonProperty("indices")]
+        public int[] Indices { get; set; }
     }
 }
