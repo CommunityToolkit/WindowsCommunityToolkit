@@ -10,7 +10,7 @@
 ## [BladeView](controls/BladeView.md)
 ## [CameraPreview](controls/CameraPreview.md)
 ## [Carousel](controls/Carousel.md)
-## [DataGrid (preview)](controls/DataGrid.md)
+## [DataGrid](controls/DataGrid.md)
 ## [DockPanel](controls/DockPanel.md)
 ## [DropShadowPanel Control](controls/DropShadowPanel.md)
 ## [Expander Control](controls/Expander.md)
