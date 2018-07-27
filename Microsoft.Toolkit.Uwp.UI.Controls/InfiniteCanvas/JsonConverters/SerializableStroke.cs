@@ -5,8 +5,6 @@
 using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.Serialization;
-using Windows.Foundation;
-using Windows.UI;
 using Newtonsoft.Json;
 using Windows.UI.Input.Inking;
 
