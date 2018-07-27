@@ -7,14 +7,14 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
     /// <summary>
-    /// Twitter User type.
+    /// Extended Entities containing an array of TwitterMedia.
     /// </summary>
-    public class TwitterExtended
+    public class TwitterExtendedEntities
     {
         /// <summary>
-        /// Gets or sets the text of the tweet (280 characters).
+        /// Gets or sets Media of the tweet.
         /// </summary>
-        [JsonProperty("full_text")]
-        public string FullText { get; set; }
+        [JsonProperty("media")]
+        public TwitterMedia[] Media { get; set; }
     }
 }

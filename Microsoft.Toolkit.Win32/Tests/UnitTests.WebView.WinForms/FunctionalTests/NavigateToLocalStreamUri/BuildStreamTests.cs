@@ -5,18 +5,48 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
 using System;
+using System.Reflection;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests.NavigateToLocalStreamUri
 {
     public abstract class BuildStreamContextSpecification : HostFormWebViewContextSpecification
     {
         public Uri Actual { get; set; }
-        public Uri Expected { get; set; }        
+        public Uri Expected { get; set; }
         public string RelativePath { get; set; }
 
         protected override void When()
         {
-            Actual = WebView.Host.BuildStream("Test", RelativePath);
+            var type = WebView.GetType();
+            var hostPropertyInfo = type.GetProperty(
+                "Host",
+                BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.NonPublic);
+
+            Assert.IsNotNull(hostPropertyInfo);
+
+            var host = hostPropertyInfo.GetValue(WebView);
+
+            Assert.IsNotNull(host);
+
+            var streamMethodInfo = host
+                                    .GetType()
+                                    .GetMethod("BuildStream", BindingFlags.Instance | BindingFlags.NonPublic);
+
+            Assert.IsNotNull(streamMethodInfo);
+
+            try
+            {
+                Actual = (Uri) streamMethodInfo.Invoke(host, new[] {"Test", RelativePath});
+            }
+            catch (TargetInvocationException tie)
+            {
+                if (tie.InnerException != null)
+                {
+                    throw tie.InnerException;
+                }
+
+                throw;
+            }
         }
 
         [TestMethod]
@@ -153,7 +183,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void Given()
         {
             base.Given();
-            
+
             RelativePath = @"C:\foo.htm";
         }
 
