@@ -192,10 +192,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty("default_profile_image")]
         public bool DefaultProfileImage { get; set; }
 
-        /// <summary>
-        /// Gets or sets "withheld in" countries.
-        /// </summary>
-        /// commenting out because this is erroring when used, but this attribute is rarely used to begin with, so it's hard to repro long enough to debug
+        // <summary>
+        // Gets or sets "withheld in" countries.
+        // </summary>
+        // commenting out because this is erroring when used, but this attribute is rarely used to begin with, so it's hard to repro long enough to debug
         // [JsonProperty("withheld_in_countries")]
         // public string WithheldInCountries { get; set; }
 
