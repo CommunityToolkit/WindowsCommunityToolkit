@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Services.Internal
     /// <summary>
     /// Uwp specific implementation for IStorageManager using ApplicationData and LocalSettings
     /// </summary>
-    public class UwpStorageManager : IStorageManager
+    internal class UwpStorageManager : IStorageManager
     {
         /// <summary>
         /// Read the storage to return the key if exists if not null;

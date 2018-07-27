@@ -2,17 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+#if WINRT
 using Microsoft.Toolkit.Services.Core;
+
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
-namespace Microsoft.Toolkit.Uwp.Services
+namespace Microsoft.Toolkit.Services.Internal
 {
     /// <summary>
     /// Uwp specific signature generator using cryptographic library
     /// </summary>
-    public class UwpSignatureManager : ISignatureManager
+    internal class UwpSignatureManager : ISignatureManager
     {
         /// <summary>
         /// Generate request signature.
@@ -34,3 +36,4 @@ namespace Microsoft.Toolkit.Uwp.Services
         }
     }
 }
+#endif
