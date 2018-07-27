@@ -51,12 +51,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         [TestMethod]
+        [Timeout(TestConstants.Timeouts.Longest)]
         public void TheTerminatedProcessShouldNoLongerHaveAProcessId()
         {
             WebView.Process.ProcessId.ShouldEqual(0U);
         }
 
         [TestMethod]
+        [Timeout(TestConstants.Timeouts.Longest)]
         public void TheProcessExitedEventWasRaised()
         {
             _mre.WaitOne(TestConstants.Timeouts.Short);
