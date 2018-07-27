@@ -195,8 +195,9 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// <summary>
         /// Gets or sets "withheld in" countries.
         /// </summary>
-        [JsonProperty("withheld_in_countries")]
-        public string WithheldInCountries { get; set; }
+        /// commenting out because this is erroring when used, but this attribute is rarely used to begin with, so it's hard to repro long enough to debug
+        // [JsonProperty("withheld_in_countries")]
+        // public string WithheldInCountries { get; set; }
 
         /// <summary>
         /// Gets or sets withheld scope (status or profile).
