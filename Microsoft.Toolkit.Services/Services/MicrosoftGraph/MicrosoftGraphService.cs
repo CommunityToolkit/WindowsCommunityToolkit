@@ -191,7 +191,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the current user
         /// </summary>
         /// <returns>success or failure</returns>
+#pragma warning disable CS1998
         public virtual async Task<bool> Logout()
+#pragma warning restore CS1998
         {
             if (!IsInitialized)
             {

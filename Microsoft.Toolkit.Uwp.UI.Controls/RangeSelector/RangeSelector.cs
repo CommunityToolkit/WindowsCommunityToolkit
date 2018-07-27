@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
-            tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+            tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
             base.OnApplyTemplate();
         }
