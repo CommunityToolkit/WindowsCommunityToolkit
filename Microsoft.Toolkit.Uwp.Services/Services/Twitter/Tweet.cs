@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// This entity may be deprecated - it never seems to be set to true.
         /// </summary>
         [JsonProperty("truncated")]
-        public bool Truncated { get; set; }
+        public bool IsTruncated { get; set; }
 
         /// <summary>
         /// Gets or sets attached content of the tweet

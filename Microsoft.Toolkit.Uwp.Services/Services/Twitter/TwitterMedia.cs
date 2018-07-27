@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// Gets or sets ID as string.
         /// </summary>
         [JsonProperty("id_str")]
-        public string Id{ get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or sets indices array.

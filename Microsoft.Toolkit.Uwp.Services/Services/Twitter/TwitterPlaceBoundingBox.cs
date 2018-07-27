@@ -8,6 +8,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
+    /// <summary>
+    /// Twitter Place Bounding Box
+    /// </summary>
     public class TwitterPlaceBoundingBox
     {
         /// <summary>
@@ -22,7 +25,10 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         [JsonProperty("type")]
         public string Type { get; set; }
 
-        public List<float[]> CoordArray
+        /// <summary>
+        /// Gets the coordinates array of the tweet's geolocation data
+        /// </summary>
+        public List<float[]> CoordinatesArray
         {
             get
             {

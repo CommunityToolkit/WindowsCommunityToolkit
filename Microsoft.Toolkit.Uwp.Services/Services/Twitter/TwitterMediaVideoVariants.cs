@@ -6,6 +6,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Uwp.Services.Twitter
 {
+    /// <summary>
+    /// Twitter Video properties
+    /// </summary>
     public class TwitterMediaVideoVariants
     {
         /// <summary>

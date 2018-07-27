@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
 
         private DateTime FormatDate(string input)
         {
-            DateTime dt;
-            if (!DateTime.TryParseExact(input, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+            DateTime formattedDateTime;
+            if (!DateTime.TryParseExact(input, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out formattedDateTime))
             {
-                dt = DateTime.Today;
+                formattedDateTime = DateTime.Today;
             }
 
-            return dt;
+            return formattedDateTime;
         }
     }
 }
