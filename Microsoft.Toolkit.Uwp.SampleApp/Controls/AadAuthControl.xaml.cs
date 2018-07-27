@@ -56,6 +56,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             Loading += AadAuthControl_Loading;
             ClientId.TextChanged += ClientId_TextChanged;
+            _graphService.SignInFailed += GraphService_SignInFailed;
             _graphService.IsAuthenticatedChanged += GraphService_IsAuthenticatedChanged;
         }
 
@@ -113,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             IsEnableSignInButton = true;
         }
 
-        private void AadLogin_SignInFailed(object sender, SignInFailedEventArgs e)
+        private void GraphService_SignInFailed(object sender, Toolkit.Services.MicrosoftGraph.SignInFailedEventArgs e)
         {
             Shell.Current.ShowExceptionNotification(e.Exception);
         }
