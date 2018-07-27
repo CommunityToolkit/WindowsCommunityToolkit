@@ -4,7 +4,6 @@
 
 using System;
 using System.Windows;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -34,13 +33,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
         }
 
-        protected override void SetHost()
+        protected override void SetContent()
         {
             if (this.VisualParent is InkToolbar parent)
             {
                 if (parent.XamlRootInternal is global::Windows.UI.Xaml.Controls.InkToolbar toolbar)
                 {
-                    toolbar.Children.Add(this.UwpControl);
+                    toolbar.Children.Add(UwpControl);
                 }
             }
         }

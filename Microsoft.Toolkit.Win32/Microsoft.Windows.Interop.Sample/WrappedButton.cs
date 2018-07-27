@@ -32,8 +32,7 @@ namespace Microsoft.Windows.Interop.Sample
             frameworkElement.VerticalAlignment = global::Windows.UI.Xaml.VerticalAlignment.Stretch;
 
             // Set DesktopWindowXamlSource
-            this.desktopWindowXamlSource.Content = this.XamlRootInternal;
-
+            SetContent();
 
             // Properties set in markup need to be re-applied in OnInitialized.  
             Background = background;

@@ -22,12 +22,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         [ThreadStatic]
         private readonly Windows.UI.Xaml.Application _application;
 
-#pragma warning disable SA1401 // Fields must be private // not sure why this is even an issue.
-                              /// <summary>
-                              /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
-                              /// </summary>
-        protected Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
-#pragma warning restore SA1401 // Fields must be private
+        /// <summary>
+        /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
+        /// </summary>
+        private Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
 
         /// <summary>
         /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
@@ -107,6 +105,16 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 
             // Overridden function must return window handle of new target window (DesktopWindowXamlSource's Window)
             return new HandleRef(this, windowHandle);
+        }
+
+        // The default implementation of SetContent applies XamlRootInternal to desktopWindowXamSource.Content.
+        // Override this method if your control should be a child of another WindowsXamlHostBase-based control.
+        protected virtual void SetContent()
+        {
+            if (desktopWindowXamlSource != null)
+            {
+                desktopWindowXamlSource.Content = XamlRootInternal;
+            }
         }
 
         /// <summary>

@@ -66,10 +66,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 
                 XamlRootInternal = value;
 
-                if (desktopWindowXamlSource != null)
-                {
-                    desktopWindowXamlSource.Content = XamlRootInternal;
-                }
+                SetContent();
 
                 var frameworkElement = XamlRootInternal as Windows.UI.Xaml.FrameworkElement;
                 if (frameworkElement != null)

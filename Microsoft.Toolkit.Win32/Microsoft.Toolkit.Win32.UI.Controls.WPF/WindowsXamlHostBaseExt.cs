@@ -23,13 +23,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             base.OnInitialized(e);
 
-            SetHost();
-        }
-
-        protected virtual void SetHost()
-        {
-            // Set DesktopWindowXamlSource
-            this.desktopWindowXamlSource.Content = this.XamlRootInternal;
+            SetContent();
         }
 
         /// <summary>
