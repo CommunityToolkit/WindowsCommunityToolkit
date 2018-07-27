@@ -6,13 +6,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading.Tasks;
-using global::Windows.Web.UI.Interop;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Windows.Foundation.Metadata;
 using Windows.Web;
 using Windows.Web.Http;
 using Windows.Web.UI;
+using Windows.Web.UI.Interop;
 using Rect = Windows.Foundation.Rect;
 
 // Suppress document warnings as the items are internal and are used to propagate exception info up to consuming classes
@@ -533,7 +535,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         internal void NavigateToLocal(string relativePath)
         {
             var relativeUri = UriHelper.StringToRelativeUri(relativePath);
-            NavigateToLocalStreamUri(relativeUri, new UriToLocalStreamResolver());
+            NavigateToLocalStreamUri(
+                relativeUri,
+#pragma warning disable SA1129 // Do not use default value type constructor
+                new UriToLocalStreamResolver(Path.GetDirectoryName(UnsafeNativeMethods.GetModuleFileName(new HandleRef()))));
+#pragma warning restore SA1129 // Do not use default value type constructor
         }
 
         internal void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)

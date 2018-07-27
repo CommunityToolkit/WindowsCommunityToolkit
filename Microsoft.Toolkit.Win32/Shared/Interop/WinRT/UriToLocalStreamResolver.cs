@@ -4,8 +4,6 @@
 
 using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -14,14 +12,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     {
         private readonly string _path;
 
-        public UriToLocalStreamResolver()
-#pragma warning disable SA1129 // Do not use default value type constructor
-            : this(Path.GetDirectoryName(UnsafeNativeMethods.GetModuleFileName(new HandleRef())))
-#pragma warning restore SA1129 // Do not use default value type constructor
-        {
-        }
-
-        protected UriToLocalStreamResolver(string path)
+        internal UriToLocalStreamResolver(string path)
         {
             _path = path;
         }
