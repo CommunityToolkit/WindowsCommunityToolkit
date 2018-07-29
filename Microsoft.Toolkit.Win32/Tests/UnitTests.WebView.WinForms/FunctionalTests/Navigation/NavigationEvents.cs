@@ -120,44 +120,4 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             NavigateToStringAndWaitForFormClose(_content);
         }
     }
-
-    [TestClass]
-    [TestCategory(TestConstants.Categories.Nav)]
-
-    public class NavigationEventsFiredForProcessFactory : ProcessFactoryWebViewContextSpecification
-    {
-        private bool _navStarting;
-        private bool _contentLoading;
-        private bool _domContentLoaded;
-        private bool _navCompleted;
-
-        protected override void Given()
-        {
-            base.Given();
-
-            WebView.NavigationStarting += (o, e) => { _navStarting = true; };
-            WebView.ContentLoading += (o, e) => { _contentLoading = true; };
-            WebView.DOMContentLoaded += (o, e) => { _domContentLoaded = true; };
-            WebView.NavigationCompleted += (o, e) =>
-            {
-                _navCompleted = true;
-                Form.Close();
-            };
-        }
-
-        protected override void When()
-        {
-            NavigateAndWaitForFormClose(TestConstants.Uris.AboutBlank);
-        }
-
-        [TestMethod]
-        //[Timeout(TestConstants.Timeouts.Short)]
-        public void NavigationEventsCompleted()
-        {
-            _navStarting.ShouldBeTrue();
-            _contentLoading.ShouldBeTrue();
-            _domContentLoaded.ShouldBeTrue();
-            _navCompleted.ShouldBeTrue();
-        }
-    }
 }

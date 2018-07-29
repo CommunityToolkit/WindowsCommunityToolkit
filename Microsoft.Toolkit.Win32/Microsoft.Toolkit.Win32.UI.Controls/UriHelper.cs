@@ -36,6 +36,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
                 MAX_URL_LENGTH).ToString();
         }
 
+        internal static string RelativeUriToString(Uri uri)
+        {
+            if (uri == null)
+            {
+                throw new ArgumentNullException(nameof(uri));
+            }
+
+            return new StringBuilder(
+                uri.GetComponents(
+                    UriComponents.PathAndQuery,
+                    UriFormat.SafeUnescaped),
+                MAX_URL_LENGTH).ToString();
+        }
+
         internal static Uri StringToUri(string source)
         {
             if (string.IsNullOrEmpty(source))
@@ -44,6 +58,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             }
 
             if (Uri.TryCreate(source, UriKind.Absolute, out Uri result))
+            {
+                return result;
+            }
+
+            // Unrecognized URI
+            throw new ArgumentException(DesignerUI.E_WEBVIEW_INVALID_URI);
+        }
+
+        internal static Uri StringToRelativeUri(string source)
+        {
+            if (string.IsNullOrEmpty(source))
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (Uri.TryCreate(source, UriKind.Relative, out Uri result))
             {
                 return result;
             }

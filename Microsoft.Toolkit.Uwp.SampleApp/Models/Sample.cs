@@ -711,6 +711,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
+            var dataGridProxyType = DataGridGridLinesVisibility.None;
+            assembly = dataGridProxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
             return null;
         }
 
