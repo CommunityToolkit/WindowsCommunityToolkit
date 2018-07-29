@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    GraphServiceClient graphClient= await GraphServiceHelper.GetGraphServiceClientAsync();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
                     if (graphClient != null)
                     {
                         Permission link = await graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();

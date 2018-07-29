@@ -98,6 +98,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// json name of dueDateTime of task
         /// </summary>
         private const string TaskDueDateTimeJsonName = "dueDateTime";
-
     }
 }
