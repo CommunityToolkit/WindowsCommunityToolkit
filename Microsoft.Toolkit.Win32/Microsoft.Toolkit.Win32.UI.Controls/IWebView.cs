@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
@@ -195,6 +196,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         bool IsScriptNotifyAllowed { get; set; }
 
         /// <summary>
+        /// Gets or sets a partition for this process.
+        /// </summary>
+        /// <value>The partition of this process.</value>
+        /// <remarks>Value can be set prior to the component being initialized.</remarks>
+        /// <see cref="WebViewControlProcessOptions.Partition"/>
+        string Partition { get; set; }
+
+        /// <summary>
         /// Gets the <see cref="WebViewControlProcess"/> that the control is hosted in.
         /// </summary>
         /// <value>The <see cref="WebViewControlProcess"/> that the control is hosted in.</value>
@@ -223,6 +232,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// </summary>
         /// <value>The version of EDGEHTML.DLL used by <see cref="IWebView" />.</value>
         Version Version { get; }
+
+        /// <summary>
+        /// Adds the script to be loaded before any others on the page.
+        /// </summary>
+        /// <param name="script">The script.</param>
+        void AddPreLoadedScript(string script);
 
         /// <summary>
         /// Closes this instance.
@@ -338,12 +353,36 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         void Navigate(string source);
 
         /// <summary>
+        /// Navigates the web view with the URI with a HTTP request and HTTP headers.
+        /// </summary>
+        /// <param name="requestUri">The Uniform Resource Identifier (URI) to send the request.</param>
+        /// <param name="httpMethod">The HTTP method of the request.</param>
+        /// <param name="content">Optional content to send with the request.</param>
+        /// <param name="headers">Optional headers to send with the request.</param>
+        /// <remarks>
+        /// This method only supports <see cref="HttpMethod.Get"/> and <see cref="HttpMethod.Post"/> for the <paramref name="httpMethod"/> parameter.
+        /// </remarks>
+        /// <seealso cref="Windows.Web.UI.Interop.WebViewControl.NavigateWithHttpRequestMessage"/>
+        void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null);
+
+        /// <summary>
         /// Loads the specified HTML content relative to the location of the current executable.
         /// </summary>
         /// <param name="relativePath">The relative path.</param>
         /// <see cref="NavigateToLocal(string)"/> is asynchronous. Use the <see cref="NavigationCompleted"/> event to detect when
         /// navigation has completed.
         void NavigateToLocal(string relativePath);
+
+        /// <summary>
+        /// Loads local web content at the specified Uniform Resource Identifier (URI) using an <see cref="IUriToStreamResolver"/>.
+        /// </summary>
+        /// <param name="relativePath">A path identifying the local HTML content to load.</param>
+        /// <param name="streamResolver">A <see cref="IUriToStreamResolver"/> instance that converts a Uniform Resource Identifier (URI) into a stream to load.</param>
+        void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver);
 
         /// <summary>
         /// Loads the specified HTML content as a new document.

@@ -12,15 +12,33 @@ namespace Microsoft.Toolkit.Services.Twitter
     public class TwitterUrl
     {
         /// <summary>
-        /// Gets or sets Url of the tweet.
+        /// Gets or sets DisplayUrl of the Url.
         /// </summary>
-        [JsonProperty("url")]
-        public string Url { get; set; }
+        [JsonProperty("display_url")]
+        public string DisplayUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets ExpandedUrl of the Url.
+        /// </summary>
+        [JsonProperty("expanded_url")]
+        public string ExpandedUrl { get; set; }
 
         /// <summary>
         /// Gets or sets indices position of the tweet.
         /// </summary>
         [JsonProperty("indices")]
         public int[] Indices { get; set; }
+
+        /// <summary>
+        /// Gets or sets unwound Url metadata position of the tweet.
+        /// </summary>
+        [JsonProperty("unwound")]
+        public TwitterUrlUnwound Unwound { get; set; }
+
+        /// <summary>
+        /// Gets or sets t.co Url of the tweet.
+        /// </summary>
+        [JsonProperty("url")]
+        public string Url { get; set; }
     }
 }

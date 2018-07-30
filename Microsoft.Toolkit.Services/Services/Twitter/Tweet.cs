@@ -22,8 +22,9 @@ namespace Microsoft.Toolkit.Services.Twitter
         public string CreatedAt { get; set; }
 
         /// <summary>
-        /// Gets or sets the geographic data (latitude and longitude)
+        /// Gets or sets geographic data (latitude and longitude).
         /// </summary>
+        [Obsolete("This member is deprecated by Twitter. Use Place and Coordinates instead.")]
         [JsonProperty("geo")]
         public TwitterGeoData GeoData { get; set; }
 
@@ -44,10 +45,67 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Gets or sets the extended mode.
+        /// Gets or sets full 280-character tweet text.
         /// </summary>
+        [Obsolete("This member has been deprecated by Twitter. Use Text instead.")]
         [JsonProperty("extended_tweet")]
         public TwitterExtended Extended { get; set; }
+
+        /// <summary>
+        /// Gets or sets text of the tweet (280 characters).
+        /// </summary>
+        [JsonProperty("full_text")]
+        private string FullText { get; set; }
+
+        /// <summary>
+        /// Gets or sets display text range (indexes of tweet text without RT and leading user mentions)
+        /// </summary>
+        [JsonProperty("display_text_range")]
+        public int[] DisplayTextRange { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether tweet is truncated
+        /// (true when tweet is longer than 140 characters)
+        /// This entity may be deprecated - it never seems to be set to true.
+        /// </summary>
+        [JsonProperty("truncated")]
+        public bool IsTruncated { get; set; }
+
+        /// <summary>
+        /// Gets or sets attached content of the tweet
+        /// </summary>
+        [JsonProperty("entities")]
+        public TwitterEntities Entities { get; set; }
+
+        /// <summary>
+        /// Gets or sets extended attached content of the tweet
+        /// </summary>
+        [JsonProperty("extended_entities")]
+        public TwitterExtendedEntities ExtendedEntities { get; set; }
+
+        /// <summary>
+        /// Gets or sets tweet source (client or website used)
+        /// </summary>
+        [JsonProperty("source")]
+        public string Source { get; set; }
+
+        /// <summary>
+        /// Gets or sets in_reply_to_screen_name
+        /// </summary>
+        [JsonProperty("in_reply_to_screen_name")]
+        public string InReplyToScreenName { get; set; }
+
+        /// <summary>
+        /// Gets or sets in_reply_to_status_id_str
+        /// </summary>
+        [JsonProperty("in_reply_to_status_id_str")]
+        public string InReplyToStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets in_reply_to_user_id_str
+        /// </summary>
+        [JsonProperty("in_reply_to_user_id_str")]
+        public string InReplyToUserId { get; set; }
 
         /// <summary>
         /// Gets or sets user who posted the status.
@@ -56,10 +114,17 @@ namespace Microsoft.Toolkit.Services.Twitter
         public TwitterUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets attached content of the tweet
+        /// Gets or sets geo coordinates (latitude and logitude) returned by Twitter for some locations
         /// </summary>
-        [JsonProperty("entities")]
-        public TwitterEntities Entities { get; set; }
+        [JsonProperty("coordinates")]
+        [JsonConverter(typeof(TwitterCoordinatesConverter))]
+        public TwitterCoordinates Coordinates { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Place object returned by Twitter for some locations
+        /// </summary>
+        [JsonProperty("place")]
+        public TwitterPlace Place { get; set; }
 
         /// <summary>
         /// Gets or sets the Retweeted Tweet
@@ -85,9 +150,21 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Gets or sets text of the tweet (280 characters).
+        /// Gets or sets quoted_status
         /// </summary>
-        [JsonProperty("full_text")]
-        private string FullText { get; set; }
+        [JsonProperty("quoted_status")]
+        public Tweet QuotedStatus { get; set; }
+
+        /// <summary>
+        /// Gets or sets quoted_status_id_str
+        /// </summary>
+        [JsonProperty("quoted_status_id_str")]
+        public string QuotedStatusId { get; set; }
+
+        /// <summary>
+        /// Gets or sets quoted_status_permalink
+        /// </summary>
+        [JsonProperty("quoted_status_permalink")]
+        public TwitterUrl QuotedStatusPermalink { get; set; }
     }
 }
