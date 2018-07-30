@@ -84,8 +84,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             var initWebView = (ISupportInitialize)_webView;
             initWebView.BeginInit();
-            initWebView.EndInit();
             _webView.Dock = DockStyle.Fill;
+            initWebView.EndInit();
         }
     }
 }
