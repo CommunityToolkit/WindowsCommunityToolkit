@@ -196,14 +196,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         bool IsScriptNotifyAllowed { get; set; }
 
         /// <summary>
-        /// Gets or sets a partition for this process.
-        /// </summary>
-        /// <value>The partition of this process.</value>
-        /// <remarks>Value can be set prior to the component being initialized.</remarks>
-        /// <see cref="WebViewControlProcessOptions.Partition"/>
-        string Partition { get; set; }
-
-        /// <summary>
         /// Gets the <see cref="WebViewControlProcess"/> that the control is hosted in.
         /// </summary>
         /// <value>The <see cref="WebViewControlProcess"/> that the control is hosted in.</value>
