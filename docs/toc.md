@@ -45,6 +45,7 @@
 ## [TileControl](controls/TileControl.md)
 ## [UniformGrid](controls/UniformGrid.md)
 ## [WebView (win32)](controls/WebView.md)
+## [WindowsXAMLHost](controls/WindowsXAMLHost.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Animations
