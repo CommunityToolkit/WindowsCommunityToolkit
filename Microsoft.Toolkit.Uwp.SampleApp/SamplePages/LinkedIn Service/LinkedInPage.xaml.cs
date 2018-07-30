@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Services.LinkedIn;
-using Microsoft.Toolkit.Uwp.Services;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
