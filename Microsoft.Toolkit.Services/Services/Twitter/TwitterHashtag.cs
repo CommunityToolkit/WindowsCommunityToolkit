@@ -4,7 +4,7 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Twitter
+namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
     /// Twitter Hashtag object containing all hashtags in a tweet.

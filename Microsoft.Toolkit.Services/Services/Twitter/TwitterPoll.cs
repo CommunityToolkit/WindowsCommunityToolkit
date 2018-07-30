@@ -6,7 +6,7 @@ using System;
 using System.Globalization;
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Twitter
+namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
     /// Twitter poll object containing poll data.

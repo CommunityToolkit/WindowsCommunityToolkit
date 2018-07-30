@@ -6,7 +6,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Toolkit.Uwp.Services.Twitter
+namespace Microsoft.Toolkit.Services.Twitter
 {
     internal class TwitterCoordinatesConverter : JsonConverter
     {

@@ -4,7 +4,7 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Twitter
+namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
     /// Twitter Entities containing size details for each size of an image.

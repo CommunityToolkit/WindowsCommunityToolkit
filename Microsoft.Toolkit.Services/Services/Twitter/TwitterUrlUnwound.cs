@@ -4,7 +4,7 @@
 
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Twitter
+namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
     /// Twitter Url Unwound object; provides original Url for shortened t.co links.
