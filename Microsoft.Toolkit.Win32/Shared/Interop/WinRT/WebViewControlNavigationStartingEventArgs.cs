@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
 
         [SecurityCritical]
+        private readonly WebBrowserNavigatingEventArgs _formsArgs;
+
+        [SecurityCritical]
         internal WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
         {
             _args = args;
