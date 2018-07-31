@@ -13,6 +13,7 @@
         <ResourceDictionary Source="ms-appx:///Controls/ExtendedHamburgerMenu.xaml" />
         <ResourceDictionary Source="ms-appx:///Controls/CodeRenderer.xaml" />
         <ResourceDictionary Source="ms-appx:///Styles/Custom/PivotHeaderItemUnderlineStyle.xaml" />
+        <ResourceDictionary Source="ms-appx:///Styles/GithubIcon.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <!--  Styles  -->
