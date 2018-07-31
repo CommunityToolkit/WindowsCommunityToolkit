@@ -3,8 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Security;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -22,15 +20,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _args = args;
         }
 
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton StencilButton
-        {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilButton)_args.StencilButton.GetWrapper();
-        }
+        public InkToolbarStencilButton StencilButton => (InkToolbarStencilButton)_args.StencilButton.GetWrapper();
 
-        public Windows.UI.Xaml.Controls.InkToolbarStencilKind StencilKind
-        {
-            get => (Windows.UI.Xaml.Controls.InkToolbarStencilKind)_args.StencilKind;
-        }
+        public Interop.WinRT.InkToolbarStencilKind StencilKind => (Interop.WinRT.InkToolbarStencilKind)_args.StencilKind;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs"/>.
