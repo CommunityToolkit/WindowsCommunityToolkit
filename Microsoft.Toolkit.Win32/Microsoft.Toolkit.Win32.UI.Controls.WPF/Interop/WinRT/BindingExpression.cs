@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public BindingExpression(Windows.UI.Xaml.Data.BindingExpression instance)
         {
-            this.UwpInstance = instance;
+            UwpInstance = instance;
         }
 
         /// <summary>
