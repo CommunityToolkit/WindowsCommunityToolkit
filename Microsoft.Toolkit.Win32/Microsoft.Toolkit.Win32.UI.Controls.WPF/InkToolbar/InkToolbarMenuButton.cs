@@ -5,7 +5,6 @@
 using System;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -14,7 +13,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     public class InkToolbarMenuButton : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
@@ -40,6 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // intentionally empty
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
@@ -83,9 +83,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.MenuKind"/>
         /// </summary>
-        public InkToolbarMenuKind MenuKind
-        {
-            get => (InkToolbarMenuKind)(int)UwpControl.MenuKind;
-        }
+        public InkToolbarMenuKind MenuKind => (InkToolbarMenuKind)UwpControl.MenuKind;
     }
 }
