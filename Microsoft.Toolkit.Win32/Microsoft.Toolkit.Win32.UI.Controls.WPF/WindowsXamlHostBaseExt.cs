@@ -11,14 +11,16 @@ using Microsoft.Toolkit.Win32.UI.Interop.WPF;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <inheritdoc />
     public class WindowsXamlHostBaseExt : WindowsXamlHostBase
     {
         public WindowsXamlHostBaseExt(string typeName)
         {
-            this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
-            this.XamlRootInternal.SetWrapper(this);
+            XamlRootInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            XamlRootInternal.SetWrapper(this);
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
