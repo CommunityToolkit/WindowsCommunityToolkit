@@ -3,41 +3,29 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Markup;
-using Microsoft.Toolkit.Win32.UI.Interop;
-using Windows.Foundation;
-using Windows.UI.Xaml.Media;
-using uwpControls = Windows.UI.Xaml.Controls;
-using uwpInking = Windows.UI.Input.Inking;
-using uwpXaml = Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
     /// </summary>
     public class InkToolbarCustomToolButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
         /// </summary>
         public InkToolbarCustomToolButton()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarCustomToolButton).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>.
         /// Intended for internal framework use only.
         /// </summary>
         public InkToolbarCustomToolButton(string typeName)
@@ -77,12 +65,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty"/>
         /// </summary>
         public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(UIElement), typeof(InkToolbarCustomToolButton));
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
         /// </summary>
         public UIElement ConfigurationContent
         {
