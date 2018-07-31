@@ -20,10 +20,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WinForms\DesktopWindowXamlSourceExtensions.cs" Link="DesktopWindowXamlSourceExtensions.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.WinForms\DesktopWindowXamlSourceExtensions.cs" Link="DesktopWindowXamlSourceExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +62,10 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.0.0" PrivateAssets="All" />
     <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
 
 </Project>
