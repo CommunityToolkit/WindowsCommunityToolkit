@@ -13,29 +13,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     {
         private WebView _webView = new WebView();
 
-        public override Uri Source { get => _webView.Source; set => _webView.Source = value; }
-
-        public override Control View => _webView;
-
-        public override bool CanGoBack => _webView.CanGoBack;
-
-        public override bool CanGoForward => _webView.CanGoForward;
-
-        public override event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting
-        {
-            add
-            {
-                _webView.NavigationStarting += value;
-                _webView.FrameNavigationStarting += value;
-            }
-
-            remove
-            {
-                _webView.NavigationStarting -= value;
-                _webView.FrameNavigationStarting -= value;
-            }
-        }
-
         public override event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading
         {
             add
@@ -65,6 +42,29 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 _webView.FrameNavigationCompleted -= value;
             }
         }
+
+        public override event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting
+        {
+            add
+            {
+                _webView.NavigationStarting += value;
+                _webView.FrameNavigationStarting += value;
+            }
+
+            remove
+            {
+                _webView.NavigationStarting -= value;
+                _webView.FrameNavigationStarting -= value;
+            }
+        }
+
+        public override bool CanGoBack => _webView.CanGoBack;
+
+        public override bool CanGoForward => _webView.CanGoForward;
+
+        public override Uri Source { get => _webView.Source; set => _webView.Source = value; }
+
+        public override Control View => _webView;
 
         public override bool GoBack() => _webView.GoBack();
 
