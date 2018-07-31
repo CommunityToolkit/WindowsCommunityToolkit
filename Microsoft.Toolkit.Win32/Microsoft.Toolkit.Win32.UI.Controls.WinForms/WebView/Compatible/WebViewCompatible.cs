@@ -67,5 +67,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public void Stop() => _implementation.Stop();
 
         public string InvokeScript(string scriptName) => _implementation.InvokeScript(scriptName);
+
+        protected override void Dispose(bool disposing)
+        {
+            try
+            {
+                if (_implementation is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+            }
+            finally
+            {
+                base.Dispose(disposing);
+            }
+        }
     }
 }

@@ -9,9 +9,14 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter, IWebViewCompatibleAdapter
+    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter, IWebViewCompatibleAdapter, IDisposable
     {
         private WebView _webView = new WebView();
+
+        ~WebViewCompatibilityAdapter()
+        {
+            Dispose(false);
+        }
 
         public override event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading
         {
@@ -66,6 +71,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public override Control View => _webView;
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         public override bool GoBack() => _webView.GoBack();
 
         public override bool GoForward() => _webView.GoForward();
@@ -86,6 +97,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             initWebView.BeginInit();
             _webView.Dock = DockStyle.Fill;
             initWebView.EndInit();
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _webView?.Dispose();
+                _webView = null;
+            }
         }
     }
 }
