@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapInteractionMode"/>
     /// </summary>
-    public enum MapInteractionMode : int
+    public enum MapInteractionMode
     {
         Auto = 0,
         Disabled = 1,

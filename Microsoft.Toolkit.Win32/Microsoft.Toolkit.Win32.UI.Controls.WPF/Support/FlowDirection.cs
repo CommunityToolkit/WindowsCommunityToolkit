@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.FlowDirection"/>
     /// </summary>
-    public enum FlowDirection : int
+    public enum FlowDirection
     {
         LeftToRight = 0,
         RightToLeft = 1,

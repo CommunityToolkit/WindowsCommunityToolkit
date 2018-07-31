@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Input.Inking.InkHighContrastAdjustment"/>
     /// </summary>
-    public enum InkHighContrastAdjustment : int
+    public enum InkHighContrastAdjustment
     {
         UseSystemColorsWhenNecessary = 0,
         UseSystemColors = 1,

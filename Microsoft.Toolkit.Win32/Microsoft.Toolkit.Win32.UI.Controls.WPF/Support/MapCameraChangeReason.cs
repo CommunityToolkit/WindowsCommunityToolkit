@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapCameraChangeReason"/>
     /// </summary>
-    public enum MapCameraChangeReason : int
+    public enum MapCameraChangeReason
     {
         System = 0,
         UserInteraction = 1,

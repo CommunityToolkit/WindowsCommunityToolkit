@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.ClickMode"/>
     /// </summary>
-    public enum ClickMode : int
+    public enum ClickMode
     {
         Release = 0,
         Press = 1,

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.ElementTheme"/>
     /// </summary>
-    public enum ElementTheme : int
+    public enum ElementTheme
     {
         Default = 0,
         Light = 1,

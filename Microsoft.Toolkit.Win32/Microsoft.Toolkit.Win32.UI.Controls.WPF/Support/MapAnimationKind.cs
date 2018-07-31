@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapAnimationKind"/>
     /// </summary>
-    public enum MapAnimationKind : int
+    public enum MapAnimationKind
     {
         Default = 0,
         None = 1,

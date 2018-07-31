@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Input.XYFocusNavigationStrategy"/>
     /// </summary>
-    public enum XYFocusNavigationStrategy : int
+    public enum XYFocusNavigationStrategy
     {
         Auto = 0,
         Projection = 1,

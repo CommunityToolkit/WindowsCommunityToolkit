@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Media.Stretch"/>
     /// </summary>
-    public enum Stretch : int
+    public enum Stretch
     {
         None = 0,
         Fill = 1,

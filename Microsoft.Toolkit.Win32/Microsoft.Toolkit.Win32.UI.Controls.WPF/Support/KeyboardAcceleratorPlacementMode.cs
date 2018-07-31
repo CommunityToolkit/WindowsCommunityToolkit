@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Input.KeyboardAcceleratorPlacementMode"/>
     /// </summary>
-    public enum KeyboardAcceleratorPlacementMode : int
+    public enum KeyboardAcceleratorPlacementMode
     {
         Auto = 0,
         Hidden = 1,

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Input.Inking.InkPresenterPredefinedConfiguration"/>
     /// </summary>
-    public enum InkPresenterPredefinedConfiguration : int
+    public enum InkPresenterPredefinedConfiguration
     {
         SimpleSinglePointer = 0,
         SimpleMultiplePointer = 1,

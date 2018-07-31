@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.Devices.Geolocation.AltitudeReferenceSystem"/>
     /// </summary>
-    public enum AltitudeReferenceSystem : int
+    public enum AltitudeReferenceSystem
     {
         Unspecified = 0,
         Terrain = 1,

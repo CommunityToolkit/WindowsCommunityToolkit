@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapStyle"/>
     /// </summary>
-    public enum MapStyle : int
+    public enum MapStyle
     {
         None = 0,
         Road = 1,

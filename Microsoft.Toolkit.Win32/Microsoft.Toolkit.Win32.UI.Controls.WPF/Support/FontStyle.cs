@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Text.FontStyle"/>
     /// </summary>
-    public enum FontStyle : int
+    public enum FontStyle
     {
         Normal = 0,
         Oblique = 1,

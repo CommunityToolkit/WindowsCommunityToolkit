@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement"/>
     /// </summary>
-    public enum InkToolbarButtonFlyoutPlacement : int
+    public enum InkToolbarButtonFlyoutPlacement
     {
         Auto = 0,
         Top = 1,

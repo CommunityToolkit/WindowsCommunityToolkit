@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapColorScheme"/>
     /// </summary>
-    public enum MapColorScheme : int
+    public enum MapColorScheme
     {
         Light = 0,
         Dark = 1,

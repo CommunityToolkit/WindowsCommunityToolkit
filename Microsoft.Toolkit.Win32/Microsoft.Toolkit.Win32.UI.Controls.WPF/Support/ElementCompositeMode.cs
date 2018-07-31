@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Media.ElementCompositeMode"/>
     /// </summary>
-    public enum ElementCompositeMode : int
+    public enum ElementCompositeMode
     {
         Inherit = 0,
         SourceOver = 1,

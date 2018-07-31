@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Text.FontStretch"/>
     /// </summary>
-    public enum FontStretch : int
+    public enum FontStretch
     {
         Undefined = 0,
         UltraCondensed = 1,

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Input.XYFocusKeyboardNavigationMode"/>
     /// </summary>
-    public enum XYFocusKeyboardNavigationMode : int
+    public enum XYFocusKeyboardNavigationMode
     {
         Auto = 0,
         Enabled = 1,

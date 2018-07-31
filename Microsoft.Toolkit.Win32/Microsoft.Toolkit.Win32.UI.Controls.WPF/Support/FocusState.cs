@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.FocusState"/>
     /// </summary>
-    public enum FocusState : int
+    public enum FocusState
     {
         Unfocused = 0,
         Pointer = 1,

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.RequiresPointer"/>
     /// </summary>
-    public enum RequiresPointer : int
+    public enum RequiresPointer
     {
         Never = 0,
         WhenEngaged = 1,

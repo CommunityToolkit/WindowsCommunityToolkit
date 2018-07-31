@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Input.KeyTipPlacementMode"/>
     /// </summary>
-    public enum KeyTipPlacementMode : int
+    public enum KeyTipPlacementMode
     {
         Auto = 0,
         Bottom = 1,

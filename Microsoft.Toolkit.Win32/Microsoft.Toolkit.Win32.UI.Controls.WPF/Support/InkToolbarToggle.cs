@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <summary>
     /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToggle"/>
     /// </summary>
-    public enum InkToolbarToggle : int
+    public enum InkToolbarToggle
     {
         Ruler = 0,
         Custom = 1,
