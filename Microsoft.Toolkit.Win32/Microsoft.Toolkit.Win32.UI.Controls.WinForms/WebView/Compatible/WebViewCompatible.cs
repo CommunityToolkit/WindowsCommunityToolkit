@@ -16,17 +16,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
     public class WebViewCompatible : Control, IWebViewCompatible
     {
+        private const string WinRtType = "Windows.Web.UI.Interop.WebViewControl";
+        private bool _isWinRtTypePresent;
+
         public WebViewCompatible()
             : base()
         {
-            if (global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl"))
-            {
-                _implementation = new WebViewCompatibilityAdapter();
-            }
-            else
-            {
-                _implementation = new WebBrowserCompatibilityAdapter();
-            }
+            // REVIEW: Why not use WebView.IsSupported?
+            ApiInformationExtensions.ExecuteIfTypePresent(WinRtType, () => _isWinRtTypePresent = true);
+
+            _implementation = _isWinRtTypePresent
+                ? (IWebViewCompatibleAdapter) new WebViewCompatibilityAdapter()
+                : new WebBrowserCompatibilityAdapter();
 
             _implementation.View.Dock = DockStyle.Fill;
             Controls.Add(_implementation.View);
@@ -44,7 +45,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public bool CanGoForward => _implementation.CanGoForward;
 
-        public bool IsLegacy { get; } = !global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
+        public bool IsLegacy { get; } = !_isWinRtTypePresent;
 
         public Control View { get => _implementation.View; }
 
