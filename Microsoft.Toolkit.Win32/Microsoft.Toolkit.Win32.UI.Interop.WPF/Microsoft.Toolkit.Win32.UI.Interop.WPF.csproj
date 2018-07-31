@@ -64,4 +64,8 @@
     <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
 </Project>
