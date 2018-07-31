@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public BringIntoViewOptions(Windows.UI.Xaml.BringIntoViewOptions instance)
         {
-            this.UwpInstance = instance;
+            UwpInstance = instance;
         }
 
         /// <summary>
