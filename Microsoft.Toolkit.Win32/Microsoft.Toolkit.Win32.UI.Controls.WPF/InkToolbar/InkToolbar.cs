@@ -3,16 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Interop;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -22,7 +18,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     [ContentProperty(nameof(Children))]
     public class InkToolbar : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbar;
+        internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
@@ -137,7 +133,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToolButton"/>
         /// </summary>
         /// <returns>WindowsXamlHostBaseExt</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(InkToolbarTool tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt)UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(InkToolbarTool tool) => UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToggleButton"/>
@@ -229,7 +225,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void OnActiveToolChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.ActiveToolChanged?.Invoke(this, args);
+            ActiveToolChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -239,7 +235,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void OnEraseAllClicked(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.EraseAllClicked?.Invoke(this, args);
+            EraseAllClicked?.Invoke(this, args);
         }
 
         /// <summary>
@@ -249,7 +245,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void OnInkDrawingAttributesChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.InkDrawingAttributesChanged?.Invoke(this, args);
+            InkDrawingAttributesChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -259,7 +255,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void OnIsRulerButtonCheckedChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.IsRulerButtonCheckedChanged?.Invoke(this, args);
+            IsRulerButtonCheckedChanged?.Invoke(this, args);
         }
 
         /// <summary>
@@ -269,7 +265,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         private void OnIsStencilButtonCheckedChanged(Windows.UI.Xaml.Controls.InkToolbar sender, Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
-            this.IsStencilButtonCheckedChanged?.Invoke(this, args);
+            IsStencilButtonCheckedChanged?.Invoke(this, args);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
