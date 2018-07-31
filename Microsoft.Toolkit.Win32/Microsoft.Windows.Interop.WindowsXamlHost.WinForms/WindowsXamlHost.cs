@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     ///     A sample Windows Forms control that hosts XAML content
     /// </summary>
     [DesignerCategory("code")]
-    public partial class WindowsXamlHost : WindowsXamlHostBase
+    public class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
         ///     Fired when XAML content has been updated

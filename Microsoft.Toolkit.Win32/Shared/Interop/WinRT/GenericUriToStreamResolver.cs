@@ -11,9 +11,9 @@ using Windows.Storage.Streams;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// An adapter converting <see cref="IUriToStreamResolver"/> to <see cref="global::Windows.Web.IUriToStreamResolver"/>.
+    /// An adapter converting <see cref="IUriToStreamResolver"/> to <see cref="Windows.Web.IUriToStreamResolver"/>.
     /// </summary>
-    internal sealed class GenericUriToStreamResolver : global::Windows.Web.IUriToStreamResolver, IUriToStreamResolver
+    internal sealed class GenericUriToStreamResolver : Windows.Web.IUriToStreamResolver, IUriToStreamResolver
     {
         private readonly IUriToStreamResolver _streamResolver;
 

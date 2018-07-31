@@ -4,29 +4,29 @@
 
 using System;
 using System.Windows;
-using Microsoft.Toolkit.Win32.UI.Interop;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
     /// </summary>
     public class InkToolbarMenuButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarMenuButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
         /// </summary>
         public InkToolbarMenuButton()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarMenuButton).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarMenuButton).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>.
         /// Intended for internal framework use only.
         /// </summary>
         public InkToolbarMenuButton(string typeName)
@@ -39,6 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // intentionally empty
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
@@ -60,18 +61,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarMenuButton.WidthProperty);
 
             // InkToolbarMenuButton specific properties
-            Bind(nameof(IsExtensionGlyphShown), IsExtensionGlyphShownProperty, global::Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShownProperty);
+            Bind(nameof(IsExtensionGlyphShown), IsExtensionGlyphShownProperty, Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShownProperty);
 
             base.OnInitialized(e);
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShownProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShownProperty"/>
         /// </summary>
         public static DependencyProperty IsExtensionGlyphShownProperty { get; } = DependencyProperty.Register(nameof(IsExtensionGlyphShown), typeof(bool), typeof(InkToolbarMenuButton));
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShown"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShown"/>
         /// </summary>
         public bool IsExtensionGlyphShown
         {
@@ -80,11 +81,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarMenuButton.MenuKind"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.MenuKind"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind MenuKind
-        {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind)(int)UwpControl.MenuKind;
-        }
+        public InkToolbarMenuKind MenuKind => (InkToolbarMenuKind)UwpControl.MenuKind;
     }
 }

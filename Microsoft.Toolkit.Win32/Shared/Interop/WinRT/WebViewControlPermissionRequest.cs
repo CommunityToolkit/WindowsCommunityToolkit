@@ -11,16 +11,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// Represents a request for permissions in an <see cref="IWebView"/>. This class cannot be inherited.
     /// </summary>
     /// <remarks>
-    /// <p>Copy from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequest"/> to avoid requirement to link Windows.winmd.</p>
+    /// <p>Copy from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> to avoid requirement to link Windows.winmd.</p>
     /// <p>For more info, see the <seealso cref="IWebView.PermissionRequested"/> event.</p>
     /// </remarks>
     /// <seealso cref="IWebView.PermissionRequested"/>
     public sealed class WebViewControlPermissionRequest
     {
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.WebViewControlPermissionRequest _permissionRequest;
+        private readonly Windows.Web.UI.WebViewControlPermissionRequest _permissionRequest;
 
-        internal WebViewControlPermissionRequest(global::Windows.Web.UI.WebViewControlPermissionRequest permissionRequest)
+        internal WebViewControlPermissionRequest(Windows.Web.UI.WebViewControlPermissionRequest permissionRequest)
         {
             _permissionRequest = permissionRequest ?? throw new ArgumentNullException(nameof(permissionRequest));
         }
@@ -50,19 +50,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri => _permissionRequest.Uri;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequest"/> to <see cref="WebViewControlPermissionRequest"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/> to <see cref="WebViewControlPermissionRequest"/>.
         /// </summary>
         /// <param name="args">The permission request.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlPermissionRequest(global::Windows.Web.UI.WebViewControlPermissionRequest args) => ToWebViewControlPermissionRequest(args);
+        public static implicit operator WebViewControlPermissionRequest(Windows.Web.UI.WebViewControlPermissionRequest args) => ToWebViewControlPermissionRequest(args);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlPermissionRequest"/> from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequest"/>.
+        /// Creates a <see cref="WebViewControlPermissionRequest"/> from <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlPermissionRequest"/>.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequest"/>.</param>
         /// <returns><see cref="WebViewControlPermissionRequest"/></returns>
         public static WebViewControlPermissionRequest ToWebViewControlPermissionRequest(
-            global::Windows.Web.UI.WebViewControlPermissionRequest args) => new WebViewControlPermissionRequest(args);
+            Windows.Web.UI.WebViewControlPermissionRequest args) => new WebViewControlPermissionRequest(args);
 
         /// <summary>
         /// Grants the requested permission.

@@ -11,25 +11,35 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     internal abstract class WebBaseCompatibilityAdapter : DependencyObject, IWebViewCompatibleAdapter
     {
+        public abstract event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
+
+        public abstract event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
+
+        public abstract event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
+
         public static DependencyProperty SourceProperty { get; } = DependencyProperty.Register(nameof(Source), typeof(Uri), typeof(WebBaseCompatibilityAdapter));
-
-        public abstract FrameworkElement View { get; }
-
-        public abstract Uri Source { get; set; }
 
         public abstract bool CanGoBack { get; }
 
         public abstract bool CanGoForward { get; }
 
-        public abstract event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
+        public abstract Uri Source { get; set; }
 
-        public abstract event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
+        public abstract FrameworkElement View { get; }
 
-        public abstract event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected internal abstract void Dispose(bool disposing);
 
         public abstract bool GoBack();
 
         public abstract bool GoForward();
+
+        public abstract void Initialize();
 
         public abstract string InvokeScript(string scriptName);
 
@@ -41,8 +51,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public abstract void Stop();
 
-        public abstract void Initialize();
-
         protected void Bind(string propertyName, DependencyProperty wpfProperty, DependencyObject source)
         {
             var binder = new Binding()
@@ -53,7 +61,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             };
             BindingOperations.SetBinding(this, wpfProperty, binder);
         }
-
-        public abstract void Dispose();
     }
 }

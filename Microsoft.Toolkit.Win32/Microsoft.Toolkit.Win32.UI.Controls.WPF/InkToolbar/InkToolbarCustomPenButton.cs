@@ -4,28 +4,29 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>
     /// </summary>
     public class InkToolbarCustomPenButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarCustomPenButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarCustomPenButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomPenButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>
         /// </summary>
         public InkToolbarCustomPenButton()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarCustomPenButton).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomPenButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>.
         /// Intended for internal framework use only.
         /// </summary>
         public InkToolbarCustomPenButton(string typeName)
@@ -35,9 +36,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         protected override void SetContent()
         {
-            if (this.VisualParent is InkToolbar parent)
+            if (VisualParent is InkToolbar parent)
             {
-                if (parent.XamlRootInternal is global::Windows.UI.Xaml.Controls.InkToolbar toolbar)
+                if (parent.XamlRootInternal is Windows.UI.Xaml.Controls.InkToolbar toolbar)
                 {
                     toolbar.Children.Add(UwpControl);
                 }
@@ -65,37 +66,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.WidthProperty);
 
             // InkToolbarCustomPenButton specific properties
-            Bind(nameof(CustomPen), CustomPenProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPenProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContentProperty);
+            Bind(nameof(CustomPen), CustomPenProperty, Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPenProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(ConfigurationContent), ConfigurationContentProperty, Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContentProperty);
 
             base.OnInitialized(e);
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContentProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContentProperty"/>
         /// </summary>
-        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(global::Windows.UI.Xaml.UIElement), typeof(InkToolbarCustomPenButton));
+        public static DependencyProperty ConfigurationContentProperty { get; } = DependencyProperty.Register(nameof(ConfigurationContent), typeof(Windows.UI.Xaml.UIElement), typeof(InkToolbarCustomPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPenProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPenProperty"/>
         /// </summary>
-        public static DependencyProperty CustomPenProperty { get; } = DependencyProperty.Register(nameof(CustomPen), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen), typeof(InkToolbarCustomPenButton));
+        public static DependencyProperty CustomPenProperty { get; } = DependencyProperty.Register(nameof(CustomPen), typeof(InkToolbarCustomPen), typeof(InkToolbarCustomPenButton));
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPen"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPen"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen CustomPen
+        public InkToolbarCustomPen CustomPen
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen)GetValue(CustomPenProperty);
+            get => (InkToolbarCustomPen)GetValue(CustomPenProperty);
             set => SetValue(CustomPenProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContent"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.ConfigurationContent"/>
         /// </summary>
-        public global::Windows.UI.Xaml.UIElement ConfigurationContent
+        public Windows.UI.Xaml.UIElement ConfigurationContent
         {
-            get => (global::Windows.UI.Xaml.UIElement)GetValue(ConfigurationContentProperty);
+            get => (Windows.UI.Xaml.UIElement)GetValue(ConfigurationContentProperty);
             set => SetValue(ConfigurationContentProperty, value);
         }
     }

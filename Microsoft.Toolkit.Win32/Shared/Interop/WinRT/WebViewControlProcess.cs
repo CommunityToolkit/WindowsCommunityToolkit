@@ -11,14 +11,14 @@ using Windows.Foundation.Metadata;
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
-    /// A proxy for <see cref="global::Windows.Web.UI.Interop.WebViewControlProcess"/>.
+    /// A proxy for <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
     /// </summary>
     public sealed class WebViewControlProcess
     {
         private const string WinRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
 
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.Interop.WebViewControlProcess _process;
+        private readonly Windows.Web.UI.Interop.WebViewControlProcess _process;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebViewControlProcess"/> class.
@@ -33,11 +33,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         /// <param name="processOptions">The process options.</param>
         public WebViewControlProcess(WebViewControlProcessOptions processOptions)
-            : this(new global::Windows.Web.UI.Interop.WebViewControlProcess(processOptions.ToWinRtWebViewControlProcessOptions()))
+            : this(new Windows.Web.UI.Interop.WebViewControlProcess(processOptions.ToWinRtWebViewControlProcessOptions()))
         {
         }
 
-        private WebViewControlProcess(global::Windows.Web.UI.Interop.WebViewControlProcess process)
+        private WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process)
         {
             _process = process ?? throw new ArgumentNullException(nameof(process));
             SubscribeEvents();
@@ -98,19 +98,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcess"/> to <see cref="WebViewControlProcess"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> to <see cref="WebViewControlProcess"/>.
         /// </summary>
         /// <param name="process">The process.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlProcess(global::Windows.Web.UI.Interop.WebViewControlProcess process) => ToWebViewControlProcess(process);
+        public static implicit operator WebViewControlProcess(Windows.Web.UI.Interop.WebViewControlProcess process) => ToWebViewControlProcess(process);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlProcess"/> from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcess"/>.
+        /// Creates a <see cref="WebViewControlProcess"/> from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
         /// </summary>
-        /// <param name="process">The <see cref="global::Windows.Web.UI.Interop.WebViewControlProcess"/> instance.</param>
+        /// <param name="process">The <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> instance.</param>
         /// <returns><see cref="WebViewControlProcess"/></returns>
         public static WebViewControlProcess ToWebViewControlProcess(
-            global::Windows.Web.UI.Interop.WebViewControlProcess process) => new WebViewControlProcess(process);
+            Windows.Web.UI.Interop.WebViewControlProcess process) => new WebViewControlProcess(process);
 
         /// <summary>
         /// Terminates the underlying WWAHost process.
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return new WebViewControlHost(wvc);
         }
 
-        private IAsyncOperation<global::Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
+        private IAsyncOperation<Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
                     IntPtr hostWindowHandle,
                     Rect bounds)
         {
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         [SecurityCritical]
-        private IAsyncOperation<global::Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
+        private IAsyncOperation<Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
             long hostWindowHandle,
             Rect bounds)
         {
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return _process.CreateWebViewControlAsync(hostWindowHandle, bounds);
         }
 
-        private void OnWebViewControlProcessExited(global::Windows.Web.UI.Interop.WebViewControlProcess sender, object args)
+        private void OnWebViewControlProcessExited(Windows.Web.UI.Interop.WebViewControlProcess sender, object args)
         {
             var handler = ProcessExited;
             if (handler != null)

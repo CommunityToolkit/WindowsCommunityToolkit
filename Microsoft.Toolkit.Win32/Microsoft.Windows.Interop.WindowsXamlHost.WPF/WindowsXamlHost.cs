@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
     /// <summary>
     /// WindowsXamlHost control hosts UWP XAML content inside the Windows Presentation Foundation
     /// </summary>
-    public partial class WindowsXamlHost : WindowsXamlHostBase
+    public class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
         /// Gets xAML Content by type name : MyNamespace.MyClass.MyType

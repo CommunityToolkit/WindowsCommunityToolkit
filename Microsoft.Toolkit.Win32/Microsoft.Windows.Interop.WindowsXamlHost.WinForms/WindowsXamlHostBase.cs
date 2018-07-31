@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// probe at runtime for custom UWP XAML type information.  This must be created before
         /// creating any DesktopWindowXamlSource instances if custom UWP XAML types are required.
         /// </summary>
-        [ThreadStatic]
         private readonly Windows.UI.Xaml.Application _application;
 
         /// <summary>
