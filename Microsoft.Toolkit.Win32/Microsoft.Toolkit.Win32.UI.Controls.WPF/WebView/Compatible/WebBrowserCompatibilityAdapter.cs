@@ -25,11 +25,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             ContentLoading?.Invoke(sender, e);
         }
 
-        public override Uri Source { get => _browser.Source; set => _browser.Source = value; }
+        public override Uri Source
+        {
+            get => _browser?.Source;
+            set
+            {
+                if (_browser != null)
+                {
+                    _browser.Source = value;
+                }
+            }
+        }
 
-        public override bool CanGoBack => _browser.CanGoBack;
+        public override bool CanGoBack => _browser?.CanGoBack ?? false;
 
-        public override bool CanGoForward => _browser.CanGoForward;
+        public override bool CanGoForward => _browser?.CanGoForward ?? false;
 
         public override FrameworkElement View => _browser;
 
@@ -41,38 +51,39 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public override bool GoBack()
         {
-            _browser.GoBack();
+            _browser?.GoBack();
             return true;
         }
 
         public override bool GoForward()
         {
-            _browser.GoForward();
+            _browser?.GoForward();
             return true;
         }
 
         public override string InvokeScript(string scriptName)
         {
-            return _browser.InvokeScript(scriptName)?.ToString();
+            return _browser?.InvokeScript(scriptName)?.ToString();
         }
 
         public override void Navigate(Uri url)
         {
-            _browser.Navigate(url);
+            _browser?.Navigate(url);
         }
 
         public override void Navigate(string url)
         {
-            _browser.Navigate(url);
+            _browser?.Navigate(url);
         }
 
         public override void Refresh()
         {
-            _browser.Refresh();
+            _browser?.Refresh();
         }
 
         public override void Stop()
         {
+            // REVIEW: Not supported? Would need to track navigation state internally and invoke cancel on navigating
         }
 
         public override void Initialize()
