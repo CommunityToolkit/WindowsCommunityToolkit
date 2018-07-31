@@ -16,5 +16,10 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         {
             InitializeComponent();
         }
+
+        private void webViewCompatible1_ContentLoading(object sender, UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs e)
+        {
+
+        }
     }
 }

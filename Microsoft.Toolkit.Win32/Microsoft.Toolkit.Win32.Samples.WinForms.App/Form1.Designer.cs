@@ -30,8 +30,8 @@
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -58,16 +58,6 @@
             this.tabPage1.Text = "WebViewCompatible";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tabPage2
-            // 
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1581, 1054);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
             // webViewCompatible1
             // 
             this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -77,6 +67,17 @@
             this.webViewCompatible1.Source = new System.Uri("http://www.bing.com", System.UriKind.Absolute);
             this.webViewCompatible1.TabIndex = 0;
             this.webViewCompatible1.Text = "webViewCompatible1";
+            this.webViewCompatible1.ContentLoading += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs>(this.webViewCompatible1_ContentLoading);
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 29);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(1581, 1054);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Ink Canvas / Toolbar";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 

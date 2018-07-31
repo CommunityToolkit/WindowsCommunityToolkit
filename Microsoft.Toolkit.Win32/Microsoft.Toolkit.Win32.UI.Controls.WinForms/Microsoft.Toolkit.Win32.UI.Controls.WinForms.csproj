@@ -37,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="WebView\WebView.BaseProperties.cs">
       <SubType>Component</SubType>
       <DependentUpon>WebView.cs</DependentUpon>
