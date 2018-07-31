@@ -10,15 +10,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.PermissionRequested"/> event. This class cannot be inherited.
     /// </summary>
-    /// <remarks>Copy from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
     /// <seealso cref="System.EventArgs" />
-    /// <seealso cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/>
+    /// <seealso cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/>
     public sealed class WebViewControlPermissionRequestedEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs _args;
+        private readonly Windows.Web.UI.WebViewControlPermissionRequestedEventArgs _args;
 
-        internal WebViewControlPermissionRequestedEventArgs(global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args)
+        internal WebViewControlPermissionRequestedEventArgs(Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args)
         {
             _args = args;
         }
@@ -30,19 +30,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public WebViewControlPermissionRequest PermissionRequest => _args.PermissionRequest;
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> to <see cref="WebViewControlPermissionRequestedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> to <see cref="WebViewControlPermissionRequestedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlPermissionRequestedEventArgs(global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => ToWebViewControlPermissionRequestedEventArgs(args);
+        public static implicit operator WebViewControlPermissionRequestedEventArgs(Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) => ToWebViewControlPermissionRequestedEventArgs(args);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlPermissionRequestedEventArgs"/> from <see cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/>.
+        /// Creates a <see cref="WebViewControlPermissionRequestedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlPermissionRequestedEventArgs"/> instance containing the event data.</param>
         /// <returns><see cref="WebViewControlPermissionRequestedEventArgs"/></returns>
         public static WebViewControlPermissionRequestedEventArgs ToWebViewControlPermissionRequestedEventArgs(
-            global::Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) =>
+            Windows.Web.UI.WebViewControlPermissionRequestedEventArgs args) =>
             new WebViewControlPermissionRequestedEventArgs(args);
     }
 }

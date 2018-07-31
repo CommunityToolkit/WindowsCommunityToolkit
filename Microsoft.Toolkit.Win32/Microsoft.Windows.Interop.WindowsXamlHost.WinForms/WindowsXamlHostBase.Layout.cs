@@ -10,13 +10,14 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     /// <summary>
     ///     A sample Windows Forms control that can be used to host XAML content
     /// </summary>
-    partial class WindowsXamlHostBase : System.Windows.Forms.Control
+    public partial class WindowsXamlHostBase
     {
         /// <summary>
         ///     Overrides the base class implementation of GetPreferredSize to provide
         ///     correct layout behavior for the hosted XAML content.
         /// </summary>
-        public override System.Drawing.Size GetPreferredSize(System.Drawing.Size proposedSize)
+        /// <returns>preferred size</returns>
+        public override Size GetPreferredSize(Size proposedSize)
         {
             if (DesignMode)
             {
@@ -30,38 +31,36 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
 
                 // DockStyles will result in a constraint of 1 on the Docked axis. GetPreferredSize
                 // must convert this into an unconstrained value.
-                if (proposedSize.Height == Int32.MaxValue || proposedSize.Height == 1)
+                if (proposedSize.Height == int.MaxValue || proposedSize.Height == 1)
                 {
                     proposedHeight = double.PositiveInfinity;
                 }
 
-                if (proposedSize.Width == Int32.MaxValue || proposedSize.Width == 1)
+                if (proposedSize.Width == int.MaxValue || proposedSize.Width == 1)
                 {
                     proposedWidth = double.PositiveInfinity;
                 }
 
-                this.desktopWindowXamlSource.Content.Measure(new global::Windows.Foundation.Size(proposedWidth, proposedHeight));
+                desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
             }
 
-            System.Drawing.Size preferredSize = System.Drawing.Size.Empty;
+            var preferredSize = Size.Empty;
             if (desktopWindowXamlSource.Content != null)
             {
-                preferredSize = new System.Drawing.Size((int)this.desktopWindowXamlSource.Content.DesiredSize.Width, (int)this.desktopWindowXamlSource.Content.DesiredSize.Height); 
+                preferredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
         }
 
         /// <summary>
-        ///     Gets XAML content's 'DesiredSize' post-Measure. Called by 
+        ///     Gets XAML content's 'DesiredSize' post-Measure. Called by
         ///     XamlContentHost's XAML LayoutUpdated event handler.
         /// </summary>
+        /// <returns>desired size</returns>
         private Size GetRootXamlElementDesiredSize()
         {
-            Size desiredSize = new Size();
-
-            desiredSize.Height = (int)desktopWindowXamlSource.Content.DesiredSize.Height;
-            desiredSize.Width = (int)desktopWindowXamlSource.Content.DesiredSize.Width;
+            var desiredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
 
             return desiredSize;
         }
@@ -69,29 +68,20 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// <summary>
         ///     Gets the default size of the control.
         /// </summary>
-        protected override System.Drawing.Size DefaultSize
+        protected override Size DefaultSize
         {
             get
             {
-                // XamlContentHost's DefaultSize is 0, 0 
-                Size defaultSize = Size.Empty;
+                // XamlContentHost's DefaultSize is 0, 0
+                var defaultSize = Size.Empty;
 
                 return defaultSize;
             }
         }
-         
-        /// <summary>
-        /// Called when the location of the host Control changes
-        /// </summary>
-        /// <param name="e">EventArgs</param>
-        protected override void OnLocationChanged(EventArgs e)
-        {
-            base.OnLocationChanged(e);
-        }
 
         /// <summary>
-        ///     Responds to UWP XAML's 'SizeChanged' event, fired when XAML content 
-        ///     layout has changed.  If 'DesiredSize' has changed, re-run 
+        ///     Responds to UWP XAML's 'SizeChanged' event, fired when XAML content
+        ///     layout has changed.  If 'DesiredSize' has changed, re-run
         ///     Windows Forms layout.
         /// </summary>
         protected void FrameworkElement_SizeChanged(object sender, object e)
@@ -101,16 +91,16 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 return;
             }
 
-            // XAML content has changed. Re-run Windows.Forms.Control Layout if parent form is 
+            // XAML content has changed. Re-run Windows.Forms.Control Layout if parent form is
             // set to AutoSize.
             if (AutoSize)
             {
-                Size prefSize = GetRootXamlElementDesiredSize();
+                var prefSize = GetRootXamlElementDesiredSize();
 
-                if (lastXamlContentPreferredSize.Height != prefSize.Height || lastXamlContentPreferredSize.Width != prefSize.Width)
+                if (_lastXamlContentPreferredSize.Height != prefSize.Height || _lastXamlContentPreferredSize.Width != prefSize.Width)
                 {
-                    lastXamlContentPreferredSize = prefSize;
-                    this.PerformLayout();
+                    _lastXamlContentPreferredSize = prefSize;
+                    PerformLayout();
                 }
             }
         }
@@ -131,12 +121,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 if (desktopWindowXamlSource.Content != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
-                    // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and 
-                    // 'VerticalStretch' properties to the bounds of the XamlContentHost Control. 
-                    global::Windows.Foundation.Rect rect = new global::Windows.Foundation.Rect(0, 0, this.Width, this.Height);
-                    this.desktopWindowXamlSource.Content.Measure(new global::Windows.Foundation.Size(this.Width, this.Height));
-                    this.desktopWindowXamlSource.Content.Arrange(rect);
-                    this.PerformLayout();
+                    // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
+                    // 'VerticalStretch' properties to the bounds of the XamlContentHost Control.
+                    var rect = new Windows.Foundation.Rect(0, 0, Width, Height);
+                    desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
+                    desktopWindowXamlSource.Content.Arrange(rect);
+                    PerformLayout();
                 }
             }
         }

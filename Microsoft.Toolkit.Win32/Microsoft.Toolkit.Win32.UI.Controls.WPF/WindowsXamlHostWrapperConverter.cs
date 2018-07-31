@@ -6,7 +6,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 using Microsoft.Toolkit.Win32.UI.Interop;
-using uwpXaml = global::Windows.UI.Xaml;
+using uwpXaml = Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

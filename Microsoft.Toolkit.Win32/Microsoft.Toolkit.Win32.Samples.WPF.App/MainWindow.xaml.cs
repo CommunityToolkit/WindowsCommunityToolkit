@@ -5,6 +5,7 @@
 using Microsoft.Toolkit.Win32.UI.Controls.WPF;
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.Samples.WPF.App
 {

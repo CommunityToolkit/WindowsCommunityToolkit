@@ -11,9 +11,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// This class contains options that can be set when creating a <see cref="IWebView"/> instance.
     /// </summary>
     /// <remarks>
-    /// Copy from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
+    /// Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
     /// </remarks>
-    /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
     public sealed class WebViewControlProcessOptions
     {
         /// <summary>
@@ -52,13 +52,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to <see cref="WebViewControlProcessOptions"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to <see cref="WebViewControlProcessOptions"/>.
         /// </summary>
         /// <param name="options">The options.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlProcessOptions(global::Windows.Web.UI.Interop.WebViewControlProcessOptions options) => ToWinRtWebViewControlProcessOptions(options);
+        public static implicit operator WebViewControlProcessOptions(Windows.Web.UI.Interop.WebViewControlProcessOptions options) => ToWinRtWebViewControlProcessOptions(options);
 
-        public static global::Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
+        public static Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
         {
             const string winRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
 
@@ -97,10 +97,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Converts this instance to a <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
+        /// Converts this instance to a <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
         /// </summary>
-        /// <returns>A <seealso cref="global::Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
-        internal global::Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
+        /// <returns>A <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
+        internal Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
              return ToWinRtWebViewControlProcessOptions(this);
         }

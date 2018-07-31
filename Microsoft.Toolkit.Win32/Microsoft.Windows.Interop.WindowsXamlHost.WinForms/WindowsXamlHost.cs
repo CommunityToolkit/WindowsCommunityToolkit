@@ -2,34 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
+
 namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
 {
-    using System;
-    using System.ComponentModel;
-    using System.Security;
-    using System.Security.Permissions;
-    using System.Windows.Forms;
-
     /// <summary>
     ///     A sample Windows Forms control that hosts XAML content
     /// </summary>
-    [System.ComponentModel.DesignerCategory("code")]
-    partial class WindowsXamlHost : WindowsXamlHostBase
+    [DesignerCategory("code")]
+    public class WindowsXamlHost : WindowsXamlHostBase
     {
-
-        #region Constructors
-        /// <summary>
-        ///     Initializes a new instance of the XamlContentHost class.
-        /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        public WindowsXamlHost()
-            : base()
-        {
-        }
-
-        #endregion
-
-        #region Events
         /// <summary>
         ///     Fired when XAML content has been updated
         /// </summary>
@@ -38,12 +22,9 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         [Description("Fired when UWP XAML content has been updated")]
         public event EventHandler XamlRootUpdated;
-        #endregion
-
-        #region Properties
 
         /// <summary>
-        /// AutoSize determines whether the Control dynamically sizes to its content
+        /// Gets or sets a value indicating whether the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
         [Browsable(true)]
@@ -52,19 +33,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public override bool AutoSize
         {
-            get
-            {
-                return base.AutoSize; 
-            }
+            get => base.AutoSize;
 
-            set
-            {
-                base.AutoSize = value;
-            }
+            set => base.AutoSize = value;
         }
 
         /// <summary>
-        /// AutoSizeMode determines whether the Control dynamically sizes to its content
+        /// Gets or sets autoSizeMode, a value indicating if the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
         [Browsable(true)]
@@ -72,19 +47,13 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public AutoSizeMode AutoSizeMode
         {
-            get
-            {
-                return GetAutoSizeMode();
-            }
+            get => GetAutoSizeMode();
 
-            set
-            {
-                SetAutoSizeMode(value);
-            }
+            set => SetAutoSizeMode(value);
         }
 
         /// <summary>
-        /// XAML Content by type name : MyNamespace.MyClass.MyType
+        /// Gets or sets xAML Content by type name : MyNamespace.MyClass.MyType
         /// ex: XamlClassLibrary.MyUserControl
         /// (Content creation is deferred until after the parent hwnd has been created.)
         /// </summary>
@@ -92,7 +61,8 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         [Category("XAML")]
         public string InitialTypeName
         {
-            get; set;
+            get;
+            set;
         }
 
         /// <summary>
@@ -100,45 +70,40 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public global::Windows.UI.Xaml.UIElement XamlRoot
+        public Windows.UI.Xaml.UIElement XamlRoot
         {
-            get
-            {
-                return this.desktopWindowXamlSource.Content;
-            }
+            get => desktopWindowXamlSource.Content;
 
             set
             {
                 if (!DesignMode)
                 {
-                    global::Windows.UI.Xaml.FrameworkElement newFrameworkElement = value as global::Windows.UI.Xaml.FrameworkElement;
-                    global::Windows.UI.Xaml.FrameworkElement oldFrameworkElement = this.desktopWindowXamlSource.Content as global::Windows.UI.Xaml.FrameworkElement;
+                    var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = desktopWindowXamlSource.Content as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
-                        oldFrameworkElement.SizeChanged -= this.FrameworkElement_SizeChanged;
+                        oldFrameworkElement.SizeChanged -= FrameworkElement_SizeChanged;
                     }
 
                     if (newFrameworkElement != null)
                     {
                         // If XAML content has changed, check XAML size and WindowsXamlHost.AutoSize
                         // setting to determine if WindowsXamlHost needs to re-run layout.
-                        newFrameworkElement.SizeChanged += this.FrameworkElement_SizeChanged;
+                        newFrameworkElement.SizeChanged += FrameworkElement_SizeChanged;
                     }
 
-                    this.desktopWindowXamlSource.Content = value;
+                    desktopWindowXamlSource.Content = value;
 
-                    this.PerformLayout();
+                    PerformLayout();
 
                     if (XamlRootUpdated != null)
                     {
-                        this.XamlRootUpdated(this, null);
+                        XamlRootUpdated(this, null);
                     }
                 }
             }
         }
-
-        #endregion
 
         /// <summary>
         /// Raises the HandleCreated event.  Assign window render target to UWP XAML content.
@@ -147,21 +112,12 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         protected override void OnHandleCreated(EventArgs e)
         {
             // Create content if TypeName has been set and xamlRoot has not been set
-            if (!DesignMode && !string.IsNullOrEmpty(this.InitialTypeName) && this.XamlRoot == null)
+            if (!DesignMode && !string.IsNullOrEmpty(InitialTypeName) && XamlRoot == null)
             {
-                this.XamlRoot = UWPTypeFactory.CreateXamlContentByType(this.InitialTypeName);
+                XamlRoot = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
             }
 
             base.OnHandleCreated(e);
-        }
-
-        /// <summary>
-        /// Cleanup hosted XAML content
-        /// </summary>
-        /// <param name="disposing">IsDisposing?</param>
-        protected override void Dispose(bool disposing) 
-        {
-            base.Dispose(disposing);
         }
     }
 }

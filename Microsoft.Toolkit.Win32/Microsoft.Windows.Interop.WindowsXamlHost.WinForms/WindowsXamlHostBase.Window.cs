@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Win32.UI.Interop.WinForms.Interop.Win32;
 using MS.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
@@ -10,16 +11,16 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     /// <summary>
     ///     A sample Windows Forms control that can be used to host XAML content
     /// </summary>
-    partial class WindowsXamlHostBase : System.Windows.Forms.Control
+    public partial class WindowsXamlHostBase
     {
         /// <summary>
         ///    Sets XAML window size using dimensions of the host control
         /// </summary>
         private void SetDesktopWindowXamlSourceWindowPos()
         {
-            if (xamlIslandWindowHandle != IntPtr.Zero && this.Width != 0 && this.Height != 0)
-            {  
-                if (SafeNativeMethods.SetWindowPos(xamlIslandWindowHandle, NativeDefines.HWND_TOP, 0, 0, this.Width, this.Height, NativeDefines.SetWindowPosFlags.SHOWWINDOW) == IntPtr.Zero)
+            if (_xamlIslandWindowHandle != IntPtr.Zero && Width != 0 && Height != 0)
+            {
+                if (SafeNativeMethods.SetWindowPos(_xamlIslandWindowHandle, NativeDefines.HWND_TOP, 0, 0, Width, Height, SetWindowPosFlags.SHOWWINDOW) == IntPtr.Zero)
                 {
                     throw new InvalidOperationException("WindowXamlHostBase::SetDesktopWindowXamlSourceWindowPos failed to set UWP XAML window position.");
                 }

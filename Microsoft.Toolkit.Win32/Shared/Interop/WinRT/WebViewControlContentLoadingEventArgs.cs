@@ -11,12 +11,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.ContentLoading"/> and <see cref="IWebView.FrameContentLoading"/> events. This class cannot be inherited.
     /// </summary>
-    /// <remarks>Copy from <see cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
-    /// <seealso cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>
     public sealed class WebViewControlContentLoadingEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.WebViewControlContentLoadingEventArgs _args;
+        private readonly Windows.Web.UI.WebViewControlContentLoadingEventArgs _args;
 
         [SecurityCritical]
         private readonly WebBrowserNavigatingEventArgs _formArgs;
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
 
         [SecurityCritical]
-        internal WebViewControlContentLoadingEventArgs(global::Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
+        internal WebViewControlContentLoadingEventArgs(Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
             _args = args;
         }
@@ -55,23 +55,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         [SecurityCritical]
         public static implicit operator WebViewControlContentLoadingEventArgs(
-            global::Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
+            Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
             return FromWebViewControlContentLoadingEventArgs(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlContentLoadingEventArgs"/> from <see cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>.
+        /// Creates a <see cref="WebViewControlContentLoadingEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlContentLoadingEventArgs"/> instance containing the event data.</param>
         /// <returns><see cref="WebViewControlContentLoadingEventArgs"/></returns>
-        public static WebViewControlContentLoadingEventArgs FromWebViewControlContentLoadingEventArgs(global::Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
+        public static WebViewControlContentLoadingEventArgs FromWebViewControlContentLoadingEventArgs(Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
             return new WebViewControlContentLoadingEventArgs(args);
         }

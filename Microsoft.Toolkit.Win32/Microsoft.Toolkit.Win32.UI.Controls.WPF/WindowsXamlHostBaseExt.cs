@@ -11,25 +11,21 @@ using Microsoft.Toolkit.Win32.UI.Interop.WPF;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
+    /// <inheritdoc />
     public class WindowsXamlHostBaseExt : WindowsXamlHostBase
     {
         public WindowsXamlHostBaseExt(string typeName)
         {
-            this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
-            this.XamlRootInternal.SetWrapper(this);
+            XamlRootInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            XamlRootInternal.SetWrapper(this);
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             base.OnInitialized(e);
 
-            SetHost();
-        }
-
-        protected virtual void SetHost()
-        {
-            // Set DesktopWindowXamlSource
-            this.desktopWindowXamlSource.Content = this.XamlRootInternal;
+            SetContent();
         }
 
         /// <summary>
@@ -41,17 +37,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <param name="uwpProperty">the related DependencyProperty of the UWP control</param>
         /// <param name="converter">a converter, if one's needed</param>
         /// <param name="direction">indicates that the binding should be one or two directional.  If one way, the Uwp control is only updated from the wrapper.</param>
-        public void Bind(string propertyName, DependencyProperty wpfProperty, global::Windows.UI.Xaml.DependencyProperty uwpProperty, object converter = null, BindingDirection direction = BindingDirection.TwoWay)
+        public void Bind(string propertyName, DependencyProperty wpfProperty, Windows.UI.Xaml.DependencyProperty uwpProperty, object converter = null, BindingDirection direction = BindingDirection.TwoWay)
         {
             if (direction == BindingDirection.TwoWay)
             {
-                var binder = new global::Windows.UI.Xaml.Data.Binding()
+                var binder = new Windows.UI.Xaml.Data.Binding()
                 {
                     Source = this,
-                    Path = new global::Windows.UI.Xaml.PropertyPath(propertyName),
-                    Converter = (global::Windows.UI.Xaml.Data.IValueConverter)converter
+                    Path = new Windows.UI.Xaml.PropertyPath(propertyName),
+                    Converter = (Windows.UI.Xaml.Data.IValueConverter)converter
                 };
-                global::Windows.UI.Xaml.Data.BindingOperations.SetBinding(XamlRootInternal, uwpProperty, binder);
+                Windows.UI.Xaml.Data.BindingOperations.SetBinding(XamlRootInternal, uwpProperty, binder);
             }
 
             var rebinder = new Binding()
