@@ -85,4 +85,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Support\" />
+  </ItemGroup>
 </Project>

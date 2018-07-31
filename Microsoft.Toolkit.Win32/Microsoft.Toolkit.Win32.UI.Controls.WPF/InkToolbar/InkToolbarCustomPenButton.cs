@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -79,14 +80,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPenProperty"/>
         /// </summary>
-        public static DependencyProperty CustomPenProperty { get; } = DependencyProperty.Register(nameof(CustomPen), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen), typeof(InkToolbarCustomPenButton));
+        public static DependencyProperty CustomPenProperty { get; } = DependencyProperty.Register(nameof(CustomPen), typeof(InkToolbarCustomPen), typeof(InkToolbarCustomPenButton));
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPen"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen CustomPen
+        public InkToolbarCustomPen CustomPen
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarCustomPen)GetValue(CustomPenProperty);
+            get => (InkToolbarCustomPen)GetValue(CustomPenProperty);
             set => SetValue(CustomPenProperty, value);
         }
 

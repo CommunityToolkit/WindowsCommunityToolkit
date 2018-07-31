@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -87,12 +88,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayerProperty"/>
         /// </summary>
-        public static DependencyProperty MediaPlayerProperty { get; } = DependencyProperty.Register(nameof(MediaPlayer), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer), typeof(MediaPlayerElement));
+        public static DependencyProperty MediaPlayerProperty { get; } = DependencyProperty.Register(nameof(MediaPlayer), typeof(MediaPlayer), typeof(MediaPlayerElement));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.PosterSourceProperty"/>
         /// </summary>
-        public static DependencyProperty PosterSourceProperty { get; } = DependencyProperty.Register(nameof(PosterSource), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource), typeof(MediaPlayerElement));
+        public static DependencyProperty PosterSourceProperty { get; } = DependencyProperty.Register(nameof(PosterSource), typeof(ImageSource), typeof(MediaPlayerElement));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.SourceProperty"/>
@@ -102,17 +103,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.StretchProperty"/>
         /// </summary>
-        public static DependencyProperty StretchProperty { get; } = DependencyProperty.Register(nameof(Stretch), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch), typeof(MediaPlayerElement));
+        public static DependencyProperty StretchProperty { get; } = DependencyProperty.Register(nameof(Stretch), typeof(Stretch), typeof(MediaPlayerElement));
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.SetMediaPlayer"/>
         /// </summary>
-        public void SetMediaPlayer(Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer mediaPlayer) => UwpControl.SetMediaPlayer(mediaPlayer.UwpInstance);
+        public void SetMediaPlayer(MediaPlayer mediaPlayer) => UwpControl.SetMediaPlayer(mediaPlayer.UwpInstance);
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.TransportControls"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaTransportControls TransportControls
+        public MediaTransportControls TransportControls
         {
             get => UwpControl.TransportControls;
             set => UwpControl.TransportControls = value.UwpInstance;
@@ -121,9 +122,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.Stretch"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch Stretch
+        public Stretch Stretch
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.Stretch)GetValue(StretchProperty);
+            get => (Stretch)GetValue(StretchProperty);
             set => SetValue(StretchProperty, value);
         }
 
@@ -139,9 +140,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.PosterSource"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource PosterSource
+        public ImageSource PosterSource
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.ImageSource)GetValue(PosterSourceProperty);
+            get => (ImageSource)GetValue(PosterSourceProperty);
             set => SetValue(PosterSourceProperty, value);
         }
 
@@ -175,9 +176,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayer"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer MediaPlayer
+        public MediaPlayer MediaPlayer
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer)GetValue(MediaPlayerProperty);
+            get => (MediaPlayer)GetValue(MediaPlayerProperty);
         }
     }
 }

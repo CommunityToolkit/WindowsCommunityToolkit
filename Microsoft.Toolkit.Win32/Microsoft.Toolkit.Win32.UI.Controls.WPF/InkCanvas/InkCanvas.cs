@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -59,7 +60,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenter InkPresenter
+        public InkPresenter InkPresenter
         {
             get => UwpControl.InkPresenter;
         }

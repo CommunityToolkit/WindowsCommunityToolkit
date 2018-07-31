@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Media;
@@ -100,12 +101,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty"/>
         /// </summary>
-        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls), typeof(InkToolbar));
+        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(InkToolbarInitialControls), typeof(InkToolbar));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesProperty"/>
         /// </summary>
-        public static DependencyProperty InkDrawingAttributesProperty { get; } = DependencyProperty.Register(nameof(InkDrawingAttributes), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes), typeof(InkToolbar));
+        public static DependencyProperty InkDrawingAttributesProperty { get; } = DependencyProperty.Register(nameof(InkDrawingAttributes), typeof(InkDrawingAttributes), typeof(InkToolbar));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedProperty"/>
@@ -120,7 +121,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty"/>
         /// </summary>
-        public static DependencyProperty ButtonFlyoutPlacementProperty { get; } = DependencyProperty.Register(nameof(ButtonFlyoutPlacement), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement), typeof(InkToolbar));
+        public static DependencyProperty ButtonFlyoutPlacementProperty { get; } = DependencyProperty.Register(nameof(ButtonFlyoutPlacement), typeof(InkToolbarButtonFlyoutPlacement), typeof(InkToolbar));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty"/>
@@ -130,25 +131,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.OrientationProperty"/>
         /// </summary>
-        public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(nameof(Orientation), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation), typeof(InkToolbar));
+        public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(InkToolbar));
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToolButton"/>
         /// </summary>
         /// <returns>WindowsXamlHostBaseExt</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt)UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(InkToolbarTool tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt)UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToggleButton"/>
         /// </summary>
         /// <returns>InkToolbarToggleButton</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton GetToggleButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggle tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton)UwpControl.GetToggleButton((Windows.UI.Xaml.Controls.InkToolbarToggle)(int)tool).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton GetToggleButton(InkToolbarToggle tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton)UwpControl.GetToggleButton((Windows.UI.Xaml.Controls.InkToolbarToggle)(int)tool).GetWrapper();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetMenuButton"/>
         /// </summary>
         /// <returns>InkToolbarMenuButton</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton GetMenuButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind menu) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton)UwpControl.GetMenuButton((Windows.UI.Xaml.Controls.InkToolbarMenuKind)(int)menu).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton GetMenuButton(InkToolbarMenuKind menu) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton)UwpControl.GetMenuButton((Windows.UI.Xaml.Controls.InkToolbarMenuKind)(int)menu).GetWrapper();
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvas"/>
@@ -171,9 +172,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControls"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls InitialControls
+        public InkToolbarInitialControls InitialControls
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls)GetValue(InitialControlsProperty);
+            get => (InkToolbarInitialControls)GetValue(InitialControlsProperty);
             set => SetValue(InitialControlsProperty, value);
         }
 
@@ -189,17 +190,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributes"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes InkDrawingAttributes
+        public InkDrawingAttributes InkDrawingAttributes
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes)GetValue(InkDrawingAttributesProperty);
+            get => (InkDrawingAttributes)GetValue(InkDrawingAttributesProperty);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.Orientation"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation Orientation
+        public Orientation Orientation
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation)GetValue(OrientationProperty);
+            get => (Orientation)GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
         }
 
@@ -215,9 +216,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacement"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
+        public InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty);
+            get => (InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty);
             set => SetValue(ButtonFlyoutPlacementProperty, value);
         }
 

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
@@ -93,24 +94,24 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.ProtractorProperty"/>
         /// </summary>
-        public static DependencyProperty ProtractorProperty { get; } = DependencyProperty.Register(nameof(Protractor), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterProtractor), typeof(InkToolbarStencilButton));
+        public static DependencyProperty ProtractorProperty { get; } = DependencyProperty.Register(nameof(Protractor), typeof(InkPresenterProtractor), typeof(InkToolbarStencilButton));
 
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.RulerProperty"/>
         /// </summary>
-        public static DependencyProperty RulerProperty { get; } = DependencyProperty.Register(nameof(Ruler), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterRuler), typeof(InkToolbarStencilButton));
+        public static DependencyProperty RulerProperty { get; } = DependencyProperty.Register(nameof(Ruler), typeof(InkPresenterRuler), typeof(InkToolbarStencilButton));
 
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.SelectedStencilProperty"/>
         /// </summary>
-        public static DependencyProperty SelectedStencilProperty { get; } = DependencyProperty.Register(nameof(SelectedStencil), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilKind), typeof(InkToolbarStencilButton));
+        public static DependencyProperty SelectedStencilProperty { get; } = DependencyProperty.Register(nameof(SelectedStencil), typeof(InkToolbarStencilKind), typeof(InkToolbarStencilButton));
 
         /// <summary>
         /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.SelectedStencil"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilKind SelectedStencil
+        public InkToolbarStencilKind SelectedStencil
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarStencilKind)GetValue(SelectedStencilProperty);
+            get => (InkToolbarStencilKind)GetValue(SelectedStencilProperty);
             set => SetValue(SelectedStencilProperty, value);
         }
 
@@ -135,17 +136,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.Protractor"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterProtractor Protractor
+        public InkPresenterProtractor Protractor
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterProtractor)GetValue(ProtractorProperty);
+            get => (InkPresenterProtractor)GetValue(ProtractorProperty);
         }
 
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.Ruler"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterRuler Ruler
+        public InkPresenterRuler Ruler
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterRuler)GetValue(RulerProperty);
+            get => (InkPresenterRuler)GetValue(RulerProperty);
         }
     }
 }

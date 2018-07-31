@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -83,7 +84,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.PaletteProperty"/>
         /// </summary>
-        public static DependencyProperty PaletteProperty { get; } = DependencyProperty.Register(nameof(Palette), typeof(System.Collections.Generic.IList<Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush>), typeof(InkToolbarPenButton));
+        public static DependencyProperty PaletteProperty { get; } = DependencyProperty.Register(nameof(Palette), typeof(System.Collections.Generic.IList<Brush>), typeof(InkToolbarPenButton));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndexProperty"/>
@@ -93,7 +94,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushProperty"/>
         /// </summary>
-        public static DependencyProperty SelectedBrushProperty { get; } = DependencyProperty.Register(nameof(SelectedBrush), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush), typeof(InkToolbarPenButton));
+        public static DependencyProperty SelectedBrushProperty { get; } = DependencyProperty.Register(nameof(SelectedBrush), typeof(Brush), typeof(InkToolbarPenButton));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidthProperty"/>
@@ -121,9 +122,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.Palette"/>
         /// </summary>
-        public System.Collections.Generic.IList<Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush> Palette
+        public System.Collections.Generic.IList<Brush> Palette
         {
-            get => (System.Collections.Generic.IList<Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush>)GetValue(PaletteProperty);
+            get => (System.Collections.Generic.IList<Brush>)GetValue(PaletteProperty);
             set => SetValue(PaletteProperty, value);
         }
 
@@ -148,9 +149,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrush"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush SelectedBrush
+        public Brush SelectedBrush
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush)GetValue(SelectedBrushProperty);
+            get => (Brush)GetValue(SelectedBrushProperty);
         }
     }
 }

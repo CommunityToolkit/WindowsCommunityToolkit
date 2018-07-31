@@ -10,6 +10,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
@@ -93,9 +94,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool ToolKind
+        public InkToolbarTool ToolKind
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool)(int)UwpControl.ToolKind;
+            get => (InkToolbarTool)(int)UwpControl.ToolKind;
         }
     }
 }

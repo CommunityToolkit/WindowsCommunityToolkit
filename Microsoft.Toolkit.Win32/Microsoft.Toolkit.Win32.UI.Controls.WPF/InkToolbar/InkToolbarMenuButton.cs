@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -82,9 +83,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.MenuKind"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind MenuKind
+        public InkToolbarMenuKind MenuKind
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind)(int)UwpControl.MenuKind;
+            get => (InkToolbarMenuKind)(int)UwpControl.MenuKind;
         }
     }
 }
