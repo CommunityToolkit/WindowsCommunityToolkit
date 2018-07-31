@@ -25,17 +25,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (_aadLoginControl != null)
-            {
-                _aadLoginControl.SignInFailed -= AadLoginControl_SignInFailed;
-            }
-
             _aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
-
-            if (_aadLoginControl != null)
-            {
-                _aadLoginControl.SignInFailed += AadLoginControl_SignInFailed;
-            }
         }
 
         private void Load()
@@ -71,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             });
-        }
-
-        private void AadLoginControl_SignInFailed(object sender, SignInFailedEventArgs e)
-        {
-            SampleController.Current.ShowExceptionNotification(e.Exception);
         }
     }
 }
