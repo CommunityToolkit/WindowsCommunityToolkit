@@ -37,24 +37,20 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <CommandBar Background="White" Margin="12" IsOpen="True" IsSticky="True" HorizontalAlignment="Stretch"
-      VerticalContentAlignment="Center" DefaultLabelPosition="Right">
-      <CommandBar.Content>
-        <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
-      </CommandBar.Content>
-      <AppBarButton Icon="Filter" Label="Filter by">
-        <AppBarButton.Flyout>
-          <MenuFlyout>
-            <MenuFlyoutItem x:Name="rankLow" Text="Rank &lt; 50" />
-            <MenuFlyoutItem x:Name="rankHigh" Text="Rank &gt; 50" />
-            <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="heightLow" Text="Height &lt; 8000ft" />
-            <MenuFlyoutItem x:Name="heightHigh" Text="Height &gt; 8000ft" />
-          </MenuFlyout>
-        </AppBarButton.Flyout>
-      </AppBarButton>
-      <AppBarButton x:Name="groupButton" Icon="List" Label="Group by" />
-    </CommandBar>
+    <StackPanel Orientation="Horizontal" Margin="12">
+        <AppBarButton Icon="Filter" Label="Filter by">
+          <AppBarButton.Flyout>
+            <MenuFlyout>
+              <MenuFlyoutItem x:Name="rankLow" Text="Rank &lt; 50" />
+              <MenuFlyoutItem x:Name="rankHigh" Text="Rank &gt; 50" />
+              <MenuFlyoutSeparator/>
+              <MenuFlyoutItem x:Name="heightLow" Text="Height &lt; 8000ft" />
+              <MenuFlyoutItem x:Name="heightHigh" Text="Height &gt; 8000ft" />
+            </MenuFlyout>
+          </AppBarButton.Flyout>
+        </AppBarButton>
+        <AppBarButton x:Name="groupButton" Icon="List" Label="Group by" />
+    </StackPanel>
     <controls:DataGrid
       Grid.Row="1"
         x:Name="dataGrid"
