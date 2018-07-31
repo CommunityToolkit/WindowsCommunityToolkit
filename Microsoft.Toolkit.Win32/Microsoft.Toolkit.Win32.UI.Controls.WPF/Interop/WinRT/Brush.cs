@@ -17,7 +17,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public Brush(Windows.UI.Xaml.Media.Brush instance)
         {
-            this.UwpInstance = instance;
+            // REVIEW: Guard for NULL
+            UwpInstance = instance;
         }
 
         /// <summary>
@@ -35,6 +36,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Transform RelativeTransform
         {
             get => UwpInstance.RelativeTransform;
+
+            // REVIEW: value could be null
             set => UwpInstance.RelativeTransform = value.UwpInstance;
         }
 
