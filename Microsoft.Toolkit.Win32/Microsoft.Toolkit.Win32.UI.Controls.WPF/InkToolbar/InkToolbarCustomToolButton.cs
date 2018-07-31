@@ -13,9 +13,9 @@ using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Interop;
 using Windows.Foundation;
 using Windows.UI.Xaml.Media;
-using uwpControls = global::Windows.UI.Xaml.Controls;
+using uwpControls = Windows.UI.Xaml.Controls;
 using uwpInking = Windows.UI.Input.Inking;
-using uwpXaml = global::Windows.UI.Xaml;
+using uwpXaml = Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {

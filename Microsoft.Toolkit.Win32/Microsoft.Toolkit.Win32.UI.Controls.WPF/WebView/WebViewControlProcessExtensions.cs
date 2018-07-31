@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(process);
             Verify.IsFalse(hostWindowHandle == IntPtr.Zero);
 
-            var rect = new global::Windows.Foundation.Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+            var rect = new Windows.Foundation.Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
             return process
                     .CreateWebViewControlHostAsync(hostWindowHandle, rect)
                     .GetAwaiter()
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Verify.IsNotNull(process);
             Verify.IsFalse(hostWindowHandle == IntPtr.Zero);
 
-            var rect = new global::Windows.Foundation.Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
+            var rect = new Windows.Foundation.Rect(bounds.X, bounds.Y, bounds.Width, bounds.Height);
             return process.CreateWebViewControlHostAsync(hostWindowHandle, rect);
         }
     }

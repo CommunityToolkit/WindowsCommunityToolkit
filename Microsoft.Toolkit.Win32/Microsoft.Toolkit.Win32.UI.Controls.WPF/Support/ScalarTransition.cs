@@ -5,23 +5,23 @@
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.ScalarTransition"/>
+    /// <see cref="Windows.UI.Xaml.ScalarTransition"/>
     /// </summary>
     public class ScalarTransition
     {
-        internal global::Windows.UI.Xaml.ScalarTransition UwpInstance { get; }
+        internal Windows.UI.Xaml.ScalarTransition UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ScalarTransition"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.ScalarTransition"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.ScalarTransition"/>
         /// </summary>
-        public ScalarTransition(global::Windows.UI.Xaml.ScalarTransition instance)
+        public ScalarTransition(Windows.UI.Xaml.ScalarTransition instance)
         {
             this.UwpInstance = instance;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.ScalarTransition.Duration"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.ScalarTransition.Duration"/>
         /// </summary>
         public System.TimeSpan Duration
         {
@@ -30,22 +30,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.UI.Xaml.ScalarTransition"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.ScalarTransition"/>.
+        /// Performs an implicit conversion from <see cref="Windows.UI.Xaml.ScalarTransition"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.ScalarTransition"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Xaml.ScalarTransition"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Xaml.ScalarTransition"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator ScalarTransition(
-            global::Windows.UI.Xaml.ScalarTransition args)
+            Windows.UI.Xaml.ScalarTransition args)
         {
             return FromScalarTransition(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="ScalarTransition"/> from <see cref="global::Windows.UI.Xaml.ScalarTransition"/>.
+        /// Creates a <see cref="ScalarTransition"/> from <see cref="Windows.UI.Xaml.ScalarTransition"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Xaml.ScalarTransition"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Xaml.ScalarTransition"/> instance containing the event data.</param>
         /// <returns><see cref="ScalarTransition"/></returns>
-        public static ScalarTransition FromScalarTransition(global::Windows.UI.Xaml.ScalarTransition args)
+        public static ScalarTransition FromScalarTransition(Windows.UI.Xaml.ScalarTransition args)
         {
             return new ScalarTransition(args);
         }

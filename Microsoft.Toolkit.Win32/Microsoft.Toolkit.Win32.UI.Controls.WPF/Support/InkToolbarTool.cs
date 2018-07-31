@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbarTool"/>
+    /// <see cref="Windows.UI.Xaml.Controls.InkToolbarTool"/>
     /// </summary>
     public enum InkToolbarTool
     {

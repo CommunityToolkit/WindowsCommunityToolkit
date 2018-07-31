@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Core.CoreInputDeviceTypes"/>
+    /// <see cref="Windows.UI.Core.CoreInputDeviceTypes"/>
     /// </summary>
     [Flags]
     public enum CoreInputDeviceTypes : uint

@@ -5,23 +5,23 @@
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.Media.Playback.MediaPlayer"/>
+    /// <see cref="Windows.Media.Playback.MediaPlayer"/>
     /// </summary>
     public class MediaPlayer
     {
-        internal global::Windows.Media.Playback.MediaPlayer UwpInstance { get; }
+        internal Windows.Media.Playback.MediaPlayer UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayer"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.Media.Playback.MediaPlayer"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.Media.Playback.MediaPlayer"/>
         /// </summary>
-        public MediaPlayer(global::Windows.Media.Playback.MediaPlayer instance)
+        public MediaPlayer(Windows.Media.Playback.MediaPlayer instance)
         {
             this.UwpInstance = instance;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.Volume"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.Volume"/>
         /// </summary>
         public double Volume
         {
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         */
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.IsLoopingEnabled"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.IsLoopingEnabled"/>
         /// </summary>
         public bool IsLoopingEnabled
         {
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.IsMuted"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.IsMuted"/>
         /// </summary>
         public bool IsMuted
         {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.AutoPlay"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.AutoPlay"/>
         /// </summary>
         public bool AutoPlay
         {
@@ -135,33 +135,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         */
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.AudioDeviceType"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.AudioDeviceType"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaPlayerAudioDeviceType AudioDeviceType
+        public Windows.Media.Playback.MediaPlayerAudioDeviceType AudioDeviceType
         {
             get => UwpInstance.AudioDeviceType;
             set => UwpInstance.AudioDeviceType = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.AudioCategory"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.AudioCategory"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaPlayerAudioCategory AudioCategory
+        public Windows.Media.Playback.MediaPlayerAudioCategory AudioCategory
         {
             get => UwpInstance.AudioCategory;
             set => UwpInstance.AudioCategory = value;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.SystemMediaTransportControls"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.SystemMediaTransportControls"/>
         /// </summary>
-        public global::Windows.Media.SystemMediaTransportControls SystemMediaTransportControls
+        public Windows.Media.SystemMediaTransportControls SystemMediaTransportControls
         {
             get => UwpInstance.SystemMediaTransportControls;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.TimelineControllerPositionOffset"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.TimelineControllerPositionOffset"/>
         /// </summary>
         public System.TimeSpan TimelineControllerPositionOffset
         {
@@ -170,25 +170,25 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.TimelineController"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.TimelineController"/>
         /// </summary>
-        public global::Windows.Media.MediaTimelineController TimelineController
+        public Windows.Media.MediaTimelineController TimelineController
         {
             get => UwpInstance.TimelineController;
             set => UwpInstance.TimelineController = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.StereoscopicVideoRenderMode"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.StereoscopicVideoRenderMode"/>
         /// </summary>
-        public global::Windows.Media.Playback.StereoscopicVideoRenderMode StereoscopicVideoRenderMode
+        public Windows.Media.Playback.StereoscopicVideoRenderMode StereoscopicVideoRenderMode
         {
             get => UwpInstance.StereoscopicVideoRenderMode;
             set => UwpInstance.StereoscopicVideoRenderMode = value;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.RealTimePlayback"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.RealTimePlayback"/>
         /// </summary>
         public bool RealTimePlayback
         {
@@ -197,16 +197,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.AudioDevice"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.AudioDevice"/>
         /// </summary>
-        public global::Windows.Devices.Enumeration.DeviceInformation AudioDevice
+        public Windows.Devices.Enumeration.DeviceInformation AudioDevice
         {
             get => UwpInstance.AudioDevice;
             set => UwpInstance.AudioDevice = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.AudioBalance"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.AudioBalance"/>
         /// </summary>
         public double AudioBalance
         {
@@ -215,31 +215,31 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.CommandManager"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.CommandManager"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaPlaybackCommandManager CommandManager
+        public Windows.Media.Playback.MediaPlaybackCommandManager CommandManager
         {
             get => UwpInstance.CommandManager;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.BreakManager"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.BreakManager"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaBreakManager BreakManager
+        public Windows.Media.Playback.MediaBreakManager BreakManager
         {
             get => UwpInstance.BreakManager;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.PlaybackSession"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.PlaybackSession"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaPlaybackSession PlaybackSession
+        public Windows.Media.Playback.MediaPlaybackSession PlaybackSession
         {
             get => UwpInstance.PlaybackSession;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.IsVideoFrameServerEnabled"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.IsVideoFrameServerEnabled"/>
         /// </summary>
         public bool IsVideoFrameServerEnabled
         {
@@ -248,48 +248,48 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.AudioStateMonitor"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.AudioStateMonitor"/>
         /// </summary>
-        public global::Windows.Media.Audio.AudioStateMonitor AudioStateMonitor
+        public Windows.Media.Audio.AudioStateMonitor AudioStateMonitor
         {
             get => UwpInstance.AudioStateMonitor;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.ProtectionManager"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.ProtectionManager"/>
         /// </summary>
-        public global::Windows.Media.Protection.MediaProtectionManager ProtectionManager
+        public Windows.Media.Protection.MediaProtectionManager ProtectionManager
         {
             get => UwpInstance.ProtectionManager;
             set => UwpInstance.ProtectionManager = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.Source"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.Source"/>
         /// </summary>
-        public global::Windows.Media.Playback.IMediaPlaybackSource Source
+        public Windows.Media.Playback.IMediaPlaybackSource Source
         {
             get => UwpInstance.Source;
             set => UwpInstance.Source = value;
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Media.Playback.MediaPlayer"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Media.Playback.MediaPlayer"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.MediaPlayer"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Media.Playback.MediaPlayer"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Media.Playback.MediaPlayer"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator MediaPlayer(
-            global::Windows.Media.Playback.MediaPlayer args)
+            Windows.Media.Playback.MediaPlayer args)
         {
             return FromMediaPlayer(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="MediaPlayer"/> from <see cref="global::Windows.Media.Playback.MediaPlayer"/>.
+        /// Creates a <see cref="MediaPlayer"/> from <see cref="Windows.Media.Playback.MediaPlayer"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Media.Playback.MediaPlayer"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Media.Playback.MediaPlayer"/> instance containing the event data.</param>
         /// <returns><see cref="MediaPlayer"/></returns>
-        public static MediaPlayer FromMediaPlayer(global::Windows.Media.Playback.MediaPlayer args)
+        public static MediaPlayer FromMediaPlayer(Windows.Media.Playback.MediaPlayer args)
         {
             return new MediaPlayer(args);
         }

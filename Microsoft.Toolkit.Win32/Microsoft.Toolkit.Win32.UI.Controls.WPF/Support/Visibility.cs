@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Visibility"/>
+    /// <see cref="Windows.UI.Xaml.Visibility"/>
     /// </summary>
     public enum Visibility
     {

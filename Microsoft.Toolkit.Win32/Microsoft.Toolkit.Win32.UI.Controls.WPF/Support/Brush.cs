@@ -5,23 +5,23 @@
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Media.Brush"/>
+    /// <see cref="Windows.UI.Xaml.Media.Brush"/>
     /// </summary>
     public class Brush
     {
-        internal global::Windows.UI.Xaml.Media.Brush UwpInstance { get; }
+        internal Windows.UI.Xaml.Media.Brush UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Brush"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Media.Brush"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Media.Brush"/>
         /// </summary>
-        public Brush(global::Windows.UI.Xaml.Media.Brush instance)
+        public Brush(Windows.UI.Xaml.Media.Brush instance)
         {
             this.UwpInstance = instance;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Media.Brush.Transform"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Media.Brush.Transform"/>
         /// </summary>
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.Transform Transform
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Media.Brush.RelativeTransform"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Media.Brush.RelativeTransform"/>
         /// </summary>
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.Transform RelativeTransform
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Media.Brush.Opacity"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Media.Brush.Opacity"/>
         /// </summary>
         public double Opacity
         {
@@ -48,22 +48,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.UI.Xaml.Media.Brush"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush"/>.
+        /// Performs an implicit conversion from <see cref="Windows.UI.Xaml.Media.Brush"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Xaml.Media.Brush"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Xaml.Media.Brush"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator Brush(
-            global::Windows.UI.Xaml.Media.Brush args)
+            Windows.UI.Xaml.Media.Brush args)
         {
             return FromBrush(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="Brush"/> from <see cref="global::Windows.UI.Xaml.Media.Brush"/>.
+        /// Creates a <see cref="Brush"/> from <see cref="Windows.UI.Xaml.Media.Brush"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Xaml.Media.Brush"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Xaml.Media.Brush"/> instance containing the event data.</param>
         /// <returns><see cref="Brush"/></returns>
-        public static Brush FromBrush(global::Windows.UI.Xaml.Media.Brush args)
+        public static Brush FromBrush(Windows.UI.Xaml.Media.Brush args)
         {
             return new Brush(args);
         }

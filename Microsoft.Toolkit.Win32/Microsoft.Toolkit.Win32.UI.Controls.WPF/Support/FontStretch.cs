@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Text.FontStretch"/>
+    /// <see cref="Windows.UI.Text.FontStretch"/>
     /// </summary>
     public enum FontStretch
     {

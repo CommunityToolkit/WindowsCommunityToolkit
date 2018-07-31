@@ -9,24 +9,24 @@ using Microsoft.Toolkit.Win32.UI.Interop;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
     /// </summary>
     public class InkToolbarPenButton : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbarPenButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarPenButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarPenButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
         /// </summary>
         public InkToolbarPenButton()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbarPenButton).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarPenButton).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarPenButton"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton"/>.
         /// Intended for internal framework use only.
         /// </summary>
         public InkToolbarPenButton(string typeName)
@@ -60,48 +60,48 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.WidthProperty);
 
             // InkToolbarPenButton specific properties
-            Bind(nameof(SelectedStrokeWidth), SelectedStrokeWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidthProperty);
-            Bind(nameof(SelectedBrushIndex), SelectedBrushIndexProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndexProperty);
-            Bind(nameof(Palette), PaletteProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.PaletteProperty);
-            Bind(nameof(MinStrokeWidth), MinStrokeWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidthProperty);
-            Bind(nameof(MaxStrokeWidth), MaxStrokeWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidthProperty);
-            Bind(nameof(SelectedBrush), SelectedBrushProperty, global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(SelectedStrokeWidth), SelectedStrokeWidthProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidthProperty);
+            Bind(nameof(SelectedBrushIndex), SelectedBrushIndexProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndexProperty);
+            Bind(nameof(Palette), PaletteProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.PaletteProperty);
+            Bind(nameof(MinStrokeWidth), MinStrokeWidthProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidthProperty);
+            Bind(nameof(MaxStrokeWidth), MaxStrokeWidthProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidthProperty);
+            Bind(nameof(SelectedBrush), SelectedBrushProperty, Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushProperty, new WindowsXamlHostWrapperConverter());
 
             base.OnInitialized(e);
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidthProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidthProperty"/>
         /// </summary>
         public static DependencyProperty MaxStrokeWidthProperty { get; } = DependencyProperty.Register(nameof(MaxStrokeWidth), typeof(double), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidthProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidthProperty"/>
         /// </summary>
         public static DependencyProperty MinStrokeWidthProperty { get; } = DependencyProperty.Register(nameof(MinStrokeWidth), typeof(double), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.PaletteProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.PaletteProperty"/>
         /// </summary>
         public static DependencyProperty PaletteProperty { get; } = DependencyProperty.Register(nameof(Palette), typeof(System.Collections.Generic.IList<Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush>), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndexProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndexProperty"/>
         /// </summary>
         public static DependencyProperty SelectedBrushIndexProperty { get; } = DependencyProperty.Register(nameof(SelectedBrushIndex), typeof(int), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushProperty"/>
         /// </summary>
         public static DependencyProperty SelectedBrushProperty { get; } = DependencyProperty.Register(nameof(SelectedBrush), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidthProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidthProperty"/>
         /// </summary>
         public static DependencyProperty SelectedStrokeWidthProperty { get; } = DependencyProperty.Register(nameof(SelectedStrokeWidth), typeof(double), typeof(InkToolbarPenButton));
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidth"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidth"/>
         /// </summary>
         public double SelectedStrokeWidth
         {
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndex"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndex"/>
         /// </summary>
         public int SelectedBrushIndex
         {
@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.Palette"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.Palette"/>
         /// </summary>
         public System.Collections.Generic.IList<Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush> Palette
         {
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidth"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidth"/>
         /// </summary>
         public double MinStrokeWidth
         {
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidth"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidth"/>
         /// </summary>
         public double MaxStrokeWidth
         {
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrush"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrush"/>
         /// </summary>
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.Brush SelectedBrush
         {

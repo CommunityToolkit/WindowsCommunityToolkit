@@ -5,23 +5,23 @@
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/>
+    /// <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/>
     /// </summary>
     public class InkPresenterRuler
     {
-        internal global::Windows.UI.Input.Inking.InkPresenterRuler UwpInstance { get; }
+        internal Windows.UI.Input.Inking.InkPresenterRuler UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkPresenterRuler"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/>
         /// </summary>
-        public InkPresenterRuler(global::Windows.UI.Input.Inking.InkPresenterRuler instance)
+        public InkPresenterRuler(Windows.UI.Input.Inking.InkPresenterRuler instance)
         {
             this.UwpInstance = instance;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.Width"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.Width"/>
         /// </summary>
         public double Width
         {
@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.Length"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.Length"/>
         /// </summary>
         public double Length
         {
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.IsCompassVisible"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkPresenterRuler.IsCompassVisible"/>
         /// </summary>
         public bool IsCompassVisible
         {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.AreTickMarksVisible"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkPresenterRuler.AreTickMarksVisible"/>
         /// </summary>
         public bool AreTickMarksVisible
         {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         */
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.IsVisible"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkPresenterRuler.IsVisible"/>
         /// </summary>
         public bool IsVisible
         {
@@ -77,48 +77,48 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.ForegroundColor"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.ForegroundColor"/>
         /// </summary>
-        public global::Windows.UI.Color ForegroundColor
+        public Windows.UI.Color ForegroundColor
         {
             get => UwpInstance.ForegroundColor;
             set => UwpInstance.ForegroundColor = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.BackgroundColor"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.BackgroundColor"/>
         /// </summary>
-        public global::Windows.UI.Color BackgroundColor
+        public Windows.UI.Color BackgroundColor
         {
             get => UwpInstance.BackgroundColor;
             set => UwpInstance.BackgroundColor = value;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.Kind"/>
+        /// Gets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.Kind"/>
         /// </summary>
-        public global::Windows.UI.Input.Inking.InkPresenterStencilKind Kind
+        public Windows.UI.Input.Inking.InkPresenterStencilKind Kind
         {
             get => UwpInstance.Kind;
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterRuler"/>.
+        /// Performs an implicit conversion from <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenterRuler"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator InkPresenterRuler(
-            global::Windows.UI.Input.Inking.InkPresenterRuler args)
+            Windows.UI.Input.Inking.InkPresenterRuler args)
         {
             return FromInkPresenterRuler(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="InkPresenterRuler"/> from <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/>.
+        /// Creates a <see cref="InkPresenterRuler"/> from <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Input.Inking.InkPresenterRuler"/> instance containing the event data.</param>
         /// <returns><see cref="InkPresenterRuler"/></returns>
-        public static InkPresenterRuler FromInkPresenterRuler(global::Windows.UI.Input.Inking.InkPresenterRuler args)
+        public static InkPresenterRuler FromInkPresenterRuler(Windows.UI.Input.Inking.InkPresenterRuler args)
         {
             return new InkPresenterRuler(args);
         }

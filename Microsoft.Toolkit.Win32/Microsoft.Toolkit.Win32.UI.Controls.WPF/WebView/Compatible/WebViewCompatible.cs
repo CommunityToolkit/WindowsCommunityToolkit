@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public WebViewCompatible()
             : base()
         {
-            if (global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl"))
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl"))
             {
                 _implementation = new WebViewCompatibilityAdapter();
             }
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             BindingOperations.SetBinding(this, SourceProperty, binder);
         }
 
-        public static bool IsLegacy { get; } = !global::Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
+        public static bool IsLegacy { get; } = !Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
 
         private IWebViewCompatibleAdapter _implementation;
 

@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapStyle"/>
+    /// <see cref="Windows.UI.Xaml.Controls.Maps.MapStyle"/>
     /// </summary>
     public enum MapStyle
     {

@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.Devices.Geolocation.AltitudeReferenceSystem"/>
+    /// <see cref="Windows.Devices.Geolocation.AltitudeReferenceSystem"/>
     /// </summary>
     public enum AltitudeReferenceSystem
     {

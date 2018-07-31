@@ -10,14 +10,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     internal static class InternalConversionExtensions
     {
-        public static Rect ToWpf(this global::Windows.Foundation.Rect uwp)
+        public static Rect ToWpf(this Windows.Foundation.Rect uwp)
         {
             return new Rect(uwp.X, uwp.Y, uwp.Width, uwp.Height);
         }
 
-        public static global::Windows.Foundation.Point ToUwp(this Point wpf)
+        public static Windows.Foundation.Point ToUwp(this Point wpf)
         {
-            return new global::Windows.Foundation.Point(wpf.X, wpf.Y);
+            return new Windows.Foundation.Point(wpf.X, wpf.Y);
         }
     }
 }

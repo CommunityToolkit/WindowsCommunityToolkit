@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.ElementSoundMode"/>
+    /// <see cref="Windows.UI.Xaml.ElementSoundMode"/>
     /// </summary>
     public enum ElementSoundMode
     {

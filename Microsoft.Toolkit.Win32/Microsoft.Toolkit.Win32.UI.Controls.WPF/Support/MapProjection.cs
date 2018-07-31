@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapProjection"/>
+    /// <see cref="Windows.UI.Xaml.Controls.Maps.MapProjection"/>
     /// </summary>
     public enum MapProjection
     {

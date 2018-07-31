@@ -5,41 +5,41 @@
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/>
+    /// <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/>
     /// </summary>
     public class InkDrawingAttributes
     {
-        internal global::Windows.UI.Input.Inking.InkDrawingAttributes UwpInstance { get; }
+        internal Windows.UI.Input.Inking.InkDrawingAttributes UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkDrawingAttributes"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/>
         /// </summary>
-        public InkDrawingAttributes(global::Windows.UI.Input.Inking.InkDrawingAttributes instance)
+        public InkDrawingAttributes(Windows.UI.Input.Inking.InkDrawingAttributes instance)
         {
             this.UwpInstance = instance;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.Size"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.Size"/>
         /// </summary>
-        public global::Windows.Foundation.Size Size
+        public Windows.Foundation.Size Size
         {
             get => UwpInstance.Size;
             set => UwpInstance.Size = value;
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.PenTip"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.PenTip"/>
         /// </summary>
-        public global::Windows.UI.Input.Inking.PenTipShape PenTip
+        public Windows.UI.Input.Inking.PenTipShape PenTip
         {
             get => UwpInstance.PenTip;
             set => UwpInstance.PenTip = value;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.IgnorePressure"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.IgnorePressure"/>
         /// </summary>
         public bool IgnorePressure
         {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.FitToCurve"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.FitToCurve"/>
         /// </summary>
         public bool FitToCurve
         {
@@ -57,9 +57,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.Color"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.Color"/>
         /// </summary>
-        public global::Windows.UI.Color Color
+        public Windows.UI.Color Color
         {
             get => UwpInstance.Color;
             set => UwpInstance.Color = value;
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         */
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.DrawAsHighlighter"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.DrawAsHighlighter"/>
         /// </summary>
         public bool DrawAsHighlighter
         {
@@ -86,23 +86,23 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.Kind"/>
+        /// Gets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.Kind"/>
         /// </summary>
-        public global::Windows.UI.Input.Inking.InkDrawingAttributesKind Kind
+        public Windows.UI.Input.Inking.InkDrawingAttributesKind Kind
         {
             get => UwpInstance.Kind;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.PencilProperties"/>
+        /// Gets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.PencilProperties"/>
         /// </summary>
-        public global::Windows.UI.Input.Inking.InkDrawingAttributesPencilProperties PencilProperties
+        public Windows.UI.Input.Inking.InkDrawingAttributesPencilProperties PencilProperties
         {
             get => UwpInstance.PencilProperties;
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.IgnoreTilt"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.IgnoreTilt"/>
         /// </summary>
         public bool IgnoreTilt
         {
@@ -111,30 +111,30 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.ModelerAttributes"/>
+        /// Gets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.ModelerAttributes"/>
         /// </summary>
-        public global::Windows.UI.Input.Inking.InkModelerAttributes ModelerAttributes
+        public Windows.UI.Input.Inking.InkModelerAttributes ModelerAttributes
         {
             get => UwpInstance.ModelerAttributes;
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes"/>.
+        /// Performs an implicit conversion from <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         public static implicit operator InkDrawingAttributes(
-            global::Windows.UI.Input.Inking.InkDrawingAttributes args)
+            Windows.UI.Input.Inking.InkDrawingAttributes args)
         {
             return FromInkDrawingAttributes(args);
         }
 
         /// <summary>
-        /// Creates a <see cref="InkDrawingAttributes"/> from <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/>.
+        /// Creates a <see cref="InkDrawingAttributes"/> from <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.UI.Input.Inking.InkDrawingAttributes"/> instance containing the event data.</param>
         /// <returns><see cref="InkDrawingAttributes"/></returns>
-        public static InkDrawingAttributes FromInkDrawingAttributes(global::Windows.UI.Input.Inking.InkDrawingAttributes args)
+        public static InkDrawingAttributes FromInkDrawingAttributes(Windows.UI.Input.Inking.InkDrawingAttributes args)
         {
             return new InkDrawingAttributes(args);
         }

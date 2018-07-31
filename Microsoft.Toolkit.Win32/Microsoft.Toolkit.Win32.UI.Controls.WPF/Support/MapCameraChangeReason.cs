@@ -7,7 +7,7 @@ using System;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// <see cref="global::Windows.UI.Xaml.Controls.Maps.MapCameraChangeReason"/>
+    /// <see cref="Windows.UI.Xaml.Controls.Maps.MapCameraChangeReason"/>
     /// </summary>
     public enum MapCameraChangeReason
     {

@@ -10,8 +10,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.DOMContentLoaded"/> and <see cref="IWebView.FrameDOMContentLoaded"/> events. This class cannot be inherited.
     /// </summary>
-    /// <remarks>Copy from <see cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
-    /// <seealso cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>
     /// <seealso cref="EventArgs"/>
     [System.Diagnostics.CodeAnalysis.SuppressMessage(
         "Microsoft.Naming",
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     public sealed class WebViewControlDOMContentLoadedEventArgs : EventArgs
     {
         [SecurityCritical]
-        internal WebViewControlDOMContentLoadedEventArgs(global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args)
+        internal WebViewControlDOMContentLoadedEventArgs(Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args)
         {
             Uri = args.Uri;
         }
@@ -38,19 +38,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri { get; }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to <see cref="WebViewControlDOMContentLoadedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> to <see cref="WebViewControlDOMContentLoadedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlDOMContentLoadedEventArgs(global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => FromWebViewControlDOMContentLoadedEventArgs(args);
+        public static implicit operator WebViewControlDOMContentLoadedEventArgs(Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) => FromWebViewControlDOMContentLoadedEventArgs(args);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlDOMContentLoadedEventArgs"/> from <see cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>.
+        /// Creates a <see cref="WebViewControlDOMContentLoadedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs"/> instance containing the event data.</param>
         /// <returns><see cref="WebViewControlDOMContentLoadedEventArgs"/>.</returns>
         public static WebViewControlDOMContentLoadedEventArgs FromWebViewControlDOMContentLoadedEventArgs(
-            global::Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) =>
+            Windows.Web.UI.WebViewControlDOMContentLoadedEventArgs args) =>
             new WebViewControlDOMContentLoadedEventArgs(args);
     }
 }
