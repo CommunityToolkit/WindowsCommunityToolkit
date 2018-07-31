@@ -88,9 +88,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Source), SourceProperty, _webView);
         }
 
-        public override void Dispose()
+        protected internal override void Dispose(bool disposing)
         {
-            _webView.Dispose();
+            if (disposing)
+            {
+                _webView?.Dispose();
+                _webView = null;
+            }
         }
     }
 }

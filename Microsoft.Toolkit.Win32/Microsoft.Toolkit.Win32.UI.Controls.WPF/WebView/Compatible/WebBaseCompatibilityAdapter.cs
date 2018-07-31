@@ -27,7 +27,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
         public abstract FrameworkElement View { get; }
 
-        public abstract void Dispose();
+        public virtual void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected internal abstract void Dispose(bool disposing);
 
         public abstract bool GoBack();
 

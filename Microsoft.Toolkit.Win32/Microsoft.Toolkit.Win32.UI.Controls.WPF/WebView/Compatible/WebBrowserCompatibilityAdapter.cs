@@ -3,10 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -14,7 +10,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter, IDisposable
+    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter
     {
         private WebBrowser _browser = new WebBrowser();
 
@@ -86,9 +82,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Source), SourceProperty, _browser);
         }
 
-        public override void Dispose()
+        protected internal override void Dispose(bool disposing)
         {
-            _browser.Dispose();
+            if (disposing)
+            {
+                _browser?.Dispose();
+                _browser = null;
+            }
         }
     }
 }
