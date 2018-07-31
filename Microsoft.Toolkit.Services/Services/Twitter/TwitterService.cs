@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 #if WINRT
-using Microsoft.Toolkit.Services.Internal;
+using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
@@ -153,7 +153,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Success or failure.</returns>
         public bool Initialize(string consumerKey, string consumerSecret, string callbackUri)
         {
-            return Initialize(consumerKey, consumerSecret, callbackUri, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
+            return Initialize(consumerKey, consumerSecret, callbackUri, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
         }
         #endif
 

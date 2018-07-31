@@ -2,17 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-#if WINRT
 using System.Linq;
 using Microsoft.Toolkit.Services.Core;
 using Windows.Security.Credentials;
 
-namespace Microsoft.Toolkit.Services.Internal
+namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
 {
     /// <summary>
     /// Password Manager
     /// </summary>
-    internal class UWpPasswordManager : IPasswordManager
+    internal class UwpPasswordManager : IPasswordManager
     {
         /// <summary>
         /// Password vault used to store access tokens
@@ -20,9 +19,9 @@ namespace Microsoft.Toolkit.Services.Internal
         private readonly PasswordVault _vault;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UWpPasswordManager"/> class.
+        /// Initializes a new instance of the <see cref="UwpPasswordManager"/> class.
         /// </summary>
-        public UWpPasswordManager()
+        public UwpPasswordManager()
         {
             _vault = new PasswordVault();
         }
@@ -66,4 +65,3 @@ namespace Microsoft.Toolkit.Services.Internal
         }
     }
 }
-#endif

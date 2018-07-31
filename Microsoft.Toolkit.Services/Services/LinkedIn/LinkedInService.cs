@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 #if WINRT
-using Microsoft.Toolkit.Services.Internal;
+using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
 namespace Microsoft.Toolkit.Services.LinkedIn
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>Success or failure.</returns>
         public bool Initialize(LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
         {
-            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UWpPasswordManager(), new UwpStorageManager(), requiredPermissions);
+            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), requiredPermissions);
         }
 #endif
 
