@@ -5,7 +5,6 @@
 using System;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -14,7 +13,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     public class MediaPlayerElement : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.MediaPlayerElement;
+        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.MediaPlayerElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a
