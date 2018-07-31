@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public MarkdownTextBlockPage()
         {
             InitializeComponent();
-            Shell.Current.ThemeChanged += Current_ThemeChanged;
+            SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (markdownText != null)
             {
-                markdownText.RequestedTheme = Shell.Current.GetCurrentTheme();
+                markdownText.RequestedTheme = SampleController.Current.GetCurrentTheme();
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
                 markdownText.ImageClicked += MarkdownText_ImageClicked;
                 markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;

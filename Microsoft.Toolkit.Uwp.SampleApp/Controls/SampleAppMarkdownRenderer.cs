@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             SolidColorBrush localbackground = null;
             string symbolglyph = string.Empty;
 
-            var theme = Shell.Current.GetActualTheme();
+            var theme = SampleController.Current.GetActualTheme();
 
             // Check the required structure of the Quote is correct. Determine if it is a DocFX Note.
             if (element.Blocks.First() is ParagraphBlock para)

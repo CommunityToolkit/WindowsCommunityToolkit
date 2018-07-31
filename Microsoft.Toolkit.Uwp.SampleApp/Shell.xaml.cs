@@ -6,11 +6,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.Foundation.Metadata;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -28,12 +26,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Current = this;
-
-            _themeListener = new ThemeListener();
-            _themeListener.ThemeChanged += (s) =>
-            {
-                ThemeChanged?.Invoke(this, new ThemeChangedArgs { Theme = GetCurrentTheme() });
-            };
 
             var background = new Image()
             {
@@ -70,46 +62,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 NavigateToSample(targetSample);
             }
-        }
-
-        /// <summary>
-        /// Gets the Current UI Theme.
-        /// </summary>
-        /// <returns>The Current UI Theme</returns>
-        public ElementTheme GetCurrentTheme()
-        {
-            return RequestedTheme;
-        }
-
-        /// <summary>
-        /// Gets the Current UI Theme.
-        /// </summary>
-        /// <returns>The Current UI Theme</returns>
-        public ElementTheme GetActualTheme()
-        {
-            var theme = _themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
-            if (RequestedTheme != ElementTheme.Default)
-            {
-                theme = RequestedTheme;
-            }
-
-            return theme;
-        }
-
-        /// <summary>
-        /// Sets the Current UI Theme.
-        /// </summary>
-        /// <param name="theme">Theme to set</param>
-        public void SetCurrentTheme(ElementTheme theme)
-        {
-            RequestedTheme = theme;
-            var args = new ThemeChangedArgs
-            {
-                CustomSet = true,
-                Theme = GetCurrentTheme()
-            };
-
-            ThemeChanged?.Invoke(this, args);
         }
 
         public void NavigateToSample(Sample sample)
@@ -238,9 +190,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private UIElement _parallaxView;
-
-        private ThemeListener _themeListener;
-
-        public event EventHandler<ThemeChangedArgs> ThemeChanged;
     }
 }

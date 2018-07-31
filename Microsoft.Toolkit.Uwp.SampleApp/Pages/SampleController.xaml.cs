@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Controls;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.System;
 using Windows.System.Profile;
 using Windows.UI.Core;
@@ -32,8 +33,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public SampleController()
         {
-            this.InitializeComponent();
+            _themeListener = new ThemeListener();
+
             Current = this;
+            this.InitializeComponent();
+
+            _themeListener.ThemeChanged += (s) =>
+            {
+                ThemeChanged?.Invoke(this, new ThemeChangedArgs { Theme = GetCurrentTheme() });
+            };
 
             // Prevent Pop in on wider screens.
             if (((FrameworkElement)Window.Current.Content).ActualWidth > 700)
@@ -41,16 +49,56 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 SidePaneState = PaneState.Normal;
             }
 
-            Shell.Current.ThemeChanged += Current_ThemeChanged;
+            ThemeChanged += Current_ThemeChanged;
 
-            ThemePicker.SelectedIndex = (int)Shell.Current.GetCurrentTheme();
+            ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
-            DocumentationTextblock.RequestedTheme = Shell.Current.GetCurrentTheme();
+            DocumentationTextblock.RequestedTheme = GetCurrentTheme();
             DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
             XamlCodeEditor.UpdateRequested += XamlCodeEditor_UpdateRequested;
+        }
+
+        /// <summary>
+        /// Gets the Current UI Theme.
+        /// </summary>
+        /// <returns>The Current UI Theme</returns>
+        public ElementTheme GetCurrentTheme()
+        {
+            return RequestedTheme;
+        }
+
+        /// <summary>
+        /// Sets the Current UI Theme.
+        /// </summary>
+        /// <param name="theme">Theme to set</param>
+        public void SetCurrentTheme(ElementTheme theme)
+        {
+            RequestedTheme = theme;
+            var args = new ThemeChangedArgs
+            {
+                CustomSet = true,
+                Theme = GetCurrentTheme()
+            };
+
+            ThemeChanged?.Invoke(this, args);
+        }
+
+        /// <summary>
+        /// Gets the Current UI Theme.
+        /// </summary>
+        /// <returns>The Current UI Theme</returns>
+        public ElementTheme GetActualTheme()
+        {
+            var theme = _themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
+            if (RequestedTheme != ElementTheme.Default)
+            {
+                theme = RequestedTheme;
+            }
+
+            return theme;
         }
 
         public void OpenClosePane()
@@ -267,6 +315,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             XamlCodeEditor = null;
+            _themeListener.Dispose();
 
             // Not great, but need to collect up after WebView. (Does this work?)
             GC.Collect();
@@ -552,7 +601,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             try
             {
-                Shell.Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
+                Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
             }
             catch (Exception ex)
             {
@@ -608,6 +657,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private bool _onlyDocumentation;
         private string documentationPath;
 
+        private ThemeListener _themeListener;
+
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler<ThemeChangedArgs> ThemeChanged;
     }
 }
