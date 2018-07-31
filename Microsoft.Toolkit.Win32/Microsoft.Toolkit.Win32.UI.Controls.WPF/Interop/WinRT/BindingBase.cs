@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public BindingBase(Windows.UI.Xaml.Data.BindingBase instance)
         {
-            this.UwpInstance = instance;
+            UwpInstance = instance;
         }
 
         /// <summary>
