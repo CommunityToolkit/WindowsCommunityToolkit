@@ -4,7 +4,6 @@
 
 using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -13,7 +12,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     public class InkCanvas : WindowsXamlHostBaseExt
     {
-        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.InkCanvas;
+        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkCanvas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a
@@ -34,6 +33,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
@@ -60,9 +60,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
         /// </summary>
-        public InkPresenter InkPresenter
-        {
-            get => UwpControl.InkPresenter;
-        }
+        public InkPresenter InkPresenter => UwpControl.InkPresenter;
     }
 }
