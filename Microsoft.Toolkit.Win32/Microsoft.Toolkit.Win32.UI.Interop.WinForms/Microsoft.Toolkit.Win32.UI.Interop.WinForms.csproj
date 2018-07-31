@@ -26,9 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
-    <Compile Include="..\Microsoft.Windows.Interop.WindowsXamlHost.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
     <Compile Include="..\Shared\Interop\Win32\ExternDll.cs" Link="Shared\Interop\Win32\ExternDll.cs" />
   </ItemGroup>
 

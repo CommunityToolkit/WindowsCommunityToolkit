@@ -93,7 +93,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj">
       <Project>{04759899-4afa-4b15-bc7b-3cc20bbec829}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Interop.WPF</Name>
     </ProjectReference>
