@@ -31,9 +31,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (MicrosoftGraphService.Instance.IsAuthenticated)
             {
                 SharePointFileList control = d as SharePointFileList;
-                await MicrosoftGraphService.Instance.TryLoginAsync();
-                GraphServiceClient graphServiceClient = MicrosoftGraphService.Instance.GraphProvider;
-                if (graphServiceClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
+                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                if (graphClient != null && !string.IsNullOrWhiteSpace(control.DriveUrl))
                 {
                     if (Uri.IsWellFormedUriString(control.DriveUrl, UriKind.Absolute))
                     {
@@ -75,38 +74,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void Upload_Click(object sender, RoutedEventArgs e)
         {
-            ErrorMessage = string.Empty;
-            FileOpenPicker picker = new FileOpenPicker();
-            picker.FileTypeFilter.Add("*");
-            StorageFile file = await picker.PickSingleFileAsync();
-            if (file != null)
+            try
             {
-                string driveItemId = _driveItemPath.Peek()?.Id;
-                using (Stream inputStream = await file.OpenStreamForReadAsync())
+                ErrorMessage = string.Empty;
+                FileOpenPicker picker = new FileOpenPicker();
+                picker.FileTypeFilter.Add("*");
+                StorageFile file = await picker.PickSingleFileAsync();
+                if (file != null)
                 {
-                    if (inputStream.Length < 1024 * 1024 * 4)
+                    string driveItemId = _driveItemPath.Peek()?.Id;
+                    using (Stream inputStream = await file.OpenStreamForReadAsync())
                     {
-                        FileUploading++;
-                        StatusMessage = string.Format(UploadingFilesMessageTemplate, FileUploading);
-                        VisualStateManager.GoToState(this, UploadStatusUploading, false);
-                        try
+                        if (inputStream.Length < 1024 * 1024 * 4)
                         {
-                            await GraphService.TryLoginAsync();
-                            GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                            await graphServiceClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
-                            VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
-                            FileUploading--;
-                        }
-                        catch (Exception ex)
-                        {
-                            FileUploading--;
-                            ErrorMessage = ex.Message;
-                            VisualStateManager.GoToState(this, UploadStatusError, false);
-                        }
+                            FileUploading++;
+                            StatusMessage = string.Format(UploadingFilesMessageTemplate, FileUploading);
+                            VisualStateManager.GoToState(this, UploadStatusUploading, false);
+                            try
+                            {
+                                GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                                if (graphClient != null)
+                                {
+                                    await graphClient.Drives[_driveId].Items[driveItemId].ItemWithPath(file.Name).Content.Request().PutAsync<DriveItem>(inputStream, _cancelUpload.Token);
+                                    VisualStateManager.GoToState(this, UploadStatusNotUploading, false);
+                                    FileUploading--;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                FileUploading--;
+                                ErrorMessage = ex.Message;
+                                VisualStateManager.GoToState(this, UploadStatusError, false);
+                            }
 
-                        await LoadFilesAsync(driveItemId);
+                            await LoadFilesAsync(driveItemId);
+                        }
                     }
                 }
+            }
+            catch (Exception exception)
+            {
+                MessageDialog messageDialog = new MessageDialog(exception.Message);
+                await messageDialog.ShowAsync();
             }
         }
 
@@ -116,14 +125,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 try
                 {
-                    await GraphService.TryLoginAsync();
-                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                    Permission link = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
-                    MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
-                    DataPackage package = new DataPackage();
-                    package.SetText(link.Link.WebUrl);
-                    Clipboard.SetContent(package);
-                    await dialog.ShowAsync();
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                    if (graphClient != null)
+                    {
+                        Permission link = await graphClient.Drives[_driveId].Items[driveItem.Id].CreateLink("view", "organization").Request().PostAsync();
+                        MessageDialog dialog = new MessageDialog(link.Link.WebUrl, ShareLinkCopiedMessage);
+                        DataPackage package = new DataPackage();
+                        package.SetText(link.Link.WebUrl);
+                        Clipboard.SetContent(package);
+                        await dialog.ShowAsync();
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -137,22 +148,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                await GraphService.TryLoginAsync();
-                GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                FileSavePicker picker = new FileSavePicker();
-                picker.FileTypeChoices.Add(AllFilesMessage, new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
-                picker.SuggestedFileName = driveItem.Name;
-                picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-                StorageFile file = await picker.PickSaveFileAsync();
-                if (file != null)
+                try
                 {
-                    using (Stream inputStream = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                    if (graphClient != null)
                     {
-                        using (Stream outputStream = await file.OpenStreamForWriteAsync())
+                        FileSavePicker picker = new FileSavePicker();
+                        picker.FileTypeChoices.Add(AllFilesMessage, new List<string>() { driveItem.Name.Substring(driveItem.Name.LastIndexOf(".")) });
+                        picker.SuggestedFileName = driveItem.Name;
+                        picker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                        StorageFile file = await picker.PickSaveFileAsync();
+                        if (file != null)
                         {
-                            await inputStream.CopyToAsync(outputStream);
+                            using (Stream inputStream = await graphClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
+                            {
+                                using (Stream outputStream = await file.OpenStreamForWriteAsync())
+                                {
+                                    await inputStream.CopyToAsync(outputStream);
+                                }
+                            }
                         }
                     }
+                }
+                catch (Exception exception)
+                {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
                 }
             }
         }
@@ -161,22 +182,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             if (_list.SelectedItem is DriveItem driveItem)
             {
-                MessageDialog confirmDialog = new MessageDialog(DeleteConfirmMessage);
-                confirmDialog.Commands.Add(new UICommand(DeleteConfirmOkMessage, cmd => { }, commandId: 0));
-                confirmDialog.Commands.Add(new UICommand(DeleteConfirmCancelMessage, cmd => { }, commandId: 1));
-
-                confirmDialog.DefaultCommandIndex = 0;
-                confirmDialog.CancelCommandIndex = 1;
-
-                IUICommand result = await confirmDialog.ShowAsync();
-
-                if ((int)result.Id == 0)
+                try
                 {
-                    await GraphService.TryLoginAsync();
-                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                    await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
-                    string driveItemId = _driveItemPath.Peek()?.Id;
-                    await LoadFilesAsync(driveItemId);
+                    MessageDialog confirmDialog = new MessageDialog(DeleteConfirmMessage);
+                    confirmDialog.Commands.Add(new UICommand(DeleteConfirmOkMessage, cmd => { }, commandId: 0));
+                    confirmDialog.Commands.Add(new UICommand(DeleteConfirmCancelMessage, cmd => { }, commandId: 1));
+
+                    confirmDialog.DefaultCommandIndex = 0;
+                    confirmDialog.CancelCommandIndex = 1;
+
+                    IUICommand result = await confirmDialog.ShowAsync();
+
+                    if ((int)result.Id == 0)
+                    {
+                        GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                        if (graphClient != null)
+                        {
+                            await graphClient.Drives[_driveId].Items[driveItem.Id].Request().DeleteAsync();
+                            string driveItemId = _driveItemPath.Peek()?.Id;
+                            await LoadFilesAsync(driveItemId);
+                        }
+                    }
+                }
+                catch (Exception exception)
+                {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
                 }
             }
         }
@@ -218,54 +249,58 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
                     ThumbnailImageSource = null;
                     VisualStateManager.GoToState(this, NavStatesFileReadonly, false);
-                    await GraphService.TryLoginAsync();
-                    GraphServiceClient graphServiceClient = GraphService.GraphProvider;
-                    Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
-                    IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
-                    if (!taskPermissions.IsCanceled)
+                    GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();
+                    if (graphClient != null)
                     {
-                        foreach (Permission permission in permissions)
+                        Task<IDriveItemPermissionsCollectionPage> taskPermissions = graphClient.Drives[_driveId].Items[driveItem.Id].Permissions.Request().GetAsync(_cancelGetDetails.Token);
+                        IDriveItemPermissionsCollectionPage permissions = await taskPermissions;
+                        if (!taskPermissions.IsCanceled)
                         {
-                            if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
+                            foreach (Permission permission in permissions)
                             {
-                                VisualStateManager.GoToState(this, NavStatesFileEdit, false);
-                                break;
-                            }
-                        }
-
-                        Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphServiceClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
-                        IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
-                        if (!taskThumbnails.IsCanceled)
-                        {
-                            ThumbnailSet thumbnailsSet = thumbnails.FirstOrDefault();
-                            if (thumbnailsSet != null)
-                            {
-                                Thumbnail thumbnail = thumbnailsSet.Large;
-                                if (thumbnail.Url.Contains("inputFormat=svg"))
+                                if (permission.Roles.Contains("write") || permission.Roles.Contains("owner"))
                                 {
-                                    SvgImageSource source = new SvgImageSource();
-                                    using (Stream inputStream = await graphServiceClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
+                                    VisualStateManager.GoToState(this, NavStatesFileEdit, false);
+                                    break;
+                                }
+                            }
+
+                            Task<IDriveItemThumbnailsCollectionPage> taskThumbnails = graphClient.Drives[_driveId].Items[driveItem.Id].Thumbnails.Request().GetAsync(_cancelGetDetails.Token);
+                            IDriveItemThumbnailsCollectionPage thumbnails = await taskThumbnails;
+                            if (!taskThumbnails.IsCanceled)
+                            {
+                                ThumbnailSet thumbnailsSet = thumbnails.FirstOrDefault();
+                                if (thumbnailsSet != null)
+                                {
+                                    Thumbnail thumbnail = thumbnailsSet.Large;
+                                    if (thumbnail.Url.Contains("inputFormat=svg"))
                                     {
-                                        SvgImageSourceLoadStatus status = await source.SetSourceAsync(inputStream.AsRandomAccessStream());
-                                        if (status == SvgImageSourceLoadStatus.Success)
+                                        SvgImageSource source = new SvgImageSource();
+                                        using (Stream inputStream = await graphClient.Drives[_driveId].Items[driveItem.Id].Content.Request().GetAsync())
                                         {
-                                            ThumbnailImageSource = source;
+                                            SvgImageSourceLoadStatus status = await source.SetSourceAsync(inputStream.AsRandomAccessStream());
+                                            if (status == SvgImageSourceLoadStatus.Success)
+                                            {
+                                                ThumbnailImageSource = source;
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    ThumbnailImageSource = new BitmapImage(new Uri(thumbnail.Url));
+                                    else
+                                    {
+                                        ThumbnailImageSource = new BitmapImage(new Uri(thumbnail.Url));
+                                    }
                                 }
                             }
-                        }
 
-                        IsDetailPaneVisible = true;
-                        ShowDetailsPane();
+                            IsDetailPaneVisible = true;
+                            ShowDetailsPane();
+                        }
                     }
                 }
-                catch
+                catch (Exception exception)
                 {
+                    MessageDialog messageDialog = new MessageDialog(exception.Message);
+                    await messageDialog.ShowAsync();
                 }
             }
             else
