@@ -5,7 +5,6 @@
 using System;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
@@ -14,7 +13,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// </summary>
     public class InkToolbarPenButton : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => this.XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarPenButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarPenButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarPenButton"/> class, a
@@ -149,9 +148,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrush"/>
         /// </summary>
-        public Brush SelectedBrush
-        {
-            get => (Brush)GetValue(SelectedBrushProperty);
-        }
+        public Brush SelectedBrush => (Brush)GetValue(SelectedBrushProperty);
     }
 }
