@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 return null;
             }
 
+            // REVIEW: Possible null assignment and uncaught exception
             return MediaSource.CreateFromUri(new Uri(value as string));
         }
 
