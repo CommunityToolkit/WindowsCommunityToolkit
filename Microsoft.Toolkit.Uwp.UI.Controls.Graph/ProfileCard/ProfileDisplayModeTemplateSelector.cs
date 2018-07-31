@@ -22,21 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             if (item != null && item is ProfileCardItem profileItem)
             {
-                switch (profileItem.DisplayMode)
-                {
-                    case ViewType.EmailOnly:
-                        dataTemplate = _contentPresenter.Resources["EmailOnly"] as DataTemplate;
-                        break;
-                    case ViewType.PictureOnly:
-                        dataTemplate = _contentPresenter.Resources["PictureOnly"] as DataTemplate;
-                        break;
-                    case ViewType.LargeProfilePhotoLeft:
-                        dataTemplate = _contentPresenter.Resources["LargeProfilePhotoLeft"] as DataTemplate;
-                        break;
-                    case ViewType.LargeProfilePhotoRight:
-                        dataTemplate = _contentPresenter.Resources["LargeProfilePhotoRight"] as DataTemplate;
-                        break;
-                }
+                dataTemplate = _contentPresenter.Resources[profileItem.DisplayMode.ToString()] as DataTemplate;
             }
 
             return dataTemplate;

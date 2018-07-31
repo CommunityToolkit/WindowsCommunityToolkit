@@ -36,20 +36,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             AutomationProperties.SetName(this, SignInDefaultText);
 
-            Click += async (object sender, RoutedEventArgs e) =>
-            {
-                if (!GraphService.IsAuthenticated)
-                {
-                    IsEnabled = false;
-                    Flyout = null;
-                    await SignInAsync();
-                    IsEnabled = true;
-                }
-                else
-                {
-                    Flyout = GenerateMenuItems();
-                }
-            };
+            Click -= AadLogin_Clicked;
+            Click += AadLogin_Clicked;
 
             GraphService.IsAuthenticatedChanged -= GraphService_StateChanged;
             GraphService.IsAuthenticatedChanged += GraphService_StateChanged;
@@ -66,6 +54,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private void GraphService_SignInFailed(object sender, Services.MicrosoftGraph.SignInFailedEventArgs e)
         {
             SignInFailed?.Invoke(sender, new SignInFailedEventArgs(e.Exception));
+        }
+
+        private async void AadLogin_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (!GraphService.IsAuthenticated)
+            {
+                IsEnabled = false;
+                Flyout = null;
+                await SignInAsync();
+                IsEnabled = true;
+            }
+            else
+            {
+                Flyout = GenerateMenuItems();
+            }
         }
 
         private async void GraphService_StateChanged(object sender, EventArgs e)

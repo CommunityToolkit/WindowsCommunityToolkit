@@ -28,6 +28,7 @@ The [PeoplePicker Control](https://docs.microsoft.com/dotnet/api/microsoft.toolk
 | Property | Type | Description |
 | -- | -- | -- |
 | RequiredDelegatedPermissions | String[] | Gets required delegated permissions for Graph API access |
+| GroupId | String | Search people in this group if specified, otherwise, search the organizational AD |
 | AllowMultiple | Boolean | Whether multiple people can be selected |
 | SearchResultLimit | Int | Max person returned in the search results |
 | PlaceholderText | String | Text to be displayed when no user is selected |
@@ -41,10 +42,16 @@ First of all, initialize the [MicrosoftGraphService](../services/MicrosoftGraph.
 MicrosoftGraphService.Instance.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
 
 MicrosoftGraphService.Instance.Initialize(
-    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
     PeoplePicker.RequiredDelegatedPermissions
 );
+```
+
+The sign in will be processed by the [AadLogin](../../docs/graph/AadLogin.md) control, however, you could do sign in with the following alternatively.
+
+```c#
+await MicrosoftGraphService.Instance.LoginAsync();
 ```
 
 [PeoplePicker Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PeoplePicker). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
