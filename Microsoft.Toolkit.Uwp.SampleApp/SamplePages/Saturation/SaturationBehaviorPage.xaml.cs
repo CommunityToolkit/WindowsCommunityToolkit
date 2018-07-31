@@ -25,11 +25,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             InitializeComponent();
 
-            if (!AnimationExtensions.SaturationEffect.IsSupported)
-            {
-                WarningText.Visibility = Visibility.Visible;
-            }
-
             SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
             {
                 _saturationBehavior?.StartAnimation();

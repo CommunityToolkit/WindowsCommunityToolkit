@@ -4,8 +4,14 @@
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
+    /// <summary>
+    /// Sample LifeCycle Events.
+    /// </summary>
     public interface ISampleNavigation
     {
+        /// <summary>
+        /// Callback to Clean up Resources while Navigating away.
+        /// </summary>
         void NavigatingAway();
     }
 }
