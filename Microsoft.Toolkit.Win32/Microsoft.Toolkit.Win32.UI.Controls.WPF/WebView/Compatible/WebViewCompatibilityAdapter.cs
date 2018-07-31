@@ -3,20 +3,26 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
-    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter, IWebViewCompatibleAdapter
+    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter
     {
         private WebView _webView = new WebView();
 
-        public override Uri Source { get => _webView.Source; set => _webView.Source = value; }
+        public override Uri Source
+        {
+            get => _webView?.Source;
+            set
+            {
+                if (_webView != null)
+                {
+                    _webView.Source = value;
+                }
+            }
+        }
 
         public override FrameworkElement View => _webView;
 
@@ -69,19 +75,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
-        public override bool GoBack() => _webView.GoBack();
+        public override bool GoBack() => _webView?.GoBack() ?? false;
 
-        public override bool GoForward() => _webView.GoForward();
+        public override bool GoForward() => _webView?.GoForward() ?? false;
 
-        public override string InvokeScript(string scriptName) => _webView.InvokeScript(scriptName);
+        public override string InvokeScript(string scriptName) => _webView?.InvokeScript(scriptName);
 
-        public override void Navigate(Uri url) => _webView.Navigate(url);
+        public override void Navigate(Uri url) => _webView?.Navigate(url);
 
-        public override void Navigate(string url) => _webView.Navigate(url);
+        public override void Navigate(string url) => _webView?.Navigate(url);
 
-        public override void Refresh() => _webView.Refresh();
+        public override void Refresh() => _webView?.Refresh();
 
-        public override void Stop() => _webView.Stop();
+        public override void Stop() => _webView?.Stop();
 
         public override void Initialize()
         {
