@@ -7,13 +7,12 @@
       mc:Ignorable="d">
     <Page.Resources>
         <DataTemplate x:Key="PersonDataTemplate">
-            <TextBlock Foreground="{StaticResource Brush-White}"
+            <TextBlock Foreground="White"
                        Text="{Binding Name}" />
         </DataTemplate>
     </Page.Resources>
     <Grid MaxWidth="800"
-          Padding="24"
-          Background="{StaticResource Brush-Grey-05}">
+          Padding="24">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
@@ -43,13 +42,13 @@
                   Grid.Row="2"
                   Grid.Column="0"
                   Margin="0,0,5,0"
-                  Background="{StaticResource Brush-Grey-01}"
+                  Background="{ThemeResource Brush-Grey-03}"
                   ItemTemplate="{StaticResource PersonDataTemplate}" />
         <ListView x:Name="RightList"
                   Grid.Row="2"
                   Grid.Column="1"
                   Margin="5,0,0,0"
-                  Background="{StaticResource Brush-Grey-01}"
+                  Background="{ThemeResource Brush-Grey-03}"
                   ItemTemplate="{StaticResource PersonDataTemplate}" />
     </Grid>
 </Page>

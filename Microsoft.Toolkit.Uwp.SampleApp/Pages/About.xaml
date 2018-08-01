@@ -38,7 +38,7 @@
 
         <DataTemplate x:DataType="sampleapp:GitHubRelease" x:Key="ReleaseNoteTemplate">
             <HyperlinkButton HorizontalAlignment="Left"
-                             HorizontalContentAlignment="Stretch" 
+                             HorizontalContentAlignment="Stretch"
                              NavigateUri="{x:Bind Url}"
                              Width="208"
                              Click="ReleaseNotes_Click"
@@ -47,14 +47,13 @@
                     <TextBlock Text="{x:Bind FullName}"></TextBlock>
                     <TextBlock HorizontalAlignment="Right"
                                Opacity="0.5"
-                               Foreground="Black"
                                Text="{x:Bind Published.ToString('MMM d', {x:Null})}"></TextBlock>
                 </Grid>
             </HyperlinkButton>
         </DataTemplate>
 
         <DataTemplate x:DataType="sampleapp:LandingPageLink" x:Key="LinkTemplate">
-            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" 
+            <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}"
                              NavigateUri="{x:Bind Url}"
                              Click="Link_Clicked">
                 <TextBlock Text="{x:Bind Title}"></TextBlock>
@@ -67,11 +66,8 @@
     </Page.Resources>
 
     <Grid x:Name="Root" Visibility="Collapsed" extensions:VisualExtensions.NormalizedCenterPoint="0.5">
-
-        <Border x:Name="BackgroundBorder"></Border>
-        
         <controls:DropShadowPanel x:Name="DropShadow"
-                                  HorizontalAlignment="Center" 
+                                  HorizontalAlignment="Center"
                                   VerticalAlignment="Stretch"
                                   HorizontalContentAlignment="Stretch"
                                   VerticalContentAlignment="Stretch"
@@ -86,7 +82,7 @@
 
                 <Border Grid.Column="1"
                         x:Name="RightBorder"
-                        sampleapp:XAMLHelper.Background="#D4F3F3F3"
+                        Background="{ThemeResource Background-AboutPage-SidePane}"
                         extensions:VisualExtensions.NormalizedCenterPoint="0, 0.5, 0">
                     <animations:Implicit.ShowAnimations>
                         <animations:ScaleAnimation From="0, 1, 0" To="1" Duration="0:0:0.3"></animations:ScaleAnimation>
@@ -96,9 +92,9 @@
                     </animations:Implicit.HideAnimations>
                 </Border>
 
-                <Border sampleapp:XAMLHelper.Background="#F4FFFFFF"></Border>
+                <Border Background="{ThemeResource Background-AboutPage-Main}"></Border>
 
-                <Border Background="#19000000" Width="1" HorizontalAlignment="Right"></Border>
+                <Border Background="{ThemeResource Border-AboutPage-Vertical}" Width="1" HorizontalAlignment="Right"></Border>
 
                 <ScrollViewer x:Name="Scroller" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Auto">
                     <Grid x:Name="InnerGrid" HorizontalAlignment="Center" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
@@ -113,28 +109,43 @@
 
                         <Grid.RowDefinitions>
                             <RowDefinition Height="84"></RowDefinition>
-                            <RowDefinition Height="48"></RowDefinition>
-                            <RowDefinition Height="84"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="50"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
-                            <RowDefinition Height="AUto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="Auto"></RowDefinition>
                             <RowDefinition Height="*"></RowDefinition>
                             <RowDefinition Height="36"></RowDefinition>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Grid.Row="1" Grid.Column="1" TextAlignment="Center" FontSize="36" FontFamily="Segoe UI" FontWeight="Light">Get Started</TextBlock>
+                        <StackPanel
+                            Grid.Row="1"
+                            Grid.Column="1">
+                            <TextBlock
+                                FontSize="36"
+                                FontFamily="Segoe UI"
+                                FontWeight="Bold"
+                                Text="Get Started" />
+
+                            <TextBlock
+                                TextWrapping="Wrap"
+                                FontSize="14"
+                                Margin="0,20,0,0"
+                                Foreground="{ThemeResource Brush-Link-Normal}"
+                                Text="The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10." />
+                        </StackPanel>
 
                         <Grid Grid.Row="3" Grid.Column="1" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
                             <StackPanel>
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Recent Activity</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}">Recent Activity</TextBlock>
 
                                 <Grid Margin="0,16,0,0">
-                                    <TextBlock Text="None" 
-                                           Opacity="0.5" 
-                                           FontFamily="Segoe UI" 
-                                           FontSize="12" 
+                                    <TextBlock Text="None"
+                                           Opacity="0.5"
+                                           FontFamily="Segoe UI"
+                                           FontSize="12"
                                            Visibility="{x:Bind local:About.VisibleIfCollectionEmpty(RecentSamples), Mode=OneWay}"></TextBlock>
                                     <ItemsControl x:Name="RecentSamplesItemsControl"
                                                   ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
@@ -143,9 +154,7 @@
                                                   ItemContainerStyle="{StaticResource ItemsContainerStyle}">
                                     </ItemsControl>
                                 </Grid>
-
                             </StackPanel>
-
                         </Grid>
 
                         <ItemsControl x:Name="NotesSection"
@@ -156,59 +165,59 @@
                                       animations:Implicit.Animations="{StaticResource ImplicitOffset}">
 
                             <StackPanel x:Name="WhatNewPanel" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}"></TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}" Text="{x:Bind LandingPageLinks.NewSectionTitle, Mode=OneWay}" />
                                 <ItemsControl x:Name="WhatNewItemsControl" Margin="0,16,0,0" ItemsSource="{x:Bind NewSamples, Mode=OneWay}" ItemTemplate="{StaticResource NewSampleTemplate}"></ItemsControl>
                             </StackPanel>
 
                             <StackPanel x:Name="ReleaseNotesPanel" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">Release Notes</TextBlock>
+                                <TextBlock Style="{StaticResource AboutPageHeader}">Release Notes</TextBlock>
                                 <ItemsControl Margin="0,16,0,0" ItemsSource="{x:Bind GitHubReleases, Mode=OneWay}" ItemTemplate="{StaticResource ReleaseNoteTemplate}"></ItemsControl>
                             </StackPanel>
-
                         </ItemsControl>
 
                         <ItemsControl x:Name="ResourcesSection"
                                       Grid.Row="5"
                                       Grid.Column="1"
+                                      ItemsSource="{x:Bind LandingPageLinks.Resources, Mode=OneWay}"
                                       ItemsPanel="{StaticResource ItemsWrapGridHorizontalTemplate}"
                                       animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-
-                            <StackPanel MinWidth="267" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
-                                <TextBlock FontSize="20" FontFamily="Segoe UI" FontWeight="Normal">About the App</TextBlock>
-                                <ItemsControl Margin="0,16,0,0">
-                                    <TextBlock x:Name="Version" FontSize="12" Margin="0,0,0,10"></TextBlock>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="http://www.newtonsoft.com/json" Click="Link_Clicked">
-                                        <TextBlock>Newtonsoft Json (Dependency)</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://github.com/google/code-prettify" Click="Link_Clicked">
-                                        <TextBlock>Code Prettify (Dependency)</TextBlock>
-                                    </HyperlinkButton>
-                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://unsplash.com/@8moments" Click="Link_Clicked">
-                                        <TextBlock>Background photo by Simon Matzinger</TextBlock>
-                                    </HyperlinkButton>
-                                </ItemsControl>
-                            </StackPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="sampleapp:LandingPageResource">
+                                    <StackPanel MinWidth="267" Margin="0,0,0,48" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
+                                        <TextBlock Style="{StaticResource AboutPageHeader}" Text="{x:Bind Title}" />
+                                        <ItemsControl
+                                            ItemsSource="{x:Bind Links}"
+                                            Margin="0,16,0,0">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="sampleapp:LandingPageLink">
+                                                    <HyperlinkButton Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="{x:Bind Url}" Click="Link_Clicked">
+                                                        <TextBlock Text="{x:Bind Title}" />
+                                                    </HyperlinkButton>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
 
                         <Border x:Name="Seperator"
                                 Grid.Row="4"
                                 Grid.Column="4"
                                 BorderThickness="0,1,0,0"
-                                BorderBrush="#33000000"
+                                BorderBrush="{ThemeResource Border-AboutPage-Horizontal}"
                                 Margin="0,48"
                                 animations:Implicit.Animations="{StaticResource ImplicitOffset}"></Border>
                         <Border Grid.Row="4"
                                 Grid.Column="1"
                                 BorderThickness="0,1,0,0"
-                                BorderBrush="#33000000"
+                                BorderBrush="{ThemeResource Border-AboutPage-Horizontal}"
                                 Margin="0,48"
                                 animations:Implicit.Animations="{StaticResource ImplicitOffset}"></Border>
 
                         <HyperlinkButton animations:Implicit.Animations="{StaticResource ImplicitOffset}" x:Name="PrivacyButton" Grid.Row="9" Grid.Column="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" Style="{StaticResource AboutHyperlinkButtonStyle}" NavigateUri="https://go.microsoft.com/fwlink/?LinkId=521839">
                             <TextBlock>Privacy statement</TextBlock>
                         </HyperlinkButton>
-
-
                     </Grid>
                 </ScrollViewer>
             </Grid>
@@ -231,7 +240,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="DropShadow.HorizontalAlignment" Value="Stretch" />
-                        
+
                         <Setter Target="RootGrid.ColumnDefinitions[0].Width" Value="*" />
                         <Setter Target="RootGrid.ColumnDefinitions[1].Width" Value="0" />
 
@@ -259,7 +268,6 @@
                         <Setter Target="WhatNewItemsControl.MinHeight" Value="0" />
                         <Setter Target="RecentSamplesItemsControl.MinHeight" Value="0" />
                         <Setter Target="RightBorder.Visibility" Value="Collapsed"></Setter>
-
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="WideState">
@@ -268,7 +276,7 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="DropShadow.HorizontalAlignment" Value="Center" />
-                        
+
                         <Setter Target="RootGrid.ColumnDefinitions[0].Width" Value="664" />
                         <Setter Target="RootGrid.ColumnDefinitions[1].Width" Value="336" />
 
@@ -296,9 +304,7 @@
                         <Setter Target="WhatNewItemsControl.MinHeight" Value="130" />
                         <Setter Target="RecentSamplesItemsControl.MinHeight" Value="130" />
                         <Setter Target="RightBorder.Visibility" Value="Visible"></Setter>
-                        
                     </VisualState.Setters>
-
                 </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>

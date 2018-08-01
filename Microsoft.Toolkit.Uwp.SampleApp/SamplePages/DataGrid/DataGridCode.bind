@@ -5,11 +5,11 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid.Resources>
       <DataTemplate x:Key="RowDetailsTemplate">
         <StackPanel>
-          <TextBlock Margin="20" Text="Here are the details for the selected mountain:"/>
+          <TextBlock Margin="20" Text="Here are the details for the selected mountain:" />
           <Grid Margin="20,10" Padding="5" RowSpacing="3" ColumnSpacing="5">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
@@ -25,10 +25,10 @@
             <TextBlock Grid.Row="1" Text="Prominence (m): " FontWeight="SemiBold" FontSize="13" />
             <TextBlock Grid.Row="2" Text="First Ascent (year): " FontWeight="SemiBold" FontSize="13" />
             <TextBlock Grid.Row="3" Text="No. of ascents: " FontWeight="SemiBold" FontSize="13" />
-            <TextBlock Grid.Column="1" FontSize="13" Text="{Binding Coordinates}" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Column="1" FontSize="13" Text="{Binding Coordinates}" HorizontalAlignment="Right" />
             <TextBlock Grid.Row="1" Grid.Column="1" FontSize="13" Text="{Binding Prominence}" HorizontalAlignment="Right" />
-            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="13" Text="{Binding First_ascent}" HorizontalAlignment="Right"/>
-            <TextBlock Grid.Row="3" Grid.Column="1" FontSize="13" Text="{Binding Ascents}" HorizontalAlignment="Right"/>
+            <TextBlock Grid.Row="2" Grid.Column="1" FontSize="13" Text="{Binding First_ascent}" HorizontalAlignment="Right" />
+            <TextBlock Grid.Row="3" Grid.Column="1" FontSize="13" Text="{Binding Ascents}" HorizontalAlignment="Right" />
           </Grid>
         </StackPanel>
       </DataTemplate>
@@ -44,7 +44,7 @@
           <MenuFlyout>
             <MenuFlyoutItem x:Name="rankLow" Text="Rank &lt; 50" />
             <MenuFlyoutItem x:Name="rankHigh" Text="Rank &gt; 50" />
-            <MenuFlyoutSeparator/>
+            <MenuFlyoutSeparator />
             <MenuFlyoutItem x:Name="heightLow" Text="Height &lt; 8000ft" />
             <MenuFlyoutItem x:Name="heightHigh" Text="Height &gt; 8000ft" />
           </MenuFlyout>
@@ -60,7 +60,7 @@
         HorizontalScrollBarVisibility="Visible"
         VerticalScrollBarVisibility="Visible"
         AlternatingRowBackground="@[AlternatingRowBackground:Brush:Transparent]"
-        AlternatingRowForeground="@[AlternatingRowForeground:Brush:Black]"
+        AlternatingRowForeground="@[AlternatingRowForeground:Brush:Gray]"
         AreRowDetailsFrozen="@[AreRowDetailsFrozen:Bool:False]"
         AreRowGroupHeadersFrozen="@[AreRowGroupHeadersFrozen:Bool:True]"
         AutoGenerateColumns="False"
@@ -78,11 +78,11 @@
         SelectionMode="@[SelectionMode:Enum:DataGridSelectionMode.Extended]"
         RowGroupHeaderPropertyNameAlternative="Range">
       <controls:DataGrid.Columns>
-        <controls:DataGridTextColumn Header="Rank" Binding="{Binding Rank}" Tag="Rank"/>
+        <controls:DataGridTextColumn Header="Rank" Binding="{Binding Rank}" Tag="Rank" />
         <controls:DataGridTextColumn Header="Mountain" Binding="{Binding Mountain}" Tag="Mountain" />
         <controls:DataGridTextColumn Header="Height (m)" Binding="{Binding Height_m}" Tag="Height_m" />
-        <controls:DataGridTextColumn Header="Range" Binding="{Binding Range}" Tag="Range"/>
-        <controls:DataGridTextColumn Header="Parent Mountain" Binding="{Binding Parent_mountain}" Tag="Parent_mountain"/>
+        <controls:DataGridTextColumn Header="Range" Binding="{Binding Range}" Tag="Range" />
+        <controls:DataGridTextColumn Header="Parent Mountain" Binding="{Binding Parent_mountain}" Tag="Parent_mountain" />
       </controls:DataGrid.Columns>
     </controls:DataGrid>
   </Grid>
