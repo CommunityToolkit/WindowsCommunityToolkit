@@ -21,7 +21,7 @@
         </DataTemplate>
     </Page.Resources>
   
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <controls:AdaptiveGridView Name="AdaptiveGridViewControl"
                                    OneRowModeEnabled="@[OneRowModeEnabled:Bool:false]"
                                    ItemHeight="@[ItemHeight:Slider:200:50-500]"
