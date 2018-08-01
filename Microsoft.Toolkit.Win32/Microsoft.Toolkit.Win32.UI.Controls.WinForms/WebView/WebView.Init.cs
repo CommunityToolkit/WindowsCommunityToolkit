@@ -123,8 +123,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                         PrivateNetworkClientServerCapability = (Interop.WinRT.WebViewControlProcessCapabilityState)(_delayedPrivateNetworkEnabled
                             ? WebViewControlProcessCapabilityState.Enabled
                             : WebViewControlProcessCapabilityState.Disabled),
-                        EnterpriseId = _delayedEnterpriseId,
-                        Partition = _delayedPartition
+                        EnterpriseId = _delayedEnterpriseId
                     };
 
                     Process = new WebViewControlProcess(options);
