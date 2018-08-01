@@ -527,7 +527,7 @@
       {
         "Name": "Bing Service",
         "Type": "BingPage",
-        "About": "The Bing Service will be removed in a future major release. Please use the Cognitive service.",
+        "About": "The Bing Service will be removed in a future major release. Please use the Cognitive services.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing",
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png",
