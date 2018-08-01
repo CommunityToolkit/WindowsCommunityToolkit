@@ -532,7 +532,7 @@
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive service.",
+        "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive services.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Bing.md"
       },
       {
