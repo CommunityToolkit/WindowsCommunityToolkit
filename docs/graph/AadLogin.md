@@ -60,7 +60,7 @@ First of all, initialize the [MicrosoftGraphService](../services/MicrosoftGraph.
 MicrosoftGraphService.Instance.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
 
 MicrosoftGraphService.Instance.Initialize(
-    'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+    "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     MicrosoftGraphEnums.ServicesToInitialize.UserProfile,
     AadLogin.RequiredDelegatedPermissions
 );
