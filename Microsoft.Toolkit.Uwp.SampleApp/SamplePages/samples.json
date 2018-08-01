@@ -973,13 +973,6 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/developer-tools/FocusTracker.md"
-      },
-      {
-        "Name": "Analytics",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/developer-tools/Analytics.md",
-        "About": "List of frameworks to help you track activity in your apps.",
-        "CodeFile": "AnalyticsCode.bind",
-        "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
   },
