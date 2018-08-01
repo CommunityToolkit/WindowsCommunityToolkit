@@ -15,17 +15,32 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         public static WindowsXamlHostBaseExt GetWrapper(this FrameworkElement control)
         {
+            if (control == null)
+            {
+                return null;
+            }
+
             _controlCollection.TryGetValue(control, out var result);
             return result;
         }
 
         public static void SetWrapper(this FrameworkElement control, WindowsXamlHostBaseExt wrapper)
         {
+            if (control == null || wrapper == null)
+            {
+                return;
+            }
+
             _controlCollection.Add(control, wrapper);
         }
 
         public static void ClearWrapper(this FrameworkElement control)
         {
+            if (control == null)
+            {
+                return;
+            }
+
             _controlCollection.Remove(control);
         }
     }

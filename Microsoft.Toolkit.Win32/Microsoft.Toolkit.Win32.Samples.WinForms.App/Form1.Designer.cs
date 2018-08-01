@@ -36,6 +36,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.inkToolbar1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbar();
             this.inkCanvas1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkCanvas();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -77,6 +78,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.inkToolbar1);
             this.tabPage2.Controls.Add(this.inkCanvas1);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
@@ -85,6 +87,17 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Ink Canvas / Toolbar";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // inkToolbar1
+            // 
+            this.inkToolbar1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.inkToolbar1.Location = new System.Drawing.Point(3, 3);
+            this.inkToolbar1.MinimumSize = new System.Drawing.Size(20, 60);
+            this.inkToolbar1.Name = "inkToolbar1";
+            this.inkToolbar1.Size = new System.Drawing.Size(1574, 60);
+            this.inkToolbar1.TabIndex = 2;
+            this.inkToolbar1.TargetInkCanvas = this.inkCanvas1;
+            this.inkToolbar1.Text = "inkToolbar1";
             // 
             // inkCanvas1
             // 
@@ -117,6 +130,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private System.Windows.Forms.TabPage tabPage2;
         private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
         private UI.Controls.WinForms.InkCanvas inkCanvas1;
+        private UI.Controls.WinForms.InkToolbar inkToolbar1;
     }
 }
 

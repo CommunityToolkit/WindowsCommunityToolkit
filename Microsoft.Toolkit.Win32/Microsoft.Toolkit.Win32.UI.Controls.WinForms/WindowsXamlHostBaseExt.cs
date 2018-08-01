@@ -16,10 +16,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             InitializeElement();
         }
 
-        protected virtual void InitializeElement()
+        internal virtual void InitializeElement()
         {
             XamlElement = UWPTypeFactory.CreateXamlContentByType(initialTypeName);
             desktopWindowXamlSource.Content = XamlElement;
+            XamlElement.SetWrapper(this);
         }
 
         protected override void Dispose(bool disposing)

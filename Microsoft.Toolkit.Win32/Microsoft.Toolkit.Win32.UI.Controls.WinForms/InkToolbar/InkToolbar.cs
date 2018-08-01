@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
     [Designer(typeof(InkToolbarDesigner))]
     public class InkToolbar : WindowsXamlHostBaseExt
     {
-        protected global::Windows.UI.Xaml.Controls.InkToolbar UwpControl { get; set; }
+        protected Windows.UI.Xaml.Controls.InkToolbar UwpControl { get; set; }
 
         public InkToolbar()
             : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).FullName)
@@ -18,12 +18,28 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             : base(name)
         {
             InitializeElement();
+            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbar;
         }
 
         public InkCanvas TargetInkCanvas
         {
-            get => UwpControl.TargetInkCanvas.GetWrapper() as InkCanvas;
-            set => UwpControl.TargetInkCanvas = value.UwpControl;
+            get
+            {
+                if (UwpControl?.TargetInkCanvas == null)
+                {
+                    return null;
+                }
+
+                return UwpControl.TargetInkCanvas.GetWrapper() as InkCanvas;
+            }
+
+            set
+            {
+                if (UwpControl != null)
+                {
+                    UwpControl.TargetInkCanvas = value?.UwpControl;
+                }
+            }
         }
     }
 }
