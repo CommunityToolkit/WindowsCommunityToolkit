@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             return true;
         }
 
-        #if WINRT
+#if WINRT
         /// <summary>
         /// Initialize underlying provider with relevent token information for Uwp.
         /// </summary>
@@ -155,7 +155,17 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             return Initialize(consumerKey, consumerSecret, callbackUri, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
         }
-        #endif
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(TwitterOAuthTokens oAuthTokens)
+        {
+            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
+        }
+#endif
 
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
@@ -238,7 +248,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             return null;
         }
 
-        #if WINRT
+#if WINRT
         /// <summary>
         /// Post a Tweet with associated pictures.
         /// </summary>
@@ -250,7 +260,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
         }
 
-        #else
+#else
 
         /// <summary>
         /// Post a Tweet with associated pictures.
@@ -262,9 +272,9 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
         }
-        #endif
+#endif
 
-        #if WINRT
+#if WINRT
         /// <summary>
         /// Post a Tweet with associated pictures.
         /// </summary>
@@ -292,7 +302,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             return false;
         }
 
-        #else
+#else
 
         /// <summary>
         /// Post a Tweet with associated pictures.
@@ -320,7 +330,7 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             return false;
         }
-        #endif
+#endif
 
         /// <summary>
         /// Request list data from service provider based upon a given config / query.

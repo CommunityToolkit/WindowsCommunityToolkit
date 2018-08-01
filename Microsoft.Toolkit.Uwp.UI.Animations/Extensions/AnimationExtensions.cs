@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                               /// <summary>
                               /// A cached dictionary mapping easings to bezier control points
                               /// </summary>
-        private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode),(Vector2, Vector2)>();
+        private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode), (Vector2, Vector2)>();
 #pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
 #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
