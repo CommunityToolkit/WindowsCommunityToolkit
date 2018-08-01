@@ -338,12 +338,12 @@
             </Grid>
         </DataTemplate>
     </Page.Resources>
-    <Grid Background="{StaticResource Brush-Grey-05}" x:Name="Root"
+    <Grid Background="{ThemeResource Brush-Grey-05}" x:Name="Root"
           MaxWidth="800">
         <Grid Margin="24" 
               BorderThickness="1" 
-              BorderBrush="#FFCCCCCC" 
-              Background="{StaticResource Brush-Grey-04}"
+              BorderBrush="{ThemeResource InfoArea-Titlebar}" 
+              Background="{ThemeResource Brush-Grey-04}"
               CornerRadius="4">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"></RowDefinition>
@@ -385,7 +385,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
 
@@ -401,7 +401,7 @@
                                        HorizontalAlignment="Left" 
                                        VerticalAlignment="Center" 
                                        Margin="12,6" 
-                                       Foreground="{StaticResource Brush-Grey-01}" />
+                                       Foreground="{ThemeResource Brush-Grey-01}" />
                         </Grid>
 
                         <StackPanel x:Name="ClientIdBox" 
@@ -456,7 +456,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC" Visibility="Collapsed">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}" Visibility="Collapsed">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition />
@@ -471,7 +471,7 @@
                                        HorizontalAlignment="Left" 
                                        VerticalAlignment="Center" 
                                        Margin="12,6" 
-                                       Foreground="{StaticResource Brush-Grey-01}" />
+                                       Foreground="{ThemeResource Brush-Grey-01}" />
                         </Grid>
                         <StackPanel Grid.Row="1" Margin="0" x:Name="FilesPanel" Visibility="Collapsed" >
                             <TextBox Header="#Items by page:" 

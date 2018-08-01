@@ -12,7 +12,7 @@
     g:GazeInput.CursorRadius="@[CursorRadius:Slider:5:5-50]@"
     >
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
         <Button x:Name="TargetButton" HorizontalAlignment="Center" BorderBrush="#7FFFFFFF"
 
                     g:GazeInput.ThresholdDuration="@[ThresholdDuration:TimeSpan:50:0-1500]@"

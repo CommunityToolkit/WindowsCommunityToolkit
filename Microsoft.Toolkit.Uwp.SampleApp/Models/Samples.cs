@@ -63,6 +63,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                     foreach (var sample in category.Samples)
                     {
+                        sample.CategoryName = category.Name;
+
                         if (sample.IsSupported)
                         {
                             finalSamples.Add(sample);
