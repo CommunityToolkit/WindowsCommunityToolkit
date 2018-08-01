@@ -1,5 +1,5 @@
 <Project>
-
+  
   <Choose>
     <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
