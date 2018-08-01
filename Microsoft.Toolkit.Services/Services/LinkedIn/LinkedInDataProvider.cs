@@ -8,9 +8,12 @@ using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Services;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json.Linq;
+
+#if WINRT
+using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
+#endif
 
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
@@ -65,6 +68,23 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             _storageManager = storageManager;
             _passwordManager = passwordManager;
         }
+
+#if WINRT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        /// <param name="requiredPermissions">Required permissions for the session.</param>
+        public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        {
+            Tokens = tokens;
+            RequiredPermissions = requiredPermissions;
+            _authentication = new UwpAuthenticationBroker();
+            _storageManager = new UwpStorageManager();
+            _passwordManager = new UwpPasswordManager();
+        }
+#endif
 
         /// <summary>
         /// Log user in to LinkedIn.

@@ -13,8 +13,10 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
 using Newtonsoft.Json;
+
 #if WINRT
 using System.Runtime.InteropServices.WindowsRuntime;
+using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
@@ -111,6 +113,28 @@ namespace Microsoft.Toolkit.Services.Twitter
                 _client = new HttpClient(handler);
             }
         }
+
+#if WINRT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public TwitterDataProvider(TwitterOAuthTokens tokens)
+        {
+            _tokens = tokens;
+            _authenticationBroker = new UwpAuthenticationBroker();
+            _passwordManager = new UwpPasswordManager();
+            _storageManager = new UwpStorageManager();
+            _signatureManager = new UwpSignatureManager();
+            if (_client == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                _client = new HttpClient(handler);
+            }
+        }
+#endif
 
         /// <summary>
         /// Retrieve user data.
