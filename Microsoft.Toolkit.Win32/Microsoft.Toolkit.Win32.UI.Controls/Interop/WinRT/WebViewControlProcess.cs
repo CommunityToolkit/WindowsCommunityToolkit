@@ -17,8 +17,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public sealed class WebViewControlProcess
     {
-        private const string WinRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
-
         [SecurityCritical]
         private readonly Windows.Web.UI.Interop.WebViewControlProcess _process;
 
@@ -64,40 +62,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public bool IsPrivateNetworkClientServerCapabilityEnabled => _process.IsPrivateNetworkClientServerCapabilityEnabled;
 
         /// <summary>
-        /// Gets a value indicating the partition of the web view.
-        /// </summary>
-        /// <value>The partition.</value>
-        public string Partition
-        {
-            get
-            {
-                return ApiInformationExtensions.ExecuteIfPropertyPresent(
-                    WinRtType,
-                    "Partition",
-                    () => _process.Partition) ?? string.Empty;
-            }
-        }
-
-        /// <summary>
         /// Gets the process identifier (PID) of the underlying WWAHost.
         /// </summary>
         /// <value>The process identifier (PID).</value>
         public uint ProcessId => _process.ProcessId;
-
-        /// <summary>
-        /// Gets the user agent of the underlying web view
-        /// </summary>
-        /// <value>The user agent.</value>
-        public string UserAgent
-        {
-            get
-            {
-                return ApiInformationExtensions.ExecuteIfPropertyPresent(
-                    WinRtType,
-                    "UserAgent",
-                    () => _process.UserAgent) ?? string.Empty;
-            }
-        }
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/> to <see cref="WebViewControlProcess"/>.
