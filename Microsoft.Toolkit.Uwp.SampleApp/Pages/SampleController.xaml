@@ -94,15 +94,14 @@
                 </AppBarButton>
             </Grid>
 
-            <Grid x:Name="DemoAreaGrid" Grid.Row="2">
+            <Grid x:Name="DemoAreaGrid" Grid.Row="2" Background="{ThemeResource Brush-Sample-Background}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <Border x:Name="PlainBackground"
-                    Background="{ThemeResource Brush-Sample-Background}"
-                    Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
+                        Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
 
                 <ContentPresenter x:Name="SampleContent" />
 
