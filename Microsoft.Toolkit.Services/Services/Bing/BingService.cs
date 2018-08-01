@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -13,6 +14,7 @@ namespace Microsoft.Toolkit.Services.Bing
     /// <summary>
     /// Class for connecting to Bing.
     /// </summary>
+    [Obsolete("The Bing Service will be removed in a future major release. Please use the Cognitive services.")]
     public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>, IIncrementalSource<BingResult>
     {
         private readonly BingSearchConfig _config;
