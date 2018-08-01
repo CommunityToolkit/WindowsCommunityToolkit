@@ -20,7 +20,6 @@
   </Page.Resources>
   
   <Grid x:Name="RootGrid" 
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
         Margin="48"
         BorderThickness="0,0,1,1"
         BorderBrush="{ThemeResource SystemControlHighlightChromeHighBrush}"

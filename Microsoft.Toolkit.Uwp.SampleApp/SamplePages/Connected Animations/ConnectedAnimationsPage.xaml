@@ -8,11 +8,11 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="40">
+    <Grid Padding="40">
 
         <Border BorderBrush="Gray" BorderThickness="1">
 
-            <Grid>
+            <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"></RowDefinition>
@@ -31,6 +31,5 @@
                 <Frame Grid.Row="1" Navigated="Frame_Navigated" Navigating="RootFrame_Navigating" x:Name="RootFrame"></Frame>
             </Grid>
         </Border>
-
     </Grid>
 </Page>
