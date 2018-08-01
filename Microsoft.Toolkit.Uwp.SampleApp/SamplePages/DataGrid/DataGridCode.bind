@@ -37,11 +37,8 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <CommandBar Background="{ThemeResource Brush-Main}" Margin="12" IsOpen="True" IsSticky="True" HorizontalAlignment="Stretch"
-      VerticalContentAlignment="Center" DefaultLabelPosition="Right">
-      <CommandBar.Content>
-        <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}" />
-      </CommandBar.Content>
+    <StackPanel Orientation="Horizontal" Margin="12">
+      <TextBlock Text="DataGrid Sample : Mountains" VerticalAlignment="Center" Margin="5,0" Style="{ThemeResource SubtitleTextBlockStyle}"></TextBlock>
       <AppBarButton Icon="Filter" Label="Filter by">
         <AppBarButton.Flyout>
           <MenuFlyout>
@@ -54,7 +51,7 @@
         </AppBarButton.Flyout>
       </AppBarButton>
       <AppBarButton x:Name="groupButton" Icon="List" Label="Group by" />
-    </CommandBar>
+    </StackPanel>
     <controls:DataGrid
       Grid.Row="1"
         x:Name="dataGrid"
