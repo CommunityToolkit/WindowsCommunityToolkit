@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// <summary>
     /// Authentication Helper Using Azure Active Directory v2.0 app Model
     /// </summary>
-    public class MicrosoftGraphAuthenticationHelper
+    internal class MicrosoftGraphAuthenticationHelper
     {
         /// <summary>
         /// Base Url for service.
