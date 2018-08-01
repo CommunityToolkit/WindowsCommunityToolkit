@@ -51,7 +51,15 @@
                         Margin="5,0,0,0"
                         Width="50">
                         <AppBarButton.Icon>
-                            <PathIcon Style="{StaticResource GithubIcon}" />
+                            <PathIcon
+                                Data="{StaticResource GithubIcon}"
+                                Width="50"
+                                Height="50"
+                                Margin="-10">
+                                <PathIcon.RenderTransform>
+                                    <CompositeTransform TranslateY="8" TranslateX="3" />
+                                </PathIcon.RenderTransform>
+                            </PathIcon>
                         </AppBarButton.Icon>
                     </AppBarButton>
 
