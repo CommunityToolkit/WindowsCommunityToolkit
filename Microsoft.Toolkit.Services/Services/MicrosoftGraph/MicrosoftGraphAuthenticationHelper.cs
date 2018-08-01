@@ -4,12 +4,12 @@
 
 using System;
 using System.Linq;
-#if WINRT
+#if WINRT || WINDOWS_UWP
 using System.Net.Http;
 #endif
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
-#if WINRT
+#if WINRT || WINDOWS_UWP
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Windows.Storage;
 #endif
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
         protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
         private static MSAL.PublicClientApplication _identityClient = null;
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         /// <summary>
         /// Password vault used to store access tokens
         /// </summary>
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         public MicrosoftGraphAuthenticationHelper()
         {
-#if WINRT
+#if WINRT || WINDOWS_UWP
             _vault = new Windows.Security.Credentials.PasswordVault();
 #endif
         }
@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         internal void CleanToken()
         {
             TokenForUser = null;
-#if WINRT
+#if WINRT || WINDOWS_UWP
             _azureAdContext.TokenCache.Clear();
 #endif
         }
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             return true;
         }
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         /// <summary>
         /// Get a Microsoft Graph access token from Azure AD.
         /// </summary>
