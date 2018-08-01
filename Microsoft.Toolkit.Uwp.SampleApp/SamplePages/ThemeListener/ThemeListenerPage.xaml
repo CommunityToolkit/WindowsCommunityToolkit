@@ -22,7 +22,7 @@
 
         <StackPanel Margin="20">
             <TextBlock
-                Text="Shell Theme"
+                Text="Sample Theme"
                 FontWeight="Bold"
                 FontSize="18" />
 

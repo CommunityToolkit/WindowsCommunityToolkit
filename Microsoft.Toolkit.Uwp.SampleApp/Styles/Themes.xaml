@@ -89,7 +89,7 @@
             <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
                              Color="#11000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
-                             Color="#11000000" />
+                             Color="#FFCCCCCC" />
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#AA000000" />
 
@@ -166,7 +166,7 @@
             <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
                              Color="#4C000000" />
             <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
-                             Color="#88000000" />
+                             Color="#FF1C1C1C" />
             <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
                              Color="#66FFFFFF" />
 

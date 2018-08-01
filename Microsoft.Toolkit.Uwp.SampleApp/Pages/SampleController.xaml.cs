@@ -49,12 +49,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 SidePaneState = PaneState.Normal;
             }
 
-            ThemeChanged += Current_ThemeChanged;
-
             ThemePicker.SelectedIndex = (int)GetCurrentTheme();
             ThemePicker.SelectionChanged += ThemePicker_SelectionChanged;
 
-            DocumentationTextblock.RequestedTheme = GetCurrentTheme();
             DocumentationTextblock.SetRenderer<SampleAppMarkdownRenderer>();
 
             ProcessSampleEditorTime();
@@ -67,7 +64,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <returns>The Current UI Theme</returns>
         public ElementTheme GetCurrentTheme()
         {
-            return RequestedTheme;
+            return DemoAreaGrid.RequestedTheme;
+        }
+
+        /// <summary>
+        /// Gets the current System Theme.
+        /// </summary>
+        /// <returns>System Theme</returns>
+        public ApplicationTheme SystemTheme()
+        {
+            return _themeListener.CurrentTheme;
         }
 
         /// <summary>
@@ -76,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="theme">Theme to set</param>
         public void SetCurrentTheme(ElementTheme theme)
         {
-            RequestedTheme = theme;
+            DemoAreaGrid.RequestedTheme = theme;
             var args = new ThemeChangedArgs
             {
                 CustomSet = true,
@@ -93,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public ElementTheme GetActualTheme()
         {
             var theme = _themeListener.CurrentTheme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
-            if (RequestedTheme != ElementTheme.Default)
+            if (DemoAreaGrid.RequestedTheme != ElementTheme.Default)
             {
                 theme = RequestedTheme;
             }
@@ -589,19 +595,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private void Current_ThemeChanged(object sender, ThemeChangedArgs e)
-        {
-            if (e.CustomSet)
-            {
-                DocumentationTextblock.RequestedTheme = e.Theme;
-            }
-        }
-
         private void ThemePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {
-                Current.SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
+                SetCurrentTheme((ElementTheme)ThemePicker.SelectedIndex);
             }
             catch (Exception ex)
             {

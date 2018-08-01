@@ -24,11 +24,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public XamlCodeEditor()
         {
             this.InitializeComponent();
-            XamlCodeRenderer.RequestedTheme = SampleController.Current.GetActualTheme();
-            SampleController.Current.ThemeChanged += (s, e) =>
-            {
-                XamlCodeRenderer.RequestedTheme = SampleController.Current.GetActualTheme();
-            };
         }
 
         public async Task ResetPosition()

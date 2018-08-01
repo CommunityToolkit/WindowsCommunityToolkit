@@ -14,9 +14,6 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Border x:Name="PlainBackground"
-                Background="{ThemeResource Brush-Sample-Background}"
-                Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
 
         <Grid x:Name="RootGrid">
             <Grid.ColumnDefinitions>
@@ -94,6 +91,10 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+
+                <Border x:Name="PlainBackground"
+                    Background="{ThemeResource Brush-Sample-Background}"
+                    Visibility="{x:Bind Not(UseBackground), Mode=OneWay}" />
 
                 <ContentPresenter x:Name="SampleContent" />
 

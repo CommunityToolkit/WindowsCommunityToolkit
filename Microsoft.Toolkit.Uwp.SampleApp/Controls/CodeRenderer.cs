@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public CodeRenderer()
         {
             DefaultStyleKey = typeof(CodeRenderer);
-            _theme = SampleController.Current.GetActualTheme();
+            _theme = SystemTheme();
             SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
@@ -156,7 +156,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
         {
-            _theme = SampleController.Current.GetActualTheme();
+            // Only Handle System Theme Changes.
+            if (e.CustomSet)
+            {
+                return;
+            }
+
+            _theme = SystemTheme();
             try
             {
                 _rendered = false;
@@ -165,6 +171,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             catch
             {
             }
+        }
+
+        /// <summary>
+        /// Casts Application Theme to Element Theme, as Formatter accepts ElementTheme.
+        /// </summary>
+        /// <returns>Element Theme</returns>
+        private ElementTheme SystemTheme()
+        {
+            return SampleController.Current.SystemTheme() == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
         }
     }
 }
