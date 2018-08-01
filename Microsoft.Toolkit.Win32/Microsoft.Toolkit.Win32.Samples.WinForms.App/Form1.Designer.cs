@@ -36,8 +36,10 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.inkCanvas1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkCanvas();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -48,7 +50,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1589, 1087);
+            this.tabControl1.Size = new System.Drawing.Size(1588, 1088);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -57,7 +59,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabPage1.Location = new System.Drawing.Point(4, 29);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1581, 1054);
+            this.tabPage1.Size = new System.Drawing.Size(1580, 1055);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "WebViewCompatible";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -67,7 +69,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
             this.webViewCompatible1.Name = "webViewCompatible1";
-            this.webViewCompatible1.Size = new System.Drawing.Size(1575, 1048);
+            this.webViewCompatible1.Size = new System.Drawing.Size(1574, 1049);
             this.webViewCompatible1.Source = new System.Uri("http://www.bing.com", System.UriKind.Absolute);
             this.webViewCompatible1.TabIndex = 0;
             this.webViewCompatible1.Text = "webViewCompatible1";
@@ -75,24 +77,35 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.inkCanvas1);
             this.tabPage2.Location = new System.Drawing.Point(4, 29);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1581, 1054);
+            this.tabPage2.Size = new System.Drawing.Size(1580, 1055);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Ink Canvas / Toolbar";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // inkCanvas1
+            // 
+            this.inkCanvas1.Location = new System.Drawing.Point(3, 249);
+            this.inkCanvas1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.inkCanvas1.Name = "inkCanvas1";
+            this.inkCanvas1.Size = new System.Drawing.Size(1570, 796);
+            this.inkCanvas1.TabIndex = 1;
+            this.inkCanvas1.Text = "inkCanvas1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1589, 1087);
+            this.ClientSize = new System.Drawing.Size(1588, 1088);
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -103,6 +116,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
+        private UI.Controls.WinForms.InkCanvas inkCanvas1;
     }
 }
 

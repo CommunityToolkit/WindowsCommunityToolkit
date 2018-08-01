@@ -1,24 +1,19 @@
-﻿using Microsoft.Toolkit.Win32.UI.Interop;
-using Microsoft.Toolkit.Win32.UI.Interop.WinForms;
-
-namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkCanvas
+﻿namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public class InkCanvas : WindowsXamlHostBase
+    public class InkCanvas : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkCanvas UwpControl { get; set; }
-
-        private readonly string initialTypeName;
+        internal Windows.UI.Xaml.Controls.InkCanvas UwpControl { get; set; }
 
         public InkCanvas()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkCanvas).Name)
+            : this(typeof(Windows.UI.Xaml.Controls.InkCanvas).FullName)
         {
         }
 
-        public InkCanvas(string name)
+        protected InkCanvas(string name)
+            : base(name)
         {
-            initialTypeName = name;
-            UwpControl = UWPTypeFactory.CreateXamlContentByType(initialTypeName) as global::Windows.UI.Xaml.Controls.InkCanvas;
-            desktopWindowXamlSource.Content = UwpControl;
+            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkCanvas;
+            UwpControl.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
     }
 }

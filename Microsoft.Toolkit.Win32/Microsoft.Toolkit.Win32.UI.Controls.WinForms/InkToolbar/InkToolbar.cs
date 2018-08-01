@@ -1,24 +1,29 @@
-﻿using Microsoft.Toolkit.Win32.UI.Interop;
+﻿using System.ComponentModel;
+using Microsoft.Toolkit.Win32.UI.Interop;
 using Microsoft.Toolkit.Win32.UI.Interop.WinForms;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbar
+namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    public class InkToolbar : WindowsXamlHostBase
+    [Designer(typeof(InkToolbarDesigner))]
+    public class InkToolbar : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbar UwpControl { get; set; }
-
-        private readonly string initialTypeName;
+        protected global::Windows.UI.Xaml.Controls.InkToolbar UwpControl { get; set; }
 
         public InkToolbar()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).Name)
+            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).FullName)
         {
         }
 
-        public InkToolbar(string name)
+        protected InkToolbar(string name)
+            : base(name)
         {
-            initialTypeName = name;
-            UwpControl = UWPTypeFactory.CreateXamlContentByType(initialTypeName) as global::Windows.UI.Xaml.Controls.InkToolbar;
-            desktopWindowXamlSource.Content = UwpControl;
+            InitializeElement();
+        }
+
+        public InkCanvas TargetInkCanvas
+        {
+            get => UwpControl.TargetInkCanvas.GetWrapper() as InkCanvas;
+            set => UwpControl.TargetInkCanvas = value.UwpControl;
         }
     }
 }

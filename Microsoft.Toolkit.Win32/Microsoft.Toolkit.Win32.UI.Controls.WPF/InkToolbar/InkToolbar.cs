@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public InkToolbar(string typeName)
+        protected InkToolbar(string typeName)
             : base(typeName)
         {
             Children = new ObservableCollection<DependencyObject>();

@@ -89,6 +89,10 @@
       <Project>{e2cf9896-fe3b-49ab-8b53-1cf7b2fb1240}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj">
+      <Project>{e944017d-f78c-4ca2-9ec3-6cbe3abe525b}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Interop.WinForms</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
