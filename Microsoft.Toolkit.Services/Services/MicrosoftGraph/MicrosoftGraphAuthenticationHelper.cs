@@ -20,16 +20,31 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// <summary>
     /// Authentication Helper Using Azure Active Directory v2.0 app Model
     /// </summary>
-    internal class MicrosoftGraphAuthenticationHelper
+    public class MicrosoftGraphAuthenticationHelper
     {
         /// <summary>
         /// Base Url for service.
         /// </summary>
         protected const string Authority = "https://login.microsoftonline.com/common/";
+
+        /// <summary>
+        /// Default Redirect Uri
+        /// </summary>
         protected const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+
+        /// <summary>
+        /// Default Authority url for V2
+        /// </summary>
         protected const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
 
+        /// <summary>
+        /// Default Authorization Token Service
+        /// </summary>
         protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+
+        /// <summary>
+        /// Default Logout Url for V2
+        /// </summary>
         protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
 
 #if WINRT
@@ -109,7 +124,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="appClientId">Application client Id</param>
         /// <param name="loginHint">UPN</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
+        public async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
         {
             return await GetUserTokenV2Async(appClientId, null, null, loginHint);
         }
@@ -122,7 +137,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <param name="loginHint">UPN</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        public async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
         {
             if (_identityClient == null)
             {
@@ -165,12 +180,16 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
-        internal bool Logout()
+        public bool Logout()
         {
             return LogoutV2();
         }
 
-        internal bool LogoutV2()
+        /// <summary>
+        /// Logout the user using the V2 endpoint
+        /// </summary>
+        /// <returns>Success or failure</returns>
+        public bool LogoutV2()
         {
             try
             {
@@ -192,7 +211,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="resourceId">Azure AD application resource ID</param>
         /// <param name="promptBehavior">Prompt behavior</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
+        public async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
@@ -218,7 +237,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name="authenticationModel">Authentication version endPoint</param>
         /// <returns>Success or failure</returns>
-        internal async Task<bool> LogoutAsync(string authenticationModel)
+        public async Task<bool> LogoutAsync(string authenticationModel)
         {
             HttpResponseMessage response = null;
             ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
