@@ -30,10 +30,9 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        private const string BASEURL = "https://api.twitter.com/1.1";
-
+        private const string BaseUrl = "https://api.twitter.com/1.1";
         private const string OAuthBaseUrl = "https://api.twitter.com/oauth";
-        private const string PUBLISHURL = "https://upload.twitter.com/1.1";
+        private const string PublishUrl = "https://upload.twitter.com/1.1";
         private const string UserStreamUrl = "https://userstream.twitter.com/1.1";
 
         private static HttpClient _client;
@@ -57,38 +56,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Gets a value indicating whether the provider is already logged in
         /// </summary>
         public bool LoggedIn { get; private set; }
-
-        /// <summary>
-        /// Gets the url for upload images for Twitter api.
-        /// </summary>
-        public string PublishUrl
-        {
-            get { return PUBLISHURL; }
-        }
-
-        /// <summary>
-        /// Gets the base Url for Twitter api.
-        /// </summary>
-        public string BaseUrl
-        {
-            get { return BASEURL; }
-        }
-
-        /// <summary>
-        /// Gets the tokens to execute request.
-        /// </summary>
-        public TwitterOAuthTokens Tokens
-        {
-            get { return _tokens; }
-        }
-
-        /// <summary>
-        /// Gets a reference for the SignatureManager used on the initialize.
-        /// </summary>
-        public ISignatureManager SigntureManager
-        {
-            get { return _signatureManager; }
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
@@ -307,6 +274,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tweet">Tweet text.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Success or failure.</returns>
+        [Obsolete("This method is deprecated in favour of TweetStatusAsync(string tweet, params Stream[] pictures). It will be removed in future version")]
         public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
             return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures.Select(x => x.AsStream()).ToArray());
@@ -359,6 +327,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
+        [Obsolete("This method is deprecated in favour of UploadPictureAsync(Stream stream). It will be removed in future version")]
         public Task<string> UploadPictureAsync(IRandomAccessStream stream)
         {
             return UploadPictureAsync(stream.AsStream());

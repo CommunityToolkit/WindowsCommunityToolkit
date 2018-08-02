@@ -267,6 +267,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="message">Tweet message.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
+        [Obsolete("This method is deprecated in favour of TweetStatusAsync(string message, params Stream[] pictures). It will be removed in future version")]
         public async Task<bool> TweetStatusAsync(string message, params IRandomAccessStream[] pictures)
         {
             return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures.Select(x => x.AsStream()).ToArray());
@@ -292,6 +293,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="status">The tweet information.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
+        [Obsolete("This method is deprecated in favour of TweetStatusAsync(TwitterStatus status, params Stream[] pictures). It will be removed in future version")]
         public Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
         {
             return TweetStatusAsync(status, pictures.Select(x => x.AsStream()).ToArray());
