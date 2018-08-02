@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid>
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center">
             <StackPanel x:Name="Stack0"

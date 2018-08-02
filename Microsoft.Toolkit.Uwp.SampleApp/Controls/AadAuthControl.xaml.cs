@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void GraphService_SignInFailed(object sender, Toolkit.Services.MicrosoftGraph.SignInFailedEventArgs e)
         {
-            Shell.Current.ShowExceptionNotification(e.Exception);
+            SampleController.Current.ShowExceptionNotification(e.Exception);
         }
 
         private string[] GetAdminPermissions()
