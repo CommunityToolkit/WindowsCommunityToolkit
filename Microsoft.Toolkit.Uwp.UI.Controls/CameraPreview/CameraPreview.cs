@@ -154,7 +154,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         InvokePreviewFailed("CameraPreview is only supported on the April 2018 Windows 10 Update or later");
                     }
-
                 }
             }
             catch (Exception ex)

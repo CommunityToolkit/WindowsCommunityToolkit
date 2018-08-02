@@ -10,7 +10,6 @@ using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public InfiniteCanvasPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -31,11 +31,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _infiniteCanvas = control.FindChildByName("canvas") as InfiniteCanvas;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Export & Save", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Export & Save", async (sender, args) =>
             {
                 if (_infiniteCanvas != null)
                 {
@@ -56,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            Shell.Current.RegisterNewCommand("Import and Load", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Import and Load", async (sender, args) =>
             {
                 if (_infiniteCanvas != null)
                 {

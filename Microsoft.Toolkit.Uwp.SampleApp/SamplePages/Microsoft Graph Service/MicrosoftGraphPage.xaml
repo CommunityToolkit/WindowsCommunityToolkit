@@ -8,10 +8,10 @@
       mc:Ignorable="d">
 
     <Grid MaxWidth="800"
-          Background="{StaticResource Brush-Grey-05}">
+          Background="{ThemeResource Brush-Grey-05}">
         <Grid Margin="24"
-              Background="{StaticResource Brush-Grey-04}"
-              BorderBrush="#FFCCCCCC"
+              Background="{ThemeResource Brush-Grey-04}"
+              BorderBrush="{ThemeResource InfoArea-Titlebar}"
               BorderThickness="1"
               CornerRadius="4">
             <Grid.RowDefinitions>
@@ -55,7 +55,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
 
@@ -70,7 +70,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Azure Active Directory Configuration" />
                         </Grid>
 
@@ -127,7 +127,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -141,7 +141,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="User" />
                         </Grid>
                         <StackPanel x:Name="UserPanel"
@@ -183,7 +183,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -197,7 +197,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Messages" />
                         </Grid>
 
@@ -260,7 +260,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -274,7 +274,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Events" />
                         </Grid>
 

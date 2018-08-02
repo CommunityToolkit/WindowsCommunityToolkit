@@ -7,6 +7,7 @@ using System.Security;
 using System.Threading.Tasks;
 
 using Windows.Foundation;
+using Windows.Foundation.Metadata;
 using Windows.Web.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// A proxy for <see cref="Windows.Web.UI.Interop.WebViewControlProcess"/>.
     /// </summary>
-    public class WebViewControlProcess
+    public sealed class WebViewControlProcess
     {
         [SecurityCritical]
         private readonly Windows.Web.UI.Interop.WebViewControlProcess _process;

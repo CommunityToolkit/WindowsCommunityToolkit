@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Threading;
@@ -475,6 +476,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <inheritdoc cref="IWebView.AddPreLoadedScript" />
+        public void AddPreLoadedScript(string script)
+        {
+            VerifyAccess();
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl?.AddPreLoadedScript(script);
+        }
+
         /// <inheritdoc cref="IWebView.Close" />
         public override void Close()
         {
@@ -583,6 +592,26 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
+        public void Navigate(
+            Uri requestUri,
+            HttpMethod httpMethod,
+            string content = null,
+            IEnumerable<KeyValuePair<string, string>> headers = null)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.Navigate(requestUri, httpMethod, content, headers);
+        }
+
+        /// <inheritdoc />
+        [Obsolete("Use NavigateToLocalStreamUri(Uri, IUriToStreamResolver) instead")]
         public void NavigateToLocal(string relativePath)
         {
             VerifyAccess();
@@ -595,6 +624,21 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.IsNotNull(_webViewControl);
             _webViewControl.NavigateToLocal(relativePath);
+        }
+
+        /// <inheritdoc />
+        public void NavigateToLocalStreamUri(Uri relativePath, IUriToStreamResolver streamResolver)
+        {
+            VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.NavigateToLocalStreamUri(relativePath, streamResolver);
         }
 
         /// <inheritdoc />
@@ -670,7 +714,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
                     Verify.IsNotNull(_webViewControl);
 
-                    UpdateSize(RenderSize);
+                    if (!Dispatcher.CheckAccess())
+                    {
+                        Dispatcher.Invoke(() => UpdateSize(RenderSize));
+                    }
+                    else
+                    {
+                        UpdateSize(RenderSize);
+                    }
 
                     DestroyWindowCore(ChildWindow);
 
@@ -900,6 +951,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        private void OnGotFocus(object sender, object args)
+        {
+            OnGotFocus(new RoutedEventArgs(GotFocusEvent));
+        }
+
         private void OnLongRunningScriptDetected(object sender, WebViewControlLongRunningScriptDetectedEventArgs args)
         {
             var handler = LongRunningScriptDetected;
@@ -907,6 +963,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 handler(this, args);
             }
+        }
+
+        private void OnLostFocus(object sender, object args)
+        {
+            OnLostFocus(new RoutedEventArgs(GotFocusEvent));
         }
 
         private void OnMoveFocusRequested(object sender, WebViewControlMoveFocusRequestedEventArgs args)
@@ -1012,7 +1073,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded += OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted += OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting += OnFrameNavigationStarting;
+            _webViewControl.GotFocus += OnGotFocus;
             _webViewControl.LongRunningScriptDetected += OnLongRunningScriptDetected;
+            _webViewControl.LostFocus += OnLostFocus;
             _webViewControl.MoveFocusRequested += OnMoveFocusRequested;
             _webViewControl.NavigationCompleted += OnNavigationCompleted;
             _webViewControl.NavigationStarting += OnNavigationStarting;
@@ -1040,7 +1103,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _webViewControl.FrameDOMContentLoaded -= OnFrameDOMContentLoaded;
             _webViewControl.FrameNavigationCompleted -= OnFrameNavigationCompleted;
             _webViewControl.FrameNavigationStarting -= OnFrameNavigationStarting;
+            _webViewControl.GotFocus -= OnGotFocus;
             _webViewControl.LongRunningScriptDetected -= OnLongRunningScriptDetected;
+            _webViewControl.LostFocus -= OnLostFocus;
             _webViewControl.MoveFocusRequested -= OnMoveFocusRequested;
             _webViewControl.NavigationCompleted -= OnNavigationCompleted;
             _webViewControl.NavigationStarting -= OnNavigationStarting;

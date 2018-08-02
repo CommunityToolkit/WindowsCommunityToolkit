@@ -14,14 +14,13 @@ using Windows.Media;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// CameraPreviewPage
     /// </summary>
-    public sealed partial class CameraPreviewPage : Page, IXamlRenderListener
+    public sealed partial class CameraPreviewPage : Page, IXamlRenderListener, ISampleNavigation
     {
         private static SemaphoreSlim semaphoreSlim;
         private VideoFrame _currentVideoFrame;
@@ -34,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
             semaphoreSlim = new SemaphoreSlim(1);
+            Load();
         }
 
         public async void OnXamlRendered(FrameworkElement control)
@@ -66,15 +66,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             semaphoreSlim.Release();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public void Load()
         {
-            base.OnNavigatedTo(e);
-            Shell.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
+            SampleController.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
             Application.Current.Suspending += Application_Suspending;
             Application.Current.Resuming += Application_Resuming;
         }
 
-        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        public async void NavigatingAway()
         {
             Application.Current.Suspending -= Application_Suspending;
             Application.Current.Resuming -= Application_Resuming;

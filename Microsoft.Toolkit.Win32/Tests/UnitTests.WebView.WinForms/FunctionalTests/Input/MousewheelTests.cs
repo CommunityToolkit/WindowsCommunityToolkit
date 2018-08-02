@@ -86,7 +86,7 @@ document.getElementById('state').textContent = 'wheel requested';
         }
         else
         {
-          Verify.Fail("Unexpected ScriptNotify value: " + e.Value);
+          Assert.Fail("Unexpected ScriptNotify value: " + e.Value);
         }
       };
     }

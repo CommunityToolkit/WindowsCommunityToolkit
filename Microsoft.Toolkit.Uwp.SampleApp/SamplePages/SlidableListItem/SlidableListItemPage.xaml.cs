@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -20,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SlidableListItemPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -31,10 +31,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
             // Reset items when revisiting sample.
             Items = new ObservableCollection<Item>();
 
