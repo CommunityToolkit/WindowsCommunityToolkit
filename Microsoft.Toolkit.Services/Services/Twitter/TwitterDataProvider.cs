@@ -309,9 +309,10 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Success or failure.</returns>
         public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
         {
-            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
+            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures.Select(x => x.AsStream()).ToArray());
         }
-#else
+#endif
+
         /// <summary>
         /// Tweets a status update.
         /// </summary>
@@ -322,37 +323,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures);
         }
-#endif
-#if WINRT
-        /// <summary>
-        /// Tweets a status update.
-        /// </summary>
-        /// <param name="status">Tweet text.</param>
-        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
-        /// <returns>Success or failure.</returns>
-        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
-        {
-            var mediaIds = string.Empty;
 
-            if (pictures != null && pictures.Length > 0)
-            {
-                var ids = new List<string>();
-                foreach (var picture in pictures)
-                {
-                    ids.Add(await UploadPictureAsync(picture));
-                }
-
-                mediaIds = "&media_ids=" + string.Join(",", ids);
-            }
-
-            var uri = new Uri($"{BaseUrl}/statuses/update.json?{status.RequestParameters}{mediaIds}");
-
-            TwitterOAuthRequest request = new TwitterOAuthRequest();
-            await request.ExecutePostAsync(uri, Tokens, SigntureManager);
-
-            return true;
-        }
-#else
         /// <summary>
         /// Tweets a status update.
         /// </summary>
@@ -381,7 +352,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             return true;
         }
-#endif
 
 #if WINRT
         /// <summary>
@@ -389,23 +359,12 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="stream">Picture stream.</param>
         /// <returns>Media ID</returns>
-        public async Task<string> UploadPictureAsync(IRandomAccessStream stream)
+        public Task<string> UploadPictureAsync(IRandomAccessStream stream)
         {
-            var uri = new Uri($"{PublishUrl}/media/upload.json");
-
-            // Get picture data
-            var fileBytes = new byte[stream.Size];
-
-            await stream.ReadAsync(fileBytes.AsBuffer(), (uint)stream.Size, InputStreamOptions.None);
-
-            stream.Seek(0);
-
-            string boundary = DateTime.Now.Ticks.ToString("x");
-
-            TwitterOAuthRequest request = new TwitterOAuthRequest();
-            return await request.ExecutePostMultipartAsync(uri, Tokens, boundary, fileBytes, SigntureManager);
+            return UploadPictureAsync(stream.AsStream());
         }
-#else
+#endif
+
         /// <summary>
         /// Publish a picture to Twitter user's medias.
         /// </summary>
@@ -428,7 +387,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             TwitterOAuthRequest request = new TwitterOAuthRequest();
             return await request.ExecutePostMultipartAsync(uri, _tokens, boundary, fileBytes, _signatureManager);
         }
-#endif
 
         /// <summary>
         /// Open a connection to user streams service (Events, DirectMessages...).

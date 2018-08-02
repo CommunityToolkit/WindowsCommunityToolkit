@@ -5,8 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
+
 #if WINRT
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
@@ -238,7 +240,17 @@ namespace Microsoft.Toolkit.Services.Twitter
             return null;
         }
 
-        #if WINRT
+        /// <summary>
+        /// Post a Tweet with associated pictures.
+        /// </summary>
+        /// <param name="message">Tweet message.</param>
+        /// <returns>Returns success or failure of post request.</returns>
+        public async Task<bool> TweetStatusAsync(string message)
+        {
+            return await TweetStatusAsync(new TwitterStatus { Message = message });
+        }
+
+#if WINRT
         /// <summary>
         /// Post a Tweet with associated pictures.
         /// </summary>
@@ -247,10 +259,10 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <returns>Returns success or failure of post request.</returns>
         public async Task<bool> TweetStatusAsync(string message, params IRandomAccessStream[] pictures)
         {
-            return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
+            return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures.Select(x => x.AsStream()).ToArray());
         }
 
-        #else
+#endif
 
         /// <summary>
         /// Post a Tweet with associated pictures.
@@ -262,37 +274,41 @@ namespace Microsoft.Toolkit.Services.Twitter
         {
             return await TweetStatusAsync(new TwitterStatus { Message = message }, pictures);
         }
-        #endif
 
-        #if WINRT
+#if WINRT
         /// <summary>
         /// Post a Tweet with associated pictures.
         /// </summary>
         /// <param name="status">The tweet information.</param>
         /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
         /// <returns>Returns success or failure of post request.</returns>
-        public async Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
+        public Task<bool> TweetStatusAsync(TwitterStatus status, params IRandomAccessStream[] pictures)
         {
-            if (pictures.Length > 4)
-            {
-                throw new ArgumentOutOfRangeException(nameof(pictures));
-            }
+            return TweetStatusAsync(status, pictures.Select(x => x.AsStream()).ToArray());
+        }
 
+#endif
+
+        /// <summary>
+        /// Post a Tweet with associated pictures.
+        /// </summary>
+        /// <param name="status">The tweet information.</param>
+        /// <returns>Returns success or failure of post request.</returns>
+        public async Task<bool> TweetStatusAsync(TwitterStatus status)
+        {
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatusAsync(status, pictures);
+                return await Provider.TweetStatusAsync(status);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(status, pictures);
+                return await TweetStatusAsync(status);
             }
 
             return false;
         }
-
-        #else
 
         /// <summary>
         /// Post a Tweet with associated pictures.
@@ -320,7 +336,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             return false;
         }
-        #endif
 
         /// <summary>
         /// Request list data from service provider based upon a given config / query.
