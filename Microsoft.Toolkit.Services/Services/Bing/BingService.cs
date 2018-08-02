@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Services.Bing
     /// <summary>
     /// Class for connecting to Bing.
     /// </summary>
-    [Obsolete("The Bing Service will be removed in a future major release. Please use the Cognitive services.")]
+    [Obsolete("The Bing Service will be removed in a future major release. Please use the Cognitive services (https://aka.ms/AA209h0).")]
     public class BingService : IDataService<BingDataProvider, BingResult, BingSearchConfig>, IIncrementalSource<BingResult>
     {
         private readonly BingSearchConfig _config;
