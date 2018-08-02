@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,6 +25,11 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private void webViewCompatible1_ContentLoading(object sender, UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs e)
         {
 
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            inkCanvas1.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Touch;
         }
     }
 }

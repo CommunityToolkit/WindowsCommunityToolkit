@@ -101,10 +101,11 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // inkCanvas1
             // 
-            this.inkCanvas1.Location = new System.Drawing.Point(3, 249);
+            this.inkCanvas1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.inkCanvas1.Location = new System.Drawing.Point(3, 3);
             this.inkCanvas1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.inkCanvas1.Name = "inkCanvas1";
-            this.inkCanvas1.Size = new System.Drawing.Size(1570, 796);
+            this.inkCanvas1.Size = new System.Drawing.Size(1574, 1049);
             this.inkCanvas1.TabIndex = 1;
             this.inkCanvas1.Text = "inkCanvas1";
             // 
@@ -116,6 +117,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);

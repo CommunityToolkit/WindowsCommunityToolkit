@@ -1,4 +1,6 @@
-﻿namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
+﻿using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+
+namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     public class InkCanvas : WindowsXamlHostBaseExt
     {
@@ -13,7 +15,11 @@
             : base(name)
         {
             UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkCanvas;
-            UwpControl.InkPresenter.InputDeviceTypes = Windows.UI.Core.CoreInputDeviceTypes.Mouse | Windows.UI.Core.CoreInputDeviceTypes.Pen | Windows.UI.Core.CoreInputDeviceTypes.Touch;
         }
+
+        /// <summary>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
+        /// </summary>
+        public InkPresenter InkPresenter => UwpControl.InkPresenter;
     }
 }

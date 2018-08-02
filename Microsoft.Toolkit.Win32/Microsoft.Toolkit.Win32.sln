@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Win32.Sam
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9AFF2EBF-08DA-44C1-AC09-187561FF1147}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.Shared", "Tests\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj", "{B220BE88-944E-45D1-9248-6FAEF53868A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.WebView.Shared", "Tests\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj", "{B220BE88-944E-45D1-9248-6FAEF53868A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.WinForms", "Tests\UnitTests.WebView.WinForms\UnitTests.WebView.WinForms.csproj", "{10129749-7761-49B8-96B9-94BC833BA60B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.WebView.WinForms", "Tests\UnitTests.WebView.WinForms\UnitTests.WebView.WinForms.csproj", "{10129749-7761-49B8-96B9-94BC833BA60B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.WebView.WPF", "Tests\UnitTests.WebView.WPF\UnitTests.WebView.WPF.csproj", "{2E49400E-B114-4FAE-B743-6CB57B500E31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.WebView.WPF", "Tests\UnitTests.WebView.WPF\UnitTests.WebView.WPF.csproj", "{2E49400E-B114-4FAE-B743-6CB57B500E31}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Win32.UI.Interop.WPF", "Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj", "{04759899-4AFA-4B15-BC7B-3CC20BBEC829}"
 EndProject
@@ -139,21 +139,6 @@ Global
 		{04759899-4AFA-4B15-BC7B-3CC20BBEC829}.Release|x64.Build.0 = Release|Any CPU
 		{04759899-4AFA-4B15-BC7B-3CC20BBEC829}.Release|x86.ActiveCfg = Release|Any CPU
 		{04759899-4AFA-4B15-BC7B-3CC20BBEC829}.Release|x86.Build.0 = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|ARM.Build.0 = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|x64.Build.0 = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Debug|x86.Build.0 = Debug|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|ARM.ActiveCfg = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|ARM.Build.0 = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|x64.ActiveCfg = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|x64.Build.0 = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|x86.ActiveCfg = Release|Any CPU
-		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}.Release|x86.Build.0 = Release|Any CPU
 		{88C95EC5-6A53-4BA2-A885-24B23566C175}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88C95EC5-6A53-4BA2-A885-24B23566C175}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88C95EC5-6A53-4BA2-A885-24B23566C175}.Debug|ARM.ActiveCfg = Debug|Any CPU
