@@ -4,7 +4,7 @@
 
 using System;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator;
+using Microsoft.Toolkit.Services.MicrosoftTranslator;
 using Windows.System;
 using Windows.UI.Xaml;
 
