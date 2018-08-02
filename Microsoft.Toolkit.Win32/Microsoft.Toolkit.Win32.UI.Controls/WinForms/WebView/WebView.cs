@@ -110,7 +110,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Process.EnterpriseId
                     : _delayedEnterpriseId;
@@ -168,7 +173,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsIndexedDBEnabled
                     : _delayedIsIndexDbEnabled;
@@ -202,7 +212,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsJavaScriptEnabled
                     : _delayedIsJavaScriptEnabled;
@@ -236,7 +251,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsScriptNotifyAllowed
                     : _delayedIsScriptNotifyAllowed;
@@ -271,7 +291,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled
                     : _delayedPrivateNetworkEnabled;
@@ -313,7 +338,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return _webViewControl?.Settings;
             }
         }
@@ -333,7 +363,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Source
                     : _delayedSource;
@@ -376,7 +411,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             Verify.IsFalse(IsDisposed);
             Verify.Implies(Initializing, !Initialized);
-            Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+            if (!DesignMode)
+            {
+                Verify.Implies(Initialized, WebViewControlInitialized);
+            }
+#endif
             _webViewControl?.AddPreLoadedScript(script);
         }
 
