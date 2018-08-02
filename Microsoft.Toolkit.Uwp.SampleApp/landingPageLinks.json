@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "SharePointFileList", "GazeInteraction", "UniformGrid", "CameraPreview", "InfiniteCanvas" ],
+  "new-samples": [ "DataGrid", "PlannerTaskList", "PowerBIEmbedded", "Twitter Service", "LinkedIn Service" ],
   "resources": [
     {
       "title": "Toolkit",
@@ -85,8 +85,8 @@
           "url": "https://github.com/hawkerm/monaco-editor-uwp"
         },
         {
-          "title": "Background photo by Simon Matzinger",
-          "url": "https://unsplash.com/@8moments"
+          "title": "Background photo by Christoffer Engström",
+          "url": "https://unsplash.com/@christoffere"
         }
       ]
     }

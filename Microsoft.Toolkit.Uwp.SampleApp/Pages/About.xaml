@@ -134,7 +134,7 @@
                                 FontSize="14"
                                 Margin="0,20,0,0"
                                 Foreground="{ThemeResource Brush-Link-Normal}"
-                                Text="The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10." />
+                                Text="The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10." />
                         </StackPanel>
 
                         <Grid Grid.Row="3" Grid.Column="1" animations:Implicit.Animations="{StaticResource ImplicitOffset}">
