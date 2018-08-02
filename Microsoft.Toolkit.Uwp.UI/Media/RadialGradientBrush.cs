@@ -22,6 +22,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : CanvasBrushBase
     {
+        private System.EventHandler<object> _resumingHandler;
+
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RadialGradientBrush)d;
@@ -43,6 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             SurfaceHeight = 512;
 
             GradientStops = new GradientStopCollection();
+            RegisterAppResumeHandler();
         }
 
         /// <summary>
@@ -57,6 +60,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             GradientStops.Add(new GradientStop() { Color = startColor, Offset = 0.0 });
             GradientStops.Add(new GradientStop() { Color = endColor, Offset = 1.0 });
+            RegisterAppResumeHandler();
+
         }
 
         /// <summary>
@@ -67,6 +72,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             : this()
         {
             GradientStops = gradientStopCollection;
+            RegisterAppResumeHandler();
+
         }
 
         /// <inheritdoc/>
@@ -102,6 +109,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             return false;
+        }
+
+        private void RegisterAppResumeHandler()
+        {
+            if (_resumingHandler == null)
+            {
+                _resumingHandler = new System.EventHandler<object>(App_Resuming);
+            }
+
+            Application.Current.Resuming -= _resumingHandler;
+
+            Application.Current.Resuming += _resumingHandler;
+        }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
+        /// Removes the Application Resuming event handler.
+        /// </summary>
+        ~RadialGradientBrush()
+        {
+            Application.Current.Resuming -= _resumingHandler;
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            OnDisconnected();
+            OnConnected();
         }
     }
 }
