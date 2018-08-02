@@ -23,22 +23,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public string EnterpriseId { get; set; }
 
         /// <summary>
-        /// Gets or sets the partition for the web view.
-        /// </summary>
-        /// <value>The partition.</value>
-        public string Partition { get; set; }
-
-        /// <summary>
         /// Gets or sets the private network client server capability.
         /// </summary>
         /// <value>The private network client server capability.</value>
         public WebViewControlProcessCapabilityState PrivateNetworkClientServerCapability { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user agent.
-        /// </summary>
-        /// <value>The user agent.</value>
-        public string UserAgent { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WebViewControlProcessOptions"/> class.
@@ -46,8 +34,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public WebViewControlProcessOptions()
         {
             EnterpriseId = string.Empty;
-            Partition = string.Empty;
-            UserAgent = string.Empty;
             PrivateNetworkClientServerCapability = WebViewControlProcessCapabilityState.Default;
         }
 
@@ -60,8 +46,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         public static Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
         {
-            const string winRtType = "Windows.Web.UI.Interop.WebViewControlProcessOptions";
-
             var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
 
             if (!string.IsNullOrEmpty(options?.EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, options?.EnterpriseId))
@@ -71,29 +55,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
             retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
 
-            ApiInformationExtensions.ExecuteIfPropertyPresent(
-                winRtType,
-                "Partition",
-                () =>
-                {
-                    if (!string.IsNullOrEmpty(options?.Partition))
-                    {
-                        retval.Partition = options.Partition;
-                    }
-                });
-
-            ApiInformationExtensions.ExecuteIfPropertyPresent(
-                winRtType,
-                "UserAgent",
-                () =>
-                {
-                    if (!string.IsNullOrEmpty(options?.UserAgent))
-                    {
-                        retval.UserAgent = options.UserAgent;
-                    }
-                });
-
-            return retval;
+           return retval;
         }
 
         /// <summary>

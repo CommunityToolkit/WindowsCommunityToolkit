@@ -8,13 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="OAuth\**" />
-    <EmbeddedResource Remove="OAuth\**" />
-    <None Remove="OAuth\**" />
-    <Page Remove="OAuth\**" />
-  </ItemGroup>
-  <ItemGroup>
-
     <PackageReference Include="winsdkfb" Version="0.12.20161020.4" />
 
     <!-- This is here to prevent a conflict in certain circumstances -->
@@ -24,9 +17,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
     
-  </ItemGroup>
-  <ItemGroup>
-    <_ResxFiles Remove="OAuth\**" />
   </ItemGroup>
 
 </Project>

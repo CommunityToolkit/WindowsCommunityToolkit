@@ -47,19 +47,6 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         {
         }
 
-#if WINRT
-        /// <summary>
-        /// Initialize underlying provider with relevent token information for Uwp.
-        /// </summary>
-        /// <param name="oAuthTokens">Token instance.</param>
-        /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
-        /// <returns>Success or failure.</returns>
-        public bool Initialize(LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
-        {
-            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), requiredPermissions);
-        }
-#endif
-
         /// <summary>
         /// Log user in to LinkedIn.
         /// </summary>
@@ -109,6 +96,31 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             Provider.Logout();
             _isInitialized = false;
         }
+
+#if WINRT
+        /// <summary>
+        /// Initialize underlying provider with relevent token information for Uwp.
+        /// </summary>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
+        {
+            return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), requiredPermissions);
+        }
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="clientId">Client Id.</param>
+        /// <param name="clientSecret">Client secret.</param>
+        /// <param name="callbackUri">Callback URI. Has to match callback URI defined at www.linkedin.com/developer/apps/ (can be arbitrary).</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string clientId, string clientSecret, string callbackUri)
+        {
+            return Initialize(clientId, clientSecret, callbackUri, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager());
+        }
+#endif
 
         /// <summary>
         /// Initialize underlying provider with relevent token information.
