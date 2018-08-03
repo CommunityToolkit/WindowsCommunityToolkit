@@ -22,8 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : CanvasBrushBase
     {
-        private System.EventHandler<object> _resumingHandler;
-
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RadialGradientBrush)d;
@@ -60,7 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             GradientStops.Add(new GradientStop() { Color = startColor, Offset = 0.0 });
             GradientStops.Add(new GradientStop() { Color = endColor, Offset = 1.0 });
-
         }
 
         /// <summary>
@@ -110,14 +107,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         private void RegisterAppResumeHandler()
         {
-            if (_resumingHandler == null)
-            {
-                _resumingHandler = new System.EventHandler<object>(App_Resuming);
-            }
-
-            Application.Current.Resuming -= _resumingHandler;
-
-            Application.Current.Resuming += _resumingHandler;
+            Application.Current.Resuming -= App_Resuming;
+            Application.Current.Resuming += App_Resuming;
         }
 
         /// <summary>
@@ -126,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         ~RadialGradientBrush()
         {
-            Application.Current.Resuming -= _resumingHandler;
+            Application.Current.Resuming -= App_Resuming;
         }
 
         private void App_Resuming(object sender, object e)
