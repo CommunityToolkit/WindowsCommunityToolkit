@@ -38,6 +38,11 @@
   <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0')">
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
+    <Compile Remove="PlatformSpecific\Uwp\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Internal\" />
   </ItemGroup>
 
 

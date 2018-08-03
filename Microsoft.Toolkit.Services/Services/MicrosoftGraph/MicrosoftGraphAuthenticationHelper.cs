@@ -4,12 +4,12 @@
 
 using System;
 using System.Linq;
-#if WINRT
+#if WINRT || WINDOWS_UWP
 using System.Net.Http;
 #endif
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
-#if WINRT
+#if WINRT || WINDOWS_UWP
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Windows.Storage;
 #endif
@@ -26,13 +26,28 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Base Url for service.
         /// </summary>
         protected const string Authority = "https://login.microsoftonline.com/common/";
+
+        /// <summary>
+        /// Default Redirect Uri
+        /// </summary>
         protected const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+
+        /// <summary>
+        /// Default Authority url for V2
+        /// </summary>
         protected const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
 
+        /// <summary>
+        /// Default Authorization Token Service
+        /// </summary>
         protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
+
+        /// <summary>
+        /// Default Logout Url for V2
+        /// </summary>
         protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 
@@ -45,7 +60,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
         private static MSAL.PublicClientApplication _identityClient = null;
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         /// <summary>
         /// Password vault used to store access tokens
         /// </summary>
@@ -67,7 +82,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         public MicrosoftGraphAuthenticationHelper()
         {
-#if WINRT
+#if WINRT || WINDOWS_UWP
             _vault = new Windows.Security.Credentials.PasswordVault();
 #endif
         }
@@ -98,7 +113,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         internal void CleanToken()
         {
             TokenForUser = null;
-#if WINRT
+#if WINRT || WINDOWS_UWP
             _azureAdContext.TokenCache.Clear();
 #endif
         }
@@ -109,7 +124,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="appClientId">Application client Id</param>
         /// <param name="loginHint">UPN</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
+        public async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
         {
             return await GetUserTokenV2Async(appClientId, null, null, loginHint);
         }
@@ -122,7 +137,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <param name="loginHint">UPN</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        public async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
         {
             if (_identityClient == null)
             {
@@ -165,12 +180,16 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
-        internal bool Logout()
+        public bool Logout()
         {
             return LogoutV2();
         }
 
-        internal bool LogoutV2()
+        /// <summary>
+        /// Logout the user using the V2 endpoint
+        /// </summary>
+        /// <returns>Success or failure</returns>
+        public bool LogoutV2()
         {
             try
             {
@@ -184,7 +203,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             return true;
         }
 
-#if WINRT
+#if WINRT || WINDOWS_UWP
         /// <summary>
         /// Get a Microsoft Graph access token from Azure AD.
         /// </summary>
@@ -192,7 +211,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="resourceId">Azure AD application resource ID</param>
         /// <param name="promptBehavior">Prompt behavior</param>
         /// <returns>An oauth2 access token.</returns>
-        internal async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
+        public async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
         {
             // For the first use get an access token prompting the user, after one hour
             // refresh silently the token
@@ -218,7 +237,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// </summary>
         /// <param name="authenticationModel">Authentication version endPoint</param>
         /// <returns>Success or failure</returns>
-        internal async Task<bool> LogoutAsync(string authenticationModel)
+        public async Task<bool> LogoutAsync(string authenticationModel)
         {
             HttpResponseMessage response = null;
             ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
