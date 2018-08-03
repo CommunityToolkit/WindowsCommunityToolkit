@@ -10,6 +10,9 @@ dev_langs:
 
 # Bing Service
 
+> [!NOTE]
+The Bing Service is deprecated and will be removed in a future major release. Please use the [Cognitive Services SDKs](https://aka.ms/AA209h0).
+
 The **Bing Service** allows you to retrieve Bing results. Bing can return web and news results in your language, images, and videos for many countries/regions around the world.
 
 ## Set up Bing API

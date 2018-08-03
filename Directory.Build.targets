@@ -1,5 +1,5 @@
 <Project>
-
+  
   <Choose>
     <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
@@ -7,6 +7,12 @@
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
         <TargetPlatformMinVersion>10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
         <DebugType>Full</DebugType>
+      </PropertyGroup>
+
+      <PropertyGroup>
+        <!-- 8002 is a strong named -> non-strong-named reference -->
+        <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
+        <NoWarn>$(NoWarn);8002</NoWarn>
       </PropertyGroup>
 
       <ItemGroup>

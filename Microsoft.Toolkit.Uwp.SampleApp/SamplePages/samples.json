@@ -527,10 +527,12 @@
       {
         "Name": "Bing Service",
         "Type": "BingPage",
-        "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
+        "About": "The Bing Service will be removed in a future major release. Please use the Cognitive services SDKs found at https://aka.ms/AA209h0.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing",
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive Services SDKs found at https://aka.ms/AA209h0.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Bing.md"
       },
       {
