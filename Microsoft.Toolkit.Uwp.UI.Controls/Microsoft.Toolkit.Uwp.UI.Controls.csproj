@@ -12,7 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
+
+    <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
