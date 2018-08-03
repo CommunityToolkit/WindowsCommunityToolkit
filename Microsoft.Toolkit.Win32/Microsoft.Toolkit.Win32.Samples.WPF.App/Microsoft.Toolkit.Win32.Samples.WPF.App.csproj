@@ -101,11 +101,11 @@
       <Project>{5d82b4f7-13dd-4749-b213-802d69fcece4}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Controls.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.Sample\Microsoft.Toolkit.Win32.UI.Interop.Sample.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.Sample\Microsoft.Toolkit.Win32.UI.Interop.Sample.csproj">
       <Project>{88c95ec5-6a53-4ba2-a885-24b23566c175}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Interop.Sample</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj">
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj">
       <Project>{04759899-4afa-4b15-bc7b-3cc20bbec829}</Project>
       <Name>Microsoft.Toolkit.Win32.UI.Interop.WPF</Name>
     </ProjectReference>

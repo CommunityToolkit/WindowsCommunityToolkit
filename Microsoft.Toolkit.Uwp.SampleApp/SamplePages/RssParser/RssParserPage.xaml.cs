@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Microsoft.Toolkit.Parsers.Rss;
+using Windows.System;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -47,6 +49,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     RSSFeed.Add(element);
                 }
             }
+        }
+
+        private async void RSSList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (RSSList.SelectedItem is RssSchema rssItem)
+            {
+                try
+                {
+                    await Launcher.LaunchUriAsync(new Uri(rssItem.FeedUrl));
+                }
+                catch
+                {
+                }
+            }
+
+            RSSList.SelectedItem = null;
         }
     }
 }

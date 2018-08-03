@@ -7,16 +7,16 @@
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="20">
+    <Grid Padding="20">
 
         <TextBlock VerticalAlignment="Bottom" HorizontalAlignment="Center">This is the first page, Click/Tap the box to navigate to the next page</TextBlock>
 
-        <Border Height="100" 
-                Width="100" 
-                Background="Purple" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Center" 
-                animations:Connected.Key="item" 
+        <Border Height="100"
+                Width="100"
+                Background="Purple"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                animations:Connected.Key="item"
                 Tapped="Border_Tapped"></Border>
     </Grid>
 </Page>

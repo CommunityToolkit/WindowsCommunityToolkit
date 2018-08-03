@@ -91,6 +91,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.WPF\Microsoft.Toolkit.Win32.UI.Interop.WPF.csproj" />
   </ItemGroup>
 </Project>

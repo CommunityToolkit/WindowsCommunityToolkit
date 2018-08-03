@@ -106,7 +106,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private void Initialize()
         {
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
-            Verify.IsFalse(DesignMode);
 
             // This is causing freezing
             if (!DesignMode)

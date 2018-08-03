@@ -529,6 +529,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public string InvokeScript(string scriptName)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName);
         }
@@ -537,6 +544,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public string InvokeScript(string scriptName, params string[] arguments)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
@@ -545,6 +559,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public string InvokeScript(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScript(scriptName, arguments);
         }
@@ -553,6 +574,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public Task<string> InvokeScriptAsync(string scriptName)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScriptAsync(scriptName);
         }
@@ -561,6 +589,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
         }
@@ -569,6 +604,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
+
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
             Verify.IsNotNull(_webViewControl);
             return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
         }
@@ -752,10 +794,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                         scriptNotifyAllowed = IsScriptNotifyAllowed;
                     }
 
-                    _webViewControl.Source = source;
                     _webViewControl.Settings.IsJavaScriptEnabled = javaScriptEnabled;
                     _webViewControl.Settings.IsIndexedDBEnabled = indexDBEnabled;
                     _webViewControl.Settings.IsScriptNotifyAllowed = scriptNotifyAllowed;
+
+                    // This will cause a navigate, make last property set
+                    _webViewControl.Source = source;
 
                     _initializationState = InitializationState.IsInitialized;
                     _initializationComplete.Set();

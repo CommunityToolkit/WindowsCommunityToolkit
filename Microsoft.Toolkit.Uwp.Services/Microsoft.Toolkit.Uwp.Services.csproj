@@ -6,8 +6,8 @@
     <Description>This library enables access to different data sources like Microsoft Translator, Facebook, LinkedIn, and Twitter. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Twitter OAuth Facebook LinkedIn Microsoft Translator</PackageTags>
   </PropertyGroup>
-  <ItemGroup>
 
+  <ItemGroup>
     <PackageReference Include="winsdkfb" Version="0.12.20161020.4" />
 
     <!-- This is here to prevent a conflict in certain circumstances -->

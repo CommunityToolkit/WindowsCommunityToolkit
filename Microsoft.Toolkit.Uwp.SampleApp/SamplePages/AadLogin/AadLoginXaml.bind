@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10">
+  <Grid Padding="10">
         <sampleControls:AadAuthControl x:Name="AadAuthControl" IsShowSignInButton="false"/>
         <graphControls:AadLogin x:Name="AadLoginControl"
                                 View="@[View:Enum:ViewType.PictureOnly]@"
