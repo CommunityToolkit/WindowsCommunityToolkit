@@ -38,15 +38,19 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.inkToolbar1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbar();
             this.inkCanvas1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkCanvas();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.mediaPlayerElement1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.MediaPlayerElement();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -109,6 +113,34 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.inkCanvas1.TabIndex = 1;
             this.inkCanvas1.Text = "inkCanvas1";
             // 
+            // tabPage3
+            // 
+            this.tabPage3.Controls.Add(this.mediaPlayerElement1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 29);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(1580, 1055);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "MediaPlayerElement";
+            this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // mediaPlayerElement1
+            // 
+            this.mediaPlayerElement1.AreTransportControlsEnabled = true;
+            this.mediaPlayerElement1.AutoPlay = true;
+            this.mediaPlayerElement1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mediaPlayerElement1.IsFullWindow = false;
+            this.mediaPlayerElement1.Location = new System.Drawing.Point(3, 3);
+            this.mediaPlayerElement1.MinimumSize = new System.Drawing.Size(100, 100);
+            this.mediaPlayerElement1.Name = "mediaPlayerElement1";
+            this.mediaPlayerElement1.Size = new System.Drawing.Size(1574, 1049);
+            this.mediaPlayerElement1.Source = "https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/e" +
+    "lephantsdream-clip-h264_sd-aac_eng-aac_spa-aac_eng_commentary-srt_eng-srt_por-sr" +
+    "t_swe.mkv";
+            this.mediaPlayerElement1.Stretch = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.Stretch.Uniform;
+            this.mediaPlayerElement1.TabIndex = 0;
+            this.mediaPlayerElement1.Text = "mediaPlayerElement1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -121,6 +153,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -133,6 +166,8 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
         private UI.Controls.WinForms.InkCanvas inkCanvas1;
         private UI.Controls.WinForms.InkToolbar inkToolbar1;
+        private System.Windows.Forms.TabPage tabPage3;
+        private UI.Controls.WinForms.MediaPlayerElement mediaPlayerElement1;
     }
 }
 
