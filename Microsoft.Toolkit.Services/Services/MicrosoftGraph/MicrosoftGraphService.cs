@@ -278,10 +278,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Tries to log in user if not already loged in
+        /// Tries to log in user if not already loged in. Calls LoginAsync internaly
         /// </summary>
-        /// <returns>true if service is already loged in</returns>
-        internal async Task<bool> TryLoginAsync()
+        /// <remarks>Exceptions are not thrown but SignInFailed event is raised</remarks>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> TryLoginAsync()
         {
             if (!IsInitialized)
             {
@@ -315,7 +316,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             return IsAuthenticated;
         }
 
-        internal async Task<bool> ConnectForAnotherUserAsync()
+        /// <summary>
+        /// Log in a new user and log out old user
+        /// </summary>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> ConnectForAnotherUserAsync()
         {
             if (!IsInitialized)
             {

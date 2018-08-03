@@ -10,25 +10,25 @@
 
   <Page.Resources>
     <Style TargetType="TextBlock" x:Key="TitleText">
-      <Setter Property="Margin" Value="5,20,0,5"/>
-      <Setter Property="FontSize" Value="16"/>
-      <Setter Property="HorizontalAlignment" Value="Left"/>
+      <Setter Property="Margin" Value="5,20,0,5" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
     <Style TargetType="Border" x:Key="DividingBorder">
-      <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="BorderBrush" Value="Black"/>
-      <Setter Property="Margin" Value="0,0,0,20"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="Black" />
+      <Setter Property="Margin" Value="0,0,0,20" />
     </Style>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ScrollViewer Margin="15" VerticalScrollBarVisibility="Auto">
       <StackPanel>
         <TextBlock Style="{StaticResource TitleText}" >TextBlock</TextBlock>
-        <Border Style="{StaticResource DividingBorder}"/>
+        <Border Style="{StaticResource DividingBorder}" />
 
         <controls:DropShadowPanel BlurRadius="@[BlurRadius:DoubleSlider:8.0:0.0-10.0]"
-                                  ShadowOpacity="@[Opacity:DoubleSlider:0.7:0.0-1.0]"
+                                  ShadowOpacity="@[Opacity:DoubleSlider:1.0:0.0-1.0]"
                                   OffsetX="@[OffsetX:DoubleSlider:2.0:0.0-100.0]"
                                   OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                   Color="@[Color:Brush:Black]"
@@ -45,7 +45,7 @@
         </controls:DropShadowPanel>
 
         <TextBlock Style="{StaticResource TitleText}" >Shapes</TextBlock>
-        <Border Style="{StaticResource DividingBorder}"/>
+        <Border Style="{StaticResource DividingBorder}" />
 
         <StackPanel Orientation="Horizontal">
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
@@ -55,7 +55,7 @@
                                     Color="@[Color]"
                                     Margin="20">
             <Polygon Points="50,0 0,50 50,50"
-                Stroke="BlueViolet" StrokeThickness="2" Fill="Blue"/>
+                Stroke="BlueViolet" StrokeThickness="2" Fill="Blue" />
           </controls:DropShadowPanel>
 
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
@@ -65,7 +65,7 @@
                                     Color="@[Color]"
                                     Margin="20">
             <Rectangle Width="100" Height="50"
-                Stroke="Green" StrokeThickness="5"/>
+                Stroke="Green" StrokeThickness="5" />
           </controls:DropShadowPanel>
 
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
@@ -75,12 +75,12 @@
                                     Color="@[Color]"
                                     Margin="20">
             <Polyline Points="0,0 50,50 50,0 0,50"
-                Stroke="Black" StrokeThickness="2"/>
+                Stroke="Black" StrokeThickness="2" />
           </controls:DropShadowPanel>
         </StackPanel>
 
         <TextBlock Style="{StaticResource TitleText}" >Images</TextBlock>
-        <Border Style="{StaticResource DividingBorder}"/>
+        <Border Style="{StaticResource DividingBorder}" />
 
         <StackPanel Orientation="Horizontal">
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
@@ -90,7 +90,7 @@
                                     Color="@[Color]"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
-            <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform"/>
+            <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
                                     ShadowOpacity="@[Opacity]"
@@ -99,7 +99,7 @@
                                     Color="@[Color]"
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
-            <Image Width="200" Source="/SamplePages/DropShadowPanel/Trex.png" Stretch="Uniform"/>
+            <Image Width="200" Source="/SamplePages/DropShadowPanel/Trex.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
         </StackPanel>
       </StackPanel>

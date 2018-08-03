@@ -9,7 +9,7 @@
     xmlns:data="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="40">
+    <Grid Padding="40">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -17,22 +17,22 @@
         <StackPanel Orientation="Horizontal">
 
             <Border x:Name="HeroElement"
-                    Height="300" 
+                    Height="300"
                     Width="300"
                     Background="Purple"
                     animations:Connected.Key="item"></Border>
-            
+
             <StackPanel x:Name="HeroDetailsElement" Margin="20,0" VerticalAlignment="Bottom" MaxWidth="500" animations:Connected.AnchorElement="{x:Bind HeroElement}">
                 <TextBlock Text="Header" FontSize="50"></TextBlock>
                 <TextBlock TextWrapping="WrapWholeWords">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce eleifend ex sit amet blandit lobortis. Curabitur ut diam fringilla, interdum massa sit amet, facilisis erat. Donec vulputate sed ex vel pellentesque. In sodales odio non felis interdum viverra. Morbi in mi mollis, ullamcorper nibh sit amet, sagittis ex. Maecenas dapibus commodo venenatis. Donec at egestas est.</TextBlock>
             </StackPanel>
         </StackPanel>
 
-        <GridView x:Name="listView" 
-                  Margin="0, 40, 0, 0" 
-                  SelectionMode="None" 
+        <GridView x:Name="listView"
+                  Margin="0, 40, 0, 0"
+                  SelectionMode="None"
                   Grid.Row="1"
-                  ItemClick="ListView_ItemClick" 
+                  ItemClick="ListView_ItemClick"
                   IsItemClickEnabled="True"
                   animations:Connected.ListItemElementName="ItemThumbnail"
                   animations:Connected.ListItemKey="listItem">
@@ -45,6 +45,5 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
-
     </Grid>
 </Page>

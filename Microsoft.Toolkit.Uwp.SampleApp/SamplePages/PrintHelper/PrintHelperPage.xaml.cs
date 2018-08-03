@@ -32,6 +32,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PrintOrientation.Landscape
             };
             DefaultOrientationComboBox.SelectedIndex = 0;
+
+            SampleController.Current.RegisterNewCommand("Print", Print_Click);
+            SampleController.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
+            SampleController.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -77,18 +81,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Print", Print_Click);
-            Shell.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
-            Shell.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
-        }
-
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             DirectPrintContainer.Children.Remove(PrintableContent);
 
@@ -112,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             _printHelper = new PrintHelper(DirectPrintContainer);
 
@@ -140,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             // Provide an invisible container
             _printHelper = new PrintHelper(CustomPrintContainer);
@@ -199,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DirectPrintContainer.Children.Add(PrintableContent);
             }
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()

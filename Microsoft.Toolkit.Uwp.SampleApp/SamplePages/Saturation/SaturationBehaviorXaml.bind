@@ -9,8 +9,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <Image x:Name="MyImage"
+  <Grid>
+    <Image x:Name="EffectElement"
            Source="ms-appx:///Assets/Photos/BigFourSummerHeat.jpg">
       <interactivity:Interaction.Behaviors>
         <behaviors:Saturation x:Name="SaturationBehavior"
@@ -22,14 +22,5 @@
                         AutomaticallyStart="@[AutomaticallyStart:Bool:True]"/>
       </interactivity:Interaction.Behaviors>
     </Image>
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-      <Button Content="Apply" Margin="10">
-        <interactivity:Interaction.Behaviors>
-          <core:EventTriggerBehavior EventName="Click">
-            <core:CallMethodAction TargetObject="{Binding ElementName=SaturationBehavior}" MethodName="StartAnimation"/>
-          </core:EventTriggerBehavior>
-        </interactivity:Interaction.Behaviors>
-      </Button>
-    </StackPanel>
   </Grid>
 </Page>

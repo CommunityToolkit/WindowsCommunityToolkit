@@ -19,9 +19,14 @@
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
-	  <SignAssembly>true</SignAssembly>
+	  
+  </PropertyGroup>
+
+  <PropertyGroup>
+	  <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
+
 
   <Choose>
     <When Condition="'$(IsWin32Project)' == 'true'">

@@ -106,7 +106,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         private void Initialize()
         {
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
-            Verify.IsFalse(DesignMode);
 
             // This is causing freezing
             if (!DesignMode)
@@ -123,8 +122,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                         PrivateNetworkClientServerCapability = (Interop.WinRT.WebViewControlProcessCapabilityState)(_delayedPrivateNetworkEnabled
                             ? WebViewControlProcessCapabilityState.Enabled
                             : WebViewControlProcessCapabilityState.Disabled),
-                        EnterpriseId = _delayedEnterpriseId,
-                        Partition = _delayedPartition
+                        EnterpriseId = _delayedEnterpriseId
                     };
 
                     Process = new WebViewControlProcess(options);
