@@ -60,7 +60,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             GradientStops.Add(new GradientStop() { Color = startColor, Offset = 0.0 });
             GradientStops.Add(new GradientStop() { Color = endColor, Offset = 1.0 });
-            RegisterAppResumeHandler();
 
         }
 
@@ -72,8 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             : this()
         {
             GradientStops = gradientStopCollection;
-            RegisterAppResumeHandler();
-
         }
 
         /// <inheritdoc/>
