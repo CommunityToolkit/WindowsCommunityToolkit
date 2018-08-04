@@ -19,9 +19,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Shared\**" />
     <Compile Remove="WPF\**" />
+    <EmbeddedResource Remove="Shared\**" />
     <EmbeddedResource Remove="WPF\**" />
+    <None Remove="Shared\**" />
     <None Remove="WPF\**" />
+    <Page Remove="Shared\**" />
     <Page Remove="WPF\**" />
   </ItemGroup>
 
@@ -29,7 +33,6 @@
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\IDesktopWindowXamlSourceNative.cs" Link="IDesktopWindowXamlSourceNative.cs" />
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
-    <Compile Include="..\Shared\Interop\Win32\ExternDll.cs" Link="Shared\Interop\Win32\ExternDll.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,10 +70,6 @@
   <ItemGroup>
     <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.0.0" PrivateAssets="All" />
     <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" PrivateAssets="All" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Shared\Interop\Win32\" />
   </ItemGroup>
 
 </Project>
