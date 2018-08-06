@@ -30,7 +30,8 @@ In addition, you can customize the printing dialog using the `PrintHelperOptions
 
 You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
 
-> [!IMPORTANT] Printing in Dark Theme will likely print white text, which won't be visible. To fix this, ensure the text is a visible color before printing, then restore the original color.
+> [!IMPORTANT]
+Printing in Dark Theme will likely print white text, which won't be visible. To fix this, ensure the text is a visible color before printing, then restore the original color.
 
 ## Syntax
 
