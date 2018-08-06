@@ -37,7 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Windows.Interop.WindowsXamlHost.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj" />
   </ItemGroup>
 
   <ItemGroup>
