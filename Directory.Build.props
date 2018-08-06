@@ -19,14 +19,12 @@
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
-	  
   </PropertyGroup>
 
   <PropertyGroup>
 	  <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
-
 
   <Choose>
     <When Condition="'$(IsWin32Project)' == 'true'">
@@ -60,7 +58,6 @@
         <NoWarn>1591</NoWarn>
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
 
       </PropertyGroup>
@@ -127,6 +124,12 @@
       </PropertyGroup>
     </When>
   </Choose>
+
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
+    <!-- 8002 is a strong named -> non-strong-named reference -->
+    <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
+    <NoWarn>$(NoWarn);8002</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
