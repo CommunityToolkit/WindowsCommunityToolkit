@@ -7,10 +7,6 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>CS8002</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
