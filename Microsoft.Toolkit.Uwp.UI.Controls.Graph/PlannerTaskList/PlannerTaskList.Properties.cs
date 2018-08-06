@@ -282,13 +282,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             get { return (bool)GetValue(CanAddTaskProperty); }
             private set { SetValue(CanAddTaskProperty, value); }
         }
-
-        internal bool IsWindowsPhone
-        {
-            get
-            {
-                return AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Mobile";
-            }
-        }
     }
 }

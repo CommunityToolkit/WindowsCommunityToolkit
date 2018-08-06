@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Windows.Foundation.Metadata;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         private const string FlyoutContainerPartName = "FlyoutContainer";
         private const string InternalSearchBoxTextBoxPartName = "InternalSearchBox";
         private const string PersonRemoveButtonName = "PersonRemoveButton";
+
+        private readonly bool _isPreviewKeyUpEventSupported = ApiInformation.IsEventPresent("Windows.UI.Xaml.UIElement", "PreviewKeyUp");
 
         private FrameworkElement _flyoutContainer;
         private TextBox _searchBox;
@@ -88,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (_selectionsListBox != null)
             {
                 _selectionsListBox.Tapped -= SelectionsListBox_Tapped;
-                if (!IsWindowsPhone)
+                if (_isPreviewKeyUpEventSupported)
                 {
                     _selectionsListBox.PreviewKeyUp -= SelectionsListBox_KeyUp;
                 }
@@ -129,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (_selectionsListBox != null)
             {
                 _selectionsListBox.Tapped += SelectionsListBox_Tapped;
-                if (!IsWindowsPhone)
+                if (_isPreviewKeyUpEventSupported)
                 {
                     _selectionsListBox.PreviewKeyUp += SelectionsListBox_KeyUp;
                 }

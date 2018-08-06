@@ -10,7 +10,7 @@
       <DataTemplate x:Key="RowDetailsTemplate">
         <StackPanel>
           <TextBlock Margin="20" Text="Here are the details for the selected mountain:" />
-          <Grid Margin="20,10" Padding="5" RowSpacing="3" ColumnSpacing="5">
+          <Grid Margin="20,10" Padding="5">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />

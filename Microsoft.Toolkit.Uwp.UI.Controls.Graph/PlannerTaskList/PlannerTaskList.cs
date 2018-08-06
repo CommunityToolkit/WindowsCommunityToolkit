@@ -9,6 +9,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Windows.Foundation.Metadata;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     [TemplateVisualState(GroupName = MobileVisualStateGroup, Name = MobileVisualState)]
     public partial class PlannerTaskList : Control
     {
+        private readonly bool _isPreviewKeyUpEventSupported = ApiInformation.IsEventPresent("Windows.UI.Xaml.UIElement", "PreviewKeyUp");
         private Dictionary<string, string> _userCache = new Dictionary<string, string>();
         private List<PlannerTaskViewModel> _allTasks = new List<PlannerTaskViewModel>();
         private TextBox _input;
@@ -49,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _list.ItemClick -= List_ItemClick;
                 _list.Tapped += List_Tapped;
-                if (!IsWindowsPhone)
+                if (_isPreviewKeyUpEventSupported)
                 {
                     _list.PreviewKeyUp -= List_PreviewKeyUp;
                 }
@@ -71,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 _list = list;
                 _list.ItemClick += List_ItemClick;
                 _list.Tapped += List_Tapped;
-                if (!IsWindowsPhone)
+                if (_isPreviewKeyUpEventSupported)
                 {
                     _list.PreviewKeyUp += List_PreviewKeyUp;
                 }
