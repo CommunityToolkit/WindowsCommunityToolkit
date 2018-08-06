@@ -7,10 +7,6 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Hamburger Range WrapPanel Adaptive Markdown</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>CS8002</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.5" />

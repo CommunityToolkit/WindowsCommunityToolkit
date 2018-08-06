@@ -7,10 +7,6 @@
     <PackageTags>UWP Toolkit Windows Animations Composition</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <NoWarn>CS8002</NoWarn>
-  </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
