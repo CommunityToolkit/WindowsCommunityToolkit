@@ -1,0 +1,91 @@
+﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.WeiboPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+    <Grid MaxWidth="800"
+          Background="{StaticResource Brush-Grey-05}">
+        <Grid Margin="24"
+              Background="{StaticResource Brush-Grey-04}"
+              BorderBrush="#FFCCCCCC"
+              BorderThickness="1"
+              CornerRadius="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <StackPanel HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                <Image Width="100"
+                       Height="100"
+                       Margin="24"
+                       Source="/SamplePages/Weibo Service/WeiboLogo.png"
+                       Stretch="Uniform" />
+                <Border x:Name="ProfileImage"
+                        Width="100"
+                        Height="100"
+                        CornerRadius="50"
+                        Visibility="Collapsed">
+                    <Border.Background>
+                        <ImageBrush Stretch="Uniform" />
+                    </Border.Background>
+                </Border>
+            </StackPanel>
+            <ScrollViewer Grid.Row="1">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <!--  Credentials area  -->
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid Background="#FFCCCCCC">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="CredentialsBoxExpandButton"
+                                    VerticalAlignment="Stretch"
+                                    Click="CredentialsBoxExpandButton_OnClick"
+                                    Content="  "
+                                    FontFamily="Segoe MDL2 Assets" />
+                            <TextBlock Grid.Column="1"
+                                       Margin="12,6"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Center"
+                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Text="Credentials" />
+                        </Grid>
+                        <StackPanel x:Name="CredentialsBox"
+                                    Grid.Row="1"
+                                    Margin="24"
+                                    Orientation="Vertical">
+                            <HyperlinkButton Margin="0,0,0,15"
+                                             Content="Show me how to get these values" />
+                            <TextBox x:Name="AppKey"
+                                     Margin="0,0,0,12"
+                                     Header="App Key:" />
+                            <TextBox x:Name="AppSecret"
+                                     Margin="0,0,0,12"
+                                     Header="App Secret:" />
+                            <TextBox x:Name="RedirectUri"
+                                     Margin="0,0,0,12"
+                                     Header="Redirect URI:" />
+                            <Button x:Name="ConnectButton"
+                                    Margin="0,10,0,0"
+                                    VerticalAlignment="Bottom"
+                                    Click="ConnectButton_OnClick"
+                                    Content="Connect" />
+                        </StackPanel>
+                    </Grid>
+                    <!--    -->
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Page>

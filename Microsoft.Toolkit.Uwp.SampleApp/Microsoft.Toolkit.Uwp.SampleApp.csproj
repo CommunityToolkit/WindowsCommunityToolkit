@@ -380,6 +380,7 @@
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
+    <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
     <Content Include="landingPageLinks.json" />
     <Content Include="Assets\mtns.csv">
@@ -528,6 +529,7 @@
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -886,6 +888,9 @@
     </Compile>
     <Compile Include="SamplePages\RangeSelector\RangeSelectorPage.xaml.cs">
       <DependentUpon>RangeSelectorPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\Weibo Service\WeiboPage.xaml.cs">
+      <DependentUpon>WeiboPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\WrapPanel\WrapPanelPage.xaml.cs">
       <DependentUpon>WrapPanelPage.xaml</DependentUpon>
@@ -1325,6 +1330,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Weibo Service\WeiboPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
