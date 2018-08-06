@@ -65,7 +65,7 @@ MicrosoftGraphService.Instance.Initialize(
 );
 ```
 
-The sign in will be processed by the [AadLogin](../../docs/graph/AadLogin.md) control, however, you could do sign in with the following alternatively.
+The sign in will be processed by the [AadLogin](AadLogin.md) control, however, you could do sign in with the following alternatively.
 
 ```c#
 await MicrosoftGraphService.Instance.LoginAsync();

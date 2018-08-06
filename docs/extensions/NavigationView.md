@@ -7,7 +7,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 # NavigationView Styles
 <!-- Describe your control -->
-The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
+The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/communitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
 
 This can create a companion 'toolbox' style experience for navigation along-side the main, more 'static', content of an app.
 

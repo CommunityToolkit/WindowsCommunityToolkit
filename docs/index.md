@@ -10,7 +10,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10. 
 
-The toolkit can be used to build UWP apps for any Windows 10 device, including PC, Mobile, XBOX, IoT and HoloLens. You can also use the toolkit with an existing desktop app converted to UWP using the Desktop Bridge.             
+The toolkit can be used to build apps for any Windows 10 device, including PC, Mobile, XBOX, IoT and HoloLens. You can also use the toolkit with an existing desktop app converted to UWP using the Desktop Bridge.             
 
 The Windows Community Toolkit is available as a Visual Studio NuGet package for new or existing C# and VB.NET projects. Read the [Getting Started](Getting-Started.md) page for all the details.
 

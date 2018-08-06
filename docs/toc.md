@@ -10,7 +10,7 @@
 ## [BladeView](controls/BladeView.md)
 ## [CameraPreview](controls/CameraPreview.md)
 ## [Carousel](controls/Carousel.md)
-## [DataGrid (preview)](controls/DataGrid.md)
+## [DataGrid](controls/DataGrid.md)
 ### [How to: Add a DataGrid control to a page](controls/datagrid_guidance/datagrid_basics.md)
 ### [How to: Customize the DataGrid control using styling and formatting options](controls/datagrid_guidance/styling_formatting_options.md)
 ### [How to: Display and configure Row Details](controls/datagrid_guidance/rowdetails.md)
@@ -38,6 +38,8 @@
 ## Microsoft Graph Controls
 ### [AadLogin](graph/AadLogin.md)
 ### [PeoplePicker](graph/PeoplePicker.md)
+### [PlannerTaskList](graph/PlannerTaskList.md)
+### [PowerBIEmbedded](graph/PowerBIEmbedded.md)
 ### [ProfileCard](graph/ProfileCard.md)
 ### [SharePointFileList](graph/SharePointFileList.md)
 ## [OrbitView](controls/OrbitView.md)
@@ -53,6 +55,7 @@
 ## [TileControl](controls/TileControl.md)
 ## [UniformGrid](controls/UniformGrid.md)
 ## [WebView (win32)](controls/WebView.md)
+### [WebView known issues](controls/WebView-known-issues.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Animations
