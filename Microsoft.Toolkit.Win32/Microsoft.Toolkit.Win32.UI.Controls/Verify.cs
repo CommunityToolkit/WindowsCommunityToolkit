@@ -156,15 +156,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
             }
         }
 
-        [Conditional("DEBUG")]
-        internal static void IsNotOnMainThread()
-        {
-            if (System.Windows.Application.Current.Dispatcher.CheckAccess())
-            {
-                Break("Is not on WPF main thread");
-            }
-        }
-
         /// <summary>
         /// Verifies that the specified object is null.  The assertion fails if it is not.
         /// </summary>

@@ -30,6 +30,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public event EventHandler IsAuthenticatedChanged;
 
         /// <summary>
+        /// Occurs when sign in failed when attempting to sign in
+        /// </summary>
+        public event EventHandler<SignInFailedEventArgs> SignInFailed;
+
+        /// <summary>
         /// Gets or sets store a reference to an instance of the underlying data provider.
         /// </summary>
         public GraphServiceClient GraphProvider { get; set; }
@@ -186,22 +191,32 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the current user
         /// </summary>
         /// <returns>success or failure</returns>
-        public virtual Task<bool> Logout()
+#pragma warning disable CS1998
+        public virtual async Task<bool> Logout()
+#pragma warning restore CS1998
         {
             if (!IsInitialized)
             {
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            IsAuthenticated = false;
             User = null;
+
+            bool result;
 
 #if WINRT
             var authenticationModel = AuthenticationModel.ToString();
-            return Authentication.LogoutAsync(authenticationModel);
+            result = await Authentication.LogoutAsync(authenticationModel);
 #else
-            return Task.Run(() => { return Authentication.Logout(); });
+            result = Authentication.Logout();
 #endif
+
+            if (result)
+            {
+                IsAuthenticated = false;
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -263,10 +278,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Tries to log in user if not already loged in
+        /// Tries to log in user if not already loged in. Calls LoginAsync internaly
         /// </summary>
-        /// <returns>true if service is already loged in</returns>
-        internal async Task<bool> TryLoginAsync()
+        /// <remarks>Exceptions are not thrown but SignInFailed event is raised</remarks>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> TryLoginAsync()
         {
             if (!IsInitialized)
             {
@@ -289,7 +305,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 if (ex.ErrorCode != "authentication_canceled"
                     && ex.ErrorCode != "access_denied")
                 {
-                    throw ex;
+                    SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
                 }
             }
             finally
@@ -300,7 +316,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             return IsAuthenticated;
         }
 
-        internal async Task<bool> ConnectForAnotherUserAsync()
+        /// <summary>
+        /// Log in a new user and log out old user
+        /// </summary>
+        /// <returns>Returns success or failure of login attempt.</returns>
+        public async Task<bool> ConnectForAnotherUserAsync()
         {
             if (!IsInitialized)
             {
@@ -332,7 +352,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 if (ex.ErrorCode != "authentication_canceled"
                     && ex.ErrorCode != "access_denied")
                 {
-                    throw ex;
+                    SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
                 }
             }
 

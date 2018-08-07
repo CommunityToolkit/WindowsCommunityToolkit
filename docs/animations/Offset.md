@@ -156,5 +156,5 @@ You can change the way how the animation interpolates between keyframes by defin
 
 ## Related Topics
 
-- [AnimationSet Class](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/animationset)
+- [AnimationSet Class](https://docs.microsoft.com/windows/communitytoolkit/animations/animationset)
 - [Storyboard Class](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Media.Animation.Storyboard)

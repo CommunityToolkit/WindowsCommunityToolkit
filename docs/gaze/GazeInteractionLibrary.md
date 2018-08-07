@@ -62,10 +62,11 @@ If the XAML page is enabled for gaze based interactions, the visibility and size
 |CursorRadius|int| Gets or sets the size of the gaze cursor radius. The default value is X|
 | ThresholdDuration | TimeSpan | This duration controls when the PointerState moves to either the `Enter` state or the `Exit` state. When this duration has elapsed after the user's gaze first enters a control, the `PointerState` is set to `Enter`. And when this duration has elapsed after the user's gaze has left the control, the `PointerState` is set to `Exit`. In both cases, a `StateChanged` event is fired. The default value is 50ms. |
 | FixationDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Enter` state to the `Fixation` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Fixation`. This event should be used to control the earliest visual feedback the application needs to provide to the user about the gaze location. The default value is 350ms. |
-| DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is a more conscious activity. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it. The default value is X ms. |
+| DwellDuration | TimeSpan | Gets or sets the duration for the control to transition from the `Fixation` state to the `Dwell` state. At this point, a  `StateChanged` event is fired with `PointerState` set to `Dwell`. The `Enter` and `Fixation` states are typicaly achieved too rapidly for the user to have much control over. In contrast `Dwell` is a more conscious activity. This is the point at which the control is invoked, e.g. a button click. The application can modify this property to control when a gaze enabled UI element gets invoked after a user starts looking at it. The default value is 400 ms. |
 | MaxDwellRepeatCount | int | The maximum amount of times the control will invoked repeatedly without the user's gaze having to leave and re-enter the control. The default value is zero which disables repeated invocation of a control. Developers can set a higher value to enable repeated invocation. |
 | DwellRepeatDuration | TimeSpan | Gets or sets the duration of repeated dwell invocations, should the user continue to dwell on the control. The first repeat will occur after an additional delay specified by `RepeatDelayDuration`. Subsequent repeats happen after every period of `DwellRepeatDuration`. _A control is invoked repeatedly only if MaxDwellRepeatCount is set to greater than zero_. |
 | RepeatDelayDuration | TimeSpan | Gets or sets the additional duration for the first repeat to occur. This prevents  inadvertent repeated invocation. See above for details. |
+| IsSwitchEnabled | bool | Gets or sets whether switch activation is enabled. When Switch support is enabled, the currently fixated element will not transition to the dwell state. Further, when the `GazePointer.Click()` method is called the currently fixated element will be invoked. |
 
 
 ## GazeElement Events
@@ -182,7 +183,7 @@ private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
 
 <!-- All control/helper must at least have an example to show the use of Properties and Methods in your control/helper with the output -->
 <!-- Use <example> and <code> tags in C# to create a Propertie/method specific examples. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/example -->
-<!-- Optional: Codes to achieve real-world use case with the output. For eg: Check https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset#examples  -->
+<!-- Optional: Codes to achieve real-world use case with the output. For eg: Check https://docs.microsoft.com/en-us/windows/communitytoolkit/animations/animationset#examples  -->
 
 ## Sample Code
 

@@ -111,7 +111,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         public IBaseClient Provider { get; private set; }
 
-
         /// <summary>
         /// Gets an instance of a DriveItem
         /// </summary>
