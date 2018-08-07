@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -12,6 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// Set of extensions for the <see cref="NavigationView"/> control.
     /// </summary>
     [Bindable]
+    [Obsolete("The Navigation View extension will be removed in a future major release.")]
     public static class NavigationViewExtensions
     {
         // Name of Content area in NavigationView Template.
