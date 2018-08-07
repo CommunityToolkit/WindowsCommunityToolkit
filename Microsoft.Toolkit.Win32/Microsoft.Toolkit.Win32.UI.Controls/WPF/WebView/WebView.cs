@@ -723,27 +723,27 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
 
-            if (_process == null)
-            {
-                var privateNetworkEnabled = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
-                    : IsPrivateNetworkClientServerCapabilityEnabled;
-                var enterpriseId = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => EnterpriseId)
-                    : EnterpriseId;
-
-                _process = new WebViewControlProcess(new WebViewControlProcessOptions
-                {
-                    PrivateNetworkClientServerCapability = privateNetworkEnabled
-                        ? WebViewControlProcessCapabilityState.Enabled
-                        : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId
-                });
-            }
-
             Dispatcher.InvokeAsync(
                 async () =>
                 {
+                    if (_process == null)
+                    {
+                        var privateNetworkEnabled = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
+                            : IsPrivateNetworkClientServerCapabilityEnabled;
+                        var enterpriseId = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => EnterpriseId)
+                            : EnterpriseId;
+
+                        _process = new WebViewControlProcess(new WebViewControlProcessOptions
+                        {
+                            PrivateNetworkClientServerCapability = privateNetworkEnabled
+                                ? WebViewControlProcessCapabilityState.Enabled
+                                : WebViewControlProcessCapabilityState.Disabled,
+                            EnterpriseId = enterpriseId
+                        });
+                    }
+
                     Verify.IsNotNull(_process);
 
                     if (_webViewControl == null)
