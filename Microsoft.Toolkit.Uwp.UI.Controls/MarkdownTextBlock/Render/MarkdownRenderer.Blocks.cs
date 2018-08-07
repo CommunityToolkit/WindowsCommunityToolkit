@@ -94,6 +94,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         }
 
         /// <summary>
+        /// Renders a yaml header element.
+        /// </summary>
+        protected override void RenderYamlHeader(YamlHeaderBlock element, IRenderContext context)
+        {
+            // todo:render like table
+        }
+
+        /// <summary>
         /// Renders a header element.
         /// </summary>
         protected override void RenderHeader(HeaderBlock element, IRenderContext context)

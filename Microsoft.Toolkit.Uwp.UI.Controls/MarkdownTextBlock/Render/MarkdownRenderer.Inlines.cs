@@ -479,6 +479,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         }
 
         /// <summary>
+        /// Renders a subscript element.
+        /// </summary>
+        /// <param name="element"> The parsed inline element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        protected override void RenderSubscriptRun(SubscriptTextInline element, IRenderContext context)
+        {
+            // todo: render like superscript and reverse
+        }
+
+        /// <summary>
         /// Renders a code element
         /// </summary>
         /// <param name="element"> The parsed inline element to render. </param>
