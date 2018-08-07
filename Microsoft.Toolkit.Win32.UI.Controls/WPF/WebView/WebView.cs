@@ -512,34 +512,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName)
-        {
-            VerifyAccess();
-
-            do
-            {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName);
-        }
+        public string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName, params string[] arguments)
-        {
-            VerifyAccess();
-
-            do
-            {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
-        }
+        public string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
 
         /// <inheritdoc />
         public string InvokeScript(string scriptName, IEnumerable<string> arguments)
@@ -553,7 +529,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             while (!_initializationComplete.WaitOne(InitializationBlockingTime));
 
             Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
+
+            // WebViewControlHost ends up calling InvokeScriptAsync anyway
+            // The problem we have is that InvokeScript could be called from a UI thread and waiting for an async result that could lead to deadlock
+            return InvokeScriptAsync(scriptName, arguments).WaitWithNestedMessageLoop(Dispatcher.CurrentDispatcher);
         }
 
         /// <inheritdoc />
