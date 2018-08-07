@@ -469,13 +469,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id) => _webViewControl?.GetDeferredPermissionRequestById(id);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName) => _webViewControl?.InvokeScript(scriptName);
+        public string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName, params string[] arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
+        public string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName, IEnumerable<string> arguments) => _webViewControl?.InvokeScript(scriptName, arguments);
+        public string InvokeScript(string scriptName, IEnumerable<string> arguments)
+        {
+            // WebViewControlHost ends up calling InvokeScriptAsync anyway
+            // The problem we have is that InvokeScript could be called from a UI thread and waiting for an async result that could lead to deadlock
+            return InvokeScriptAsync(scriptName, arguments).WaitWithNestedMessageLoop();
+        }
 
         /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName) => _webViewControl?.InvokeScriptAsync(scriptName);
