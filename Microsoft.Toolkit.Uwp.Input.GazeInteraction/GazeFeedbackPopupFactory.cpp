@@ -18,6 +18,7 @@ Popup^ GazeFeedbackPopupFactory::Get()
 
         auto rectangle = ref new Rectangle();
         rectangle->StrokeThickness = 2;
+        rectangle->IsHitTestVisible = false;
 
         popup->Child = rectangle;
     }

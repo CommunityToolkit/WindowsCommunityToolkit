@@ -25,6 +25,11 @@
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
+  <PropertyGroup>
+	  <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
+    <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+
   <Choose>
     <When Condition="'$(IsWin32Project)' == 'true'">
       <PropertyGroup>
@@ -43,7 +48,6 @@
         <NoWarn>1591</NoWarn>
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -104,15 +108,20 @@
         <Page Include="**\*.xaml" Exclude="**\bin\**\*.xaml;**\obj\**\*.xaml" SubType="Designer" Generator="MSBuild:Compile" />
         <Compile Update="**\*.xaml.cs" DependentUpon="%(Filename)" />
       </ItemGroup>
+      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+      </PropertyGroup>
     </When>
   </Choose>
-  
-  <PropertyGroup>
-    <NerdbankGitVersioningVersion>2.1.23</NerdbankGitVersioningVersion>
+
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
+    <!-- 8002 is a strong named -> non-strong-named reference -->
+    <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
+    <NoWarn>$(NoWarn);8002</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.23" PrivateAssets="all" />
+    <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
 
   <ItemGroup>

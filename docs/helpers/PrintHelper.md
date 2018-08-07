@@ -21,6 +21,7 @@ Please check the sample app code to see how to disconnect/reconnect a control th
 https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs
 
 Several events are available to control the printing process:
+
 * OnPrintFailed will be triggered if the user cancels the print or if something goes wrong
 * OnPrintSucceeded will be triggered after a successful print
 * OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
@@ -28,6 +29,9 @@ Several events are available to control the printing process:
 In addition, you can customize the printing dialog using the `PrintHelperOptions` class. To use it, create an instance of the class, add the options you'd like to display on the printing dialog and set the default options. Then, you can use it as a parameter in the `PrintHelper` class constructor to set them as the default for the instance, or send them as parameters to `ShowPrintUIAsync` to use them for a single print job.
 
 You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
+
+> [!IMPORTANT]
+Printing in Dark Theme will likely print white text, which won't be visible. To fix this, ensure the text is a visible color before printing, then restore the original color.
 
 ## Syntax
 

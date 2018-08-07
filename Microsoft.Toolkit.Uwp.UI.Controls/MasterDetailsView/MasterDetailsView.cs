@@ -153,7 +153,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 _frame = this.FindAscendant<Frame>();
-                _frame.Navigating += OnFrameNavigating;
+                if (_frame != null)
+                {
+                    _frame.Navigating += OnFrameNavigating;
+                }
 
                 _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
                 if (_selectionStateGroup != null)

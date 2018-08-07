@@ -55,6 +55,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             Layout += OnWebViewLayout;
         }
 
+        internal WebViewControlHost Host => _webViewControl;
+
         /// <summary>
         /// Gets a value indicating whether <see cref="WebView"/> is supported in this environment.
         /// </summary>
@@ -108,7 +110,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Process.EnterpriseId
                     : _delayedEnterpriseId;
@@ -166,7 +173,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsIndexedDBEnabled
                     : _delayedIsIndexDbEnabled;
@@ -200,7 +212,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsJavaScriptEnabled
                     : _delayedIsJavaScriptEnabled;
@@ -234,7 +251,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Settings.IsScriptNotifyAllowed
                     : _delayedIsScriptNotifyAllowed;
@@ -269,7 +291,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Process.IsPrivateNetworkClientServerCapabilityEnabled
                     : _delayedPrivateNetworkEnabled;
@@ -311,7 +338,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return _webViewControl?.Settings;
             }
         }
@@ -331,7 +363,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 Verify.IsFalse(IsDisposed);
                 Verify.Implies(Initializing, !Initialized);
-                Verify.Implies(Initialized, WebViewControlInitialized);
+#if DEBUG
+                if (!DesignMode)
+                {
+                    Verify.Implies(Initialized, WebViewControlInitialized);
+                }
+#endif
                 return WebViewControlInitialized
                     ? _webViewControl.Source
                     : _delayedSource;
@@ -368,6 +405,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Version Version => _webViewControl?.Version;
+
+        /// <inheritdoc />
+        public void AddPreLoadedScript(string script)
+        {
+            Verify.IsFalse(IsDisposed);
+            Verify.Implies(Initializing, !Initialized);
+#if DEBUG
+            if (!DesignMode)
+            {
+                Verify.Implies(Initialized, WebViewControlInitialized);
+            }
+#endif
+            _webViewControl?.AddPreLoadedScript(script);
+        }
 
         /// <summary>
         /// Closes this control.
@@ -419,23 +470,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
         /// <inheritdoc />
         public void MoveFocus(WebViewControlMoveFocusReason reason) => _webViewControl?.MoveFocus(reason);
-
-        /// <inheritdoc />
-        public void Navigate(Uri source) => _webViewControl?.Navigate(source);
-
-        /// <inheritdoc />
-        public void Navigate(string source)
-        {
-            Verify.IsFalse(IsDisposed);
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.Navigate(source);
-        }
-
-        /// <inheritdoc />
-        public void NavigateToLocal(string relativePath) => _webViewControl?.NavigateToLocal(relativePath);
-
-        /// <inheritdoc />
-        public void NavigateToString(string text) => _webViewControl?.NavigateToString(text);
 
         /// <summary>
         /// Releases the unmanaged resources used by the <see cref="T:System.Windows.Forms.Control" /> and its child controls and optionally releases the managed resources.

@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -13,7 +14,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// Copy from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to avoid requirement to link Windows.winmd.
     /// </remarks>
     /// <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/>
-    public class WebViewControlProcessOptions
+    public sealed class WebViewControlProcessOptions
     {
         /// <summary>
         /// Gets or sets the enterprise identifier for apps that are WIP-enabled.
@@ -37,21 +38,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> to <see cref="WebViewControlProcessOptions"/>.
+        /// </summary>
+        /// <param name="options">The options.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlProcessOptions(Windows.Web.UI.Interop.WebViewControlProcessOptions options) => ToWinRtWebViewControlProcessOptions(options);
+
+        public static Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions(WebViewControlProcessOptions options)
+        {
+            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
+
+            if (!string.IsNullOrEmpty(options?.EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, options?.EnterpriseId))
+            {
+                retval.EnterpriseId = options.EnterpriseId;
+            }
+
+            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)options?.PrivateNetworkClientServerCapability;
+
+           return retval;
+        }
+
+        /// <summary>
         /// Converts this instance to a <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.
         /// </summary>
         /// <returns>A <seealso cref="Windows.Web.UI.Interop.WebViewControlProcessOptions"/> instance.</returns>
         internal Windows.Web.UI.Interop.WebViewControlProcessOptions ToWinRtWebViewControlProcessOptions()
         {
-            var retval = new Windows.Web.UI.Interop.WebViewControlProcessOptions();
-
-            if (!string.IsNullOrEmpty(EnterpriseId) && !StringComparer.InvariantCulture.Equals(retval.EnterpriseId, EnterpriseId))
-            {
-                retval.EnterpriseId = EnterpriseId;
-            }
-
-            retval.PrivateNetworkClientServerCapability = (Windows.Web.UI.Interop.WebViewControlProcessCapabilityState)PrivateNetworkClientServerCapability;
-
-            return retval;
+             return ToWinRtWebViewControlProcessOptions(this);
         }
     }
 }
