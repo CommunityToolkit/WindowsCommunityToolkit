@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Converts the object into it's textual representation.
         /// </summary>
-        /// <returns> The textual representation of this object. /returns>
+        /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
             if (Inlines == null)
