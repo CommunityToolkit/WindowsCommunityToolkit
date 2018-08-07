@@ -94,4 +94,4 @@ Dim content = uiElement.GetContentControl()
 
 ## Related Topics
 
-- [VisualTree Extensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/visualtree)
+- [VisualTree Extensions](https://docs.microsoft.com/windows/communitytoolkit/extensions/visualtree)
