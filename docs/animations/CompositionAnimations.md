@@ -92,7 +92,7 @@ A collection of animations.
 ## Examples
 
 > [!NOTE]
-Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/implicitanimations) to run these animations.
+Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/windows/communitytoolkit/animations/implicitanimations) to run these animations.
 
 Let's create some plain animation first. Theses animation will run when the `Target` property is changed.
 

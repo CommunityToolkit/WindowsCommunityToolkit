@@ -36,7 +36,7 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 ## Integration
 
 1. Follow the
-[MicrosoftGraphService](../../docs/services/MicrosoftGraph.md#register-the-app-to-use-azure-ad-v1-endpoint) to create Azure AD app registration (v1), and grant the permissions below.
+[MicrosoftGraphService](../services/MicrosoftGraph.md#register-the-app-to-use-azure-ad-v1-endpoint) to create Azure AD app registration (v1), and grant the permissions below.
 
    * Microsoft Graph
       - Sign in and read user profile
@@ -70,11 +70,11 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## Sample Code
 
-[PowerBIEmbedded Sample Page Source](../../Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PowerBIEmbedded). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[PowerBIEmbedded Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PowerBIEmbedded). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[PowerBIEmbedded XAML File](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded/PowerBIEmbedded.xaml) is the XAML template used in the toolkit for the default styling.
+[PowerBIEmbedded XAML File](https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded/PowerBIEmbedded.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
@@ -85,4 +85,4 @@ The [PowerBIEmbedded Control](https://docs.microsoft.com/dotnet/api/microsoft.to
 
 ## API
 
-* [PowerBIEmbedded source code](../../Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded)
+* [PowerBIEmbedded source code](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded)

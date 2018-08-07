@@ -183,7 +183,7 @@ private void OnInvokeProgress(object sender, GazeProgressEventArgs e)
 
 <!-- All control/helper must at least have an example to show the use of Properties and Methods in your control/helper with the output -->
 <!-- Use <example> and <code> tags in C# to create a Propertie/method specific examples. For more info - https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/xmldoc/example -->
-<!-- Optional: Codes to achieve real-world use case with the output. For eg: Check https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/animations/animationset#examples  -->
+<!-- Optional: Codes to achieve real-world use case with the output. For eg: Check https://docs.microsoft.com/en-us/windows/communitytoolkit/animations/animationset#examples  -->
 
 ## Sample Code
 
