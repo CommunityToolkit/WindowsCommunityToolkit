@@ -44,7 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="PlatformSpecific\NetFramework\" />
+    <Compile Include="PlatformSpecific\NetFramework\NetFrameworkSignatureManager.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Services\Internal\" />
   </ItemGroup>
 
