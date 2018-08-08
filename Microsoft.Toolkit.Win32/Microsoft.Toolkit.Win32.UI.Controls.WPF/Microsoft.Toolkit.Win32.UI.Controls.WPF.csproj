@@ -63,6 +63,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
     <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">

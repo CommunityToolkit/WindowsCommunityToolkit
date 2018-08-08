@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkCanvas"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public InkCanvas(string typeName)
+        protected InkCanvas(string typeName)
             : base(typeName)
         {
         }
