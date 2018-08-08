@@ -13,6 +13,8 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
+        private static readonly IntPtr HWND_TOP = IntPtr.Zero;
+
         /// <summary>
         ///    Sets XAML window size using dimensions of the host control
         /// </summary>
@@ -20,9 +22,24 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
         {
             if (_xamlIslandWindowHandle != IntPtr.Zero && Width != 0 && Height != 0)
             {
-                if (SafeNativeMethods.SetWindowPos(_xamlIslandWindowHandle, NativeDefines.HWND_TOP, 0, 0, Width, Height, SetWindowPosFlags.SHOWWINDOW) == IntPtr.Zero)
+                const int SWP_SHOWWINDOW = 0x0040;
+
+                try
                 {
-                    throw new InvalidOperationException("WindowXamlHostBase::SetDesktopWindowXamlSourceWindowPos failed to set UWP XAML window position.");
+                    UnsafeNativeMethods.SetWindowPos(
+                        _xamlIslandWindowHandle,
+                        HWND_TOP,
+                        0,
+                        0,
+                        Width,
+                        Height,
+                        SWP_SHOWWINDOW);
+                }
+                catch (Exception e)
+                {
+                    throw new InvalidOperationException(
+                        "WindowXamlHostBase::SetDesktopWindowXamlSourceWindowPos failed to set UWP XAML window position.",
+                        e);
                 }
             }
         }

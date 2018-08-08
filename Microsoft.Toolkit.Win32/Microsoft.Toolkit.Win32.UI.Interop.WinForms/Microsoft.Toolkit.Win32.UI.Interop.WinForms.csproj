@@ -34,6 +34,17 @@
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
     <Compile Include="..\Shared\Interop\Win32\ExternDll.cs" Link="Interop\Win32\ExternDll.cs" />
+    <Compile Include="..\Shared\Interop\Win32\Facility.cs" Link="Interop\Win32\Facility.cs" />
+    <Compile Include="..\Shared\Interop\Win32\HRESULT.cs" Link="Interop\Win32\HRESULT.cs" />
+    <Compile Include="..\Shared\Interop\Win32\NativeMethods.cs" Link="Interop\Win32\NativeMethods.cs" />
+    <Compile Include="..\Shared\Interop\Win32\OSVERSIONINFOEX.cs" Link="Interop\Win32\OSVERSIONINFOEX.cs" />
+    <Compile Include="..\Shared\Interop\Win32\ProductType.cs" Link="Interop\Win32\ProductType.cs" />
+    <Compile Include="..\Shared\Interop\Win32\Win32Error.cs" Link="Interop\Win32\Win32Error.cs" />
+    <Compile Include="..\Shared\Interop\Win32\Win32Value.cs" Link="Interop\Win32\Win32Value.cs" />
+    <Compile Include="..\Shared\Interop\Win32\WM.cs" Link="Interop\Win32\WM.cs" />
+    <Compile Include="..\Shared\Interop\Win32\WS.cs" Link="Interop\Win32\WS.cs" />
+    <Compile Include="..\Shared\Interop\Win32\WS_EX.cs" Link="Interop\Win32\WS_EX.cs" />
+    <Compile Include="..\Shared\Verify.cs" Link="Verify.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -39,5 +39,32 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms.Interop.Win32
         [SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.User32, EntryPoint = "EnableWindow", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern bool IntEnableWindow(HandleRef hWnd, bool enable);
+
+        /// <summary>
+        /// Changes the size, position, and Z order of a child, pop-up, or top-level window. These windows are ordered according to their appearance on the screen. The topmost window receives the highest rank and is the first window in the Z order.
+        /// </summary>
+        /// <param name="hWnd">A handle to the window.</param>
+        /// <param name="hWndInsertAfter">A handle to the window to precede the positioned window in the Z order.</param>
+        /// <param name="x">The new position of the left side of the window, in client coordinates. </param>
+        /// <param name="y">The new position of the top of the window, in client coordinates. </param>
+        /// <param name="cx">The new width of the window, in pixels.</param>
+        /// <param name="cy">The new height of the window, in pixels.</param>
+        /// <param name="flags">The window sizing and positioning flags.</param>
+        /// <returns>f the function succeeds, the return value is nonzero. If the function fails, the return value is zero.To get extended error information, call GetLastError. </returns>
+        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto, EntryPoint = "SetWindowPos")]
+        [ResourceExposure(ResourceScope.None)]
+        [SecurityCritical]
+        private static extern IntPtr _SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint flags);
+
+        [SecurityCritical]
+        internal static bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, uint flags)
+        {
+            if (_SetWindowPos(hWnd, hWndInsertAfter, x, y, cx, cy, flags) == IntPtr.Zero)
+            {
+                HRESULT.ThrowLastError();
+            }
+
+            return true;
+        }
     }
 }
