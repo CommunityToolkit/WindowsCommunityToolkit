@@ -106,8 +106,11 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
             return new HandleRef(this, windowHandle);
         }
 
-        // The default implementation of SetContent applies XamlRootInternal to desktopWindowXamSource.Content.
-        // Override this method if your control should be a child of another WindowsXamlHostBase-based control.
+        /// <summary>
+        /// The default implementation of SetContent applies XamlRootInternal to desktopWindowXamSource.Content.
+        /// Override this method if that shouldn't be the case.
+        /// For example, override if your control should be a child of another WindowsXamlHostBase-based control.
+        /// </summary>
         protected virtual void SetContent()
         {
             if (desktopWindowXamlSource != null)

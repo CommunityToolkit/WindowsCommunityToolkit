@@ -40,6 +40,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Children = new ObservableCollection<DependencyObject>();
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls

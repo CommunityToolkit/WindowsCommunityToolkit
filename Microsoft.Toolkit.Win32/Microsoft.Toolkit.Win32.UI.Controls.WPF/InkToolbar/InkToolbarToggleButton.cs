@@ -33,11 +33,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
         }
 
+        /// <inheritdoc />
         protected override void SetContent()
         {
             // intentionally empty
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls

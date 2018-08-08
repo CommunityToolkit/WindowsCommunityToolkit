@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
         }
 
+        /// <inheritdoc />
         protected override void SetContent()
         {
             if (VisualParent is InkToolbar parent)
@@ -45,6 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             }
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
