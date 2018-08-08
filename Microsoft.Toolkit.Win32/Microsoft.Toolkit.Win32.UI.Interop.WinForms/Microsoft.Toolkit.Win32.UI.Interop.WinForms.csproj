@@ -38,6 +38,7 @@
     <Compile Include="..\Shared\Interop\Win32\HRESULT.cs" Link="Interop\Win32\HRESULT.cs" />
     <Compile Include="..\Shared\Interop\Win32\NativeMethods.HRESULT.cs" Link="Interop\Win32\NativeMethods.HRESULT.cs" />
     <Compile Include="..\Shared\Interop\Win32\Win32Error.cs" Link="Interop\Win32\Win32Error.cs" />
+    <Compile Include="..\Shared\Interop\Win32\WM.cs" Link="Interop\Win32\WM.cs" />
     <Compile Include="..\Shared\Verify.cs" Link="Verify.cs" />
   </ItemGroup>
 

@@ -10,7 +10,10 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms.Interop.Win32
 {
-    internal static class NativeMethods
+    /// <summary>
+    /// Contains Win32 methods for XAML Islands
+    /// </summary>
+    internal static partial class NativeMethods
     {
         [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]

@@ -83,10 +83,10 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
             switch (m.Msg)
             {
                 // SetDesktopWindowXamlSourceWindowPos must always be called after base.WndProc
-                case NativeDefines.WM_MOVE:
-                case NativeDefines.WM_SIZE:
-                case NativeDefines.WM_WINDOWPOSCHANGED:
-                case NativeDefines.WM_WINDOWPOSCHANGING:
+                case NativeMethods.WM_MOVE:
+                case NativeMethods.WM_SIZE:
+                case NativeMethods.WM_WINDOWPOSCHANGED:
+                case NativeMethods.WM_WINDOWPOSCHANGING:
                     base.WndProc(ref m);
                     SetDesktopWindowXamlSourceWindowPos();
                     break;
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 // skipping over nested elements. Update or move back to Windows.Xaml.Input.FocusManager.
                 // WM_SETFOCUS should not be handled directly. Bug 18356717: DesktopWindowXamlSource.NavigateFocus
                 // non-directional Focus not moving Focus, not responding to keyboard input.
-                case NativeDefines.WM_SETFOCUS:
+                case NativeMethods.WM_SETFOCUS:
                     if (NativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)
                     {
                         throw new System.InvalidOperationException("WindowsXamlHostBase::WndProc: Failed to SetFocus on UWP XAML window");
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                     base.WndProc(ref m);
                     break;
 
-                case NativeDefines.WM_KILLFOCUS:
+                case NativeMethods.WM_KILLFOCUS:
                     // If focus is being set on the UWP XAML island window then we should prevent LostFocus by
                     // handling this message.
                     if (_xamlIslandWindowHandle == null || _xamlIslandWindowHandle != m.WParam)
