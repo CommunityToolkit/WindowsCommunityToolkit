@@ -1,15 +1,25 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Microsoft.Toolkit.Uwp.Services.Weibo
+namespace Microsoft.Toolkit.Services.Weibo
 {
+    /// <summary>
+    /// OAuth request.
+    /// </summary>
     internal class WeiboOAuthRequest
     {
         private static HttpClient client;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeiboOAuthRequest"/> class.
+        /// </summary>
         public WeiboOAuthRequest()
         {
             if (client == null)
@@ -20,6 +30,12 @@ namespace Microsoft.Toolkit.Uwp.Services.Weibo
             }
         }
 
+        /// <summary>
+        /// HTTP Get request to specified Uri.
+        /// </summary>
+        /// <param name="requestUri">Uri to make OAuth request.</param>
+        /// <param name="tokens">Tokens to pass in request.</param>
+        /// <returns>String result.</returns>
         public async Task<string> ExecuteGetAsync(Uri requestUri, WeiboOAuthTokens tokens)
         {
             using (HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, requestUri))
@@ -33,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.Services.Weibo
                 {
                     requestUriBuilder.Query = requestUriBuilder.Query + "?access_token=" + tokens.AccessToken;
                 }
+
                 request.RequestUri = requestUriBuilder.Uri;
 
                 using (HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false))

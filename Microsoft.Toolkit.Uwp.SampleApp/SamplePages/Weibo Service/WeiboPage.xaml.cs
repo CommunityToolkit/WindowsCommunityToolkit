@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Uwp.Services.Weibo;
+using Microsoft.Toolkit.Services.Weibo;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
