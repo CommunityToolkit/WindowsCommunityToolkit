@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 // WM_SETFOCUS should not be handled directly. Bug 18356717: DesktopWindowXamlSource.NavigateFocus
                 // non-directional Focus not moving Focus, not responding to keyboard input.
                 case NativeDefines.WM_SETFOCUS:
-                    if (UnsafeNativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)
+                    if (NativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)
                     {
                         throw new System.InvalidOperationException("WindowsXamlHostBase::WndProc: Failed to SetFocus on UWP XAML window");
                     }

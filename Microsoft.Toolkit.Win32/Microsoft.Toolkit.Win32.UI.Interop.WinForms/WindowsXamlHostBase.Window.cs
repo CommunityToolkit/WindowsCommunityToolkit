@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
 
                 try
                 {
-                    UnsafeNativeMethods.SetWindowPos(
+                    NativeMethods.SetWindowPos(
                         _xamlIslandWindowHandle,
                         HWND_TOP,
                         0,
