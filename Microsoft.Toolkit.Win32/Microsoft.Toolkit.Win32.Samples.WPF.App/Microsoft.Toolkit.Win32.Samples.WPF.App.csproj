@@ -114,4 +114,7 @@
     <Resource Include="Assets\storelogo-sdk.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="Pack">
+    <!-- No-op to avoid build error when packing solution from commandline -->
+  </Target>
 </Project>
