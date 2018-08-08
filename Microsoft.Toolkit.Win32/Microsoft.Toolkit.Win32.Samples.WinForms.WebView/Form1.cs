@@ -4,8 +4,8 @@
 
 using System;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Win32.UI.Controls;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
 
 namespace Microsoft.Toolkit.Win32.Samples.WinForms.WebView
 {
