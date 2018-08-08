@@ -35,8 +35,6 @@
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
         
         
-        <!-- Need RS5 or later. -->
-        <TargetPlatformMinVersion>10.0.17713.0</TargetPlatformMinVersion>
         <!--
         When changing this value, ensure the SDK is installed with the build process.
         Need to check several files:

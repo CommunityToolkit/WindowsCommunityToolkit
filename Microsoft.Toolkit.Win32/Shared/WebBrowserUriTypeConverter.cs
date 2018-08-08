@@ -6,10 +6,10 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
+namespace Microsoft.Toolkit.Win32.UI.Controls
 {
     /// <summary>
-    /// Converts a <see cref="string"/> type to a <see cref="Uri"/> type for <see cref="WebView"/>, and vice versa.
+    /// Converts a <see cref="string"/> type to a <see cref="Uri"/> type for (both WPF and WinForms) WebView controls, and vice versa.
     /// </summary>
     public class WebBrowserUriTypeConverter : UriTypeConverter
     {

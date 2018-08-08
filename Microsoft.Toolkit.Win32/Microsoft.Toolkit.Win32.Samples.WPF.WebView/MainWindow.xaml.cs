@@ -6,7 +6,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Win32.UI.Controls.WinForms;
+using Microsoft.Toolkit.Win32.UI.Controls;
 
 namespace Microsoft.Toolkit.Win32.Samples.WPF.WebView
 {

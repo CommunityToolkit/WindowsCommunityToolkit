@@ -31,9 +31,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\WebView\WebBrowserUriTypeConverter.cs">
-      <Link>WebBrowserUriTypeConverter.cs</Link>
-    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
