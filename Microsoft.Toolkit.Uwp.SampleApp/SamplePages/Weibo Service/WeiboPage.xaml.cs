@@ -34,12 +34,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             WeiboService.Instance.Initialize(AppKey.Text, AppSecret.Text, RedirectUri.Text);
 
             if (!await WeiboService.Instance.LoginAsync())
             {
-                Shell.Current.DisplayWaitRing = false;
+                // TODO
+                SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Weibo");
                 await error.ShowAsync();
                 return;
@@ -75,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             // TODO
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
