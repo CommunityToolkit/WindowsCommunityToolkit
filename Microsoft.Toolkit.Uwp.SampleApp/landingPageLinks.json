@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "SharePointFileList", "GazeInteraction", "UniformGrid", "CameraPreview", "InfiniteCanvas" ],
+  "new-samples": [ "DataGrid", "PlannerTaskList", "PowerBIEmbedded", "Twitter Service", "LinkedIn Service" ],
   "resources": [
     {
       "title": "Toolkit",
@@ -61,6 +61,32 @@
         {
           "title": "UI for UWP",
           "url": "https://github.com/telerik/ui-for-uwp"
+        }
+      ]
+    },
+    {
+      "title": "About the App",
+      "id": "app",
+      "links": [
+        {
+          "title": "Version",
+          "url": "http://aka.ms/uwptoolkit"
+        },
+        {
+          "title": "Newtonsoft Json (Dependency)",
+          "url": "http://www.newtonsoft.com/json"
+        },
+        {
+          "title": "ColorCode-Universal (Dependency)",
+          "url": "https://github.com/WilliamABradley/ColorCode-Universal"
+        },
+        {
+          "title": "Monaco Editor UWP (Dependency)",
+          "url": "https://github.com/hawkerm/monaco-editor-uwp"
+        },
+        {
+          "title": "Background photo by Christoffer Engström",
+          "url": "https://unsplash.com/@christoffere"
         }
       ]
     }

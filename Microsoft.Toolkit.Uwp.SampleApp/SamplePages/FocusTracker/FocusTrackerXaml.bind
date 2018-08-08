@@ -5,9 +5,9 @@
       xmlns:developerTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <developerTools:FocusTracker IsActive="@[IsActive:Bool:True]" 
-                                     VerticalAlignment="Center" 
-                                     HorizontalAlignment="Center"/>
-    </Grid>
+  <Grid>
+    <developerTools:FocusTracker IsActive="@[IsActive:Bool:True]"
+                                 VerticalAlignment="Center"
+                                 HorizontalAlignment="Center" />
+  </Grid>
 </Page>

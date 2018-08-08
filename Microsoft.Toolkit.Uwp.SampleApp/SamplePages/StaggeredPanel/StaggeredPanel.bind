@@ -5,7 +5,7 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <GridView x:Name="GridView">
             <GridView.ItemTemplate>
                 <DataTemplate>

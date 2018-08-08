@@ -10,7 +10,7 @@
     <Page.Resources>
       <converters:BoolToObjectConverter x:Key="BoolToObjectConverter1" TrueValue="Collapsed" FalseValue="Visible" />
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10">
+    <Grid Padding="10">
       <sampleControls:AadAuthControl x:Name="AadAuthControl"/>
       <Grid Visibility="{Binding ElementName=AadAuthControl, Path=IsEnabled, Converter={StaticResource BoolToObjectConverter1}}">
         <StackPanel x:Name="LoadPanel">
