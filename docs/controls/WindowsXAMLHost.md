@@ -1,8 +1,8 @@
 ---
 title: WindowsXAMLHost control
 author: normesta
-description: This guide helps you add UWP XAML controls to your WPF or Windows Forms application.
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, Windows Forms, WPF
+description: This guide helps you add UWP XAML controls to your WPF.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF
 ---
 
 # WindowsXAMLHost control
