@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
@@ -174,6 +175,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
+                    if (string.Equals(_uri.Scheme, "data", StringComparison.OrdinalIgnoreCase))
+                    {
+                        var source = _uri.OriginalString;
+                        const string base64Head = "base64,";
+                        var index = source.IndexOf(base64Head);
+                        if (index >= 0)
+                        {
+                            var bytes = Convert.FromBase64String(source.Substring(index + base64Head.Length));
+                            var bitmap = new BitmapImage();
+                            AttachSource(bitmap);
+                            bitmap.SetSourceAsync(new MemoryStream(bytes).AsRandomAccessStream());
+                            return;
+                        }
+                    }
+
                     AttachSource(new BitmapImage(_uri));
                 }
             }
