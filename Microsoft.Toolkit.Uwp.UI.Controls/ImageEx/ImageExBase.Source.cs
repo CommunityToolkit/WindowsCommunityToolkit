@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             var bytes = Convert.FromBase64String(source.Substring(index + base64Head.Length));
                             var bitmap = new BitmapImage();
                             AttachSource(bitmap);
-                            bitmap.SetSourceAsync(new MemoryStream(bytes).AsRandomAccessStream());
+                            await bitmap.SetSourceAsync(new MemoryStream(bytes).AsRandomAccessStream());
                             return;
                         }
                     }
