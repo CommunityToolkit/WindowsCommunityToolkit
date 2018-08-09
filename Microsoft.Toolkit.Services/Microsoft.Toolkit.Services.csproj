@@ -44,7 +44,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="PlatformSpecific\NetFramework\" />
     <Folder Include="Services\Internal\" />
   </ItemGroup>
 
