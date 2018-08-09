@@ -82,4 +82,4 @@ control = uiElement.FindAscendant(Of ScrollViewer)()
 
 ## Related Topics
 
-- [LogicalTree Extensions](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/logicaltree)
+- [LogicalTree Extensions](https://docs.microsoft.com/en-us/windows/communitytoolkit/extensions/logicaltree)
