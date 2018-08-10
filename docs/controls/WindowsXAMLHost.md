@@ -15,13 +15,14 @@ The easiest way to get started is to add a Windows XAML host control to your app
 
 The Windows XAML host control creates an instance of the UWP control for you. You can then set properties and handle events on the UWP control.
 
-Let's walk through each task.
+> [!NOTE]
+> Before you begin, [set up your project](https://docs.microsoft.com/windows/uwp/porting/desktop-to-uwp-enhance#first-set-up-your-project) so that it can use UWP types.
 
-### First, add a Windows XAML host control
+### Add a Windows XAML host control
 
 In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, and then drag it onto the designer of your WPF application.
 
-You'll find the **WindowsXamlHost** control in the **Microsoft.Windows.Interop.WPF Controls** section of the Visual Studio **Toolbox**.
+You'll find the **WindowsXamlHost** control in the **Windows Community Toolkit** section of the Visual Studio **Toolbox**.
 
 ![WindowsXamlHost control in the toolbox](../resources/images/Controls/WindowsXAMLHost/windows-xaml-control-toolbox.png)
 
