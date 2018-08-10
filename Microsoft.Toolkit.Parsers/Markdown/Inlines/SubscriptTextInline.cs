@@ -47,6 +47,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         {
             // Check the first character.
             // e.g. "<sub>……</sub>"
+            if (maxEnd - start < 5)
+            {
+                return null;
+            }
+
             if (markdown.Substring(start, 5) != "<sub>")
             {
                 return null;

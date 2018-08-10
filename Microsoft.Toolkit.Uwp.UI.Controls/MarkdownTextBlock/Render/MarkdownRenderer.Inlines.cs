@@ -485,7 +485,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <param name="context"> Persistent state. </param>
         protected override void RenderSubscriptRun(SubscriptTextInline element, IRenderContext context)
         {
-            // todo: render like superscript and reverse
+            var localContext = context as InlineRenderContext;
+            var parent = localContext?.Parent as TextElement;
+            if (localContext == null && parent == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var paragraph = new Paragraph
+            {
+                FontSize = parent.FontSize * 0.7,
+                FontFamily = parent.FontFamily,
+                FontStyle = parent.FontStyle,
+                FontWeight = parent.FontWeight
+            };
+
+            var childContext = new InlineRenderContext(paragraph.Inlines, context)
+            {
+                Parent = paragraph
+            };
+
+            RenderInlineChildren(element.Inlines, childContext);
+
+            var richTextBlock = CreateOrReuseRichTextBlock(new UIElementCollectionRenderContext(null, context));
+            richTextBlock.Blocks.Add(paragraph);
+
+            var border = new Border
+            {
+                Margin = new Thickness(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
+                Child = richTextBlock
+            };
+
+            var inlineUIContainer = new InlineUIContainer
+            {
+                Child = border
+            };
+
+            // Add it to the current inlines
+            localContext.InlineCollection.Add(inlineUIContainer);
         }
 
         /// <summary>
@@ -504,6 +541,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var text = CreateTextBlock(localContext);
             text.Text = CollapseWhitespace(context, element.Text);
             text.FontFamily = InlineCodeFontFamily ?? FontFamily;
+            text.Foreground = InlineCodeForeground ?? Foreground;
 
             if (localContext.WithinItalics)
             {
@@ -517,10 +555,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var borderthickness = InlineCodeBorderThickness;
             var padding = InlineCodePadding;
-            var spacingoffset = -(borderthickness.Bottom + padding.Bottom);
 
-            var margin = new Thickness(0, spacingoffset, 0, spacingoffset);
-
+            // var spacingoffset = -(borderthickness.Bottom + padding.Bottom);
+            // var margin = new Thickness(0, spacingoffset, 0, spacingoffset);
             var border = new Border
             {
                 BorderThickness = borderthickness,
@@ -528,7 +565,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 Background = InlineCodeBackground,
                 Child = text,
                 Padding = padding,
-                Margin = margin
+                Margin = InlineCodeMargin
             };
 
             // Aligns content in InlineUI, see https://social.msdn.microsoft.com/Forums/silverlight/en-US/48b5e91e-efc5-4768-8eaf-f897849fcf0b/richtextbox-inlineuicontainer-vertical-alignment-issue?forum=silverlightarchieve

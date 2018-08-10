@@ -45,12 +45,28 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             // Check the first character.
-            if (start == maxEnd || (markdown[start] != '^' && markdown.Substring(start, 5) != "<sup>"))
+            bool isHTMLSequence = false;
+            if (start == maxEnd || (markdown[start] != '^' && markdown[start] != '<'))
             {
                 return null;
             }
 
-            bool isHTMLSequence = markdown.Substring(start, 5) == "<sup>";
+            if (markdown[start] != '^')
+            {
+                if (maxEnd - start < 5)
+                {
+                    return null;
+                }
+                else if (markdown.Substring(start, 5) != "<sup>")
+                {
+                    return null;
+                }
+                else
+                {
+                    isHTMLSequence = true;
+                }
+            }
+
             if (isHTMLSequence)
             {
                 int innerStart = start + 5;

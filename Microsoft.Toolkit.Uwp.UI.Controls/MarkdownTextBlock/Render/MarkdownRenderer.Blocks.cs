@@ -79,7 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         {
             var paragraph = new Paragraph
             {
-                Margin = ParagraphMargin
+                Margin = ParagraphMargin,
+                LineHeight = ParagraphLineHeight
             };
 
             var childContext = new InlineRenderContext(paragraph.Inlines, context)
@@ -98,7 +99,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// </summary>
         protected override void RenderYamlHeader(YamlHeaderBlock element, IRenderContext context)
         {
-            // todo:render like table
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
+
+            var table = new MarkdownTable(element.Keys.Count, 2, YamlBorderThickness, YamlBorderBrush)
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = TableMargin
+            };
+
+            // Add each column
+            for (int i = 0; i < element.Keys.Count; i++)
+            {
+                // Add each cell
+                var keyCell = new TextBlock
+                {
+                    Text = element.Keys[i],
+                    Foreground = Foreground,
+                    TextAlignment = TextAlignment.Center,
+                    FontWeight = FontWeights.Bold,
+                    Margin = TableCellPadding
+                };
+                var valueCell = new TextBlock
+                {
+                    Text = element.Values[i],
+                    Foreground = Foreground,
+                    TextAlignment = TextAlignment.Left,
+                    Margin = TableCellPadding,
+                    TextWrapping = TextWrapping.Wrap
+                };
+                Grid.SetRow(keyCell, 0);
+                Grid.SetColumn(keyCell, i);
+                Grid.SetRow(valueCell, 1);
+                Grid.SetColumn(valueCell, i);
+                table.Children.Add(keyCell);
+                table.Children.Add(valueCell);
+            }
+
+            blockUIElementCollection.Add(table);
         }
 
         /// <summary>

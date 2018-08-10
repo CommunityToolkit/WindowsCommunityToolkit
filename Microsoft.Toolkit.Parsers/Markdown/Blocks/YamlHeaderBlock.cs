@@ -28,9 +28,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Gets or sets yaml header properties
+        /// Gets or sets yaml Properties Keys
         /// </summary>
-        public Dictionary<string, string> Children { get; set; }
+        public List<string> Keys { get; set; }
+
+        /// <summary>
+        /// Gets or sets yaml Properties Values
+        /// </summary>
+        public List<string> Values { get; set; }
 
         /// <summary>
         /// Parse yaml header
@@ -46,6 +51,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             // and end with a line "---"
             realEndIndex = start;
             int lineStart = start;
+            if (end - start < 3)
+            {
+                return null;
+            }
+
             if (lineStart != 0 || markdown.Substring(start, 3) != "---")
             {
                 return null;
@@ -71,7 +81,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     elements.Add(markdown.Substring(pos, nextUnderLineIndex - pos));
                 }
-                else if (markdown.Substring(pos, 3) == "---")
+                else if (end - pos >= 3 && markdown.Substring(pos, 3) == "---")
                 {
                     lockedFinalUnderline = true;
                     realEndIndex = pos + 3;
@@ -103,6 +113,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             var result = new YamlHeaderBlock();
+            var keys = new List<string>();
+            var values = new List<string>();
             foreach (var item in elements)
             {
                 string[] splits = item.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -112,23 +124,34 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
                 else
                 {
-                    if (result.Children == null)
+                    string key = splits[0];
+                    string value = splits[1];
+                    if (key.Trim().Length == 0)
                     {
-                        result.Children = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-                    }
-
-                    if (!result.Children.ContainsKey(splits[0].Trim()))
-                    {
-                        result.Children.Add(splits[0].Trim(), splits[1].Trim());
+                        continue;
                     }
                     else
                     {
-                        result.Children[splits[0].Trim()] = splits[1].Trim();
+                        keys.Add(key);
+                    }
+
+                    if (value.Trim().Length == 0)
+                    {
+                        values.Add(string.Empty);
+                    }
+                    else
+                    {
+                        values.Add(value);
                     }
                 }
             }
 
-            if (result.Children.Count == 0)
+            if (keys.Count > 0)
+            {
+                result.Keys = keys;
+                result.Values = values;
+            }
+            else
             {
                 return null;
             }
@@ -142,13 +165,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            if (Children == null)
+            if (Keys == null || Keys.Count < 1)
             {
                 return base.ToString();
             }
             else
             {
-                return string.Join(string.Empty, Children);
+                string result = string.Empty;
+                for (int i = 0; i < Keys.Count; i++)
+                {
+                    result += Keys[i] + ": " + Values[i] + "\n";
+                }
+
+                result.TrimEnd('\n');
+                return result;
             }
         }
     }
