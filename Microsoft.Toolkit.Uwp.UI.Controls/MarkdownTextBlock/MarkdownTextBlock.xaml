@@ -78,7 +78,7 @@
         <Setter Property="TableBorderThickness" Value="1" />
         <Setter Property="TableCellPadding" Value="9, 4, 9, 4" />
         <Setter Property="YamlBorderThickness" Value="1" />
-        <Setter Property="YamlCellPadding" Value="9, 4, 9, 4" />
+        <Setter Property="YamlBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="TableMargin" Value="0, 5, 0, 5" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Template">
