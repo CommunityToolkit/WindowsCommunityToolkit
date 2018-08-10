@@ -307,9 +307,14 @@ Scripts in the web view content can use **window.external.notify** with a string
 You can use the [Settings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.settings) property (of type [WebViewControlSettings](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrolsettings) to control whether JavaScript and IndexedDB are enabled. For example, if you use a web view to display strictly static content, you might want to disable JavaScript for best performance.
 
 ## Creating multiple web views in the same process
-By default **WebView** is hosted outside of your application's process in WWAHost. Using the designer or default constructor, each new **WebView** is created in a new WWAHost instance. To share session cookies and state, consider using the same WWAHost process to host your **WebView**.
 
-For example, if using Windows Forms and through the designer a web view named `webView1` is on `Form1`, you can create a new **WebView** that shares the same process and state with `webView1` like this.
+By default, the **WebView** is hosted outside of your application's process in a process called WWAHost. When using the designer or default constructor, each new **WebView** is created in a new WWAHost instance, with its own copy of state. To share session cookies and state, consider using the same WWAHost process to host your **WebView**.
+
+### For Windows Forms Applications
+
+For example, if through the designer a **WebView** named `webView1` is on `Form1`, you can create a new **WebView** that shares the same process and state with `webView1` like this.
+
+**Form1.cs**
 ```csharp
 public partial class Form1 : Form
 {
@@ -319,36 +324,48 @@ public partial class Form1 : Form
     {
         InitializeComponent();
 
+        // Assume webView created through the designer
         webView2 = new WebView(webView1.Process);
         ((ISupportInitialize)webView).BeginInit();
         // ... other initialization code
-        ((ISupportInitialize)webView).EndInit();        
+        ((ISupportInitialize)webView).EndInit();
     }
 }
 ```
 
+### For WPF Applications
+
+Similar to the Windows Forms example, if through the designer a **WebView** is created named `WebView1` on the `Window`, you can create a new **WebView** that shares the same process and state with `WebView1` like this.
+
 **MainWindow.xaml**
+
 ```xaml
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:WPF="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls"
     Title="MainWindow"
     Width="800"
     Height="450"
-    Loaded="Window_Loaded"
     mc:Ignorable="d">
     <Grid x:Name="Grid1" Grid.Row="1">
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
+
+         <WPF:WebView x:Name="WebView1"
+                      Grid.Row="0"
+                      Grid.Column="0"
+                      Loaded="WebView_Loaded" />
     </Grid>
 </Window>
 ```
 
 **MainWindow.xaml.cs**
+
 ```csharp
 public partial class MainWindow : Window
 {
@@ -357,23 +374,14 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    private void WebView_Loaded(object sender, RoutedEventArgs e)
     {
-        var webView = new WebView();
-        webView.BeginInit();
-        webView.EndInit();
-
-        Grid.SetRow(webView, 0);
-        Grid.SetColumn(webView, 0);
-
-        Grid1.Children.Add(webView);
-
-        var webView2 = new WebView(webView1.Process);
+        var webView2 = new WebView(WebView1.Process);
         webView2.BeginInit();
         webView2.EndInit();
 
         Grid.SetRow(webView2, 0);
-        Grid.SetColumn(webView2, 0);
+        Grid.SetColumn(webView2, 1);
 
         Grid1.Children.Add(webView2);
     }
