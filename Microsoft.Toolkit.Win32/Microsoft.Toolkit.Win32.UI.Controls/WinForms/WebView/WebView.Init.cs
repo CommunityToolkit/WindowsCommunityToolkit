@@ -114,18 +114,30 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 
                 if (!WebViewControlInitialized)
                 {
-                    Verify.IsNull(Process);
-
-                    // Was not injected via ctor, create using defaults
-                    var options = new Interop.WinRT.WebViewControlProcessOptions()
+                    if (Process == null)
                     {
-                        PrivateNetworkClientServerCapability = (Interop.WinRT.WebViewControlProcessCapabilityState)(_delayedPrivateNetworkEnabled
-                            ? WebViewControlProcessCapabilityState.Enabled
-                            : WebViewControlProcessCapabilityState.Disabled),
-                        EnterpriseId = _delayedEnterpriseId
-                    };
+                        // Was not injected via ctor, create using defaults
+                        var options = new Interop.WinRT.WebViewControlProcessOptions()
+                        {
+                            PrivateNetworkClientServerCapability =
+                                (Interop.WinRT.WebViewControlProcessCapabilityState)(_delayedPrivateNetworkEnabled
+                                    ? WebViewControlProcessCapabilityState.Enabled
+                                    : WebViewControlProcessCapabilityState.Disabled),
+                            EnterpriseId = _delayedEnterpriseId
+                        };
 
-                    Process = new WebViewControlProcess(options);
+                        Process = new WebViewControlProcess(options);
+                    }
+                    else
+                    {
+                        Verify.IsNotNull(Process);
+
+                        _delayedPrivateNetworkEnabled = Process.IsPrivateNetworkClientServerCapabilityEnabled;
+                        _delayedEnterpriseId = Process.EnterpriseId;
+                    }
+
+                    Verify.IsNotNull(Process);
+
                     _webViewControl = Process.CreateWebViewControlHost(Handle, ClientRectangle);
                     SubscribeEvents();
 
