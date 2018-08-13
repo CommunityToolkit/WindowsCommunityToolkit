@@ -150,6 +150,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _initializationComplete = new ManualResetEvent(false);
         }
 
+        [SecurityCritical]
+        public WebView(WebViewControlProcess process)
+            : this()
+        {
+            _process = process;
+        }
+
         internal WebView(WebViewControlHost webViewControl)
             : this()
         {

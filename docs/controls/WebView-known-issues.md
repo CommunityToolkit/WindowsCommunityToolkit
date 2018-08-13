@@ -50,7 +50,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * **WebView** controls in WPF applications have longer load times than Windows Forms applications.
 
-* If the web view stops responding or stops working, other applications that use the same underlying process (Win32WebViewHost) will stop responding or stop working as well.
+* If the web view stops responding or stops working, other applications that use the same underlying process (WWAHost) will stop responding or stop working as well.
 
 ## Security
 
@@ -60,7 +60,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * Content in the **WebView** can be blocked even if the user responds to a system prompt by providing permission to the control.
 
-  This can happen if the Win32WebViewHost application is disabled in the location settings of the user's system. Users can open those settings and enable the Win32WebViewHost application to resolve the issue.
+  This can happen if the Win32WebViewHost (or "Desktop Web App Viewer" in Insider builds) application is disabled in the location settings of the user's system. To resolve the issue, users can open those settings and enable the Win32WebViewHost (or "Desktop Web App Viewer" in Insider builds) application.
 
 * **WebView** controls won't function as expected in a WPF-based ClickOnce application.
 
@@ -82,7 +82,7 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * **WebView** controls don't recognize the ms-appx:/// prefix, so they can't read from the package (if you've created a package for your application).
 
-* **WebView** controls don't recognize the File:// prefix. If you want to read a file into a **WebView** control, add code to your application that reads the content of the file. Then, serialize that content into a string, and call the ``NavigateToString(String)`` method of the **WebView** control.
+* **WebView** controls don't recognize the File:// prefix. If you want to read a file into a **WebView** control, call the `NavigateToLocal(String)` or the `NavigateToLocalStreamUri(Uri, IUriToStreamResolver)` method, or add code to your application that reads the content of the file. Then, serialize that content into a string, and call the `NavigateToString(String)` method of the **WebView** control.
 
 * **WebView** controls don't support URI's that are not encoded in UTF-8. Characters between UTF-16 and UTF-32 aren't supported.
 
@@ -96,8 +96,6 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 
 * Service workers can't run in a **WebView** control.
 
-* Your code can't instantiate more than one instance of a **WebView** in the same Win32WebViewHost process.
-
 ## WebView browser
 
 * The [WebBrower.ObjectForScripting](https://msdn.microsoft.com/library/system.windows.controls.webbrowser.objectforscripting.aspx) property and [WebView.AddWebAllowedObject(String, Object)](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview.addweballowedobject) are not supported.
@@ -107,10 +105,6 @@ The **WebView** control implements these events of the [IWebViewControl](https:/
 * You can't programmatically navigate by using a new window.
 
 * You can't programmatically navigate to a specific frame.
-
-* You can't programmatically navigate to a relative URI.
-
-  To work around this issue, consider reading from a stream into a string, and then calling the NavigateToString(String) method of the WebView control.
 
 * You can't programmatically print information from a WebView control.
 
