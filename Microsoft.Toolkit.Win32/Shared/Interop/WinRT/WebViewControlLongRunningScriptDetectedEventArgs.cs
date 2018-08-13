@@ -10,15 +10,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// Provides data for the <see cref="IWebView.LongRunningScriptDetected"/> event. This class cannot be inherited.
     /// </summary>
-    /// <remarks>Copy from <see cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
-    /// <seealso cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>
     /// <seealso cref="EventArgs"/>
     public sealed class WebViewControlLongRunningScriptDetectedEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs _args;
+        private readonly Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs _args;
 
-        internal WebViewControlLongRunningScriptDetectedEventArgs(global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args)
+        internal WebViewControlLongRunningScriptDetectedEventArgs(Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args)
         {
             _args = args ?? throw new ArgumentNullException(nameof(args));
         }
@@ -41,20 +41,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> to <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> to <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator WebViewControlLongRunningScriptDetectedEventArgs(global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => ToWebViewControlLongRunningScriptDetectedEventArgs(args);
+        public static implicit operator WebViewControlLongRunningScriptDetectedEventArgs(Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) => ToWebViewControlLongRunningScriptDetectedEventArgs(args);
 
         /// <summary>
-        /// Creates a <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/> from <see cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>.
+        /// Creates a <see cref="WebViewControlLongRunningScriptDetectedEventArgs"/> from <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs"/> instance containing the event data.</param>
         /// <returns>WebViewControlLongRunningScriptDetectedEventArgs.</returns>
         public static WebViewControlLongRunningScriptDetectedEventArgs
             ToWebViewControlLongRunningScriptDetectedEventArgs(
-                global::Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) =>
+                Windows.Web.UI.WebViewControlLongRunningScriptDetectedEventArgs args) =>
             new WebViewControlLongRunningScriptDetectedEventArgs(args);
     }
 }

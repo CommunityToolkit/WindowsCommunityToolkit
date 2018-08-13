@@ -3,36 +3,37 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Win32.UI.Interop;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkCanvas"/>
     /// </summary>
     public class InkCanvas : WindowsXamlHostBaseExt
     {
-        protected global::Windows.UI.Xaml.Controls.InkCanvas UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkCanvas;
+        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkCanvas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkCanvas"/>
         /// </summary>
         public InkCanvas()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkCanvas).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkCanvas).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkCanvas"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkCanvas"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public InkCanvas(string typeName)
+        protected InkCanvas(string typeName)
             : base(typeName)
         {
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
@@ -57,11 +58,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkCanvas.InkPresenter"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkPresenter InkPresenter
-        {
-            get => UwpControl.InkPresenter;
-        }
+        public InkPresenter InkPresenter => UwpControl.InkPresenter;
     }
 }

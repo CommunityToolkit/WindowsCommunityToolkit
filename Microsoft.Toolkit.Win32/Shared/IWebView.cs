@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Occurs when an action in a <see cref="IWebView"/> requires that permission be granted.
         /// </summary>
         /// <remarks>
-        /// The types of permission that can be requested are defined in the <see cref="global::Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
+        /// The types of permission that can be requested are defined in the <see cref="Windows.Web.UI.WebViewControlPermissionType"/> enumeration.
         ///
         /// If you don't handle the <see cref="PermissionRequested"/> event, the <see cref="IWebView"/> denies permission by default.
         ///
@@ -194,14 +194,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// <value>Whether <see cref="IWebView.ScriptNotify" /> is allowed.</value>
         /// <see cref="WebViewControlSettings.IsScriptNotifyAllowed" />
         bool IsScriptNotifyAllowed { get; set; }
-
-        /// <summary>
-        /// Gets or sets a partition for this process.
-        /// </summary>
-        /// <value>The partition of this process.</value>
-        /// <remarks>Value can be set prior to the component being initialized.</remarks>
-        /// <see cref="WebViewControlProcessOptions.Partition"/>
-        string Partition { get; set; }
 
         /// <summary>
         /// Gets the <see cref="WebViewControlProcess"/> that the control is hosted in.

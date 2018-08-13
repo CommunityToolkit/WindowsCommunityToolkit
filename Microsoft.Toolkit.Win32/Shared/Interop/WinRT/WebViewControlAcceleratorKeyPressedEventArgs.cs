@@ -7,16 +7,16 @@ using System.Security;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
-    /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/>
     /// <summary>This class provides information for the <see cref="IWebView.AcceleratorKeyPressed"/> event.</summary>
     /// <seealso cref="System.EventArgs" />
     public sealed class WebViewControlAcceleratorKeyPressedEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs _args;
+        private readonly Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs _args;
 
         [SecurityCritical]
-        internal WebViewControlAcceleratorKeyPressedEventArgs(global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args)
+        internal WebViewControlAcceleratorKeyPressedEventArgs(Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args)
         {
             _args = args;
         }
@@ -64,13 +64,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/> to <see cref="WebViewControlAcceleratorKeyPressedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/> to <see cref="WebViewControlAcceleratorKeyPressedEventArgs"/>.
         /// </summary>
-        /// <param name="args">The <see cref="global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/> instance containing the event data.</param>
+        /// <param name="args">The <see cref="Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
         [SecurityCritical]
         public static implicit operator WebViewControlAcceleratorKeyPressedEventArgs(
-            global::Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args)
+            Windows.Web.UI.Interop.WebViewControlAcceleratorKeyPressedEventArgs args)
         {
             return new WebViewControlAcceleratorKeyPressedEventArgs(args);
         }

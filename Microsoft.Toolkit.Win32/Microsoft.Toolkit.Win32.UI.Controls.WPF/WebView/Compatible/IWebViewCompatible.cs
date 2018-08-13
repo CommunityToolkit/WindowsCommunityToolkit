@@ -3,37 +3,36 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     public interface IWebViewCompatible
     {
-        Uri Source { get; set; }
-
-        void Navigate(Uri url);
-
-        void Navigate(string url);
-
-        event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
-
         event EventHandler<WebViewControlContentLoadingEventArgs> ContentLoading;
 
         event EventHandler<WebViewControlNavigationCompletedEventArgs> NavigationCompleted;
+
+        event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting;
 
         bool CanGoBack { get; }
 
         bool CanGoForward { get; }
 
+        Uri Source { get; set; }
+
         bool GoBack();
 
         bool GoForward();
 
+        string InvokeScript(string scriptName);
+
+        void Navigate(Uri url);
+
+        void Navigate(string url);
+
         void Refresh();
 
         void Stop();
-
-        string InvokeScript(string scriptName);
     }
 }

@@ -3,46 +3,44 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
-using Microsoft.Toolkit.Win32.UI.Interop;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Media;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 {
     /// <summary>
-    /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbar"/>
+    /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
     /// </summary>
     [ContentProperty(nameof(Children))]
     public class InkToolbar : WindowsXamlHostBaseExt
     {
-        internal global::Windows.UI.Xaml.Controls.InkToolbar UwpControl => this.XamlRootInternal as global::Windows.UI.Xaml.Controls.InkToolbar;
+        internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbar"/>
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
         /// </summary>
         public InkToolbar()
-            : this(typeof(global::Windows.UI.Xaml.Controls.InkToolbar).FullName)
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbar).FullName)
         {
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
-        /// Wpf-enabled wrapper for <see cref="global::Windows.UI.Xaml.Controls.InkToolbar"/>.
+        /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public InkToolbar(string typeName)
+        protected InkToolbar(string typeName)
             : base(typeName)
         {
             Children = new ObservableCollection<DependencyObject>();
         }
 
+        /// <inheritdoc />
         protected override void OnInitialized(EventArgs e)
         {
             // Bind dependency properties across controls
@@ -64,14 +62,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbar.WidthProperty);
 
             // InkToolbar specific properties
-            Bind(nameof(TargetInkCanvas), TargetInkCanvasProperty, global::Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvasProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(IsRulerButtonChecked), IsRulerButtonCheckedProperty, global::Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedProperty);
-            Bind(nameof(InitialControls), InitialControlsProperty, global::Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(ActiveTool), ActiveToolProperty, global::Windows.UI.Xaml.Controls.InkToolbar.ActiveToolProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(InkDrawingAttributes), InkDrawingAttributesProperty, global::Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(Orientation), OrientationProperty, global::Windows.UI.Xaml.Controls.InkToolbar.OrientationProperty, new WindowsXamlHostWrapperConverter());
-            Bind(nameof(IsStencilButtonChecked), IsStencilButtonCheckedProperty, global::Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty);
-            Bind(nameof(ButtonFlyoutPlacement), ButtonFlyoutPlacementProperty, global::Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(TargetInkCanvas), TargetInkCanvasProperty, Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvasProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(IsRulerButtonChecked), IsRulerButtonCheckedProperty, Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedProperty);
+            Bind(nameof(InitialControls), InitialControlsProperty, Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(ActiveTool), ActiveToolProperty, Windows.UI.Xaml.Controls.InkToolbar.ActiveToolProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(InkDrawingAttributes), InkDrawingAttributesProperty, Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(Orientation), OrientationProperty, Windows.UI.Xaml.Controls.InkToolbar.OrientationProperty, new WindowsXamlHostWrapperConverter());
+            Bind(nameof(IsStencilButtonChecked), IsStencilButtonCheckedProperty, Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty);
+            Bind(nameof(ButtonFlyoutPlacement), ButtonFlyoutPlacementProperty, Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty, new WindowsXamlHostWrapperConverter());
 
             Children.OfType<WindowsXamlHostBaseExt>().ToList().ForEach(RelocateChildToUwpControl);
 
@@ -93,65 +91,65 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.ActiveToolProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveToolProperty"/>
         /// </summary>
         public static DependencyProperty ActiveToolProperty { get; } = DependencyProperty.Register(nameof(ActiveTool), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty"/>
         /// </summary>
-        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls), typeof(InkToolbar));
+        public static DependencyProperty InitialControlsProperty { get; } = DependencyProperty.Register(nameof(InitialControls), typeof(InkToolbarInitialControls), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesProperty"/>
         /// </summary>
-        public static DependencyProperty InkDrawingAttributesProperty { get; } = DependencyProperty.Register(nameof(InkDrawingAttributes), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes), typeof(InkToolbar));
+        public static DependencyProperty InkDrawingAttributesProperty { get; } = DependencyProperty.Register(nameof(InkDrawingAttributes), typeof(InkDrawingAttributes), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedProperty"/>
         /// </summary>
         public static DependencyProperty IsRulerButtonCheckedProperty { get; } = DependencyProperty.Register(nameof(IsRulerButtonChecked), typeof(bool), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvasProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvasProperty"/>
         /// </summary>
         public static DependencyProperty TargetInkCanvasProperty { get; } = DependencyProperty.Register(nameof(TargetInkCanvas), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkCanvas), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty"/>
         /// </summary>
-        public static DependencyProperty ButtonFlyoutPlacementProperty { get; } = DependencyProperty.Register(nameof(ButtonFlyoutPlacement), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement), typeof(InkToolbar));
+        public static DependencyProperty ButtonFlyoutPlacementProperty { get; } = DependencyProperty.Register(nameof(ButtonFlyoutPlacement), typeof(InkToolbarButtonFlyoutPlacement), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty"/>
         /// </summary>
         public static DependencyProperty IsStencilButtonCheckedProperty { get; } = DependencyProperty.Register(nameof(IsStencilButtonChecked), typeof(bool), typeof(InkToolbar));
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.OrientationProperty"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.OrientationProperty"/>
         /// </summary>
-        public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(nameof(Orientation), typeof(Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation), typeof(InkToolbar));
+        public static DependencyProperty OrientationProperty { get; } = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(InkToolbar));
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.GetToolButton"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToolButton"/>
         /// </summary>
         /// <returns>WindowsXamlHostBaseExt</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarTool tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt)UwpControl.GetToolButton((global::Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt GetToolButton(InkToolbarTool tool) => UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.GetToggleButton"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToggleButton"/>
         /// </summary>
         /// <returns>InkToolbarToggleButton</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton GetToggleButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggle tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton)UwpControl.GetToggleButton((global::Windows.UI.Xaml.Controls.InkToolbarToggle)(int)tool).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton GetToggleButton(InkToolbarToggle tool) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarToggleButton)UwpControl.GetToggleButton((Windows.UI.Xaml.Controls.InkToolbarToggle)(int)tool).GetWrapper();
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.GetMenuButton"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetMenuButton"/>
         /// </summary>
         /// <returns>InkToolbarMenuButton</returns>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton GetMenuButton(Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuKind menu) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton)UwpControl.GetMenuButton((global::Windows.UI.Xaml.Controls.InkToolbarMenuKind)(int)menu).GetWrapper();
+        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton GetMenuButton(InkToolbarMenuKind menu) => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarMenuButton)UwpControl.GetMenuButton((Windows.UI.Xaml.Controls.InkToolbarMenuKind)(int)menu).GetWrapper();
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvas"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvas"/>
         /// </summary>
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkCanvas TargetInkCanvas
         {
@@ -160,7 +158,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonChecked"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonChecked"/>
         /// </summary>
         public bool IsRulerButtonChecked
         {
@@ -169,16 +167,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.InitialControls"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControls"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls InitialControls
+        public InkToolbarInitialControls InitialControls
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarInitialControls)GetValue(InitialControlsProperty);
+            get => (InkToolbarInitialControls)GetValue(InitialControlsProperty);
             set => SetValue(InitialControlsProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
         /// </summary>
         public Microsoft.Toolkit.Win32.UI.Controls.WPF.WindowsXamlHostBaseExt ActiveTool
         {
@@ -187,24 +185,24 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributes"/>
+        /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributes"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes InkDrawingAttributes
+        public InkDrawingAttributes InkDrawingAttributes
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkDrawingAttributes)GetValue(InkDrawingAttributesProperty);
+            get => (InkDrawingAttributes)GetValue(InkDrawingAttributesProperty);
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.Orientation"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.Orientation"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation Orientation
+        public Orientation Orientation
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.Orientation)GetValue(OrientationProperty);
+            get => (Orientation)GetValue(OrientationProperty);
             set => SetValue(OrientationProperty, value);
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonChecked"/>
+        /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonChecked"/>
         /// </summary>
         public bool IsStencilButtonChecked
         {
@@ -213,62 +211,62 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacement"/>
+        /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacement"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
+        public InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty);
+            get => (InkToolbarButtonFlyoutPlacement)GetValue(ButtonFlyoutPlacementProperty);
             set => SetValue(ButtonFlyoutPlacementProperty, value);
         }
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.ActiveToolChanged"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveToolChanged"/>
         /// </summary>
         public event EventHandler<object> ActiveToolChanged = (sender, args) => { };
 
-        private void OnActiveToolChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
+        private void OnActiveToolChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.ActiveToolChanged?.Invoke(this, args);
+            ActiveToolChanged?.Invoke(this, args);
         }
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.EraseAllClicked"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.EraseAllClicked"/>
         /// </summary>
         public event EventHandler<object> EraseAllClicked = (sender, args) => { };
 
-        private void OnEraseAllClicked(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
+        private void OnEraseAllClicked(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.EraseAllClicked?.Invoke(this, args);
+            EraseAllClicked?.Invoke(this, args);
         }
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesChanged"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributesChanged"/>
         /// </summary>
         public event EventHandler<object> InkDrawingAttributesChanged = (sender, args) => { };
 
-        private void OnInkDrawingAttributesChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
+        private void OnInkDrawingAttributesChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.InkDrawingAttributesChanged?.Invoke(this, args);
+            InkDrawingAttributesChanged?.Invoke(this, args);
         }
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedChanged"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonCheckedChanged"/>
         /// </summary>
         public event EventHandler<object> IsRulerButtonCheckedChanged = (sender, args) => { };
 
-        private void OnIsRulerButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, object args)
+        private void OnIsRulerButtonCheckedChanged(Windows.UI.Xaml.Controls.InkToolbar sender, object args)
         {
-            this.IsRulerButtonCheckedChanged?.Invoke(this, args);
+            IsRulerButtonCheckedChanged?.Invoke(this, args);
         }
 
         /// <summary>
-        /// <see cref="global::Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedChanged"/>
+        /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedChanged"/>
         /// </summary>
         public event EventHandler<Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs> IsStencilButtonCheckedChanged = (sender, args) => { };
 
-        private void OnIsStencilButtonCheckedChanged(global::Windows.UI.Xaml.Controls.InkToolbar sender, global::Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
+        private void OnIsStencilButtonCheckedChanged(Windows.UI.Xaml.Controls.InkToolbar sender, Windows.UI.Xaml.Controls.InkToolbarIsStencilButtonCheckedChangedEventArgs args)
         {
-            this.IsStencilButtonCheckedChanged?.Invoke(this, args);
+            IsStencilButtonCheckedChanged?.Invoke(this, args);
         }
 
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]

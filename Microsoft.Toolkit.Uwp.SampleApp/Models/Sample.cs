@@ -88,6 +88,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private string _codeUrl;
 
+        /// <summary>
+        /// Gets the Page Type.
+        /// </summary>
+        public Type PageType => System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
+
+        /// <summary>
+        /// Gets or sets the Category Name.
+        /// </summary>
+        public string CategoryName { get; set; }
+
         public string CodeUrl
         {
             get

@@ -7,8 +7,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// <summary>
     /// An enum that describes the reason for moving the focus.
     /// </summary>
-    /// <remarks>Copy from <see cref="global::Windows.Web.UI.Interop.WebViewControlMoveFocusReason"/> to avoid requirement to link Windows.winmd</remarks>
-    /// <seealso cref="global::Windows.Web.UI.Interop.WebViewControlMoveFocusReason"/>
+    /// <remarks>Copy from <see cref="Windows.Web.UI.Interop.WebViewControlMoveFocusReason"/> to avoid requirement to link Windows.winmd</remarks>
+    /// <seealso cref="Windows.Web.UI.Interop.WebViewControlMoveFocusReason"/>
     public enum WebViewControlMoveFocusReason
     {
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member

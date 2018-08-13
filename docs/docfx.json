@@ -34,22 +34,22 @@
     "externalReference": [],
     "globalMetadata": {
       "titleSuffix": "Windows Community Toolkit",
-      "searchScope": ["UWPtoolkit"],
+      "searchScope": ["windows-toolkit"],
       "feedback_system": "GitHub",
-      "feedback_github_repo": "MicrosoftDocs/UWPCommunityToolkitDocs",
+      "feedback_github_repo": "MicrosoftDocs/WindowsCommunityToolkitDocs",
       "feedback_product_url": "https://github.com/Microsoft/WindowsCommunityToolkit/issues",
       "uhfHeaderId": "MSDocsHeader-UWP-Community",
       "ms.topic": "article",
       "ms.prod": "windows",
       "ms.technology": "uwp toolkit",
-      "keywords": "uwp community toolkit",
+      "keywords": "windows uwp community toolkit",
       "ms.author": "nikolame",
-      "ms.date": "5/30/2018",
-      "breadcrumb_path": "/windows/uwpcommunitytoolkit/breadcrumb/toc.json",
+      "ms.date": "8/8/2018",
+      "breadcrumb_path": "/windows/communitytoolkit/breadcrumb/toc.json",
       "extendBreadcrumb": true
     },
     "fileMetadata": {},
     "template": [],
-    "dest": "UWPCommunityToolkitDocs"
+    "dest": "WindowsCommunityToolkitDocs"
   }
 }
