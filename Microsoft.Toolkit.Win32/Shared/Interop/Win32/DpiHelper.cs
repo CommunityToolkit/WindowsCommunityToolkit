@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
                     var dpiAwareness = NativeMethods.GetThreadDpiAwarenessContext();
                     return NativeMethods.AreDpiAwarenessContextsEqual(
                         dpiAwareness,
-                        NativeMethods.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+                        (int)DPI_AWARENESS_CONTEXT.PerMonitorAwareV2);
                 }
 
                 return false;
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
             // Only works if we're on RS2 or later and have ComCtl v6
             if (OSVersionHelper.IsWindows10CreatorsOrGreater)
             {
-                const int rs2AndAboveDpiFlag = NativeMethods.DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2;
+                const int rs2AndAboveDpiFlag = (int)DPI_AWARENESS_CONTEXT.PerMonitorAwareV2;
                 return NativeMethods.SetProcessDpiAwarenessContext(rs2AndAboveDpiFlag);
             }
 

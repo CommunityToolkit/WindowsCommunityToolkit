@@ -34,6 +34,12 @@
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\UWPTypeFactory.cs" Link="UWPTypeFactory.cs" />
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Interop.Shared\XamlApplication.cs" Link="XamlApplication.cs" />
     <Compile Include="..\Shared\Interop\Win32\ExternDll.cs" Link="Interop\Win32\ExternDll.cs" />
+    <Compile Include="..\Shared\Interop\Win32\Facility.cs" Link="Interop\Win32\Facility.cs" />
+    <Compile Include="..\Shared\Interop\Win32\HRESULT.cs" Link="Interop\Win32\HRESULT.cs" />
+    <Compile Include="..\Shared\Interop\Win32\NativeMethods.HRESULT.cs" Link="Interop\Win32\NativeMethods.HRESULT.cs" />
+    <Compile Include="..\Shared\Interop\Win32\Win32Error.cs" Link="Interop\Win32\Win32Error.cs" />
+    <Compile Include="..\Shared\Interop\Win32\WM.cs" Link="Interop\Win32\WM.cs" />
+    <Compile Include="..\Shared\Verify.cs" Link="Verify.cs" />
   </ItemGroup>
 
   <ItemGroup>

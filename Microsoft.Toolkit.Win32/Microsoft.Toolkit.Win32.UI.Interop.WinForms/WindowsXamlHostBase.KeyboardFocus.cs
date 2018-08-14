@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WinForms
                 {
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
-                    var focusHandle = UnsafeNativeMethods.GetFocus();
+                    var focusHandle = NativeMethods.GetFocus();
                     return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && focusHandle == _xamlIslandWindowHandle);
                 }
 
