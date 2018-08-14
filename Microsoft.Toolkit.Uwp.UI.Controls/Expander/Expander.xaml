@@ -467,7 +467,6 @@
                                 <VisualState x:Name="CollapsedDown">
                                     <VisualState.Setters>
                                         <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
-                                        <Setter Target="PART_RootGrid.Height" Value="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
                                         <Setter Target="PART_RootGrid.VerticalAlignment" Value="Top"/>
                                     </VisualState.Setters>
                                     <Storyboard>
@@ -485,6 +484,10 @@
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
+
+                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
+                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
+                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedRight">
