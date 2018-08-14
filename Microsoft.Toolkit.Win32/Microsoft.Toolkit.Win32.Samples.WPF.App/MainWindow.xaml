@@ -16,6 +16,17 @@
         </Grid.RowDefinitions>-->
         <TabControl>
             <TabItem>
+                <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
+                <DockPanel LastChildFill="True" >
+                    <controls:InkToolbar  DockPanel.Dock="Top" x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"
+                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"  >
+                        <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
+                    </controls:InkToolbar>
+                    <!--Inking area -->
+                    <controls:InkCanvas x:Name="inkCanvas" DockPanel.Dock="Top" Loaded="inkCanvas_Loaded"/>
+                </DockPanel>
+            </TabItem>
+            <TabItem>
                 <TabItem.Header>Samples</TabItem.Header>
                 <StackPanel Background="Azure">
                     <local1:WrappedRectangle Width="50" Height="75" Fill="Blue"/>
@@ -32,17 +43,7 @@
                                      Source="https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/elephantsdream-clip-h264_sd-aac_eng-aac_spa-aac_eng_commentary-srt_eng-srt_por-srt_swe.mkv"
                                      AutoPlay="True" Margin="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AreTransportControlsEnabled="True" />
             </TabItem>
-            <TabItem>
-                <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
-                <DockPanel LastChildFill="True" >
-                    <controls:InkToolbar  DockPanel.Dock="Top" x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"
-                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"  >
-                        <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
-                    </controls:InkToolbar>
-                    <!--Inking area -->
-                    <controls:InkCanvas x:Name="inkCanvas" DockPanel.Dock="Top" Loaded="inkCanvas_Loaded"/>
-                </DockPanel>
-            </TabItem>
+
             <TabItem>
                 <TabItem.Header>WebView</TabItem.Header>
                 <!--WebBrowser /-->
