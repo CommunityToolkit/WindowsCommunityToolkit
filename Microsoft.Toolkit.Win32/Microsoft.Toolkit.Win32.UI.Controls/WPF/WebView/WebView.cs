@@ -152,6 +152,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             _initializationComplete = new ManualResetEvent(false);
         }
 
+        [SecurityCritical]
+        public WebView(WebViewControlProcess process)
+            : this()
+        {
+            _process = process;
+        }
+
         internal WebView(WebViewControlHost webViewControl)
             : this()
         {
@@ -521,34 +528,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName)
-        {
-            VerifyAccess();
-
-            do
-            {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName);
-        }
+        public string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName, params string[] arguments)
-        {
-            VerifyAccess();
-
-            do
-            {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
-        }
+        public string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
 
         /// <inheritdoc />
         public string InvokeScript(string scriptName, IEnumerable<string> arguments)
@@ -562,7 +545,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             while (!_initializationComplete.WaitOne(InitializationBlockingTime));
 
             Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
+
+            // WebViewControlHost ends up calling InvokeScriptAsync anyway
+            // The problem we have is that InvokeScript could be called from a UI thread and waiting for an async result that could lead to deadlock
+            return InvokeScriptAsync(scriptName, arguments).WaitWithNestedMessageLoop(Dispatcher.CurrentDispatcher);
         }
 
         /// <inheritdoc />
@@ -723,27 +709,27 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
 
-            if (_process == null)
-            {
-                var privateNetworkEnabled = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
-                    : IsPrivateNetworkClientServerCapabilityEnabled;
-                var enterpriseId = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => EnterpriseId)
-                    : EnterpriseId;
-
-                _process = new WebViewControlProcess(new WebViewControlProcessOptions
-                {
-                    PrivateNetworkClientServerCapability = privateNetworkEnabled
-                        ? WebViewControlProcessCapabilityState.Enabled
-                        : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId
-                });
-            }
-
             Dispatcher.InvokeAsync(
                 async () =>
                 {
+                    if (_process == null)
+                    {
+                        var privateNetworkEnabled = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
+                            : IsPrivateNetworkClientServerCapabilityEnabled;
+                        var enterpriseId = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => EnterpriseId)
+                            : EnterpriseId;
+
+                        _process = new WebViewControlProcess(new WebViewControlProcessOptions
+                        {
+                            PrivateNetworkClientServerCapability = privateNetworkEnabled
+                                ? WebViewControlProcessCapabilityState.Enabled
+                                : WebViewControlProcessCapabilityState.Disabled,
+                            EnterpriseId = enterpriseId
+                        });
+                    }
+
                     Verify.IsNotNull(_process);
 
                     if (_webViewControl == null)
