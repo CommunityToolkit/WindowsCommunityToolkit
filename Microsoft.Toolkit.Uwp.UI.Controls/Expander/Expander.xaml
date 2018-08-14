@@ -456,9 +456,6 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.15" To="1" />
-                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
-                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
-                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
@@ -479,13 +476,11 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.15" From="1" To="0" />
+
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
-                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
-                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedRight">
@@ -504,6 +499,9 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="1" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
                                         <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
+                                        <Setter Target="PART_RootGrid.HorizontalAlignment" Value="Left"/>
+                                        <Setter Target="PART_RootGrid.Width" Value="{Binding ElementName=PART_LayoutTransformer, Path=ActualWidth}"/>
+
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -515,13 +513,12 @@
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
                                                          Duration="0:0:0.15" To="1" />
-                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
-                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
-                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
+
+                                      
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedUp">
