@@ -445,6 +445,8 @@
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
                                         <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
+                                        <Setter Target="PART_RootGrid.Width" Value="{Binding ElementName=PART_LayoutTransformer, Path=ActualWidth}"/>
+                                        <Setter Target="PART_RootGrid.HorizontalAlignment" Value="Right"/>
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
