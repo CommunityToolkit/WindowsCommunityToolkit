@@ -3,16 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
+using System.ComponentModel.Design;
+using System.Windows.Forms;
 using System.Windows.Forms.Design;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    internal class InkToolbarDesigner : ControlDesigner
+    internal class InkToolbarDesigner : ParentControlDesigner
     {
         public override void InitializeNewComponent(IDictionary defaultValues)
         {
             base.InitializeNewComponent(defaultValues);
-
             var toolbar = (InkToolbar)Component;
             if (toolbar != null)
             {
@@ -20,6 +21,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 toolbar.MinimumSize = new System.Drawing.Size(20, 60);
                 toolbar.Dock = System.Windows.Forms.DockStyle.Top;
             }
+        }
+
+        public override bool CanParent(Control controlDesigner)
+        {
+            MessageBox.Show("CanParent Control");
+            if (controlDesigner is InkToolbarCustomToolButton buttonDesigner)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

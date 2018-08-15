@@ -44,6 +44,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.inkToolbarCustomToolButton1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbarCustomToolButton();
             this.tabControl1.SuspendLayout();
             this.inkingTab.SuspendLayout();
+            this.inkToolbar1.SuspendLayout();
             this.webTab.SuspendLayout();
             this.mediaTab.SuspendLayout();
             this.SuspendLayout();
@@ -63,7 +64,6 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // inkingTab
             // 
-            this.inkingTab.Controls.Add(this.inkToolbarCustomToolButton1);
             this.inkingTab.Controls.Add(this.inkToolbar1);
             this.inkingTab.Controls.Add(this.inkCanvas1);
             this.inkingTab.Location = new System.Drawing.Point(4, 29);
@@ -76,13 +76,14 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // inkToolbar1
             // 
+            this.inkToolbar1.Controls.Add(this.inkToolbarCustomToolButton1);
             this.inkToolbar1.Dock = System.Windows.Forms.DockStyle.Top;
             this.inkToolbar1.Location = new System.Drawing.Point(3, 3);
             this.inkToolbar1.MinimumSize = new System.Drawing.Size(20, 60);
             this.inkToolbar1.Name = "inkToolbar1";
             this.inkToolbar1.Size = new System.Drawing.Size(1574, 60);
             this.inkToolbar1.TabIndex = 2;
-            this.inkToolbar1.TargetInkCanvas = this.inkCanvas1;
+            this.inkToolbar1.TargetInkCanvas = null;
             this.inkToolbar1.Text = "inkToolbar1";
             // 
             // inkCanvas1
@@ -156,12 +157,12 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // 
             // inkToolbarCustomToolButton1
             // 
-            this.inkToolbarCustomToolButton1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.inkToolbarCustomToolButton1.Location = new System.Drawing.Point(3, 63);
+            this.inkToolbarCustomToolButton1.Dock = System.Windows.Forms.DockStyle.Right;
+            this.inkToolbarCustomToolButton1.Location = new System.Drawing.Point(1499, 0);
             this.inkToolbarCustomToolButton1.MinimumSize = new System.Drawing.Size(20, 20);
             this.inkToolbarCustomToolButton1.Name = "inkToolbarCustomToolButton1";
-            this.inkToolbarCustomToolButton1.Size = new System.Drawing.Size(1574, 23);
-            this.inkToolbarCustomToolButton1.TabIndex = 3;
+            this.inkToolbarCustomToolButton1.Size = new System.Drawing.Size(75, 60);
+            this.inkToolbarCustomToolButton1.TabIndex = 0;
             this.inkToolbarCustomToolButton1.Text = "inkToolbarCustomToolButton1";
             // 
             // Form1
@@ -175,6 +176,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
             this.inkingTab.ResumeLayout(false);
+            this.inkToolbar1.ResumeLayout(false);
             this.webTab.ResumeLayout(false);
             this.mediaTab.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -188,10 +190,10 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private System.Windows.Forms.TabPage inkingTab;
         private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
         private UI.Controls.WinForms.InkCanvas inkCanvas1;
-        private UI.Controls.WinForms.InkToolbar inkToolbar1;
         private System.Windows.Forms.TabPage mediaTab;
         private UI.Controls.WinForms.MediaPlayerElement mediaPlayerElement1;
         private System.Windows.Forms.TabPage testTab;
+        private UI.Controls.WinForms.InkToolbar inkToolbar1;
         private UI.Controls.WinForms.InkToolbarCustomToolButton inkToolbarCustomToolButton1;
     }
 }

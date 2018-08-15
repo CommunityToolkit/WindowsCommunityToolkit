@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections;
 using System.Windows.Forms.Design;
 
@@ -19,6 +20,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 // Set MinimumSize in the designer, so that the control doesn't go to 0-height
                 control.MinimumSize = new System.Drawing.Size(100, 100);
                 control.Dock = System.Windows.Forms.DockStyle.Fill;
+                control.AutoPlay = false;
             }
         }
     }

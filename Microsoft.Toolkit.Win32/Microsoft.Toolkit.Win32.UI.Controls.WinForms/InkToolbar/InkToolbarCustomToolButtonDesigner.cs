@@ -4,6 +4,8 @@
 
 using System.Collections;
 using System.ComponentModel.Design;
+using System.Diagnostics;
+using System.Windows;
 using System.Windows.Forms.Design;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
@@ -19,12 +21,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             {
                 // Set MinimumSize in the designer, so that the control doesn't go to 0-height
                 toolbarbutton.MinimumSize = new System.Drawing.Size(20, 20);
-                toolbarbutton.Dock = System.Windows.Forms.DockStyle.Top;
+                toolbarbutton.Dock = System.Windows.Forms.DockStyle.Right;
             }
         }
 
         public override bool CanBeParentedTo(IDesigner parentDesigner)
         {
+            MessageBox.Show(parentDesigner.GetType().FullName);
             return base.CanBeParentedTo(parentDesigner);
         }
     }
