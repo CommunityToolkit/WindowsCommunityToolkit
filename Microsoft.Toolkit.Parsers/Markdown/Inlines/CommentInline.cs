@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Check the start sequence.
             string startSequence = markdown.Substring(start);
-            if (startSequence.StartsWith("<!--"))
+            if (!startSequence.StartsWith("<!--"))
             {
                 return null;
             }
