@@ -28,14 +28,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Gets or sets yaml Properties Keys
+        /// Gets or sets yaml header properties
         /// </summary>
-        public List<string> Keys { get; set; }
-
-        /// <summary>
-        /// Gets or sets yaml Properties Values
-        /// </summary>
-        public List<string> Values { get; set; }
+        public Dictionary<string, string> Children { get; set; }
 
         /// <summary>
         /// Parse yaml header
@@ -130,28 +125,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     {
                         continue;
                     }
-                    else
-                    {
-                        keys.Add(key);
-                    }
 
-                    if (value.Trim().Length == 0)
-                    {
-                        values.Add(string.Empty);
-                    }
-                    else
-                    {
-                        values.Add(value);
-                    }
+                    result.Children.Add(key, value);
                 }
             }
 
-            if (keys.Count > 0)
-            {
-                result.Keys = keys;
-                result.Values = values;
-            }
-            else
+            if (result.Children == null)
             {
                 return null;
             }
@@ -165,16 +144,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
-            if (Keys == null || Keys.Count < 1)
+            if (Children == null)
             {
                 return base.ToString();
             }
             else
             {
                 string result = string.Empty;
-                for (int i = 0; i < Keys.Count; i++)
+                foreach (KeyValuePair<string, string> item in Children)
                 {
-                    result += Keys[i] + ": " + Values[i] + "\n";
+                    result += item.Key + ": " + item.Value + "\n";
                 }
 
                 result.TrimEnd('\n');

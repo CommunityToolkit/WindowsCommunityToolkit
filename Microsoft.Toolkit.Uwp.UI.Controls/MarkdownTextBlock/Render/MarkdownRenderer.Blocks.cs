@@ -107,19 +107,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var blockUIElementCollection = localContext.BlockUIElementCollection;
 
-            var table = new MarkdownTable(element.Keys.Count, 2, YamlBorderThickness, YamlBorderBrush)
+            var table = new MarkdownTable(element.Children.Count, 2, YamlBorderThickness, YamlBorderBrush)
             {
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = TableMargin
             };
 
+            // Split key and value
+            string[] childrenKeys = new string[element.Children.Count];
+            string[] childrenValues = new string[element.Children.Count];
+            element.Children.Keys.CopyTo(childrenKeys, 0);
+            element.Children.Values.CopyTo(childrenValues, 0);
+
             // Add each column
-            for (int i = 0; i < element.Keys.Count; i++)
+            for (int i = 0; i < element.Children.Count; i++)
             {
                 // Add each cell
                 var keyCell = new TextBlock
                 {
-                    Text = element.Keys[i],
+                    Text = childrenKeys[i],
                     Foreground = Foreground,
                     TextAlignment = TextAlignment.Center,
                     FontWeight = FontWeights.Bold,
@@ -127,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 };
                 var valueCell = new TextBlock
                 {
-                    Text = element.Values[i],
+                    Text = childrenValues[i],
                     Foreground = Foreground,
                     TextAlignment = TextAlignment.Left,
                     Margin = TableCellPadding,
