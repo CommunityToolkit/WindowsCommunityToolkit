@@ -22,7 +22,7 @@ The WPF version is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** na
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
 ## Known Limitations
-This control provides little interaction other than 
+These controls, like the UWP base, provides no interaction without an associated InkToolbar with the interaction mode set.  You'll also find it may not show ink properly while running on a client that's in Windows 10 dark theme.
 
 ## Syntax
 ```xaml

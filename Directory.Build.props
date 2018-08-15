@@ -17,7 +17,7 @@
     <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
+    <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
 	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
@@ -34,7 +34,8 @@
         <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
         
-        
+        <!-- Need RS5 or later. -->
+        <TargetPlatformVersion>10.0.17713.0</TargetPlatformVersion>        
         <!--
         When changing this value, ensure the SDK is installed with the build process.
         Need to check several files:
@@ -44,7 +45,7 @@
         This also needs to be installed on your local machine. Can do this with PowerShell:
           ./build/Install-WindowsSDKISO.ps1 17713
         -->
-        <TargetPlatformMinVersion>10.0.17713.0</TargetPlatformMinVersion>
+        <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
    
         <!-- Compiler -->
         <FileAlignment>512</FileAlignment>

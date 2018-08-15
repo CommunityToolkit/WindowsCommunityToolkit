@@ -33,24 +33,27 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private void InitializeComponent()
         {
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.inkingTab = new System.Windows.Forms.TabPage();
             this.inkToolbar1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbar();
             this.inkCanvas1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkCanvas();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.webTab = new System.Windows.Forms.TabPage();
+            this.webViewCompatible1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.WebViewCompatible();
+            this.mediaTab = new System.Windows.Forms.TabPage();
             this.mediaPlayerElement1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.MediaPlayerElement();
+            this.testTab = new System.Windows.Forms.TabPage();
+            this.inkToolbarCustomToolButton1 = new Microsoft.Toolkit.Win32.UI.Controls.WinForms.InkToolbarCustomToolButton();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.inkingTab.SuspendLayout();
+            this.webTab.SuspendLayout();
+            this.mediaTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.inkingTab);
+            this.tabControl1.Controls.Add(this.webTab);
+            this.tabControl1.Controls.Add(this.mediaTab);
+            this.tabControl1.Controls.Add(this.testTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
@@ -58,39 +61,18 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabControl1.Size = new System.Drawing.Size(1588, 1088);
             this.tabControl1.TabIndex = 0;
             // 
-            // tabPage1
+            // inkingTab
             // 
-            this.tabPage1.Controls.Add(this.webViewCompatible1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 29);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1580, 1055);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "WebViewCompatible";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // webViewCompatible1
-            // 
-            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
-            this.webViewCompatible1.Name = "webViewCompatible1";
-            this.webViewCompatible1.Size = new System.Drawing.Size(1574, 1049);
-            this.webViewCompatible1.Source = new System.Uri("http://www.bing.com", System.UriKind.Absolute);
-            this.webViewCompatible1.TabIndex = 0;
-            this.webViewCompatible1.Text = "webViewCompatible1";
-            this.webViewCompatible1.ContentLoading += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs>(this.webViewCompatible1_ContentLoading);
-            // 
-            // tabPage2
-            // 
-            this.tabPage2.Controls.Add(this.inkToolbar1);
-            this.tabPage2.Controls.Add(this.inkCanvas1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 29);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1580, 1055);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Ink Canvas / Toolbar";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.inkingTab.Controls.Add(this.inkToolbarCustomToolButton1);
+            this.inkingTab.Controls.Add(this.inkToolbar1);
+            this.inkingTab.Controls.Add(this.inkCanvas1);
+            this.inkingTab.Location = new System.Drawing.Point(4, 29);
+            this.inkingTab.Name = "inkingTab";
+            this.inkingTab.Padding = new System.Windows.Forms.Padding(3);
+            this.inkingTab.Size = new System.Drawing.Size(1580, 1055);
+            this.inkingTab.TabIndex = 1;
+            this.inkingTab.Text = "Ink Canvas / Toolbar";
+            this.inkingTab.UseVisualStyleBackColor = true;
             // 
             // inkToolbar1
             // 
@@ -113,16 +95,38 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.inkCanvas1.TabIndex = 1;
             this.inkCanvas1.Text = "inkCanvas1";
             // 
-            // tabPage3
+            // webTab
             // 
-            this.tabPage3.Controls.Add(this.mediaPlayerElement1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 29);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(1580, 1055);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "MediaPlayerElement";
-            this.tabPage3.UseVisualStyleBackColor = true;
+            this.webTab.Controls.Add(this.webViewCompatible1);
+            this.webTab.Location = new System.Drawing.Point(4, 29);
+            this.webTab.Name = "webTab";
+            this.webTab.Padding = new System.Windows.Forms.Padding(3);
+            this.webTab.Size = new System.Drawing.Size(1580, 1055);
+            this.webTab.TabIndex = 0;
+            this.webTab.Text = "WebViewCompatible";
+            this.webTab.UseVisualStyleBackColor = true;
+            // 
+            // webViewCompatible1
+            // 
+            this.webViewCompatible1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webViewCompatible1.Location = new System.Drawing.Point(3, 3);
+            this.webViewCompatible1.Name = "webViewCompatible1";
+            this.webViewCompatible1.Size = new System.Drawing.Size(1574, 1049);
+            this.webViewCompatible1.Source = new System.Uri("http://www.bing.com", System.UriKind.Absolute);
+            this.webViewCompatible1.TabIndex = 0;
+            this.webViewCompatible1.Text = "webViewCompatible1";
+            this.webViewCompatible1.ContentLoading += new System.EventHandler<Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlContentLoadingEventArgs>(this.webViewCompatible1_ContentLoading);
+            // 
+            // mediaTab
+            // 
+            this.mediaTab.Controls.Add(this.mediaPlayerElement1);
+            this.mediaTab.Location = new System.Drawing.Point(4, 29);
+            this.mediaTab.Name = "mediaTab";
+            this.mediaTab.Padding = new System.Windows.Forms.Padding(3);
+            this.mediaTab.Size = new System.Drawing.Size(1580, 1055);
+            this.mediaTab.TabIndex = 2;
+            this.mediaTab.Text = "MediaPlayerElement";
+            this.mediaTab.UseVisualStyleBackColor = true;
             // 
             // mediaPlayerElement1
             // 
@@ -141,6 +145,25 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.mediaPlayerElement1.TabIndex = 0;
             this.mediaPlayerElement1.Text = "mediaPlayerElement1";
             // 
+            // testTab
+            // 
+            this.testTab.Location = new System.Drawing.Point(4, 29);
+            this.testTab.Name = "testTab";
+            this.testTab.Size = new System.Drawing.Size(1580, 1055);
+            this.testTab.TabIndex = 3;
+            this.testTab.Text = "Test";
+            this.testTab.UseVisualStyleBackColor = true;
+            // 
+            // inkToolbarCustomToolButton1
+            // 
+            this.inkToolbarCustomToolButton1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.inkToolbarCustomToolButton1.Location = new System.Drawing.Point(3, 63);
+            this.inkToolbarCustomToolButton1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.inkToolbarCustomToolButton1.Name = "inkToolbarCustomToolButton1";
+            this.inkToolbarCustomToolButton1.Size = new System.Drawing.Size(1574, 23);
+            this.inkToolbarCustomToolButton1.TabIndex = 3;
+            this.inkToolbarCustomToolButton1.Text = "inkToolbarCustomToolButton1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -151,9 +174,9 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
+            this.inkingTab.ResumeLayout(false);
+            this.webTab.ResumeLayout(false);
+            this.mediaTab.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -161,13 +184,15 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         #endregion
 
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.TabPage webTab;
+        private System.Windows.Forms.TabPage inkingTab;
         private UI.Controls.WinForms.WebViewCompatible webViewCompatible1;
         private UI.Controls.WinForms.InkCanvas inkCanvas1;
         private UI.Controls.WinForms.InkToolbar inkToolbar1;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage mediaTab;
         private UI.Controls.WinForms.MediaPlayerElement mediaPlayerElement1;
+        private System.Windows.Forms.TabPage testTab;
+        private UI.Controls.WinForms.InkToolbarCustomToolButton inkToolbarCustomToolButton1;
     }
 }
 
