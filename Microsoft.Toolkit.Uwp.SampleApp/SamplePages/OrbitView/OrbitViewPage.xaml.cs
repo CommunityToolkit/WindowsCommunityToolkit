@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -24,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.InitializeComponent();
 
             DeviceList.Add(new DeviceItem() { Distance = 0.1, Label = "My Phone", Symbol = Symbol.CellPhone });
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -42,11 +42,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Add Device", AddDeviceClick);
+            SampleController.Current.RegisterNewCommand("Add Device", AddDeviceClick);
         }
 
         private void AddDeviceClick(object sender, RoutedEventArgs e)

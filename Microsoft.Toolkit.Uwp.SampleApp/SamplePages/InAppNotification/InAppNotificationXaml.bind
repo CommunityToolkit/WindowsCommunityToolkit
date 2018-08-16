@@ -400,7 +400,8 @@
         </ResourceDictionary>
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid
+    Background="{ThemeResource Brush-Grey-04}">
         <StackPanel Padding="20">
             <StackPanel Margin="5">
                 <TextBox x:Name="NotificationDurationTextBox"
