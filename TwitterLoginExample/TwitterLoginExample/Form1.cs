@@ -43,7 +43,7 @@ namespace TwitterLoginExample
         private async void button1_Click(object sender, EventArgs e)
         {
 
-            var http = StartHttpListener($"http://localhost:{GetRandomUnusedPort()}/");
+            var http = StartHttpListener($"http://localhost:54501/");
             var oauthToken = "";
             string authorizationRequest = $"https://api.twitter.com/oauth/authorize?oauth_token={oauthToken}&force_login=true";
 
