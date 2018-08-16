@@ -59,6 +59,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return new BladeItem();
         }
 
+        /// <inheritdoc/>
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is BladeItem;
+        }
+
         /// <summary>
         /// Prepares the specified element to display the specified item.
         /// </summary>
