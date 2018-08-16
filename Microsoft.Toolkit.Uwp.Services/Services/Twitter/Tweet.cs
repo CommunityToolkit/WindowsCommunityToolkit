@@ -166,5 +166,59 @@ namespace Microsoft.Toolkit.Uwp.Services.Twitter
         /// </summary>
         [JsonProperty("quoted_status_permalink")]
         public TwitterUrl QuotedStatusPermalink { get; set; }
+
+        /// <summary>
+        /// Gets or sets approximate count of tweets quoting tweet
+        /// </summary>
+        [JsonProperty("quote_count")]
+        public int QuoteCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets number of replies to tweet
+        /// </summary>
+        [JsonProperty("reply_count")]
+        public int ReplyCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets number of times tweet has been retweeted
+        /// </summary>
+        [JsonProperty("retweet_count")]
+        public int RetweetCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets number of times tweet has been liked
+        /// </summary>
+        [JsonProperty("favorite_count")]
+        public int FavoriteCount { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not logged-in user has liked tweet
+        /// </summary>
+        [JsonProperty("favorited")]
+        public bool Favorited { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether or not logged-in user has retweeted tweet
+        /// </summary>
+        [JsonProperty("retweeted")]
+        public bool Retweeted { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether URL in tweet has been flagged for sensitive content
+        /// </summary>
+        [JsonProperty("possibly_sensitive")]
+        public bool Sensitive { get; set; }
+
+        /// <summary>
+        /// Gets or sets stream filter of tweet
+        /// </summary>
+        [JsonProperty("filter_level")]
+        public string FilterLevel { get; set; }
+
+        /// <summary>
+        /// Gets or sets BCP 47 language identifier of tweet content
+        /// </summary>
+        [JsonProperty("lang")]
+        public string Language { get; set; }
     }
 }
