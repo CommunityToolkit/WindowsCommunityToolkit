@@ -3,11 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Services.Core;
-
 #if WINRT
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
+using Windows.Storage.Streams;
 #endif
 
 namespace Microsoft.Toolkit.Services.Weibo
@@ -173,6 +175,23 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
+        /// Log user in to Weibo.
+        /// </summary>
+        /// <returns>Returns success of failure of login attempt.</returns>
+        public Task<bool> LoginAsync()
+        {
+            return Provider.LoginAsync();
+        }
+
+        /// <summary>
+        /// Log user out of Weibo.
+        /// </summary>
+        public void Logout()
+        {
+            Provider.Logout();
+        }
+
+        /// <summary>
         /// Retrieve user data.
         /// </summary>
         /// <param name="screenName">User screen name or null for current logged user.</param>
@@ -194,20 +213,73 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Log user in to Weibo.
+        /// Retrieve user timeline data.
         /// </summary>
-        /// <returns>Returns success of failure of login attempt.</returns>
-        public Task<bool> LoginAsync()
+        /// <param name="screenName">User screen name.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<WeiboStatus>> GetUserTimeLineAsync(string screenName, int maxRecords = 20)
         {
-            return Provider.LoginAsync();
+            if (Provider.LoggedIn)
+            {
+                return await Provider.GetUserTimeLineAsync(screenName, maxRecords, new WeiboStatusParser());
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await GetUserTimeLineAsync(screenName, maxRecords);
+            }
+
+            return null;
         }
 
         /// <summary>
-        /// Log user out of Weibo.
+        /// Post a status.
+        /// Due to the restriction by Weibo API, your status must include a url which starts with "http"/"https".
+        /// You should add the url domain as one of the security domain in application information settings of your Weibo app.
         /// </summary>
-        public void Logout()
+        /// <param name="status">The status information.</param>
+        /// <returns>Returns the published weibo status.</returns>
+        public async Task<WeiboStatus> TweetStatusAsync(string status)
         {
-            Provider.Logout();
+            if (Provider.LoggedIn)
+            {
+                return await Provider.TweetStatusAsync(status);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await TweetStatusAsync(status);
+            }
+
+            return null;
+        }
+
+
+        /// <summary>
+        /// Post a status with associated pictures.
+        /// Due to the restriction by Weibo API, your status must include a url which starts with "http"/"https".
+        /// You should add the url domain as one of the security domain in application information settings of your Weibo app.
+        /// </summary>
+        /// <param name="status">The status information.</param>
+        /// <param name="picture">Picture to attach to the status.</param>
+        /// <returns>Returns the published weibo status.</returns>
+        public async Task<WeiboStatus> TweetStatusAsync(string status, Stream picture)
+        {
+            if (Provider.LoggedIn)
+            {
+                return await Provider.TweetStatusAsync(status, picture);
+            }
+
+            var isLoggedIn = await LoginAsync();
+            if (isLoggedIn)
+            {
+                return await TweetStatusAsync(status, picture);
+            }
+
+            return null;
         }
     }
 }

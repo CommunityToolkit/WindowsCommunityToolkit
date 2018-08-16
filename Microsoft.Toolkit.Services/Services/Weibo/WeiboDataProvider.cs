@@ -5,15 +5,21 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Parsers;
 using Microsoft.Toolkit.Services.Core;
+using Microsoft.Toolkit.Services.OAuth;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 #if WINRT
+using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
+using Windows.Storage.Streams;
 #endif
 
 namespace Microsoft.Toolkit.Services.Weibo
@@ -21,7 +27,7 @@ namespace Microsoft.Toolkit.Services.Weibo
     /// <summary>
     /// Data Provider for connecting to Weibo service.
     /// </summary>
-    public class WeiboDataProvider
+    public class WeiboDataProvider : Toolkit.Services.DataProviderBase<WeiboDataConfig, Toolkit.Parsers.SchemaBase>
     {
         /// <summary>
         /// Base Url for service.
@@ -70,68 +76,6 @@ namespace Microsoft.Toolkit.Services.Weibo
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.AutomaticDecompression = DecompressionMethods.GZip;
                 _client = new HttpClient(handler);
-            }
-        }
-
-#if WINRT
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
-        /// Constructor.
-        /// </summary>
-        /// <param name="tokens">OAuth tokens for request.</param>
-        public WeiboDataProvider(WeiboOAuthTokens tokens)
-        {
-            _tokens = tokens;
-            _authenticationBroker = new UwpAuthenticationBroker();
-            _passwordManager = new UwpPasswordManager();
-            _storageManager = new UwpStorageManager();
-            if (_client == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-                _client = new HttpClient(handler);
-            }
-        }
-#endif
-
-        /// <summary>
-        /// Retrieve user data.
-        /// </summary>
-        /// <param name="screenName">User screen name or null for current logged user</param>
-        /// <returns>Returns user data.</returns>
-        public async Task<WeiboUser> GetUserAsync(string screenName = null)
-        {
-            string rawResult = null;
-            try
-            {
-                Uri uri;
-                if (screenName == null)
-                {
-                    uri = new Uri($"{BaseUrl}/users/show.json?uid={Uid}");
-                }
-                else
-                {
-                    uri = new Uri($"{BaseUrl}/users/show.json?screen_name={screenName}");
-                }
-
-                WeiboOAuthRequest request = new WeiboOAuthRequest();
-                rawResult = await request.ExecuteGetAsync(uri, _tokens);
-                return JsonConvert.DeserializeObject<WeiboUser>(rawResult);
-            }
-            catch (UserNotFoundException)
-            {
-                throw new UserNotFoundException(screenName);
-            }
-            catch
-            {
-                if (!string.IsNullOrEmpty(rawResult))
-                {
-                    var error = JsonConvert.DeserializeObject<WeiboError>(rawResult);
-
-                    throw new WeiboException { Error = error };
-                }
-
-                throw;
             }
         }
 
@@ -252,6 +196,235 @@ namespace Microsoft.Toolkit.Services.Weibo
             _storageManager.Set("WeiboUid", uid.ToString());
 
             return true;
+        }
+
+#if WINRT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public WeiboDataProvider(WeiboOAuthTokens tokens)
+        {
+            _tokens = tokens;
+            _authenticationBroker = new UwpAuthenticationBroker();
+            _passwordManager = new UwpPasswordManager();
+            _storageManager = new UwpStorageManager();
+            if (_client == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                _client = new HttpClient(handler);
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Retrieve user data.
+        /// </summary>
+        /// <param name="screenName">User screen name or null for current logged user</param>
+        /// <returns>Returns user data.</returns>
+        public async Task<WeiboUser> GetUserAsync(string screenName = null)
+        {
+            string rawResult = null;
+            try
+            {
+                Uri uri;
+                if (screenName == null)
+                {
+                    uri = new Uri($"{BaseUrl}/users/show.json?uid={Uid}");
+                }
+                else
+                {
+                    uri = new Uri($"{BaseUrl}/users/show.json?screen_name={OAuthEncoder.UrlEncode(screenName)}");
+                }
+
+                WeiboOAuthRequest request = new WeiboOAuthRequest();
+                rawResult = await request.ExecuteGetAsync(uri, _tokens);
+                return JsonConvert.DeserializeObject<WeiboUser>(rawResult);
+            }
+            catch (UserNotFoundException)
+            {
+                throw new UserNotFoundException(screenName);
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(rawResult))
+                {
+                    var error = JsonConvert.DeserializeObject<WeiboError>(rawResult);
+
+                    throw new WeiboException { Error = error };
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Retrieve user timeline data with specific parser.
+        /// </summary>
+        /// <typeparam name="TSchema">Strong type for results.</typeparam>
+        /// <param name="screenName">User screen name.</param>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <param name="parser">Specific results parser.</param>
+        /// <returns>Returns strongly typed list of results.</returns>
+        public async Task<IEnumerable<TSchema>> GetUserTimeLineAsync<TSchema>(string screenName, int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
+        {
+            string rawResult = null;
+            try
+            {
+                var uri = new Uri($"{BaseUrl}/statuses/user_timeline.json?screen_name={OAuthEncoder.UrlEncode(screenName)}&count={maxRecords}");
+
+                WeiboOAuthRequest request = new WeiboOAuthRequest();
+                rawResult = await request.ExecuteGetAsync(uri, _tokens);
+
+                var result = parser.Parse(rawResult);
+                return result
+                        .Take(maxRecords)
+                        .ToList();
+            }
+            catch (UserNotFoundException)
+            {
+                throw new UserNotFoundException(screenName);
+            }
+            catch
+            {
+                if (!string.IsNullOrEmpty(rawResult))
+                {
+                    var errors = JsonConvert.DeserializeObject<WeiboError>(rawResult);
+
+                    throw new WeiboException { Error = errors };
+                }
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Get home time line data.
+        /// </summary>
+        /// <typeparam name="TSchema">Strong typed result.</typeparam>
+        /// <param name="maxRecords">Upper record limit.</param>
+        /// <param name="parser">Specific result parser.</param>
+        /// <returns>Return strong typed list of results.</returns>
+        private async Task<IEnumerable<TSchema>> GetHomeTimeLineAsync<TSchema>(int maxRecords, Toolkit.Parsers.IParser<TSchema> parser)
+            where TSchema : Toolkit.Parsers.SchemaBase
+        {
+            var uri = new Uri($"{BaseUrl}/statuses/home_timeline.json?count={maxRecords}");
+
+            WeiboOAuthRequest request = new WeiboOAuthRequest();
+            var rawResult = await request.ExecuteGetAsync(uri, _tokens);
+
+            return parser.Parse(rawResult);
+        }
+
+        /// <summary>
+        /// Wrapper around REST API for making data request.
+        /// </summary>
+        /// <typeparam name="TSchema">Schema to use</typeparam>
+        /// <param name="config">Query configuration.</param>
+        /// <param name="maxRecords">Upper limit for records returned.</param>
+        /// <param name="pageIndex">The zero-based index of the page that corresponds to the items to retrieve.</param>
+        /// <param name="parser">IParser implementation for interpreting results.</param>
+        /// <returns>Strongly typed list of results.</returns>
+        protected override async Task<IEnumerable<TSchema>> GetDataAsync<TSchema>(WeiboDataConfig config, int maxRecords, int pageIndex, IParser<TSchema> parser)
+        {
+            IEnumerable<TSchema> items;
+            switch (config.QueryType)
+            {
+                case WeiboQueryType.User:
+                    items = await GetUserTimeLineAsync(config.Query, maxRecords, parser);
+                    break;
+
+                case WeiboQueryType.Home:
+                default:
+                    items = await GetHomeTimeLineAsync(maxRecords, parser);
+                    break;
+            }
+
+            return items;
+        }
+
+        protected override void ValidateConfig(WeiboDataConfig config)
+        {
+            if (config?.Query == null && config?.QueryType != WeiboQueryType.Home)
+            {
+                throw new ConfigParameterNullException(nameof(config.Query));
+            }
+
+            if (_tokens == null)
+            {
+                throw new ConfigParameterNullException(nameof(_tokens));
+            }
+
+            if (string.IsNullOrEmpty(_tokens.AppKey))
+            {
+                throw new OAuthKeysNotPresentException(nameof(_tokens.AppKey));
+            }
+
+            if (string.IsNullOrEmpty(_tokens.AppSecret))
+            {
+                throw new OAuthKeysNotPresentException(nameof(_tokens.AppSecret));
+            }
+        }
+
+        /// <summary>
+        /// Returns parser implementation for specified configuration.
+        /// </summary>
+        /// <param name="config">Query configuration.</param>
+        /// <returns>Strongly typed parser.</returns>
+        protected override IParser<SchemaBase> GetDefaultParser(WeiboDataConfig config)
+        {
+            if (config == null)
+            {
+                throw new ConfigNullException();
+            }
+
+            switch (config.QueryType)
+            {
+                case WeiboQueryType.Home:
+                case WeiboQueryType.User:
+                    return new WeiboParser<Toolkit.Parsers.SchemaBase>();
+
+                default:
+                    return new WeiboParser<Toolkit.Parsers.SchemaBase>();
+            }
+        }
+
+        /// <summary>
+        /// Tweets a status update.
+        /// </summary>
+        /// <param name="status">Status text.</param>
+        /// <param name="picture">Picture to attach to the status.</param>
+        /// <returns>Success or failure.</returns>
+        public async Task<WeiboStatus> TweetStatusAsync(string status, Stream picture = null)
+        {
+            var uri = new Uri($"{BaseUrl}/statuses/share.json");
+
+            WeiboOAuthRequest request = new WeiboOAuthRequest();
+
+            if (picture == null)
+            {
+                return await request.ExecutePostAsync(uri, _tokens, status);
+            }
+            else
+            {
+                byte[] fileBytes;
+
+                using (var ms = new MemoryStream())
+                {
+                    await picture.CopyToAsync(ms);
+                    fileBytes = ms.ToArray();
+                }
+
+                return await request.ExecutePostMultipartAsync(uri, _tokens, status, fileBytes);
+            }
+
+
+
+
+            return null;
         }
     }
 }
