@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public int QuoteCount { get; set; }
 
         /// <summary>
-        /// Gets or sets number of replies to tweet
+        /// Gets or sets number of replies to tweet - premium and enterprise API access only
         /// </summary>
         [JsonProperty("reply_count")]
         public int ReplyCount { get; set; }
