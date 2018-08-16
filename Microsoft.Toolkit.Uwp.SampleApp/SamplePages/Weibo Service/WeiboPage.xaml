@@ -20,7 +20,7 @@
                 <Image Width="100"
                        Height="100"
                        Margin="24"
-                       Source="/SamplePages/Weibo Service/WeiboLogo.png"
+                       Source="WeiboLogo.png"
                        Stretch="Uniform" />
                 <Border x:Name="ProfileImage"
                         Width="100"
@@ -28,7 +28,8 @@
                         CornerRadius="50"
                         Visibility="Collapsed">
                     <Border.Background>
-                        <ImageBrush Stretch="Uniform" />
+                        <ImageBrush ImageSource="{Binding ProfileImageUrl}"
+                                    Stretch="Uniform" />
                     </Border.Background>
                 </Border>
             </StackPanel>

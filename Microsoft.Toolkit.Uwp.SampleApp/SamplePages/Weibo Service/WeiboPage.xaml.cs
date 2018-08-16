@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.Toolkit.Services.Weibo;
+using System;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
@@ -17,9 +17,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             // TODO
 
-            AppKey.Text = "393209958";
-            AppSecret.Text = "3c2387aa56497a4ed187f146afc8cb34";
-            RedirectUri.Text = "http://bing.coding.io/";
+            AppKey.Text = "";
+            AppSecret.Text = "";
+            RedirectUri.Text = "";
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
