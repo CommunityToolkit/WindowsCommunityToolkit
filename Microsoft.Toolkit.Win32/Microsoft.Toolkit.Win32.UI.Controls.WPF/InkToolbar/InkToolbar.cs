@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
@@ -27,6 +28,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public InkToolbar()
             : this(typeof(Windows.UI.Xaml.Controls.InkToolbar).FullName)
         {
+            this.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         /// <summary>
@@ -80,6 +82,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
 
             base.OnInitialized(e);
+            Loaded += InkToolbar_Loaded;
+        }
+
+        private async void InkToolbar_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= InkToolbar_Loaded;
+            await Task.Delay(250);
+            this.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)

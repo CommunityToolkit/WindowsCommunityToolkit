@@ -14,18 +14,7 @@
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>-->
-        <TabControl>
-            <TabItem>
-                <TabItem.Header>Samples</TabItem.Header>
-                <StackPanel Background="Azure">
-                    <local1:WrappedRectangle Width="50" Height="75" Fill="Blue"/>
-                    <local1:WrappedRectangle Width="200" Height="100" Fill="Red"/>
-                    <local1:WrappedButton Content="This is a UWP Button" Height="60" Width="160"/>
-                    <local1:WrappedRectangle Width="25" Height="100" Fill="Green"/>
-                    <local1:WrappedButton Content="Another long UWP Button" Height="40" Width="300"/>
-
-                </StackPanel>
-            </TabItem>            
+        <TabControl>            
             <TabItem>
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <DockPanel LastChildFill="True" >
@@ -37,6 +26,17 @@
                     <controls:InkCanvas x:Name="inkCanvas" DockPanel.Dock="Top" Loaded="inkCanvas_Loaded"/>
                 </DockPanel>
             </TabItem>
+            <TabItem>
+                <TabItem.Header>Samples</TabItem.Header>
+                <StackPanel Background="Azure">
+                    <local1:WrappedRectangle Width="50" Height="75" Fill="Blue"/>
+                    <local1:WrappedRectangle Width="200" Height="100" Fill="Red"/>
+                    <local1:WrappedButton Content="This is a UWP Button" Height="60" Width="160"/>
+                    <local1:WrappedRectangle Width="25" Height="100" Fill="Green"/>
+                    <local1:WrappedButton Content="Another long UWP Button" Height="40" Width="300"/>
+
+                </StackPanel>
+            </TabItem>            
             <TabItem>
                 <TabItem.Header>MediaPlayerElement</TabItem.Header>
                 <controls:MediaPlayerElement x:Name="mediaPlayerElement" 
