@@ -38,9 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged += (sender, e) => AdjustBladeItemSize();
         }
 
-        /// <summary>
-        /// Override default OnApplyTemplate to capture child controls
-        /// </summary>
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -48,12 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             AdjustBladeItemSize();
         }
 
-        /// <summary>
-        /// Creates or identifies the element that is used to display the given item.
-        /// </summary>
-        /// <returns>
-        /// The element that is used to display the given item.
-        /// </returns>
+        /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new BladeItem();
@@ -65,11 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return item is BladeItem;
         }
 
-        /// <summary>
-        /// Prepares the specified element to display the specified item.
-        /// </summary>
-        /// <param name="element">The element that's used to display the specified item.</param>
-        /// <param name="item">The item to display.</param>
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
@@ -82,11 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CycleBlades();
         }
 
-        /// <summary>
-        /// Undoes the effects of the PrepareContainerForItemOverride method.
-        /// </summary>
-        /// <param name="element">The container element.</param>
-        /// <param name="item">The item.</param>
+        /// <inheritdoc/>
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
