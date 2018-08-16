@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>-->
-        <TabControl>
+        <TabControl>            
             <TabItem>
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <DockPanel LastChildFill="True" >
