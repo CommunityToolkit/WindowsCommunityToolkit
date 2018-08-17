@@ -456,6 +456,12 @@
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
+      },
+      {
+        "Name": "ViewportBehavior",
+        "Type": "ViewportBehaviorPage",
+        "About": "Behavior for listening element enter or leave viewport",
+        "CodeFile": "ViewportBehaviorCode.bind"
       }
     ]
   },

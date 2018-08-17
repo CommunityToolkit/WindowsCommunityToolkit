@@ -1,0 +1,35 @@
+﻿// XAML
+<Image Width="100"
+       Height="100">
+    <interactivity:Interaction.Behaviors>
+        <behaviors:ViewportBehavior x:Name="ViewportBehavior"
+                                    EnteredViewport="Element_EnteredViewport"
+                                    EnteringViewport="Element_EnteringViewport"
+                                    LeavedViewport="Element_LeavedViewport"
+                                    LeavingViewport="Element_LeavingViewport"/>
+    </interactivity:Interaction.Behaviors>
+</Image>
+
+// C#
+private void Element_EnteredViewport(object sender, EventArgs e)
+{
+    // The control is fully in the viewport
+}
+
+private void Element_EnteringViewport(object sender, EventArgs e)
+{
+    // A part of the control enter the viewport
+}
+
+private void Element_LeavedViewport(object sender, EventArgs e)
+{
+    // The control is outside of the viewport
+}
+
+private void Element_LeavingViewport(object sender, EventArgs e)
+{
+    // A part of the control leave the viewport
+}
+
+bool isInViewport = ViewportBehavior.IsInViewport;// Get is in the viewport
+bool isFullyInViewport = ViewportBehavior.IsFullyInViewport;// Get is fully in the viewport

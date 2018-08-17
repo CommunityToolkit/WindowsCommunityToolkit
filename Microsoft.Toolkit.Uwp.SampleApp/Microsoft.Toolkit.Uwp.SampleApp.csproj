@@ -529,6 +529,7 @@
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -876,6 +877,9 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml.cs">
+      <DependentUpon>ViewportBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
       <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
     </Compile>
@@ -1330,6 +1334,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
       <SubType>Designer</SubType>
