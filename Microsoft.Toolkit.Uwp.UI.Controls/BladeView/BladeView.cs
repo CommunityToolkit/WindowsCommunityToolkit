@@ -86,11 +86,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CycleBlades()
         {
             ActiveBlades = new ObservableCollection<BladeItem>();
-            foreach (var blade in Items.OfType<BladeItem>())
+            foreach (var item in Items)
             {
-                if (blade.IsOpen)
+                BladeItem blade = GetBladeItem(item);
+                if (blade != null)
                 {
-                    ActiveBlades.Add(blade);
+                    if (blade.IsOpen)
+                    {
+                        ActiveBlades.Add(blade);
+                    }
                 }
             }
 
@@ -108,6 +112,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private BladeItem GetBladeItem(object item)
+        {
+            BladeItem blade = item as BladeItem;
+            if (blade == null)
+            {
+                blade = ContainerFromItem(item) as BladeItem;
+            }
+
+            return blade;
+        }
+
         private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
@@ -119,8 +134,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
-                Items.Remove(blade);
-                Items.Add(blade);
+                var item = ItemFromContainer(blade);
+                Items.Remove(item);
+                Items.Add(item);
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
@@ -154,8 +170,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Adjust blade items to be full screen
             if (BladeMode == BladeMode.Fullscreen && GetScrollViewer() != null)
             {
-                foreach (BladeItem blade in Items)
+                foreach (var item in Items)
                 {
+                    var blade = GetBladeItem(item);
                     blade.Width = _scrollViewer.ActualWidth;
                     blade.Height = _scrollViewer.ActualHeight;
                 }
@@ -166,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (BladeMode == BladeMode.Fullscreen)
             {
-                var bladeItem = (BladeItem)sender[(int)e.Index];
+                var bladeItem = (BladeItem)ContainerFromItem(sender[(int)e.Index]);
                 if (bladeItem != null)
                 {
                     if (!_cachedBladeItemSizes.ContainsKey(bladeItem))
