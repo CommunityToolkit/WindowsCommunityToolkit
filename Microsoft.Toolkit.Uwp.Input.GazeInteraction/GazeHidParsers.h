@@ -8,12 +8,43 @@ using namespace Windows::Devices::Input::Preview;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
-    public ref class Long3 sealed
+    public ref class LongLong3 sealed
     {
+    private:
+        long long _X;
+        long long _Y;
+        long long _Z;
+
     public:
-        long X;
-        long Y;
-        long Z;
+        property long long X
+        {
+            long long get() {
+                return _X;
+            }
+            void set(long long value) {
+                _X = value;
+            }
+        }
+
+        property long long Y
+        {
+            long long get() {
+                return _Y;
+            }
+            void set(long long value) {
+                _Y = value;
+            }
+        }
+
+        property long long Z
+        {
+            long long get() {
+                return _Z;
+            }
+            void set(long long value) {
+                _Z = value;
+            }
+        }
     };
 
 #pragma region GazeHidPositionParser
@@ -22,7 +53,7 @@ namespace GazeHidParsers {
     public:
         GazeHidPositionParser(GazeDevicePreview ^ gazeDevice, uint16 usage);
 
-        Long3^ GetPosition(HidInputReport ^ report);
+        LongLong3^ GetPosition(HidInputReport ^ report);
 
     private:
         HidNumericControlDescription ^ _X = nullptr;
@@ -38,7 +69,7 @@ namespace GazeHidParsers {
     public:
         GazeHidRotationParser(GazeDevicePreview ^ gazeDevice, uint16 usage);
 
-        Long3^ GetRotation(HidInputReport^ report);
+        LongLong3^ GetRotation(HidInputReport^ report);
 
     private:
         HidNumericControlDescription ^ _X = nullptr;
