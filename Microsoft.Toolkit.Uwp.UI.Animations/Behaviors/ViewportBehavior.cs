@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// A class for listening element enter viewport or leave viewport
+    /// A class for listening element enter or leave the viewport
     /// </summary>
     public class ViewportBehavior : BehaviorBase<FrameworkElement>
     {
@@ -28,25 +28,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             DependencyProperty.Register(nameof(IsInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsInViewportChanged));
 
         /// <summary>
-        /// Associated element fully enter viewport event
+        /// Associated element fully enter the viewport event
         /// </summary>
         public event EventHandler EnteredViewport;
 
         /// <summary>
-        /// Associated element fully leave viewport event
+        /// Associated element fully leave the viewport event
         /// </summary>
         public event EventHandler LeavedViewport;
 
         /// <summary>
-        /// Associated element enter viewport event
+        /// Associated element enter the viewport event
         /// </summary>
         public event EventHandler EnteringViewport;
 
         /// <summary>
-        /// Associated element leave viewport event
+        /// Associated element leave the viewport event
         /// </summary>
         public event EventHandler LeavingViewport;
 
+        /// <summary>
+        /// Gets a value indicating whether associated element is fully in the viewport
+        /// </summary>
         public bool IsFullyInViewport
         {
             get { return (bool)GetValue(IsFullyInViewportProperty); }
@@ -54,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        ///   Gets a value indicating whether associated element is in viewport
+        /// Gets a value indicating whether associated element is in the viewport
         /// </summary>
         public bool IsInViewport
         {
