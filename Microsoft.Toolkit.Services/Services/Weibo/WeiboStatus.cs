@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Gets or sets attached images array of the weibo.
         /// </summary>
-        /// [JsonProperty("pic_urls")]
+        [JsonProperty("pic_urls")]
         public WeiboImage[] AttachedImages { get; set; }
 
         /// <summary>
