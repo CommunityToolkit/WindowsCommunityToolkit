@@ -55,6 +55,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             Layout += OnWebViewLayout;
         }
 
+        public WebView(WebViewControlProcess process)
+            : this()
+        {
+            Process = process;
+        }
+
         internal WebViewControlHost Host => _webViewControl;
 
         /// <inheritdoc />
