@@ -2,7 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Services.Services.Weibo;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -18,6 +21,23 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// </summary>
         [JsonProperty("created_at")]
         public string CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets the creation date
+        /// </summary>
+        public DateTime CreationDate
+        {
+            get
+            {
+                DateTime dt;
+                if (!DateTime.TryParseExact(CreatedAt, "ddd MMM dd HH:mm:ss zzzz yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out dt))
+                {
+                    dt = DateTime.Today;
+                }
+
+                return dt;
+            }
+        }
 
         /// <summary>
         /// Gets or sets item Id.
@@ -108,5 +128,22 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// </summary>
         [JsonProperty("original_pic")]
         public string OriginalImageUrl { get; set; }
+
+        /// <summary>
+        /// Gets or sets attached images array of the weibo.
+        /// </summary>
+        /// [JsonProperty("pic_urls")]
+        public WeiboImage[] AttachedImages { get; set; }
+
+        /// <summary>
+        /// Gets or sets the geographic information.
+        /// </summary>
+        [JsonProperty("geo")]
+        public WeiboGeoInfo GeographicInfo { get; set; }
+
+        /// <summary>
+        /// A helper property to indicate whether the weibo status includes attached image.
+        /// </summary>
+        public bool HasAttachedImage => AttachedImages != null && AttachedImages.Length > 0;
     }
 }

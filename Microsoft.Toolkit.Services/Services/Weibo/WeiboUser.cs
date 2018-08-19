@@ -18,6 +18,12 @@ namespace Microsoft.Toolkit.Services.Weibo
         public string Id { get; set; }
 
         /// <summary>
+        /// Gets or sets user  name.
+        /// </summary>
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        /// <summary>
         /// Gets or sets user screen name.
         /// </summary>
         [JsonProperty("screen_name")]

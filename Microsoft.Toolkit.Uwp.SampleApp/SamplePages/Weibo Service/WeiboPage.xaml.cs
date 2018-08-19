@@ -4,6 +4,10 @@
 
 using Microsoft.Toolkit.Services.Weibo;
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 
@@ -11,11 +15,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class WeiboPage
     {
+        private ObservableCollection<IWeiboResult> _tweets;
         public WeiboPage()
         {
             InitializeComponent();
 
-            // TODO
+            ShareBox.Visibility = Visibility.Collapsed;
+            HideTweetPanel();
 
             AppKey.Text = "";
             AppSecret.Text = "";
@@ -39,18 +45,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             if (!await WeiboService.Instance.LoginAsync())
             {
-                // TODO
                 SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Weibo");
                 await error.ShowAsync();
                 return;
             }
 
-            // TODO
+            ShareBox.Visibility = Visibility.Visible;
 
             HideCredentialsPanel();
-            ShowSearchPanel();
-            // TODO
+            ShowTweetPanel();
+
 
             WeiboUser user;
             try
@@ -74,7 +79,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            // TODO
+            _tweets = new ObservableCollection<IWeiboResult>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+
+            ListView.ItemsSource = _tweets;
 
             SampleController.Current.DisplayWaitRing = false;
         }
@@ -103,9 +110,68 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             CredentialsBox.Visibility = Visibility.Visible;
         }
 
-        private void ShowSearchPanel()
+        private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
         {
-            // TODO
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            SampleController.Current.DisplayWaitRing = true;
+            await WeiboService.Instance.TweetStatusAsync(TweetText.Text);
+            SampleController.Current.DisplayWaitRing = false;
+
+
+        }
+
+        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (!await Tools.CheckInternetConnectionAsync())
+            {
+                return;
+            }
+
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+            openPicker.FileTypeFilter.Add(".jpg");
+            openPicker.FileTypeFilter.Add(".png");
+            StorageFile picture = await openPicker.PickSingleFileAsync();
+            if (picture != null)
+            {
+                using (var stream = await picture.OpenReadAsync())
+                {
+                    SampleController.Current.DisplayWaitRing = true;
+                    await WeiboService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
+                    SampleController.Current.DisplayWaitRing = false;
+                }
+            }
+        }
+
+        private void TweetBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        {
+            if (TweetPanel.Visibility == Visibility.Visible)
+            {
+                HideTweetPanel();
+            }
+            else
+            {
+                ShowTweetPanel();
+            }
+        }
+
+        private void ShowTweetPanel()
+        {
+            TweetBoxExpandButton.Content = "";
+            TweetPanel.Visibility = Visibility.Visible;
+        }
+
+        private void HideTweetPanel()
+        {
+            TweetBoxExpandButton.Content = "";
+            TweetPanel.Visibility = Visibility.Collapsed;
         }
     }
 }
