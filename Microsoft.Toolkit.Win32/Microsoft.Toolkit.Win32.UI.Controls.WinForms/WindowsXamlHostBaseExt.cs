@@ -10,19 +10,19 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     public abstract class WindowsXamlHostBaseExt : WindowsXamlHostBase
     {
-        private readonly string initialTypeName;
+        protected string InitialTypeName { get; set; }
 
-        protected FrameworkElement XamlElement { get; private set; }
+        internal FrameworkElement XamlElement { get; set; }
 
         protected WindowsXamlHostBaseExt(string typeName)
         {
-            initialTypeName = typeName;
+            InitialTypeName = typeName;
             InitializeElement();
         }
 
         internal virtual void InitializeElement()
         {
-            XamlElement = UWPTypeFactory.CreateXamlContentByType(initialTypeName);
+            XamlElement = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
             desktopWindowXamlSource.Content = XamlElement;
             XamlElement.SetWrapper(this);
         }

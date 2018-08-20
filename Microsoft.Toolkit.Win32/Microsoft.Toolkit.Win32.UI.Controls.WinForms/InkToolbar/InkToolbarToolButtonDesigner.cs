@@ -10,25 +10,20 @@ using System.Windows.Forms.Design;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
-    internal class InkToolbarCustomToolButtonDesigner : ControlDesigner
+    /// <summary>
+    /// Designer for most of the WinForms-wrapped WPF InkToolbar sub-controls such as InkToolbarToolButton
+    /// </summary>
+    internal class InkToolbarToolButtonDesigner : ControlDesigner
     {
         public override void InitializeNewComponent(IDictionary defaultValues)
         {
             base.InitializeNewComponent(defaultValues);
-
-            var toolbarbutton = (InkToolbarCustomToolButton)Component;
-            if (toolbarbutton != null)
+            if (Component is WindowsXamlHostBaseExt toolbarbutton)
             {
                 // Set MinimumSize in the designer, so that the control doesn't go to 0-height
                 toolbarbutton.MinimumSize = new System.Drawing.Size(20, 20);
                 toolbarbutton.Dock = System.Windows.Forms.DockStyle.Right;
             }
-        }
-
-        public override bool CanBeParentedTo(IDesigner parentDesigner)
-        {
-            MessageBox.Show(parentDesigner.GetType().FullName);
-            return base.CanBeParentedTo(parentDesigner);
         }
     }
 }

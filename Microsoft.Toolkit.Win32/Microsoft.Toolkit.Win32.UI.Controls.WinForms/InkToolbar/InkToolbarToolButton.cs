@@ -10,23 +10,23 @@ using Microsoft.Toolkit.Win32.UI.Interop.WinForms;
 namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
 {
     /// <summary>
-    /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+    /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
     /// </summary>
     [Designer(typeof(InkToolbarToolButtonDesigner))]
-    public class InkToolbarCustomToolButton : WindowsXamlHostBaseExt
+    public class InkToolbarToolButton : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl { get; set; }
+        internal Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
-        /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
+        /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
+        /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
         /// </summary>
-        public InkToolbarCustomToolButton()
-            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarCustomToolButton).FullName)
+        public InkToolbarToolButton()
+            : this(typeof(Windows.UI.Xaml.Controls.InkToolbarToolButton).FullName)
         {
         }
 
-        protected InkToolbarCustomToolButton(string name)
+        protected InkToolbarToolButton(string name)
             : base(name)
         {
         }
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         {
             XamlElement = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
             XamlElement.SetWrapper(this);
-            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
+            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarToolButton;
         }
 
         /// <summary>
@@ -47,10 +47,5 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         /// Gets the underlying Uwp control's Toolkind property <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
         /// </summary>
         public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl.ToolKind; }
-
-        /// <summary>
-        /// Gets or sets the underlying Uwp control's ConfigurationContent property <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
-        /// </summary>
-        public object ConfigurationContent { get => UwpControl.ConfigurationContent; set => UwpControl.ConfigurationContent = value as Windows.UI.Xaml.UIElement; }
     }
 }
