@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 _identityClient.RedirectUri = redirectUri;
             }
 
-            var upnLoginHint = string.Empty;
+            string upnLoginHint = null;
             if (!string.IsNullOrEmpty(loginHint))
             {
                 upnLoginHint = loginHint;
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             {
                 try
                 {
-                    authenticationResult = await _identityClient.AcquireTokenAsync(scopes, upnLoginHint, uiParent);
+                    authenticationResult = await _identityClient.AcquireTokenAsync(scopes, upnLoginHint, UIBehavior.SelectAccount, null, uiParent);
                 }
                 catch (MsalException)
                 {

@@ -48,7 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-            MicrosoftGraphService.Instance.Initialize(ClientId);
 
             if (_webViewReportFrame != null)
             {
@@ -83,6 +82,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async Task<string> GetUserTokenAsync()
         {
+            MicrosoftGraphService.Instance.Initialize(ClientId);
+
             try
             {
                 _tokenForUser = await MicrosoftGraphService.Instance.Authentication.AquireTokenAsync(PowerBIResourceId);

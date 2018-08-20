@@ -194,6 +194,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public bool Initialize<T>(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
             where T : IMicrosoftGraphUserServicePhotos, new()
         {
+            if (IsInitialized)
+            {
+                return true;
+            }
+
             if (string.IsNullOrEmpty(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
@@ -229,6 +234,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
+            if (IsInitialized)
+            {
+                return true;
+            }
+
             if (string.IsNullOrEmpty(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
