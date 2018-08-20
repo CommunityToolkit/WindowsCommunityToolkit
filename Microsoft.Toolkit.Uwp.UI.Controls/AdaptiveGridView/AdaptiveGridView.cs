@@ -253,9 +253,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var panelMargin = itemsPanel != null ?
                               itemsPanel.Margin.Left + itemsPanel.Margin.Right :
                               0;
+            var border = BorderThickness.Left + BorderThickness.Right;
 
             // width should be the displayable width
-            containerWidth = containerWidth - Padding.Left - Padding.Right - panelMargin;
+            containerWidth = containerWidth - Padding.Left - Padding.Right - panelMargin - border; 
             if (containerWidth > 0)
             {
                 var newWidth = CalculateItemWidth(containerWidth);
