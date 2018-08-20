@@ -17,7 +17,7 @@ The **MicrosoftGraph** Service allows easy access to the Microsoft Graph in orde
 * Retrieve User events
 
 > [!NOTE]
-This API will not work on an XBOX UWP Application
+This API will not work on an Xbox UWP Application
  
 ## Get a Client Id
 
