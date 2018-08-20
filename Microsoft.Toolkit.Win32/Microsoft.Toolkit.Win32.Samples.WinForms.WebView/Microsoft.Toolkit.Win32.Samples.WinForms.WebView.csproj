@@ -55,9 +55,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj">
-      <Project>{78d8b77b-2a55-4037-bcc9-b47806039d23}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls</Name>
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj">
+      <Project>{e2cf9896-fe3b-49ab-8b53-1cf7b2fb1240}</Project>
+      <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

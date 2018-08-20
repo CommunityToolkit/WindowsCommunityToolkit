@@ -1,0 +1,64 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls.WinForms</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls.WinForms</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit Win32 Controls</Title>
+    <Description>This library provides XAML user controls for Win32. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Shared\**\*.cs" LinkBase="Shared" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <PackageReference Include="System.Net.Http" Version="4.0.0" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
+      <Version>4.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.Interop.WinForms\Microsoft.Toolkit.Win32.UI.Interop.WinForms.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="WebView\WebView.BaseProperties.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WebView\WebView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Update="WebView\WebView.Events.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WebView\WebView.Init.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+    <Compile Update="WebView\WebView.Navigation.cs">
+      <SubType>Component</SubType>
+      <DependentUpon>WebView.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+</Project>
