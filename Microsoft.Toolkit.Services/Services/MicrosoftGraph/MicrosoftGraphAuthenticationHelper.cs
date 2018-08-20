@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
-#if WINRT || WINDOWS_UWP
 using System.Net.Http;
-#endif
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
+
 #if WINRT || WINDOWS_UWP
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Windows.Storage;
@@ -20,36 +20,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// <summary>
     /// Authentication Helper Using Azure Active Directory v2.0 app Model
     /// </summary>
-    internal class MicrosoftGraphAuthenticationHelper
+    internal class MicrosoftGraphAuthenticationHelper : IAuthenticationHelper
     {
         /// <summary>
         /// Base Url for service.
         /// </summary>
-        protected const string Authority = "https://login.microsoftonline.com/common/";
+        private const string Authority = "https://login.microsoftonline.com/{0}/";
 
-        /// <summary>
-        /// Default Redirect Uri
-        /// </summary>
-        protected const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
-
-        /// <summary>
-        /// Default Authority url for V2
-        /// </summary>
-        protected const string AuthorityV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize";
-
-        /// <summary>
-        /// Default Authorization Token Service
-        /// </summary>
-        protected const string AuthorizationTokenService = "https://login.microsoftonline.com/common/oauth2/v2.0/token";
 
         /// <summary>
         /// Default Logout Url for V2
         /// </summary>
-        protected const string LogoutUrlV2Model = "https://login.microsoftonline.com/common/oauth2/v2.0/logout";
+        private const string LogoutUrlV2Model = "https://login.microsoftonline.com/{0}/oauth2/v2.0/logout";
 
 #if WINRT || WINDOWS_UWP
-        private const string LogoutUrl = "https://login.microsoftonline.com/common/oauth2/logout";
-        private const string MicrosoftGraphResource = "https://graph.microsoft.com";
+
+        private const string LogoutUrl = "https://login.microsoftonline.com/{0}/oauth2/logout";
 
         /// <summary>
         /// Storage key name for user name.
@@ -58,92 +44,146 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
 #endif
 
-        private static MSAL.PublicClientApplication _identityClient = null;
+        private readonly IAuthenticationHelper _authHelperImplementation;
 
 #if WINRT || WINDOWS_UWP
-        /// <summary>
-        /// Password vault used to store access tokens
-        /// </summary>
-        private readonly Windows.Security.Credentials.PasswordVault _vault;
-
-        /// <summary>
-        /// Azure Active Directory Authentication context use to get an access token [ADAL]
-        /// </summary>
-        private AuthenticationContext _azureAdContext = new AuthenticationContext(Authority);
-#endif
-
-        /// <summary>
-        /// Gets or sets delegated permission Scopes
-        /// </summary>
-        protected string[] DelegatedPermissionScopes { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
-        /// </summary>
-        public MicrosoftGraphAuthenticationHelper()
+        public MicrosoftGraphAuthenticationHelper(MicrosoftGraphEnums.AuthenticationModel authenticationModel, string clientId, string tenantId = "common")
         {
-#if WINRT || WINDOWS_UWP
-            _vault = new Windows.Security.Credentials.PasswordVault();
-#endif
-        }
+            ClientId = clientId;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
-        /// </summary>
-        /// <param name="delegatedPermissionScopes">Delegated Permission Scopes</param>
-        public MicrosoftGraphAuthenticationHelper(string[] delegatedPermissionScopes)
-            : this()
-        {
-            DelegatedPermissionScopes = delegatedPermissionScopes;
-        }
-
-        /// <summary>
-        /// Gets or sets the Oauth2 access token.
-        /// </summary>
-        protected string TokenForUser { get; set; }
-
-        /// <summary>
-        /// Gets or sets token expiration.  By default the life time of the first access token is 3600 (1h).
-        /// </summary>
-        public DateTimeOffset Expiration { get; set; }
-
-        /// <summary>
-        /// Clean the TokenCache
-        /// </summary>
-        internal void CleanToken()
-        {
-            TokenForUser = null;
-#if WINRT || WINDOWS_UWP
-            _azureAdContext.TokenCache.Clear();
-#endif
-        }
-
-        /// <summary>
-        /// Get a Microsoft Graph access token using the v2.0 Endpoint
-        /// </summary>
-        /// <param name="appClientId">Application client Id</param>
-        /// <param name="loginHint">UPN</param>
-        /// <returns>An oauth2 access token.</returns>
-        public async Task<string> GetUserTokenV2Async(string appClientId, string loginHint)
-        {
-            return await GetUserTokenV2Async(appClientId, null, null, loginHint);
-        }
-
-        /// <summary>
-        /// Get a Microsoft Graph access token using the v2.0 Endpoint.
-        /// </summary>
-        /// <param name="appClientId">Application client ID</param>
-        /// <param name="uiParent">UiParent instance - required for Android</param>
-        /// <param name="redirectUri">Redirect Uri - required for Android</param>
-        /// <param name="loginHint">UPN</param>
-        /// <returns>An oauth2 access token.</returns>
-        public async Task<string> GetUserTokenV2Async(string appClientId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
-        {
-            if (_identityClient == null)
+            if (authenticationModel == MicrosoftGraphEnums.AuthenticationModel.V1)
             {
-                _identityClient = new MSAL.PublicClientApplication(appClientId);
+                _authHelperImplementation = new AuthenticationHelperV1(clientId, string.Format(Authority, tenantId), string.Format(LogoutUrl, tenantId));
             }
+            else
+            {
+                _authHelperImplementation = new AuthenticationHelperV2(clientId, string.Format(Authority, tenantId), string.Format(LogoutUrlV2Model, tenantId));
+            }
+        }
+#endif
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphAuthenticationHelper"/> class.
+        /// </summary>
+        public MicrosoftGraphAuthenticationHelper(string clientId, string tenantId = "common")
+        {
+            ClientId = clientId;
+            _authHelperImplementation = new AuthenticationHelperV2(clientId, string.Format(Authority, tenantId), string.Format(LogoutUrlV2Model, tenantId));
+        }
+
+
+        /// <summary>
+        /// ClientId for the application
+        /// </summary>
+        public string ClientId { get; }
+
+
+        public Task<string> AquireTokenAsync(IEnumerable<string> scopes, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        {
+            return _authHelperImplementation.AquireTokenAsync(scopes, uiParent, redirectUri, loginHint);
+        }
+
+
+        /// <summary>
+        /// Logout the user
+        /// </summary>
+        /// <returns>Success or failure</returns>
+        public async Task<bool> LogoutAsync()
+        {
+#if WINRT || WINDOWS_UWP
+            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
+#endif
+
+            return await _authHelperImplementation.LogoutAsync().ConfigureAwait(false);
+        }
+
+        public Task<string> AquireTokenAsync(string resourceId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        {
+            return AquireTokenAsync(new[] { resourceId }, uiParent, redirectUri, loginHint);
+        }
+    }
+
+    public interface IAuthenticationHelper
+    {
+        Task<string> AquireTokenAsync(string resourceId, UIParent uiParent = null, string redirectUri = null, string loginHint = null);
+
+        Task<string> AquireTokenAsync(IEnumerable<string> scopes, UIParent uiParent = null, string redirectUri = null, string loginHint = null);
+
+        Task<bool> LogoutAsync();
+    }
+
+#if WINRT || WINDOWS_UWP
+    internal class AuthenticationHelperV1 : IAuthenticationHelper
+    {
+        /// <summary>
+        /// Default Redirect Uri
+        /// </summary>
+        private const string DefaultRedirectUri = "urn:ietf:wg:oauth:2.0:oob";
+
+        private readonly AuthenticationContext _authContext;
+        private readonly string clientId;
+        private readonly string logoutUrl;
+
+        public AuthenticationHelperV1(string clientId, string authority, string logoutUrl)
+        {
+            _authContext = new AuthenticationContext(authority);
+            this.clientId = clientId;
+            this.logoutUrl = logoutUrl;
+        }
+
+
+
+        public async Task<string> AquireTokenAsync(IEnumerable<string> scopes, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        {
+            try
+            {
+                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _authContext.AcquireTokenSilentAsync(scopes.First(), clientId);
+                return userAuthnResult.AccessToken;
+            }
+            catch (AdalSilentTokenAcquisitionException e)
+            {
+                try
+                {
+                    IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _authContext.AcquireTokenAsync(scopes.First(), clientId, new Uri(redirectUri ?? DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(PromptBehavior.SelectAccount, false));
+                    return userAuthnResult.AccessToken;
+                }
+                catch (AdalException exception)
+                {
+                    throw;
+                }
+            }   
+        }
+
+        public Task<string> AquireTokenAsync(string resourceId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        {
+            return AquireTokenAsync(new[] { resourceId }, uiParent, redirectUri, loginHint);
+        }
+
+        public async Task<bool> LogoutAsync()
+        {
+            using (var client = new HttpClient())
+            {
+                var request = new HttpRequestMessage(HttpMethod.Get, logoutUrl);
+                var response = await client.SendAsync(request);
+                return response.IsSuccessStatusCode;
+            }
+        }
+    }
+#endif
+
+    internal class AuthenticationHelperV2 : IAuthenticationHelper
+    {
+        private readonly PublicClientApplication _identityClient;
+        private readonly string logoutUrl;
+
+        public AuthenticationHelperV2(string clientId, string authority, string logoutUrl)
+        {
+            _identityClient = new PublicClientApplication(clientId, authority);
+            this.logoutUrl = logoutUrl;
+        }
+
+        public async Task<string> AquireTokenAsync(IEnumerable<string> scopes, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
+        {
             if (!string.IsNullOrEmpty(redirectUri))
             {
                 _identityClient.RedirectUri = redirectUri;
@@ -159,13 +199,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             try
             {
-                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, _identityClient.Users.FirstOrDefault());
+                authenticationResult = await _identityClient.AcquireTokenSilentAsync(scopes, _identityClient.Users.FirstOrDefault());
             }
             catch (MsalUiRequiredException)
             {
                 try
                 {
-                    authenticationResult = await _identityClient.AcquireTokenAsync(DelegatedPermissionScopes, upnLoginHint, uiParent);
+                    authenticationResult = await _identityClient.AcquireTokenAsync(scopes, upnLoginHint, uiParent);
                 }
                 catch (MsalException)
                 {
@@ -176,89 +216,28 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             return authenticationResult?.AccessToken;
         }
 
-        /// <summary>
-        /// Logout the user
-        /// </summary>
-        /// <returns>Success or failure</returns>
-        public bool Logout()
-        {
-            return LogoutV2();
-        }
-
-        /// <summary>
-        /// Logout the user using the V2 endpoint
-        /// </summary>
-        /// <returns>Success or failure</returns>
-        public bool LogoutV2()
+        public async Task<bool> LogoutAsync()
         {
             try
             {
                 _identityClient.Remove(_identityClient.Users.FirstOrDefault());
+
+                using (var client = new HttpClient())
+                {
+                    var request = new HttpRequestMessage(HttpMethod.Get, logoutUrl);
+                    var response = await client.SendAsync(request);
+                    return response.IsSuccessStatusCode;
+                }
             }
             catch (MsalException)
             {
                 return false;
             }
-
-            return true;
         }
 
-#if WINRT || WINDOWS_UWP
-        /// <summary>
-        /// Get a Microsoft Graph access token from Azure AD.
-        /// </summary>
-        /// <param name="appClientId">Azure AD application client ID</param>
-        /// <param name="resourceId">Azure AD application resource ID</param>
-        /// <param name="promptBehavior">Prompt behavior</param>
-        /// <returns>An oauth2 access token.</returns>
-        public async Task<string> GetUserTokenAsync(string appClientId, string resourceId = MicrosoftGraphResource, PromptBehavior promptBehavior = PromptBehavior.Always)
+        public Task<string> AquireTokenAsync(string resourceId, UIParent uiParent = null, string redirectUri = null, string loginHint = null)
         {
-            // For the first use get an access token prompting the user, after one hour
-            // refresh silently the token
-            if (TokenForUser == null)
-            {
-                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenAsync(resourceId, appClientId, new Uri(DefaultRedirectUri), new IdentityModel.Clients.ActiveDirectory.PlatformParameters(promptBehavior, false));
-                TokenForUser = userAuthnResult.AccessToken;
-                Expiration = userAuthnResult.ExpiresOn;
-            }
-
-            if (Expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
-            {
-                IdentityModel.Clients.ActiveDirectory.AuthenticationResult userAuthnResult = await _azureAdContext.AcquireTokenSilentAsync(resourceId, appClientId);
-                TokenForUser = userAuthnResult.AccessToken;
-                Expiration = userAuthnResult.ExpiresOn;
-            }
-
-            return TokenForUser;
+            return AquireTokenAsync(new[] { resourceId }, uiParent, redirectUri, loginHint);
         }
-
-        /// <summary>
-        /// Logout the user
-        /// </summary>
-        /// <param name="authenticationModel">Authentication version endPoint</param>
-        /// <returns>Success or failure</returns>
-        public async Task<bool> LogoutAsync(string authenticationModel)
-        {
-            HttpResponseMessage response = null;
-            ApplicationData.Current.LocalSettings.Values[STORAGEKEYUSER] = null;
-
-            if (authenticationModel.Equals("V1"))
-            {
-                using (var client = new HttpClient())
-                {
-                    var request = new HttpRequestMessage(HttpMethod.Get, LogoutUrl);
-                    response = await client.SendAsync(request);
-                    return response.IsSuccessStatusCode;
-                }
-            }
-
-            if (authenticationModel.Equals("V2"))
-            {
-                return Logout();
-            }
-
-            return true;
-        }
-#endif
     }
 }

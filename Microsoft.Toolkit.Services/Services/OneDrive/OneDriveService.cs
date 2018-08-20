@@ -93,11 +93,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
             Provider.Initialize<U>(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes, uiParent, redirectUri);
 
-            if (Provider.Authentication == null)
-            {
-                Provider.Authentication = new MicrosoftGraphAuthenticationHelper(Scopes);
-            }
-
             return true;
         }
 
@@ -126,11 +121,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
             IsInitialized = true;
 
             Provider.Initialize(appClientId, MicrosoftGraphEnums.ServicesToInitialize.OneDrive, scopes, uiParent, redirectUri);
-
-            if (Provider.Authentication == null)
-            {
-                Provider.Authentication = new MicrosoftGraphAuthenticationHelper(Scopes);
-            }
 
             return true;
         }

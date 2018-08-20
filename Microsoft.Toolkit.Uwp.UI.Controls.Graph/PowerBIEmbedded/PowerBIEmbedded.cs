@@ -28,11 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private const string PowerBIResourceId = "https://analysis.windows.net/powerbi/api";
         private const string ApiUrl = "https://api.powerbi.com/";
-        private MicrosoftGraphAuthenticationHelper _authentication;
         private WebView _webViewReportFrame;
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
-        private DateTimeOffset _expiration;
         private DispatcherTimer _tokenExpirationRefreshTimer;
 
         /// <summary>
@@ -41,7 +39,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public PowerBIEmbedded()
         {
             DefaultStyleKey = typeof(PowerBIEmbedded);
-            _authentication = new MicrosoftGraphAuthenticationHelper();
         }
 
         /// <summary>
@@ -50,6 +47,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         protected override void OnApplyTemplate()
         {
             ApplyTemplate();
+
+            MicrosoftGraphService.Instance.Initialize(ClientId);
 
             if (_webViewReportFrame != null)
             {
@@ -71,24 +70,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             _tokenExpirationRefreshTimer = new DispatcherTimer()
             {
-                Interval = TimeSpan.FromMinutes(1)
+                Interval = TimeSpan.FromMinutes(15)
             };
             _tokenExpirationRefreshTimer.Tick += TokenExpirationRefreshTimer_Tick;
             _tokenExpirationRefreshTimer.Start();
 
             DisplayInformation.OrientationChanged -= DisplayInformation_OrientationChanged;
             DisplayInformation.OrientationChanged += DisplayInformation_OrientationChanged;
+
+            
         }
 
         private async Task<string> GetUserTokenAsync()
         {
             try
             {
-                _tokenForUser = await _authentication.GetUserTokenAsync(ClientId, PowerBIResourceId, PromptBehavior.Auto);
-                if (!string.IsNullOrEmpty(_tokenForUser))
-                {
-                    _expiration = _authentication.Expiration;
-                }
+                _tokenForUser = await MicrosoftGraphService.Instance.Authentication.AquireTokenAsync(PowerBIResourceId);
+                return _tokenForUser;
             }
             catch (AdalException ex)
             {

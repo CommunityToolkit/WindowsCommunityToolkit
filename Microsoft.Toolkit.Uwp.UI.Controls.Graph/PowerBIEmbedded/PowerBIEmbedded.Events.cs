@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
         private async void TokenExpirationRefreshTimer_Tick(object sender, object e)
         {
-            if (_tokenForUser != null && _expiration <= DateTimeOffset.UtcNow.AddMinutes(5))
+            if (_tokenForUser != null)
             {
                 string token = await GetUserTokenAsync();
                 if (!string.IsNullOrEmpty(token))

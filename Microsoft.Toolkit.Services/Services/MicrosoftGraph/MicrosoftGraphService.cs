@@ -20,9 +20,9 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
 
         /// <summary>
-        /// Gets or sets Authentication instance.
+        /// Gets the Authentication instance.
         /// </summary>
-        internal MicrosoftGraphAuthenticationHelper Authentication { get; set; }
+        public IAuthenticationHelper Authentication { get; private set; }
 
         /// <summary>
         /// Event raised when user logs in our out.
@@ -109,6 +109,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// V2 for MSA and Work or Scholar account
         /// </summary>
         public AuthenticationModel AuthenticationModel { get; set; }
+        private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 #endif
 
         /// <summary>
@@ -132,6 +133,23 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             Initialize(appClientId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
         }
 
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
+        /// </summary>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name='tenantId'>Azure AD's tenant id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        public MicrosoftGraphService(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+        {
+            Initialize(appClientId, tenantId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+        }
+
+
         /// <summary>
         /// Initialize Microsoft Graph.
         /// </summary>
@@ -143,6 +161,37 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>Success or failure.</returns>
         public bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+            where T : IMicrosoftGraphUserServicePhotos, new()
+        {
+            return Initialize<T>(appClientId, "common", servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+        }
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+        {
+            return Initialize(appClientId, "common", servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+        }
+
+        /// <summary>
+        /// Initialize Microsoft Graph.
+        /// </summary>
+        /// <typeparam name="T">Concrete type that inherits IMicrosoftGraphUserServicePhotos.</typeparam>
+        /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name='tenantId'>Azure AD's tenant id</param>
+        /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
+        /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
+        /// <param name="uiParent">UiParent instance - required for Android</param>
+        /// <param name="redirectUri">Redirect Uri - required for Android</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize<T>(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
             where T : IMicrosoftGraphUserServicePhotos, new()
         {
             if (string.IsNullOrEmpty(appClientId))
@@ -158,6 +207,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
             DelegatedPermissionScopes = delegatedPermissionScopes;
+
+#if WINRT
+            Authentication = new MicrosoftGraphAuthenticationHelper(AuthenticationModel, appClientId, tenantId);
+#else
+            Authentication = new MicrosoftGraphAuthenticationHelper(appClientId, tenantId);
+#endif
+
             return true;
         }
 
@@ -165,12 +221,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Initialize Microsoft Graph.
         /// </summary>
         /// <param name='appClientId'>Azure AD's App client id</param>
+        /// <param name='tenantId'>Azure AD's tenant id</param>
         /// <param name="servicesToInitialize">A combination of value to instanciate different services</param>
         /// <param name="delegatedPermissionScopes">Permission scopes for MSAL v2 endpoints</param>
         /// <param name="uiParent">UiParent instance - required for Android</param>
         /// <param name="redirectUri">Redirect Uri - required for Android</param>
         /// <returns>Success or failure.</returns>
-        public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
+        public bool Initialize(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
             if (string.IsNullOrEmpty(appClientId))
             {
@@ -184,6 +241,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
             DelegatedPermissionScopes = delegatedPermissionScopes;
+
+#if WINRT
+            Authentication = new MicrosoftGraphAuthenticationHelper(AuthenticationModel, appClientId, tenantId);
+#else
+            Authentication = new MicrosoftGraphAuthenticationHelper(appClientId, tenantId);
+#endif
             return true;
         }
 
@@ -203,13 +266,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             User = null;
 
             bool result;
-
-#if WINRT
-            var authenticationModel = AuthenticationModel.ToString();
-            result = await Authentication.LogoutAsync(authenticationModel);
-#else
-            result = Authentication.Logout();
-#endif
+            result = await Authentication.LogoutAsync();
 
             if (result)
             {
@@ -231,19 +288,18 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
-            Authentication = new MicrosoftGraphAuthenticationHelper(DelegatedPermissionScopes);
             string accessToken = null;
 #if WINRT
             if (AuthenticationModel == AuthenticationModel.V1)
             {
-                accessToken = await Authentication.GetUserTokenAsync(AppClientId);
+                accessToken = await Authentication.AquireTokenAsync(new[] { MicrosoftGraphResource });
             }
             else
             {
-                accessToken = await Authentication.GetUserTokenV2Async(AppClientId, loginHint);
+                accessToken = await Authentication.AquireTokenAsync(DelegatedPermissionScopes, loginHint: loginHint);
             }
 #else
-            accessToken = await Authentication.GetUserTokenV2Async(AppClientId, _uiParent, _redirectUri, loginHint);
+            accessToken = await Authentication.AquireTokenAsync(DelegatedPermissionScopes, _uiParent, _redirectUri, loginHint);
 #endif
 
             if (string.IsNullOrEmpty(accessToken))
@@ -376,7 +432,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                          requestMessage.Headers.Authorization =
                              new AuthenticationHeaderValue(
                                          "bearer",
-                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).GetUserTokenAsync(appClientId).ConfigureAwait(false));
+                                         await ((MicrosoftGraphAuthenticationHelper)Authentication).AquireTokenAsync(new[] { MicrosoftGraphResource }).ConfigureAwait(false));
                          return;
                      }));
             }
@@ -385,11 +441,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                   new DelegateAuthenticationProvider(
                      async (requestMessage) =>
                      {
-                         // requestMessage.Headers.Add('outlook.timezone', 'Romance Standard Time');
                          requestMessage.Headers.Authorization =
                                             new AuthenticationHeaderValue(
                                                      "bearer",
-                                                     await Authentication.GetUserTokenV2Async(appClientId).ConfigureAwait(false));
+                                                     await Authentication.AquireTokenAsync(DelegatedPermissionScopes).ConfigureAwait(false));
                      }));
         }
 

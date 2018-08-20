@@ -26,6 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             new PropertyMetadata(true));
 
         private static string _clientId = string.Empty;
+        private static string _tenantId = "common";
 
         private static string[] _scopes = AadLogin.RequiredDelegatedPermissions
             .Union(ProfileCard.RequiredDelegatedPermissions)
@@ -56,8 +57,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             Loading += AadAuthControl_Loading;
             ClientId.TextChanged += ClientId_TextChanged;
+            TenantId.TextChanged += TenantId_TextChanged;
             _graphService.SignInFailed += GraphService_SignInFailed;
             _graphService.IsAuthenticatedChanged += GraphService_IsAuthenticatedChanged;
+        }
+
+        private void TenantId_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(TenantId.Text.Trim()))
+            {
+                _tenantId = "common";
+                return;
+            }
+
+            _tenantId = TenantId.Text.Trim();
         }
 
         private void AadAuthControl_Loading(FrameworkElement sender, object args)
@@ -109,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _clientId = ClientId.Text.Trim();
 
             _graphService.AuthenticationModel = MicrosoftGraphEnums.AuthenticationModel.V2;
-            _graphService.Initialize(_clientId, MicrosoftGraphEnums.ServicesToInitialize.UserProfile, _scopesForReAuth ?? _scopes);
+            _graphService.Initialize(_clientId, _tenantId, MicrosoftGraphEnums.ServicesToInitialize.UserProfile, _scopesForReAuth ?? _scopes);
 
             IsEnableSignInButton = true;
         }
