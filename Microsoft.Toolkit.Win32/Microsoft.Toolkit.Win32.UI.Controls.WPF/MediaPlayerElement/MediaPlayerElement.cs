@@ -27,9 +27,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement"/>.
-        /// Intended for internal framework use only.
         /// </summary>
-        public MediaPlayerElement(string typeName)
+        protected MediaPlayerElement(string typeName)
             : base(typeName)
         {
         }

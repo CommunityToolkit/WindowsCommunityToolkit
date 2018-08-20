@@ -27,9 +27,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomPenButton"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton"/>.
-        /// Intended for internal framework use only.
         /// </summary>
-        public InkToolbarCustomPenButton(string typeName)
+        protected InkToolbarCustomPenButton(string typeName)
             : base(typeName)
         {
         }

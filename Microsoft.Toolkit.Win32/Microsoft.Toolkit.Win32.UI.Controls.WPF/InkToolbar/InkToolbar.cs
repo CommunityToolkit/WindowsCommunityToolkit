@@ -34,7 +34,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>.
-        /// Intended for internal framework use only.
         /// </summary>
         protected InkToolbar(string typeName)
             : base(typeName)

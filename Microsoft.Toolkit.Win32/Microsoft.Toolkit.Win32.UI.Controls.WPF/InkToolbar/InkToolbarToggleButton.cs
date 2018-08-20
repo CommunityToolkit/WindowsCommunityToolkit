@@ -26,9 +26,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>.
-        /// Intended for internal framework use only.
         /// </summary>
-        public InkToolbarToggleButton(string typeName)
+        protected InkToolbarToggleButton(string typeName)
             : base(typeName)
         {
         }

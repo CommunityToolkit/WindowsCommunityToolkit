@@ -27,9 +27,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>.
-        /// Intended for internal framework use only.
         /// </summary>
-        public InkToolbarMenuButton(string typeName)
+        protected InkToolbarMenuButton(string typeName)
             : base(typeName)
         {
         }
