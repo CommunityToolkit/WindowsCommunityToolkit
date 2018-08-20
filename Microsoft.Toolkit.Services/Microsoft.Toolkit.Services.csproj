@@ -43,8 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Internal\" />
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
-
 
 </Project>

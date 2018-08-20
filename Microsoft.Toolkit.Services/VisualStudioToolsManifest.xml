@@ -1,0 +1,7 @@
+<FileList>
+  <File Reference="Microsoft.Toolkit.Services.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="Microsoft.Toolkit.Services.WinForms.GraphLoginComponent" />
+    </ToolboxItems>
+  </File>
+</FileList>
