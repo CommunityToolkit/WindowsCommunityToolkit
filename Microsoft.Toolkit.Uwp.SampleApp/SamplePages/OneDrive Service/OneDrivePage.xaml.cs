@@ -415,7 +415,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     await fileItem.UpdateThumbnailPropertyAsync();
                 }
 
-                image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
+                if (fileItem.Thumbnail != null)
+                {
+                    image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
+                }
             }
         }
     }
