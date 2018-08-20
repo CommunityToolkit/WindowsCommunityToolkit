@@ -25,7 +25,6 @@
                 <TransitionCollection>
                     <AddDeleteThemeTransition />
                     <ContentThemeTransition />
-                    <ReorderThemeTransition />
                     <EntranceThemeTransition IsStaggeringEnabled="False" />
                 </TransitionCollection>
             </Setter.Value>
