@@ -59,5 +59,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The identifier for the <see cref="HeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty HeaderTemplateProperty =
             DependencyProperty.Register(nameof(HeaderTemplate), typeof(DataTemplate), typeof(TabViewItem), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the tab can be closed by the user with the close button.
+        /// </summary>
+        public bool IsClosable
+        {
+            get { return (bool)GetValue(IsClosableProperty); }
+            set { SetValue(IsClosableProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsClosable"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="IsClosable"/> dependency property.</returns>
+        public static readonly DependencyProperty IsClosableProperty =
+            DependencyProperty.Register("IsClosable", typeof(bool), typeof(TabViewItem), new PropertyMetadata(true));
     }
 }

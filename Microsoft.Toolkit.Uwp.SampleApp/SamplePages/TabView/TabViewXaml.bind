@@ -8,9 +8,13 @@
 
   <Grid>
     <Grid>
-      <controls:TabView x:Name="Tabs">
-        <controls:TabViewItem Header="Tab 1" HeaderIcon="AddFriend"/>
-        <controls:TabViewItem Header="Tab 2" HeaderIcon="Camera"/>
+      <controls:TabView x:Name="Tabs" SelectedIndex="0">
+        <controls:TabViewItem Header="Home" HeaderIcon="Home" IsClosable="False"/>
+        <controls:TabViewItem>
+          <controls:TabViewItem.HeaderTemplate>
+            <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
+          </controls:TabViewItem.HeaderTemplate>
+        </controls:TabViewItem>
         <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"/>
       </controls:TabView>
     </Grid>

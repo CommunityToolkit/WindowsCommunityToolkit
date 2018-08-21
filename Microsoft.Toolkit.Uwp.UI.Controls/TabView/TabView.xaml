@@ -130,7 +130,8 @@
                               Margin="8,0,0,0"
                               HorizontalAlignment="Left"
                               VerticalAlignment="Center"/><!-- TODO: See if can fix template bindings here again for alignment... -->
-                        <Grid HorizontalAlignment="Right" Grid.Column="1">
+                        <Grid HorizontalAlignment="Right" Grid.Column="1"
+                              Visibility="{Binding IsClosable}">
                             <Border x:Name="ButtonBorder" Width="32" Height="32" Background="{TemplateBinding Background}">
                                 <Button x:Name="CloseButton" Style="{StaticResource MSEdgeCloseButtonStyle}">&#xE711;</Button>
                             </Border>
