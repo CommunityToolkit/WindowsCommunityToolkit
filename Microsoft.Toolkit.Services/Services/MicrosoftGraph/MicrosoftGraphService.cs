@@ -302,15 +302,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 throw new InvalidOperationException("Microsoft Graph not initialized.");
             }
 
+            IsAuthenticated = false;
             User = null;
 
             bool result;
             result = await Authentication.LogoutAsync();
-
-            if (result)
-            {
-                IsAuthenticated = false;
-            }
 
             return result;
         }
