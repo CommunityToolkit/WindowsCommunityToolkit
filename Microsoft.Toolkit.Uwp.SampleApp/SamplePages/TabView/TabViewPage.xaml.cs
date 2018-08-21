@@ -14,63 +14,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TabViewPage : Page, IXamlRenderListener
     {
-        private Random _random = new Random();
-
-        public ObservableCollection<DeviceItem> DeviceList { get; private set; } = new ObservableCollection<DeviceItem>();
-
         public TabViewPage()
         {
             this.InitializeComponent();
-
-            DeviceList.Add(new DeviceItem() { Distance = 0.1, Label = "My Phone", Symbol = Symbol.CellPhone });
-            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var people = control.FindChildByName("People") as OrbitView;
-            if (people != null)
+            var tabs = control.FindChildByName("Tabs") as TabView;
+            if (tabs != null)
             {
-                people.ItemClick += People_ItemClick;
-            }
-
-            var devices = control.FindChildByName("Devices") as OrbitView;
-            if (devices != null)
-            {
-                devices.ItemsSource = DeviceList;
-                devices.ItemClick += Devices_ItemClick;
+                tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
             }
         }
 
-        private void Load()
+        private async void Tabs_TabDraggedOutside(object sender, TabDraggedOutsideEventArgs e)
         {
-            SampleController.Current.RegisterNewCommand("Add Device", AddDeviceClick);
-        }
-
-        private void AddDeviceClick(object sender, RoutedEventArgs e)
-        {
-            switch (_random.Next(3))
-            {
-                case 0:
-                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "Other Phone", Symbol = Symbol.CellPhone });
-                    break;
-                case 1:
-                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "Camera", Symbol = Symbol.Camera });
-                    break;
-                case 2:
-                    DeviceList.Add(new DeviceItem() { Distance = _random.Next(1, 10) / 10f, Label = "TV", Symbol = Symbol.GoToStart });
-                    break;
-            }
-        }
-
-        private async void People_ItemClick(object sender, OrbitViewItemClickedEventArgs e)
-        {
-            await new MessageDialog("You clicked: " + (e.Item as OrbitViewDataItem)?.Label).ShowAsync();
-        }
-
-        private void Devices_ItemClick(object sender, OrbitViewItemClickedEventArgs e)
-        {
-            DeviceList.Remove(e.Item as DeviceItem);
+            await new MessageDialog("Tore Tab Outside App.  TODO: Pop-open a Window.").ShowAsync();
         }
     }
 }
