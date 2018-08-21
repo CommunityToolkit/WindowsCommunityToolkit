@@ -17,6 +17,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// </summary>
     public class MicrosoftGraphService
     {
+#if WINRT
+        private const string MicrosoftGraphResource = "https://graph.microsoft.com";
+#endif
+
         private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
 
         /// <summary>
@@ -109,7 +113,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// V2 for MSA and Work or Scholar account
         /// </summary>
         public AuthenticationModel AuthenticationModel { get; set; }
-        private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 #endif
 
         /// <summary>
@@ -133,7 +136,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             Initialize(appClientId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
         }
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="MicrosoftGraphService"/> class.
         /// </summary>
@@ -148,7 +150,6 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         {
             Initialize(appClientId, tenantId, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
         }
-
 
         /// <summary>
         /// Initialize Microsoft Graph.
