@@ -83,7 +83,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <summary>
         /// Gets or sets AppClientId.
         /// </summary>
-        protected string AppClientId { get; set; }
+        protected string AppClientId { get; private set; }
+
+        /// <summary>
+        ///  Tenant Id of the app
+        /// </summary>
+        protected string TenantId { get; private set; }
 
         /// <summary>
         /// Gets or sets field to store the services to initialize
@@ -195,12 +200,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public bool Initialize<T>(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
             where T : IMicrosoftGraphUserServicePhotos, new()
         {
-            if (IsInitialized)
+            // Default is the common endpoint
+            if (string.IsNullOrWhiteSpace(tenantId))
+            {
+                tenantId = "common";
+            }
+
+            // Allow a re-initialize with a different id and short ciruit if it's the same
+            // If it's blank and we're already initalized, nothing to do
+            if (IsInitialized && (string.IsNullOrWhiteSpace(appClientId) ||
+                                  (string.Equals(appClientId, AppClientId, StringComparison.OrdinalIgnoreCase) &&
+                                   string.Equals(tenantId, TenantId, StringComparison.OrdinalIgnoreCase))))
             {
                 return true;
             }
 
-            if (string.IsNullOrEmpty(appClientId))
+            if (string.IsNullOrWhiteSpace(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
             }
@@ -209,6 +224,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             _uiParent = uiParent;
             _photosService = new T();
             AppClientId = appClientId;
+            TenantId = tenantId;
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;
@@ -235,12 +251,22 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appClientId, string tenantId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
-            if (IsInitialized)
+            // Default is the common endpoint
+            if (string.IsNullOrWhiteSpace(tenantId))
+            {
+                tenantId = "common";
+            }
+
+            // Allow a re-initialize with a different id and short ciruit if it's the same
+            // If it's blank and we're already initalized, nothing to do
+            if (IsInitialized && (string.IsNullOrWhiteSpace(appClientId) ||
+                                  (string.Equals(appClientId, AppClientId, StringComparison.OrdinalIgnoreCase) &&
+                                   string.Equals(tenantId, TenantId, StringComparison.OrdinalIgnoreCase))))
             {
                 return true;
             }
 
-            if (string.IsNullOrEmpty(appClientId))
+            if (string.IsNullOrWhiteSpace(appClientId))
             {
                 throw new ArgumentNullException(nameof(appClientId));
             }
@@ -248,6 +274,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             _redirectUri = redirectUri;
             _uiParent = uiParent;
             AppClientId = appClientId;
+            TenantId = tenantId;
             GraphProvider = CreateGraphClientProvider(appClientId);
             ServicesToInitialize = servicesToInitialize;
             IsInitialized = true;

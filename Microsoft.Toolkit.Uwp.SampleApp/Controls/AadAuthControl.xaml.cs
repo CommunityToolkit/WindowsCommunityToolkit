@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             _tenantId = TenantId.Text.Trim();
         }
 
-        private void AadAuthControl_Loading(FrameworkElement sender, object args)
+        private async void AadAuthControl_Loading(FrameworkElement sender, object args)
         {
             IsEnabled = !_graphService.IsAuthenticated;
 
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // re-auth required, it might fail, so store it in a local variable to avoid impacts to previous controls
                     _scopesForReAuth = _scopes.Concat(adminPerms).Distinct().ToArray();
 
-                    var result = _graphService.Logout().Result;
+                    var result = await _graphService.Logout();
                 }
                 else
                 {
