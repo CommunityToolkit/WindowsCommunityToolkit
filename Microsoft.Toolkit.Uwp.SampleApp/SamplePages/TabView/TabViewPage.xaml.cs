@@ -25,7 +25,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (tabs != null)
             {
                 tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
+                tabs.TabClosing += Tabs_TabClosing;
             }
+        }
+
+        private void Tabs_TabClosing(object sender, TabClosingEventArgs e)
+        {
+            if (e.Tab.Header.ToString() == "Not Closable")
+            {
+                e.Cancel = true;
+            }
+
+            new MessageDialog("You're closing the '" + e.Tab.Header + "' tab.").ShowAsync();
         }
 
         private async void Tabs_TabDraggedOutside(object sender, TabDraggedOutsideEventArgs e)

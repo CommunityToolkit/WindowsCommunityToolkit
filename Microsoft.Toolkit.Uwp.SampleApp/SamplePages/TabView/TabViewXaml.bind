@@ -7,16 +7,17 @@
       mc:Ignorable="d">
 
   <Grid>
-    <Grid>
-      <controls:TabView x:Name="Tabs" SelectedIndex="0">
-        <controls:TabViewItem Header="Home" HeaderIcon="Home" IsClosable="False"/>
-        <controls:TabViewItem>
-          <controls:TabViewItem.HeaderTemplate>
-            <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
-          </controls:TabViewItem.HeaderTemplate>
-        </controls:TabViewItem>
-        <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"/>
-      </controls:TabView>
-    </Grid>
+    <controls:TabView x:Name="Tabs" SelectedIndex="0">
+      <controls:TabViewItem Header="Home" HeaderIcon="Home" IsClosable="False"/>
+      <controls:TabViewItem Header="Ignored">
+        <controls:TabViewItem.HeaderTemplate>
+          <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
+        </controls:TabViewItem.HeaderTemplate>
+      </controls:TabViewItem>
+      <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"/>
+      <controls:TabViewItem Header="Not Closable">
+        <TextBlock Padding="16">This tab isn't closable because it is being interceptted in the TabClosing event in the Sample App.</TextBlock>
+      </controls:TabViewItem>
+    </controls:TabView>
   </Grid>
 </Page>

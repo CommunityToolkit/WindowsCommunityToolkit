@@ -2,7 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using Windows.ApplicationModel.DataTransfer;
@@ -27,6 +31,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// The creation and handling of the new-window is left to the app's developer.
         /// </summary>
         public event EventHandler<TabDraggedOutsideEventArgs> TabDraggedOutside;
+
+        /// <summary>
+        /// Occurs when a tab's Close button is clicked.  Set <see cref="TabClosingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
+        /// </summary>
+        public event EventHandler<TabClosingEventArgs> TabClosing;
 
         public TabView()
         {
@@ -80,7 +89,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
+            var tvi = element as TabViewItem;
+
+            tvi.Loaded += TabViewItem_Loaded;
+
             base.PrepareContainerForItemOverride(element, item);
+        }
+
+        private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            var tvi = sender as TabViewItem;
+
+            var btn = tvi.FindDescendantByName("CloseButton") as Button;
+            if (btn != null)
+            {
+                btn.Click += CloseButton_Clicked;
+            }
+        }
+
+        private void CloseButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            var tvi = (sender as FrameworkElement).FindAscendant<TabViewItem>();
+
+            if (tvi != null)
+            {
+                var args = new TabClosingEventArgs(tvi);
+                TabClosing?.Invoke(this, args);
+
+                if (!args.Cancel)
+                {
+                    if (ItemsSource != null)
+                    {
+                        (ItemsSource as IList).Remove(tvi);
+                    }
+                    else if (Items != null)
+                    {
+                        Items.Remove(tvi);
+                    }
+                }
+            }
         }
 
         private void TabPresenter_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
