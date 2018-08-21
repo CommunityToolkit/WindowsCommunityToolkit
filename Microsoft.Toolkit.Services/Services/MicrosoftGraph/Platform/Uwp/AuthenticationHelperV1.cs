@@ -7,15 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-
-#if WINRT || WINDOWS_UWP
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Windows.Storage;
-#endif
+
 
 namespace Microsoft.Toolkit.Services.MicrosoftGraph
 {
-#if WINRT || WINDOWS_UWP
     internal class AuthenticationHelperV1 : IAuthenticationHelper
     {
         /// <summary>
@@ -70,6 +66,4 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             }
         }
     }
-
-#endif
 }

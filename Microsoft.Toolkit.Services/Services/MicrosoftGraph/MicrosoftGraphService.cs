@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 #if WINRT
         private const string MicrosoftGraphResource = "https://graph.microsoft.com";
 #endif
+        private const string Common = "common";
 
         private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);
 
@@ -81,12 +82,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Gets or sets AppClientId.
+        /// Gets AppClientId.
         /// </summary>
         protected string AppClientId { get; private set; }
 
         /// <summary>
-        ///  Tenant Id of the app
+        /// Gets Tenant Id of the app
         /// </summary>
         protected string TenantId { get; private set; }
 
@@ -169,7 +170,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         public bool Initialize<T>(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
             where T : IMicrosoftGraphUserServicePhotos, new()
         {
-            return Initialize<T>(appClientId, "common", servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+            return Initialize<T>(appClientId, Common, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
         }
 
         /// <summary>
@@ -183,7 +184,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// <returns>Success or failure.</returns>
         public bool Initialize(string appClientId, ServicesToInitialize servicesToInitialize = ServicesToInitialize.Message | ServicesToInitialize.UserProfile | ServicesToInitialize.Event, string[] delegatedPermissionScopes = null, UIParent uiParent = null, string redirectUri = null)
         {
-            return Initialize(appClientId, "common", servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
+            return Initialize(appClientId, Common, servicesToInitialize, delegatedPermissionScopes, uiParent, redirectUri);
         }
 
         /// <summary>
@@ -203,7 +204,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             // Default is the common endpoint
             if (string.IsNullOrWhiteSpace(tenantId))
             {
-                tenantId = "common";
+                tenantId = Common;
             }
 
             // Allow a re-initialize with a different id and short ciruit if it's the same
@@ -254,7 +255,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             // Default is the common endpoint
             if (string.IsNullOrWhiteSpace(tenantId))
             {
-                tenantId = "common";
+                tenantId = Common;
             }
 
             // Allow a re-initialize with a different id and short ciruit if it's the same

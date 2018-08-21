@@ -48,7 +48,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
-
             if (_webViewReportFrame != null)
             {
                 _webViewReportFrame.DOMContentLoaded -= WebViewReportFrame_DOMContentLoaded;
@@ -76,8 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             DisplayInformation.OrientationChanged -= DisplayInformation_OrientationChanged;
             DisplayInformation.OrientationChanged += DisplayInformation_OrientationChanged;
-
-            
         }
 
         private async Task<string> GetUserTokenAsync()
