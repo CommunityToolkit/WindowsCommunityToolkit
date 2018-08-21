@@ -9,9 +9,9 @@
   <Grid>
     <Grid>
       <controls:TabView x:Name="Tabs">
-        <controls:TabViewItem Header="Tab 1"/>
-        <controls:TabViewItem Header="Tab 2"/>
-        <controls:TabViewItem Header="Tab 3"/>
+        <controls:TabViewItem Header="Tab 1" HeaderIcon="AddFriend"/>
+        <controls:TabViewItem Header="Tab 2" HeaderIcon="Camera"/>
+        <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"/>
       </controls:TabView>
     </Grid>
   </Grid>
