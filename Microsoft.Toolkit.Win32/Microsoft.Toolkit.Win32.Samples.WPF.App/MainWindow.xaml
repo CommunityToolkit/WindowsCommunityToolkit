@@ -8,18 +8,11 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid >
-
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="*"/>
-
-        </Grid.RowDefinitions>-->
         <TabControl>            
             <TabItem>
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <DockPanel LastChildFill="True" >
-                    <controls:InkToolbar  DockPanel.Dock="Top" x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"
-                                  InkDrawingAttributesChanged="inkToolbar_InkDrawingAttributesChanged" IsStencilButtonCheckedChanged="inkToolbar_IsStencilButtonCheckedChanged"  >
+                    <controls:InkToolbar  DockPanel.Dock="Top" x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"                                  >
                         <controls:InkToolbarCustomToolButton x:Name="toolButtonLasso" />
                     </controls:InkToolbar>
                     <!--Inking area -->

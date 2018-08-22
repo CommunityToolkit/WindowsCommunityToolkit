@@ -26,68 +26,15 @@ namespace Microsoft.Toolkit.Win32.Samples.WPF.App
 
         private void inkToolbar_Initialized(object sender, EventArgs e)
         {
+           // Handle ink toolbar initialization events here
             
         }
 
         private void inkToolbar_ActiveToolChanged(object sender, object e)
         {
-
+            // Handle ink toolbar active tool changed events here.
         }
 
-        private void inkToolbar_InkDrawingAttributesChanged(object sender, object e)
-        {
-
-        }
-
-        private void inkToolbar_IsStencilButtonCheckedChanged(object sender, Microsoft.Toolkit.Win32.UI.Controls.WPF.InkToolbarIsStencilButtonCheckedChangedEventArgs e)
-        {
-
-        }
-
-        private void WebBrowser_Loaded(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void ColorspacesCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void TonemappersCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void ScalingCheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void WhiteLevelSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void ScalingCheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void swapChainPanel_Loaded(object sender, RoutedEventArgs e)
-        {
-
-            
-        }
     }
 
 }
