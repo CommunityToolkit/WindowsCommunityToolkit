@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Tab being closed.
+        /// Gets or sets the Tab being closed.
         /// </summary>
         public TabViewItem Tab { get; set; }
 
