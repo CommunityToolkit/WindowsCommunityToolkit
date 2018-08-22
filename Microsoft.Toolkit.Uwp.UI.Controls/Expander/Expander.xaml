@@ -572,7 +572,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
+                        <Grid x:Name="PART_RootGrid">
                             <Grid.RowDefinitions>
                                 <RowDefinition x:Name="RowOne" Height="Auto" />
                                 <RowDefinition x:Name="RowTwo" Height="*" />
