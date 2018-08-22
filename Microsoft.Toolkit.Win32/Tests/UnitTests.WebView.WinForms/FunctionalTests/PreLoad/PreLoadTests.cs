@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [ExpectedException(typeof(ArgumentNullException))]
         public void CannotPassNullForPreLoadScript()
         {
-            WebView.AddPreLoadedScript(null);
+            WebView.AddInitializeScript(null);
         }
     }
 
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         {
             base.Given();
             WebView.IsJavaScriptEnabled = true;
-            WebView.AddPreLoadedScript(string.Empty);
+            WebView.AddInitializeScript(string.Empty);
 
             WebView.NavigationCompleted += (o, e) =>
             {
@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         {
             base.Given();
             WebView.IsJavaScriptEnabled = true;
-            WebView.AddPreLoadedScript($"./non-exist.js");
+            WebView.AddInitializeScript($"./non-exist.js");
 
             WebView.NavigationCompleted += (o, e) =>
             {
@@ -98,9 +98,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             base.Given();
             WebView.IsScriptNotifyAllowed = true;
             WebView.IsJavaScriptEnabled = true;
-
-            // Not sure how to get this to execute
-            WebView.AddPreLoadedScript(Path.Combine(TestContext.TestDeploymentDir, "preload.js"));
+            WebView.AddInitializeScript("window.external.notify('preload');");
 
             // Set up the event handler
             WebView.ScriptNotify += (o, e) =>
