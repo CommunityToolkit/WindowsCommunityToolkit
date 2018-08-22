@@ -229,7 +229,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Adds the script to be loaded before any others on the page.
         /// </summary>
         /// <param name="script">The script.</param>
+        [Obsolete("This item has been depreciated and will be removed in a future version. Use AddInitializeScript(string script) instead.", false)]
         void AddPreLoadedScript(string script);
+
+        /// <summary>
+        /// Adds the script to be loaded before any others on the page.
+        /// </summary>
+        /// <param name="script">The script.</param>
+        void AddInitializeScript(string script);
 
         /// <summary>
         /// Closes this instance.
