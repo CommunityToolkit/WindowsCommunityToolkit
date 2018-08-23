@@ -108,5 +108,17 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
 
             return base.BuildWindowCore(hwndParent);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && !IsDisposed)
+            {
+                base.Dispose(disposing);
+                if (XamlRoot is Windows.UI.Xaml.FrameworkElement frameworkElement)
+                {
+                    frameworkElement.SizeChanged -= XamlContentSizeChanged;
+                }
+            }
+        }
     }
 }

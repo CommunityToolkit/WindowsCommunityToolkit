@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.WPF
         /// <summary>
         /// Gets or sets a value indicating whether this wrapper control instance been disposed
         /// </summary>
-        private bool IsDisposed { get; set; }
+        protected bool IsDisposed { get; set; }
 
         /// <summary>
         /// Creates global::Windows.UI.Xaml.Application object, wrapped DesktopWindowXamlSource instance; creates and
