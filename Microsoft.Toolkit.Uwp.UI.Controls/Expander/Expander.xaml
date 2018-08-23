@@ -25,7 +25,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
-                    <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+                    <Grid x:Name="RootGrid">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -327,7 +327,6 @@
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="VisibleDown">
-                                    
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                          Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -461,6 +460,11 @@
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
                                         </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" 
+                                                                       Storyboard.TargetProperty="(FrameworkElement.Background)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="Transparent"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
+                                        </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
                                                          Storyboard.TargetProperty="(FrameworkElement.Height)"
                                                          Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
@@ -509,6 +513,7 @@
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
                                         <Setter Target="PART_ExpanderToggleButton.Background" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                         <Setter Target="PART_RootGrid.HorizontalAlignment" Value="Left"/>
+
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="ContentPresenter"
@@ -523,6 +528,12 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_MainContent" 
                                                                        Storyboard.TargetProperty="(UIElement.Visibility)">
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="Collapsed"/>
+                                        </ObjectAnimationUsingKeyFrames>
+
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" 
+                                                                       Storyboard.TargetProperty="(FrameworkElement.Background)">
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.00" Value="Transparent"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
                                                          Storyboard.TargetProperty="(FrameworkElement.Height)"
@@ -572,7 +583,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <Grid x:Name="PART_RootGrid">
+                        <Grid x:Name="PART_RootGrid" Background="{TemplateBinding Background}">
                             <Grid.RowDefinitions>
                                 <RowDefinition x:Name="RowOne" Height="Auto" />
                                 <RowDefinition x:Name="RowTwo" Height="*" />
