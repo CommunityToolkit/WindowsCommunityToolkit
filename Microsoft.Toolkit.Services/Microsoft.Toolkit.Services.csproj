@@ -38,7 +38,7 @@
 
   <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
     <Compile Remove="Services\MicrosoftGraph\WinForms\**\*" />
-    <Compile Remove="PlatformSpecific\NetFramework\PopupForm*.cs" />
+    <Compile Remove="PlatformSpecific\NetFramework\**\*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
