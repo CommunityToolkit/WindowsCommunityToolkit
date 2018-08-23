@@ -299,7 +299,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 WinRtType,
                 "AddInitializeScript",
                 1,
-                () => { _webViewControl?.AddPreLoadedScript(script); });
+                () => { _webViewControl?.AddInitializeScript(script); });
         }
 
         internal Uri BuildStream(string contentIdentifier, string relativePath)
