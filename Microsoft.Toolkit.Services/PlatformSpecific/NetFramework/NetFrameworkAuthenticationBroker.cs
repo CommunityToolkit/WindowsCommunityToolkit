@@ -18,8 +18,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 if (popupForm.actualUrl != null)
                 {
                     var query = System.Web.HttpUtility.ParseQueryString(popupForm.actualUrl.Query);
-                    var auth_token = query.Get("oauth_token");
-                    var auth_verifier = query.Get("oauth_verifier");
 
                     result.ResponseData = query.ToString();
                     result.ResponseStatus = AuthenticationResultStatus.Success;
