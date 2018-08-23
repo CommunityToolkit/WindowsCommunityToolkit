@@ -83,14 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             if (sender is FrameworkElement fe)
             {
-                var at = GetAncestorType(fe);
-
-                // TODO: Add non-generic version in VisualTree extensions.
-                MethodInfo method = typeof(VisualTree).GetMethod("FindAscendant")
-                                    .MakeGenericMethod(new Type[] { at });
-                var ancestor = method.Invoke(fe, new object[] { fe });
-
-                SetAncestor(fe, ancestor);
+                SetAncestor(fe, fe.FindAscendant(GetAncestorType(fe)));
             }
         }
     }
