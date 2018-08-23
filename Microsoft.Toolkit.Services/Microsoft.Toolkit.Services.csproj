@@ -15,6 +15,10 @@
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net461'">
+    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINFORMS</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
@@ -34,9 +38,18 @@
 
   <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
     <Compile Remove="Services\MicrosoftGraph\WinForms\**\*" />
-    <Compile Remove="PlatformSpecific\NetFramework\**\*" />
+    <Compile Remove="PlatformSpecific\NetFramework\PopupForm*.cs" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  
   <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0')">
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
