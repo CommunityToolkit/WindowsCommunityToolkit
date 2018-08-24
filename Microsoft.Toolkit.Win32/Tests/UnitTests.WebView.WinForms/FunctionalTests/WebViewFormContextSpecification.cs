@@ -155,9 +155,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             PerformActionAndWaitForFormClose(() =>
             {
                 WriteLine("Navigating WebView:");
-#pragma warning disable CS0618 // Type or member is obsolete
+#pragma warning disable 618
                 WebView.NavigateToLocal(relativePath);
-#pragma warning restore CS0618 // Type or member is obsolete
+#pragma warning restore 618
             });
         }
 

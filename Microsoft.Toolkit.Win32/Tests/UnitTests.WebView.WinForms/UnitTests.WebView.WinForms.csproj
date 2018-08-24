@@ -73,12 +73,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
-      <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
-      <Name>UnitTests.WebView.Shared</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="FunctionalTests\NavigateToLocalStreamUri\sync.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
