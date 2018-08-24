@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
@@ -15,10 +16,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// Pushes an empty <see cref="DispatcherFrame"/> at <see cref="DispatcherPriority.ContextIdle"/>.
         /// </summary>
         /// <param name="dispatcher">A <see cref="Dispatcher"/> instance.</param>
+        /// <param name="priority">The <see cref="DispatcherPriority"/> of the idle frame.</param>
         /// <remarks>
         /// No frame is pushed if the <paramref name="dispatcher"/> is null, <see cref="Dispatcher.HasShutdownStarted"/> is true, or <see cref="Dispatcher.HasShutdownFinished"/> is true.
         /// </remarks>
-        internal static void DoEvents(this Dispatcher dispatcher)
+        [DebuggerStepThrough]
+        internal static void DoEvents(this Dispatcher dispatcher, DispatcherPriority priority = DispatcherPriority.ContextIdle)
         {
             object ExitFrame(object arg)
             {
@@ -34,7 +37,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 // Set the priority to ContextIdle to force the queue to flush higher priority events
                 var frame = new DispatcherFrame();
                 dispatcher.BeginInvoke(
-                    DispatcherPriority.ContextIdle,
+                    priority,
                     new DispatcherOperationCallback(ExitFrame),
                     frame);
                 Dispatcher.PushFrame(frame);
