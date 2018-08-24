@@ -1,7 +1,7 @@
 <FileList>
-  <File Reference="Microsoft.Toolkit.Win32.UI.Interop.WPF.dll">
+  <File Reference="Microsoft.Toolkit.Wpf.UI.XamlHost.dll">
     <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
-      <Item Type="Microsoft.Toolkit.Win32.UI.Interop.WPF.WindowsXamlHost" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.XamlHost.WindowsXamlHost" />
     </ToolboxItems>
   </File>
 </FileList>
