@@ -15,16 +15,17 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
     public class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
-        /// Gets xAML Content by type name : MyNamespace.MyClass.MyType
-        /// ex: XamlClassLibrary.MyUserControl
+        /// Gets XAML Content by type name
         /// </summary>
         public static DependencyProperty InitialTypeNameProperty { get; } = DependencyProperty.Register("InitialTypeName", typeof(string), typeof(WindowsXamlHost));
 
         /// <summary>
-        /// Gets or sets XAML Content by type name : MyNamespace.MyClass.MyType
-        /// ex: XamlClassLibrary.MyUserControl
-        /// (Content creation is deferred until after the parent hwnd has been created.)
+        /// Gets or sets XAML Content by type name
         /// </summary>
+        /// <example><code>XamlClassLibrary.MyUserControl</code></example>
+        /// <remarks>
+        /// Content creation is deferred until after the parent hwnd has been created.
+        /// </remarks>
         [Browsable(true)]
         [Category("XAML")]
         public string InitialTypeName
@@ -35,9 +36,9 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
-        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.  This UWP XAML element is
-        /// the root element of the wrapped DesktopWindowXamlSource.
+        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.
         /// </summary>
+        /// <remarks>This UWP XAML element is the root element of the wrapped DesktopWindowXamlSource.</remarks>
         [Browsable(true)]
         public Windows.UI.Xaml.UIElement Child
         {
@@ -47,7 +48,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
-        /// Creates global::Windows.UI.Xaml.Application object, wrapped DesktopWindowXamlSource instance; creates and
+        /// Creates <see cref="Windows.UI.Xaml.Application" /> object, wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> instance; creates and
         /// sets root UWP XAML element on DesktopWindowXamlSource.
         /// </summary>
         /// <param name="hwndParent">Parent window handle</param>
@@ -71,6 +72,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             return base.BuildWindowCore(hwndParent);
         }
 
+        /// <inheritdoc />
         protected override void Dispose(bool disposing)
         {
             if (disposing && !IsDisposed)

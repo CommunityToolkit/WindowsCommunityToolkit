@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <summary>
         /// Process Tab from host framework
         /// </summary>
-        /// <param name="request">TraversalRequest that contains requested navigation direction</param>
+        /// <param name="request"><see cref="System.Windows.Input.TraversalRequest"/> that contains requested navigation direction</param>
         /// <returns>Did handle tab</returns>
         protected override bool TabIntoCore(System.Windows.Input.TraversalRequest request)
         {
@@ -124,10 +124,10 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
-        /// Take Focus Requested
+        /// Handles the <see cref="E:TakeFocusRequested" /> event.
         /// </summary>
-        /// <param name="sender">event source</param>
-        /// <param name="e">event arguments</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs"/> instance containing the event data.</param>
         private void OnTakeFocusRequested(object sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs e)
         {
             if (_lastFocusRequest == e.Request.CorrelationId)

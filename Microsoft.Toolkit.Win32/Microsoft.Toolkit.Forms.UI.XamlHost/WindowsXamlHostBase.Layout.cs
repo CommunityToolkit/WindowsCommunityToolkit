@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public partial class WindowsXamlHostBase
     {
         /// <summary>
-        ///     Overrides the base class implementation of GetPreferredSize to provide
+        ///     Overrides the base class implementation of <see cref="GetPreferredSize(Size)" /> to provide
         ///     correct layout behavior for the hosted XAML content.
         /// </summary>
         /// <returns>preferred size</returns>
@@ -54,10 +54,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///     Gets XAML content's 'DesiredSize' post-Measure. Called by
-        ///     XamlContentHost's XAML LayoutUpdated event handler.
+        ///     Gets XAML content's 'DesiredSize' post-Measure.
         /// </summary>
         /// <returns>desired size</returns>
+        /// <remarks>Called by <see cref="OnChildSizeChanged" /> event handler.
+        /// </remarks>
         private Size GetRootXamlElementDesiredSize()
         {
             var desiredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
@@ -106,7 +107,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///     Event handler for WindowsXamlHost SizeChanged. If the size of the host control
+        ///     Event handler for <see cref="System.Windows.Forms.Control.SizeChanged" />. If the size of the host control
         ///     has changed, re-run Windows Forms layout on this Control instance.
         /// </summary>
         protected void OnWindowXamlHostSizeChanged(object sender, EventArgs e)
