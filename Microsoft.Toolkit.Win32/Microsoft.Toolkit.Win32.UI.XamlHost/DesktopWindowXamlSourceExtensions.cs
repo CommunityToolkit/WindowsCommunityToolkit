@@ -8,16 +8,18 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Toolkit.Win32.UI.XamlHost
 {
     /// <summary>
-    /// COM wrapper required to access native-only methods on DesktopWindowXamlSource
+    /// COM wrapper required to access native-only methods on <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />
     /// </summary>
     public static class DesktopWindowXamlSourceExtensions
     {
         /// <summary>
-        /// Gets the IDesktopWindowXamlSourceNative interface from a DesktopWindowXamlSource instance. This
-        /// interface is the only way to set DesktopWindowXamlSource's target window for rendering.
+        /// Gets the <see cref="IDesktopWindowXamlSourceNative" /> interface from a <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> instance.
         /// </summary>
         /// <param name="desktopWindowXamlSource">The DesktopWindowXamlSource instance to get the interface from</param>
-        /// <returns>IDesktopWindowXamlSourceNative interface pointer</returns>
+        /// <returns><see cref="IDesktopWindowXamlSourceNative" /> interface pointer</returns>
+        /// <remarks>
+        /// This interface is the only way to set DesktopWindowXamlSource's target window for rendering.
+        /// </remarks>
         public static IDesktopWindowXamlSourceNative GetInterop(this Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource)
         {
             var win32XamlSourceIntPtr = Marshal.GetIUnknownForObject(desktopWindowXamlSource);
