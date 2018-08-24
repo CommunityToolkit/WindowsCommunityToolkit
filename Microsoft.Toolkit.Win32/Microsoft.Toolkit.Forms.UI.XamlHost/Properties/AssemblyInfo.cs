@@ -4,23 +4,23 @@
 
 using System.Reflection;
 using System.Resources;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Windows;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Toolkit.Forms.UI.XamlHost")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Toolkit")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+[assembly: AssemblyTitle("Windows Community Toolkit XAMLHost for Windows Forms")]
+[assembly: AssemblyDescription("Provides XAML islands interop helpers for Windows Forms")]
 
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
+// Make sure this is the same in the VisualToolsManifest.xml file
+[assembly: AssemblyProduct("Windows Community Toolkit")]
+[assembly: AssemblyCopyright("\x00a9 Microsoft Corporation. All rights reserved.")]
+[assembly: AssemblyCompany("Microsoft Corporation")]
+
 [assembly: ComVisible(false)]
+[assembly: NeutralResourcesLanguage("en-US")]
+#if DEBUG
+[assembly: AssemblyConfiguration("Debug")]
+#else
+[assembly: AssemblyConfiguration("Release")]
+#endif
