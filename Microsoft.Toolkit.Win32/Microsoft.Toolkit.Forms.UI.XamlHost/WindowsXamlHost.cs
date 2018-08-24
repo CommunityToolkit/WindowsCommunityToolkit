@@ -16,15 +16,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
-        ///     Fired when XAML content has been updated
-        /// </summary>
-        [Browsable(true)]
-        [Category("UWP XAML")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [Description("Fired when UWP XAML content has been updated")]
-        public event EventHandler XamlRootUpdated;
-
-        /// <summary>
         /// Gets or sets a value indicating whether the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
@@ -71,39 +62,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Windows.UI.Xaml.UIElement XamlRoot
+        public Windows.UI.Xaml.UIElement Child
         {
-            get => desktopWindowXamlSource.Content;
+            get => xamlSource.Content;
 
-            set
-            {
-                if (!DesignMode)
-                {
-                    var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = desktopWindowXamlSource.Content as Windows.UI.Xaml.FrameworkElement;
-
-                    if (oldFrameworkElement != null)
-                    {
-                        oldFrameworkElement.SizeChanged -= FrameworkElement_SizeChanged;
-                    }
-
-                    if (newFrameworkElement != null)
-                    {
-                        // If XAML content has changed, check XAML size and WindowsXamlHost.AutoSize
-                        // setting to determine if WindowsXamlHost needs to re-run layout.
-                        newFrameworkElement.SizeChanged += FrameworkElement_SizeChanged;
-                    }
-
-                    desktopWindowXamlSource.Content = value;
-
-                    PerformLayout();
-
-                    if (XamlRootUpdated != null)
-                    {
-                        XamlRootUpdated(this, null);
-                    }
-                }
-            }
+            set => ChildInternal = value;
         }
 
         /// <summary>
@@ -113,9 +76,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         protected override void OnHandleCreated(EventArgs e)
         {
             // Create content if TypeName has been set and xamlRoot has not been set
-            if (!DesignMode && !string.IsNullOrEmpty(InitialTypeName) && XamlRoot == null)
+            if (!DesignMode && !string.IsNullOrEmpty(InitialTypeName) && Child == null)
             {
-                XamlRoot = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
+                Child = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
             }
 
             base.OnHandleCreated(e);
