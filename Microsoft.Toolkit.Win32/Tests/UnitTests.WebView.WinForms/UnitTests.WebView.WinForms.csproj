@@ -44,6 +44,7 @@
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj" />
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -61,21 +62,17 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared\ClientUtilities.cs" Link="Shared\ClientUtilities.cs" />
-    <Compile Include="..\..\Shared\DesignerUI.Designer.cs" Link="Shared\DesignerUI.Designer.cs" />
-    <Compile Include="..\..\Shared\Interop\WinRT\UriToLocalStreamResolver.cs" Link="Shared\UriToLocalStreamResolver.cs" />
-    <Compile Include="..\..\Shared\Interop\WinRT\WebViewDefaults.cs" Link="Shared\WebViewDefaults.cs" />
-    <Compile Include="..\..\Shared\PathUtilities.cs" Link="Shared\PathUtilities.cs" />
-    <Compile Include="..\..\Shared\UriHelper.cs" Link="Shared\UriHelper.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\ClientUtilities.cs" Link="Shared\ClientUtilities.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\DesignerUI.Designer.cs" Link="Shared\DesignerUI.Designer.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\UriToLocalStreamResolver.cs" Link="Shared\UriToLocalStreamResolver.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\WebViewDefaults.cs" Link="Shared\WebViewDefaults.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\PathUtilities.cs" Link="Shared\PathUtilities.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\UriHelper.cs" Link="Shared\UriHelper.cs" />
     <Compile Update="FunctionalTests\TestHostForm.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj">
-      <Project>{e2cf9896-fe3b-49ab-8b53-1cf7b2fb1240}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
       <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
       <Name>UnitTests.WebView.Shared</Name>

@@ -45,18 +45,15 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared\Interop\Win32\ExternDll.cs" Link="ExternDll.cs" />
-    <Compile Include="..\..\Shared\Interop\Win32\Facility.cs" Link="Facility.cs" />
-    <Compile Include="..\..\Shared\Interop\Win32\HRESULT.cs" Link="HRESULT.cs" />
-    <Compile Include="..\..\Shared\Interop\Win32\OSVERSIONINFOEX.cs" Link="OSVERSIONINFOEX.cs" />
-    <Compile Include="..\..\Shared\Interop\Win32\ProductType.cs" Link="ProductType.cs" />
-    <Compile Include="..\..\Shared\Interop\Win32\Win32Error.cs" Link="Win32Error.cs" />
-    <Compile Include="..\..\Shared\Verify.cs" Link="Verify.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ExternDll.cs" Link="ExternDll.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Facility.cs" Link="Facility.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\HRESULT.cs" Link="HRESULT.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\OSVERSIONINFOEX.cs" Link="OSVERSIONINFOEX.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ProductType.cs" Link="ProductType.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Win32Error.cs" Link="Win32Error.cs" />
+    <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" Link="Verify.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls.WinForms\Microsoft.Toolkit.Win32.UI.Controls.WinForms.csproj">
-      <Project>{E2CF9896-FE3B-49AB-8B53-1CF7B2FB1240}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls.WinForms</Name>
-    </ProjectReference>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj" />
   </ItemGroup>
 </Project>

@@ -44,6 +44,7 @@
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
   <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Wpf.UI.Controls\Microsoft.Toolkit.Wpf.UI.Controls.csproj" />
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -61,10 +62,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls.WPF\Microsoft.Toolkit.Win32.UI.Controls.WPF.csproj">
-      <Project>{5d82b4f7-13dd-4749-b213-802d69fcece4}</Project>
-      <Name>Microsoft.Toolkit.Win32.UI.Controls.WPF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
       <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
       <Name>UnitTests.WebView.Shared</Name>
