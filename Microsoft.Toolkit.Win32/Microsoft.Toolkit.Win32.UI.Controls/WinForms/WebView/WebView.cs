@@ -55,6 +55,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
             Layout += OnWebViewLayout;
         }
 
+        public WebView(WebViewControlProcess process)
+            : this()
+        {
+            Process = process;
+        }
+
         internal WebViewControlHost Host => _webViewControl;
 
         /// <inheritdoc />
@@ -427,7 +433,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
         public Version Version => _webViewControl?.Version;
 
         /// <inheritdoc />
-        public void AddPreLoadedScript(string script)
+        [Obsolete("This item has been depreciated and will be removed in a future version. Use AddInitializeScript(string script) instead.", false)]
+        public void AddPreLoadedScript(string script) => AddInitializeScript(script);
+
+        /// <inheritdoc />
+        public void AddInitializeScript(string script)
         {
             Verify.IsFalse(IsDisposed);
             Verify.Implies(Initializing, !Initialized);
@@ -437,7 +447,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WinForms
                 Verify.Implies(Initialized, WebViewControlInitialized);
             }
 #endif
-            _webViewControl?.AddPreLoadedScript(script);
+            _webViewControl?.AddInitializeScript(script);
         }
 
         /// <summary>
