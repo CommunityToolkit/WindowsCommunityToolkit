@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WPF.WebView.FunctionalTests
     [TestClass]
     public class Class1 : ContextSpecification
     {
-        private Controls.WPF.WebView _webView;
+        private Wpf.UI.Controls.WebView _webView;
         private Window _window;
 
         protected override void Given()
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WPF.WebView.FunctionalTests
             _window.Closed += (o, e) => { WriteLine("Window.Closed"); };
 
 
-            _webView = new Controls.WPF.WebView
+            _webView = new Wpf.UI.Controls.WebView
             {
                 Name = "WebView1",
                 HorizontalAlignment = HorizontalAlignment.Stretch,
