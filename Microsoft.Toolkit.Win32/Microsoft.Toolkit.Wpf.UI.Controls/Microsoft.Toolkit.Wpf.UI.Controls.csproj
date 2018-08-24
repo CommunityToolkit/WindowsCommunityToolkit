@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="..\Microsoft.Toolkit.Win32.UI.Controls\obj\Debug\**" />
     <Compile Remove="Support\**" />
     <EmbeddedResource Remove="Support\**" />
     <None Remove="Support\**" />
