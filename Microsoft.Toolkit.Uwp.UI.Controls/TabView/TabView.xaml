@@ -114,9 +114,6 @@
                                           Grid.ColumnSpan="7"
                                           Content="{TemplateBinding Footer}"
                                           ContentTemplate="{TemplateBinding FooterTemplate}" />
-                        <!--<ContentControl Grid.Row="1"
-                                        ex:FrameworkElementExtensions.AncestorType="TabViewItem"
-                                        Content="{Binding (ex:FrameworkElementExtensions.Ancestor).SelectedItem.Content, RelativeSource={RelativeSource Self}}" />-->
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

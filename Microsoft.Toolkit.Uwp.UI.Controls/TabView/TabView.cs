@@ -16,12 +16,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// TabView is a control for displaying a set of tabs and their content.
     /// </summary>
-    ////[TemplatePart(Name = TABPRESENTER_NAME, Type = typeof(ItemsPresenter))]
+    [TemplatePart(Name = TABCONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
     public partial class TabView : ListViewBase
     {
-        ////private const string TABPRESENTER_NAME = "TabPresenter";
+        private const string TABCONTENTPRESENTER_NAME = "TabContentPresenter";
 
-        ////private ItemsPresenter _tabPresenter;
+        private ContentPresenter _tabContentPresenter;
 
         /// <summary>
         /// Occurs when a tab is dragged by the user outside of the <see cref="TabView"/>.  Generally, this paradigm is used to create a new-window with the torn-off tab.
@@ -71,13 +71,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            ////_tabPresenter = GetTemplateChild(TABPRESENTER_NAME) as ItemsPresenter;
+            _tabContentPresenter = GetTemplateChild(TABCONTENTPRESENTER_NAME) as ContentPresenter;
 
-            ////if (_tabPresenter != null)
-            ////{
-                DragLeave += TabPresenter_DragLeave;
-                DragItemsCompleted += TabPresenter_DragItemsCompleted;
-            ////}
+            DragLeave += TabPresenter_DragLeave;
+            DragItemsCompleted += TabPresenter_DragItemsCompleted;
+
+            if (_tabContentPresenter != null)
+            {
+                SelectionChanged += TabView_SelectionChanged;
+            }
+        }
+
+        private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SelectedItem == null)
+            {
+                _tabContentPresenter.Content = null;
+                _tabContentPresenter.ContentTemplate = null;
+            }
+            else
+            {
+                var container = ContainerFromItem(SelectedItem) as TabViewItem;
+                if (container != null)
+                {
+                    _tabContentPresenter.Content = container.Content;
+                    _tabContentPresenter.ContentTemplate = container.ContentTemplate;
+                }
+            }
         }
 
         /// <inheritdoc/>

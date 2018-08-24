@@ -32,7 +32,7 @@
       <TextBlock Padding="16">Try closing and re-ordering the tabs.</TextBlock>
     </controls:TabViewItem>
     <controls:TabViewItem Header="Not Closable">
-      <TextBlock Padding="16">This tab isn't closable because it is being interceptted in the TabClosing event in the Sample App.</TextBlock>
+      <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
     </controls:TabViewItem>
     
     <controls:TabView.RightHeaderTemplate>
