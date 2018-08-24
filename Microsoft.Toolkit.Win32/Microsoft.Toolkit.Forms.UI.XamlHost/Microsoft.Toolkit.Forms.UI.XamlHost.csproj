@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.XamlHost\**\*.cs" />
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ExternDll.cs" Link="Interop\Win32\ExternDll.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\WM.cs" Link="Interop\Win32\WM.cs" />
   </ItemGroup>
 
   <ItemGroup>

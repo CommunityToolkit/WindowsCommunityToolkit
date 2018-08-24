@@ -3,19 +3,20 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
-namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop
+namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
 {
     internal static class NativeDefines
     {
-        public const int WM_MOVE = 0x0003;
-        public const int WM_SIZE = 0x0005;
+        public const int WM_MOVE = (int)WM.MOVE;
+        public const int WM_SIZE = (int)WM.SIZE;
 
-        public const int WM_WINDOWPOSCHANGING = 0x0046;
-        public const int WM_WINDOWPOSCHANGED = 0x0047;
+        public const int WM_WINDOWPOSCHANGING = (int)WM.WINDOWPOSCHANGING;
+        public const int WM_WINDOWPOSCHANGED = (int)WM.WINDOWPOSCHANGED;
 
-        public const int WM_SETFOCUS = 0x0007;
-        public const int WM_KILLFOCUS = 0x0008;
+        public const int WM_SETFOCUS = (int)WM.SETFOCUS;
+        public const int WM_KILLFOCUS = (int)WM.KILLFOCUS;
 
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 
