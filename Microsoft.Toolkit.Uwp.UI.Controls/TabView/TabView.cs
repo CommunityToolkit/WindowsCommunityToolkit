@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// TabView is a control for displaying a set of tabs and their content.
     /// </summary>
     ////[TemplatePart(Name = TABPRESENTER_NAME, Type = typeof(ItemsPresenter))]
-    public class TabView : ListViewBase
+    public partial class TabView : ListViewBase
     {
         ////private const string TABPRESENTER_NAME = "TabPresenter";
 
