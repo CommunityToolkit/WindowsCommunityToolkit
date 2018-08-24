@@ -3,12 +3,8 @@
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
-    <Description>This library provides XAML user controls. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Hamburger Range WrapPanel Adaptive Markdown</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NoWarn>CS8002</NoWarn>
+    <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

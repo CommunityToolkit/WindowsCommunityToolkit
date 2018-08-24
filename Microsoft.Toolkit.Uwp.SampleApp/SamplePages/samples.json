@@ -288,7 +288,7 @@
       {
         "Name": "StaggeredPanel",
         "Type": "StaggeredPanelPage",
-        "About": "Allows items to be displayed with a specified header.",
+        "About": "The StaggeredPanel allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
@@ -918,8 +918,9 @@
         "XamlCodeFile": "NavigationViewStylesXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/NavigationView.md",
         "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
-        "About": "Style extensions for the NavigationView to appear like the one used by Visual Studio Code.",
-        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        "About": "The NavigationView extension will be removed in a future major release.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The NavigationView extension will be removed in a future major release.",
         "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
       },

@@ -59,7 +59,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             // Gets an instance of BingService that is able to load search results incrementally.
+#pragma warning disable CS0618 // Type or member is obsolete
             var collection = BingService.GetAsIncrementalLoading(searchConfig, 50);
+#pragma warning restore CS0618 // Type or member is obsolete
             collection.OnStartLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = true; });
             collection.OnEndLoading = async () => await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = false; });
 

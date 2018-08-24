@@ -2,12 +2,13 @@
 
   <PropertyGroup>
     <TargetFrameworks>uap10.0;netstandard1.4;net461</TargetFrameworks>
-    <Description>This .NET standard library enables access to different data sources such as Bing, Microsoft Graph, and OneDrive. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Bing Microsoft Graph OneDrive</PackageTags>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
+    <Description>This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
+    <NoWarn>CS8002</NoWarn>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using Microsoft.Toolkit.Services.Twitter;
 using Microsoft.Toolkit.Uwp.Services;
@@ -168,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var stream = await picture.OpenReadAsync())
                 {
-                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
+                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
                 }
             }
         }
