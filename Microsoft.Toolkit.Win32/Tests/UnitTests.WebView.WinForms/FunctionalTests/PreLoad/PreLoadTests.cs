@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         [TestMethod]
-        //[Timeout(TestConstants.Timeouts.Longest)]
+        [Timeout(TestConstants.Timeouts.Longest)]
         public void ScriptNotifyRaised()
         {
             _scriptNotifyCalled.ShouldBeTrue();
