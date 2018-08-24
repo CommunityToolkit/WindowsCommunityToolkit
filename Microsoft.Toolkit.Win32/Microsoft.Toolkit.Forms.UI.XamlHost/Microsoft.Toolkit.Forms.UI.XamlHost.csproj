@@ -1,0 +1,75 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Forms.UI.XamlHost</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Forms.UI.XamlHost</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit XAMLHost for Windows Forms</Title>
+    <Description>This library provides XAML islands interop helpers for Windows Forms. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>XAML Islands Win32 Forms WindowsForms WinForms XamlHost</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47</DefineConstants>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <WarningsAsErrors />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Shared\**" />
+    <Compile Remove="WPF\**" />
+    <EmbeddedResource Remove="Shared\**" />
+    <EmbeddedResource Remove="WPF\**" />
+    <None Remove="Shared\**" />
+    <None Remove="WPF\**" />
+    <Page Remove="Shared\**" />
+    <Page Remove="WPF\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.XamlHost\**\*.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ExternDll.cs" Link="Interop\Win32\ExternDll.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\WM.cs" Link="Interop\Win32\WM.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>    
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.0.0" PrivateAssets="All" />
+    <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>
