@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         {
             PerformActionAndWaitForFormClose(() =>
             {
-                WriteLine("Navigating WebView:");
+                WriteLine("Navigating WebView:");                
 #pragma warning disable 618
                 WebView.NavigateToLocal(relativePath);
 #pragma warning restore 618
