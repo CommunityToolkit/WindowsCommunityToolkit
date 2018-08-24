@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return Size;
             }
 
-            if (desktopWindowXamlSource.Content != null)
+            if (xamlSource.Content != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     proposedWidth = double.PositiveInfinity;
                 }
 
-                desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
+                xamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
             }
 
             var preferredSize = Size.Empty;
-            if (desktopWindowXamlSource.Content != null)
+            if (xamlSource.Content != null)
             {
-                preferredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
+                preferredSize = new Size((int)xamlSource.Content.DesiredSize.Width, (int)xamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>desired size</returns>
         private Size GetRootXamlElementDesiredSize()
         {
-            var desiredSize = new Size((int)desktopWindowXamlSource.Content.DesiredSize.Width, (int)desktopWindowXamlSource.Content.DesiredSize.Height);
+            var desiredSize = new Size((int)xamlSource.Content.DesiredSize.Width, (int)xamlSource.Content.DesiredSize.Height);
 
             return desiredSize;
         }
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         ///     layout has changed.  If 'DesiredSize' has changed, re-run
         ///     Windows Forms layout.
         /// </summary>
-        protected void FrameworkElement_SizeChanged(object sender, object e)
+        protected void OnChildSizeChanged(object sender, object e)
         {
             if (DesignMode)
             {
@@ -106,10 +106,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///     Event handler for XamlContentHost SizeChanged. If the size of the host control
+        ///     Event handler for WindowsXamlHost SizeChanged. If the size of the host control
         ///     has changed, re-run Windows Forms layout on this Control instance.
         /// </summary>
-        private void WindowsXamlHost_SizeChanged(object sender, EventArgs e)
+        protected void OnWindowXamlHostSizeChanged(object sender, EventArgs e)
         {
             if (DesignMode)
             {
@@ -118,14 +118,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (AutoSize)
             {
-                if (desktopWindowXamlSource.Content != null)
+                if (xamlSource.Content != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
                     // 'VerticalStretch' properties to the bounds of the XamlContentHost Control.
                     var rect = new Windows.Foundation.Rect(0, 0, Width, Height);
-                    desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
-                    desktopWindowXamlSource.Content.Arrange(rect);
+                    xamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
+                    xamlSource.Content.Arrange(rect);
                     PerformLayout();
                 }
             }

@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -20,11 +19,6 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// ex: XamlClassLibrary.MyUserControl
         /// </summary>
         public static DependencyProperty InitialTypeNameProperty { get; } = DependencyProperty.Register("InitialTypeName", typeof(string), typeof(WindowsXamlHost));
-
-        /// <summary>
-        ///     Fired when WindowsXamlHost root UWP XAML content has been updated
-        /// </summary>
-        public event EventHandler XamlRootChanged;
 
         /// <summary>
         /// Gets or sets XAML Content by type name : MyNamespace.MyClass.MyType
@@ -45,41 +39,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// the root element of the wrapped DesktopWindowXamlSource.
         /// </summary>
         [Browsable(true)]
-        public Windows.UI.Xaml.UIElement XamlRoot
+        public Windows.UI.Xaml.UIElement Child
         {
-            get => XamlRootInternal;
+            get => ChildInternal;
 
-            set
-            {
-                if (value == XamlRootInternal)
-                {
-                    return;
-                }
-
-                var currentRoot = (Windows.UI.Xaml.FrameworkElement)XamlRootInternal;
-                if (currentRoot != null)
-                {
-                    currentRoot.SizeChanged -= XamlContentSizeChanged;
-                }
-
-                XamlRootInternal = value;
-
-                SetContent();
-
-                var frameworkElement = XamlRootInternal as Windows.UI.Xaml.FrameworkElement;
-                if (frameworkElement != null)
-                {
-                    // If XAML content has changed, check XAML size
-                    // to determine if WindowsXamlHost needs to re-run layout.
-                    frameworkElement.SizeChanged += XamlContentSizeChanged;
-
-                    // WindowsXamlHost DataContext should flow through to UWP XAML content
-                    frameworkElement.DataContext = DataContext;
-                }
-
-                // Fire updated event
-                XamlRootChanged?.Invoke(this, new EventArgs());
-            }
+            set => ChildInternal = value;
         }
 
         /// <summary>
@@ -91,11 +55,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         protected override HandleRef BuildWindowCore(HandleRef hwndParent)
         {
             // Create and set initial root UWP XAML content
-            if (!string.IsNullOrEmpty(InitialTypeName) && XamlRoot == null)
+            if (!string.IsNullOrEmpty(InitialTypeName) && Child == null)
             {
-                XamlRoot = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
+                Child = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
 
-                var frameworkElement = XamlRoot as Windows.UI.Xaml.FrameworkElement;
+                var frameworkElement = Child as Windows.UI.Xaml.FrameworkElement;
 
                 // TODO: Check frameworkElement is not NULL
 
@@ -112,7 +76,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             if (disposing && !IsDisposed)
             {
                 base.Dispose(disposing);
-                if (XamlRoot is Windows.UI.Xaml.FrameworkElement frameworkElement)
+                if (Child is Windows.UI.Xaml.FrameworkElement frameworkElement)
                 {
                     frameworkElement.SizeChanged -= XamlContentSizeChanged;
                 }

@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
-                    var focusHandle = NativeMethods.GetFocus();
-                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && focusHandle == _xamlIslandWindowHandle);
+                    var focusHandle = SafeNativeMethods.GetFocus();
+                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && xamlSource.HasFocus);
                 }
 
                 return false;
@@ -38,9 +38,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            if (!desktopWindowXamlSource.HasFocus)
+            if (!xamlSource.HasFocus)
             {
-                desktopWindowXamlSource.NavigateFocus(
+                xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First));
             }
@@ -90,9 +90,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
             Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationResult focusResult;
-            if (desktopWindowXamlSource.HasFocus)
+            if (xamlSource.HasFocus)
             {
-                focusResult = desktopWindowXamlSource.NavigateFocus(
+                focusResult = xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         xamlSourceFocusNavigationReason.Value));
 
