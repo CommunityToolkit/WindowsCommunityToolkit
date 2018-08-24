@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
     /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
     /// </remarks>
     [SuppressUnmanagedCodeSecurity]
-    internal static class UnsafeNativeMethods
+    internal static partial class UnsafeNativeMethods
     {
         /// <summary>
         /// This code returns a pointer to a native control with focus.

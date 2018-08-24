@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
     /// type that includes metadata (compiled in to a .NET framework assembly) to be used without explicit
     /// metadata handling by the developer.
     /// </summary>
-    public class XamlApplication : Windows.UI.Xaml.Application, Windows.UI.Xaml.Markup.IXamlMetadataProvider
+    internal class XamlApplication : Windows.UI.Xaml.Application, Windows.UI.Xaml.Markup.IXamlMetadataProvider
     {
         // Metadata provider identified by the root metadata provider
         private List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> _metadataProviders;
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
             {
                 try
                 {
-                    var assembly = Assembly.LoadFrom(file);
+                    var assembly = Assembly.Load(file);
 
                     LoadTypesFromAssembly(assembly);
                 }
@@ -138,6 +138,31 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
             }
 
             return definitions.ToArray();
+        }
+
+        /// <summary>
+        /// Gets and returns the current UWP XAML Application instance in a reference parameter.
+        /// If the current XAML Application instance has not been created for the process (is null),
+        /// a new Microsoft.Toolkit.Win32.UI.XamlHost.XamlApplication instance is created and returned.
+        /// </summary>
+        internal static void GetOrCreateXamlApplicationInstance(ref Windows.UI.Xaml.Application application)
+        {
+            // Instantiation of the application object must occur before creating the DesktopWindowXamlSource instance.
+            // DesktopWindowXamlSource will create a generic Application object unable to load custom UWP XAML metadata.
+            if (application != null)
+            {
+                try
+                {
+                    // global::Windows.UI.Xaml.Application.Current may throw if DXamlCore has not been initialized.
+                    // Treat the exception as an uninitialized global::Windows.UI.Xaml.Application condition.
+                    application = Windows.UI.Xaml.Application.Current;
+                }
+                catch
+                {
+                    // Create a custom UWP XAML Application object that implements reflection-based XAML metdata probing.
+                    application = new XamlApplication();
+                }
+            }
         }
     }
 }
