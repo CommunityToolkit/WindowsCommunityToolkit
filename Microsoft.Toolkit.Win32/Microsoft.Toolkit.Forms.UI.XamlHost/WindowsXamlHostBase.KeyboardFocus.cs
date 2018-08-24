@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Microsoft.Toolkit.Forms.UI.XamlHost.Interop;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost

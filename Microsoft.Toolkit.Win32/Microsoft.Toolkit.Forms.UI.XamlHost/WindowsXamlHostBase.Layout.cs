@@ -2,11 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Drawing;
+
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
-    using System;
-    using System.Drawing;
-
     /// <summary>
     ///     A sample Windows Forms control that can be used to host XAML content
     /// </summary>
