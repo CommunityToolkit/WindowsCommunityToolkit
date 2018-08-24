@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop;
+using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -25,7 +26,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
-                    var focusHandle = UnsafeNativeMethods.GetFocus();
+                    var focusHandle = NativeMethods.GetFocus();
                     return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && focusHandle == _xamlIslandWindowHandle);
                 }
 

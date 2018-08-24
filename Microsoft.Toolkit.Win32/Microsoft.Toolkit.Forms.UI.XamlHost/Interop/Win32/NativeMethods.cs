@@ -5,22 +5,20 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Security;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
 {
     /// <summary>
-    /// This class is for methods that are safe for anyone to call. Callers of these methods are not required to perform a full security review to make sure that the usage is secure because the methods are harmless for any caller.
+    /// This class does not suppress stack walks for unmanaged code permission.
     /// </summary>
     /// <remarks>
-    /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
+    /// This class is for methods that can be used anywhere because a stack walk will be performed.
     /// </remarks>
-    [SuppressUnmanagedCodeSecurity]
-    internal static class SafeNativeMethods
+    internal static class NativeMethods
     {
         [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
-        internal static extern IntPtr SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);
+        public static extern IntPtr GetFocus();
     }
 }

@@ -4,18 +4,20 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Security;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
-namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop
+namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
 {
+    /// <summary>
+    /// This class is for methods that are potentially dangerous. Any caller of these methods must perform a full security review to make sure that the usage is secure because no stack walk will be performed.
+    /// </summary>
+    /// <remarks>
+    /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
+    /// </remarks>
+    [SuppressUnmanagedCodeSecurity]
     internal static class UnsafeNativeMethods
     {
-        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
-        [ResourceExposure(ResourceScope.None)]
-        public static extern IntPtr GetFocus();
-
         /// <summary>
         /// This code returns a pointer to a native control with focus.
         /// </summary>
@@ -24,7 +26,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop
         /// </SecurityNote>
         /// <returns>handle</returns>
         [SecurityCritical]
-        [SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.User32, EntryPoint = "SetFocus", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
         public static extern IntPtr IntSetFocus(IntPtr hWnd);
 
@@ -36,7 +37,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop
         /// </SecurityNote>
         /// <returns>handle</returns>
         [SecurityCritical]
-        [SuppressUnmanagedCodeSecurity]
         [DllImport(ExternDll.User32, EntryPoint = "EnableWindow", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern bool IntEnableWindow(HandleRef hWnd, bool enable);
     }
