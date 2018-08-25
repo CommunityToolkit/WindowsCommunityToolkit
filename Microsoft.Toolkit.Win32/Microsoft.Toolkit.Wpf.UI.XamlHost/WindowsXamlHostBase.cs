@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             get
             {
-                return xamlSource.Content;
+                return xamlSource?.Content;
             }
 
             set
@@ -168,10 +168,13 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             if (disposing && !IsDisposed)
             {
                 IsDisposed = true;
+
                 xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
                 ChildInternal = null;
-                xamlSource?.Dispose();
+
                 _windowsXamlManager?.Dispose();
+
+                // xamlSource.Dispose();
             }
         }
     }

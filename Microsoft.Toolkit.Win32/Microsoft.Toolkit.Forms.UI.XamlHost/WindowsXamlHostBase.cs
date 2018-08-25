@@ -63,9 +63,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public WindowsXamlHostBase()
         {
+            SetStyle(ControlStyles.ContainerControl, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
+
+            // Must be a container control with TabStop == false to allow nested UWP XAML Focus
+            // BUGBUG: Uncomment when nested Focus is available
+            // TabStop = false;
 
             // Respond to size changes on this Control
             SizeChanged += OnWindowXamlHostSizeChanged;
@@ -160,6 +165,12 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 var desktopWindowXamlSourceNative = xamlSource.GetInterop();
                 desktopWindowXamlSourceNative.AttachToWindow(Handle);
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
+
+                // Set window style required by container control to support Focus
+                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_STYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
+                {
+                    throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
+                }
             }
 
             base.OnHandleCreated(e);
