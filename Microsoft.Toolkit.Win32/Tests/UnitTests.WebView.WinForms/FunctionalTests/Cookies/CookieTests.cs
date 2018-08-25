@@ -175,7 +175,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void Cleanup()
         {
             // Best effort clean up. Initial cookie has a short TTL anyway
+#pragma warning disable 4014
             SetCookieAsync(SecondWebView, "persistent", string.Empty, new DateTime(1970, 1, 1));
+#pragma warning restore 4014
 
             base.Cleanup();
         }
@@ -202,7 +204,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void Cleanup()
         {
             // Best effort clean up. Initial cookie has a short TTL anyway
+#pragma warning disable 4014
             SetCookieAsync(SecondWebView, "persistent", string.Empty, new DateTime(1970, 1, 1));
+#pragma warning restore 4014
 
             base.Cleanup();
         }
