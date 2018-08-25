@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// </summary>
     public class InkToolbarCustomToolButton : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         }
 
         /// <inheritdoc />
-        protected override void SetContent()
+        protected override void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
             // intentionally empty
         }

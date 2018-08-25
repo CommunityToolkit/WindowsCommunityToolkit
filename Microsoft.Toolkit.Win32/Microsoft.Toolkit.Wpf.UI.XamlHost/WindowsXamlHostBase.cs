@@ -40,9 +40,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
-        /// Default constructor is required for use in WPF markup.
-        /// (When the default constructor is called, object properties have not been set. Put WPF logic in OnInitialized.)
         /// </summary>
+        /// <remarks>
+        /// Default constructor is required for use in WPF markup. When the default constructor is called,
+        /// object properties have not been set. Put WPF logic in OnInitialized.
+        /// </remarks>
         public WindowsXamlHostBase()
         {
             // Windows.UI.Xaml.Application object is required for loading custom control metadata.  If a custom
@@ -68,14 +70,15 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
-        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.  This UWP XAML element is
-        /// the root element of the wrapped DesktopWindowXamlSource.
+        /// Gets or sets the root UWP XAML element displayed in the WPF control instance.
         /// </summary>
+        /// <value>The <see cref="Windows.UI.Xaml.UIElement"/> child.</value>
+        /// <remarks>This UWP XAML element is the root element of the wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />.</remarks>
         public Windows.UI.Xaml.UIElement ChildInternal
         {
             get
             {
-                return xamlSource.Content;
+                return xamlSource?.Content;
             }
 
             set
@@ -115,8 +118,8 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         protected bool IsDisposed { get; set; }
 
         /// <summary>
-        /// Creates global::Windows.UI.Xaml.Application object, wrapped DesktopWindowXamlSource instance; creates and
-        /// sets root UWP XAML element on DesktopWindowXamlSource.
+        /// Creates <see cref="Windows.UI.Xaml.Application" /> object, wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> instance; creates and
+        /// sets root UWP XAML element on <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />.
         /// </summary>
         /// <param name="hwndParent">Parent window handle</param>
         /// <returns>Handle to XAML window</returns>
@@ -168,10 +171,13 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             if (disposing && !IsDisposed)
             {
                 IsDisposed = true;
+
                 xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
                 ChildInternal = null;
-                xamlSource?.Dispose();
+
                 _windowsXamlManager?.Dispose();
+
+                // xamlSource.Dispose();
             }
         }
     }

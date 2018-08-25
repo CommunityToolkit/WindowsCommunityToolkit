@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// </summary>
     public class MediaPlayerElement : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.MediaPlayerElement;
+        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => ChildInternal as Windows.UI.Xaml.Controls.MediaPlayerElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayerElement"/> class, a

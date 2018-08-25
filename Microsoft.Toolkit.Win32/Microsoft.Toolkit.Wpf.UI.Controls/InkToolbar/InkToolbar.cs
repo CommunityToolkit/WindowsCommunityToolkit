@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     [ContentProperty(nameof(Children))]
     public class InkToolbar : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbar;
+        internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             // VisualTreeHelper.DisconnectChildrenRecursive(obj.desktopWindowXamlSource.Content);
             // obj.desktopWindowXamlSource.Content = null;
             // Children.Remove(obj);
-            UwpControl.Children.Add(obj.XamlRootInternal);
+            UwpControl.Children.Add(obj.ChildInternal);
         }
 
         /// <summary>

@@ -16,8 +16,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     {
         public WindowsXamlHostBaseExt(string typeName)
         {
-            XamlRootInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
-            XamlRootInternal.SetWrapper(this);
+            ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            ChildInternal.SetWrapper(this);
         }
 
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             base.OnInitialized(e);
 
-            SetContent();
+            SetContent(ChildInternal);
         }
 
         /// <summary>
@@ -47,12 +47,12 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                     Path = new Windows.UI.Xaml.PropertyPath(propertyName),
                     Converter = (Windows.UI.Xaml.Data.IValueConverter)converter
                 };
-                Windows.UI.Xaml.Data.BindingOperations.SetBinding(XamlRootInternal, uwpProperty, binder);
+                Windows.UI.Xaml.Data.BindingOperations.SetBinding(ChildInternal, uwpProperty, binder);
             }
 
             var rebinder = new Binding()
             {
-                Source = XamlRootInternal,
+                Source = ChildInternal,
                 Path = new PropertyPath(propertyName),
                 Converter = (IValueConverter)converter
             };

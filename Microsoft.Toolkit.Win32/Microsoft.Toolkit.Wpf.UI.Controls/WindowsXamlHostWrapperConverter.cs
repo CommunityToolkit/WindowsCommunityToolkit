@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         object global::Windows.UI.Xaml.Data.IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
-            return (value as WindowsXamlHostBaseExt)?.XamlRootInternal;
+            return (value as WindowsXamlHostBaseExt)?.ChildInternal;
         }
 
         object global::Windows.UI.Xaml.Data.IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)

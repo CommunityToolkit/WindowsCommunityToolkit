@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// </summary>
     public class InkCanvas : WindowsXamlHostBaseExt
     {
-        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkCanvas;
+        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkCanvas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a

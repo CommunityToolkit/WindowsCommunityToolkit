@@ -28,12 +28,12 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
 
             // Rectangle's HorizontalAlignment and VerticalAlignment properties default to Stretch.
             // The control will fill all space available in the DesktopWindowXamlSource window.
-            this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Shapes.Rectangle");
+            this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Shapes.Rectangle");
 
             // Set DesktopWindowXamlSource
-            SetContent();
+            SetContent(ChildInternal);
 
-            global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.XamlRootInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
+            global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.ChildInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
 
             // Properties set in markup need to be re-applied in OnInitialized
             Fill = fill;
@@ -49,9 +49,9 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
                 fill = value;
 
                 // UWP XAML content is not created in base.OnInitialized
-                if (this.XamlRootInternal != null)
+                if (this.ChildInternal != null)
                 {
-                    global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.XamlRootInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
+                    global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.ChildInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
 
                     Color wpfColor = (Color)ColorConverter.ConvertFromString(value);
 

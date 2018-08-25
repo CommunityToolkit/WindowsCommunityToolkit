@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// </summary>
     public class InkToolbarToggleButton : WindowsXamlHostBaseExt
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => XamlRootInternal as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
+        internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         }
 
         /// <inheritdoc />
-        protected override void SetContent()
+        protected override void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
             // intentionally empty
         }

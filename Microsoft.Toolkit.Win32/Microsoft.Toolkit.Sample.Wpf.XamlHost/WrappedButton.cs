@@ -22,18 +22,18 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
         {
             base.OnInitialized(e);
 
-            this.XamlRootInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Button");
+            this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Controls.Button");
 
             // Make button expand to the size of its host control
-            global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.XamlRootInternal as global::Windows.UI.Xaml.FrameworkElement;
+            global::Windows.UI.Xaml.FrameworkElement frameworkElement = this.ChildInternal as global::Windows.UI.Xaml.FrameworkElement;
             frameworkElement.SizeChanged += FrameworkElement_SizeChanged;
             frameworkElement.HorizontalAlignment = global::Windows.UI.Xaml.HorizontalAlignment.Stretch;
             frameworkElement.VerticalAlignment = global::Windows.UI.Xaml.VerticalAlignment.Stretch;
 
             // Set DesktopWindowXamlSource
-            SetContent();
+            SetContent(ChildInternal);
 
-            // Properties set in markup need to be re-applied in OnInitialized.  
+            // Properties set in markup need to be re-applied in OnInitialized.
             Background = background;
             Content = content;
         }
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
 
         #endregion
 
-        #region Properties 
+        #region Properties
 
         private string background;
 
@@ -57,9 +57,9 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
                 background = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (value != null && this.XamlRootInternal != null)
+                if (value != null && this.ChildInternal != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRootInternal as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.ChildInternal as global::Windows.UI.Xaml.Controls.Button;
 
                     Color wpfColor = (Color)ColorConverter.ConvertFromString(value);
 
@@ -82,9 +82,9 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
                 content = value;
 
                 // UWP XAML content is not created until base.OnInitialized
-                if (this.XamlRootInternal != null)
+                if (this.ChildInternal != null)
                 {
-                    global::Windows.UI.Xaml.Controls.Button button = this.XamlRootInternal as global::Windows.UI.Xaml.Controls.Button;
+                    global::Windows.UI.Xaml.Controls.Button button = this.ChildInternal as global::Windows.UI.Xaml.Controls.Button;
 
                     button.Content = value;
                 }
