@@ -5,7 +5,7 @@
 using System;
 using System.Security;
 using System.Threading.Tasks;
-
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
 using Windows.Web.UI.Interop;
@@ -94,7 +94,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 throw new ArgumentNullException(nameof(hostWindowHandle));
             }
 
-            var wvc = await await Task.Run(() => CreateWebViewControlAsync(hostWindowHandle, bounds)).ConfigureAwait(false);
+            bool IsRs4(int build) => build >= 16300 && build <= 17599;
+
+            var os = NativeMethods.RtlGetVersion();
+
+            WebViewControl wvc = null;
+
+            if (IsRs4(os.BuildNumber))
+            {
+                // On RS4 there is an issue initializing the control, so we have to wrap in another Task and await
+                wvc = await await Task.Run(() => CreateWebViewControlAsync(hostWindowHandle, bounds))
+                                      .ConfigureAwait(false);
+            }
+            else
+            {
+                // This was fixed in RS5, but not serviced back to RS4
+                wvc = await CreateWebViewControlAsync(hostWindowHandle, bounds)
+                                .AsTask()
+                                .ConfigureAwait(false);
+            }
+
+            return new WebViewControlHost(wvc);
+        }
+
+        internal async Task<WebViewControlHost> CreateWebViewControlHostAsync2(IntPtr hostWindowHandle, Rect bounds)
+        {
+            if (hostWindowHandle == IntPtr.Zero)
+            {
+                throw new ArgumentNullException(nameof(hostWindowHandle));
+            }
+
+            var wvc = await CreateWebViewControlAsync(hostWindowHandle, bounds).AsTask().ConfigureAwait(false);
 
             return new WebViewControlHost(wvc);
         }
