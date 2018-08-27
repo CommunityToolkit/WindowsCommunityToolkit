@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 using Microsoft.Toolkit.Services.Core;
 
-namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.NetPasswordManager
+namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
-    internal class NetPasswordManager : IPasswordManager
+    internal class NetFrameworkPasswordManager : IPasswordManager
     {
         [DllImport("Advapi32.dll", EntryPoint = "CredReadW", CharSet = CharSet.Unicode, SetLastError = true)]
         static extern bool CredRead(string target, CRED_TYPE type, int reservedFlag, out IntPtr CredentialPtr);
