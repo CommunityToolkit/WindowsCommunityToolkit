@@ -6,22 +6,21 @@ using namespace Windows::Foundation::Collections;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
-
 #pragma region GazeHidPositionParser
     GazeHidPositionParser::GazeHidPositionParser(GazeDevicePreview ^ gazeDevice, uint16 usage)
     {
         _usage = usage;
 
-        // Find all the head rotation usage from the device's
+        // Find all the position usages from the device's
         // descriptor and store them for easy access
         _X = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionX, _usage);
         _Y = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionY, _usage);
         _Z = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionZ, _usage);
     }
 
-    LongLong3^ GazeHidPositionParser::GetPosition(HidInputReport ^ report)
+    GazeHidPosition^ GazeHidPositionParser::GetPosition(HidInputReport ^ report)
     {
-        LongLong3^ result = nullptr;
+        GazeHidPosition^ result = nullptr;
 
         if (_X != nullptr &&
             _Y != nullptr &&
@@ -44,7 +43,7 @@ namespace GazeHidParsers {
             }
             else
             {
-                result = ref new LongLong3();
+                result = ref new GazeHidPosition();
                 result->X = descX->Value;
                 result->Y = descY->Value;
                 result->Z = descZ->Value;
@@ -60,16 +59,16 @@ namespace GazeHidParsers {
     {
         _usage = usage;
 
-        // Find all the head rotation usage from the device's
+        // Find all the rotation usages from the device's
         // descriptor and store them for easy access
         _X = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationX, _usage);
         _Y = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationY, _usage);
         _Z = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationZ, _usage);
     }
 
-    LongLong3^ GazeHidRotationParser::GetRotation(HidInputReport^ report)
+    GazeHidPosition^ GazeHidRotationParser::GetRotation(HidInputReport ^ report)
     {
-        LongLong3^ result = nullptr;
+        GazeHidPosition^ result = nullptr;
 
         if (_X != nullptr &&
             _Y != nullptr &&
@@ -92,7 +91,7 @@ namespace GazeHidParsers {
             }
             else
             {
-                result = ref new LongLong3();
+                result = ref new GazeHidPosition();
                 result->X = descX->Value;
                 result->Y = descY->Value;
                 result->Z = descZ->Value;
