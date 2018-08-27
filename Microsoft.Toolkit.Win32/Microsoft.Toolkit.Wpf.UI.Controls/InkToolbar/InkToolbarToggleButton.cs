@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         }
 
         /// <inheritdoc />
-        protected override void SetContent(Windows.UI.Xaml.UIElement newValue)
+        protected override void SetContent()
         {
             // intentionally empty
         }

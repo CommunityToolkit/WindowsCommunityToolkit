@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             base.OnInitialized(e);
 
-            SetContent(ChildInternal);
+            SetContent();
         }
 
         /// <summary>
