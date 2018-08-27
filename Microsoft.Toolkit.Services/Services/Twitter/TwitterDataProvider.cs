@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public async Task<bool> LoginAsync()
         {
             var crendetials = _passwordManager.Get("TwitterAccessToken");
-            var user = _storageManager.Get("TwitterScreenName");
+            var user = await _storageManager.Get("TwitterScreenName");
             if (!string.IsNullOrEmpty(user) && crendetials != null)
             {
                 _tokens.AccessToken = crendetials.UserName;
