@@ -20,6 +20,8 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.NetPasswordMa
         [DllImport("Advapi32.dll", EntryPoint = "CredFree", SetLastError = true)]
         static extern bool CredFree([In] IntPtr cred);
 
+        [DllImport("advapi32.dll", EntryPoint = "CredDeleteW", CharSet = CharSet.Unicode)]
+        private static extern bool CredDelete(string target, CRED_TYPE type, int flags);
 
         public enum CRED_TYPE : uint
         {
@@ -153,7 +155,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.NetPasswordMa
             }
         }
         #endregion
-        void Store(string resource, PasswordCredential credential)
+        public void Store(string resource, PasswordCredential credential)
         {
             // Validations.
 
@@ -184,7 +186,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.NetPasswordMa
             }
         }
 
-        public PasswordCredential ReadCred(string key)
+        public PasswordCredential Get(string key)
         {
             IntPtr nCredPtr;
             PasswordCredential passCred = new PasswordCredential();
@@ -206,6 +208,11 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.NetPasswordMa
             }
 
             return passCred;
+        }
+
+        public void Remove(string key)
+        {
+            CredDelete(key, CRED_TYPE.GENERIC, 0);
         }
     }
 }
