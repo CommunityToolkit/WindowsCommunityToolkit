@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// A class for listening element enter or leave the viewport
+    /// A class for listening element enter or exit the viewport
     /// </summary>
     public class ViewportBehavior : BehaviorBase<FrameworkElement>
     {
@@ -33,9 +33,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public event EventHandler EnteredViewport;
 
         /// <summary>
-        /// Associated element fully leave the viewport event
+        /// Associated element fully exit the viewport event
         /// </summary>
-        public event EventHandler LeavedViewport;
+        public event EventHandler ExitedViewport;
 
         /// <summary>
         /// Associated element enter the viewport event
@@ -43,9 +43,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         public event EventHandler EnteringViewport;
 
         /// <summary>
-        /// Associated element leave the viewport event
+        /// Associated element exit the viewport event
         /// </summary>
-        public event EventHandler LeavingViewport;
+        public event EventHandler ExitingViewport;
 
         /// <summary>
         /// Gets a value indicating whether associated element is fully in the viewport
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             }
             else
             {
-                obj.LeavingViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                obj.ExitingViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             }
             else
             {
-                obj.LeavedViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+                obj.ExitedViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
             }
         }
 

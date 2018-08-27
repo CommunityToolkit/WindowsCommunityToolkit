@@ -22,8 +22,8 @@
                         <interactivity:Interaction.Behaviors>
                             <behaviors:ViewportBehavior EnteredViewport="EffectHost_EnteredViewport"
                                                         EnteringViewport="EffectHost_EnteringViewport"
-                                                        LeavedViewport="EffectHost_LeavedViewport"
-                                                        LeavingViewport="EffectHost_LeavingViewport" />
+                                                        ExitedViewport="EffectHost_ExitedViewport"
+                                                        ExitingViewport="EffectHost_ExitingViewport" />
                         </interactivity:Interaction.Behaviors>
                         <Image x:Name="EffectElement"
                                Width="100"

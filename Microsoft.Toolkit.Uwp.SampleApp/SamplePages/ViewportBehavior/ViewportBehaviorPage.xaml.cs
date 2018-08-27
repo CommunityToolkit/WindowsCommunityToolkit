@@ -48,9 +48,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await EffectElement.Fade(value: 1, duration: 2000).StartAsync();
         }
 
-        private async void EffectHost_LeavedViewport(object sender, EventArgs e)
+        private async void EffectHost_ExitedViewport(object sender, EventArgs e)
         {
-            AddLog("Leaved viewport");
+            AddLog("Exited viewport");
 
             EffectElement.Source = null;
             await EffectElement.Fade(value: 0, duration: 0).StartAsync();
@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             EffectElement.Source = new BitmapImage(new Uri("ms-appx:///Assets/ToolkitLogo.png"));
         }
 
-        private void EffectHost_LeavingViewport(object sender, EventArgs e)
+        private void EffectHost_ExitingViewport(object sender, EventArgs e)
         {
-            AddLog("Leaving viewport");
+            AddLog("Exiting viewport");
         }
     }
 }

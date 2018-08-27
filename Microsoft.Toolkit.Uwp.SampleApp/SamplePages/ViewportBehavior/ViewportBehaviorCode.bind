@@ -5,8 +5,8 @@
         <behaviors:ViewportBehavior x:Name="ViewportBehavior"
                                     EnteredViewport="Element_EnteredViewport"
                                     EnteringViewport="Element_EnteringViewport"
-                                    LeavedViewport="Element_LeavedViewport"
-                                    LeavingViewport="Element_LeavingViewport"/>
+                                    ExitedViewport="Element_ExitedViewport"
+                                    ExitingViewport="Element_ExitingViewport"/>
     </interactivity:Interaction.Behaviors>
 </Image>
 
@@ -21,14 +21,14 @@ private void Element_EnteringViewport(object sender, EventArgs e)
     // A part of the control enter the viewport
 }
 
-private void Element_LeavedViewport(object sender, EventArgs e)
+private void Element_ExitedViewport(object sender, EventArgs e)
 {
     // The control is outside of the viewport
 }
 
-private void Element_LeavingViewport(object sender, EventArgs e)
+private void Element_ExitingViewport(object sender, EventArgs e)
 {
-    // A part of the control leave the viewport
+    // A part of the control outside of the viewport
 }
 
 bool isInViewport = ViewportBehavior.IsInViewport;// Get is in the viewport

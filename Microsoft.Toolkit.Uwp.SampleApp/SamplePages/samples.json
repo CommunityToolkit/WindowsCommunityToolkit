@@ -460,7 +460,7 @@
       {
         "Name": "ViewportBehavior",
         "Type": "ViewportBehaviorPage",
-        "About": "Behavior for listening element enter or leave viewport",
+        "About": "Behavior for listening element enter or exit viewport",
         "CodeFile": "ViewportBehaviorCode.bind"
       }
     ]
