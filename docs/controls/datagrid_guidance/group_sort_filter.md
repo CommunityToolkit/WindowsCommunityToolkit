@@ -11,7 +11,7 @@ It is often useful to view data in a DataGrid in different ways by grouping, sor
 
 The following walk-throughs demonstrate how to implement grouping, sorting and filtering for the DataGrid control through examples.
 
-See [DataGrid Sample](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid) for the complete sample code and running app.
+See [DataGrid Sample](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid) for the complete sample code and running app.
 
 ## 1. Grouping
 
@@ -200,7 +200,7 @@ private void rankLowFilter_Click(object sender, RoutedEventArgs e)
 
 ## Example app
 
-For the complete example of all the capabilities in this section in a running application, see [DataGrid Sample](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid).
+For the complete example of all the capabilities in this section in a running application, see [DataGrid Sample](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid).
 
 ## See Also
 
