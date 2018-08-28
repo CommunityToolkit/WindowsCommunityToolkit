@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return Size;
             }
 
-            if (xamlSource.Content != null)
+            if (_xamlSource.Content != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     proposedWidth = double.PositiveInfinity;
                 }
 
-                xamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
+                _xamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
             }
 
             var preferredSize = Size.Empty;
-            if (xamlSource.Content != null)
+            if (_xamlSource.Content != null)
             {
-                preferredSize = new Size((int)xamlSource.Content.DesiredSize.Width, (int)xamlSource.Content.DesiredSize.Height);
+                preferredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>desired size</returns>
         private Size GetRootXamlElementDesiredSize()
         {
-            var desiredSize = new Size((int)xamlSource.Content.DesiredSize.Width, (int)xamlSource.Content.DesiredSize.Height);
+            var desiredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
 
             return desiredSize;
         }
@@ -118,14 +118,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (AutoSize)
             {
-                if (xamlSource.Content != null)
+                if (_xamlSource.Content != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
                     // 'VerticalStretch' properties to the bounds of the XamlContentHost Control.
                     var rect = new Windows.Foundation.Rect(0, 0, Width, Height);
-                    xamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
-                    xamlSource.Content.Arrange(rect);
+                    _xamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
+                    _xamlSource.Content.Arrange(rect);
                     PerformLayout();
                 }
             }

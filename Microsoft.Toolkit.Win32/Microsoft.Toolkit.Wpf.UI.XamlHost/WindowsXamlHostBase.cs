@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <summary>
         /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
         /// </summary>
-        private readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource xamlSource;
+        private readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 
         /// <summary>
         /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
@@ -61,10 +61,10 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
 
             // Hook OnTakeFocus event for Focus processing
-            xamlSource.TakeFocusRequested += OnTakeFocusRequested;
+            _xamlSource.TakeFocusRequested += OnTakeFocusRequested;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             get
             {
-                return xamlSource?.Content;
+                return _xamlSource?.Content;
             }
 
             set
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             // to call it directly here.
 
             // Create DesktopWindowXamlSource instance
-            var desktopWindowXamlSourceNative = xamlSource.GetInterop();
+            var desktopWindowXamlSourceNative = _xamlSource.GetInterop();
 
             // Associate the window where UWP XAML will display content
             desktopWindowXamlSourceNative.AttachToWindow(hwndParent.Handle);
@@ -144,9 +144,9 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// </summary>
         protected virtual void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
-            if (xamlSource != null)
+            if (_xamlSource != null)
             {
-                xamlSource.Content = newValue;
+                _xamlSource.Content = newValue;
             }
         }
 
@@ -169,12 +169,12 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             {
                 IsDisposed = true;
 
-                xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
                 ChildInternal = null;
 
                 _windowsXamlManager?.Dispose();
 
-                // xamlSource.Dispose();
+                // _xamlSource.Dispose();
             }
         }
     }

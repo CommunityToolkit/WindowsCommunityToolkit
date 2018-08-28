@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                               /// <summary>
                               /// DesktopWindowXamlSource instance
                               /// </summary>
-        protected readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource xamlSource;
+        protected readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -91,7 +91,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+
+            _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
         }
 
         /// <summary>
@@ -101,14 +103,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => xamlSource.Content;
+            get => _xamlSource.Content;
 
             set
             {
                 if (!DesignMode)
                 {
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
@@ -122,7 +124,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    xamlSource.Content = value;
+                    _xamlSource.Content = value;
 
                     PerformLayout();
 
@@ -141,10 +143,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             {
                 SizeChanged -= OnWindowXamlHostSizeChanged;
 
-                // Required by CA2213: xamlSource?.Dispose() is insufficient.
-                if (xamlSource != null)
+                // Required by CA2213: _xamlSource?.Dispose() is insufficient.
+                if (_xamlSource != null)
                 {
-                    xamlSource.Dispose();
+                    _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                    _xamlSource.Dispose();
                 }
 
                 _windowsXamlManager?.Dispose();
@@ -162,7 +165,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
-                var desktopWindowXamlSourceNative = xamlSource.GetInterop();
+                var desktopWindowXamlSourceNative = _xamlSource.GetInterop();
                 desktopWindowXamlSourceNative.AttachToWindow(Handle);
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
 
