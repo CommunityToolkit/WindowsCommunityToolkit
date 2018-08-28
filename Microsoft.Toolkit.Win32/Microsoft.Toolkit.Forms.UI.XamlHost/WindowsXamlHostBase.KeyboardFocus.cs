@@ -6,7 +6,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
-using Windows.UI;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -41,7 +40,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            this.ProcessTabKey(forward);
+            ProcessTabKey(forward);
         }
 
         /// <summary>
@@ -56,10 +55,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
-            if (!this._xamlSource.HasFocus)
+            if (!_xamlSource.HasFocus)
             {
                 var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
-                var result = this._xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
+                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
                 if (result.WasFocusMoved)
                 {
                     return true;
@@ -72,7 +71,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 // Temporary Focus handling for Redstone 5
                 var hWnd = UnsafeNativeMethods.GetFocus();
 
-                IntPtr tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
+                var tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
                 var result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYDOWN, new IntPtr((int)Keys.Tab), tabKeyScanCode);
                 result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYUP, new IntPtr((int)Keys.Tab), tabKeyScanCode);
                 return result.ToInt32() == 1;
@@ -90,7 +89,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
             {
                 var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
-                this.Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
             }
         }
 
@@ -101,8 +100,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>Key scan code</returns>
         private IntPtr GetScanCodeForOEMChar(int character)
         {
-            int lParam = unchecked((int)0xC0000001);
-            int oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
+            var lParam = unchecked((int)0xC0000001);
+            var oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
             if (oemVal != -1)
             {
                 oemVal <<= 16;
