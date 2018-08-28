@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 // Temporary Focus handling for Redstone 5
                 var hWnd = UnsafeNativeMethods.GetFocus();
 
-                IntPtr tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
+                var tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
                 var result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYDOWN, new IntPtr((int)Keys.Tab), tabKeyScanCode);
                 result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYUP, new IntPtr((int)Keys.Tab), tabKeyScanCode);
                 return result.ToInt32() == 1;
@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>Key scan code</returns>
         private IntPtr GetScanCodeForOEMChar(int character)
         {
-            int lParam = unchecked((int)0xC0000001);
-            int oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
+            var lParam = unchecked((int)0xC0000001);
+            var oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
             if (oemVal != -1)
             {
                 oemVal <<= 16;
