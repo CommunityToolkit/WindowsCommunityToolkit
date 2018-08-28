@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 case NativeDefines.WM_SETFOCUS:
                     if (UnsafeNativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)
                     {
-                        throw new System.InvalidOperationException("WindowsXamlHostBase::WndProc: Failed to SetFocus on UWP XAML window");
+                        throw new System.InvalidOperationException($"{nameof(WindowsXamlHostBase)}::{nameof(WndProc)}: Failed to SetFocus on UWP XAML window");
                     }
 
                     base.WndProc(ref m);

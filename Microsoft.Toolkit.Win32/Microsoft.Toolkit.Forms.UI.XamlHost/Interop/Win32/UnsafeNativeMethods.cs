@@ -31,17 +31,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         internal static extern IntPtr IntSetFocus(IntPtr hWnd);
 
         /// <summary>
-        /// Enables a window and returns an unmanaged handle to it.
-        /// </summary>
-        /// <SecurityNote>
-        ///    Critical: This code calls into unmanaged code which elevates
-        /// </SecurityNote>
-        /// <returns>handle</returns>
-        [SecurityCritical]
-        [DllImport(ExternDll.User32, EntryPoint = "EnableWindow", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]
-        internal static extern bool IntEnableWindow(HandleRef hWnd, bool enable);
-
-        /// <summary>
         /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
         /// </summary>
         /// <param name="hWnd">Target window</param>

@@ -172,12 +172,15 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             {
                 IsDisposed = true;
 
-                _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                if (_xamlSource != null)
+                {
+                    _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                }
+
                 ChildInternal = null;
 
                 _windowsXamlManager?.Dispose();
-
-                // _xamlSource.Dispose();
+                _xamlSource?.Dispose();
             }
         }
     }
