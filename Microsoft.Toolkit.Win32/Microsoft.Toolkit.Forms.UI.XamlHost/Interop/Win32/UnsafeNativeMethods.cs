@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
     /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
     /// </remarks>
     [SuppressUnmanagedCodeSecurity]
-    internal static class UnsafeNativeMethods
+    internal static partial class UnsafeNativeMethods
     {
         /// <summary>
         /// This code returns a pointer to a native control with focus.
@@ -39,5 +39,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         [SecurityCritical]
         [DllImport(ExternDll.User32, EntryPoint = "EnableWindow", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Auto)]
         public static extern bool IntEnableWindow(HandleRef hWnd, bool enable);
+
+        /// <summary>
+        /// Changes an attribute of the specified window. The function also sets the 32-bit (long) value at the specified offset into the extra window memory.
+        /// </summary>
+        /// <param name="hWnd">Target window</param>
+        /// <param name="nIndex">Zero-based offset</param>
+        /// <param name="dwNewLong">The replacement value</param>
+        /// <returns>A positive integer indicates success; zero indicates failure</returns>
+        [SecurityCritical]
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
     }
 }

@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         private static bool _alreadyInBlock = false;
-        protected Controls.WinForms.WebView WebView { get; set; }
+        protected Forms.UI.Controls.WebView WebView { get; set; }
 
         protected override void Cleanup()
         {
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void Given()
         {
-            if (!Controls.WinForms.WebView.IsSupported)
+            if (!Forms.UI.Controls.WebView.IsSupported)
             {
                 // Test cannot execute because we're on the wrong OS
                 Assert.Inconclusive(DesignerUI.E_NOTSUPPORTED_OS_RS4);

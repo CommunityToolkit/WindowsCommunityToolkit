@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Windows.Forms;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
@@ -25,8 +26,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
-                    var focusHandle = NativeMethods.GetFocus();
-                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && focusHandle == _xamlIslandWindowHandle);
+                    var focusHandle = SafeNativeMethods.GetFocus();
+                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && xamlSource.HasFocus);
                 }
 
                 return false;
@@ -38,9 +39,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            if (!desktopWindowXamlSource.HasFocus)
+            if (!xamlSource.HasFocus)
             {
-                desktopWindowXamlSource.NavigateFocus(
+                xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First));
             }
@@ -48,41 +49,40 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             base.Select(directed, true);
         }
 
+        protected override void OnGotFocus(EventArgs e)
+        {
+            base.OnGotFocus(e);
+        }
+
+        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
+        {
+            base.OnPreviewKeyDown(e);
+        }
+
         /// <summary>
-        ///     Processes a command key, ensuring that Xaml has an opportunity
+        ///     Processes a tab key, ensuring that Xaml has an opportunity
         ///     to handle the command before normal Windows Forms processing.
         ///     (Xaml must be notified of keys that invoke focus navigation.)
         /// </summary>
         /// <returns>true if the command was processed</returns>
-        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
+        protected override bool ProcessTabKey(bool forward)
         {
             if (DesignMode)
             {
                 return false;
             }
 
-            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason? xamlSourceFocusNavigationReason;
-            switch (keyData)
-            {
-                // BUGBUG: Bug 18356717: DesktopWindowXamlSource.NavigateFocus non-directional Focus not
-                // moving Focus, not responding to keyboard input. Until then, use Next/Previous only.
-                case System.Windows.Forms.Keys.Tab | System.Windows.Forms.Keys.Shift:
-                    xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Left;
-                    break;
-                case System.Windows.Forms.Keys.Tab:
-                    xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right;
-                    break;
+            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason? xamlSourceFocusNavigationReason = null;
 
-                default:
-                    xamlSourceFocusNavigationReason = null;
-                    break;
+            // BUGBUG: Bug 18356717: DesktopWindowXamlSource.NavigateFocus non-directional Focus not
+            // moving Focus, not responding to keyboard input. Until then, use Next/Previous only.
+            if (forward == true)
+            {
+                xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right;
             }
-
-            // The key send to this Control instance is not one of the navigation keys handled
-            // by global::Windows.UI.Xaml. Allow the base class to handle the key press.
-            if (xamlSourceFocusNavigationReason == null)
+            else
             {
-                return base.ProcessCmdKey(ref msg, keyData);
+                xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Left;
             }
 
             // Determine if the currently focused element is the last element for the requested
@@ -90,16 +90,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
             Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationResult focusResult;
-            if (desktopWindowXamlSource.HasFocus)
+            if (xamlSource.HasFocus)
             {
-                focusResult = desktopWindowXamlSource.NavigateFocus(
+                focusResult = xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         xamlSourceFocusNavigationReason.Value));
 
                 return focusResult.WasFocusMoved;
             }
 
-            return false;
+            return base.ProcessTabKey(forward);
         }
     }
 }

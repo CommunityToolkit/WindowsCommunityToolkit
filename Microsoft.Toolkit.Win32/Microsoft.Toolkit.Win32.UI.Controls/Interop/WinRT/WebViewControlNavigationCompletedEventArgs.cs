@@ -4,6 +4,7 @@
 
 using System;
 using System.Security;
+using System.Windows.Forms;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -26,6 +27,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         : this(args)
         {
             Uri = uri;
+        }
+
+        internal WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            Uri = e.Uri;
+        }
+
+        internal WebViewControlNavigationCompletedEventArgs(WebBrowserNavigatedEventArgs e)
+        {
+            Uri = e.Url;
         }
 
         /// <summary>
@@ -61,6 +72,38 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <returns><see cref="WebViewControlNavigationCompletedEventArgs"/></returns>
         public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
             Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args) =>
+            new WebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigationEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigationEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs args) => ToWebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationCompletedEventArgs"/> from <see cref="System.Windows.Navigation.NavigationEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigationEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNavigationCompletedEventArgs"/>.</returns>
+        public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
+            System.Windows.Navigation.NavigationEventArgs args) =>
+            new WebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="WebBrowserNavigatedEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="WebBrowserNavigatedEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlNavigationCompletedEventArgs(WebBrowserNavigatedEventArgs args) => ToWebViewControlNavigationCompletedEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationCompletedEventArgs"/> from <see cref="WebBrowserNavigatedEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="WebBrowserNavigatedEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlNavigationCompletedEventArgs"/>.</returns>
+        public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
+            WebBrowserNavigatedEventArgs args) =>
             new WebViewControlNavigationCompletedEventArgs(args);
     }
 }

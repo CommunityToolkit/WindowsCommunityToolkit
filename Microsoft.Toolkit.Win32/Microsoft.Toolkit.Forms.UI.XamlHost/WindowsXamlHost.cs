@@ -16,15 +16,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public class WindowsXamlHost : WindowsXamlHostBase
     {
         /// <summary>
-        ///     Fired when XAML content has been updated
-        /// </summary>
-        [Browsable(true)]
-        [Category("UWP XAML")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        [Description("Fired when UWP XAML content has been updated")]
-        public event EventHandler XamlRootUpdated;
-
-        /// <summary>
         /// Gets or sets a value indicating whether the control dynamically sizes to its content
         /// </summary>
         [ReadOnly(false)]
@@ -40,8 +31,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        /// Gets or sets autoSizeMode, a value indicating if the control dynamically sizes to its content
+        /// Gets or sets the automatic size mode.
         /// </summary>
+        /// <value>The automatic size mode.</value>
+        /// <remarks>A value indicating if the control dynamically sizes to its content.</remarks>
         [ReadOnly(false)]
         [Browsable(true)]
         [Category("Layout")]
@@ -54,10 +47,12 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        /// Gets or sets xAML Content by type name : MyNamespace.MyClass.MyType
-        /// ex: XamlClassLibrary.MyUserControl
-        /// (Content creation is deferred until after the parent hwnd has been created.)
+        /// Gets or sets XAML Content by type name
         /// </summary>
+        /// <example><code>XamlClassLibrary.MyUserControl</code></example>
+        /// <remarks>
+        /// Content creation is deferred until after the parent hwnd has been created.
+        /// </remarks>
         [Browsable(true)]
         [Category("XAML")]
         public string InitialTypeName
@@ -67,55 +62,29 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///    Gets or sets XAML content for XamlContentHost
+        /// Gets or sets XAML content for XamlContentHost
         /// </summary>
+        /// <value>The <see cref="Windows.UI.Xaml.UIElement"/>.</value>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Windows.UI.Xaml.UIElement XamlRoot
+        public Windows.UI.Xaml.UIElement Child
         {
-            get => desktopWindowXamlSource.Content;
+            get => xamlSource.Content;
 
-            set
-            {
-                if (!DesignMode)
-                {
-                    var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = desktopWindowXamlSource.Content as Windows.UI.Xaml.FrameworkElement;
-
-                    if (oldFrameworkElement != null)
-                    {
-                        oldFrameworkElement.SizeChanged -= FrameworkElement_SizeChanged;
-                    }
-
-                    if (newFrameworkElement != null)
-                    {
-                        // If XAML content has changed, check XAML size and WindowsXamlHost.AutoSize
-                        // setting to determine if WindowsXamlHost needs to re-run layout.
-                        newFrameworkElement.SizeChanged += FrameworkElement_SizeChanged;
-                    }
-
-                    desktopWindowXamlSource.Content = value;
-
-                    PerformLayout();
-
-                    if (XamlRootUpdated != null)
-                    {
-                        XamlRootUpdated(this, null);
-                    }
-                }
-            }
+            set => ChildInternal = value;
         }
 
         /// <summary>
-        /// Raises the HandleCreated event.  Assign window render target to UWP XAML content.
+        /// Raises the <see cref="E:System.Windows.Forms.Control.HandleCreated" /> event.
         /// </summary>
-        /// <param name="e">EventArgs</param>
+        /// <param name="e">An <see cref="T:System.EventArgs" /> that contains the event data.</param>
+        /// <remarks>Assign window render target to UWP XAML content.</remarks>
         protected override void OnHandleCreated(EventArgs e)
         {
             // Create content if TypeName has been set and xamlRoot has not been set
-            if (!DesignMode && !string.IsNullOrEmpty(InitialTypeName) && XamlRoot == null)
+            if (!DesignMode && !string.IsNullOrEmpty(InitialTypeName) && Child == null)
             {
-                XamlRoot = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
+                Child = UWPTypeFactory.CreateXamlContentByType(InitialTypeName);
             }
 
             base.OnHandleCreated(e);

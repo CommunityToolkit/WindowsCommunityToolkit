@@ -7,7 +7,10 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
 {
-    internal static class NativeDefines
+    /// <summary>
+    /// Definitions required for native interop
+    /// </summary>
+    internal static partial class NativeDefines
     {
         public const int WM_MOVE = (int)WM.MOVE;
         public const int WM_SIZE = (int)WM.SIZE;
@@ -21,5 +24,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 
         public static IntPtr HWND_TOPMOST { get; } = IntPtr.Zero - 1;
+
+        public const int GWL_STYLE = -16;
+
+        public const uint WS_EX_CONTROLPARENT = 0x00010000;
     }
 }

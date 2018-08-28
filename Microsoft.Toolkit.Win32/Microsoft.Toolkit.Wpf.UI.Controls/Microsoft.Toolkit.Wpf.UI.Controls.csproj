@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Wpf.UI.Controls</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Wpf.UI.Controls</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit WPF Controls</Title>
+    <Description>This library provides XAML controls for WPF. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>WebView Win32 WPF UWP XAML</PackageTags>
+
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47;DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\**\*.cs" LinkBase="Shared" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Support\**" />
+    <EmbeddedResource Remove="Support\**" />
+    <None Remove="Support\**" />
+    <Page Remove="Support\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="InkCanvas\CoreInputDeviceTypes.cs" />
+    <Compile Remove="InkCanvas\InkDrawingAttributes.cs" />
+    <Compile Remove="InkCanvas\InkDrawingAttributesKind.cs" />
+    <Compile Remove="InkCanvas\InkHighContrastAdjustment.cs" />
+    <Compile Remove="InkCanvas\InkInputConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkInputProcessingConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkInputProcessingMode.cs" />
+    <Compile Remove="InkCanvas\InkInputRightDragAction.cs" />
+    <Compile Remove="InkCanvas\InkPoint.cs" />
+    <Compile Remove="InkCanvas\InkPresenterPredefinedConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkRecognitionResult.cs" />
+    <Compile Remove="InkCanvas\InkStroke.cs" />
+    <Compile Remove="InkCanvas\InkStrokeContainer.cs" />
+    <Compile Remove="InkCanvas\InkStrokeInput.cs" />
+    <Compile Remove="InkCanvas\InkStrokeRenderingSegment.cs" />
+    <Compile Remove="InkCanvas\InkStrokesCollectedEventArgs.cs" />
+    <Compile Remove="InkCanvas\InkStrokesErasedEventArgs.cs" />
+    <Compile Remove="InkCanvas\InkSynchronizer.cs" />
+    <Compile Remove="InkCanvas\InkUnprocessedInput.cs" />
+    <Compile Remove="InkCanvas\PenTipShape.cs" />
+    <Compile Remove="InkCanvas\PointerEventArgs.cs" />
+    <Compile Remove="InkCanvas\PointerPoint.cs" />
+    <Compile Remove="InkCanvas\VirtualKeyModifiers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
+      <Version>4.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="DesignerUI.Designer.cs">
+      <DependentUpon>DesignerUI.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="DesignerUI.resx">
+      <LastGenOutput>DesignerUI.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Wpf.UI.XamlHost\Microsoft.Toolkit.Wpf.UI.XamlHost.csproj" />
+  </ItemGroup>
+</Project>

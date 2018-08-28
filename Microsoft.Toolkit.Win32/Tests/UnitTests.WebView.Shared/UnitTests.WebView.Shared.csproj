@@ -1,10 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared</AssemblyName>
     <AssemblyTitle>UnitTests.WebView.Shared</AssemblyTitle>
-    <Description>UnitTests.WebView.Shared</Description>  
+    <Description>UnitTests.WebView.Shared</Description>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B220BE88-944E-45D1-9248-6FAEF53868A3}</ProjectGuid>
@@ -14,6 +14,7 @@
     <AssemblyName>Microsoft.Toolkit.Win32.UI.Controls.Test.WebView.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SignAssembly>false</SignAssembly>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">
@@ -37,9 +38,6 @@
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
   </ItemGroup>
@@ -54,5 +52,8 @@
     <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\ProductType.cs" Link="ProductType.cs" />
     <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Win32Error.cs" Link="Win32Error.cs" />
     <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" Link="Verify.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj" />
   </ItemGroup>
 </Project>
