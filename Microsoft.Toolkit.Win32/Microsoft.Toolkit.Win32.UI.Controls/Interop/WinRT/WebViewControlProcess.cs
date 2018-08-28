@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
             var os = NativeMethods.RtlGetVersion();
 
-            WebViewControl wvc = null;
+            WebViewControl wvc;
 
             if (IsRs4(os.BuildNumber))
             {
@@ -113,18 +113,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                                 .AsTask()
                                 .ConfigureAwait(false);
             }
-
-            return new WebViewControlHost(wvc);
-        }
-
-        internal async Task<WebViewControlHost> CreateWebViewControlHostAsync2(IntPtr hostWindowHandle, Rect bounds)
-        {
-            if (hostWindowHandle == IntPtr.Zero)
-            {
-                throw new ArgumentNullException(nameof(hostWindowHandle));
-            }
-
-            var wvc = await CreateWebViewControlAsync(hostWindowHandle, bounds).AsTask().ConfigureAwait(false);
 
             return new WebViewControlHost(wvc);
         }
