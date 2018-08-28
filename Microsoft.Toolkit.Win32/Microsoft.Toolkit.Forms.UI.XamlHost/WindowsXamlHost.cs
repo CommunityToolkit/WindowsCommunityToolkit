@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Windows.UI.Xaml.UIElement Child
         {
-            get => xamlSource.Content;
+            get => _xamlSource.Content;
 
             set => ChildInternal = value;
         }
