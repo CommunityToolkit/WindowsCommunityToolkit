@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            this.ProcessTabKey(forward);
+            ProcessTabKey(forward);
         }
 
         /// <summary>
@@ -56,10 +56,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
-            if (!this._xamlSource.HasFocus)
+            if (!_xamlSource.HasFocus)
             {
                 var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
-                var result = this._xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
+                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
                 if (result.WasFocusMoved)
                 {
                     return true;
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
             {
                 var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
-                this.Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
             }
         }
 
