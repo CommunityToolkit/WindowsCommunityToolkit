@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
             Windows.UI.Xaml.Markup.IXamlType xamlType = null;
             Type systemType = null;
 
-            // If a root metatadata provider has been defined on the application object,
+            // If a root metadata provider has been defined on the application object,
             // use it to probe for custom UWP XAML type metadata.  If the root metadata
             // provider has not been implemented on the current application object, assume
             // the caller wants a built-in UWP XAML type, not a custom UWP XAML type.
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         /// all assemblies loaded in the current AppDomain
         /// </summary>
         /// <param name="typeName">Full type name, with namespace, without assembly</param>
-        /// <returns>System.Type</returns>
+        /// <returns>If found, <see cref="Type" />; otherwise, null..</returns>
         private static Type FindBuiltInType(string typeName)
         {
             var currentAppDomain = AppDomain.CurrentDomain;
