@@ -77,7 +77,6 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             if (disposing && !IsDisposed)
             {
-
                 if (Child is Windows.UI.Xaml.FrameworkElement frameworkElement)
                 {
                     frameworkElement.SizeChanged -= XamlContentSizeChanged;
