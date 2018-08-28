@@ -24,5 +24,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 
         public static IntPtr HWND_TOPMOST { get; } = IntPtr.Zero - 1;
+
+        public const int GWL_STYLE = -16;
+
+        public const uint WS_EX_CONTROLPARENT = 0x00010000;
     }
 }

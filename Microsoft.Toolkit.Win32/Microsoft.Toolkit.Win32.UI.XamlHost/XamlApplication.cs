@@ -19,70 +19,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
     internal class XamlApplication : Windows.UI.Xaml.Application, Windows.UI.Xaml.Markup.IXamlMetadataProvider
     {
         // Metadata provider identified by the root metadata provider
-        private List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> _metadataProviders;
-
-        /// <summary>
-        /// Loads all types from the specified assembly and caches metadata providers
-        /// </summary>
-        /// <param name="assembly">Target assembly to load types from</param>
-        private void LoadTypesFromAssembly(Assembly assembly)
-        {
-            // Load types inside the executing assembly
-            var thisType = GetType();
-
-            foreach (var type in assembly.GetTypes())
-            {
-                if (type == thisType)
-                {
-                    continue;
-                }
-
-                if (typeof(Windows.UI.Xaml.Markup.IXamlMetadataProvider).IsAssignableFrom(type))
-                {
-                    var provider = (Windows.UI.Xaml.Markup.IXamlMetadataProvider)Activator.CreateInstance(type);
-                    _metadataProviders.Add(provider);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Probes working directory for all available metadata providers
-        /// </summary>
-        private void EnsureMetadataProviders()
-        {
-            if (_metadataProviders != null)
-            {
-                return;
-            }
-
-            _metadataProviders = new List<Windows.UI.Xaml.Markup.IXamlMetadataProvider>();
-
-            // Reflection-based runtime metadata probing
-            var currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            var exes = System.IO.Directory.GetFiles(currentDirectory, "*.exe");
-            var dlls = System.IO.Directory.GetFiles(currentDirectory, "*.dll");
-
-            var files = new string[exes.Length + dlls.Length];
-            Array.Copy(exes, files, exes.Length);
-            Array.Copy(dlls, 0, files, exes.Length, dlls.Length);
-
-            foreach (var file in files)
-            {
-                try
-                {
-                    var assembly = Assembly.Load(file);
-
-                    LoadTypesFromAssembly(assembly);
-                }
-                catch
-                {
-                     // XamlApplication::EnsureMetadataProviders: Non-.NET assembly. Expected.
-                }
-            }
-
-            // Load any types from this assembly
-            LoadTypesFromAssembly(Assembly.GetExecutingAssembly());
-        }
+        private List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> _metadataProviders = null;
 
         /// <summary>
         /// Gets XAML IXamlType interface from all cached metadata providers by Type
@@ -92,6 +29,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         public Windows.UI.Xaml.Markup.IXamlType GetXamlType(Type type)
         {
             EnsureMetadataProviders();
+
             foreach (var provider in _metadataProviders)
             {
                 var result = provider.GetXamlType(type);
@@ -112,6 +50,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         public Windows.UI.Xaml.Markup.IXamlType GetXamlType(string fullName)
         {
             EnsureMetadataProviders();
+
             foreach (var provider in _metadataProviders)
             {
                 var result = provider.GetXamlType(fullName);
@@ -131,6 +70,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         public Windows.UI.Xaml.Markup.XmlnsDefinition[] GetXmlnsDefinitions()
         {
             EnsureMetadataProviders();
+
             var definitions = new List<Windows.UI.Xaml.Markup.XmlnsDefinition>();
             foreach (var provider in _metadataProviders)
             {
@@ -138,6 +78,17 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
             }
 
             return definitions.ToArray();
+        }
+
+        /// <summary>
+        /// Probes file system for UWP XAML metadata providers
+        /// </summary>
+        private void EnsureMetadataProviders()
+        {
+            if (_metadataProviders == null)
+            {
+                _metadataProviders = MetadataProviderDiscovery.DiscoverMetadataProviders(new List<Type> { typeof(XamlApplication) });
+            }
         }
 
         /// <summary>
@@ -149,7 +100,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         {
             // Instantiation of the application object must occur before creating the DesktopWindowXamlSource instance.
             // DesktopWindowXamlSource will create a generic Application object unable to load custom UWP XAML metadata.
-            if (application != null)
+            if (application == null)
             {
                 try
                 {
