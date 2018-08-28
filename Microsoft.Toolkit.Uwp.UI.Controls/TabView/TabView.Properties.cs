@@ -75,5 +75,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The identifier for the <see cref="RightHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty RightHeaderTemplateProperty =
             DependencyProperty.Register(nameof(RightHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets a value indicating whether an 'Add' button appears for the user to add tabs themselves.
+        /// </summary>
+        public bool CanAddTabs
+        {
+            get { return (bool)GetValue(CanAddTabsProperty); }
+            set { SetValue(CanAddTabsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CanAddTabs"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
+        public static readonly DependencyProperty CanAddTabsProperty =
+            DependencyProperty.Register(nameof(CanAddTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
     }
 }

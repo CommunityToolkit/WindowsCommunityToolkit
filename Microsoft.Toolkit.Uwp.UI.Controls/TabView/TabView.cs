@@ -17,11 +17,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// TabView is a control for displaying a set of tabs and their content.
     /// </summary>
     [TemplatePart(Name = TABCONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = TABADDBUTTON_NAME, Type = typeof(Button))]
     public partial class TabView : ListViewBase
     {
         private const string TABCONTENTPRESENTER_NAME = "TabContentPresenter";
+        private const string TABADDBUTTON_NAME = "AddTabButton";
 
         private ContentPresenter _tabContentPresenter;
+        private Button _tabAddButton;
 
         /// <summary>
         /// Occurs when a tab is dragged by the user outside of the <see cref="TabView"/>.  Generally, this paradigm is used to create a new-window with the torn-off tab.
@@ -33,6 +36,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when a tab's Close button is clicked.  Set <see cref="TabClosingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
         /// </summary>
         public event EventHandler<TabClosingEventArgs> TabClosing;
+
+        /// <summary>
+        /// Occurs when a the Add button is clicked (visible when <see cref="CanAddTabs"/> is true).
+        /// </summary>
+        public event EventHandler AddTab;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabView"/> class.
@@ -72,6 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             _tabContentPresenter = GetTemplateChild(TABCONTENTPRESENTER_NAME) as ContentPresenter;
+            _tabAddButton = GetTemplateChild(TABADDBUTTON_NAME) as Button;
 
             DragLeave += TabPresenter_DragLeave;
             DragItemsCompleted += TabPresenter_DragItemsCompleted;
@@ -80,6 +89,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SelectionChanged += TabView_SelectionChanged;
             }
+
+            if (_tabAddButton != null)
+            {
+                _tabAddButton.Click += AddTabButton_Click;
+            }
+        }
+
+        private void AddTabButton_Click(object sender, RoutedEventArgs e)
+        {
+            AddTab?.Invoke(this, new EventArgs());
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)

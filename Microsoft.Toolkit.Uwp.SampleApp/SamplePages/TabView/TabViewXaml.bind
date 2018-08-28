@@ -6,7 +6,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <controls:TabView x:Name="Tabs">
+  <controls:TabView x:Name="Tabs"
+                    CanAddTabs="True">
     <controls:TabView.HeaderTemplate>
       <DataTemplate>
         <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>

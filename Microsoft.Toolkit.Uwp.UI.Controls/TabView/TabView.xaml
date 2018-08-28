@@ -101,6 +101,19 @@
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                             <ItemsPresenter Padding="{TemplateBinding Padding}" />
                         </ScrollViewer>
+
+                        <Grid Grid.Row="1"
+                              Grid.Column="4"
+                              HorizontalAlignment="Left"
+                              Background="{TemplateBinding Background}"
+                              Visibility="{TemplateBinding CanAddTabs}">
+                            <Button x:Name="AddTabButton"
+                                    Padding="9.5"
+                                    FontFamily="Segoe MDL2 Assets">
+                                &#xE710;
+                            </Button>
+                        </Grid>
+
                         <ContentPresenter Grid.Row="1"
                                           Grid.Column="6"
                                           Content="{TemplateBinding RightHeader}"
@@ -156,6 +169,8 @@
                     <Grid x:Name="TabHeaderGrid"
                           HorizontalAlignment="Stretch"
                           ex:FrameworkElementExtensions.AncestorType="local:TabViewItem"
+                          BorderBrush="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}"
+                          BorderThickness="0,0,1,0"
                           DataContext="{Binding (ex:FrameworkElementExtensions.Ancestor), RelativeSource={RelativeSource Self}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />

@@ -14,6 +14,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TabViewPage : Page, IXamlRenderListener
     {
+        private TabView _tabs;
+
+        private int _counter = 1;
+
         public TabViewPage()
         {
             this.InitializeComponent();
@@ -21,12 +25,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            var tabs = control.FindChildByName("Tabs") as TabView;
-            if (tabs != null)
+            _tabs = control.FindChildByName("Tabs") as TabView;
+            if (_tabs != null)
             {
-                tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
-                tabs.TabClosing += Tabs_TabClosing;
+                _tabs.AddTab += Tabs_AddTab;
+                _tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
+                _tabs.TabClosing += Tabs_TabClosing;
             }
+        }
+
+        private void Tabs_AddTab(object sender, EventArgs e)
+        {
+            _tabs.Items.Add(new TabViewItem()
+            {
+                Header = "Untitled " + _counter++,
+                HeaderIcon = new SymbolIcon(Symbol.Document),
+                Content = "This is a new tab."
+            });
         }
 
         private void Tabs_TabClosing(object sender, TabClosingEventArgs e)
