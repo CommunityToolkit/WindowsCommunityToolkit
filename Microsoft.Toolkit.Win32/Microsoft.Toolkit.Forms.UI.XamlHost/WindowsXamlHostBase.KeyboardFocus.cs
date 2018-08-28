@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
@@ -27,7 +28,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
                     var focusHandle = SafeNativeMethods.GetFocus();
-                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && xamlSource.HasFocus);
+                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && _xamlSource.HasFocus);
                 }
 
                 return false;
@@ -39,24 +40,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            if (!xamlSource.HasFocus)
-            {
-                xamlSource.NavigateFocus(
-                    new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
-                        Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First));
-            }
-
-            base.Select(directed, true);
-        }
-
-        protected override void OnGotFocus(EventArgs e)
-        {
-            base.OnGotFocus(e);
-        }
-
-        protected override void OnPreviewKeyDown(PreviewKeyDownEventArgs e)
-        {
-            base.OnPreviewKeyDown(e);
+            ProcessTabKey(forward);
         }
 
         /// <summary>
@@ -67,39 +51,64 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>true if the command was processed</returns>
         protected override bool ProcessTabKey(bool forward)
         {
-            if (DesignMode)
-            {
-                return false;
-            }
-
-            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason? xamlSourceFocusNavigationReason = null;
-
-            // BUGBUG: Bug 18356717: DesktopWindowXamlSource.NavigateFocus non-directional Focus not
-            // moving Focus, not responding to keyboard input. Until then, use Next/Previous only.
-            if (forward == true)
-            {
-                xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right;
-            }
-            else
-            {
-                xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Left;
-            }
-
             // Determine if the currently focused element is the last element for the requested
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
-            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationResult focusResult;
-            if (xamlSource.HasFocus)
+            if (!_xamlSource.HasFocus)
             {
-                focusResult = xamlSource.NavigateFocus(
-                    new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
-                        xamlSourceFocusNavigationReason.Value));
+                var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
+                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
+                if (result.WasFocusMoved)
+                {
+                    return true;
+                }
 
-                return focusResult.WasFocusMoved;
+                return false;
+            }
+            else
+            {
+                // Temporary Focus handling for Redstone 5
+                var hWnd = UnsafeNativeMethods.GetFocus();
+
+                var tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
+                var result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYDOWN, new IntPtr((int)Keys.Tab), tabKeyScanCode);
+                result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYUP, new IntPtr((int)Keys.Tab), tabKeyScanCode);
+                return result.ToInt32() == 1;
+            }
+        }
+
+        /// <summary>
+        /// Responds to DesktopWindowsXamlSource TakeFocusRequested event
+        /// </summary>
+        /// <param name="sender">DesktopWindowsXamlSource</param>
+        /// <param name="args">DesktopWindowXamlSourceTakeFocusRequestedEventArgs</param>
+        private void OnTakeFocusRequested(Windows.UI.Xaml.Hosting.DesktopWindowXamlSource sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
+        {
+            var reason = args.Request.Reason;
+            if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
+            {
+                var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
+                Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+            }
+        }
+
+        /// <summary>
+        /// Get key scan code for character
+        /// </summary>
+        /// <param name="character">Target character</param>
+        /// <returns>Key scan code</returns>
+        private IntPtr GetScanCodeForOEMChar(int character)
+        {
+            var lParam = unchecked((int)0xC0000001);
+            var oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
+            if (oemVal != -1)
+            {
+                oemVal <<= 16;
+                lParam += oemVal;
             }
 
-            return base.ProcessTabKey(forward);
+            return (IntPtr)lParam;
         }
     }
 }
