@@ -6,7 +6,6 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
-using Windows.UI;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
