@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                               /// <summary>
                               /// DesktopWindowXamlSource instance
                               /// </summary>
-        protected readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
+        protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -130,6 +130,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
                     ChildChanged?.Invoke(this, new EventArgs());
                 }
+            }
+        }
+
+        protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
+        {
+            if (_xamlSource != null)
+            {
+                _xamlSource.Content = newValue;
             }
         }
 
