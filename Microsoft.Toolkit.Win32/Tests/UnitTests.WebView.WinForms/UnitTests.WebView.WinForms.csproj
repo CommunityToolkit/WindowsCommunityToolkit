@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView</RootNamespace>
@@ -44,7 +44,7 @@
     <!-- No-op to avoid build error when packing solution from commandline -->
   </Target>
   <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Microsoft.Toolkit.Win32.UI.Controls.csproj" />
+    <ProjectReference Include="..\..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj" />
     <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -52,7 +52,7 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.3.2" />
     <PackageReference Include="MSTest.TestFramework" Version="1.3.2" />
-    <PackageReference Include="Should" Version="1.1.20" />    
+    <PackageReference Include="Should" Version="1.1.20" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -71,6 +71,14 @@
     <Compile Update="FunctionalTests\TestHostForm.cs">
       <SubType>Form</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UnitTests.WebView.Shared\UnitTests.WebView.Shared.csproj">
+      <Project>{b220be88-944e-45d1-9248-6faef53868a3}</Project>
+      <Name>UnitTests.WebView.Shared</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="FunctionalTests\NavigateToLocalStreamUri\sync.htm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -5,10 +5,8 @@
 using System;
 using System.Security;
 using System.Threading.Tasks;
-
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.Web.UI.Interop;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -99,7 +97,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return new WebViewControlHost(wvc);
         }
 
-        private IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
+        private IAsyncOperation<Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
                     IntPtr hostWindowHandle,
                     Rect bounds)
         {
@@ -108,7 +106,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         [SecurityCritical]
-        private IAsyncOperation<WebViewControl> CreateWebViewControlAsync(
+        private IAsyncOperation<Windows.Web.UI.Interop.WebViewControl> CreateWebViewControlAsync(
             long hostWindowHandle,
             Rect bounds)
         {
