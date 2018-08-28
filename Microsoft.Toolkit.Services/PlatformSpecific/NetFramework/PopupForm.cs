@@ -12,22 +12,22 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     public partial class PopupForm : Form
     {
-        private Uri navigateToUrl;
+        private string initialHost;
         public Uri actualUrl;
-        private Uri callbackUrl;
+        private string callbackHost;
         public PopupForm(Uri callbackUrl)
         {
             InitializeComponent();
             webBrowser1.AllowNavigation = true;
             webBrowser1.Navigating += webBrowserNavigating;
-            this.callbackUrl = callbackUrl;
+            callbackHost = GetTopLevelDomain(callbackUrl);
         }
 
         private void webBrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
         {
-            if (navigateToUrl.Host != e.Url.Host)
+            if (initialHost != GetTopLevelDomain(e.Url))
             {
-                if (e.Url.Host == callbackUrl.Host)
+                if (GetTopLevelDomain(e.Url) == callbackHost)
                 {
                     actualUrl = e.Url;
                 }
@@ -38,13 +38,29 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         public void navigateTo(string url)
         {
-            navigateToUrl = new Uri(url);
+            initialHost = GetTopLevelDomain(url);
             webBrowser1.Navigate(url);
         }
 
         private void webBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
 
+        }
+
+        private string GetTopLevelDomain(string url)
+        {
+            return GetTopLevelDomain(new Uri(url));
+        }
+
+        private string GetTopLevelDomain(Uri url)
+        {
+            var hostParts = url.Host.Split('.').Select(x => x.ToString());
+            if (hostParts.Count() > 1)
+            {
+                return hostParts.ElementAt(1);
+            }
+
+            return hostParts.ElementAt(0);
         }
     }
 }

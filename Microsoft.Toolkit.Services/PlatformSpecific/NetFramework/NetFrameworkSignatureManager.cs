@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             byte[] baseStringByte = Encoding.UTF8.GetBytes(baseString);
             byte[] keyByte = Encoding.UTF8.GetBytes(key);
 
+            var enc = Encoding.ASCII;
             HMACSHA1 hmac = new HMACSHA1(keyByte);
             hmac.Initialize();
 

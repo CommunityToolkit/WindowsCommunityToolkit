@@ -30,6 +30,9 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 taskCompletionSource.SetResult(result);
             };
 
+            popupForm.Show();
+            popupForm.navigateTo(requestUri.AbsoluteUri);
+
             return taskCompletionSource.Task;
         }
     }

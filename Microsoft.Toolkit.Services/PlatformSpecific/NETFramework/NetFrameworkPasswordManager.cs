@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
             else
             {
-                throw new Exception("Error to reach the Credential");
+                return null;
             }
 
             return passCred;
