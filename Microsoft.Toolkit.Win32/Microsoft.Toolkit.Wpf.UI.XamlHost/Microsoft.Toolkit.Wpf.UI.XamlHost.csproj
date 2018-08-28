@@ -11,6 +11,11 @@
     <Description>This library provides XAML islands helpers for WPF. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>XAML Islands Win32 WPF XAMLHost</PackageTags>
     <PackageId>Microsoft.Toolkit.Wpf.UI.XamlHost</PackageId>
+
+    <!--
+    Need class WIndows.UI.Xaml.Hosting.DesktopWindowXamlSource, which was introduced in Insiders SDK 17692 on 19-Jun 2018
+    -->
+    <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,7 +34,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>    
+    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
