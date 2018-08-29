@@ -25,13 +25,24 @@ namespace TwitterServiceTest
         {
             if(await TwitterService.Instance.LoginAsync())
             {
+                label1.Text = "Logged in!";
                 await TwitterService.Instance.TweetStatusAsync("It works! Ice cream for the team on me! :D");
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            TwitterService.Instance.Logout();
+
+            if (!TwitterService.Instance.Logout()) {
+                label1.Text = "Logged off";
+            }
+
+            
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }
