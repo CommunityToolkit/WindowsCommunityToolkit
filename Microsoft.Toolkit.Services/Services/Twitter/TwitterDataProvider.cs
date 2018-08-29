@@ -283,14 +283,14 @@ namespace Microsoft.Toolkit.Services.Twitter
         public void Logout()
         {
             var credential = _passwordManager.Get("TwitterAccessToken");
+
             if (credential != null)
             {
                 _passwordManager.Remove("TwitterAccessToken");
                 _storageManager.Set("TwitterScreenName", null);
                 UserScreenName = null;
+                LoggedIn = false;
             }
-
-            LoggedIn = false;
         }
 
 #if WINRT

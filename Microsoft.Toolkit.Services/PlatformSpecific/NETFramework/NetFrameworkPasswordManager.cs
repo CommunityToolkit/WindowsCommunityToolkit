@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 ncred.CredentialBlobSize = (UInt32)cred.CredentialBlobSize;
                 ncred.TargetName = Marshal.StringToCoTaskMemUni(cred.TargetName);
                 ncred.CredentialBlob = Marshal.StringToCoTaskMemUni(cred.CredentialBlob);
-                ncred.UserName = Marshal.StringToCoTaskMemUni(System.Environment.UserName);
+                ncred.UserName = Marshal.StringToCoTaskMemUni(cred.UserName);
                 return ncred;
             }
         }
@@ -173,8 +173,9 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             cred.Attributes = IntPtr.Zero;
             cred.Comment = null;
             cred.TargetAlias = null;
-            cred.Type = CRED_TYPE.DOMAIN_PASSWORD;
-            cred.Persist = CRED_PERSIST.ENTERPRISE;
+            cred.Type = CRED_TYPE.GENERIC;
+            cred.Persist = CRED_PERSIST.LOCAL_MACHINE;
+            
             NativeCredential ncred = NativeCredential.GetNativeCredential(cred);
             // Write the info into the CredMan storage.
             bool written = CredWrite(ref ncred, 0);
