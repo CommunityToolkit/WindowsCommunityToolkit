@@ -280,17 +280,19 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Log user out of Twitter.
         /// </summary>
-        public void Logout()
+        public bool Logout()
         {
             var credential = _passwordManager.Get("TwitterAccessToken");
+
             if (credential != null)
             {
                 _passwordManager.Remove("TwitterAccessToken");
                 _storageManager.Set("TwitterScreenName", null);
                 UserScreenName = null;
+                LoggedIn = false;
             }
 
-            LoggedIn = false;
+            return LoggedIn;
         }
 
 #if WINRT
