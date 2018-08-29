@@ -14,6 +14,10 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
+#if WINFORMS
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
@@ -166,6 +170,30 @@ namespace Microsoft.Toolkit.Services.Twitter
         public bool Initialize(TwitterOAuthTokens oAuthTokens)
         {
             return Initialize(oAuthTokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager());
+        }
+#endif
+
+#if WINFORMS
+                /// <summary>
+        /// Initialize underlying provider with relevent token information for Uwp.
+        /// </summary>
+        /// <param name="consumerKey">Consumer key.</param>
+        /// <param name="consumerSecret">Consumer secret.</param>
+        /// <param name="callbackUri">Callback URI. Has to match callback URI defined at apps.twitter.com (can be arbitrary).</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string consumerKey, string consumerSecret, string callbackUri)
+        {
+            return Initialize(consumerKey, consumerSecret, callbackUri, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager(), new NetFrameworkSignatureManager());
+        }
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(TwitterOAuthTokens oAuthTokens)
+        {
+            return Initialize(oAuthTokens, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager(), new NetFrameworkSignatureManager());
         }
 #endif
 

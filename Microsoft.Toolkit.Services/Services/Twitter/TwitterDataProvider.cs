@@ -20,6 +20,10 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
+#if WINFORMS
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.Twitter
 {
     /// <summary>
@@ -94,6 +98,28 @@ namespace Microsoft.Toolkit.Services.Twitter
             _passwordManager = new UwpPasswordManager();
             _storageManager = new UwpStorageManager();
             _signatureManager = new UwpSignatureManager();
+            if (_client == null)
+            {
+                HttpClientHandler handler = new HttpClientHandler();
+                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                _client = new HttpClient(handler);
+            }
+        }
+#endif
+
+#if WINFORMS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public TwitterDataProvider(TwitterOAuthTokens tokens)
+        {
+            _tokens = tokens;
+            _authenticationBroker = new NetFrameworkAuthenticationBroker();
+            _passwordManager = new NetFrameworkPasswordManager();
+            _storageManager = new NetFrameworkStorageManager();
+            _signatureManager = new NetFrameworkSignatureManager();
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
@@ -206,7 +232,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public async Task<bool> LoginAsync()
         {
             var crendetials = _passwordManager.Get("TwitterAccessToken");
-            var user = _storageManager.Get("TwitterScreenName");
+            var user = await _storageManager.Get("TwitterScreenName");
             if (!string.IsNullOrEmpty(user) && crendetials != null)
             {
                 _tokens.AccessToken = crendetials.UserName;
