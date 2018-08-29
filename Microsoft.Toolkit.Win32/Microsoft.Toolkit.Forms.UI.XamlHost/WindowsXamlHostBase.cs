@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Windows.UI.Xaml.UIElement ChildInternal
+        internal Windows.UI.Xaml.UIElement ChildInternal
         {
             get => _xamlSource.Content;
 
