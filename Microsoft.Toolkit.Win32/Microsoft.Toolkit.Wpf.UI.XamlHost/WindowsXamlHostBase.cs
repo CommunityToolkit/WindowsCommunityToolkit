@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <summary>
         /// UWP XAML DesktopWindowXamlSource instance that hosts XAML content in a win32 application
         /// </summary>
-        private readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource xamlSource;
+        private readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 
         /// <summary>
         /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
@@ -69,10 +69,10 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
 
             // Hook OnTakeFocus event for Focus processing
-            xamlSource.TakeFocusRequested += OnTakeFocusRequested;
+            _xamlSource.TakeFocusRequested += OnTakeFocusRequested;
         }
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// </summary>
         /// <value>The <see cref="Windows.UI.Xaml.UIElement"/> child.</value>
         /// <remarks>This UWP XAML element is the root element of the wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />.</remarks>
-        public Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
             get
             {
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             // to call it directly here.
 
             // Create DesktopWindowXamlSource instance
-            var desktopWindowXamlSourceNative = xamlSource.GetInterop();
+            var desktopWindowXamlSourceNative = _xamlSource.GetInterop();
 
             // Associate the window where UWP XAML will display content
             desktopWindowXamlSourceNative.AttachToWindow(hwndParent.Handle);
@@ -154,10 +154,19 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// </summary>
         protected virtual void SetContent()
         {
-            if (xamlSource != null)
+            if (_xamlSource != null)
             {
-                xamlSource.Content = _childInternal;
+                _xamlSource.Content = _childInternal;
             }
+        }
+
+        /// <summary>
+        /// Exposes the ChildInternal object without exposing the type for cases where something needs the object externally.
+        /// </summary>
+        /// <returns></returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
         }
 
         /// <summary>
@@ -179,12 +188,15 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             {
                 IsDisposed = true;
 
-                xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                if (_xamlSource != null)
+                {
+                    _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                }
+
                 ChildInternal = null;
 
                 _windowsXamlManager?.Dispose();
-
-                // xamlSource.Dispose();
+                _xamlSource?.Dispose();
             }
         }
     }
