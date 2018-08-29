@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             cred.Attributes = IntPtr.Zero;
             cred.Comment = null;
             cred.TargetAlias = null;
-            cred.Type = CRED_TYPE.GENERIC_CERTIFICATE;
+            cred.Type = CRED_TYPE.GENERIC;
             cred.Persist = CRED_PERSIST.LOCAL_MACHINE;
             
             NativeCredential ncred = NativeCredential.GetNativeCredential(cred);
