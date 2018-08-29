@@ -26,7 +26,6 @@ namespace TwitterServiceTest
             if(await TwitterService.Instance.LoginAsync())
             {
                 label1.Text = "Logged in!";
-                await TwitterService.Instance.TweetStatusAsync("It works! Ice cream for the team on me! :D");
             }
         }
 
@@ -43,6 +42,19 @@ namespace TwitterServiceTest
         private void label1_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private async void sendTweet_Click(object sender, EventArgs e)
+        {
+            if (tweetText.Text != "" && tweetText.Text != null)
+            {
+                await TwitterService.Instance.TweetStatusAsync(tweetText.Text);
+                label1.Text = "Tweet Sent!";
+            }
+            else
+            {
+                label1.Text = "Please enter a text for your tweet.";
+            }
         }
     }
 }
