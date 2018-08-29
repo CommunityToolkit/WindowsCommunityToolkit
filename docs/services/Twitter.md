@@ -168,6 +168,8 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Using the service on non-UWP platforms
 
+**Note**: Twitter and LinkedIn services already have their .NET Standard platform implementation.These interfaces are the NetFrameworkAuthenticationBroker, NetFrameworkPasswordManager, NetFrameworkStorageManager and NetFrameworkSignatureManager for Twitter service. 
+
 To use the service outside the UWP platform, you'll need to implement some interfaces. These interfaces are the IAuthenticationBroker, IPasswordManager, IStorageManager and ISignatureManager.
 
 **IAuthenticationBroker**
