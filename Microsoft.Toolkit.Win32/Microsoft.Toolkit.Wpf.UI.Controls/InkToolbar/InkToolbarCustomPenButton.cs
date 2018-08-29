@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             if (VisualParent is InkToolbar parent)
             {
-                if (parent.ChildInternal is Windows.UI.Xaml.Controls.InkToolbar toolbar)
+                if (parent.GetUwpInternalObject() is Windows.UI.Xaml.Controls.InkToolbar toolbar)
                 {
                     toolbar.Children.Add(UwpControl);
                 }
