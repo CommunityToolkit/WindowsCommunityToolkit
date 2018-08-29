@@ -31,12 +31,8 @@ namespace TwitterServiceTest
 
         private void button2_Click(object sender, EventArgs e)
         {
-
-            if (!TwitterService.Instance.Logout()) {
-                label1.Text = "Logged off";
-            }
-
-            
+            TwitterService.Instance.Logout();
+            label1.Text = "Logged out";
         }
 
         private void label1_Click(object sender, EventArgs e)

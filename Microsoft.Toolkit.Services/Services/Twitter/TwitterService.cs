@@ -433,9 +433,9 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <summary>
         /// Log user out of Twitter.
         /// </summary>
-        public bool Logout() //void
+        public void Logout() //void
         {
-           return  Provider.Logout();
+           Provider.Logout();
         }
 
         /// <summary>
