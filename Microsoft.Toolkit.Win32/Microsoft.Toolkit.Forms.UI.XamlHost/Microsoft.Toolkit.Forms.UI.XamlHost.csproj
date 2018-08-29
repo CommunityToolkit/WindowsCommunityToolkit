@@ -10,6 +10,11 @@
     <Title>Windows Community Toolkit XAMLHost for Windows Forms</Title>
     <Description>This library provides XAML islands interop helpers for Windows Forms. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>XAML Islands Win32 Forms WindowsForms WinForms XamlHost</PackageTags>
+
+    <!--
+    Need class WIndows.UI.Xaml.Hosting.DesktopWindowXamlSource, which was introduced in Insiders SDK 17692 on 19-Jun 2018
+    -->
+    <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -42,7 +47,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
-    </Reference>    
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
 

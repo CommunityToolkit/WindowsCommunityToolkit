@@ -12,21 +12,22 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
     /// </summary>
     internal static partial class NativeDefines
     {
+        // Window Messages
         public const int WM_MOVE = (int)WM.MOVE;
         public const int WM_SIZE = (int)WM.SIZE;
-
         public const int WM_WINDOWPOSCHANGING = (int)WM.WINDOWPOSCHANGING;
         public const int WM_WINDOWPOSCHANGED = (int)WM.WINDOWPOSCHANGED;
-
         public const int WM_SETFOCUS = (int)WM.SETFOCUS;
         public const int WM_KILLFOCUS = (int)WM.KILLFOCUS;
+        public const int WM_KEYDOWN = (int)WM.KEYDOWN;
+        public const int WM_KEYUP = (int)WM.KEYUP;
+
+        // Window Styles
+        public const uint WS_EX_CONTROLPARENT = 0x00010000;
+        public const int GWL_STYLE = -16;
 
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 
         public static IntPtr HWND_TOPMOST { get; } = IntPtr.Zero - 1;
-
-        public const int GWL_STYLE = -16;
-
-        public const uint WS_EX_CONTROLPARENT = 0x00010000;
     }
 }

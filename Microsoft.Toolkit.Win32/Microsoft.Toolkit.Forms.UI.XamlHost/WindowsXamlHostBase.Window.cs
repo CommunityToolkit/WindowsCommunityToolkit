@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             {
                 if (SafeNativeMethods.SetWindowPos(_xamlIslandWindowHandle, NativeDefines.HWND_TOP, 0, 0, Width, Height, SetWindowPosFlags.SHOWWINDOW) == IntPtr.Zero)
                 {
-                    throw new InvalidOperationException("WindowXamlHostBase::SetDesktopWindowXamlSourceWindowPos failed to set UWP XAML window position.");
+                    throw new InvalidOperationException($"{nameof(WindowsXamlHostBase)}::{nameof(SetDesktopWindowXamlSourceWindowPos)} failed to set UWP XAML window position.");
                 }
             }
         }

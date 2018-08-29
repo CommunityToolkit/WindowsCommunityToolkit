@@ -24,8 +24,6 @@ In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, a
 
 You'll find the **WindowsXamlHost** control in the **Windows Community Toolkit** section of the Visual Studio **Toolbox**.
 
-![WindowsXamlHost control in the toolbox](../resources/images/Controls/WindowsXAMLHost/windows-xaml-control-toolbox.png)
-
 ### Specify a UWP control type
 
 In the **Properties** window, set the **InitialTypeName** property to the fully qualified name of the UWP control that you want associate with the **WindowsXamlHost** control.
@@ -232,8 +230,6 @@ This example adds a ``TextBlock`` control to a ``StackPanel``, and then binds th
 In **Solution Explorer**, expand the WPF application project, and open a XAML page from that project in the designer.
 
 In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control and then drag it onto the designer of your WPF application.
-
-![WindowsXamlHost control in the toolbox](../resources/images/Controls/WindowsXAMLHost/windows-xaml-control-toolbox.png)
 
 In the **Properties** window, set the **InitialTypeName** property to the fully qualified name of the class in your UWP class library project that contains the field you defined earlier.
 

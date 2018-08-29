@@ -58,9 +58,9 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             base.OnGotFocus(e);
 
-            if (!xamlSource.HasFocus)
+            if (!_xamlSource.HasFocus)
             {
-                xamlSource.NavigateFocus(
+                _xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Programmatic));
             }
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             var sourceFocusNavigationRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, origin, _lastFocusRequest);
             try
             {
-                var result = xamlSource.NavigateFocus(sourceFocusNavigationRequest);
+                var result = _xamlSource.NavigateFocus(sourceFocusNavigationRequest);
 
                 // Returning true indicates that focus moved.  This will cause the HwndHost to
                 // move focus to the source’s hwnd (call SetFocus Win32 API)
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
                 // by "Restoring" the focus back to us under a new correctationId
                 var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
-                xamlSource.NavigateFocus(newRequest);
+                _xamlSource.NavigateFocus(newRequest);
             }
             else
             {
