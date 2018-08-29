@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// </summary>
         /// <value>The <see cref="Windows.UI.Xaml.UIElement"/> child.</value>
         /// <remarks>This UWP XAML element is the root element of the wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />.</remarks>
-        public Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
             get
             {
@@ -158,6 +158,15 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             {
                 _xamlSource.Content = _childInternal;
             }
+        }
+
+        /// <summary>
+        /// Exposes the ChildInternal object without exposing the type for cases where something needs the object externally.
+        /// </summary>
+        /// <returns></returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
         }
 
         /// <summary>

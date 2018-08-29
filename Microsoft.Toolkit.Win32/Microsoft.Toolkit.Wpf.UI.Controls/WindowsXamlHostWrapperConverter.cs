@@ -5,7 +5,7 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using Microsoft.Toolkit.Win32.UI.Interop;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 using uwpXaml = Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// <summary>
     /// Dual interface IValueConverter, assumes that the conversion is between a WindowsXamlHostBaseExt and its wrapped UIElement (XamlRoot) and attempts to return the correct instance of each.
     /// </summary>
-    internal class WindowsXamlHostWrapperConverter : IValueConverter, global::Windows.UI.Xaml.Data.IValueConverter
+    internal class WindowsXamlHostWrapperConverter : IValueConverter, Windows.UI.Xaml.Data.IValueConverter
     {
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -25,12 +25,12 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             throw new NotImplementedException();
         }
 
-        object global::Windows.UI.Xaml.Data.IValueConverter.Convert(object value, Type targetType, object parameter, string language)
+        object Windows.UI.Xaml.Data.IValueConverter.Convert(object value, Type targetType, object parameter, string language)
         {
-            return (value as WindowsXamlHostBaseExt)?.ChildInternal;
+            return (value as WindowsXamlHostBase)?.GetUwpInternalObject();
         }
 
-        object global::Windows.UI.Xaml.Data.IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
+        object Windows.UI.Xaml.Data.IValueConverter.ConvertBack(object value, Type targetType, object parameter, string language)
         {
             throw new NotImplementedException();
         }

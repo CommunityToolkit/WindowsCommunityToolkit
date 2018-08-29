@@ -93,10 +93,10 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)
         {
-            // VisualTreeHelper.DisconnectChildrenRecursive(obj.desktopWindowXamlSource.Content);
-            // obj.desktopWindowXamlSource.Content = null;
-            // Children.Remove(obj);
-            UwpControl.Children.Add(obj.ChildInternal);
+            if (obj.GetUwpInternalObject() is Windows.UI.Xaml.DependencyObject child)
+            {
+                UwpControl.Children.Add(child);
+            }
         }
 
         /// <summary>
