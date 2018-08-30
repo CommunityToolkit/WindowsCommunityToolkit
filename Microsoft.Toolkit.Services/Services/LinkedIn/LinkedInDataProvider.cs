@@ -15,6 +15,10 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
+#if WINFORMS
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
@@ -83,6 +87,23 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             _authentication = new UwpAuthenticationBroker();
             _storageManager = new UwpStorageManager();
             _passwordManager = new UwpPasswordManager();
+        }
+#endif
+
+#if WINFORMS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        /// <param name="requiredPermissions">Required permissions for the session.</param>
+        public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        {
+            Tokens = tokens;
+            RequiredPermissions = requiredPermissions;
+            _authentication = new NetFrameworkAuthenticationBroker();
+            _storageManager = new NetFrameworkStorageManager();
+            _passwordManager = new NetFrameworkPasswordManager();
         }
 #endif
 
