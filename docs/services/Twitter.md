@@ -168,7 +168,7 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## Using the service on non-UWP platforms
 
-**Note**: Twitter service already have their .NET Standard platform implementation.These interfaces are the NetFrameworkAuthenticationBroker, NetFrameworkPasswordManager, NetFrameworkStorageManager and NetFrameworkSignatureManager. 
+**Note**: The Twitter Service also has built-in .NET Framework support. You can skip this section if you'll be using it on that platform.
 
 To use the service outside the UWP platform, you'll need to implement some interfaces. These interfaces are the IAuthenticationBroker, IPasswordManager, IStorageManager and ISignatureManager.
 
