@@ -56,7 +56,6 @@
 ## [UniformGrid](controls/UniformGrid.md)
 ## [WebView (win32)](controls/WebView.md)
 ### [WebView known issues](controls/WebView-known-issues.md)
-## [WindowsXAMLHost](controls/WindowsXAMLHost.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Animations
