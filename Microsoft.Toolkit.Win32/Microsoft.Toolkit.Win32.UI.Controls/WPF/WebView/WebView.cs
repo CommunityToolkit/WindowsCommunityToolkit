@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         private ManualResetEvent _initializationComplete;
 
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Design", "CA1065", Justification ="Exceptions thrown to fail as fast as possible.")]
+        [SuppressMessage("Microsoft.Design", "CA1065", Justification = "Exceptions thrown to fail as fast as possible.")]
         static WebView()
         {
 #pragma warning disable 1065
@@ -752,7 +752,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (_webViewControl == null)
                     {
                         var handle = ChildWindow.Handle;
-                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
+                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width * DeviceDpi.DpiScaleX, RenderSize.Height * DeviceDpi.DpiScaleY);
 
                         _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
                     }
