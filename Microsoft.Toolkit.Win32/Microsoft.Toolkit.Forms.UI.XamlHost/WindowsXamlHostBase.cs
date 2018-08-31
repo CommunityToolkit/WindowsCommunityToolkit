@@ -12,7 +12,7 @@ using Microsoft.Toolkit.Win32.UI.XamlHost;
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A sample Windows Forms control that hosts XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     [System.ComponentModel.DesignerCategory("code")]
     public abstract partial class WindowsXamlHostBase : ContainerControl
@@ -93,6 +93,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // Create DesktopWindowXamlSource, host for UWP XAML content
             _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
 
+            // Hook up method for DesktopWindowXamlSource Focus handling
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
         }
 
@@ -133,6 +134,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             }
         }
 
+        /// <summary>
+        /// Sets the root UWP XAML element on DesktopWindowXamlSource
+        /// </summary>
+        /// <param name="newValue">A UWP XAML Framework element</param>
         protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
         {
             if (_xamlSource != null)
@@ -142,7 +147,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        /// Cleanup hosted XAML content
+        /// Clean up hosted UWP XAML content
         /// </summary>
         /// <param name="disposing">IsDisposing?</param>
         protected override void Dispose(bool disposing)

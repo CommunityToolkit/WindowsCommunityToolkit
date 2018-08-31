@@ -9,13 +9,15 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
     public static class UWPTypeFactory
     {
         /// <summary>
-        /// Create XAML content by type name
-        /// XAML type name should be specified as: namespace.class
+        /// Creates UWP XAML type instance from WinRT type name
+        /// UWP XAML type name should be specified as: namespace.class
         /// ex: MyClassLibrary.MyCustomType
+        /// ex: Windows.UI.Xaml.Shapes.Rectangle
+        /// ex: Windows.UI.Xaml.Controls.Button
         /// </summary>
-        /// <param name="xamlTypeName">XAML type name</param>
+        /// <param name="xamlTypeName">UWP XAML type name</param>
         /// <exception cref="InvalidOperationException">Condition.</exception>
-        /// <returns>instance of object described by xamlTypeName string</returns>
+        /// <returns>Instance of UWP XAML type described by xamlTypeName string</returns>
         public static Windows.UI.Xaml.FrameworkElement CreateXamlContentByType(string xamlTypeName)
         {
             Windows.UI.Xaml.Markup.IXamlType xamlType = null;

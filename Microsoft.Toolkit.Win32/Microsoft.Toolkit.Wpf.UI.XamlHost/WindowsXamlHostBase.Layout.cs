@@ -8,7 +8,7 @@ using System.Windows;
 namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 {
     /// <summary>
-    /// Layout portion of windows XamlHostBase
+    /// Integrates UWP XAML in to WPF's layout system
     /// </summary>
     public partial class WindowsXamlHostBase
     {
