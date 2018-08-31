@@ -1175,8 +1175,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // Update bounds here to ensure correct draw position
             if (IsScalingRequired)
             {
-                width = DpiHelper.LogicalToDeviceUnits(width, DeviceDpi);
-                height = DpiHelper.LogicalToDeviceUnits(height, DeviceDpi);
+                width = (int)(width * DeviceDpi.DpiScaleX);
+                height = (int)(height * DeviceDpi.DpiScaleY);
             }
 
             // HACK: looks like the vertical pos is counted twice, giving a gap
