@@ -6,6 +6,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 using Microsoft.Toolkit.Win32.UI.XamlHost;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 {
@@ -32,6 +33,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// deinitialized when the last instance of WindowsXamlManager is destroyed.
         /// </summary>
         private readonly Windows.UI.Xaml.Hosting.WindowsXamlManager _windowsXamlManager;
+
+        /// <summary>
+        /// Private field that backs ChildInternal property.
+        /// </summary>
+        private UIElement _childInternal;
 
         /// <summary>
         ///     Fired when WindowsXamlHost root UWP XAML content has been updated
@@ -78,7 +84,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             get
             {
-                return _xamlSource?.Content;
+                return _childInternal;
             }
 
             set
@@ -94,7 +100,8 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
                     currentRoot.SizeChanged -= XamlContentSizeChanged;
                 }
 
-                SetContent(value);
+                _childInternal = value;
+                SetContent();
 
                 var frameworkElement = ChildInternal as Windows.UI.Xaml.FrameworkElement;
                 if (frameworkElement != null)
@@ -145,11 +152,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// Override this method if that shouldn't be the case.
         /// For example, override if your control should be a child of another WindowsXamlHostBase-based control.
         /// </summary>
-        protected virtual void SetContent(Windows.UI.Xaml.UIElement newValue)
+        protected virtual void SetContent()
         {
             if (_xamlSource != null)
             {
-                _xamlSource.Content = newValue;
+                _xamlSource.Content = _childInternal;
             }
         }
 
