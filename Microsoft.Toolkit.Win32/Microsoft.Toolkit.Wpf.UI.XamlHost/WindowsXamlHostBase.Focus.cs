@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <returns>result of transformed rectangle</returns>
         private static Windows.Foundation.Rect BoundsRelativeTo(FrameworkElement sibling1, System.Windows.Media.Visual sibling2)
         {
-            Windows.Foundation.Rect origin;
+            Windows.Foundation.Rect origin = default(Windows.Foundation.Rect);
 
             if (sibling1 != null)
             {
