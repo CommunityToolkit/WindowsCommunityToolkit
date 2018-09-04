@@ -74,6 +74,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected DpiScale DpiScale { get; private set; }
 
         /// <summary>
+        /// Gets the current DPI for this control
+        /// </summary>
+        /// <seealso cref="IsScalingRequired"/>
+        [Obsolete("This property is obsolete and will be removed in a future version. Use DpiScale instead.")]
+        protected int DeviceDpi => (int)DpiScale.PixelsPerInchX;
+
+        /// <summary>
+        /// Gets a value indicating whether scaling is required for the current DPI.
+        /// </summary>
+        /// <value><see langword="true"/> if scaling is required; otherwise, <see langword="false"/>.</value>
+        [Obsolete("This property is obsolete and will be removed in a future version.")]
+        protected bool IsScalingRequired => DpiScale.DpiScaleX != 1 || DpiScale.DpiScaleY != 1;
+
+        /// <summary>
         /// Gets the parent handle.
         /// </summary>
         /// <value>The <see cref="HandleRef"/> passed in to <see cref="BuildWindowCore"/>.</value>
