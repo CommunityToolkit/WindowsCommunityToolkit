@@ -9,7 +9,7 @@ using System.Windows;
 namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 {
     /// <summary>
-    /// Focus portion of WindowsXamlHostBase
+    /// Focus and Keyboard handling for Focus integration with UWP XAML
     /// </summary>
     public partial class WindowsXamlHostBase
     {

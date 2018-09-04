@@ -11,17 +11,14 @@ using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A Windows Forms control that can be used to host XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
         /// <summary>
-        /// Internal only
+        /// Draw a placeholder Rectangle with 'Xaml Content' in Design mode
         /// </summary>
-        /// <internalonly>
-        ///     Hide GDI painting because the HwndTarget is going to just bitblt the root
-        ///     visual on top of everything.
-        /// </internalonly>
+        /// <param name="e">PaintEventArgs</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnPaint(PaintEventArgs e)
@@ -54,13 +51,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        /// Internal Only
+        /// Prevent control from painting the background
         /// </summary>
-        /// <internalonly>
-        ///     Paint our parent's background into an offscreen HBITMAP.
-        ///     We then draw this as our background in the hosted Avalon
-        ///     control's Render() method to support WinForms->Avalon transparency.
-        /// </internalonly>
+        /// <param name="pevent">PaintEventArgs</param>
         [Browsable(false)]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnPaintBackground(PaintEventArgs pevent)
@@ -92,7 +85,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
                 // BUGBUG: Focus integration with Windows.UI.Xaml.Hosting.XamlSourceFocusNavigation is
                 // skipping over nested elements. Update or move back to Windows.Xaml.Input.FocusManager.
-                // WM_SETFOCUS should not be handled directly. Bug 18356717: DesktopWindowXamlSource.NavigateFocus
+                // WM_SETFOCUS should not be handled directly. MS Internal: DesktopWindowXamlSource.NavigateFocus
                 // non-directional Focus not moving Focus, not responding to keyboard input.
                 case NativeDefines.WM_SETFOCUS:
                     if (UnsafeNativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)

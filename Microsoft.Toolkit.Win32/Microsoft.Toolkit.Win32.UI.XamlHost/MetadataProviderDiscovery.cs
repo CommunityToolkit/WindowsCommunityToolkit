@@ -9,10 +9,11 @@ using System.Reflection;
 namespace Microsoft.Toolkit.Win32.UI.XamlHost
 {
     /// <summary>
-    /// MetadataProviderDiscovery has the responsibility of loading all other metadata providers for custom UWP XAML
+    /// MetadataProviderDiscovery is responsible for loading all metadata providers for custom UWP XAML
     /// types.  In this implementation, reflection is used at runtime to probe for metadata providers in
     /// the working directory, allowing any type that includes metadata (compiled in to a .NET framework
-    /// assembly) to be used without explicit metadata handling by the developer.
+    /// assembly) to be used without explicit metadata handling by the application developer.  This
+    /// internal class will be amended or removed when additional type loading support is available.
     /// </summary>
     internal static class MetadataProviderDiscovery
     {
@@ -65,8 +66,6 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         private static void LoadTypesFromAssembly(Assembly assembly, ref List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> metadataProviders, ref List<Type> filteredTypes)
         {
             // Load types inside the executing assembly
-            Type thisType = typeof(Windows.UI.Xaml.Application);
-
             foreach (var type in assembly.GetTypes())
             {
                 if (filteredTypes.Contains(type))
