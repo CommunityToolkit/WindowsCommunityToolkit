@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using Windows.UI.Xaml.Markup;
 
 namespace Microsoft.Toolkit.Win32.UI.XamlHost
 {
@@ -22,30 +25,23 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         /// </summary>
         /// <param name="filteredTypes">Types to ignore</param>
         /// <returns>List of UWP XAML metadata providers</returns>
-        internal static List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> DiscoverMetadataProviders(List<Type> filteredTypes)
+        internal static List<IXamlMetadataProvider> DiscoverMetadataProviders(List<Type> filteredTypes)
         {
             // List of discovered UWP XAML metadata providers
-            List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> metadataProviders = null;
-            metadataProviders = new List<Windows.UI.Xaml.Markup.IXamlMetadataProvider>();
+            var metadataProviders = new List<IXamlMetadataProvider>();
 
             // Reflection-based runtime metadata probing
-            var currentDirectory = System.IO.Directory.GetCurrentDirectory();
-            var exes = System.IO.Directory.GetFiles(currentDirectory, "*.exe");
-            var dlls = System.IO.Directory.GetFiles(currentDirectory, "*.dll");
+            var currentDirectory = new FileInfo(typeof(MetadataProviderDiscovery).Assembly.Location).Directory;
 
-            var files = new string[exes.Length + dlls.Length];
-            Array.Copy(exes, files, exes.Length);
-            Array.Copy(dlls, 0, files, exes.Length, dlls.Length);
-
-            foreach (var file in files)
+            foreach (var file in currentDirectory.GetFiles("*.dll").Union(currentDirectory.GetFiles("*.exe")))
             {
                 try
                 {
-                    var assembly = Assembly.LoadFrom(file);
+                    var assembly = Assembly.LoadFrom(file.FullName);
 
                     LoadTypesFromAssembly(assembly, ref metadataProviders, ref filteredTypes);
                 }
-                catch (System.IO.FileLoadException)
+                catch (FileLoadException)
                 {
                     // These exceptions are expected
                 }
@@ -63,7 +59,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         /// <param name="assembly">Target assembly to load types from</param>
         /// <param name="metadataProviders">List of metadata providers</param>
         /// <param name="filteredTypes">List of types to ignore</param>
-        private static void LoadTypesFromAssembly(Assembly assembly, ref List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> metadataProviders, ref List<Type> filteredTypes)
+        private static void LoadTypesFromAssembly(Assembly assembly, ref List<IXamlMetadataProvider> metadataProviders, ref List<Type> filteredTypes)
         {
             // Load types inside the executing assembly
             foreach (var type in assembly.GetTypes())
@@ -73,9 +69,9 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
                     continue;
                 }
 
-                if (typeof(Windows.UI.Xaml.Markup.IXamlMetadataProvider).IsAssignableFrom(type))
+                if (typeof(IXamlMetadataProvider).IsAssignableFrom(type))
                 {
-                    var provider = (Windows.UI.Xaml.Markup.IXamlMetadataProvider)Activator.CreateInstance(type);
+                    var provider = (IXamlMetadataProvider)Activator.CreateInstance(type);
                     metadataProviders.Add(provider);
                 }
             }
