@@ -4,7 +4,6 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.XamlHost</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Forms.UI.XamlHost</AssemblyName>
-    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit XAMLHost for Windows Forms</Title>
