@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             // Create DesktopWindowXamlSource, host for UWP XAML content
             _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
 
-            // Hook OnTakeFocus event for Focus processing
+            // Hook DesktopWindowXamlSource OnTakeFocus event for Focus processing
             _xamlSource.TakeFocusRequested += OnTakeFocusRequested;
         }
 
@@ -175,20 +175,21 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <param name="disposing">Is disposing?</param>
         protected override void Dispose(bool disposing)
         {
-            if (disposing && !IsDisposed)
+            if (disposing)
             {
-                IsDisposed = true;
+                ChildInternal = null;
 
+                // Required by CA2213: _xamlSource?.Dispose() is insufficient.
                 if (_xamlSource != null)
                 {
                     _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                    _xamlSource.Dispose();
                 }
-
-                ChildInternal = null;
-
-                _windowsXamlManager?.Dispose();
-                _xamlSource?.Dispose();
             }
+
+            // BUGBUG: CoreInputSink cleanup is failing when explicitly disposing
+            // WindowsXamlManager.  Add dispose call back when that bug is fixed in 19h1.
+            base.Dispose(disposing);
         }
     }
 }
