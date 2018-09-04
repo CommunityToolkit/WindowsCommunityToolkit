@@ -62,11 +62,12 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 
                 var frameworkElement = Child as Windows.UI.Xaml.FrameworkElement;
 
-                // TODO: Check frameworkElement is not NULL
-
                 // Default to stretch : UWP XAML content will conform to the size of WindowsXamlHost
-                frameworkElement.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
-                frameworkElement.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch;
+                if (frameworkElement != null)
+                {
+                    frameworkElement.HorizontalAlignment = Windows.UI.Xaml.HorizontalAlignment.Stretch;
+                    frameworkElement.VerticalAlignment = Windows.UI.Xaml.VerticalAlignment.Stretch;
+                }
             }
 
             return base.BuildWindowCore(hwndParent);

@@ -4,7 +4,6 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.XamlHost</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Forms.UI.XamlHost</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit XAMLHost for Windows Forms</Title>
@@ -15,12 +14,6 @@
     Need class WIndows.UI.Xaml.Hosting.DesktopWindowXamlSource, which was introduced in Insiders SDK 17692 on 19-Jun 2018
     -->
     <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47</DefineConstants>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
   </PropertyGroup>
 
   <ItemGroup>
@@ -49,6 +42,12 @@
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="WindowsBase" />
+    <Reference Include="System.Runtime.WindowsRuntime">
+      <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" >
+      <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -70,11 +69,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Runtime.WindowsRuntime" Version="4.0.0" PrivateAssets="All" />
-    <PackageReference Include="System.Runtime.WindowsRuntime.UI.Xaml" Version="4.0.0" PrivateAssets="All" />
   </ItemGroup>
 
 </Project>
