@@ -17,12 +17,6 @@
     <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>TRACE;DEBUG;CODE_ANALYSIS;NET47</DefineConstants>
-    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <WarningsAsErrors />
-  </PropertyGroup>
-
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.XamlHost\**\*.cs" />
   </ItemGroup>
