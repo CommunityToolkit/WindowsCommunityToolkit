@@ -709,7 +709,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             _tokens.AccessTokenSecret = accessTokenSecret;
 
             _passwordManager.Store("TwitterAccessToken", new PasswordCredential { UserName = accessToken, Password = accessTokenSecret });
-            _storageManager.Set("TwitterScreenName", screenName);
+            await _storageManager.Set("TwitterScreenName", screenName);
 
             return true;
         }
