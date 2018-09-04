@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
             this.ChildInternal = UWPTypeFactory.CreateXamlContentByType("Windows.UI.Xaml.Shapes.Rectangle");
 
             // Set DesktopWindowXamlSource
-            SetContent(ChildInternal);
+            SetContent();
 
             global::Windows.UI.Xaml.Shapes.Rectangle rectangle = this.ChildInternal as global::Windows.UI.Xaml.Shapes.Rectangle;
 
