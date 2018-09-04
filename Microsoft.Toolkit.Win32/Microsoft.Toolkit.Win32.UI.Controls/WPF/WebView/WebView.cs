@@ -752,7 +752,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     if (_webViewControl == null)
                     {
                         var handle = ChildWindow.Handle;
-                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width * DeviceDpi.DpiScaleX, RenderSize.Height * DeviceDpi.DpiScaleY);
+                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width * DpiScale.DpiScaleX, RenderSize.Height * DpiScale.DpiScaleY);
 
                         _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
                     }
@@ -1173,8 +1173,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #endif
 
             // Update bounds here to ensure correct draw position
-            width *= DeviceDpi.DpiScaleX;
-            height *= DeviceDpi.DpiScaleY;
+            width *= DpiScale.DpiScaleX;
+            height *= DpiScale.DpiScaleY;
 
             // HACK: looks like the vertical pos is counted twice, giving a gap
             y = 0;

@@ -44,12 +44,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         /// </summary>
         protected WebViewHost()
         {
-            DpiHelper.Initialize();
             DpiHelper.SetPerMonitorDpiAwareness();
-
-            // Get system DPI
-            DeviceDpi = VisualTreeHelper.GetDpi(this);
-            Verify.AreEqual(DpiHelper.DeviceDpi, DeviceDpi.PixelsPerInchX);
+            DpiScale = VisualTreeHelper.GetDpi(this);
 
             DpiChanged += OnDpiChanged;
             SizeChanged += OnSizeChanged;
@@ -73,16 +69,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         protected HandleRef ChildWindow { get; private set; }
 
         /// <summary>
-        /// Gets the current DPI for this control
+        /// Gets the DPI information for which the <see cref="Visual"/> is measured and rendered.
         /// </summary>
-        /// <seealso cref="IsScalingRequired"/>
-        protected DpiScale DeviceDpi { get; private set; }
-
-        /// <summary>
-        /// Gets a value indicating whether scaling is required for the current DPI.
-        /// </summary>
-        /// <value><see langword="true"/> if scaling is required; otherwise, <see langword="false"/>.</value>
-        protected bool IsScalingRequired => DeviceDpi.DpiScaleX != 1 || DeviceDpi.DpiScaleY != 1;
+        protected DpiScale DpiScale { get; private set; }
 
         /// <summary>
         /// Gets the parent handle.
@@ -244,9 +233,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 #if DEBUG_LAYOUT
             Debug.WriteLine("Old DPI: ({0}, {1}), New DPI: ({2}, {3})", e.OldDpi.DpiScaleX, e.OldDpi.DpiScaleY, e.NewDpi.DpiScaleX, e.NewDpi.DpiScaleY);
 #endif
-            Verify.AreEqual(DeviceDpi.PixelsPerInchX, e.OldDpi.PixelsPerInchX);
-            Verify.AreEqual(DeviceDpi.PixelsPerInchY, e.OldDpi.PixelsPerInchY);
-            DeviceDpi = e.NewDpi;
+            Verify.AreEqual(DpiScale.PixelsPerInchX, e.OldDpi.PixelsPerInchX);
+            Verify.AreEqual(DpiScale.PixelsPerInchY, e.OldDpi.PixelsPerInchY);
+            DpiScale = e.NewDpi;
         }
 
         private void OnSizeChanged(object o, SizeChangedEventArgs e)
