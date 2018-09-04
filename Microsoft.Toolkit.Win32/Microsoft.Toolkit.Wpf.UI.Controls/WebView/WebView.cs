@@ -878,9 +878,12 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             if (dependencyObject is WebView wv)
             {
+                // Web View may not be initialized when setting dependency properties
+                // Dependency properties may be set in XAML, which would cause entry here; however,
+                // control is initialized asynchronously and may not be completed as of yet. The settings
+                // are then read by initialization and state transferred
                 if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Source))
                 {
-                    Verify.IsTrue(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
@@ -888,7 +891,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
                 {
-                    Verify.IsTrue(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsIndexedDBEnabled =
@@ -897,7 +899,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsJavaScriptEnabled))
                 {
-                    Verify.IsTrue(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsJavaScriptEnabled =
@@ -906,7 +907,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsScriptNotifyAllowed))
                 {
-                    Verify.IsTrue(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         wv._webViewControl.Settings.IsScriptNotifyAllowed =
@@ -915,7 +915,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsPrivateNetworkClientServerCapabilityEnabled))
                 {
-                    Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
@@ -923,7 +922,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(EnterpriseId))
                 {
-                    Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)
                     {
                         throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
