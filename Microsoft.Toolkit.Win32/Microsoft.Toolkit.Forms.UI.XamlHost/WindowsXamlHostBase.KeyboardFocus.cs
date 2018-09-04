@@ -10,7 +10,7 @@ using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A sample Windows Forms control that can be used to host XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///     Activates the Control
+        ///     Activates the Windows Forms WindowsXamlHost Control
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
@@ -69,12 +69,12 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             else
             {
                 // Temporary Focus handling for Redstone 5
-                var hWnd = UnsafeNativeMethods.GetFocus();
 
-                var tabKeyScanCode = GetScanCodeForOEMChar((int)Keys.Tab);
-                var result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYDOWN, new IntPtr((int)Keys.Tab), tabKeyScanCode);
-                result = UnsafeNativeMethods.SendMessage(new HandleRef(this, hWnd), NativeDefines.WM_KEYUP, new IntPtr((int)Keys.Tab), tabKeyScanCode);
-                return result.ToInt32() == 1;
+                // Call Windows.UI.Xaml.Input.FocusManager.TryMoveFocus Next or Previous and return
+                Windows.UI.Xaml.Input.FocusNavigationDirection navigationDirection =
+                    forward ? Windows.UI.Xaml.Input.FocusNavigationDirection.Next : Windows.UI.Xaml.Input.FocusNavigationDirection.Previous;
+
+                return Windows.UI.Xaml.Input.FocusManager.TryMoveFocus(navigationDirection);
             }
         }
 
@@ -91,24 +91,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
                 Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
             }
-        }
-
-        /// <summary>
-        /// Get key scan code for character
-        /// </summary>
-        /// <param name="character">Target character</param>
-        /// <returns>Key scan code</returns>
-        private IntPtr GetScanCodeForOEMChar(int character)
-        {
-            var lParam = unchecked((int)0xC0000001);
-            var oemVal = UnsafeNativeMethods.OemKeyScan((short)(0xFF & character));
-            if (oemVal != -1)
-            {
-                oemVal <<= 16;
-                lParam += oemVal;
-            }
-
-            return (IntPtr)lParam;
         }
     }
 }

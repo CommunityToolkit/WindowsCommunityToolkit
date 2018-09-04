@@ -40,40 +40,5 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         [SecurityCritical]
         [DllImport(ExternDll.User32, SetLastError = true)]
         internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
-
-        /// <summary>
-        /// Retrieves the handle to the window that has the keyboard focus, if the window is attached to the calling thread's message queue.
-        /// </summary>
-        /// <returns>Window handle of window that currently has Focus</returns>
-        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
-        [SecurityCritical]
-        internal static extern IntPtr GetFocus();
-
-        /// <summary>
-        /// Sends the specified message to a window or windows. The SendMessage function calls the
-        /// window procedure for the specified window and does not return until the window procedure
-        /// has processed the message.
-        /// </summary>
-        /// <param name="hWnd">Target window</param>
-        /// <param name="msg">Message</param>
-        /// <param name="wParam">Additional message-specific information (WPARAM).</param>
-        /// <param name="lParam">Additional message-specific information (LPARAM).</param>
-        /// <returns>The return value specifies the result of the message processing; it depends on the message sent.</returns>
-        [DllImport(ExternDll.User32, CharSet = CharSet.Auto, SetLastError = true)]
-        [SecurityCritical]
-        internal static extern IntPtr SendMessage(HandleRef hWnd, int msg, IntPtr wParam, IntPtr lParam);
-
-        /// <summary>
-        /// Maps OEMASCII codes 0 through 0x0FF into the OEM scan codes and shift states. The
-        /// function provides information that allows a program to send OEM text to another
-        /// program by simulating keyboard input.
-        /// </summary>
-        /// <param name="wAsciiVal">Ascii key value</param>
-        /// <returns>The low-order word of the return value contains the scan code of the
-        /// OEM character, and the high-order word contains the shift state, which can be
-        /// a combination of the following bits.</returns>
-        [System.Runtime.InteropServices.DllImport(ExternDll.User32)]
-        [SecurityCritical]
-        internal static extern int OemKeyScan(short wAsciiVal);
     }
 }

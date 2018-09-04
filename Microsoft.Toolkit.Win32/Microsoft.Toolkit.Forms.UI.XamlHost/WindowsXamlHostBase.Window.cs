@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A sample Windows Forms control that can be used to host XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
