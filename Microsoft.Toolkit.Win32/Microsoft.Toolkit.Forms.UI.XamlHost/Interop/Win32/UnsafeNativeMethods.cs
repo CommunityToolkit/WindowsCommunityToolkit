@@ -4,8 +4,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
-using System.Security;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
@@ -13,10 +11,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
     /// <summary>
     /// This class is for methods that are potentially dangerous. Any caller of these methods must perform a full security review to make sure that the usage is secure because no stack walk will be performed.
     /// </summary>
-    /// <remarks>
-    /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
-    /// </remarks>
-    [SuppressUnmanagedCodeSecurity]
     internal static partial class UnsafeNativeMethods
     {
         /// <summary>
@@ -26,7 +20,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         ///  SecurityCritical: This code happens to return a critical resource and causes unmanaged code elevation
         /// </SecurityNote>
         /// <returns>handle</returns>
-        [SecurityCritical]
         [DllImport(ExternDll.User32, EntryPoint = "SetFocus", ExactSpelling = true, CharSet = CharSet.Auto, SetLastError = true)]
         internal static extern IntPtr IntSetFocus(IntPtr hWnd);
 
@@ -37,7 +30,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         /// <param name="nIndex">Zero-based offset</param>
         /// <param name="dwNewLong">The replacement value</param>
         /// <returns>A positive integer indicates success; zero indicates failure</returns>
-        [SecurityCritical]
         [DllImport(ExternDll.User32, SetLastError = true)]
         internal static extern int SetWindowLong(IntPtr hWnd, int nIndex, uint dwNewLong);
     }

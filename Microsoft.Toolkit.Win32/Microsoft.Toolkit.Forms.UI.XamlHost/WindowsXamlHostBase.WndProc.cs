@@ -65,7 +65,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// Processes Windows messages for XamlContentHost control window (not XAML window)
         /// </summary>
         /// <param name="m">message to process</param>
-        [SecurityPermission(SecurityAction.InheritanceDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
         protected override void WndProc(ref Message m)
         {
             if (DesignMode)

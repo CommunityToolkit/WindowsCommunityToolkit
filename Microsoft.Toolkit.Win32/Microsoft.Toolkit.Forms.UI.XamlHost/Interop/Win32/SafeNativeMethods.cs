@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
-using System.Security;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
@@ -13,10 +12,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
     /// <summary>
     /// This class is for methods that are safe for anyone to call. Callers of these methods are not required to perform a full security review to make sure that the usage is secure because the methods are harmless for any caller.
     /// </summary>
-    /// <remarks>
-    /// <see cref="SuppressUnmanagedCodeSecurityAttribute"/> is applied to this class.
-    /// </remarks>
-    [SuppressUnmanagedCodeSecurity]
     internal static partial class SafeNativeMethods
     {
         /// <summary>

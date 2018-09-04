@@ -60,7 +60,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <summary>
         /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
         /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public WindowsXamlHostBase()
         {
             SetStyle(ControlStyles.ContainerControl, true);
@@ -102,7 +101,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public Windows.UI.Xaml.UIElement ChildInternal
+        internal Windows.UI.Xaml.UIElement ChildInternal
         {
             get => _xamlSource.Content;
 
