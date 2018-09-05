@@ -3,26 +3,23 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.InteropServices;
-using Microsoft.Win32.SafeHandles;
+using System.Text;
 using Microsoft.Toolkit.Services.Core;
+using Microsoft.Win32.SafeHandles;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkPasswordManager : IPasswordManager
     {
         [DllImport("Advapi32.dll", EntryPoint = "CredReadW", CharSet = CharSet.Unicode, SetLastError = true)]
-        static extern bool CredRead(string target, CRED_TYPE type, int reservedFlag, out IntPtr CredentialPtr);
+        private static extern bool CredRead(string target, CRED_TYPE type, int reservedFlag, out IntPtr credentialPtr);
 
         [DllImport("Advapi32.dll", EntryPoint = "CredWriteW", CharSet = CharSet.Unicode, SetLastError = true)]
-        static extern bool CredWrite([In] ref NativeCredential userCredential, [In] UInt32 flags);
+        private static extern bool CredWrite([In] ref NativeCredential userCredential, [In] uint flags);
 
         [DllImport("Advapi32.dll", EntryPoint = "CredFree", SetLastError = true)]
-        static extern bool CredFree([In] IntPtr cred);
+        private static extern bool CredFree([In] IntPtr cred);
 
         [DllImport("advapi32.dll", EntryPoint = "CredDeleteW", CharSet = CharSet.Unicode)]
         private static extern bool CredDelete(string target, CRED_TYPE type, int flags);
@@ -36,8 +33,9 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             GENERIC_CERTIFICATE = 5,
             DOMAIN_EXTENDED = 6,
             MAXIMUM = 7,      // Maximum supported cred type
-            MAXIMUM_EX = (MAXIMUM + 1000),  // Allow new applications to run on old OSes
+            MAXIMUM_EX = MAXIMUM + 1000,  // Allow new applications to run on old OSes
         }
+
         public enum CRED_PERSIST : uint
         {
             SESSION = 1,
@@ -45,19 +43,18 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             ENTERPRISE = 3,
         }
 
-
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct NativeCredential
         {
-            public UInt32 Flags;
+            public uint Flags;
             public CRED_TYPE Type;
             public IntPtr TargetName;
             public IntPtr Comment;
             public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
-            public UInt32 CredentialBlobSize;
+            public uint CredentialBlobSize;
             public IntPtr CredentialBlob;
-            public UInt32 Persist;
-            public UInt32 AttributeCount;
+            public uint Persist;
+            public uint AttributeCount;
             public IntPtr Attributes;
             public IntPtr TargetAlias;
             public IntPtr UserName;
@@ -70,17 +67,19 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             /// instance.</returns>
             internal static NativeCredential GetNativeCredential(Credential cred)
             {
-                NativeCredential ncred = new NativeCredential();
-                ncred.AttributeCount = 0;
-                ncred.Attributes = IntPtr.Zero;
-                ncred.Comment = IntPtr.Zero;
-                ncred.TargetAlias = IntPtr.Zero;
-                ncred.Type = CRED_TYPE.GENERIC;
-                ncred.Persist = (UInt32)cred.Persist;
-                ncred.CredentialBlobSize = (UInt32)cred.CredentialBlobSize;
-                ncred.TargetName = Marshal.StringToCoTaskMemUni(cred.TargetName);
-                ncred.CredentialBlob = Marshal.StringToCoTaskMemUni(cred.CredentialBlob);
-                ncred.UserName = Marshal.StringToCoTaskMemUni(cred.UserName);
+                NativeCredential ncred = new NativeCredential
+                {
+                    AttributeCount = 0,
+                    Attributes = IntPtr.Zero,
+                    Comment = IntPtr.Zero,
+                    TargetAlias = IntPtr.Zero,
+                    Type = CRED_TYPE.GENERIC,
+                    Persist = (uint)cred.Persist,
+                    CredentialBlobSize = (uint)cred.CredentialBlobSize,
+                    TargetName = Marshal.StringToCoTaskMemUni(cred.TargetName),
+                    CredentialBlob = Marshal.StringToCoTaskMemUni(cred.CredentialBlob),
+                    UserName = Marshal.StringToCoTaskMemUni(cred.UserName)
+                };
                 return ncred;
             }
         }
@@ -88,22 +87,24 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct Credential
         {
-            public UInt32 Flags;
+            public uint Flags;
             public CRED_TYPE Type;
             public string TargetName;
             public string Comment;
             public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
-            public UInt32 CredentialBlobSize;
+            public uint CredentialBlobSize;
             public string CredentialBlob;
             public CRED_PERSIST Persist;
-            public UInt32 AttributeCount;
+            public uint AttributeCount;
             public IntPtr Attributes;
             public string TargetAlias;
             public string UserName;
         }
 
-        #region Critical Handle Type definition
-        sealed class CriticalCredentialHandle : CriticalHandleZeroOrMinusOneIsInvalid
+        /// <summary>
+        /// Handle and create the credential.
+        /// </summary>
+        private sealed class CriticalCredentialHandle : CriticalHandleZeroOrMinusOneIsInvalid
         {
             // Set the handle.
             internal CriticalCredentialHandle(IntPtr preexistingHandle)
@@ -116,20 +117,20 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 if (!IsInvalid)
                 {
                     // Get the Credential from the mem location
-                    NativeCredential ncred = (NativeCredential)Marshal.PtrToStructure(handle,
-                          typeof(NativeCredential));
+                    NativeCredential ncred = (NativeCredential)Marshal.PtrToStructure(handle, typeof(NativeCredential));
 
                     // Create a managed Credential type and fill it with data from the native counterpart.
-                    Credential cred = new Credential();
-                    cred.CredentialBlobSize = ncred.CredentialBlobSize;
-                    cred.CredentialBlob = Marshal.PtrToStringUni(ncred.CredentialBlob,
-                          (int)ncred.CredentialBlobSize / 2);
-                    cred.UserName = Marshal.PtrToStringUni(ncred.UserName);
-                    cred.TargetName = Marshal.PtrToStringUni(ncred.TargetName);
-                    cred.TargetAlias = Marshal.PtrToStringUni(ncred.TargetAlias);
-                    cred.Type = ncred.Type;
-                    cred.Flags = ncred.Flags;
-                    cred.Persist = (CRED_PERSIST)ncred.Persist;
+                    Credential cred = new Credential
+                    {
+                        CredentialBlobSize = ncred.CredentialBlobSize,
+                        CredentialBlob = Marshal.PtrToStringUni(ncred.CredentialBlob, (int)ncred.CredentialBlobSize / 2),
+                        UserName = Marshal.PtrToStringUni(ncred.UserName),
+                        TargetName = Marshal.PtrToStringUni(ncred.TargetName),
+                        TargetAlias = Marshal.PtrToStringUni(ncred.TargetAlias),
+                        Type = ncred.Type,
+                        Flags = ncred.Flags,
+                        Persist = (CRED_PERSIST)ncred.Persist
+                    };
                     return cred;
                 }
                 else
@@ -139,10 +140,9 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
 
             // Perform any specific actions to release the handle in the ReleaseHandle method.
-            // Often, you need to use Pinvoke to make a call into the Win32 API to release the 
+            // Often, you need to use Pinvoke to make a call into the Win32 API to release the
             // handle. In this case, however, we can use the Marshal class to release the unmanaged memory.
-
-            override protected bool ReleaseHandle()
+            protected override bool ReleaseHandle()
             {
                 // If the handle was set, free it. Return success.
                 if (!IsInvalid)
@@ -150,37 +150,42 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                     // NOTE: We should also ZERO out the memory allocated to the handle, before free'ing it
                     // so there are no traces of the sensitive data left in memory.
                     CredFree(handle);
+
                     // Mark the handle as invalid for future users.
                     SetHandleAsInvalid();
                     return true;
                 }
-                // Return false. 
+
+                // Return false.
                 return false;
             }
         }
-        #endregion
+
         public void Store(string resource, PasswordCredential credential)
         {
             // Validations.
-
             byte[] byteArray = Encoding.Unicode.GetBytes(credential.Password);
             if (byteArray.Length > 512)
+            {
                 throw new ArgumentOutOfRangeException("The secret message has exceeded 512 bytes.");
+            }
 
             // Go ahead with what we have are stuff it into the CredMan structures.
-            Credential cred = new Credential();
-            cred.TargetName = resource;
-            cred.UserName = credential.UserName;
-            cred.CredentialBlob = credential.Password;
-            cred.CredentialBlobSize = (UInt32)Encoding.Unicode.GetBytes(credential.Password).Length;
-            cred.AttributeCount = 0;
-            cred.Attributes = IntPtr.Zero;
-            cred.Comment = null;
-            cred.TargetAlias = null;
-            cred.Type = CRED_TYPE.GENERIC;
-            cred.Persist = CRED_PERSIST.LOCAL_MACHINE;
-            
+            Credential cred = new Credential
+            {
+                TargetName = resource,
+                UserName = credential.UserName,
+                CredentialBlob = credential.Password,
+                CredentialBlobSize = (uint)Encoding.Unicode.GetBytes(credential.Password).Length,
+                AttributeCount = 0,
+                Attributes = IntPtr.Zero,
+                Comment = null,
+                TargetAlias = null,
+                Type = CRED_TYPE.GENERIC,
+                Persist = CRED_PERSIST.LOCAL_MACHINE
+            };
             NativeCredential ncred = NativeCredential.GetNativeCredential(cred);
+
             // Write the info into the CredMan storage.
             bool written = CredWrite(ref ncred, 0);
             int lastError = Marshal.GetLastWin32Error();

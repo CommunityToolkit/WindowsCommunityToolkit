@@ -13,6 +13,7 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #if WINFORMS
 using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
 #endif
+
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
