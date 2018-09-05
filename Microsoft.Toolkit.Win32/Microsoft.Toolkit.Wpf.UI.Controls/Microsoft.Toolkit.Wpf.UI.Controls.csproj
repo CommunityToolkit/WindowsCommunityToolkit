@@ -22,6 +22,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Support\**" />
+    <EmbeddedResource Remove="Support\**" />
+    <None Remove="Support\**" />
+    <Page Remove="Support\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="InkCanvas\CoreInputDeviceTypes.cs" />
+    <Compile Remove="InkCanvas\InkDrawingAttributes.cs" />
+    <Compile Remove="InkCanvas\InkDrawingAttributesKind.cs" />
+    <Compile Remove="InkCanvas\InkHighContrastAdjustment.cs" />
+    <Compile Remove="InkCanvas\InkInputConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkInputProcessingConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkInputProcessingMode.cs" />
+    <Compile Remove="InkCanvas\InkInputRightDragAction.cs" />
+    <Compile Remove="InkCanvas\InkPoint.cs" />
+    <Compile Remove="InkCanvas\InkPresenterPredefinedConfiguration.cs" />
+    <Compile Remove="InkCanvas\InkRecognitionResult.cs" />
+    <Compile Remove="InkCanvas\InkStroke.cs" />
+    <Compile Remove="InkCanvas\InkStrokeContainer.cs" />
+    <Compile Remove="InkCanvas\InkStrokeInput.cs" />
+    <Compile Remove="InkCanvas\InkStrokeRenderingSegment.cs" />
+    <Compile Remove="InkCanvas\InkStrokesCollectedEventArgs.cs" />
+    <Compile Remove="InkCanvas\InkStrokesErasedEventArgs.cs" />
+    <Compile Remove="InkCanvas\InkSynchronizer.cs" />
+    <Compile Remove="InkCanvas\InkUnprocessedInput.cs" />
+    <Compile Remove="InkCanvas\PenTipShape.cs" />
+    <Compile Remove="InkCanvas\PointerEventArgs.cs" />
+    <Compile Remove="InkCanvas\PointerPoint.cs" />
+    <Compile Remove="InkCanvas\VirtualKeyModifiers.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
