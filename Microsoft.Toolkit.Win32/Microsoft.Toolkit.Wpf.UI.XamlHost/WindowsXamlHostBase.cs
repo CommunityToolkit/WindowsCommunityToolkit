@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// </summary>
         /// <value>The <see cref="Windows.UI.Xaml.UIElement"/> child.</value>
         /// <remarks>This UWP XAML element is the root element of the wrapped <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" />.</remarks>
-        internal Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
             get
             {
