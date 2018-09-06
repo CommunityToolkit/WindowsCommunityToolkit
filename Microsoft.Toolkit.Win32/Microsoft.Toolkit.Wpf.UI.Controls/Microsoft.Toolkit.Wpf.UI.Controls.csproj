@@ -4,7 +4,6 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Wpf.UI.Controls</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Wpf.UI.Controls</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit WPF Controls</Title>
@@ -66,9 +65,9 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="WindowsBase" />
-    <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
-      <Version>4.0.0</Version>
-    </PackageReference>
+    <Reference Include="System.Runtime.WindowsRuntime">
+      <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
