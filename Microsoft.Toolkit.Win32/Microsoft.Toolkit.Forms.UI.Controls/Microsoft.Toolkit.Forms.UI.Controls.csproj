@@ -4,7 +4,6 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.Controls</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Forms.UI.Controls</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit Windows Forms Controls</Title>

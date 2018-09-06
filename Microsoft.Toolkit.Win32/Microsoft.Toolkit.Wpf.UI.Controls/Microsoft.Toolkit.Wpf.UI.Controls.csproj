@@ -4,7 +4,6 @@
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Wpf.UI.Controls</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Wpf.UI.Controls</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit WPF Controls</Title>
