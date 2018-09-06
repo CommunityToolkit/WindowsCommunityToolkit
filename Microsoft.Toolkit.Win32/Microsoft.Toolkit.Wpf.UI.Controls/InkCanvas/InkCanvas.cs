@@ -37,21 +37,21 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             // Bind dependency properties across controls
             // properties of FrameworkElement
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkCanvas.StyleProperty);
-            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.InkCanvas.MaxHeightProperty);
-            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.InkCanvas.FlowDirectionProperty);
-            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.InkCanvas.MarginProperty);
-            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkCanvas.HorizontalAlignmentProperty);
-            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkCanvas.VerticalAlignmentProperty);
-            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.InkCanvas.MinHeightProperty);
-            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.InkCanvas.HeightProperty);
-            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.InkCanvas.MinWidthProperty);
-            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.InkCanvas.MaxWidthProperty);
-            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.InkCanvas.UseLayoutRoundingProperty);
-            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.InkCanvas.NameProperty);
-            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.InkCanvas.TagProperty);
-            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.InkCanvas.DataContextProperty);
-            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkCanvas.WidthProperty);
+            Bind(nameof(Style), StyleProperty, Windows.UI.Xaml.Controls.InkCanvas.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, Windows.UI.Xaml.Controls.InkCanvas.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, Windows.UI.Xaml.Controls.InkCanvas.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, Windows.UI.Xaml.Controls.InkCanvas.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, Windows.UI.Xaml.Controls.InkCanvas.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, Windows.UI.Xaml.Controls.InkCanvas.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, Windows.UI.Xaml.Controls.InkCanvas.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, Windows.UI.Xaml.Controls.InkCanvas.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, Windows.UI.Xaml.Controls.InkCanvas.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, Windows.UI.Xaml.Controls.InkCanvas.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, Windows.UI.Xaml.Controls.InkCanvas.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, Windows.UI.Xaml.Controls.InkCanvas.NameProperty);
+            Bind(nameof(Tag), TagProperty, Windows.UI.Xaml.Controls.InkCanvas.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, Windows.UI.Xaml.Controls.InkCanvas.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, Windows.UI.Xaml.Controls.InkCanvas.WidthProperty);
 
             base.OnInitialized(e);
         }

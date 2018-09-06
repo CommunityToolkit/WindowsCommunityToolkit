@@ -44,21 +44,21 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             // Bind dependency properties across controls
             // properties of FrameworkElement
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.StyleProperty);
-            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.MaxHeightProperty);
-            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.FlowDirectionProperty);
-            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.MarginProperty);
-            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.HorizontalAlignmentProperty);
-            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.VerticalAlignmentProperty);
-            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.MinHeightProperty);
-            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.HeightProperty);
-            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.MinWidthProperty);
-            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.MaxWidthProperty);
-            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.UseLayoutRoundingProperty);
-            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.NameProperty);
-            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.TagProperty);
-            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.DataContextProperty);
-            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarToolButton.WidthProperty);
+            Bind(nameof(Style), StyleProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.NameProperty);
+            Bind(nameof(Tag), TagProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.WidthProperty);
 
             // InkToolbarToolButton specific properties
             Bind(nameof(IsExtensionGlyphShown), IsExtensionGlyphShownProperty, Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShownProperty);

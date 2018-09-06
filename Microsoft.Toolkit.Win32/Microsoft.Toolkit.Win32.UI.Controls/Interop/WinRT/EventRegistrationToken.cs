@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class EventRegistrationToken
     {
-        internal global::System.Runtime.InteropServices.WindowsRuntime.EventRegistrationToken UwpInstance { get; }
+        internal System.Runtime.InteropServices.WindowsRuntime.EventRegistrationToken UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventRegistrationToken"/> class, a

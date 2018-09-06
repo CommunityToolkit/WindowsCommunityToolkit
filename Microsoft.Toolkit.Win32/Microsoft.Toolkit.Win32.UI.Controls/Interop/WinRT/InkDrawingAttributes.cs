@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         /*
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkDrawingAttributes.PenTipTransform"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkDrawingAttributes.PenTipTransform"/>
         /// </summary>
         public System.Numerics.Matrix3x2 PenTipTransform
         {

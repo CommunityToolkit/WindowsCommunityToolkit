@@ -38,21 +38,21 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             // Bind dependency properties across controls
             // properties of FrameworkElement
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.StyleProperty);
-            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MaxHeightProperty);
-            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.FlowDirectionProperty);
-            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MarginProperty);
-            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.HorizontalAlignmentProperty);
-            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.VerticalAlignmentProperty);
-            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MinHeightProperty);
-            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.HeightProperty);
-            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MinWidthProperty);
-            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.MaxWidthProperty);
-            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.UseLayoutRoundingProperty);
-            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.NameProperty);
-            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.TagProperty);
-            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.DataContextProperty);
-            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.MediaPlayerElement.WidthProperty);
+            Bind(nameof(Style), StyleProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.NameProperty);
+            Bind(nameof(Tag), TagProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.WidthProperty);
 
             // MediaPlayerElement specific properties
             Bind(nameof(Stretch), StretchProperty, Windows.UI.Xaml.Controls.MediaPlayerElement.StretchProperty);

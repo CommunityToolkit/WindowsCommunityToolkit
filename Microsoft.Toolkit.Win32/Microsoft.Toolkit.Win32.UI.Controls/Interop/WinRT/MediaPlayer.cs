@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         /* OBSOLETE
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.Position"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.Position"/>
         /// </summary>
         public System.TimeSpan Position
         {
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.Media.Playback.MediaPlayer.PlaybackRate"/>
+        /// Gets or sets <see cref="Windows.Media.Playback.MediaPlayer.PlaybackRate"/>
         /// </summary>
         public double PlaybackRate
         {
@@ -78,15 +78,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         /*  OBSOLETE
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.CurrentState"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.CurrentState"/>
         /// </summary>
-        public global::Windows.Media.Playback.MediaPlayerState CurrentState
+        public Windows.Media.Playback.MediaPlayerState CurrentState
         {
             get => UwpInstance.CurrentState;
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.NaturalDuration"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.NaturalDuration"/>
         /// </summary>
         public System.TimeSpan NaturalDuration
         {
@@ -94,15 +94,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.PlaybackMediaMarkers"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.PlaybackMediaMarkers"/>
         /// </summary>
-        public global::Windows.Media.Playback.PlaybackMediaMarkerSequence PlaybackMediaMarkers
+        public Windows.Media.Playback.PlaybackMediaMarkerSequence PlaybackMediaMarkers
         {
             get => UwpInstance.PlaybackMediaMarkers;
         }
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.IsProtected"/>
+        /// Gets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.IsProtected"/>
         /// </summary>
         public bool IsProtected
         {
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets <see cref="global::Windows.Media.Playback.MediaPlayer.BufferingProgress"/>
+        /// Gets <see cref="Windows.Media.Playback.MediaPlayer.BufferingProgress"/>
         /// </summary>
         public double BufferingProgress
         {
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.CanPause"/>
+        /// Gets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.CanPause"/>
         /// </summary>
         public bool CanPause
         {
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         }
 
         /// <summary>
-        /// Gets a value indicating whether <see cref="global::Windows.Media.Playback.MediaPlayer.CanSeek"/>
+        /// Gets a value indicating whether <see cref="Windows.Media.Playback.MediaPlayer.CanSeek"/>
         /// </summary>
         public bool CanSeek
         {

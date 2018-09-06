@@ -44,21 +44,21 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             // Bind dependency properties across controls
             // properties of FrameworkElement
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.StyleProperty);
-            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.MaxHeightProperty);
-            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.FlowDirectionProperty);
-            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.MarginProperty);
-            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.HorizontalAlignmentProperty);
-            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.VerticalAlignmentProperty);
-            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.MinHeightProperty);
-            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.HeightProperty);
-            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.MinWidthProperty);
-            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.MaxWidthProperty);
-            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.UseLayoutRoundingProperty);
-            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.NameProperty);
-            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.TagProperty);
-            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.DataContextProperty);
-            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarStencilButton.WidthProperty);
+            Bind(nameof(Style), StyleProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.NameProperty);
+            Bind(nameof(Tag), TagProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.WidthProperty);
 
             // InkToolbarStencilButton specific properties
             Bind(nameof(SelectedStencil), SelectedStencilProperty, Windows.UI.Xaml.Controls.InkToolbarStencilButton.SelectedStencilProperty, new WindowsXamlHostWrapperConverter());

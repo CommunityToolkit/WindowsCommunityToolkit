@@ -43,24 +43,24 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             // Bind dependency properties across controls
             // properties of FrameworkElement
-            Bind(nameof(Style), StyleProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.StyleProperty);
-            Bind(nameof(MaxHeight), MaxHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxHeightProperty);
-            Bind(nameof(FlowDirection), FlowDirectionProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.FlowDirectionProperty);
-            Bind(nameof(Margin), MarginProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MarginProperty);
-            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HorizontalAlignmentProperty);
-            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.VerticalAlignmentProperty);
-            Bind(nameof(MinHeight), MinHeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinHeightProperty);
-            Bind(nameof(Height), HeightProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HeightProperty);
-            Bind(nameof(MinWidth), MinWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinWidthProperty);
-            Bind(nameof(MaxWidth), MaxWidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxWidthProperty);
-            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.UseLayoutRoundingProperty);
-            Bind(nameof(Name), NameProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.NameProperty);
-            Bind(nameof(Tag), TagProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.TagProperty);
-            Bind(nameof(DataContext), DataContextProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.DataContextProperty);
-            Bind(nameof(Width), WidthProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.WidthProperty);
+            Bind(nameof(Style), StyleProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.StyleProperty);
+            Bind(nameof(MaxHeight), MaxHeightProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxHeightProperty);
+            Bind(nameof(FlowDirection), FlowDirectionProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.FlowDirectionProperty);
+            Bind(nameof(Margin), MarginProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MarginProperty);
+            Bind(nameof(HorizontalAlignment), HorizontalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HorizontalAlignmentProperty);
+            Bind(nameof(VerticalAlignment), VerticalAlignmentProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.VerticalAlignmentProperty);
+            Bind(nameof(MinHeight), MinHeightProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinHeightProperty);
+            Bind(nameof(Height), HeightProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.HeightProperty);
+            Bind(nameof(MinWidth), MinWidthProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MinWidthProperty);
+            Bind(nameof(MaxWidth), MaxWidthProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.MaxWidthProperty);
+            Bind(nameof(UseLayoutRounding), UseLayoutRoundingProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.UseLayoutRoundingProperty);
+            Bind(nameof(Name), NameProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.NameProperty);
+            Bind(nameof(Tag), TagProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.TagProperty);
+            Bind(nameof(DataContext), DataContextProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.DataContextProperty);
+            Bind(nameof(Width), WidthProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.WidthProperty);
 
             // InkToolbarCustomToolButton specific properties
-            /* Bind(nameof(ConfigurationContent), ConfigurationContentProperty, global::Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty); */
+            /* Bind(nameof(ConfigurationContent), ConfigurationContentProperty, Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContentProperty); */
 
             base.OnInitialized(e);
         }

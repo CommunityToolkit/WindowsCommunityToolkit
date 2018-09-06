@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Gets <see cref="Windows.Devices.Geolocation.Geopoint.Position"/>
         /// </summary>
-        public global::Windows.Devices.Geolocation.BasicGeoposition Position
+        public Windows.Devices.Geolocation.BasicGeoposition Position
         {
             get => UwpInstance.Position;
         }
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Gets <see cref="Windows.Devices.Geolocation.Geopoint.GeoshapeType"/>
         /// </summary>
-        public global::Windows.Devices.Geolocation.GeoshapeType GeoshapeType
+        public Windows.Devices.Geolocation.GeoshapeType GeoshapeType
         {
             get => UwpInstance.GeoshapeType;
         }

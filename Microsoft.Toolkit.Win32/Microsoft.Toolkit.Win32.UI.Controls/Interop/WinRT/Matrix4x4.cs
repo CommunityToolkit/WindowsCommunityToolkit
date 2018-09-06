@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Matrix4x4
     {
-        internal global::System.Numerics.Matrix4x4 UwpInstance { get; }
+        internal System.Numerics.Matrix4x4 UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Matrix4x4"/> class, a

@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         /*
         /// <summary>
-        /// Gets or sets <see cref="global::Windows.UI.Input.Inking.InkPresenterRuler.Transform"/>
+        /// Gets or sets <see cref="Windows.UI.Input.Inking.InkPresenterRuler.Transform"/>
         /// </summary>
         public System.Numerics.Matrix3x2 Transform
         {
