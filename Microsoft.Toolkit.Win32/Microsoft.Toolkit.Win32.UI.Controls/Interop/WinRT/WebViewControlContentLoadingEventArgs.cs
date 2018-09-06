@@ -4,6 +4,7 @@
 
 using System;
 using System.Security;
+using System.Windows.Forms;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
@@ -18,9 +19,30 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         private readonly Windows.Web.UI.WebViewControlContentLoadingEventArgs _args;
 
         [SecurityCritical]
+        private readonly WebBrowserNavigatingEventArgs _formArgs;
+
+        [SecurityCritical]
+        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
+
+        [SecurityCritical]
         internal WebViewControlContentLoadingEventArgs(Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
             _args = args;
+        }
+
+        [SecurityCritical]
+        internal WebViewControlContentLoadingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs e)
+        {
+            _args = null;
+            _compatibleArgs = e;
+        }
+
+        [SecurityCritical]
+        internal WebViewControlContentLoadingEventArgs(WebBrowserNavigatingEventArgs e)
+        {
+            _args = null;
+            _formArgs = e;
+            _compatibleArgs = null;
         }
 
         /// <summary>
@@ -29,7 +51,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri
         {
             [SecurityCritical]
-            get { return _args.Uri; }
+            get { return _args?.Uri ?? _formArgs?.Url ?? _compatibleArgs.Uri; }
         }
 
         /// <summary>
@@ -53,5 +75,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         {
             return new WebViewControlContentLoadingEventArgs(args);
         }
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlContentLoadingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs args) => ToWebViewControlContentLoadingEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlNavigationStartingEventArgs"/> from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlContentLoadingEventArgs"/>.</returns>
+        public static WebViewControlContentLoadingEventArgs ToWebViewControlContentLoadingEventArgs(
+            System.Windows.Navigation.NavigatingCancelEventArgs args) =>
+            new WebViewControlContentLoadingEventArgs(args);
+
+        /// <summary>
+        /// Performs an implicit conversion from <see cref="WebBrowserNavigatingEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="WebBrowserNavigatingEventArgs"/> instance containing the event data.</param>
+        /// <returns>The result of the conversion.</returns>
+        public static implicit operator WebViewControlContentLoadingEventArgs(WebBrowserNavigatingEventArgs args) => ToWebViewControlNavigationStartingEventArgs(args);
+
+        /// <summary>
+        /// Creates a <see cref="WebViewControlContentLoadingEventArgs"/> from <see cref="WebBrowserNavigatingEventArgs"/>.
+        /// </summary>
+        /// <param name="args">The <see cref="WebBrowserNavigatingEventArgs"/> instance containing the event data.</param>
+        /// <returns><see cref="WebViewControlContentLoadingEventArgs"/>.</returns>
+        public static WebViewControlContentLoadingEventArgs ToWebViewControlNavigationStartingEventArgs(
+            WebBrowserNavigatingEventArgs args) =>
+            new WebViewControlContentLoadingEventArgs(args);
     }
 }

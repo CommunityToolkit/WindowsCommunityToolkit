@@ -120,6 +120,15 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
+        /// Exposes ChildInternal without exposing its actual Type.
+        /// </summary>
+        /// <returns>the underlying UWP child object</returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
+        }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this wrapper control instance been disposed
         /// </summary>
         protected bool IsDisposed { get; set; }

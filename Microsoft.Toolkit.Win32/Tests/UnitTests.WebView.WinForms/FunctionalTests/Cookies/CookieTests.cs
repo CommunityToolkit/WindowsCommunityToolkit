@@ -20,10 +20,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
     {
         public Uri CookieUri { get; } = new Uri(TestConstants.Uris.HttpBin, "/cookies");
 
-        protected abstract Task SetCookieAsync(Controls.WinForms.WebView webView);
+        protected abstract Task SetCookieAsync(Forms.UI.Controls.WebView webView);
 
         protected async Task SetCookieAsync(
-            Controls.WinForms.WebView webView,
+            Forms.UI.Controls.WebView webView,
             string cookieName,
             string cookieValue,
             DateTime? expiry = null)
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             }
         }
 
-        protected Task<string> GetCookiesAsync(Controls.WinForms.WebView webView)
+        protected Task<string> GetCookiesAsync(Forms.UI.Controls.WebView webView)
         {
             return webView.InvokeScriptAsync("eval", "document.cookie");
         }
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
     public abstract class MultipleWebViewCookieTestContext : CookieTestContext
     {
-        public Controls.WinForms.WebView SecondWebView { get; private set; }
+        public Forms.UI.Controls.WebView SecondWebView { get; private set; }
 
         public string Webview1Cookie
         {
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
                 Form.Close();
             }
 
-            if (sender is Controls.WinForms.WebView wv)
+            if (sender is Forms.UI.Controls.WebView wv)
             {
                 if (SecondWebView == null)
                 {
@@ -119,14 +119,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             base.Cleanup();
         }
 
-        protected abstract Controls.WinForms.WebView CreateSecondWebView(WebViewControlProcess process);
+        protected abstract Forms.UI.Controls.WebView CreateSecondWebView(WebViewControlProcess process);
     }
 
     public abstract class WebViewDifferentProcessContext : MultipleWebViewCookieTestContext
     {
-        protected override Controls.WinForms.WebView CreateSecondWebView(WebViewControlProcess process)
+        protected override Forms.UI.Controls.WebView CreateSecondWebView(WebViewControlProcess process)
         {
-            var webView = new Controls.WinForms.WebView();
+            var webView = new Forms.UI.Controls.WebView();
             ((ISupportInitialize)webView).BeginInit();
             webView.IsScriptNotifyAllowed = WebView.IsScriptNotifyAllowed;
             webView.IsIndexedDBEnabled = WebView.IsIndexedDBEnabled;
@@ -139,9 +139,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
     public abstract class WebViewSameProcessContext : MultipleWebViewCookieTestContext
     {
-        protected override Controls.WinForms.WebView CreateSecondWebView(WebViewControlProcess process)
+        protected override Forms.UI.Controls.WebView CreateSecondWebView(WebViewControlProcess process)
         {
-            var webView = new Controls.WinForms.WebView(process);
+            var webView = new Forms.UI.Controls.WebView(process);
             ((ISupportInitialize) webView).BeginInit();
             webView.IsScriptNotifyAllowed = WebView.IsScriptNotifyAllowed;
             webView.IsIndexedDBEnabled = WebView.IsIndexedDBEnabled;
@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Webview2Cookie.ShouldEqual(Webview1Cookie);
         }
 
-        protected override Task SetCookieAsync(Controls.WinForms.WebView webView)
+        protected override Task SetCookieAsync(Forms.UI.Controls.WebView webView)
         {
             return SetCookieAsync(webView, "persistent", "true", DateTime.UtcNow.Add(TimeSpan.FromSeconds(TestConstants.Timeouts.Longest)));
         }
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Webview2Cookie.ShouldEqual(Webview1Cookie);
         }
 
-        protected override Task SetCookieAsync(Controls.WinForms.WebView webView)
+        protected override Task SetCookieAsync(Forms.UI.Controls.WebView webView)
         {
             return SetCookieAsync(webView, "persistent", "true", DateTime.UtcNow.Add(TimeSpan.FromSeconds(TestConstants.Timeouts.Longest)));
         }
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Webview2Cookie.ShouldEqual(Webview1Cookie);
         }
 
-        protected override Task SetCookieAsync(Controls.WinForms.WebView webView)
+        protected override Task SetCookieAsync(Forms.UI.Controls.WebView webView)
         {
             return SetCookieAsync(webView, "session", "true");
         }
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
             Webview2Cookie.ShouldNotEqual(Webview1Cookie);
         }
 
-        protected override Task SetCookieAsync(Controls.WinForms.WebView webView)
+        protected override Task SetCookieAsync(Forms.UI.Controls.WebView webView)
         {
             return SetCookieAsync(webView, "session", "true");
         }
