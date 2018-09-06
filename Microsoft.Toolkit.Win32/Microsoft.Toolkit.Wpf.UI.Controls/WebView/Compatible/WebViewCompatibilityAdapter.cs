@@ -8,9 +8,14 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
-    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter
+    internal sealed class WebViewCompatibilityAdapter : WebBaseCompatibilityAdapter, IDisposable
     {
-        private WebView _webView = new WebView();
+        private WebView _webView;
+
+        public WebViewCompatibilityAdapter()
+        {
+            _webView = new WebView();
+        }
 
         public override Uri Source
         {
@@ -29,6 +34,17 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         public override bool CanGoBack => _webView.CanGoBack;
 
         public override bool CanGoForward => _webView.CanGoForward;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~WebViewCompatibilityAdapter()
+        {
+            Dispose(false);
+        }
 
         public override event EventHandler<WebViewControlNavigationStartingEventArgs> NavigationStarting
         {
@@ -94,11 +110,15 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             Bind(nameof(Source), SourceProperty, _webView);
         }
 
-        protected internal override void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _webView?.Dispose();
+                if (_webView != null)
+                {
+                    _webView.Dispose();
+                }
+
                 _webView = null;
             }
         }
