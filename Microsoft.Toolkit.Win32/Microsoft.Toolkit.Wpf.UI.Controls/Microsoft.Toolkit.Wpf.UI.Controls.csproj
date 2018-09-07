@@ -8,7 +8,7 @@
 
     <Title>Windows Community Toolkit WPF Controls</Title>
     <Description>This library provides XAML controls for WPF. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>WebView Win32 WPF UWP XAML</PackageTags>
+    <PackageTags>Win32 WPF UWP XAML</PackageTags>
 
     <DefineConstants>$(DefineConstants);WPF</DefineConstants>
 

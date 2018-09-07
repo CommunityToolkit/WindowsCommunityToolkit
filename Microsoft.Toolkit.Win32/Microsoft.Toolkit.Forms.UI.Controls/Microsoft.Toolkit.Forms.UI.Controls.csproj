@@ -8,7 +8,7 @@
 
     <Title>Windows Community Toolkit Windows Forms Controls</Title>
     <Description>This library provides XAML user controls for Windows Forms. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>WebView Win32 WindowsForms</PackageTags>
+    <PackageTags>Win32 WindowsForms UWP XAML</PackageTags>
 
     <!--XamlHost requires 17692 -->
     <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
