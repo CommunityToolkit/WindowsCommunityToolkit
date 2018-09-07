@@ -32,12 +32,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 #if WPF
         internal WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs e)
         {
+            IsSuccess = true; // no ability to detect otherwise
             Uri = e.Uri;
         }
 #endif
 
         internal WebViewControlNavigationCompletedEventArgs(WebBrowserNavigatedEventArgs e)
         {
+            IsSuccess = true; // no ability to detect otherwise
             Uri = e.Url;
         }
 
