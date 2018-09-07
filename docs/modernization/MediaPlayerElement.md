@@ -17,7 +17,7 @@ These controls use the newer Windows 10 implementation, and is used to embed a v
 
 The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Win32.UI.Controls.WinForms** namespace. 
 
-The WPF version is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** namespace. 
+The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
 
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
@@ -27,7 +27,7 @@ This wrapper does not currently support Full Screen video.  The Source property 
 ## Syntax
 ```xaml
 <Window x:Class="TestSample.MainWindow" ...
-  xmlns:controls="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls.WPF"
+  xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
 ...>
 
 <controls:MediaPlayerElement x:Name="mediaPlayerElement" 
@@ -70,7 +70,7 @@ This wrapper does not currently support Full Screen video.  The Source property 
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
+| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Wpf.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
 
 ## API Source Code

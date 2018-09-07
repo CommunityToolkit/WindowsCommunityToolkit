@@ -28,7 +28,6 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         public InkToolbar()
             : this(typeof(Windows.UI.Xaml.Controls.InkToolbar).FullName)
         {
-            this.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         /// <summary>

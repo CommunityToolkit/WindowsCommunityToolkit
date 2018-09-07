@@ -17,7 +17,7 @@ These controls use the one of two rendering engines.  For Windows 10 client envi
 
 The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Win32.UI.Controls.WinForms** namespace. 
 
-The WPF version is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** namespace. 
+The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
 
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
@@ -215,7 +215,7 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
+| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Wpf.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
 
 ## API Source Code
