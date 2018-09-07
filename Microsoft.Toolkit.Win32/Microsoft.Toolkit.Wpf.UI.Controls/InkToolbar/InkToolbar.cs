@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             UwpControl.InkDrawingAttributesChanged += OnInkDrawingAttributesChanged;
             UwpControl.IsRulerButtonCheckedChanged += OnIsRulerButtonCheckedChanged;
             UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
-            UwpControl.Loaded += UwpControl_Loaded;
+            UwpControl.Loaded += OnUwpControlLoaded;
             base.OnInitialized(e);
         }
 
@@ -88,10 +88,10 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// </summary>
         /// <param name="sender">event sender</param>
         /// <param name="e">event parameters</param>
-        private void UwpControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void OnUwpControlLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             Visibility = System.Windows.Visibility.Visible;
-            UwpControl.Loaded -= UwpControl_Loaded;
+            UwpControl.Loaded -= OnUwpControlLoaded;
         }
 
         private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)
