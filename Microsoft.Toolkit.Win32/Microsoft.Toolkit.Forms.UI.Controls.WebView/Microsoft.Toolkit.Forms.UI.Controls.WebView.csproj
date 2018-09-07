@@ -3,31 +3,34 @@
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.Controls</RootNamespace>
-    <AssemblyName>Microsoft.Toolkit.Forms.UI.Controls</AssemblyName>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AssemblyName>Microsoft.Toolkit.Forms.UI.Controls.WebView</AssemblyName>
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
-    <Title>Windows Community Toolkit Windows Forms Controls</Title>
-    <Description>This library provides XAML user controls for Windows Forms. It is part of the Windows Community Toolkit.</Description>
+    <Title>Windows Community Toolkit WebView Windows Forms Controls</Title>
+    <Description>This library provides WebView user controls for Windows Forms. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>WebView Win32 WindowsForms</PackageTags>
 
-    <!--XamlHost requires 17692 -->
-    <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
+    <DefineConstants>$(DefineConstants);WINFORMS</DefineConstants>
+
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DefineConstants>$(DefineConstants);DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+    <DefineConstants>$(DefineConstants);DEV_DEBUG;DEBUG_LAYOUT;</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\**\*.cs" LinkBase="Shared" />
+    <Compile Include="..\WebView.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\**\*.cs" LinkBase="Interop/Win32" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\ApiInformationExtensions.cs" LinkBase="Interop/WinRT" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\CoreAcceleratorKeyEventType.cs" LinkBase="Interop/WinRT" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\VirtualKey.cs" LinkBase="Interop/WinRT" />
     <EmbeddedResource Include="..\WebView.Shared\DesignerUI.resx" Link="DesignerUI.resx" />
     <Compile Update="..\WebView.Shared\DesignerUI.Designer.cs" Link="DesignerUI.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Design" />
@@ -39,9 +42,5 @@
     <PackageReference Include="System.Runtime.WindowsRuntime" PrivateAssets="All">
       <Version>4.0.0</Version>
     </PackageReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Forms.UI.XamlHost\Microsoft.Toolkit.Forms.UI.XamlHost.csproj" />
   </ItemGroup>
 </Project>

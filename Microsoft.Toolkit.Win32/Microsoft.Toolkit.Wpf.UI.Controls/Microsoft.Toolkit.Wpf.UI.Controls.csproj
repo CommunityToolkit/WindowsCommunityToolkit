@@ -11,6 +11,10 @@
     <Description>This library provides XAML controls for WPF. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>WebView Win32 WPF UWP XAML</PackageTags>
 
+    <DefineConstants>$(DefineConstants);WPF</DefineConstants>
+
+    <!--XamlHost requires 17692 -->
+    <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -55,9 +55,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj">
-      <Project>{e2cf9896-fe3b-49ab-8b53-1cf7b2fb1240}</Project>
-      <Name>Microsoft.Toolkit.Forms.UI.Controls</Name>
+    <ProjectReference Include="..\Microsoft.Toolkit.Forms.UI.Controls.WebView\Microsoft.Toolkit.Forms.UI.Controls.WebView.csproj">
+      <Project>{a6f9dae8-8cdc-4693-83e7-c9c59d1477fe}</Project>
+      <Name>Microsoft.Toolkit.Forms.UI.Controls.WebView</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

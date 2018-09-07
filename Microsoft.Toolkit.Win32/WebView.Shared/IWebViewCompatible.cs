@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-namespace Microsoft.Toolkit.Wpf.UI.Controls
+namespace Microsoft.Toolkit.UI.Controls
 {
     public interface IWebViewCompatible
     {

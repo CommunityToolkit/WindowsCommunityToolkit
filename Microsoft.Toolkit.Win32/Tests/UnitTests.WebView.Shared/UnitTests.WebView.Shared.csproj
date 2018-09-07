@@ -53,7 +53,4 @@
     <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\Win32Error.cs" Link="Win32Error.cs" />
     <Compile Include="..\..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" Link="Verify.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\Microsoft.Toolkit.Forms.UI.Controls\Microsoft.Toolkit.Forms.UI.Controls.csproj" />
-  </ItemGroup>
 </Project>
