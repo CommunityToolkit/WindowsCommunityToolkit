@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// </summary>
     public static class WrapperLookup
     {
-        private static readonly IDictionary<FrameworkElement, WindowsXamlHostBaseExt> _controlCollection = new Dictionary<FrameworkElement, WindowsXamlHostBaseExt>();
+        private static readonly IDictionary<FrameworkElement, WeakReference<WindowsXamlHostBaseExt>> _controlCollection = new Dictionary<FrameworkElement, WeakReference<WindowsXamlHostBaseExt>>();
 
         public static WindowsXamlHostBaseExt GetWrapper(this FrameworkElement control)
         {
@@ -23,8 +24,13 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                 return null;
             }
 
-            _controlCollection.TryGetValue(control, out var result);
-            return result;
+            _controlCollection.TryGetValue(control, out var weakRef);
+            if (weakRef.TryGetTarget(out var result))
+            {
+                return result;
+            }
+
+            return null;
         }
 
         public static void SetWrapper(this FrameworkElement control, WindowsXamlHostBaseExt wrapper)
@@ -34,7 +40,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                 return;
             }
 
-            _controlCollection.Add(control, wrapper);
+            _controlCollection.Add(control, new WeakReference<WindowsXamlHostBaseExt>(wrapper));
         }
 
         public static void ClearWrapper(this FrameworkElement control)

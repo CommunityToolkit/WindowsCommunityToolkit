@@ -10,12 +10,6 @@ using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
 {
-
-    public class MyClass
-    {
-        public MyClass() { }
-    }
-
     public class WrappedRectangle : WindowsXamlHostBase
     {
         public WrappedRectangle() : base()
