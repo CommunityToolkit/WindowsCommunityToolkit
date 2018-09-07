@@ -37,6 +37,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         protected InkToolbar(string typeName)
             : base(typeName)
         {
+            Visibility = System.Windows.Visibility.Collapsed; // supports a workaround for a bug:  InkToolbar won't initialize if it's not initially collapsed.
             Children = new ObservableCollection<DependencyObject>();
         }
 
@@ -78,16 +79,19 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             UwpControl.InkDrawingAttributesChanged += OnInkDrawingAttributesChanged;
             UwpControl.IsRulerButtonCheckedChanged += OnIsRulerButtonCheckedChanged;
             UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
-
+            UwpControl.Loaded += UwpControl_Loaded;
             base.OnInitialized(e);
-            Loaded += InkToolbar_Loaded;
         }
 
-        private async void InkToolbar_Loaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// supports a workaround for a bug:  InkToolbar won't initialize if it's not initially collapsed, so we update visibility on it's loaded event.
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event parameters</param>
+        private void UwpControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Loaded -= InkToolbar_Loaded;
-            await Task.Delay(250);
-            this.Visibility = System.Windows.Visibility.Visible;
+            Visibility = System.Windows.Visibility.Visible;
+            UwpControl.Loaded -= UwpControl_Loaded;
         }
 
         private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)
