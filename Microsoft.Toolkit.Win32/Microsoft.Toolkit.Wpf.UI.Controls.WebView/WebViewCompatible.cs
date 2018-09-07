@@ -41,6 +41,11 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             BindingOperations.SetBinding(this, SourceProperty, binder);
         }
 
+        ~WebViewCompatible()
+        {
+            Dispose(false);
+        }
+
         public static bool IsLegacy { get; } = !Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
 
         private IWebViewCompatibleAdapter _implementation;
@@ -84,7 +89,10 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         {
             if (isDisposing)
             {
-                _implementation.Dispose();
+                if (_implementation is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
             }
         }
     }

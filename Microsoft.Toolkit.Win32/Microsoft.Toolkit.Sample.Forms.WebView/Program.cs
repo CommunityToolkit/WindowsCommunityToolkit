@@ -5,7 +5,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace Microsoft.Toolkit.Sample.Forms.WebView.WebView
+namespace Microsoft.Toolkit.Sample.Forms.WebView
 {
     static class Program
     {

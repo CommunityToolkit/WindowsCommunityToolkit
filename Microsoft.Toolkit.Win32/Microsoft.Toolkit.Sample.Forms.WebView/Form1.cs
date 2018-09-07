@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using Microsoft.Toolkit.Win32.UI.Controls;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
-namespace Microsoft.Toolkit.Sample.Forms.WebView.WebView
+namespace Microsoft.Toolkit.Sample.Forms.WebView
 {
     public partial class Form1 : Form
     {

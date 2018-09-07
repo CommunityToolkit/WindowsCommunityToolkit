@@ -8,7 +8,7 @@ using Microsoft.Toolkit.UI.Controls;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
-    public interface IWebViewCompatibleAdapter : IWebViewCompatible, IDisposable
+    public interface IWebViewCompatibleAdapter : IWebViewCompatible
     {
         FrameworkElement View { get; }
 
