@@ -4,6 +4,7 @@
 
 using System;
 using System.Windows;
+using Microsoft.Toolkit.UI.Controls;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {

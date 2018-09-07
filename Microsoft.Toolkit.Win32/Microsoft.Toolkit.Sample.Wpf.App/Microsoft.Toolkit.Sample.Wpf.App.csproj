@@ -97,6 +97,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Wpf.UI.Controls.WebView\Microsoft.Toolkit.Wpf.UI.Controls.WebView.csproj">
+      <Project>{f8393c4e-4501-4cc2-8767-abfe3ad1c0fb}</Project>
+      <Name>Microsoft.Toolkit.Wpf.UI.Controls.WebView</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Wpf.UI.Controls\Microsoft.Toolkit.Wpf.UI.Controls.csproj">
       <Project>{5d82b4f7-13dd-4749-b213-802d69fcece4}</Project>
       <Name>Microsoft.Toolkit.Wpf.UI.Controls</Name>

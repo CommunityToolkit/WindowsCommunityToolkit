@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{7896
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Wpf.UI.Controls", "Microsoft.Toolkit.Wpf.UI.Controls\Microsoft.Toolkit.Wpf.UI.Controls.csproj", "{B131E361-78CE-489B-B2C4-130C5FEB70F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Forms.UI.Controls.WebView", "Microsoft.Toolkit.Forms.UI.Controls.WebView\Microsoft.Toolkit.Forms.UI.Controls.WebView.csproj", "{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Toolkit.Wpf.UI.Controls.WebView", "Microsoft.Toolkit.Wpf.UI.Controls.WebView\Microsoft.Toolkit.Wpf.UI.Controls.WebView.csproj", "{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,6 +82,14 @@ Global
 		{B131E361-78CE-489B-B2C4-130C5FEB70F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B131E361-78CE-489B-B2C4-130C5FEB70F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B131E361-78CE-489B-B2C4-130C5FEB70F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,6 +107,8 @@ Global
 		{88C95EC5-6A53-4BA2-A885-24B23566C175} = {78966152-2550-4FA3-BDAC-CBEB078E739F}
 		{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA} = {78966152-2550-4FA3-BDAC-CBEB078E739F}
 		{78966152-2550-4FA3-BDAC-CBEB078E739F} = {E3B3FB12-67C0-404C-BA3F-08E65BCC682C}
+		{A6F9DAE8-8CDC-4693-83E7-C9C59D1477FE} = {C0C8A97B-5921-465A-880C-3D5098872295}
+		{F8393C4E-4501-4CC2-8767-ABFE3AD1C0FB} = {C0C8A97B-5921-465A-880C-3D5098872295}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AFDF3CA9-FBAD-4C80-A08A-7B69D21D561E}

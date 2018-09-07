@@ -18,12 +18,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     {
         [SecurityCritical]
         private readonly Windows.Web.UI.WebViewControlNavigationStartingEventArgs _args;
-
+#if WPF
         [SecurityCritical]
-        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
-
+        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _wpfArgs;
+#endif
+#if WINFORMS
         [SecurityCritical]
         private readonly WebBrowserNavigatingEventArgs _formsArgs;
+#endif
 
         [SecurityCritical]
         internal WebViewControlNavigationStartingEventArgs(Windows.Web.UI.WebViewControlNavigationStartingEventArgs args)
@@ -39,20 +41,22 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Uri = uri;
         }
 
+#if WPF
         [SecurityCritical]
-        internal WebViewControlNavigationStartingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs e)
+        internal WebViewControlNavigationStartingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs args)
         {
-            _args = null;
-            _compatibleArgs = e;
-            Uri = e.Uri;
+            _wpfArgs = args;
+            Uri = args.Uri;
         }
-
+#endif
+#if WINFORMS
         [SecurityCritical]
         internal WebViewControlNavigationStartingEventArgs(WebBrowserNavigatingEventArgs e)
         {
             _formsArgs = e;
             Uri = e.Url;
         }
+#endif
 
         /// <summary>
         /// Gets or sets a value indicating whether to cancel the <see cref="IWebView"/> navigation.
@@ -61,7 +65,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public bool Cancel
         {
             [SecurityCritical]
-            get => _args?.Cancel ?? _formsArgs?.Cancel ?? _compatibleArgs.Cancel;
+            get
+            {
+#if WINFORMS
+                return _args?.Cancel ?? _formsArgs?.Cancel ?? false;
+#elif WPF
+
+                return _args?.Cancel ?? _wpfArgs?.Cancel ?? false;
+#else
+                return _args?.Cancel ?? false;
+#endif
+            }
+
             [SecurityCritical]
             set
             {
@@ -69,14 +84,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 {
                     _args.Cancel = value;
                 }
+#if WINFORMS
                 else if (_formsArgs != null)
                 {
                     _formsArgs.Cancel = value;
                 }
-                else
+#endif
+#if WPF
+                else if (_wpfArgs != null)
                 {
-                    _compatibleArgs.Cancel = value;
+                    _wpfArgs.Cancel = value;
                 }
+#endif
             }
         }
 
@@ -101,7 +120,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
             Windows.Web.UI.WebViewControlNavigationStartingEventArgs args) =>
             new WebViewControlNavigationStartingEventArgs(args);
-
+#if WPF
         /// <summary>
         /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> to <see cref="WebViewControlNavigationStartingEventArgs"/>.
         /// </summary>
@@ -117,7 +136,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
             System.Windows.Navigation.NavigatingCancelEventArgs args) =>
             new WebViewControlNavigationStartingEventArgs(args);
-
+#endif
+#if WINFORMS
         /// <summary>
         /// Performs an implicit conversion from <see cref="WebBrowserNavigatingEventArgs"/> to <see cref="WebViewControlNavigationStartingEventArgs"/>.
         /// </summary>
@@ -133,5 +153,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlNavigationStartingEventArgs ToWebViewControlNavigationStartingEventArgs(
             WebBrowserNavigatingEventArgs args) =>
             new WebViewControlNavigationStartingEventArgs(args);
+#endif
     }
 }

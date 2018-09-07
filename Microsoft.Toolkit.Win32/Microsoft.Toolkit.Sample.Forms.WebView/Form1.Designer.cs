@@ -43,9 +43,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.webView1)).BeginInit();
             this.SuspendLayout();
-            // 
+            //
             // button1
-            // 
+            //
             this.button1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button1.Location = new System.Drawing.Point(0, 0);
             this.button1.Margin = new System.Windows.Forms.Padding(0);
@@ -55,9 +55,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.button1.Text = "<";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
+            //
             // tableLayoutPanel1
-            // 
+            //
             this.tableLayoutPanel1.ColumnCount = 4;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -77,9 +77,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.Size = new System.Drawing.Size(1142, 886);
             this.tableLayoutPanel1.TabIndex = 4;
-            // 
+            //
             // button2
-            // 
+            //
             this.button2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.button2.Location = new System.Drawing.Point(45, 0);
             this.button2.Margin = new System.Windows.Forms.Padding(0);
@@ -89,9 +89,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.button2.Text = ">";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
+            //
             // url
-            // 
+            //
             this.url.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.url.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.AllUrl;
             this.url.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -102,9 +102,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.url.Size = new System.Drawing.Size(1007, 44);
             this.url.TabIndex = 5;
             this.url.KeyUp += new System.Windows.Forms.KeyEventHandler(this.url_KeyUp);
-            // 
+            //
             // Go
-            // 
+            //
             this.Go.Dock = System.Windows.Forms.DockStyle.Fill;
             this.Go.Location = new System.Drawing.Point(1097, 0);
             this.Go.Margin = new System.Windows.Forms.Padding(0);
@@ -114,9 +114,9 @@ namespace Microsoft.Toolkit.Sample.Forms.WebView
             this.Go.Text = "Go";
             this.Go.UseVisualStyleBackColor = true;
             this.Go.Click += new System.EventHandler(this.Go_Click);
-            // 
+            //
             // Form1
-            // 
+            //
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1142, 886);

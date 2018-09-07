@@ -16,34 +16,37 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     public sealed class WebViewControlContentLoadingEventArgs : EventArgs
     {
         [SecurityCritical]
-        private readonly Windows.Web.UI.WebViewControlContentLoadingEventArgs _args;
-
+        private readonly Windows.Web.UI.WebViewControlContentLoadingEventArgs _winrtArgs;
+#if WINFORMS
         [SecurityCritical]
         private readonly WebBrowserNavigatingEventArgs _formArgs;
+#endif
 
+#if WPF
         [SecurityCritical]
-        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _compatibleArgs;
+        private readonly System.Windows.Navigation.NavigatingCancelEventArgs _wpfArgs;
+#endif
 
         [SecurityCritical]
         internal WebViewControlContentLoadingEventArgs(Windows.Web.UI.WebViewControlContentLoadingEventArgs args)
         {
-            _args = args;
+            _winrtArgs = args;
         }
 
+#if WPF
         [SecurityCritical]
-        internal WebViewControlContentLoadingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs e)
+        internal WebViewControlContentLoadingEventArgs(System.Windows.Navigation.NavigatingCancelEventArgs args)
         {
-            _args = null;
-            _compatibleArgs = e;
+            _wpfArgs = args;
         }
-
+#endif
+#if WINFORMS
         [SecurityCritical]
-        internal WebViewControlContentLoadingEventArgs(WebBrowserNavigatingEventArgs e)
+        internal WebViewControlContentLoadingEventArgs(WebBrowserNavigatingEventArgs args)
         {
-            _args = null;
-            _formArgs = e;
-            _compatibleArgs = null;
+            _formArgs = args;
         }
+#endif
 
         /// <summary>
         /// Gets the Uniform Resource Identifier (URI) of the content the <see cref="IWebView"/> is loading.
@@ -51,7 +54,16 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public Uri Uri
         {
             [SecurityCritical]
-            get { return _args?.Uri ?? _formArgs?.Url ?? _compatibleArgs.Uri; }
+            get
+            {
+#if WINFORMS
+                return _winrtArgs?.Uri ?? _formArgs?.Url;
+#elif WPF
+                return _winrtArgs?.Uri ?? _wpfArgs?.Uri;
+#else
+                return _winrtArgs?.Uri;
+#endif
+            }
         }
 
         /// <summary>
@@ -76,6 +88,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             return new WebViewControlContentLoadingEventArgs(args);
         }
 
+#if WPF
         /// <summary>
         /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigatingCancelEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
         /// </summary>
@@ -91,7 +104,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlContentLoadingEventArgs ToWebViewControlContentLoadingEventArgs(
             System.Windows.Navigation.NavigatingCancelEventArgs args) =>
             new WebViewControlContentLoadingEventArgs(args);
-
+#endif
+#if WINFORMS
         /// <summary>
         /// Performs an implicit conversion from <see cref="WebBrowserNavigatingEventArgs"/> to <see cref="WebViewControlContentLoadingEventArgs"/>.
         /// </summary>
@@ -107,5 +121,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlContentLoadingEventArgs ToWebViewControlNavigationStartingEventArgs(
             WebBrowserNavigatingEventArgs args) =>
             new WebViewControlContentLoadingEventArgs(args);
+#endif
     }
 }

@@ -29,10 +29,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             Uri = uri;
         }
 
+#if WPF
         internal WebViewControlNavigationCompletedEventArgs(System.Windows.Navigation.NavigationEventArgs e)
         {
             Uri = e.Uri;
         }
+#endif
 
         internal WebViewControlNavigationCompletedEventArgs(WebBrowserNavigatedEventArgs e)
         {
@@ -73,7 +75,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
             Windows.Web.UI.WebViewControlNavigationCompletedEventArgs args) =>
             new WebViewControlNavigationCompletedEventArgs(args);
-
+#if WPF
         /// <summary>
         /// Performs an implicit conversion from <see cref="System.Windows.Navigation.NavigationEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.
         /// </summary>
@@ -89,6 +91,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         public static WebViewControlNavigationCompletedEventArgs ToWebViewControlNavigationCompletedEventArgs(
             System.Windows.Navigation.NavigationEventArgs args) =>
             new WebViewControlNavigationCompletedEventArgs(args);
+#endif
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="WebBrowserNavigatedEventArgs"/> to <see cref="WebViewControlNavigationCompletedEventArgs"/>.

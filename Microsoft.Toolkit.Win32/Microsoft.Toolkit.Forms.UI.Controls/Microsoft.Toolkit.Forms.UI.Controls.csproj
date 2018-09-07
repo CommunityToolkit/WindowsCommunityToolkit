@@ -9,6 +9,9 @@
     <Title>Windows Community Toolkit Windows Forms Controls</Title>
     <Description>This library provides XAML user controls for Windows Forms. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>WebView Win32 WindowsForms</PackageTags>
+
+    <!--XamlHost requires 17692 -->
+    <TargetPlatformMinVersion>10.0.17692.0</TargetPlatformMinVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -17,6 +20,8 @@
 
   <ItemGroup>
     <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\**\*.cs" LinkBase="Shared" />
+    <EmbeddedResource Include="..\WebView.Shared\DesignerUI.resx" Link="DesignerUI.resx" />
+    <Compile Update="..\WebView.Shared\DesignerUI.Designer.cs" Link="DesignerUI.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,27 +42,5 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Forms.UI.XamlHost\Microsoft.Toolkit.Forms.UI.XamlHost.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="WebView\WebView.BaseProperties.cs">
-      <SubType>Component</SubType>
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
-    <Compile Update="WebView\WebView.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Update="WebView\WebView.Events.cs">
-      <SubType>Component</SubType>
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
-    <Compile Update="WebView\WebView.Init.cs">
-      <SubType>Component</SubType>
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
-    <Compile Update="WebView\WebView.Navigation.cs">
-      <SubType>Component</SubType>
-      <DependentUpon>WebView.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
 </Project>
