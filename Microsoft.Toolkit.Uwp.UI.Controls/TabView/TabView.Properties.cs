@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -91,5 +92,39 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
         public static readonly DependencyProperty CanAddTabsProperty =
             DependencyProperty.Register(nameof(CanAddTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+
+        public static bool GetIgnoreColumn(ColumnDefinition obj)
+        {
+            return (bool)obj.GetValue(IgnoreColumnProperty);
+        }
+
+        public static void SetIgnoreColumn(ColumnDefinition obj, bool value)
+        {
+            obj.SetValue(IgnoreColumnProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IgnoreColumnProperty"/> attached property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
+        public static readonly DependencyProperty IgnoreColumnProperty =
+            DependencyProperty.RegisterAttached("IgnoreColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
+
+        public static bool GetConstrainColumn(ColumnDefinition obj)
+        {
+            return (bool)obj.GetValue(ConstrainColumnProperty);
+        }
+
+        public static void SetConstrainColumn(ColumnDefinition obj, bool value)
+        {
+            obj.SetValue(ConstrainColumnProperty, value);
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ConstrainColumnProperty"/> attached property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
+        public static readonly DependencyProperty ConstrainColumnProperty =
+            DependencyProperty.RegisterAttached("ConstrainColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
     }
 }

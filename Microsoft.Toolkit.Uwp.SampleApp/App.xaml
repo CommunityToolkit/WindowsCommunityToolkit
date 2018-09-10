@@ -6,18 +6,18 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <!-- Color Resources -->
+            <!--  Color Resources  -->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Styles/Themes.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <!-- Converters -->
+            <!--  Converters  -->
             <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
             <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
-                                                 EmptyValue="Collapsed"
-                                                 NotEmptyValue="Visible" />
+                                                     EmptyValue="Collapsed"
+                                                     NotEmptyValue="Visible" />
 
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         </ResourceDictionary>

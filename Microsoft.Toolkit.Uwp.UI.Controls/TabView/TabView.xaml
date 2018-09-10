@@ -45,7 +45,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:TabView">
-                    <Grid Background="{TemplateBinding Background}"
+                    <Grid x:Name="TabViewContainer"
+                          Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid.RowDefinitions>
@@ -64,13 +65,16 @@
                             <!--  1 Scoll Button  -->
                             <ColumnDefinition Width="Auto" />
                             <!--  2 Tabs  -->
-                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto"
+                                              local:TabView.ConstrainColumn="True"
+                                              local:TabView.IgnoreColumn="True" />
                             <!--  3 Scoll Button or Overflow Drop-down  -->
                             <ColumnDefinition Width="Auto" />
                             <!--  4 Auto Add Button  -->
                             <ColumnDefinition Width="Auto" />
                             <!--  5 Padding  -->
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*"
+                                              local:TabView.IgnoreColumn="True" />
                             <!--  6 Right Header  -->
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
@@ -83,7 +87,7 @@
                                           Grid.Column="0"
                                           Content="{TemplateBinding LeftHeader}"
                                           ContentTemplate="{TemplateBinding LeftHeaderTemplate}" />
-                        <ScrollViewer x:Name="ScrollViewer"
+                        <ScrollViewer x:Name="TabsScrollViewer"
                                       Grid.Row="1"
                                       Grid.Column="2"
                                       AutomationProperties.AccessibilityView="Raw"
@@ -99,7 +103,8 @@
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                                       VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
                                       ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                            <ItemsPresenter Padding="{TemplateBinding Padding}" />
+                            <ItemsPresenter x:Name="TabsItemsPresenter"
+                                            Padding="{TemplateBinding Padding}" />
                         </ScrollViewer>
 
                         <Grid Grid.Row="1"
