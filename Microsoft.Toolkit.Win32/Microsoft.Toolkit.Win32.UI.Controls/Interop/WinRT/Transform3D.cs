@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Transform3D
     {
-        internal Windows.UI.Xaml.Media.Media3D.Transform3D UwpInstance { get; }
+        private Windows.UI.Xaml.Media.Media3D.Transform3D UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Transform3D"/> class, a

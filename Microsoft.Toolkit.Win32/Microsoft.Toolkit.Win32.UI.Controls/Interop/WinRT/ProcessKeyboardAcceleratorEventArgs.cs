@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ProcessKeyboardAcceleratorEventArgs
     {
-        internal Windows.UI.Xaml.Input.ProcessKeyboardAcceleratorEventArgs UwpInstance { get; }
+        private Windows.UI.Xaml.Input.ProcessKeyboardAcceleratorEventArgs UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProcessKeyboardAcceleratorEventArgs"/> class, a

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class AnimationPropertyInfo
     {
-        internal Windows.UI.Composition.AnimationPropertyInfo UwpInstance { get; }
+        private Windows.UI.Composition.AnimationPropertyInfo UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationPropertyInfo"/> class, a

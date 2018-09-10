@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Pointer
     {
-        internal Windows.UI.Xaml.Input.Pointer UwpInstance { get; }
+        private Windows.UI.Xaml.Input.Pointer UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Pointer"/> class, a

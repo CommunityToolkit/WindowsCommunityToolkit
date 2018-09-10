@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class MediaTransportControls
     {
-        internal Windows.UI.Xaml.Controls.MediaTransportControls UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.MediaTransportControls UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaTransportControls"/> class, a

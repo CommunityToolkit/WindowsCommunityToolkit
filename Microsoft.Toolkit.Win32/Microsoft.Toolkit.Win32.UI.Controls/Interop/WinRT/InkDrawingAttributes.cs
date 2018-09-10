@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class InkDrawingAttributes
     {
-        internal Windows.UI.Input.Inking.InkDrawingAttributes UwpInstance { get; }
+        private Windows.UI.Input.Inking.InkDrawingAttributes UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkDrawingAttributes"/> class, a

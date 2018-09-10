@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ImageSource
     {
-        internal Windows.UI.Xaml.Media.ImageSource UwpInstance { get; }
+        private Windows.UI.Xaml.Media.ImageSource UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageSource"/> class, a

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class RowDefinitionCollection
     {
-        internal Windows.UI.Xaml.Controls.RowDefinitionCollection UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.RowDefinitionCollection UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RowDefinitionCollection"/> class, a

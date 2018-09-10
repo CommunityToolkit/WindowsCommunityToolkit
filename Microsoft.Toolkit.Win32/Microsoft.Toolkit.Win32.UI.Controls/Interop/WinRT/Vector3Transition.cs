@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Vector3Transition
     {
-        internal Windows.UI.Xaml.Vector3Transition UwpInstance { get; }
+        private Windows.UI.Xaml.Vector3Transition UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Vector3Transition"/> class, a

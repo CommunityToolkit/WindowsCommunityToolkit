@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class BindingExpression
     {
-        internal Windows.UI.Xaml.Data.BindingExpression UwpInstance { get; }
+        private Windows.UI.Xaml.Data.BindingExpression UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingExpression"/> class, a

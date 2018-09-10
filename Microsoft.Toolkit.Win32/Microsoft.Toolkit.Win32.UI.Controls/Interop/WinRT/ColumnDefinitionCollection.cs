@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ColumnDefinitionCollection
     {
-        internal Windows.UI.Xaml.Controls.ColumnDefinitionCollection UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.ColumnDefinitionCollection UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColumnDefinitionCollection"/> class, a

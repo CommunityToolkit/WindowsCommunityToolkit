@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class BringIntoViewOptions
     {
-        internal Windows.UI.Xaml.BringIntoViewOptions UwpInstance { get; }
+        private Windows.UI.Xaml.BringIntoViewOptions UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BringIntoViewOptions"/> class, a

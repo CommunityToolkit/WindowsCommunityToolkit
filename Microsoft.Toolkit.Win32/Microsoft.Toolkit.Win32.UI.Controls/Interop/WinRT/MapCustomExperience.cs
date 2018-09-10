@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class MapCustomExperience
     {
-        internal Windows.UI.Xaml.Controls.Maps.MapCustomExperience UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.Maps.MapCustomExperience UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapCustomExperience"/> class, a

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ControlTemplate
     {
-        internal Windows.UI.Xaml.Controls.ControlTemplate UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.ControlTemplate UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ControlTemplate"/> class, a

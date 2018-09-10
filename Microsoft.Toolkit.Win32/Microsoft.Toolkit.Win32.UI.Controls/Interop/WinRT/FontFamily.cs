@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class FontFamily
     {
-        internal Windows.UI.Xaml.Media.FontFamily UwpInstance { get; }
+        private Windows.UI.Xaml.Media.FontFamily UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FontFamily"/> class, a

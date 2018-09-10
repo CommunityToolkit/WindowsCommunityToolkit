@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class GeoboundingBox
     {
-        internal Windows.Devices.Geolocation.GeoboundingBox UwpInstance { get; }
+        private Windows.Devices.Geolocation.GeoboundingBox UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GeoboundingBox"/> class, a

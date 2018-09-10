@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class BrushTransition
     {
-        internal Windows.UI.Xaml.BrushTransition UwpInstance { get; }
+        private Windows.UI.Xaml.BrushTransition UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrushTransition"/> class, a

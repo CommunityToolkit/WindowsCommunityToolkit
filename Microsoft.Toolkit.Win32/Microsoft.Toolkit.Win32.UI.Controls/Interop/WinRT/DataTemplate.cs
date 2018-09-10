@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class DataTemplate
     {
-        internal Windows.UI.Xaml.DataTemplate UwpInstance { get; }
+        private Windows.UI.Xaml.DataTemplate UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataTemplate"/> class, a

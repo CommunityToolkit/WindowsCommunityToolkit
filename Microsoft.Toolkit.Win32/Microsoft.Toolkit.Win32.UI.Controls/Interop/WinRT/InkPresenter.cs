@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class InkPresenter
     {
-        internal Windows.UI.Input.Inking.InkPresenter UwpInstance { get; }
+        private Windows.UI.Input.Inking.InkPresenter UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkPresenter"/> class, a

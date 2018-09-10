@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class FontWeight
     {
-        internal Windows.UI.Text.FontWeight UwpInstance { get; }
+        private Windows.UI.Text.FontWeight UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FontWeight"/> class, a

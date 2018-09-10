@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class FlyoutBase
     {
-        internal Windows.UI.Xaml.Controls.Primitives.FlyoutBase UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.Primitives.FlyoutBase UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FlyoutBase"/> class, a

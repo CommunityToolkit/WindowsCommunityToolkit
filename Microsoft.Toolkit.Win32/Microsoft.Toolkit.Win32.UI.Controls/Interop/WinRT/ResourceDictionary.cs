@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ResourceDictionary
     {
-        internal Windows.UI.Xaml.ResourceDictionary UwpInstance { get; }
+        private Windows.UI.Xaml.ResourceDictionary UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceDictionary"/> class, a

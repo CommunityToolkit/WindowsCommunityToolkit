@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class BindingBase
     {
-        internal Windows.UI.Xaml.Data.BindingBase UwpInstance { get; }
+        private Windows.UI.Xaml.Data.BindingBase UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BindingBase"/> class, a

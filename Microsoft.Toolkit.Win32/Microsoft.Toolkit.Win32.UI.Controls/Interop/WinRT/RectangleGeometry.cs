@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class RectangleGeometry
     {
-        internal Windows.UI.Xaml.Media.RectangleGeometry UwpInstance { get; }
+        private Windows.UI.Xaml.Media.RectangleGeometry UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RectangleGeometry"/> class, a

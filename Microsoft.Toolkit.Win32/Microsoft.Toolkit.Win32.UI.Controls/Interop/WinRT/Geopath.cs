@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Geopath
     {
-        internal Windows.Devices.Geolocation.Geopath UwpInstance { get; }
+        private Windows.Devices.Geolocation.Geopath UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Geopath"/> class, a

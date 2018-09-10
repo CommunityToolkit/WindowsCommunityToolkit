@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class UIElementCollection
     {
-        internal Windows.UI.Xaml.Controls.UIElementCollection UwpInstance { get; }
+        private Windows.UI.Xaml.Controls.UIElementCollection UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UIElementCollection"/> class, a

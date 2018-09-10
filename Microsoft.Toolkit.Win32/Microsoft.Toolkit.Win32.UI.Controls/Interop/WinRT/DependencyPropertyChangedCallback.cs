@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class DependencyPropertyChangedCallback
     {
-        internal Windows.UI.Xaml.DependencyPropertyChangedCallback UwpInstance { get; }
+        private Windows.UI.Xaml.DependencyPropertyChangedCallback UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DependencyPropertyChangedCallback"/> class, a

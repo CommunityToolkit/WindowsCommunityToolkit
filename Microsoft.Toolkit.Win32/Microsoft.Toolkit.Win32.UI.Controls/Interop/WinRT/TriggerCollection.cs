@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class TriggerCollection
     {
-        internal Windows.UI.Xaml.TriggerCollection UwpInstance { get; }
+        private Windows.UI.Xaml.TriggerCollection UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TriggerCollection"/> class, a

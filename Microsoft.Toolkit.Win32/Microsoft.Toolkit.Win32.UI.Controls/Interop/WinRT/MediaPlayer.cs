@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class MediaPlayer
     {
-        internal Windows.Media.Playback.MediaPlayer UwpInstance { get; }
+        private Windows.Media.Playback.MediaPlayer UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MediaPlayer"/> class, a

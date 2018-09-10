@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class PointerPoint
     {
-        internal Windows.UI.Input.PointerPoint UwpInstance { get; }
+        private Windows.UI.Input.PointerPoint UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PointerPoint"/> class, a

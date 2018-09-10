@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class CacheMode
     {
-        internal Windows.UI.Xaml.Media.CacheMode UwpInstance { get; }
+        private Windows.UI.Xaml.Media.CacheMode UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CacheMode"/> class, a

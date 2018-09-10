@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Projection
     {
-        internal Windows.UI.Xaml.Media.Projection UwpInstance { get; }
+        private Windows.UI.Xaml.Media.Projection UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Projection"/> class, a

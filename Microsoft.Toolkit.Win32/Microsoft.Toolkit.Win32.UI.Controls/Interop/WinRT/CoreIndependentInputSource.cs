@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class CoreIndependentInputSource
     {
-        internal Windows.UI.Core.CoreIndependentInputSource UwpInstance { get; }
+        private Windows.UI.Core.CoreIndependentInputSource UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CoreIndependentInputSource"/> class, a
