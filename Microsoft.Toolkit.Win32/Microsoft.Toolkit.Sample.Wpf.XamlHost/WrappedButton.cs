@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
     public class WrappedButton : WindowsXamlHostBase
     {
 
-        #region Constructors and Initialization
         public WrappedButton() : base()
         {
         }
@@ -42,10 +41,6 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
         {
             this.InvalidateMeasure();
         }
-
-        #endregion
-
-        #region Properties
 
         private string background;
 
@@ -91,14 +86,10 @@ namespace Microsoft.Toolkit.Sample.Wpf.XamlHost
             }
         }
 
-        #endregion
-
-        #region Helpers
         private global::Windows.UI.Color ConvertWPFColorToUWPColor(Color wpfColor)
         {
             return global::Windows.UI.Color.FromArgb(wpfColor.A, wpfColor.R, wpfColor.G, wpfColor.B);
         }
 
-        #endregion
     }
 }
