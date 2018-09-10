@@ -11,12 +11,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Toolkit.Sample.Wpf.App")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Windows Community Toolkit Controls (Sample Xaml Island Wrapper Controls for .NET WPF)")]
+[assembly: AssemblyDescription("Sample Code for Windows Community Toolkit Controls")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Microsoft.Toolkit.Sample")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Windows Community Toolkit")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

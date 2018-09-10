@@ -8,6 +8,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Microsoft.Toolkit.Sample.Forms.WebView")]
-[assembly: AssemblyDescription("Microsoft.Toolkit.Sample.Forms.WebView.exe")]
-
+[assembly: AssemblyTitle("Windows Community Toolkit Controls (Sample WebView for .NET Forms)")]
+[assembly: AssemblyDescription("Sample Code for Windows Community Toolkit Controls")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Windows Community Toolkit")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
