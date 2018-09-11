@@ -9,7 +9,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class ScalarTransition
     {
-        private
+        private Windows.UI.Xaml.ScalarTransition UwpInstance { get; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ScalarTransition"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.ScalarTransition"/>

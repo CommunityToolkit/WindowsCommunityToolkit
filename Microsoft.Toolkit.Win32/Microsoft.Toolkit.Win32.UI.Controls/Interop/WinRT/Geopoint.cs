@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     {
         private BasicGeoposition basicGeoposition;
 
-        private Windows.Devices.Geolocation.Geopoint UwpInstance { get; }
+        internal Windows.Devices.Geolocation.Geopoint UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Geopoint"/> class, a

@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Transform
     {
-        private Windows.UI.Xaml.Media.Transform UwpInstance { get; }
+        internal Windows.UI.Xaml.Media.Transform UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Transform"/> class, a
