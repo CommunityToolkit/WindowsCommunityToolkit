@@ -140,11 +140,8 @@
 
     <ControlTemplate x:Key="TabViewItemHeaderTemplate"
                      TargetType="local:TabViewItem">
-        <ListViewItemPresenter Width="200"
-                               MinWidth="90"
-                               MaxWidth="200"
-                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+        <ListViewItemPresenter HorizontalAlignment="Stretch"
+                               VerticalAlignment="Stretch"
                                Background="{TemplateBinding Background}"
                                BorderBrush="{TemplateBinding BorderBrush}"
                                BorderThickness="{TemplateBinding BorderThickness}"

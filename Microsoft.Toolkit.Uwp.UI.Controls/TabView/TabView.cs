@@ -131,8 +131,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (tabc != null && tabs != null)
                 {
-                    var available = Math.Floor(ActualWidth - taken);
-                    var required = Math.Ceiling(tabs.Count * 200.0); // TODO: Get Tab Desired Size based on available...
+                    var available = ActualWidth - taken;
+
+                    var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
+                    var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available).GetEnumerator();
+
+                    var required = 0.0;
+
+                    foreach (var tab in tvis)
+                    {
+                        if (widthIterator.MoveNext())
+                        {
+                            var width = widthIterator.Current;
+                            tab.Width = width;
+                            required += width;
+                        }
+                    }
+
+                    required = Math.Ceiling(required);
 
                     tabc.MaxWidth = available;
 
@@ -170,6 +186,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _tabContentPresenter.Content = container.Content;
                     _tabContentPresenter.ContentTemplate = container.ContentTemplate;
                 }
+            }
+
+            if (TabWidthProvider != null && TabWidthProvider.IsSelectedTabWidthDifferent)
+            {
+                TabView_SizeChanged(sender, null);
             }
         }
 

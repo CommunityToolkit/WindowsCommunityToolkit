@@ -93,6 +93,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty CanAddTabsProperty =
             DependencyProperty.Register(nameof(CanAddTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Gets or sets the implementer of <see cref="ITabWidthProvider"/> interface to provide widths of tabs for <see cref="TabView"/>.
+        /// </summary>
+        public ITabWidthProvider TabWidthProvider
+        {
+            get { return (ITabWidthProvider)GetValue(TabWidthProviderProperty); }
+            set { SetValue(TabWidthProviderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TabWidthProvider"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="TabWidthProvider"/> dependency property.</returns>
+        public static readonly DependencyProperty TabWidthProviderProperty =
+            DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new EdgeTabWidthProvider()));
+
         public static bool GetIgnoreColumn(ColumnDefinition obj)
         {
             return (bool)obj.GetValue(IgnoreColumnProperty);
