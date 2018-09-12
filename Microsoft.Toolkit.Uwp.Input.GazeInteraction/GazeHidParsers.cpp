@@ -6,6 +6,27 @@ using namespace Windows::Foundation::Collections;
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
+    static HidNumericControlDescription ^ GetGazeUsageFromCollectionId(
+        GazeDevicePreview ^ gazeDevice,
+        uint16 childUsageId,
+        uint16 parentUsageId)
+    {
+        IVectorView<HidNumericControlDescription ^> ^ numericControls = gazeDevice->GetNumericControlDescriptions(
+            (USHORT)GazeHidUsages::UsagePage_EyeHeadTracker, childUsageId);
+
+        for (unsigned int i = 0; i < numericControls->Size; i++)
+        {
+            auto parentCollections = numericControls->GetAt(i)->ParentCollections;
+            if (parentCollections->Size > 0 &&
+                parentCollections->GetAt(0)->UsagePage == (USHORT)GazeHidUsages::UsagePage_EyeHeadTracker &&
+                parentCollections->GetAt(0)->UsageId == parentUsageId)
+            {
+                return numericControls->GetAt(i);
+            }
+        }
+        return nullptr;
+    }
+
 #pragma region GazeHidPositionParser
     GazeHidPositionParser::GazeHidPositionParser(GazeDevicePreview ^ gazeDevice, uint16 usage)
     {
@@ -13,9 +34,9 @@ namespace GazeHidParsers {
 
         // Find all the position usages from the device's
         // descriptor and store them for easy access
-        _X = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionX, _usage);
-        _Y = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionY, _usage);
-        _Z = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionZ, _usage);
+        _X = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionX, _usage);
+        _Y = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionY, _usage);
+        _Z = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionZ, _usage);
     }
 
     GazeHidPosition^ GazeHidPositionParser::GetPosition(HidInputReport ^ report)
@@ -61,9 +82,9 @@ namespace GazeHidParsers {
 
         // Find all the rotation usages from the device's
         // descriptor and store them for easy access
-        _X = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationX, _usage);
-        _Y = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationY, _usage);
-        _Z = GazeHidParsers::GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationZ, _usage);
+        _X = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationX, _usage);
+        _Y = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationY, _usage);
+        _Z = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationZ, _usage);
     }
 
     GazeHidPosition^ GazeHidRotationParser::GetRotation(HidInputReport ^ report)
@@ -101,29 +122,6 @@ namespace GazeHidParsers {
         return result;
     }
 #pragma endregion GazeHidRotationParser
-
-#pragma region GazeHidParsers
-    HidNumericControlDescription ^ GazeHidParsers::GetGazeUsageFromCollectionId(
-        GazeDevicePreview ^ gazeDevice, 
-        uint16 childUsageId, 
-        uint16 parentUsageId)
-    {
-        IVectorView<HidNumericControlDescription ^> ^ numericControls = gazeDevice->GetNumericControlDescriptions(
-            (USHORT)GazeHidUsages::UsagePage_EyeHeadTracker, childUsageId);
-
-        for (unsigned int i = 0; i < numericControls->Size; i++)
-        {
-            auto parentCollections = numericControls->GetAt(i)->ParentCollections;
-            if (parentCollections->Size > 0 &&
-                parentCollections->GetAt(0)->UsagePage == (USHORT)GazeHidUsages::UsagePage_EyeHeadTracker &&
-                parentCollections->GetAt(0)->UsageId == parentUsageId)
-            {
-                return numericControls->GetAt(i);
-            }
-        }
-        return nullptr;
-    }
-#pragma endregion GazeHidParsers
 }
 
 END_NAMESPACE_GAZE_INPUT

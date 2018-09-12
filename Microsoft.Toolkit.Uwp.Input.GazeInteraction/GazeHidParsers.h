@@ -47,15 +47,6 @@ namespace GazeHidParsers {
         }
     };
 
-    class GazeHidParsers {
-    public:
-        static HidNumericControlDescription ^ GetGazeUsageFromCollectionId(
-            GazeDevicePreview^ gazeDevice,
-            uint16 childUsageId,
-            uint16 parentUsageId
-        );
-    };
-
     public ref class GazeHidPositionParser sealed
     {
     public:
