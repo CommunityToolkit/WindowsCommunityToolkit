@@ -49,6 +49,11 @@ public:
     /// </summary>
     void Click();
 
+    /// <summary>
+    /// Run device calibration.
+    /// </summary>
+    IAsyncOperation<bool>^ RequestCalibrationAsync();
+
 internal:
     Brush^ _enterBrush = nullptr;
 
@@ -115,7 +120,7 @@ internal:
     void RemoveRoot(Object^ element);
 
 
-    property bool IsDeviceAvailable { bool get() { return _deviceCount != 0; }}
+    property bool IsDeviceAvailable { bool get() { return _devices->Size != 0; }}
     event EventHandler<Object^>^ IsDeviceAvailableChanged;
 
 private:
@@ -186,7 +191,7 @@ private:
     EventRegistrationToken              _gazeExitedToken;
 
     GazeDeviceWatcherPreview^ _watcher;
-    int _deviceCount;
+    Vector<GazeDevicePreview^>^ _devices;
     EventRegistrationToken _deviceAddedToken;
     EventRegistrationToken _deviceRemovedToken;
 

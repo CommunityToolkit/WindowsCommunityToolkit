@@ -93,6 +93,7 @@ GazePointer::GazePointer()
 
     InitializeHistogram();
 
+    _devices = ref new Vector<GazeDevicePreview^>();
     _watcher = GazeInputSourcePreview::CreateWatcher();
     _watcher->Added += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherAddedPreviewEventArgs^>(this, &GazePointer::OnDeviceAdded);
     _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
@@ -101,9 +102,9 @@ GazePointer::GazePointer()
 
 void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherAddedPreviewEventArgs^ args)
 {
-    _deviceCount++;
+    _devices->Append(args->Device);
 
-    if (_deviceCount == 1)
+    if (_devices->Size == 1)
     {
         IsDeviceAvailableChanged(nullptr, nullptr);
 
@@ -113,9 +114,22 @@ void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatc
 
 void GazePointer::OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args)
 {
-    _deviceCount--;
+    auto index = 0;
+    while (index < _devices->Size && _devices->GetAt(index)->Id != args->Device->Id)
+    {
+        index++;
+    }
 
-    if (_deviceCount == 0)
+    if (index < _devices->Size)
+    {
+        _devices->RemoveAt(index);
+    }
+    else
+    {
+        _devices->RemoveAt(0);
+    }
+
+    if (_devices->Size == 0)
     {
         IsDeviceAvailableChanged(nullptr, nullptr);
     }
@@ -201,7 +215,7 @@ void GazePointer::InitializeHistogram()
 
 void GazePointer::InitializeGazeInputSource()
 {
-    if (_gazeInputSource == nullptr && _roots->Size != 0 && _deviceCount != 0)
+    if (_gazeInputSource == nullptr && _roots->Size != 0 && _devices->Size != 0)
     {
         _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
         if (_gazeInputSource != nullptr)
@@ -706,5 +720,14 @@ void GazePointer::Click()
         _currentlyFixatedElement->Invoke();
     }
 }
+
+/// <summary>
+/// Run device calibration.
+/// </summary>
+IAsyncOperation<bool>^ GazePointer::RequestCalibrationAsync()
+{
+    return _devices->GetAt(0)->RequestCalibrationAsync();
+}
+
 
 END_NAMESPACE_GAZE_INPUT

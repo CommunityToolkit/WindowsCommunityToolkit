@@ -43,9 +43,6 @@
     <ClCompile Include="GazePointer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
-    <ClCompile Include="GazeCalibration.cpp">
-      <Filter>Sources</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -103,9 +100,6 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Interaction.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GazeCalibration.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
