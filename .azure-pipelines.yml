@@ -1,5 +1,11 @@
-parameters: 
-  signStep: []
+trigger:
+- master
+- rel/*
+
+queue: Hosted VS2017
+
+variables: 
+  BuildConfiguration: Release
 
 steps:
 - task: BatchScript@1
@@ -32,7 +38,15 @@ steps:
 - powershell: .\build\build.ps1 -target=Package
   displayName: Build 
 
-- ${{ parameters.signStep }}
+- task: PowerShell@2
+  displayName: Authenticode Sign Packages
+  inputs:
+    filePath: build/Sign-Package.ps1
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    ArtifactDirectory: bin\nupkg
+  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Package Artifacts
