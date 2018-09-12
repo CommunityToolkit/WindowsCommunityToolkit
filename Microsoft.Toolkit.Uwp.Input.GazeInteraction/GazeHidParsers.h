@@ -10,41 +10,10 @@ BEGIN_NAMESPACE_GAZE_INPUT
 namespace GazeHidParsers {
     public ref class GazeHidPosition sealed
     {
-    private:
-        long long _X;
-        long long _Y;
-        long long _Z;
-
     public:
-        property long long X
-        {
-            long long get() {
-                return _X;
-            }
-            void set(long long value) {
-                _X = value;
-            }
-        }
-
-        property long long Y
-        {
-            long long get() {
-                return _Y;
-            }
-            void set(long long value) {
-                _Y = value;
-            }
-        }
-
-        property long long Z
-        {
-            long long get() {
-                return _Z;
-            }
-            void set(long long value) {
-                _Z = value;
-            }
-        }
+        property long long X;
+        property long long Y;
+        property long long Z;
     };
 
     public ref class GazeHidPositionParser sealed
