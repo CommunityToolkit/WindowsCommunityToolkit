@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Brush
     {
-        private Windows.UI.Xaml.Media.Brush UwpInstance { get; }
+        internal Windows.UI.Xaml.Media.Brush UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Brush"/> class, a
