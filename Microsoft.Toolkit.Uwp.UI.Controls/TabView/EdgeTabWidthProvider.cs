@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsSelectedTabWidthDifferent => true;
 
         /// <inheritdoc/>
-        public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, ICollection<object> items, double availableWidth)
+        public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth)
         {
             if (tabs.Count() <= 1)
             {

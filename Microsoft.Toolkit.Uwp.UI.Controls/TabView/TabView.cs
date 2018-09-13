@@ -5,6 +5,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -55,6 +56,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TabView()
         {
             this.DefaultStyleKey = typeof(TabView);
+
+            RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
         }
 
         /// <inheritdoc/>
@@ -98,23 +101,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_tabItemsPresenter != null)
             {
                 _tabItemsPresenter.SizeChanged -= TabView_SizeChanged;
-
                 _tabItemsPresenter.SizeChanged += TabView_SizeChanged;
-
-                //// TODO: Need to detect removed item as well?
             }
 
             if (_tabContentPresenter != null)
             {
                 SelectionChanged -= TabView_SelectionChanged;
-
                 SelectionChanged += TabView_SelectionChanged;
             }
 
             if (_tabAddButton != null)
             {
                 _tabAddButton.Click -= AddTabButton_Click;
-
                 _tabAddButton.Click += AddTabButton_Click;
             }
         }
@@ -125,7 +123,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Columns don't have their Actual Size calculated in Measure or Arrange.
             if (_tabViewContainer != null)
             {
+                // Look for our special columns to calculate size of other 'stuff'
                 var taken = _tabViewContainer.ColumnDefinitions.Sum(cd => GetIgnoreColumn(cd) ? 0 : cd.ActualWidth);
+
+                // Get the column we want to work on for available space
                 var tabc = _tabViewContainer.ColumnDefinitions.FirstOrDefault(cd => GetConstrainColumn(cd));
                 var tabs = GetTabSource();
 
@@ -133,6 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var available = ActualWidth - taken;
 
+                    // Calculate the width for each tab from the provider and determine how much space they take.
                     var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
                     var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available).GetEnumerator();
 
@@ -148,8 +150,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                     }
 
-                    required = Math.Ceiling(required);
-
+                    // Constrain the column based on our required and available space
                     tabc.MaxWidth = available;
 
                     if (required >= available)
@@ -188,16 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            // If our width can be effected by the selection, need to run algorithm.
             if (TabWidthProvider != null && TabWidthProvider.IsSelectedTabWidthDifferent)
             {
                 TabView_SizeChanged(sender, null);
             }
-        }
-
-        /// <inheritdoc/>
-        protected override void OnItemsChanged(object e)
-        {
-            base.OnItemsChanged(e);
         }
 
         /// <inheritdoc/>
@@ -232,23 +228,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (!args.Cancel)
                 {
-                    GetTabSource()?.Remove(tvi);
+                    if (ItemsSource != null)
+                    {
+                        _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { ItemFromContainer(tvi) });
+                    }
+                    else
+                    {
+                        Items.Remove(ItemFromContainer(tvi));
+                    }
                 }
             }
-        }
-
-        private ICollection<object> GetTabSource()
-        {
-            if (ItemsSource != null)
-            {
-                return ItemsSource as ICollection<object>;
-            }
-            else if (Items != null)
-            {
-                return Items as ICollection<object>;
-            }
-
-            return null;
         }
 
         private void TabPresenter_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)

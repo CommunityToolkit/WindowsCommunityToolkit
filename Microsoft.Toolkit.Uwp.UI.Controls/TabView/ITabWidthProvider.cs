@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -20,9 +21,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Provide a set of widths for all the visible tabs in the collection.
         /// </summary>
         /// <param name="tabs">Collection of <see cref="TabViewItem"/>.</param>
-        /// <param name="items">Collection of items from the Items or ItemsSource of the <see cref="TabView"/>.</param>
+        /// <param name="items">Collection of items from the Items (<see cref="ItemCollection"/>) or ItemsSource of the <see cref="TabView"/>.</param>
         /// <param name="availableWidth">Maximum size available to display tabs.</param>
         /// <returns>Set of widths for each tab.</returns>
-        IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, ICollection<object> items, double availableWidth);
+        IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth);
     }
 }
