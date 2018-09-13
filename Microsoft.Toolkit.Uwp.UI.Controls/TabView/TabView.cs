@@ -133,27 +133,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (tabc != null && tabs != null)
                 {
                     var available = ActualWidth - taken;
-
-                    // Calculate the width for each tab from the provider and determine how much space they take.
-                    var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
-                    var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available).GetEnumerator();
-
                     var required = 0.0;
 
-                    foreach (var tab in tvis)
+                    if (available > 0)
                     {
-                        if (widthIterator.MoveNext())
+                        // Calculate the width for each tab from the provider and determine how much space they take.
+                        var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
+                        var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available).GetEnumerator();
+
+                        foreach (var tab in tvis)
                         {
-                            var width = widthIterator.Current;
-                            tab.Width = width;
-                            required += width;
+                            if (widthIterator.MoveNext())
+                            {
+                                var width = widthIterator.Current;
+                                tab.Width = Math.Max(width, 0);
+                                required += width;
+                            }
                         }
                     }
 
-                    // Constrain the column based on our required and available space
-                    tabc.MaxWidth = available;
+                    if (available > TabWidthProvider.MinimumWidth)
+                    {
+                        // Constrain the column based on our required and available space
+                        tabc.MaxWidth = available;
+                    }
 
-                    if (required >= available)
+                    //// TODO: If it's less, should we move the selected tab to only be the one shown by default?
+
+                    if (available <= TabWidthProvider.MinimumWidth)
+                    {
+                        tabc.Width = new GridLength(TabWidthProvider.MinimumWidth);
+                    }
+                    else if (required >= available)
                     {
                         // Fix size as we don't have enough space for all the tabs.
                         tabc.Width = new GridLength(tabc.MaxWidth);

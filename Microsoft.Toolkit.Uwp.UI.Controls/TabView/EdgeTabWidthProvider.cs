@@ -13,31 +13,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public bool IsSelectedTabWidthDifferent => true;
 
         /// <inheritdoc/>
+        public int MinimumWidth => 90;
+
+        private const int StandardWidth = 200;
+
+        /// <inheritdoc/>
         public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth)
         {
             if (tabs.Count() <= 1)
             {
                 // Default case of a single tab, make it full size.
-                yield return 200;
+                yield return Math.Min(StandardWidth, availableWidth);
             }
             else
             {
-                var width = (availableWidth - 200) / (tabs.Count() - 1);
+                var width = (availableWidth - StandardWidth) / (tabs.Count() - 1);
 
                 // Constrain between 90 and 200
-                if (width < 90)
+                if (width < MinimumWidth)
                 {
-                    width = 90;
+                    width = MinimumWidth;
                 }
-                else if (width > 200)
+                else if (width > StandardWidth)
                 {
-                    width = 200;
+                    width = StandardWidth;
                 }
 
                 foreach (var tab in tabs)
                 {
                     // If it's selected make it full size, otherwise whatever the size should be.
-                    yield return tab.IsSelected ? 200 : width;
+                    yield return tab.IsSelected
+                        ? Math.Min(StandardWidth, availableWidth)
+                        : width;
                 }
             }
         }

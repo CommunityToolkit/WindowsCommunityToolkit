@@ -18,6 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         bool IsSelectedTabWidthDifferent { get; }
 
         /// <summary>
+        /// Gets a value indicating the minimum width of the tab area.
+        /// </summary>
+        int MinimumWidth { get; }
+
+        /// <summary>
         /// Provide a set of widths for all the visible tabs in the collection.
         /// </summary>
         /// <param name="tabs">Collection of <see cref="TabViewItem"/>.</param>
