@@ -7,6 +7,7 @@
     <converters:EmptyObjectToObjectConverter x:Key="NullVisibilityConverter"
                                              EmptyValue="Collapsed"
                                              NotEmptyValue="Visible" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <Style TargetType="local:TabView">
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -111,7 +112,7 @@
                               Grid.Column="4"
                               HorizontalAlignment="Left"
                               Background="{TemplateBinding Background}"
-                              Visibility="{TemplateBinding CanAddTabs}">
+                              Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                             <Button x:Name="AddTabButton"
                                     Padding="9.5"
                                     FontFamily="Segoe MDL2 Assets">

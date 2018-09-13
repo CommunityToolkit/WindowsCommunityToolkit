@@ -80,18 +80,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether an 'Add' button appears for the user to add tabs themselves.
         /// </summary>
-        public bool CanAddTabs
+        public bool IsAddTabButtonVisible
         {
-            get { return (bool)GetValue(CanAddTabsProperty); }
-            set { SetValue(CanAddTabsProperty, value); }
+            get { return (bool)GetValue(IsAddTabButtonVisibleProperty); }
+            set { SetValue(IsAddTabButtonVisibleProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="CanAddTabs"/> dependency property.
+        /// Identifies the <see cref="IsAddTabButtonVisible"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
-        public static readonly DependencyProperty CanAddTabsProperty =
-            DependencyProperty.Register(nameof(CanAddTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
+        public static readonly DependencyProperty IsAddTabButtonVisibleProperty =
+            DependencyProperty.Register(nameof(IsAddTabButtonVisible), typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets or sets the implementer of <see cref="ITabWidthProvider"/> interface to provide widths of tabs for <see cref="TabView"/>.
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="IgnoreColumnProperty"/> attached property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
         public static readonly DependencyProperty IgnoreColumnProperty =
             DependencyProperty.RegisterAttached("IgnoreColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ConstrainColumnProperty"/> attached property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="CanAddTabs"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
         public static readonly DependencyProperty ConstrainColumnProperty =
             DependencyProperty.RegisterAttached("ConstrainColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
     }
