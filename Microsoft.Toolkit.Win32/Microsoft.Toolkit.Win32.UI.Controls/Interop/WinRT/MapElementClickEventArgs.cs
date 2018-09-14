@@ -1,7 +1,7 @@
 using System;
 using System.Security;
 
-namespace Microsoft.Toolkit.Wpf.UI.Controls
+namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
     /// Provides data for events. This class cannot be inherited.
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs"/> to <see cref="Microsoft.Toolkit.Wpf.UI.Controls.MapElementClickEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MapElementClickEventArgs"/>.
         /// </summary>
         /// <param name="args">The <see cref="Windows.UI.Xaml.Controls.Maps.MapElementClickEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>

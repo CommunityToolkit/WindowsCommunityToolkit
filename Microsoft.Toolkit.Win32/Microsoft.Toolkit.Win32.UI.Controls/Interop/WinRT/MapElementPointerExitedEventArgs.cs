@@ -1,6 +1,6 @@
 using System;
 
-namespace Microsoft.Toolkit.Wpf.UI.Controls
+namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
     /// Provides data for events. This class cannot be inherited.
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         }
 
         /// <summary>
-        /// Performs an implicit conversion from <see cref="global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs"/> to <see cref="Microsoft.Toolkit.Wpf.UI.Controls.MapElementPointerExitedEventArgs"/>.
+        /// Performs an implicit conversion from <see cref="global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs"/> to <see cref="Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MapElementPointerExitedEventArgs"/>.
         /// </summary>
         /// <param name="args">The <see cref="global::Windows.UI.Xaml.Controls.Maps.MapElementPointerExitedEventArgs"/> instance containing the event data.</param>
         /// <returns>The result of the conversion.</returns>
