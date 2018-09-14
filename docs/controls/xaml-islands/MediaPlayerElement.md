@@ -15,9 +15,9 @@ These controls use the newer Windows 10 implementation, and is used to embed a v
 
 ## About MediaPlayerElement controls
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. 
+The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace.
 
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
+The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace.
 
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
@@ -30,7 +30,7 @@ This wrapper does not currently support Full Screen video.  The Source property 
   xmlns:controls="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls"
 ...>
 
-<controls:MediaPlayerElement x:Name="mediaPlayerElement" 
+<controls:MediaPlayerElement x:Name="mediaPlayerElement"
     Source="https://mediaplatstorage1.blob.core.windows.net/windows-universal-samples-media/elephantsdream-clip-h264_sd-aac_eng-aac_spa-aac_eng_commentary-srt_eng-srt_por-srt_swe.mkv"
     AutoPlay="True" Margin="5" HorizontalAlignment="Stretch"  VerticalAlignment="Stretch" AreTransportControlsEnabled="True" />
 ```
@@ -75,8 +75,8 @@ This wrapper does not currently support Full Screen video.  The Source property 
 
 ## API Source Code
 
-- [WinForms.MediaPlayerElement](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WinForms/MediaPlayerElement)
-- [WPF.MediaPlayerElement](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WPF/MediaPlayerElement)
+- [MediaPlayerElement (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.Controls/MediaPlayerElement)
+- [MediaPlayerElement (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.WPF.UI.Controls/MediaPlayerElement)
 
 
 ## Related Topics

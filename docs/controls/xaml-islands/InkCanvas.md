@@ -15,9 +15,9 @@ These controls use the Windows 10 implementation, and are used to embed a panel 
 
 ## About InkCanvas controls
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. 
+The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace.
 
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
+The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace.
 
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
@@ -61,8 +61,8 @@ These controls, like the UWP base, provides no interaction without an associated
 
 ## API Source Code
 
-- [WinForms.InkCanvas](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WinForms/InkCanvas)
-- [WPF.InkCanvas](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WPF/InkCanvas)
+- [InkCanvas (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.Controls/InkCanvas)
+- [InkCanvas (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.WPF.UI.Controls/InkCanvas)
 
 
 ## Related Topics

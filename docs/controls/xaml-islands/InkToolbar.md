@@ -15,14 +15,14 @@ These controls use the Windows 10 implementation, and are used to embed a panel 
 
 ## About InkToolbar controls
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. 
+The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace.
 
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
+The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace.
 
 You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
 ## Known Limitations
-This control provides little interaction other than 
+This control provides little interaction other than
 
 ## Syntax
 ```xaml
@@ -54,7 +54,7 @@ This control provides little interaction other than
 | ActiveTool | WindowsXamlHostBaseExt | Gets or sets the ActiveTool as a wrapped control. |
 | InkDrawingAttributes | InkDrawingAttributes | Wrapper for Windows.UI.Input.Inking.InkDrawingAttributes |
 | Orientation | Orientation | wrapper for Windows.UI.Xaml.Controls.InkToolbar.Orientation |
-| IsStencilButtonChecked | bool | True if a stencil button is checked | 
+| IsStencilButtonChecked | bool | True if a stencil button is checked |
 | ButtonFlyoutPlacement | InkToolbarButtonFlyoutPlacement | Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacement |
 | Children | ObservableCollection<DependencyObject> | Child controls |
 
@@ -85,8 +85,8 @@ This control provides little interaction other than
 
 ## API Source Code
 
-- [WinForms.InkToolbar](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WinForms/InkToolbar)
-- [WPF.InkToolbar](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WPF/InkToolbar)
+- [InkToolbar (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.Controls/InkToolbar)
+- [InkToolbar (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.WPF.UI.Controls/InkToolbar)
 
 
 ## Related Topics

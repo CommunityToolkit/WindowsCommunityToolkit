@@ -269,3 +269,15 @@ public partial class MainWindow : Window
     }
 }
 ```
+
+## Requirements
+
+| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
+| -- | -- |
+| Namespace | Microsoft.Toolkit.Forms.UI.XamlHost, Microsoft.Toolkit.Wpf.UI.XamlHost |
+| NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
+
+## API Source Code
+
+- [WindowsXamlHost (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.XamlHost)
+- [WindowsXamlHost (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Wpf.UI.XamlHost)
