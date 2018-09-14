@@ -6,51 +6,83 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <controls:TabView x:Name="Tabs"
-                    CanAddTabs="True">
-    <controls:TabView.HeaderTemplate>
-      <DataTemplate>
-        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
-      </DataTemplate>
-    </controls:TabView.HeaderTemplate>
-    <controls:TabView.LeftHeaderTemplate>
-      <DataTemplate>
-        <TextBlock Padding="16,12,12,12" FontSize="16" FontWeight="Bold" Text="Tabs"/>
-      </DataTemplate>
-    </controls:TabView.LeftHeaderTemplate>      
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    <controls:TabView x:Name="Tabs"
+                      IsAddTabButtonVisible="True">
+      <controls:TabView.HeaderTemplate>
+        <DataTemplate>
+          <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
+        </DataTemplate>
+      </controls:TabView.HeaderTemplate>
+      <controls:TabView.LeftHeaderTemplate>
+        <DataTemplate>
+          <TextBlock Padding="16,12,12,12" FontSize="16" FontWeight="Bold" Text="Tabs"/>
+        </DataTemplate>
+      </controls:TabView.LeftHeaderTemplate>      
     
-    <!-- Tabs -->
-    <controls:TabViewItem Header="Home" HeaderIcon="Home" IsClosable="False">
-      <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
-    </controls:TabViewItem>
-    <controls:TabViewItem Header="Ignored">
-      <controls:TabViewItem.HeaderTemplate>
-        <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
-      </controls:TabViewItem.HeaderTemplate>
-      <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
-    </controls:TabViewItem>
-    <controls:TabViewItem Header="Tab 3" HeaderIcon="Video">
-      <TextBlock Padding="16">Try closing and re-ordering the tabs.</TextBlock>
-    </controls:TabViewItem>
-    <controls:TabViewItem Header="Not Closable">
-      <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
-    </controls:TabViewItem>
+      <!-- Tabs -->
+      <controls:TabViewItem Header="Home" HeaderIcon="Home" 
+                            IsClosable="False"
+                            IsSelected="True">
+        <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
+      </controls:TabViewItem>
+      <controls:TabViewItem Header="Ignored">
+        <controls:TabViewItem.HeaderTemplate>
+          <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
+        </controls:TabViewItem.HeaderTemplate>
+        <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
+      </controls:TabViewItem>
+      <controls:TabViewItem Header="Tab 3" HeaderIcon="Video">
+        <TextBlock Padding="16">Try closing and re-ordering the tabs.</TextBlock>
+      </controls:TabViewItem>
+      <controls:TabViewItem Header="Not Closable">
+        <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
+      </controls:TabViewItem>
     
-    <controls:TabView.RightHeaderTemplate>
-      <DataTemplate>
-        <Button Padding="9.5">
-          <SymbolIcon Symbol="Setting"/>
-        </Button>
-      </DataTemplate>
-    </controls:TabView.RightHeaderTemplate>
+      <controls:TabView.RightHeaderTemplate>
+        <DataTemplate>
+          <Button Padding="9.5">
+            <SymbolIcon Symbol="Setting"/>
+          </Button>
+        </DataTemplate>
+      </controls:TabView.RightHeaderTemplate>
     
-    <controls:TabView.FooterTemplate>
-      <DataTemplate>
-        <TextBlock Padding="16,8,16,8" 
-                   HorizontalAlignment="Right"
-                   FontSize="16" FontWeight="Bold" 
-                   Text="TabView Control Footer" />
-      </DataTemplate>
-    </controls:TabView.FooterTemplate>
-  </controls:TabView>
+      <controls:TabView.FooterTemplate>
+        <DataTemplate>
+          <TextBlock Padding="16,8,16,8" 
+                     HorizontalAlignment="Right"
+                     FontSize="16" FontWeight="Bold" 
+                     Text="TabView Control Footer" />
+        </DataTemplate>
+      </controls:TabView.FooterTemplate>
+    </controls:TabView>
+    <controls:TabView x:Name="TabItems"
+                      Grid.Row="1"
+                      ItemsSource="{Binding TabItemCollection}">
+      <controls:TabView.ItemHeaderTemplate>
+        <DataTemplate>
+          <TextBlock>
+            <Run Text="{Binding Value}"/>
+            <Run Text=": "/>
+            <Run Text="{Binding MyText}"/>
+          </TextBlock>
+        </DataTemplate>
+      </controls:TabView.ItemHeaderTemplate>
+      <controls:TabView.ItemTemplate>
+        <DataTemplate>
+          <StackPanel>
+            <TextBlock Margin="8">
+              <Run Text="Tab Value: "/>
+              <Run Text="{Binding Value}" />
+            </TextBlock>
+            <TextBlock Margin="8,0,0,0" Text="Some other content..." />
+          </StackPanel>
+        </DataTemplate>
+      </controls:TabView.ItemTemplate>
+    </controls:TabView>
+  </Grid>
 </Page>

@@ -14,6 +14,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class TabViewPage : Page, IXamlRenderListener
     {
+        public ObservableCollection<DataItem> TabItemCollection { get; } = new ObservableCollection<DataItem>();
+
         private TabView _tabs;
 
         private int _counter = 1;
@@ -21,17 +23,31 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public TabViewPage()
         {
             this.InitializeComponent();
+
+            TabItemCollection.Add(new DataItem() { MyText = "First Tab", Value = 100 });
+            TabItemCollection.Add(new DataItem() { MyText = "Tab 2", Value = 200 });
+            TabItemCollection.Add(new DataItem() { MyText = "Third Tab", Value = 300 });
+            TabItemCollection.Add(new DataItem() { MyText = "Tab Plus", Value = 400 });
+
+            SampleController.Current.RegisterNewCommand("Add Lower Tab", AddTabClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
+            control.DataContext = this;
+
             _tabs = control.FindChildByName("Tabs") as TabView;
             if (_tabs != null)
             {
-                _tabs.AddTab += Tabs_AddTab;
+                _tabs.AddTabButtonClick += Tabs_AddTab;
                 _tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
                 _tabs.TabClosing += Tabs_TabClosing;
             }
+        }
+
+        private void AddTabClick(object sender, RoutedEventArgs e)
+        {
+            TabItemCollection.Add(new DataItem() { MyText = "New Tab", Value = 500 });
         }
 
         private void Tabs_AddTab(object sender, EventArgs e)
@@ -59,6 +75,30 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private async void Tabs_TabDraggedOutside(object sender, TabDraggedOutsideEventArgs e)
         {
             await new MessageDialog("Tore Tab Outside App.  TODO: Pop-open a Window.").ShowAsync();
+        }
+    }
+
+    #pragma warning disable SA1402 // File may only contain a single class
+    public class DataItem
+    #pragma warning restore SA1402 // File may only contain a single class
+    {
+        public string MyText { get; set; }
+
+        public int Value { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is DataItem di)
+            {
+                return MyText == di.MyText && Value == di.Value;
+            }
+
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return MyText.GetHashCode() ^ Value.GetHashCode();
         }
     }
 }

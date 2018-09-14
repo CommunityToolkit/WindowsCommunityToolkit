@@ -78,6 +78,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(RightHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets or sets the default <see cref="DataTemplate"/> for the <see cref="TabViewItem.HeaderTemplate"/>.
+        /// </summary>
+        public DataTemplate ItemHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(ItemHeaderTemplateProperty); }
+            set { SetValue(ItemHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ItemHeaderTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="LeftHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty ItemHeaderTemplateProperty =
+            DependencyProperty.Register(nameof(ItemHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets a value indicating whether an 'Add' button appears for the user to add tabs themselves.
         /// </summary>
         public bool IsAddTabButtonVisible

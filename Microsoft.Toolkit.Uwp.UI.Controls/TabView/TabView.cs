@@ -69,7 +69,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride()
         {
-            return new TabViewItem();
+            return new TabViewItem()
+            {
+                HeaderTemplate = ItemHeaderTemplate
+            };
         }
 
         /// <inheritdoc/>
@@ -213,6 +216,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var tvi = element as TabViewItem;
 
             tvi.Loaded += TabViewItem_Loaded;
+
+            if (tvi.Header == null)
+            {
+                tvi.Header = item;
+            }
 
             base.PrepareContainerForItemOverride(element, item);
         }
