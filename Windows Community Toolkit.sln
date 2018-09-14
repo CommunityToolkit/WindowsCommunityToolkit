@@ -90,6 +90,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Co
 		{3DD8AA7C-3569-4E51-992F-0C2257E8878E} = {3DD8AA7C-3569-4E51-992F-0C2257E8878E}
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.Services", "Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj", "{83D4AC7F-735A-4D9B-87D0-0118E0562352}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
@@ -636,6 +638,30 @@ Global
 		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x64.Build.0 = Release|Any CPU
 		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x86.ActiveCfg = Release|Any CPU
 		{D4D78CBA-B238-4794-89A0-4F1A2D8FEA97}.Release|x86.Build.0 = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|ARM.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|x64.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Debug|x86.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|Any CPU.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|Any CPU.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|ARM.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|ARM.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|x64.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|x64.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|x86.ActiveCfg = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Native|x86.Build.0 = Debug|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|ARM.ActiveCfg = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|ARM.Build.0 = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|x64.ActiveCfg = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|x64.Build.0 = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|x86.ActiveCfg = Release|Any CPU
+		{83D4AC7F-735A-4D9B-87D0-0118E0562352}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

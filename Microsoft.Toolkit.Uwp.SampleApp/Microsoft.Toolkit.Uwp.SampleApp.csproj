@@ -1428,6 +1428,10 @@
       <Project>{1ae2cb5c-58a0-4f12-8e6f-2cd4aaadb34c}</Project>
       <Name>Microsoft.Toolkit.Uwp.Samples.BackgroundTasks</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
+      <Project>{83d4ac7f-735a-4d9b-87d0-0118e0562352}</Project>
+      <Name>Microsoft.Toolkit.Uwp.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Graph\Microsoft.Toolkit.Uwp.UI.Controls.Graph.csproj">
       <Project>{d4d78cba-b238-4794-89a0-4f1a2d8fea97}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.Graph</Name>
