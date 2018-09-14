@@ -1,8 +1,8 @@
 ---
 title: Twitter Service
 author: nmetulev
-description: The Twitter Service allows users to retrieve or publish data to Twitter. 
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Twitter 
+description: The Twitter Service allows users to retrieve or publish data to Twitter.
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, Twitter
 dev_langs:
   - csharp
   - vb
@@ -10,7 +10,7 @@ dev_langs:
 
 # Twitter Service
 
-The **Twitter Service** allows users to retrieve or publish data to Twitter. 
+The **Twitter Service** allows users to retrieve or publish data to Twitter.
 
 [Twitter Developer Site](https://dev.twitter.com) is the main content site for all twitter developers.  Visit the [Twitter Apps List](https://apps.twitter.com/) to manage existing apps.
 
@@ -19,10 +19,10 @@ The **Twitter Service** allows users to retrieve or publish data to Twitter.
 ## App Setup
 
 **Consumer Key**
-Copy this from the *Keys and Access Tokens* tab on your application page. 
+Copy this from the *Keys and Access Tokens* tab on your application page.
 
 **Consumer Secret**
-Copy this from the *Keys and Access Tokens* tab on your application page. 
+Copy this from the *Keys and Access Tokens* tab on your application page.
 
 **Callback URI** Enter a unique URI for your application.  This must match the *Callback URL* field on the *Application Details* tab in Twitter.
 *Example*: http://myapp.company.com - (this does not have to be a working URL)
@@ -166,6 +166,38 @@ Twitter app models allows for read only applications.  If the app is tagged as R
 
 If you are posting from your app and never seeing them show up in the timeline check the *Permissions* tab on the app page.  You want to ensure that you have *Read and Write* checked on that tab.
 
+## Using the service on non-UWP platforms
+
+To use the service outside the UWP platform, you'll need to implement some interfaces. These interfaces are the IAuthenticationBroker, IPasswordManager, IStorageManager and ISignatureManager.
+
+**IAuthenticationBroker**
+
+The IAuthenticationBroker only has the Authenticate method. This method receives a request uri and a callback uri, which you'll use to authenticate with the API. The method returns an AuthenticationResult that tells the service the authentication result.
+
+**IPasswordManager**
+
+The IPasswordManager will allow the service to manage passwords. The methods you'll have to implement are Get, Store and Remove.
+
+The Get method receives a string key and returns a PasswordCredential.
+
+The Store method receives a string resource and a PasswordCredential.
+
+The Remove method receives a string key.
+
+**IStorageManager**
+
+The IStorageManager will allow the service to store application data. The methods you'll have to implement are Get and Set.
+
+The Get method receives a string key and returns the saved string.
+
+The Set method receives a string key and a string value.
+
+**ISignatureManager**
+
+Finally, the ISignatureManager will provide a GetSignature method, to sign an OAuth request. This method receives a baseString, a secret string and an append boolean. In return, you'll get the signed baseString. In case the append boolean is true, the final string will have a `&amp` at the end.
+
+The toolkit has implementations of each of them for UWP. You can find them as UwpAuthenticationBroker, UwpPasswordManager, UwpStorageManager and UwpSignatureManager.
+
 ## Sample Code
 
 [Twitter Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Twitter%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
@@ -179,4 +211,4 @@ If you are posting from your app and never seeing them show up in the timeline c
 
 ## API
 
-* [Twitter Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter)
+* [Twitter Service source code](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/Twitter)

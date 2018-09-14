@@ -102,8 +102,8 @@ if (markdownText != null)
 You'll have to register all events and grab **control.Resources** for templates from this method as the regular sample page XAML isn't used and you can't hook in an event from the dynamic XAML, it must be done via code by finding the element here.
 
 
-## 5. For Interactive Buttons: Use **Shell.Current.RegisterNewCommand**
-Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.  These are generally the only thing in your **OnNavigatedTo** event.
+## 5. For Interactive Buttons: Use **SampleController.Current.RegisterNewCommand**
+Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.
 
 ```csharp
 protected override async void OnNavigatedTo(NavigationEventArgs e)

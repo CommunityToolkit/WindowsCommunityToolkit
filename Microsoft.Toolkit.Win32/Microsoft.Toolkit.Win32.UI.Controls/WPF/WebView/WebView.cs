@@ -47,10 +47,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
     /// <seealso cref="IWebView" />
     [ToolboxItem(true)]
     [DesignTimeVisible(true)]
-    public sealed class WebView : WebViewHost, IWebView
+    public sealed partial class WebView : WebViewHost, IWebView
     {
-        private const int InitializationBlockingTime = 200;
-
         private static readonly DependencyProperty EnterpriseIdProperty = DependencyProperty.Register(
             nameof(EnterpriseId),
             typeof(string),
@@ -91,18 +89,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             typeof(WebView),
             new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
 
-        private static readonly DependencyProperty PartitionProperty = DependencyProperty.Register(
-            nameof(Partition),
-            typeof(string),
-            typeof(WebView),
-            new PropertyMetadata(WebViewDefaults.Partition, PropertyChangedCallback));
-
         private WebViewControlProcess _process;
 
         private volatile WebViewControlHost _webViewControl;
 
         // Initialization flag for ISupportInitialize
-        private InitializationState _initializationState;
+        private InitializationState _initializationState = InitializationState.Uninitialized;
 
         private ManualResetEvent _initializationComplete;
 
@@ -156,6 +148,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             // TODO: Check whether browser is disabled
             // TODO: Handle case (OnLoad) for handling POPUP windows
             _initializationComplete = new ManualResetEvent(false);
+        }
+
+        [SecurityCritical]
+        public WebView(WebViewControlProcess process)
+            : this()
+        {
+            _process = process;
         }
 
         internal WebView(WebViewControlHost webViewControl)
@@ -417,7 +416,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             {
                 VerifyAccess();
                 Verify.IsNotNull(_webViewControl);
-                return _webViewControl.IsVisible;
+                return _webViewControl?.IsVisible ?? false;
             }
 
             set
@@ -432,15 +431,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc />
-        [StringResourceCategory(Constants.CategoryBehavior)]
-        [DefaultValue(WebViewDefaults.Partition)]
-        public string Partition
-        {
-            get => (string)GetValue(PartitionProperty);
-            set => SetValue(PartitionProperty, value);
-        }
-
-        /// <inheritdoc />
         [Browsable(false)]
         public WebViewControlProcess Process
         {
@@ -449,14 +439,18 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                 VerifyAccess();
 
                 // NOTE: Not really in the spirit of a Property
-                do
+                // Caller may need to share process, which case they will hand the
+                // Loaded event then attempt to use this property, which will return
+                // null if we do not wait for initialization
+                return InvokeAfterInitializing(() =>
                 {
-                    Dispatcher.CurrentDispatcher.DoEvents();
-                }
-                while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+                    // Test code should never run into a null WebViewControl
+                    Verify.IsNotNull(_webViewControl);
 
-                Verify.IsNotNull(_webViewControl);
-                return _webViewControl?.Process;
+                    // In production if a caller invokes the property before the
+                    // control is properly initialized, just return null
+                    return _webViewControl?.Process;
+                });
             }
         }
 
@@ -467,7 +461,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get
             {
                 VerifyAccess();
+
+                // Test code should never run into a null WebViewControl
                 Verify.IsNotNull(_webViewControl);
+
+                // In production if a caller invokes the property before the
+                // control is properly initialized, just return null
                 return _webViewControl?.Settings;
             }
         }
@@ -486,17 +485,30 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
             get
             {
                 VerifyAccess();
+
+                // Test code should never run into a null WebViewControl
                 Verify.IsNotNull(_webViewControl);
+
+                // In production if a caller invokes the property before the
+                // control is properly initialized, just return null
                 return _webViewControl?.Version;
             }
         }
 
         /// <inheritdoc cref="IWebView.AddPreLoadedScript" />
-        public void AddPreLoadedScript(string script)
+        [Obsolete("This item has been depreciated and will be removed in a future version. Use AddInitializeScript(string script) instead.", false)]
+        public void AddPreLoadedScript(string script) => AddInitializeScript(script);
+
+        /// <inheritdoc />
+        public void AddInitializeScript(string script)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.AddPreLoadedScript(script);
+
+            InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl?.AddInitializeScript(script);
+            });
         }
 
         /// <inheritdoc cref="IWebView.Close" />
@@ -515,80 +527,104 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         public WebViewControlDeferredPermissionRequest GetDeferredPermissionRequestById(uint id)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.GetDeferredPermissionRequestById(id);
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.GetDeferredPermissionRequestById(id);
+            });
         }
 
         /// <inheritdoc />
         public bool GoBack()
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.GoBack() ?? false;
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.GoBack() ?? false;
+            });
         }
 
         /// <inheritdoc />
         public bool GoForward()
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.GoForward() ?? false;
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.GoForward() ?? false;
+            });
         }
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName)
-        {
-            VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName);
-        }
+        public string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
 
         /// <inheritdoc />
-        public string InvokeScript(string scriptName, params string[] arguments)
-        {
-            VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
-        }
+        public string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
 
         /// <inheritdoc />
         public string InvokeScript(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScript(scriptName, arguments);
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+
+                // WebViewControlHost ends up calling InvokeScriptAsync anyway
+                // The problem we have is that InvokeScript could be called from a UI thread and waiting for an async result that could lead to deadlock
+                return InvokeScriptAsync(scriptName, arguments).WaitWithNestedMessageLoop(Dispatcher.CurrentDispatcher);
+            });
         }
 
         /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScriptAsync(scriptName);
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.InvokeScriptAsync(scriptName);
+            });
         }
 
         /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, params string[] arguments)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+            });
         }
 
         /// <inheritdoc />
         public Task<string> InvokeScriptAsync(string scriptName, IEnumerable<string> arguments)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+
+            return InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                return _webViewControl?.InvokeScriptAsync(scriptName, arguments);
+            });
         }
 
         /// <inheritdoc />
         public void MoveFocus(WebViewControlMoveFocusReason reason)
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.MoveFocus(reason);
+            InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl?.MoveFocus(reason);
+            });
         }
 
         /// <inheritdoc />
@@ -615,14 +651,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            do
+            InvokeAfterInitializing(() =>
             {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl.Navigate(requestUri, httpMethod, content, headers);
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl.Navigate(requestUri, httpMethod, content, headers);
+            });
         }
 
         /// <inheritdoc />
@@ -631,14 +664,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            do
+            InvokeAfterInitializing(() =>
             {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl.NavigateToLocal(relativePath);
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl.NavigateToLocal(relativePath);
+            });
         }
 
         /// <inheritdoc />
@@ -646,14 +676,11 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            do
+            InvokeAfterInitializing(() =>
             {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl.NavigateToLocalStreamUri(relativePath, streamResolver);
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl.NavigateToLocalStreamUri(relativePath, streamResolver);
+            });
         }
 
         /// <inheritdoc />
@@ -661,30 +688,33 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         {
             VerifyAccess();
 
-            do
+            InvokeAfterInitializing(() =>
             {
-                Dispatcher.CurrentDispatcher.DoEvents();
-            }
-            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
-
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl.NavigateToString(text);
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl.NavigateToString(text);
+            });
         }
 
         /// <inheritdoc />
         public void Refresh()
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.Refresh();
+            InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl?.Refresh();
+            });
         }
 
         /// <inheritdoc />
         public void Stop()
         {
             VerifyAccess();
-            Verify.IsNotNull(_webViewControl);
-            _webViewControl?.Stop();
+            InvokeAfterInitializing(() =>
+            {
+                Verify.IsNotNull(_webViewControl);
+                _webViewControl?.Stop();
+            });
         }
 
         /// <inheritdoc />
@@ -696,31 +726,27 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
 
             Verify.AreEqual(_initializationState, InitializationState.IsInitializing);
 
-            if (_process == null)
-            {
-                var privateNetworkEnabled = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
-                    : IsPrivateNetworkClientServerCapabilityEnabled;
-                var enterpriseId = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => EnterpriseId)
-                    : EnterpriseId;
-                var partition = !Dispatcher.CheckAccess()
-                    ? Dispatcher.Invoke(() => Partition)
-                    : Partition;
-
-                _process = new WebViewControlProcess(new WebViewControlProcessOptions
-                {
-                    PrivateNetworkClientServerCapability = privateNetworkEnabled
-                        ? WebViewControlProcessCapabilityState.Enabled
-                        : WebViewControlProcessCapabilityState.Disabled,
-                    EnterpriseId = enterpriseId,
-                    Partition = partition
-                });
-            }
-
             Dispatcher.InvokeAsync(
                 async () =>
                 {
+                    if (_process == null)
+                    {
+                        var privateNetworkEnabled = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => IsPrivateNetworkClientServerCapabilityEnabled)
+                            : IsPrivateNetworkClientServerCapabilityEnabled;
+                        var enterpriseId = !Dispatcher.CheckAccess()
+                            ? Dispatcher.Invoke(() => EnterpriseId)
+                            : EnterpriseId;
+
+                        _process = new WebViewControlProcess(new WebViewControlProcessOptions
+                        {
+                            PrivateNetworkClientServerCapability = privateNetworkEnabled
+                                ? WebViewControlProcessCapabilityState.Enabled
+                                : WebViewControlProcessCapabilityState.Disabled,
+                            EnterpriseId = enterpriseId
+                        });
+                    }
+
                     Verify.IsNotNull(_process);
 
                     if (_webViewControl == null)
@@ -766,10 +792,12 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                         scriptNotifyAllowed = IsScriptNotifyAllowed;
                     }
 
-                    _webViewControl.Source = source;
                     _webViewControl.Settings.IsJavaScriptEnabled = javaScriptEnabled;
                     _webViewControl.Settings.IsIndexedDBEnabled = indexDBEnabled;
                     _webViewControl.Settings.IsScriptNotifyAllowed = scriptNotifyAllowed;
+
+                    // This will cause a navigate, make last property set
+                    _webViewControl.Source = source;
 
                     _initializationState = InitializationState.IsInitialized;
                     _initializationComplete.Set();
@@ -888,14 +916,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
                     }
                 }
                 else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(EnterpriseId))
-                {
-                    Verify.IsFalse(wv.WebViewControlInitialized);
-                    if (wv.WebViewControlInitialized)
-                    {
-                        throw new InvalidOperationException(DesignerUI.E_CANNOT_CHANGE_AFTER_INIT);
-                    }
-                }
-                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Partition))
                 {
                     Verify.IsFalse(wv.WebViewControlInitialized);
                     if (wv.WebViewControlInitialized)

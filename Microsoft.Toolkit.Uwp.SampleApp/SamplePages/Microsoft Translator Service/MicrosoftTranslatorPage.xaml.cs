@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator;
+using Microsoft.Toolkit.Services.MicrosoftTranslator;
 using Windows.System;
 using Windows.UI.Xaml;
 
@@ -46,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             Languages.ItemsSource = null;
 
@@ -56,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Languages.ItemsSource = languages.OrderBy(d => d.Name);
             Languages.SelectedIndex = 0;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void Translate_OnClick(object sender, RoutedEventArgs e)
@@ -71,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             Translation.Text = string.Empty;
 
@@ -81,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             Translation.Text = translatedText;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
     }
 }

@@ -291,13 +291,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set;
         }
 
-        internal void AddPreLoadedScript(string script)
+        internal void AddInitializeScript(string script)
         {
             ApiInformationExtensions.ExecuteIfMethodPresent(
                 WinRtType,
-                "AddPreLoadedScript",
+                "AddInitializeScript",
                 1,
-                () => { _webViewControl?.AddPreLoadedScript(script); });
+                () => { _webViewControl?.AddInitializeScript(script); });
         }
 
         internal Uri BuildStream(string contentIdentifier, string relativePath)
@@ -412,15 +412,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
             return retval;
         }
-
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal string InvokeScript(string scriptName) => InvokeScript(scriptName, null);
-
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal string InvokeScript(string scriptName, params string[] arguments) => InvokeScript(scriptName, (IEnumerable<string>)arguments);
-
-        /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
-        internal string InvokeScript(string scriptName, IEnumerable<string> arguments) => InvokeScriptAsync(scriptName, arguments).GetAwaiter().GetResult();
 
         /// <exception cref="InvalidOperationException">When the underlying <see cref="WebViewControl"/> is not yet initialized.</exception>
         internal Task<string> InvokeScriptAsync(string scriptName) => InvokeScriptAsync(scriptName, null);

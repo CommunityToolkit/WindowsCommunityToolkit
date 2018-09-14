@@ -196,14 +196,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         bool IsScriptNotifyAllowed { get; set; }
 
         /// <summary>
-        /// Gets or sets a partition for this process.
-        /// </summary>
-        /// <value>The partition of this process.</value>
-        /// <remarks>Value can be set prior to the component being initialized.</remarks>
-        /// <see cref="WebViewControlProcessOptions.Partition"/>
-        string Partition { get; set; }
-
-        /// <summary>
         /// Gets the <see cref="WebViewControlProcess"/> that the control is hosted in.
         /// </summary>
         /// <value>The <see cref="WebViewControlProcess"/> that the control is hosted in.</value>
@@ -237,7 +229,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls
         /// Adds the script to be loaded before any others on the page.
         /// </summary>
         /// <param name="script">The script.</param>
+        [Obsolete("This item has been depreciated and will be removed in a future version. Use AddInitializeScript(string script) instead.", false)]
         void AddPreLoadedScript(string script);
+
+        /// <summary>
+        /// Adds the script to be loaded before any others on the page.
+        /// </summary>
+        /// <param name="script">The script.</param>
+        void AddInitializeScript(string script);
 
         /// <summary>
         /// Closes this instance.

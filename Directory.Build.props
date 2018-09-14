@@ -9,32 +9,45 @@
     <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
     <PackageReleaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
-    
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
-    
     <DefaultLanguage>en-US</DefaultLanguage>
-
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
+    <IsWpfProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
+    <IsFormsProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
- 
     <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
-	  <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
-	  
-	  <SignAssembly>true</SignAssembly>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(IsWin32Project)' == 'true'">
+    <When Condition="'$(IsWin32Project)' == 'true' or '$(IsWpfProject)' == 'true' or '$(IsFormsProject)' == 'true'">
       <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
         <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
         <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+
+        <!-- Need RS5 or later.
+        
+        When changing this value, ensure the SDK is installed with the build process.
+        Need to check several files:
+          - /.vsts-ci.yml
+          - /.vsts-pr.yml
+
+        This also needs to be installed on your local machine. Can do this with PowerShell:
+          ./build/Install-WindowsSDKISO.ps1 17713
+        -->
+        <TargetPlatformVersion>10.0.17733.0</TargetPlatformVersion>
+        <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
 
         <!-- Compiler -->
         <FileAlignment>512</FileAlignment>
@@ -46,8 +59,8 @@
         <NoWarn>1591</NoWarn>
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
         <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+
       </PropertyGroup>
       <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
         <DebugSymbols>true</DebugSymbols>
@@ -67,13 +80,13 @@
   <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>    
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
       </PropertyGroup>
     </When>
   </Choose>
 
   <Choose>
-    <When Condition="('$(IsUwpProject)' == 'true' or '$(IsWin32Project)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="('$(IsUwpProject)' == 'true' or '$(IsWin32Project)' == 'true' or '$(IsWpfProject)' == 'true' or '$(IsFormsProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>
@@ -90,7 +103,7 @@
         <!-- Optional: Include PDB in the built .nupkg -->
         <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
       </PropertyGroup>
-      <ItemGroup>        
+      <ItemGroup>
         <PackageReference Include="Microsoft.SourceLink.Vsts.Git" Version="1.0.0-beta-62925-02" PrivateAssets="All"/>
         <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-beta-62925-02" PrivateAssets="All"/>
       </ItemGroup>
@@ -112,6 +125,13 @@
       </PropertyGroup>
     </When>
   </Choose>
+
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
+
+    <!-- 8002 is a strong named -> non-strong-named reference -->
+    <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
+    <NoWarn>$(NoWarn);8002</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />

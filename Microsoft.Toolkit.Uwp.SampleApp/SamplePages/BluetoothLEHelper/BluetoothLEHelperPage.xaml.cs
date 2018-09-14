@@ -20,11 +20,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             this.InitializeComponent();
             bluetoothLEHelper.EnumerationCompleted += BluetoothLEHelper_EnumerationCompleted;
+            Load();
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
             if (BluetoothLEHelper.IsBluetoothLESupported)
             {
                 MainContent.Visibility = Visibility.Visible;

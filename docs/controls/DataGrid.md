@@ -31,7 +31,7 @@ The following guidance sections describe the additional concepts and techniques 
 
 ## Sample Code
 
-[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid)
+[DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid). 
 
 ## Requirements
 
@@ -42,5 +42,5 @@ The following guidance sections describe the additional concepts and techniques 
 
 ## API
 
-* [DataGrid source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
+* [DataGrid source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid)
 * [Silverlight DataGrid API](https://docs.microsoft.com/en-us/previous-versions/windows/silverlight/dotnet-windows-silverlight/cc189753(v=vs.95))
