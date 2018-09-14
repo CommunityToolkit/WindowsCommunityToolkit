@@ -1,10 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Markup;
-using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
@@ -12,7 +7,6 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// <summary>
     /// Forms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
     /// </summary>
-    [ContentProperty(nameof(Children))]
     public class MapControl : WindowsXamlHostBaseExt
     {
         internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => this.UwpControl as Windows.UI.Xaml.Controls.Maps.MapControl;
@@ -34,7 +28,6 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         public MapControl(string typeName)
             : base(typeName)
         {
-            Children = new List<DependencyObject>();
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -777,12 +770,6 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         private void OnMapContextRequested(Windows.UI.Xaml.Controls.Maps.MapControl sender, Windows.UI.Xaml.Controls.Maps.MapContextRequestedEventArgs args)
         {
             this.MapContextRequested?.Invoke(this, args);
-        }
-
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Content)]
-        public List<DependencyObject> Children
-        {
-            get; set;
         }
 
         protected override void Dispose(bool disposing)
