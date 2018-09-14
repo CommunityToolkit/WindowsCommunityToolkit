@@ -54,10 +54,15 @@
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
 ## [UniformGrid](controls/UniformGrid.md)
-## [WebView (win32)](controls/WebView.md)
-### [WebView known issues](controls/WebView-known-issues.md)
-## [WindowsXAMLHost](controls/WindowsXAMLHost.md)
 ## [WrapPanel](controls/WrapPanel.md)
+## XAML Island Controls for WPF and Windows Forms
+### [InkCanvas](controls/xaml-islands/InkCanvas.md)
+### [InkToolbar](controls/xaml-islands/InkToolbar.md)
+### [MediaPlayerElement](controls/xaml-islands/MediaPlayerElement.md)
+### [WebView](controls/xaml-islands/WebView.md)
+#### [WebView known issues](controls/xaml-islands/WebView-known-issues.md)
+### [WebViewCompatible](controls/xaml-islands/WebViewCompatible.md)
+### [WindowsXamlHost](controls/xaml-islands/WindowsXamlHost.md)
 
 # Animations
 ## [AnimationSet](animations/AnimationSet.md)

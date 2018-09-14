@@ -5,7 +5,7 @@ description: This guide helps you add UWP XAML controls to your WPF.
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF
 ---
 
-# WindowsXAMLHost control
+# WindowsXamlHost control
 
 By using a Windows XAML host control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF desktop applications.
 
