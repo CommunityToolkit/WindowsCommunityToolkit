@@ -19,7 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\**\*.cs" LinkBase="Shared" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\**\*.cs" LinkBase="Shared/Interop" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" Link="Verify.cs" />
+    <Compile Include="..\WebView.Shared\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
     <EmbeddedResource Include="..\WebView.Shared\DesignerUI.resx" Link="DesignerUI.resx" />
     <Compile Update="..\WebView.Shared\DesignerUI.Designer.cs" Link="DesignerUI.Designer.cs" />
   </ItemGroup>

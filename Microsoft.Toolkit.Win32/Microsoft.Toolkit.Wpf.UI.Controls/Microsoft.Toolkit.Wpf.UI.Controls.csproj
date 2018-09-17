@@ -21,7 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\**\*.cs" LinkBase="Shared" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\**\*.cs" LinkBase="Shared\Interop" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" Link="Verify.cs" />
+    <Compile Include="..\WebView.Shared\GlobalSuppressions.cs" Link="GlobalSuppressions.cs" />
   </ItemGroup>
 
   <ItemGroup>
