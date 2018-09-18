@@ -9,7 +9,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 The **WebViewCompatible** controls show web content in your Windows Forms or WPF desktop application.
 
-![Web View Samples](../resources/images/Controls/WebView/web-view-samples.png)
+![WebViewCompatible example](../../resources/images/Controls/WebView/web-view-samples.png)
 
 These controls use the one of two rendering engines.  For Windows 10 client environments, the newer Microsoft Edge rendering engine is used to embed a view that renders richly formatted HTML content from a remote web server, dynamically generated code, or content files.  For legacy systems, the **System.Windows.Controls.WebBrowser** is used, providing Internet Explorer engine-based rendering.
 

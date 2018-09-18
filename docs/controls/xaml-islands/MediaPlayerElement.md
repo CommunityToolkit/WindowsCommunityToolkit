@@ -9,7 +9,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 The **MediaPlayerElement** controls show media content in your Windows Forms or WPF desktop application.
 
-![Web View Samples](../resources/images/Controls/MediaPlayerElement.png)
+![MediaPlayterElement example](../../resources/images/Controls/MediaPlayerElement.png)
 
 These controls use the newer Windows 10 implementation, and is used to embed a view that streams and renders media content such as video.  
 

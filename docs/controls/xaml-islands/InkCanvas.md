@@ -5,24 +5,20 @@ description: This control is a wrapper to enable use of the UWP InkCanvas contro
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, InkCanvas, Windows Forms, WPF
 ---
 
-# InkCanvas controls for Windows Forms and WPF applications
+# InkCanvas control for Windows Forms and WPF
 
-The **InkCanvas** controls provide a surface for Ink-based user interaction in your Windows Forms or WPF desktop application.
+The **InkCanvas** control provides a surface for Windows Ink-based user interaction in your Windows Forms or WPF desktop application. This control embeds a panel that receives and displays all pen input as either an ink stroke or an erase stroke.
 
-![Web View Samples](../resources/images/Controls/InkCanvas.png)
+![InkCanvas example](../../resources/images/Controls/InkCanvas.png)
 
-These controls use the Windows 10 implementation, and are used to embed a panel that can be drawn on, in Ink-style user interaction.  
+## About InkCanvas control
 
-## About InkCanvas controls
+The WPF version of this control is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. The Windows Forms version is coming soon, and it will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace.
-
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace.
-
-You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
+Internally, these controls wrap the UWP [Windows.UI.Xaml.Controls.InkCanvas](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.InkCanvas) class.
 
 ## Known Limitations
-These controls, like the UWP base, provides no interaction without an associated InkToolbar with the interaction mode set.  You'll also find it may not show ink properly while running on a client that's in Windows 10 dark theme.
+These controls, like the UWP class, provide no interaction without an associated [InkToolbar](InkToolbar.md) with the interaction mode set. You'll also find it may not show ink properly while running on a device that uses the Windows 10 dark theme.
 
 ## Syntax
 ```xaml
@@ -38,18 +34,7 @@ These controls, like the UWP base, provides no interaction without an associated
 
 | Property | Type | Description |
 | -- | -- | -- |
-| InkPresenter | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkPresenter | Wrapper for Windows.UI.Input.Inking.InkPresenter |
-
-## Methods
-
-
-| Methods | Return Type | Description |
-| -- | -- | -- |
-
-## Events
-
-| Events | Description |
-| -- | -- |
+| InkPresenter | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkPresenter | Wraps the [InkPresenter](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inkcanvas.inkpresenter) property of the internal UWP control. |
 
 
 ## Requirements
@@ -68,3 +53,4 @@ These controls, like the UWP base, provides no interaction without an associated
 ## Related Topics
 
 - [InkCanvas (UWP)](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.InkCanvas)
+- [Pen and Windows Ink](https://docs.microsoft.com/windows/uwp/design/input/pen-and-stylus-interactions)
