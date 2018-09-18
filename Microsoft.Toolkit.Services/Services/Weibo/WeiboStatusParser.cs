@@ -29,9 +29,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
             JObject rawObject = JObject.Parse(data);
 
-
             IList<JToken> rawStatuses = rawObject["statuses"].Children().ToList();
-
 
             IList<WeiboStatus> statuses = new List<WeiboStatus>();
             foreach (JToken result in rawStatuses)
