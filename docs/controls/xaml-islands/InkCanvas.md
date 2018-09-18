@@ -34,7 +34,7 @@ These controls, like the UWP class, provide no interaction without an associated
 
 | Property | Type | Description |
 | -- | -- | -- |
-| InkPresenter | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkPresenter | Wraps the [InkPresenter](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inkcanvas.inkpresenter) property of the internal UWP control. |
+| InkPresenter | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkPresenter | Wraps the [InkPresenter](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inkcanvas.inkpresenter) property of the internal UWP **InkCanvas** control. |
 
 
 ## Requirements
