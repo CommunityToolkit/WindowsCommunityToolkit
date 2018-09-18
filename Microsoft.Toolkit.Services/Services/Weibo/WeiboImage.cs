@@ -6,7 +6,9 @@ using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
-
+    /// <summary>
+    /// Weibo image
+    /// </summary>
     public class WeiboImage
     {
         /// <summary>
