@@ -15,11 +15,11 @@ The **MediaPlayerElement** control embeds a view that streams and renders media 
 
 The WPF version of this control is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. The Windows Forms version is coming soon, and it will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
-Internally, these controls wrap the UWP [Windows.UI.Xaml.Controls.MediaPlayerElement](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.MediaPlayerElement) class.
+Internally, this control wraps the UWP [Windows.UI.Xaml.Controls.MediaPlayerElement](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.MediaPlayerElement) control.
 
 ## Known Limitations
 
-* These wrapped controls do not currently support full screen video.
+* This controls does not currently support full screen video.
 * The **Source** property is exposed as a string, which is interpreted as a URL and bound to the **Source** property of the internal UWP control as a UWP-implemented **IMediaPlaybackSource**.
 
 ## Syntax
