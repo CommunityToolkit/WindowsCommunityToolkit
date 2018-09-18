@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Services.Weibo;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using Microsoft.Toolkit.Services.Services.Weibo;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -14,8 +14,6 @@ namespace Microsoft.Toolkit.Services.Weibo
     /// </summary>
     public class WeiboStatus : Toolkit.Parsers.SchemaBase, IWeiboResult
     {
-        private string _text;
-
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
@@ -49,11 +47,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Gets or sets text of the status (handles both 140 and 280 characters)
         /// </summary>
         [JsonProperty("text")]
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
+        public string Text { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether status is truncated
