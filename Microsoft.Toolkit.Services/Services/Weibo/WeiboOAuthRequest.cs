@@ -107,9 +107,7 @@ namespace Microsoft.Toolkit.Services.Weibo
                     }
                 }
             }
-
         }
-
 
         /// <summary>
         /// HTTP Post request to specified Uri.
@@ -133,7 +131,6 @@ namespace Microsoft.Toolkit.Services.Weibo
                             // Somehow Weibo's backend requires a Filename field to work
                             byteContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { FileName = "attachment", Name = "pic" };
                             multipartFormDataContent.Add(byteContent, "pic");
-
 
                             using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
                             {
@@ -167,7 +164,6 @@ namespace Microsoft.Toolkit.Services.Weibo
                             }
                         }
                     }
-
                 }
             }
             catch (ObjectDisposedException)
