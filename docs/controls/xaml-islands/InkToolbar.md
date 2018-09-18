@@ -5,7 +5,7 @@ description: This control is a wrapper to enable use of the UWP InkToolbar contr
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, InkToolbar, Windows Forms, WPF
 ---
 
-# InkToolbar controls for Windows Forms and WPF applications
+# InkToolbar control for Windows Forms and WPF
 
 The **InkToolbar** control provides an interface to manage an [InkCanvas](InkCanvas.md) for Windows Ink-based user interaction in your Windows Forms or WPF desktop application.
 
@@ -36,21 +36,23 @@ Internally, these controls wrap the UWP [Windows.UI.Xaml.Controls.InkToolbar](ht
 
 | Property | Type | Description |
 | -- | -- | -- |
-| static ActiveToolProperty | DependencyProperty | Dependency property for the **ActiveTool** property. |
-| static InitialControlsProperty | DependencyProperty | Dependency property for the **InitialControls** property. |
-| static InkDrawingAttributesProperty | DependencyProperty | Dependency property for the **InkDrawingAttributes** property. |
-| static IsRulerButtonCheckedProperty | DependencyProperty | Dependency property for the **IsRulerButtonChecked** property. |
-| static TargetInkCanvasProperty | DependencyProperty | Dependency property for the **TargetInkCanvas** property. |
-| static ButtonFlyoutPlacementProperty | DependencyProperty | Dependency property for the **ButtonFlyoutPlacement** property. |
-| static IsStencilButtonCheckedProperty | DependencyProperty | Dependency property for the **IsStencilButtonChecked** property. |
-| static OrientationProperty | DependencyProperty | Dependency property for the **Orientation** property. |
-| ActiveTool | WindowsXamlHostBaseExt | Wraps the [ActiveTool](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.activetool) property of the internal UWP **InkToolbar** control. |
-| InkDrawingAttributes | InkDrawingAttributes | Wraps the [InkDrawingAttributes](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.inkdrawingattributes) property of the internal UWP **InkToolbar** control.  |
-| Orientation | Orientation | Wraps the [Orientation](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.orientation) property of the internal UWP **InkToolbar** control. |
-| IsStencilButtonChecked | bool | Wraps the [IsStencilButtonChecked](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.isstencilbuttonchecked) property of the internal UWP **InkToolbar** control. |
-| ButtonFlyoutPlacement | InkToolbarButtonFlyoutPlacement | Wraps the [ButtonFlyoutPlacement](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.buttonflyoutplacement) property of the internal UWP **InkToolbar** control. |
+| ActiveTool | Microsoft.Toolkit.Wpf.UI.Controls.WindowsXamlHostBaseExt (WPF)<br/>Microsoft.Toolkit.Forms.UI.Controls.WindowsXamlHostBaseExt (Windows Forms) | Wraps the [ActiveTool](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.activetool) property of the internal UWP **InkToolbar** control. |
+| ActiveToolProperty | DependencyProperty | Dependency property for the **ActiveTool** property. |
+| ButtonFlyoutPlacement | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkToolbarButtonFlyoutPlacement | Wraps the [ButtonFlyoutPlacement](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.buttonflyoutplacement) property of the internal UWP **InkToolbar** control. |
+| ButtonFlyoutPlacementProperty | DependencyProperty | Dependency property for the **ButtonFlyoutPlacement** property. |
 | Children | ObservableCollection<DependencyObject> | Wraps the [Children](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.children) property of the internal UWP **InkToolbar** control. |
-
+| InitialControls | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkToolbarInitialControls  | Wraps the [InitialControls](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.initialcontrols) property of the internal UWP **InkToolbar** control. |
+| InitialControlsProperty | DependencyProperty | Dependency property for the **InitialControls** property. |
+| InkDrawingAttributes | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkDrawingAttributes | Wraps the [InkDrawingAttributes](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.inkdrawingattributes) property of the internal UWP **InkToolbar** control.  |
+| InkDrawingAttributesProperty | DependencyProperty | Dependency property for the **InkDrawingAttributes** property. |
+| IsRulerButtonChecked | bool | Wraps the [IsRulerButtonChecked](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.isrulerbuttonchecked) property of the internal UWP **InkToolbar** control. |
+| IsRulerButtonCheckedProperty | DependencyProperty | Dependency property for the **IsRulerButtonChecked** property. |
+| IsStencilButtonChecked | bool | Wraps the [IsStencilButtonChecked](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.isstencilbuttonchecked) property of the internal UWP **InkToolbar** control. |
+| IsStencilButtonCheckedProperty | DependencyProperty | Dependency property for the **IsStencilButtonChecked** property. |
+| Orientation | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.Orientation | Wraps the [Orientation](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.orientation) property of the internal UWP **InkToolbar** control. |
+| OrientationProperty | DependencyProperty | Dependency property for the **Orientation** property. |
+| TargetInkCanvas | Microsoft.Toolkit.Wpf.UI.Controls.InkCanvas (WPF)<br/>Microsoft.Toolkit.Forms.UI.Controls.InkCanvas (Windows Forms) | Wraps the [TargetInkCanvas](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.inktoolbar.inkcanvas) property of the internal UWP **InkToolbar** control. |
+| TargetInkCanvasProperty | DependencyProperty | Dependency property for the **TargetInkCanvas** property. |
 
 ## Events
 

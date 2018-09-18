@@ -5,24 +5,22 @@ description: This control is a wrapper to enable use of the UWP MediaPlayerEleme
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MediaPlayerElement, Windows Forms, WPF
 ---
 
-# MediaPlayerElement controls for Windows Forms and WPF applications
+# MediaPlayerElement control for Windows Forms and WPF
 
-The **MediaPlayerElement** controls show media content in your Windows Forms or WPF desktop application.
+The **MediaPlayerElement** control embeds a view that streams and renders media content such as video in your Windows Forms or WPF desktop application.
 
 ![MediaPlayterElement example](../../resources/images/Controls/MediaPlayerElement.png)
 
-These controls use the newer Windows 10 implementation, and is used to embed a view that streams and renders media content such as video.  
+## About MediaPlayerElement control
 
-## About MediaPlayerElement controls
+The WPF version of this control is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. The Windows Forms version is coming soon, and it will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace.
-
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace.
-
-You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
+Internally, these controls wrap the UWP [Windows.UI.Xaml.Controls.MediaPlayerElement](https://docs.microsoft.com/uwp/api/Windows.UI.Xaml.Controls.MediaPlayerElement) class.
 
 ## Known Limitations
-This wrapper does not currently support Full Screen video.  The Source property is exposed as a string, which is interpreted as a URL and bound to the UWP Source property as a UWP-implemented IMediaPlaybackSource.
+
+* These wrapped controls do not currently support full screen video.
+* The **Source** property is exposed as a string, which is interpreted as a URL and bound to the **Source** property of the internal UWP control as a UWP-implemented **IMediaPlaybackSource**.
 
 ## Syntax
 ```xaml
@@ -39,31 +37,28 @@ This wrapper does not currently support Full Screen video.  The Source property 
 
 | Property | Type | Description |
 | -- | -- | -- |
-| TransportControls | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MediaTransportControls | Wrapper for Windows.UI.Xaml.Controls.MediaTransportControls |
-| Stretch | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.Stretch | Wrapper for Windows.UI.Xaml.Media.Stretch |
-| Source | string | Url for media to present. |
-| PosterSource | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT | Wrapper for Windows.UI.Xaml.Media.ImageSource |
-| AutoPlay | bool | Gets or sets if the media should start immediately on initialization or not. |
-| AreTransportControlsEnabled | bool | Gets or sets if the media control (pause, play, et al) should be shown. |
-| MediaPlayer | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MediaPlayer | Wrapper for Windows.Media.Playback.MediaPlayer || static AreTransportControlsEnabledProperty | DependencyProperty | DependencyProperty for AreTransportControlsEnabled |
-| static AutoPlayProperty | DependencyProperty | DependencyProperty for AutoPlay property |
-| static IsFullWindowProperty | DependencyProperty | DependencyProperty for IsFullWindow property |
-| static MediaPlayerProperty | DependencyProperty | DependencyProperty for MediaPlayer property |
-| static PosterSourceProperty | DependencyProperty | DependencyProperty for PosterSource property |
-| static SourceProperty | DependencyProperty | DependencyProperty for Source property |
-| static StretchProperty | DependencyProperty | DependencyProperty for Stretch property |
+| AreTransportControlsEnabled | bool | Wraps the [AreTransportControlsEnabled](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.aretransportcontrolsenabled) property of the internal UWP **MediaPlayerElement** control. |
+| AreTransportControlsEnabledProperty | DependencyProperty | Dependency property for the **AreTransportControlsEnabled** property. |
+| AutoPlay | bool | Wraps the [AutoPlay](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.autoplay) property of the internal UWP **MediaPlayerElement** control. |
+| AutoPlayProperty | DependencyProperty | Dependency property for the **ActiAutoPlayveTool** property. |
+| IsFullWindow | bool | Wraps the [IsFullWindow](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.isfullwindow) property of the internal UWP **MediaPlayerElement** control. |
+| IsFullWindowProperty | DependencyProperty | Dependency property for the **IsFullWindow** property. |
+| MediaPlayer | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MediaPlayer | Wraps the [MediaPlayer](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.mediaplayer) property of the internal UWP **MediaPlayerElement** control. |
+| MediaPlayerProperty | DependencyProperty | Dependency property for the **MediaPlayer** property. |
+| PosterSource | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.ImageSource | Wraps the [PosterSource](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.postersource) property of the internal UWP **MediaPlayerElement** control. |
+| PosterSourceProperty | DependencyProperty | Dependency property for the **PosterSource** property. |
+| Source | string | Wraps the [Source](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.source) property of the internal UWP **MediaPlayerElement** control. The **Source** property of this wrapped control is exposed as a string, which is interpreted as a URL and bound to the **Source** property of the internal UWP control as a UWP-implemented **IMediaPlaybackSource**.|
+| SourceProperty | DependencyProperty | Dependency property for the **Source** property. |
+| Stretch | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.Stretch | Wraps the [Stretch](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.stretch) property of the internal UWP **MediaPlayerElement** control. |
+| StretchProperty | DependencyProperty | Dependency property for the **Stretch** property. |
+| TransportControls | Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.MediaTransportControls | Wraps the [TransportControls](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.transportcontrols) property of the internal UWP **MediaPlayerElement** control. |
 
 ## Methods
 
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| SetMediaPlayer(MediaPlayer) | void | Allows the  Windows.Media.Playback.MediaPlayer media player to be set on the underlying UWP control. |
-
-## Events
-
-| Events | Description |
-| -- | -- |
+| SetMediaPlayer(MediaPlayer) | void | Wraps the [SetMediaPlayer](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.mediaplayerelement.setmediaplayer) method of the internal UWP **MediaPlayerElement** control. |
 
 
 ## Requirements
