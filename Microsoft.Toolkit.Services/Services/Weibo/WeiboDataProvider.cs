@@ -41,7 +41,6 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Base Url for service.
         /// </summary>
         private readonly WeiboOAuthTokens _tokens;
-
         private readonly IAuthenticationBroker _authenticationBroker;
         private readonly IPasswordManager _passwordManager;
         private readonly IStorageManager _storageManager;
