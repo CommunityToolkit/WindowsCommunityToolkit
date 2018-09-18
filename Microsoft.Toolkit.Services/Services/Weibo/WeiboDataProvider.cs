@@ -420,11 +420,6 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                 return await request.ExecutePostMultipartAsync(uri, _tokens, status, fileBytes);
             }
-
-
-
-
-            return null;
         }
     }
 }
