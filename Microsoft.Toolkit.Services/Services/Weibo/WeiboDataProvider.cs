@@ -64,7 +64,6 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="authenticationBroker">Authentication result interface.</param>
         /// <param name="passwordManager">Platform password manager</param>
         /// <param name="storageManager">Platform storage provider</param>
-        /// <param name="signatureManager">Platform signature manager</param>
         public WeiboDataProvider(WeiboOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
             _tokens = tokens;
