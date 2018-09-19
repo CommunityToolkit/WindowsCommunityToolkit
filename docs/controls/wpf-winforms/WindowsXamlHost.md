@@ -185,14 +185,15 @@ Add these properties to the project file.
 Add these post-build steps anywhere beneath the last element that has an ``Include`` attribute.
 
 ```xml
-<HostFrameworkProject>TestWPFApp</HostFrameworkProject>
-<PostBuildEvent>
-    md $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(TargetDir)\*.* $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(ProjectDir)\*.xaml $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(ProjectDir)\*.xaml.cs $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
-    copy $(ProjectDir)\obj\$(PlatformName)\$(ConfigurationName)\*.g.* $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
-</PostBuildEvent>
+<PropertyGroup>
+  <HostFrameworkProject>TestWPFApp</HostFrameworkProject>
+  <PostBuildEvent>md $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(TargetDir)\*.* $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(ProjectDir)\*.xaml $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(ProjectDir)\*.xaml.cs $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
+copy $(ProjectDir)\obj\$(PlatformName)\$(ConfigurationName)\*.g.* $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)</PostBuildEvent>
+</PropertyGroup>
+
 ```
 >[!NOTE]
 >Make sure to set the value of the ``<HostFrameworkProject`` element to the name of your WPF project
