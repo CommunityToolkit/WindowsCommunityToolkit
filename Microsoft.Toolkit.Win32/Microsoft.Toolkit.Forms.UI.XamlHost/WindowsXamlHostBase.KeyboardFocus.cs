@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// Last Focus Request GUID to uniquely identify Focus operations, primarily used with error callbacks
         /// </summary>
         private Guid _lastFocusRequest = Guid.Empty;
+        private bool _forceFocusNavigation = false;
 
         /// <summary>
         ///     Gets a value indicating whether this Control currently has focus. Check both the Control's
@@ -60,15 +61,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
-            if (!_xamlSource.HasFocus)
+            if (!_xamlSource.HasFocus || _forceFocusNavigation)
             {
-                if (_lastFocusRequest == Guid.Empty)
-                {
-                    _lastFocusRequest = Guid.NewGuid();
-                }
-
+                _forceFocusNavigation = false;
                 var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
-                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, default(Windows.Foundation.Rect), _lastFocusRequest));
+                var request = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, default(Windows.Foundation.Rect));
+                _lastFocusRequest = request.CorrelationId;
+                var result = _xamlSource.NavigateFocus(request);
                 if (result.WasFocusMoved)
                 {
                     return true;
@@ -99,10 +98,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             {
                 // If we've arrived at this point, then focus is being move back to us
                 // therefore, we should complete the operation to avoid an infinite recursion
-                // by "Restoring" the focus back to us under a new correctationId
+                // by "Restoring" the focus back to us under a new correlationId
                 var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
                 _xamlSource.NavigateFocus(newRequest);
+                _lastFocusRequest = newRequest.CorrelationId;
             }
             else
             {
@@ -111,7 +111,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
                 {
                     var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
-                    Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                    _forceFocusNavigation = true;
+                    try
+                    {
+                        Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                    }
+                    finally
+                    {
+                        _forceFocusNavigation = false;
+                    }
                 }
             }
         }
