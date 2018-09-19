@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestCategory(TestConstants.Categories.Init)]
         public void CanInitializeCtorBeginEndInit()
         {
-            var wv = new UI.Controls.WinForms.WebView();
+            var wv = new Forms.UI.Controls.WebView();
             ((ISupportInitialize)wv).BeginInit();
             ((ISupportInitialize)wv).EndInit();
         }
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestCategory(TestConstants.Categories.Init)]
         public void CanInitializeCtorOnly()
         {
-            var wv = new UI.Controls.WinForms.WebView();
+            var wv = new Forms.UI.Controls.WebView();
             wv.Process.ShouldBeNull();
         }
 
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         [TestCategory(TestConstants.Categories.Init)]
         public void DesignerPropertyEqualsSettingsProperty()
         {
-            var wv = new UI.Controls.WinForms.WebView();
+            var wv = new Forms.UI.Controls.WebView();
             ((ISupportInitialize)wv).BeginInit();
             wv.IsScriptNotifyAllowed = !wv.IsScriptNotifyAllowed;
             ((ISupportInitialize)wv).EndInit();
