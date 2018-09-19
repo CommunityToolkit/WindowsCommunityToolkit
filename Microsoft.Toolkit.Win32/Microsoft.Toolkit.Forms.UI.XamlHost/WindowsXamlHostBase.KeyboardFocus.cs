@@ -15,6 +15,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public partial class WindowsXamlHostBase
     {
         /// <summary>
+        /// Last Focus Request GUID to uniquely identify Focus operations, primarily used with error callbacks
+        /// </summary>
+        private Guid _lastFocusRequest = Guid.Empty;
+
+        /// <summary>
         ///     Gets a value indicating whether this Control currently has focus. Check both the Control's
         ///     window handle and the hosted Xaml window handle. If either has focus
         ///     then this Control currently has focus.
@@ -57,8 +62,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // element.
             if (!_xamlSource.HasFocus)
             {
+                if (_lastFocusRequest == Guid.Empty)
+                {
+                    _lastFocusRequest = Guid.NewGuid();
+                }
+
                 var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
-                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason));
+                var result = _xamlSource.NavigateFocus(new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, default(Windows.Foundation.Rect), _lastFocusRequest));
                 if (result.WasFocusMoved)
                 {
                     return true;
@@ -85,11 +95,24 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <param name="args">DesktopWindowXamlSourceTakeFocusRequestedEventArgs</param>
         private void OnTakeFocusRequested(Windows.UI.Xaml.Hosting.DesktopWindowXamlSource sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
         {
-            var reason = args.Request.Reason;
-            if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
+            if (_lastFocusRequest == args.Request.CorrelationId)
             {
-                var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
-                Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                // If we've arrived at this point, then focus is being move back to us
+                // therefore, we should complete the operation to avoid an infinite recursion
+                // by "Restoring" the focus back to us under a new correctationId
+                var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
+                    Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
+                _xamlSource.NavigateFocus(newRequest);
+            }
+            else
+            {
+                // Focus was not initiated by WindowsXamlHost. Continue processing the Focus request.
+                var reason = args.Request.Reason;
+                if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
+                {
+                    var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
+                    Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                }
             }
         }
     }
