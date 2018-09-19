@@ -77,3 +77,4 @@ Internally, this control wraps the UWP [Windows.UI.Xaml.Controls.MediaPlayerElem
 ## Related Topics
 
 - [MediaPlayerElement (UWP)](https://docs.microsoft.com/en-us/uwp/api/Windows.UI.Xaml.Controls.MediaPlayerElement)
+- [Media playback](https://docs.microsoft.com/windows/uwp/design/controls-and-patterns/media-playback)
