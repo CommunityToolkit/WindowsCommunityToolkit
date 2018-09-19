@@ -1,26 +1,28 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
-using Windows.UI;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Represents a <see cref="DataGrid"/> column that hosts textual content in its cells.
+    /// Represents a <see cref="DataGrid"/> column that hosts content that in its cells. When editing the data can be changed to a value from predetermined data-set hosted in a ComboBox.
     /// </summary>
     [StyleTypedProperty(Property = "ElementStyle", StyleTargetType = typeof(TextBlock))]
-    [StyleTypedProperty(Property = "EditingElementStyle", StyleTargetType = typeof(TextBox))]
-    public class DataGridTextColumn : DataGridBoundColumn
+    [StyleTypedProperty(Property = "EditingElementStyle", StyleTargetType = typeof(ComboBox))]
+    public class DataGridComboBoxColumn : DataGridBoundColumn
     {
+        // TODO: Consider changing the base class fields to internal to avoid duplicates here
         private const string DATAGRIDTEXTCOLUMN_fontFamilyName = "FontFamily";
         private const string DATAGRIDTEXTCOLUMN_fontSizeName = "FontSize";
         private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
@@ -35,12 +37,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Brush _foreground;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DataGridTextColumn"/> class.
+        /// Identifies the ItemsSource dependency property.
         /// </summary>
-        public DataGridTextColumn()
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
+            "ItemsSource", typeof(object), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(object)));
+
+        /// <summary>
+        /// Gets or sets a collection that is used to generate the content of the ComboBox while in editing mode.
+        /// </summary>
+        public object ItemsSource
         {
-            this.BindingTarget = TextBox.TextProperty;
+            get { return (object)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
         }
+
+        /// <summary>
+        /// Gets or sets the name or path of the property that is displayed in the ComboBox.
+        /// </summary>
+        public string DisplayMemberPath { get; set; }
 
         /// <summary>
         /// Gets or sets the font name.
@@ -54,17 +68,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the FontFamily dependency property.
         /// </summary>
-        public static readonly DependencyProperty FontFamilyProperty =
-            DependencyProperty.Register(
-                "FontFamily",
-                typeof(FontFamily),
-                typeof(DataGridTextColumn),
-                new PropertyMetadata(null, OnFontFamilyPropertyChanged));
+        public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
+                "FontFamily", typeof(FontFamily), typeof(DataGridTextColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
         private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            DataGridTextColumn textColumn = d as DataGridTextColumn;
-            textColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
+            var comboColumn = d as DataGridComboBoxColumn;
+            comboColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
         }
 
         /// <summary>
@@ -150,62 +160,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Causes the column cell being edited to revert to the specified value.
-        /// </summary>
-        /// <param name="editingElement">The element that the column displays for a cell in editing mode.</param>
-        /// <param name="uneditedValue">The previous, unedited value in the cell being edited.</param>
-        protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
-        {
-            TextBox textBox = editingElement as TextBox;
-            if (textBox != null)
-            {
-                string uneditedString = uneditedValue as string;
-                textBox.Text = uneditedString ?? string.Empty;
-            }
-        }
-
-        /// <summary>
-        /// Gets a <see cref="T:System.Windows.Controls.TextBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new <see cref="T:System.Windows.Controls.TextBox"/> control that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
+        /// <returns>A new <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
-            TextBox textBox = new TextBox();
-            textBox.VerticalAlignment = VerticalAlignment.Stretch;
-            textBox.Background = new SolidColorBrush(Colors.Transparent);
+            //// TODO: If possible avoid reflections
+            //var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
-            {
-                textBox.FontFamily = this.FontFamily;
-            }
+            //var items = ItemsSource as IEnumerable<object>;
 
-            if (_fontSize.HasValue)
-            {
-                textBox.FontSize = _fontSize.Value;
-            }
+            //var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
-            if (_fontStyle.HasValue)
-            {
-                textBox.FontStyle = _fontStyle.Value;
-            }
+            //// TODO: Consider using combobox.SetBinding() instead
+            //var comboBox = new ComboBox
+            //{
+            //    ItemsSource = ItemsSource,
+            //    DisplayMemberPath = DisplayMemberPath,
+            //    SelectedItem = selection,
+            //    Margin = new Thickness(0, 0, 0, 0),
+            //    HorizontalAlignment = HorizontalAlignment.Stretch,
+            //    VerticalAlignment = VerticalAlignment.Center
+            //};
 
-            if (_fontWeight.HasValue)
-            {
-                textBox.FontWeight = _fontWeight.Value;
-            }
+            //if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
+            //{
+            //    comboBox.FontFamily = this.FontFamily;
+            //}
 
-            RefreshForeground(textBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
+            //if (_fontSize.HasValue)
+            //{
+            //    comboBox.FontSize = _fontSize.Value;
+            //}
 
-            bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
+            //if (_fontStyle.HasValue)
+            //{
+            //    comboBox.FontStyle = _fontStyle.Value;
+            //}
 
-            if (this.Binding != null || !isDesignMode)
-            {
-                textBox.SetBinding(this.BindingTarget, this.Binding);
-            }
+            //if (_fontWeight.HasValue)
+            //{
+            //    comboBox.FontWeight = _fontWeight.Value;
+            //}
 
-            return textBox;
+            //RefreshForeground(comboBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
+
+            //comboBox.SelectionChanged += (sender, args) =>
+            //{
+            //    var item = args.AddedItems.FirstOrDefault();
+            //    if (item != null)
+            //    {
+            //        var newValue = item.GetType().GetProperty(Binding.Path.Path).GetValue(item);
+            //        dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
+            //    }
+            //};
+
+            return new ComboBox();
         }
 
         /// <summary>
@@ -252,6 +264,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Causes the column cell being edited to revert to the specified value.
+        /// </summary>
+        /// <param name="editingElement">The element that the column displays for a cell in editing mode.</param>
+        /// <param name="uneditedValue">The previous, unedited value in the cell being edited.</param>
+        protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
+        {
+            if (!(editingElement is ComboBox comboBox)) return;
+
+            var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
+            var items = ItemsSource as IEnumerable<object>;
+            var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+
+            comboBox.SelectedItem = selection;
+        }
+
+        /// <summary>
         /// Called when the cell in the column enters editing mode.
         /// </summary>
         /// <param name="editingElement">The element that the column displays for a cell in editing mode.</param>
@@ -259,27 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The unedited value. </returns>
         protected override object PrepareCellForEdit(FrameworkElement editingElement, RoutedEventArgs editingEventArgs)
         {
-            TextBox textBox = editingElement as TextBox;
-            if (textBox != null)
-            {
-                string uneditedText = textBox.Text;
-                int len = uneditedText.Length;
-                KeyRoutedEventArgs keyEventArgs = editingEventArgs as KeyRoutedEventArgs;
-                if (keyEventArgs != null && keyEventArgs.Key == Windows.System.VirtualKey.F2)
-                {
-                    // Put caret at the end of the text
-                    textBox.Select(len, len);
-                }
-                else
-                {
-                    // Select all text
-                    textBox.Select(0, len);
-                }
-
-                return uneditedText;
-            }
-
-            return string.Empty;
+            return (editingElement as ComboBox)?.SelectedItem;
         }
 
         /// <summary>
@@ -289,16 +297,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (element == null)
             {
-                throw new ArgumentNullException("element");
+                throw new ArgumentNullException(nameof(element));
             }
 
-            TextBox textBox = element as TextBox;
-            if (textBox == null)
+            var comboBox = element as ComboBox;
+            if (comboBox == null)
             {
-                TextBlock textBlock = element as TextBlock;
+                var textBlock = element as TextBlock;
                 if (textBlock == null)
                 {
-                    throw DataGridError.DataGrid.ValueIsNotAnInstanceOfEitherOr("element", typeof(TextBox), typeof(TextBlock));
+                    throw DataGridError.DataGrid.ValueIsNotAnInstanceOfEitherOr(nameof(element), typeof(ComboBox), typeof(TextBlock));
                 }
 
                 if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
@@ -339,35 +347,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
             {
-                textBox.FontFamily = this.FontFamily;
+                comboBox.FontFamily = this.FontFamily;
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
             {
-                SetTextFontSize(textBox, TextBox.FontSizeProperty);
+                SetTextFontSize(comboBox, ComboBox.FontSizeProperty);
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_fontStyleName)
             {
-                textBox.FontStyle = this.FontStyle;
+                comboBox.FontStyle = this.FontStyle;
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_fontWeightName)
             {
-                textBox.FontWeight = this.FontWeight;
+                comboBox.FontWeight = this.FontWeight;
             }
             else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
             {
-                RefreshForeground(textBox, computedRowForeground);
+                RefreshForeground(comboBox, computedRowForeground);
             }
             else
             {
                 if (this.FontFamily != null)
                 {
-                    textBox.FontFamily = this.FontFamily;
+                    comboBox.FontFamily = this.FontFamily;
                 }
 
-                SetTextFontSize(textBox, TextBox.FontSizeProperty);
-                textBox.FontStyle = this.FontStyle;
-                textBox.FontWeight = this.FontWeight;
-                RefreshForeground(textBox, computedRowForeground);
+                SetTextFontSize(comboBox, ComboBox.FontSizeProperty);
+                comboBox.FontStyle = this.FontStyle;
+                comboBox.FontWeight = this.FontWeight;
+                RefreshForeground(comboBox, computedRowForeground);
             }
         }
 
@@ -376,22 +384,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected internal override void RefreshForeground(FrameworkElement element, Brush computedRowForeground)
         {
-            TextBox textBox = element as TextBox;
-            if (textBox != null)
+            if (element is ComboBox comboBox)
             {
-                RefreshForeground(textBox, computedRowForeground);
+                RefreshForeground(comboBox, computedRowForeground);
             }
-            else
+            else if (element is TextBlock textBlock)
             {
-                TextBlock textBlock = element as TextBlock;
-                if (textBlock != null)
-                {
-                    RefreshForeground(textBlock, computedRowForeground);
-                }
+                RefreshForeground(textBlock, computedRowForeground);
             }
         }
 
-        internal void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
+        private void RefreshForeground(ComboBox comboBox, Brush computedRowForeground)
+        {
+            if (this.Foreground == null)
+            {
+                if (computedRowForeground != null)
+                {
+                    comboBox.Foreground = computedRowForeground;
+                }
+            }
+            else
+            {
+                comboBox.Foreground = this.Foreground;
+            }
+        }
+
+        private void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
         {
             if (this.Foreground == null)
             {
@@ -406,22 +424,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RefreshForeground(TextBox textBox, Brush computedRowForeground)
-        {
-            if (this.Foreground == null)
-            {
-                if (computedRowForeground != null)
-                {
-                    textBox.Foreground = computedRowForeground;
-                }
-            }
-            else
-            {
-                textBox.Foreground = this.Foreground;
-            }
-        }
-
-        internal void SetTextFontSize(DependencyObject textElement, DependencyProperty fontSizeProperty)
+        private void SetTextFontSize(DependencyObject textElement, DependencyProperty fontSizeProperty)
         {
             double newFontSize = this.FontSize;
             if (double.IsNaN(newFontSize))
