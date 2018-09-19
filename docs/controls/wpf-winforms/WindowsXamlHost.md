@@ -212,6 +212,7 @@ Right-click the WPF project, and then click **Add Folder**. Give this folder the
 Build the UWP class library project.
 
 Then, in **Solution Explorer**, right-click the folder that you just created in your WPF project, and choose **Add**->**Existing Item**.
+
 Browse to the location of the **$(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)** folder where your post-build steps copied files (For example: *C:\NewVersion\TestWPFApp\TestWPFApp\bin\Debug\UWPClassLibrary*), select all of the files in that folder, and then click the **Add** button to add them to the folder in your project.
 
 ![Add files to folder](../../resources/images/Controls/WindowsXAMLHost/add-files-to-folder.png)
