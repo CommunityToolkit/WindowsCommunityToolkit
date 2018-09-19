@@ -16,6 +16,15 @@ namespace GazeHidParsers {
         property long long Z;
     };
 
+    public ref class GazeHidPositions sealed
+    {
+    public:
+        property GazeHidPosition^ LeftEyePosition;
+        property GazeHidPosition^ RightEyePosition;
+        property GazeHidPosition^ HeadPosition;
+        property GazeHidPosition^ HeadRotation;
+    };
+
     public ref class GazeHidPositionParser sealed
     {
     public:
@@ -44,44 +53,18 @@ namespace GazeHidParsers {
         uint16 _usage                     = 0x0000;
     };
 
-    public ref class LeftEyePositionParser sealed
+    public ref class GazeHidPositionsParser sealed
     {
     public:
-        LeftEyePositionParser(GazeDevicePreview ^ gazeDevice) { _gazeHidPositionParser = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_LeftEyePosition); }
+        GazeHidPositionsParser(GazeDevicePreview ^ gazeDevice);
 
-        GazeHidPosition^ GetPosition(HidInputReport ^ report) { return _gazeHidPositionParser->GetPosition(report); }
+        GazeHidPositions^ GetGazeHidPositions(HidInputReport ^ report);
+
     private:
-        GazeHidPositionParser ^ _gazeHidPositionParser;
-    };
-
-    public ref class RightEyePositionParser sealed
-    {
-    public:
-        RightEyePositionParser(GazeDevicePreview ^ gazeDevice) { _gazeHidPositionParser = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_RightEyePosition); }
-
-        GazeHidPosition^ GetPosition(HidInputReport ^ report) { return _gazeHidPositionParser->GetPosition(report); }
-    private:
-        GazeHidPositionParser ^ _gazeHidPositionParser;
-    };
-
-    public ref class HeadPositionParser sealed
-    {
-    public:
-        HeadPositionParser(GazeDevicePreview ^ gazeDevice) { _gazeHidPositionParser = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_HeadPosition); }
-
-        GazeHidPosition^ GetPosition(HidInputReport ^ report) { return _gazeHidPositionParser->GetPosition(report); }
-    private:
-        GazeHidPositionParser ^ _gazeHidPositionParser;
-    };
-
-    public ref class HeadRotationParser sealed
-    {
-    public:
-        HeadRotationParser(GazeDevicePreview ^ gazeDevice) { _gazeHidRotationParser = ref new GazeHidRotationParser(gazeDevice, (USHORT)GazeHidUsages::Usage_HeadDirectionPoint); }
-
-        GazeHidPosition^ GetRotation(HidInputReport ^ report) { return _gazeHidRotationParser->GetRotation(report); }
-    private:
-        GazeHidRotationParser ^ _gazeHidRotationParser;
+        GazeHidPositionParser ^ _leftEyePositionParser;
+        GazeHidPositionParser ^ _rightEyePositionParser;
+        GazeHidPositionParser ^ _headPositionParser;
+        GazeHidRotationParser ^ _headRotationParser;
     };
 }
 

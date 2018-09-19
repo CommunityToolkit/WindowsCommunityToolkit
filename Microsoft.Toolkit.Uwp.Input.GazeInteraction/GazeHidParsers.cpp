@@ -122,6 +122,28 @@ namespace GazeHidParsers {
         return result;
     }
 #pragma endregion GazeHidRotationParser
+
+#pragma region GazeHidPositionsParser
+    GazeHidPositionsParser::GazeHidPositionsParser(GazeDevicePreview ^ gazeDevice)
+    {
+        _leftEyePositionParser  = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_LeftEyePosition);
+        _rightEyePositionParser = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_RightEyePosition);
+        _headPositionParser     = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_HeadPosition);
+        _headRotationParser     = ref new GazeHidRotationParser(gazeDevice, (USHORT)GazeHidUsages::Usage_HeadDirectionPoint);
+    }
+
+    GazeHidPositions ^ GazeHidPositionsParser::GetGazeHidPositions(HidInputReport ^ report)
+    {
+        auto retval = ref new GazeHidPositions();
+
+        retval->LeftEyePosition  = _leftEyePositionParser->GetPosition(report);
+        retval->RightEyePosition = _rightEyePositionParser->GetPosition(report);
+        retval->HeadPosition     = _headPositionParser->GetPosition(report);
+        retval->HeadRotation     = _headRotationParser->GetRotation(report);
+
+        return retval;
+    }
+#pragma endregion GazeHidPositionsParser
 }
 
 END_NAMESPACE_GAZE_INPUT
