@@ -2,12 +2,12 @@
 title: WindowsXAMLHost control
 author: normesta
 description: This guide helps you add UWP XAML controls to your WPF.
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF, Windows Forms
 ---
 
 # WindowsXamlHost control
 
-By using a Windows XAML host control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF desktop applications.
+By using a Windows XAML host control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF or Windows Forms desktop application.
 
 ## Get started
 
@@ -21,7 +21,7 @@ After you install the NuGet package, [set up your project](https://docs.microsof
 
 ### Add a Windows XAML host control
 
-In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, and then drag it onto the designer of your WPF application.
+In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, and then drag it onto the designer of your WPF or Windows Forms application.
 
 You'll find the **WindowsXamlHost** control in the **Windows Community Toolkit** section of the Visual Studio **Toolbox**.
 
@@ -31,13 +31,25 @@ In the **Properties** window, set the **InitialTypeName** property to the fully 
 
 You'll find the **InitialTypeName** property in the **XAML** section of the **Properties** window.
 
+**WPF**
+
 ![InitialTypeName property in Properties Window](../../resources/images/Controls/WindowsXAMLHost/type-name-property-wpf.png)
+
+**Windows Forms**
+
+![InitialTypeName property in Properties Window](../../resources/images/Controls/WindowsXAMLHost/type-name-property-windows-forms.png)
 
 ### Initialize the UWP control
 
 In the **Properties** window, double-click the **ChildChanged** field to generate an event handler.
 
+**WPF**
+
 ![WindowsXamlHost control in the toolbox](../../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-wpf.png)
+
+**Windows Forms**
+
+![WindowsXamlHost control in the toolbox](../../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-windows-forms.png)
 
 Initialize your UWP control by adding code to this handler. Your code can set properties and handle the events of the UWP control. Here's a basic example that sets a property and handles an event of a UWP **Button** class.
 
@@ -85,6 +97,7 @@ private void UseHelperMethod()
     myHostControl.Name = "myWindowsXamlHostControl";
 
     // Associate the Windows XAML host control with the UWP control.
+    // For Windows Forms applications, you might use this.Controls.Add(myHostControl);
     myHostControl.Child = myButton;
 
     // Make the UWP control appear in the UI.
@@ -133,6 +146,7 @@ private void CreateUWPControlsFirst()
     myHostControl.Child = myButton;
 
     // Make the UWP control appear in the UI.
+    // For Windows Forms applications, you might use this.Controls.Add(myHostControl);
     this.MyStackPanel.Children.Add(myHostControl);
 }
 
@@ -145,7 +159,9 @@ private void MyButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
 
 ## Add a custom UWP control
 
-You can add a custom control that contains one or more UWP controls and custom functionality. To do this, you'll configure two projects: A UWP class library project, and the WPF application project.
+You can add a custom control that contains one or more UWP controls and custom functionality. To do this, you'll configure two projects: A UWP class library project, and the WPF or Windows Forms application project.
+
+The following instructions uses a WPF project.
 
 ### Configure a UWP class library project
 
@@ -196,13 +212,13 @@ Browse to the location of the folder that you just created, select all of the fi
 
 Build your WPF application.
 
-## Bind data from your WPF application to a field in the custom control
+## Bind data from your desktop application to a field in the custom control
 
 In **Solution Explorer**, expand the UWP class library project, and open the code behind file of a page.
 
 ![Code behind file](../../resources/images/Controls/WindowsXAMLHost/code-behind-file-uwp-class.png)
 
-Add a field to that page. This example adds a field named ``WPFMessage``.
+Add a field to that page. This example adds a field named ``WPFMessage`` in a WPF application.
 
 ```csharp
 public sealed partial class MyPage : Page
