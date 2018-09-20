@@ -125,11 +125,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     switch (CachingStrategy)
                     {
-                        case CachingStrategy.Custom when _isHttpSource:
+                        case ImageExCachingStrategy.Custom when _isHttpSource:
                             await SetHttpSourceCustomCached(imageUri);
                             break;
-                        case CachingStrategy.Custom:
-                        case CachingStrategy.Internal:
+                        case ImageExCachingStrategy.Custom:
+                        case ImageExCachingStrategy.Internal:
                         default:
                             AttachSource(new BitmapImage(imageUri));
                             break;
