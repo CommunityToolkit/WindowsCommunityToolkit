@@ -46,8 +46,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object ItemsSource
         {
-            get { return (object)GetValue(ItemsSourceProperty); }
-            set { SetValue(ItemsSourceProperty, value); }
+            get => (object)GetValue(ItemsSourceProperty);
+            set => SetValue(ItemsSourceProperty, value);
         }
 
         /// <summary>
@@ -61,8 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public string DisplayMemberPath
         {
-            get { return (string) GetValue(DisplayMemberPathProperty); }
-            set { SetValue(DisplayMemberPathProperty, value); }
+            get => (string)GetValue(DisplayMemberPathProperty);
+            set => SetValue(DisplayMemberPathProperty, value);
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_fontSize != value)
                 {
                     _fontSize = value;
-                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontSizeName);
+                    NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontSizeName);
                 }
             }
         }
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_fontStyle != value)
                 {
                     _fontStyle = value;
-                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontStyleName);
+                    NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontStyleName);
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_fontWeight.HasValue || _fontWeight.Value.Weight != value.Weight)
                 {
                     _fontWeight = value;
-                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontWeightName);
+                    NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontWeightName);
                 }
             }
         }
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_foreground != value)
                 {
                     _foreground = value;
-                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_foregroundName);
+                    NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_foregroundName);
                 }
             }
         }
@@ -280,13 +280,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="uneditedValue">The previous, unedited value in the cell being edited.</param>
         protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
         {
-            if (!(editingElement is ComboBox comboBox)) return;
+            var comboBox = editingElement as ComboBox;
+            if (comboBox != null)
+            {
+                var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
+                var items = ItemsSource as IEnumerable<object>;
+                var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
-            var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
-            var items = ItemsSource as IEnumerable<object>;
-            var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
-
-            comboBox.SelectedItem = selection;
+                comboBox.SelectedItem = selection;
+            }
         }
 
         /// <summary>
