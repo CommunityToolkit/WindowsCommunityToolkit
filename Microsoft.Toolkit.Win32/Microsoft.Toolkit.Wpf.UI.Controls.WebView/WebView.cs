@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         private ManualResetEvent _initializationComplete;
 
         [SecuritySafeCritical]
-        [SuppressMessage("Microsoft.Design", "CA1065", Justification ="Exceptions thrown to fail as fast as possible.")]
+        [SuppressMessage("Microsoft.Design", "CA1065", Justification = "Exceptions thrown to fail as fast as possible.")]
         static WebView()
         {
 #pragma warning disable 1065
@@ -759,7 +759,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                     if (_webViewControl == null)
                     {
                         var handle = ChildWindow.Handle;
-                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width, RenderSize.Height);
+                        var bounds = new Windows.Foundation.Rect(0, 0, RenderSize.Width * DpiScale.DpiScaleX, RenderSize.Height * DpiScale.DpiScaleY);
 
                         _webViewControl = await _process.CreateWebViewControlHostAsync(handle, bounds).ConfigureAwait(false);
                     }
@@ -836,7 +836,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <inheritdoc />
         protected override void UpdateBounds(Rect bounds)
         {
-            UpdateBounds((int)bounds.X, (int)bounds.Y, (int)bounds.Width, (int)bounds.Height);
+            UpdateBounds(bounds.X, bounds.Y, bounds.Width, bounds.Height);
         }
 
         private static void OnIsEnabledInvalidated(WebView webView)
@@ -1169,26 +1169,23 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             _webViewControl.UnviewableContentIdentified -= OnUnviewableContentIdentified;
         }
 
-        private void UpdateBounds(int x, int y, int width, int height)
+        private void UpdateBounds(double x, double y, double width, double height)
         {
 #if DEBUG_LAYOUT
             Debug.WriteLine($"{Name}::{nameof(UpdateBounds)}");
             Debug.Indent();
-            Debug.WriteLine($"oldBounds={{x={x} y={y} width={width} height={height}}}");
+            Debug.WriteLine($"oldBounds={{x={x:F0} y={y:F0} width={width:F0} height={height:F0}}}");
 #endif
 
             // Update bounds here to ensure correct draw position
-            if (IsScalingRequired)
-            {
-                width = DpiHelper.LogicalToDeviceUnits(width, DeviceDpi);
-                height = DpiHelper.LogicalToDeviceUnits(height, DeviceDpi);
-            }
+            width *= DpiScale.DpiScaleX;
+            height *= DpiScale.DpiScaleY;
 
             // HACK: looks like the vertical pos is counted twice, giving a gap
             y = 0;
 
 #if DEBUG_LAYOUT
-            Debug.WriteLine($"newBounds={{x={x} y={y} width={width} height={height}}}");
+            Debug.WriteLine($"newBounds={{x={x:F0} y={y:F0} width={width:F0} height={height:F0}}}");
 #endif
             if (WebViewControlInitialized)
             {
