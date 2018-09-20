@@ -22,7 +22,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [StyleTypedProperty(Property = "EditingElementStyle", StyleTargetType = typeof(ComboBox))]
     public class DataGridComboBoxColumn : DataGridBoundColumn
     {
-        // TODO: Consider changing the base class fields to internal to avoid duplicates here
         private const string DATAGRIDCOMBOBOXCOLUMN_fontFamilyName = "FontFamily";
         private const string DATAGRIDCOMBOBOXCOLUMN_fontSizeName = "FontSize";
         private const string DATAGRIDCOMBOBOXCOLUMN_fontStyleName = "FontStyle";
@@ -177,14 +176,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A new <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
-            // TODO: If possible avoid reflections
             var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
             var items = ItemsSource as IEnumerable<object>;
 
             var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
-            // TODO: Consider using combobox.SetBinding() instead
             var comboBox = new ComboBox
             {
                 ItemsSource = ItemsSource,
