@@ -38,35 +38,31 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** controls has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](WebView-known-issues.md). The **WebViewCompatible** control has further limitations because it exposes a common interface that is a subset of common functionality across the two underlying implementations. In a system that supports the Windows 10 **WebViewControl**, this control will exhibit those limitations plus further exclusions to the exposed functionality. In a legacy environment, this control will use **WebBrowser**, and have the same additional interface limitations.
 
-## Add the WebViewCompatible control to the Visual Studio Toolbox
+## Add the WebViewCompatible control to the Visual Studio Toolbox for Windows Forms applications
 
-First, open the Visual Studio **Toolbox**, then right-click anywhere in the toolbox, and select the **Choose Items** option.
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
-<!-- Remove these steps before going public. This is for early adopters only -->
+2. Open the Visual Studio **Toolbox**, right-click anywhere in the toolbox, and select the **Choose Items** option.
 
-### For Windows Forms applications
+3. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box, click **Browse** to locate the **Microsoft.Toolkit.Forms.UI.Controls.dll** in your [NuGet package folder](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
-1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
+4. Add **Microsoft.Toolkit.Forms.UI.Controls.dll** to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+   The **WebViewCompatible** control appears in the **General** section of the **Toolbox**.
 
-   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
+   In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls** assembly appears in the **References** list.
 
-3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
+### Add the WebViewCompatible control to the Visual Studio Toolbox for WPF applications
 
-   The **WebView** control appears in the **All Windows Forms** section of the **Toolbox**.
+1. Install the [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
 
-   In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
-
-### For WPF applications
-
-The **WebViewCompatible** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebViewCompatible** control in code, but we recommend that you do not add **WebViewCompatible** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+2.  Open the **Toolbox** in Visual Studio or Blend. The **WebViewCompatible** control appears in the **Windows Community Toolkit** section of the **Toolbox** and you can drag it directly the designer. You can also create an instance of the **WebViewCompatible** control in code, but we recommend that you do not add **WebViewCompatible** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
 ## Enable the WebViewCompatible control to appear properly on high DPI displays
 
-If users open your application on displays that have a high DPI displays, your **WebView** won't appear at the proper scale unless you configure your application first.
+If users open your application on displays that have a high DPI displays, your **WebViewCompatible** won't appear at the proper scale unless you configure your application first.
 
 ### Configure a Windows Forms application
 
@@ -214,8 +210,8 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Forms.UI.Controls, Microsoft.Toolkit.Wpf.UI.Controls |
-| NuGet package | [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls), [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls) |
+| Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.Controls <br/> WPF: Microsoft.Toolkit.Wpf.UI.Controls |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) |
 
 ## API Source Code
 

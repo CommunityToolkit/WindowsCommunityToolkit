@@ -35,29 +35,25 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** control has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](WebView-known-issues.md).
 
-## Add the WebView control to the Visual Studio Toolbox
+## Add the WebView control to the Visual Studio Toolbox for Windows Forms applications
 
-First, open the Visual Studio **Toolbox**, then right-click anywhere in the toolbox, and select the **Choose Items** option.
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
-<!-- Remove these steps before going public. This is for early adopters only -->
+2. Open the Visual Studio **Toolbox**, right-click anywhere in the toolbox, and select the **Choose Items** option.
 
-### For Windows Forms applications
+2. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box, click **Browse** to locate the **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** in your [NuGet package folder](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
-1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
+3. Add **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+   The **WebView** control appears in the **General** section of the **Toolbox**.
 
-   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
+   In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls.WebView** assembly appears in the **References** list.
 
-3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
+## Add the WebView control to the Visual Studio Toolbox for  WPF applications
 
-   The **WebView** control appears in the **All Windows Forms** section of the **Toolbox**.
+1. Install the [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
 
-   In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
-
-### For WPF applications
-
-The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+2. Open the **Toolbox** in Visual Studio or Blend. The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
@@ -345,7 +341,7 @@ Similar to the Windows Forms example, if through the designer a **WebView** is c
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:WPF="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
+    xmlns:WPF="clr-namespace:Microsoft.Toolkit.Wpf.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -392,8 +388,8 @@ public partial class MainWindow : Window
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Forms.UI.Controls, Microsoft.Toolkit.Wpf.UI.Controls |
-| NuGet package | [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls), [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls) |
+| Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.Controls <br/> WPF: Microsoft.Toolkit.Wpf.UI.Controls |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) |
 
 ## API Source Code
 
