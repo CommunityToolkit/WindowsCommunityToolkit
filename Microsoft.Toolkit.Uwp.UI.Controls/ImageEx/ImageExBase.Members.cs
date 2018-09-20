@@ -46,6 +46,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty IsCacheEnabledProperty = DependencyProperty.Register(nameof(IsCacheEnabled), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
 
         /// <summary>
+        /// Identifies the <see cref="CachingStrategy"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty CachingStrategyProperty = DependencyProperty.Register(nameof(CachingStrategy), typeof(CachingStrategy), typeof(ImageExBase), new PropertyMetadata(CachingStrategy.Custom));
+
+        /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
         /// </summary>
         /// <returns><see cref="CompositionBrush"/></returns>
@@ -124,6 +129,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (bool)GetValue(IsCacheEnabledProperty); }
             set { SetValue(IsCacheEnabledProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating how the <see cref="ImageEx"/> will be cached.
+        /// </summary>
+        public CachingStrategy CachingStrategy
+        {
+            get { return (CachingStrategy)GetValue(CachingStrategyProperty); }
+            set { SetValue(CachingStrategyProperty, value); }
         }
     }
 }
