@@ -10,6 +10,8 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
+using System.Reflection;
 using System.Security;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
@@ -27,6 +29,7 @@ using Windows.System;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -1260,6 +1263,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private ISupportIncrementalLoading _incrementalItemsSource;
+
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the control.
         /// </summary>
@@ -1364,6 +1369,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // can be set when the DataGrid is not part of the visual tree.
                 dataGrid._measured = false;
                 dataGrid.InvalidateMeasure();
+
+                if (dataGrid.ItemsSource is ISupportIncrementalLoading incrementalItemsSource)
+                {
+                    dataGrid._incrementalItemsSource = incrementalItemsSource;
+                    dataGrid._itemsSourceIsIncremental = true;
+                    dataGrid._canLoadIncrementalData = true;
+                }
             }
         }
 
@@ -3576,6 +3588,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 e.Handled = ProcessScrollOffsetDelta(offsetDelta, isForHorizontalScroll);
             }
+
+            LoadMoreDataFromIncrementalItemsSource();
         }
 
         /// <summary>
@@ -6307,6 +6321,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll += new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered += new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited += new PointerEventHandler(VerticalScrollBar_PointerExited);
+                //PointerWheelChanged += new PointerEventHandler(VerticalScrollBar_PointerWheelChanged);
+                
             }
         }
 
@@ -8995,6 +9011,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void VerticalScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             ProcessVerticalScroll(e.ScrollEventType);
+            LoadMoreDataFromIncrementalItemsSource();
+        }
+
+        private bool _canLoadIncrementalData;
+
+        private bool _itemsSourceIsIncremental;
+
+        private async void LoadMoreDataFromIncrementalItemsSource()
+        {
+            if (_itemsSourceIsIncremental && _incrementalItemsSource.HasMoreItems && _canLoadIncrementalData)
+            {
+                DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
+                if (peer != null)
+                {
+                    IScrollProvider isp = (IScrollProvider)peer;
+                    if (isp.VerticalScrollPercent > 85.0)
+                    {
+                        _canLoadIncrementalData = false;
+
+                        await _incrementalItemsSource.LoadMoreItemsAsync(0);
+
+                        _canLoadIncrementalData = true;
+                    }
+                }
+            }
         }
     }
 }
