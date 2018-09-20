@@ -391,7 +391,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
+        internal void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
         {
             if (this.Foreground == null)
             {
@@ -421,7 +421,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SetTextFontSize(DependencyObject textElement, DependencyProperty fontSizeProperty)
+        internal void SetTextFontSize(DependencyObject textElement, DependencyProperty fontSizeProperty)
         {
             double newFontSize = this.FontSize;
             if (double.IsNaN(newFontSize))
