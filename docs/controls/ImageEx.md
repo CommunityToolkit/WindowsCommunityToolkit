@@ -33,8 +33,8 @@ On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use 
 | Property | Type | Description |
 | -- | -- | -- |
 | NineGrid | Thickness | Gets or sets the nine-grid used by the image |
-| IsCacheEnabled | Boolean | Gets or sets a value indicating whether gets or sets cache state |
-| CachingStrategy | Enum | Gets or sets a value indicating how the Image will be cached |
+| IsCacheEnabled | bool | Gets or sets a value indicating whether gets or sets cache state |
+| CachingStrategy | enum | Gets or sets a value indicating how the Image will be cached |
 
 ## RoundImageEx Properties
 
