@@ -3,9 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
@@ -247,18 +244,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (tvi != null)
             {
-                var args = new TabClosingEventArgs(tvi);
+                var item = ItemFromContainer(tvi);
+
+                var args = new TabClosingEventArgs(item, tvi);
                 TabClosing?.Invoke(this, args);
 
                 if (!args.Cancel)
                 {
                     if (ItemsSource != null)
                     {
-                        _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { ItemFromContainer(tvi) });
+                        _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
                     }
                     else
                     {
-                        Items.Remove(ItemFromContainer(tvi));
+                        Items.Remove(item);
                     }
                 }
             }

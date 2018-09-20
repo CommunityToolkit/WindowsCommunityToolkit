@@ -14,16 +14,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="TabClosingEventArgs"/> class.
         /// </summary>
+        /// <param name="item">Item being closed.</param>
         /// <param name="tab">TabViewItem container being closed.</param>
-        public TabClosingEventArgs(TabViewItem tab)
+        public TabClosingEventArgs(object item, TabViewItem tab)
         {
+            Item = item;
             Tab = tab;
         }
 
         /// <summary>
-        /// Gets or sets the Tab being closed.
+        /// Gets the Item being closed.
         /// </summary>
-        public TabViewItem Tab { get; set; }
+        public object Item { get; private set; }
+
+        /// <summary>
+        /// Gets the Tab being closed.
+        /// </summary>
+        public TabViewItem Tab { get; private set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the notification should be closed.
