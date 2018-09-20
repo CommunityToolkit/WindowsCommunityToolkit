@@ -52,9 +52,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Identifies the DisplayMemberPath dependency property.
+        /// </summary>
+        public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
+            "DisplayMemberPath", typeof(string), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(string)));
+
+        /// <summary>
         /// Gets or sets the name or path of the property that is displayed in the ComboBox.
         /// </summary>
-        public string DisplayMemberPath { get; set; }
+        public string DisplayMemberPath
+        {
+            get { return (string) GetValue(DisplayMemberPathProperty); }
+            set { SetValue(DisplayMemberPathProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the font name.
@@ -74,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var comboColumn = d as DataGridComboBoxColumn;
-            comboColumn.NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontFamilyName);
+            comboColumn.NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontFamilyName);
         }
 
         /// <summary>
@@ -94,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_fontSize != value)
                 {
                     _fontSize = value;
-                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontSizeName);
+                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontSizeName);
                 }
             }
         }
@@ -114,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_fontStyle != value)
                 {
                     _fontStyle = value;
-                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontStyleName);
+                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontStyleName);
                 }
             }
         }
@@ -134,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!_fontWeight.HasValue || _fontWeight.Value.Weight != value.Weight)
                 {
                     _fontWeight = value;
-                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_fontWeightName);
+                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_fontWeightName);
                 }
             }
         }
@@ -154,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (_foreground != value)
                 {
                     _foreground = value;
-                    NotifyPropertyChanged(DATAGRIDTEXTCOLUMN_foregroundName);
+                    NotifyPropertyChanged( DATAGRIDCOMBOBOXCOLUMN_foregroundName);
                 }
             }
         }
@@ -167,57 +177,57 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A new <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
-            //// TODO: If possible avoid reflections
-            //var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
+            // TODO: If possible avoid reflections
+            var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-            //var items = ItemsSource as IEnumerable<object>;
+            var items = ItemsSource as IEnumerable<object>;
 
-            //var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+            var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
-            //// TODO: Consider using combobox.SetBinding() instead
-            //var comboBox = new ComboBox
-            //{
-            //    ItemsSource = ItemsSource,
-            //    DisplayMemberPath = DisplayMemberPath,
-            //    SelectedItem = selection,
-            //    Margin = new Thickness(0, 0, 0, 0),
-            //    HorizontalAlignment = HorizontalAlignment.Stretch,
-            //    VerticalAlignment = VerticalAlignment.Center
-            //};
+            // TODO: Consider using combobox.SetBinding() instead
+            var comboBox = new ComboBox
+            {
+                ItemsSource = ItemsSource,
+                DisplayMemberPath = DisplayMemberPath,
+                SelectedItem = selection,
+                Margin = new Thickness(0, 0, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
-            //if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
-            //{
-            //    comboBox.FontFamily = this.FontFamily;
-            //}
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
+            {
+                comboBox.FontFamily = this.FontFamily;
+            }
 
-            //if (_fontSize.HasValue)
-            //{
-            //    comboBox.FontSize = _fontSize.Value;
-            //}
+            if (_fontSize.HasValue)
+            {
+                comboBox.FontSize = _fontSize.Value;
+            }
 
-            //if (_fontStyle.HasValue)
-            //{
-            //    comboBox.FontStyle = _fontStyle.Value;
-            //}
+            if (_fontStyle.HasValue)
+            {
+                comboBox.FontStyle = _fontStyle.Value;
+            }
 
-            //if (_fontWeight.HasValue)
-            //{
-            //    comboBox.FontWeight = _fontWeight.Value;
-            //}
+            if (_fontWeight.HasValue)
+            {
+                comboBox.FontWeight = _fontWeight.Value;
+            }
 
-            //RefreshForeground(comboBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
+            RefreshForeground(comboBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
-            //comboBox.SelectionChanged += (sender, args) =>
-            //{
-            //    var item = args.AddedItems.FirstOrDefault();
-            //    if (item != null)
-            //    {
-            //        var newValue = item.GetType().GetProperty(Binding.Path.Path).GetValue(item);
-            //        dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
-            //    }
-            //};
+            comboBox.SelectionChanged += (sender, args) =>
+            {
+                var item = args.AddedItems.FirstOrDefault();
+                if (item != null)
+                {
+                    var newValue = item.GetType().GetProperty(Binding.Path.Path).GetValue(item);
+                    dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
+                }
+            };
 
-            return new ComboBox();
+            return comboBox;
         }
 
         /// <summary>
@@ -228,9 +238,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A new, read-only <see cref="T:System.Windows.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
-            TextBlock textBlockElement = new TextBlock();
-            textBlockElement.Margin = new Thickness(DATAGRIDTEXTCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0);
-            textBlockElement.VerticalAlignment = VerticalAlignment.Center;
+            var textBlockElement = new TextBlock
+            {
+                Margin = new Thickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
+                VerticalAlignment = VerticalAlignment.Center
+            };
+
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             {
                 textBlockElement.FontFamily = this.FontFamily;
