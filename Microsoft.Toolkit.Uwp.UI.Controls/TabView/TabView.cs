@@ -222,6 +222,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 tvi.Header = item;
             }
 
+            if (tvi.HeaderTemplate == null)
+            {
+                tvi.HeaderTemplate = ItemHeaderTemplate;
+            }
+
             base.PrepareContainerForItemOverride(element, item);
         }
 
