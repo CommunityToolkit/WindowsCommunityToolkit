@@ -15,7 +15,7 @@ This control uses the Microsoft Edge rendering engine to embed a view that rende
 
 ## About WebView controls
 
-The Windows Forms version of this control is located in the **Microsoft.Toolkit.Win32.UI.Controls.WinForms** namespace. The WPF version is located in the **Microsoft.Toolkit.Win32.UI.Controls.WPF** namespace. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
+The Windows Forms version of this control is located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace in the **Microsoft.Toolkit.Forms.UI.Controls.WebView** NuGet package. The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace in the **Microsoft.Toolkit.Wpf.UI.Controls.WebView** NuGet package. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
 Internally, these controls wrap the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class, so they provide a subset of members from that class. The [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) is similar to the [WebView](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview) class, but it is designed to run out of process in a desktop application (such as a WPF or Windows Forms application) and it supports a smaller set of members.
 
@@ -345,7 +345,7 @@ Similar to the Windows Forms example, if through the designer a **WebView** is c
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:WPF="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls.WPF;assembly=Microsoft.Toolkit.Win32.UI.Controls"
+    xmlns:WPF="clr-namespace:Microsoft.Toolkit.Win32.UI.Controls;assembly=Microsoft.Toolkit.Wpf.UI.Controls.WebView"
     Title="MainWindow"
     Width="800"
     Height="450"
@@ -392,10 +392,10 @@ public partial class MainWindow : Window
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Win32.UI.Controls.WinForms, Microsoft.Toolkit.Win32.UI.Controls.WPF |
-| NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
+| Namespace | Microsoft.Toolkit.Forms.UI.Controls, Microsoft.Toolkit.WPF.UI.Controls |
+| NuGet package | [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView/), [Microsoft.Toolkit.WPF.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.WPF.UI.Controls.WebView/) |
 
 ## API Source Code
 
-- [WinForms.WebView](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView)
-- [WPF.WebView](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView)
+- [WinForms.WebView](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.Controls.WebView)
+- [WPF.WebView](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Wpf.UI.Controls.WebView)
