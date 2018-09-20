@@ -16,20 +16,20 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Represents a <see cref="DataGrid"/> column that hosts content that in its cells. When editing the data can be changed to a value from predetermined data-set hosted in a ComboBox.
+    /// Represents a <see cref="DataGrid"/> column that hosts content that in its cells. When in edit mode data can be changed to a value from a collection hosted in a ComboBox.
     /// </summary>
     [StyleTypedProperty(Property = "ElementStyle", StyleTargetType = typeof(TextBlock))]
     [StyleTypedProperty(Property = "EditingElementStyle", StyleTargetType = typeof(ComboBox))]
     public class DataGridComboBoxColumn : DataGridBoundColumn
     {
         // TODO: Consider changing the base class fields to internal to avoid duplicates here
-        private const string DATAGRIDTEXTCOLUMN_fontFamilyName = "FontFamily";
-        private const string DATAGRIDTEXTCOLUMN_fontSizeName = "FontSize";
-        private const string DATAGRIDTEXTCOLUMN_fontStyleName = "FontStyle";
-        private const string DATAGRIDTEXTCOLUMN_fontWeightName = "FontWeight";
-        private const string DATAGRIDTEXTCOLUMN_foregroundName = "Foreground";
-        private const double DATAGRIDTEXTCOLUMN_leftMargin = 12.0;
-        private const double DATAGRIDTEXTCOLUMN_rightMargin = 12.0;
+        private const string DATAGRIDCOMBOBOXCOLUMN_fontFamilyName = "FontFamily";
+        private const string DATAGRIDCOMBOBOXCOLUMN_fontSizeName = "FontSize";
+        private const string DATAGRIDCOMBOBOXCOLUMN_fontStyleName = "FontStyle";
+        private const string DATAGRIDCOMBOBOXCOLUMN_fontWeightName = "FontWeight";
+        private const string DATAGRIDCOMBOBOXCOLUMN_foregroundName = "Foreground";
+        private const double DATAGRIDCOMBOBOXCOLUMN_leftMargin = 12.0;
+        private const double DATAGRIDCOMBOBOXCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
         private FontStyle? _fontStyle;
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the FontFamily dependency property.
         /// </summary>
         public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
-                "FontFamily", typeof(FontFamily), typeof(DataGridTextColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
+                "FontFamily", typeof(FontFamily), typeof(DataGridComboBoxColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
         private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //    VerticalAlignment = VerticalAlignment.Center
             //};
 
-            //if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
+            //if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             //{
             //    comboBox.FontFamily = this.FontFamily;
             //}
@@ -229,9 +229,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             TextBlock textBlockElement = new TextBlock();
-            textBlockElement.Margin = new Thickness(DATAGRIDTEXTCOLUMN_leftMargin, 0.0, DATAGRIDTEXTCOLUMN_rightMargin, 0.0);
+            textBlockElement.Margin = new Thickness(DATAGRIDTEXTCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0);
             textBlockElement.VerticalAlignment = VerticalAlignment.Center;
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
+            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             {
                 textBlockElement.FontFamily = this.FontFamily;
             }
@@ -309,23 +309,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     throw DataGridError.DataGrid.ValueIsNotAnInstanceOfEitherOr(nameof(element), typeof(ComboBox), typeof(TextBlock));
                 }
 
-                if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
+                if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontFamilyName)
                 {
                     textBlock.FontFamily = this.FontFamily;
                 }
-                else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
+                else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontSizeName)
                 {
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
                 }
-                else if (propertyName == DATAGRIDTEXTCOLUMN_fontStyleName)
+                else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontStyleName)
                 {
                     textBlock.FontStyle = this.FontStyle;
                 }
-                else if (propertyName == DATAGRIDTEXTCOLUMN_fontWeightName)
+                else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontWeightName)
                 {
                     textBlock.FontWeight = this.FontWeight;
                 }
-                else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
+                else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_foregroundName)
                 {
                     RefreshForeground(textBlock, computedRowForeground);
                 }
@@ -345,23 +345,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (propertyName == DATAGRIDTEXTCOLUMN_fontFamilyName)
+            if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontFamilyName)
             {
                 comboBox.FontFamily = this.FontFamily;
             }
-            else if (propertyName == DATAGRIDTEXTCOLUMN_fontSizeName)
+            else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontSizeName)
             {
                 SetTextFontSize(comboBox, ComboBox.FontSizeProperty);
             }
-            else if (propertyName == DATAGRIDTEXTCOLUMN_fontStyleName)
+            else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontStyleName)
             {
                 comboBox.FontStyle = this.FontStyle;
             }
-            else if (propertyName == DATAGRIDTEXTCOLUMN_fontWeightName)
+            else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontWeightName)
             {
                 comboBox.FontWeight = this.FontWeight;
             }
-            else if (propertyName == DATAGRIDTEXTCOLUMN_foregroundName)
+            else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_foregroundName)
             {
                 RefreshForeground(comboBox, computedRowForeground);
             }
