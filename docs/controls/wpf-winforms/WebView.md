@@ -37,23 +37,23 @@ When compared to the UWP **WebView** control, the current release of the WPF and
 
 ## Add the WebView control to the Visual Studio Toolbox for Windows Forms applications
 
-1. Install the [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
 2. Open the Visual Studio **Toolbox**, right-click anywhere in the toolbox, and select the **Choose Items** option.
 
-3. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box, click **Browse** to locate the **Microsoft.Toolkit.Forms.UI.Controls.dll** in your [NuGet package folder](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
+2. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box, click **Browse** to locate the **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** in your [NuGet package folder](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
-4. Add **Microsoft.Toolkit.Forms.UI.Controls.dll** to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
+3. Add **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
    The **WebView** control appears in the **General** section of the **Toolbox**.
 
-   In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls** assembly appears in the **References** list.
+   In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls.WebView** assembly appears in the **References** list.
 
-### Add the WebView control to the Visual Studio Toolbox for WPF applications
+## Add the WebView control to the Visual Studio Toolbox for  WPF applications
 
-1. Install the [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
+1. Install the [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
 
-2. The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+2. Open the Visual Studio **Toolbox**. The **WebView** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebView** control in code, but we recommend that you do not add **WebView** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
