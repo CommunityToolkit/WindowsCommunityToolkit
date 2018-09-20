@@ -40,7 +40,7 @@ When compared to the UWP **WebView** control, the current release of the WPF and
 
 ## Add the WebViewCompatible control to the Visual Studio Toolbox for Windows Forms applications
 
-1. Install the [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
 2. Open the Visual Studio **Toolbox**, right-click anywhere in the toolbox, and select the **Choose Items** option.
 
@@ -54,7 +54,7 @@ When compared to the UWP **WebView** control, the current release of the WPF and
 
 ### Add the WebViewCompatible control to the Visual Studio Toolbox for WPF applications
 
-1. Install the [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
+1. Install the [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
 
 2.  Open the **Toolbox** in Visual Studio or Blend. The **WebViewCompatible** control appears in the **Windows Community Toolkit** section of the **Toolbox** and you can drag it directly the designer. You can also create an instance of the **WebViewCompatible** control in code, but we recommend that you do not add **WebViewCompatible** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
@@ -211,7 +211,7 @@ Scripts in the web view content can use **window.external.notify** with a string
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
 | Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.Controls <br/> WPF: Microsoft.Toolkit.Wpf.UI.Controls |
-| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Forms.UI.Controls.WebView) <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Wpf.UI.Controls.WebView) |
 
 ## API Source Code
 
