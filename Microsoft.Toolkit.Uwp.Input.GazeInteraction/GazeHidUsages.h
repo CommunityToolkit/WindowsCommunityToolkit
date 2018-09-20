@@ -8,7 +8,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// <summary>
 /// This enum specifies the various HID usages specified by the EyeHeadTracker HID specification
 ///
-/// http://www.usb.org/developers/hidpage/HUTRR74_-_Usage_Page_for_Head_and_Eye_Trackers.pdf
+/// https://www.usb.org/sites/default/files/hutrr74_-_usage_page_for_head_and_eye_trackers_0.pdf
 /// </summary>
 public enum class GazeHidUsages
 {
