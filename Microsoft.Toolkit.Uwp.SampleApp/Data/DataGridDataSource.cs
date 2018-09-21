@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     public class DataGridDataSource
     {
         private static ObservableCollection<DataGridDataItem> _items;
-        private List<string> _mountains;
+        private static List<string> _mountains;
         private static CollectionViewSource groupedItems;
         private string _cachedSortedColumn = string.Empty;
 
