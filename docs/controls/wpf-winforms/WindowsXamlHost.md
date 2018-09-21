@@ -16,9 +16,9 @@ By using the **WindowsXamlHost** control, you can add built-in or custom UWP con
 
 To get the **WindowsXamlHost** control, install the appropriate Nuget package.
 
-For WPF applications, install the [Microsoft.Toolkit.Wpf.XamlHost](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Wpf.UI.XamlHost) package.
+For WPF applications, install the [Microsoft.Toolkit.Wpf.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost) package.
 
-For Windows Forms applications, install the [Microsoft.Toolkit.Forms.UI.XamlHost](https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Forms.UI.XamlHost) package.
+For Windows Forms applications, install the [Microsoft.Toolkit.Forms.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost) package.
 
 After you install the NuGet package, [set up your project](https://docs.microsoft.com/windows/uwp/porting/desktop-to-uwp-enhance#first-set-up-your-project) so that it can use UWP types.
 
@@ -297,7 +297,7 @@ public partial class MainWindow : Window
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
 | Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.XamlHost <br/> WPF: Microsoft.Toolkit.Wpf.UI.XamlHost |
-| NuGet package | Windows Forms: https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Forms.UI.XamlHost  <br/> WPF: https://dotnet.myget.org/feed/uwpcommunitytoolkit/package/nuget/Microsoft.Toolkit.Wpf.UI.XamlHost |
+| NuGet package | Windows Forms: https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost  <br/> WPF: https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost |
 
 ## API Source Code
 
