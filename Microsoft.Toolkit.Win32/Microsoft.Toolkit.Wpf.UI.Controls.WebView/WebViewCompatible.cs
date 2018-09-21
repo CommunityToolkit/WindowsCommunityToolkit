@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         public WebViewCompatible()
             : base()
         {
-            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl"))
+            if (WebViewControlHost.IsSupported)
             {
                 _implementation = new WebViewCompatibilityAdapter();
             }
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             Dispose(false);
         }
 
-        public static bool IsLegacy { get; } = !Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Web.UI.Interop.WebViewControl");
+        public static bool IsLegacy { get; } = !WebViewControlHost.IsSupported;
 
         private IWebViewCompatibleAdapter _implementation;
 

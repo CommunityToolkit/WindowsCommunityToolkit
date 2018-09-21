@@ -12,6 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using Microsoft.Toolkit.Win32.UI.Controls;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
@@ -44,11 +45,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// </summary>
         protected WebViewHost()
         {
-            DpiHelper.Initialize();
             DpiHelper.SetPerMonitorDpiAwareness();
-
-            // Get system DPI
-            DeviceDpi = DpiHelper.DeviceDpi;
+            DpiScale = VisualTreeHelper.GetDpi(this);
 
             DpiChanged += OnDpiChanged;
             SizeChanged += OnSizeChanged;
@@ -72,16 +70,23 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         protected HandleRef ChildWindow { get; private set; }
 
         /// <summary>
+        /// Gets the DPI information for which the <see cref="Visual"/> is measured and rendered.
+        /// </summary>
+        protected DpiScale DpiScale { get; private set; }
+
+        /// <summary>
         /// Gets the current DPI for this control
         /// </summary>
         /// <seealso cref="IsScalingRequired"/>
-        protected int DeviceDpi { get; private set; }
+        [Obsolete("This property is obsolete and will be removed in a future version. Use DpiScale instead.")]
+        protected int DeviceDpi => (int)DpiScale.PixelsPerInchX;
 
         /// <summary>
         /// Gets a value indicating whether scaling is required for the current DPI.
         /// </summary>
         /// <value><see langword="true"/> if scaling is required; otherwise, <see langword="false"/>.</value>
-        protected bool IsScalingRequired => DeviceDpi != DpiHelper.LogicalDpi;
+        [Obsolete("This property is obsolete and will be removed in a future version.")]
+        protected bool IsScalingRequired => DpiScale.DpiScaleX != 1 || DpiScale.DpiScaleY != 1;
 
         /// <summary>
         /// Gets the parent handle.
@@ -243,8 +248,9 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 #if DEBUG_LAYOUT
             Debug.WriteLine("Old DPI: ({0}, {1}), New DPI: ({2}, {3})", e.OldDpi.DpiScaleX, e.OldDpi.DpiScaleY, e.NewDpi.DpiScaleX, e.NewDpi.DpiScaleY);
 #endif
-            Verify.AreEqual(DeviceDpi, e.OldDpi.PixelsPerInchX);
-            DeviceDpi = (int)e.NewDpi.PixelsPerInchX;
+            Verify.AreEqual(DpiScale.PixelsPerInchX, e.OldDpi.PixelsPerInchX);
+            Verify.AreEqual(DpiScale.PixelsPerInchY, e.OldDpi.PixelsPerInchY);
+            DpiScale = e.NewDpi;
         }
 
         private void OnSizeChanged(object o, SizeChangedEventArgs e)
