@@ -52,7 +52,7 @@ When compared to the UWP **WebView** control, the current release of the WPF and
 
    In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls** assembly appears in the **References** list.
 
-### Add the WebViewCompatible control to the Visual Studio Toolbox for WPF applications
+## Add the WebViewCompatible control to the Visual Studio Toolbox for WPF applications
 
 1. Install the [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
 

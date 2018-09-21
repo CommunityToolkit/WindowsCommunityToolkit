@@ -297,7 +297,7 @@ public partial class MainWindow : Window
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17709.0) |
 | -- | -- |
 | Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.XamlHost <br/> WPF: Microsoft.Toolkit.Wpf.UI.XamlHost |
-| NuGet package | Windows Forms: https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost  <br/> WPF: https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost)  <br/> WPF: [Microsoft.Toolkit.Wpf.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost) |
 
 ## API Source Code
 
