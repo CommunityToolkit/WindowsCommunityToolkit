@@ -80,9 +80,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
                 "FontFamily", typeof(FontFamily), typeof(DataGridComboBoxColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
-        private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnFontFamilyPropertyChanged(DependencyObject comboBoxColumnDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var comboColumn = d as DataGridComboBoxColumn;
+            var comboColumn = comboBoxColumnDependencyObject as DataGridComboBoxColumn;
             comboColumn.NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontFamilyName);
         }
 
@@ -180,12 +180,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var items = ItemsSource as IEnumerable<object>;
 
-            var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+            var selection = DisplayMemberPath != null
+                ? items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                : items?.FirstOrDefault(x => x.Equals(value));
 
             var comboBox = new ComboBox
             {
                 ItemsSource = ItemsSource,
-                DisplayMemberPath = DisplayMemberPath,
+                DisplayMemberPath = DisplayMemberPath ?? string.Empty,
                 SelectedItem = selection,
                 Margin = new Thickness(0, 0, 0, 0),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
@@ -219,7 +221,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var item = args.AddedItems.FirstOrDefault();
                 if (item != null)
                 {
-                    var newValue = item.GetType().GetProperty(Binding.Path.Path).GetValue(item);
+                    var newValue = DisplayMemberPath != null
+                        ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
+                        : item;
+
                     dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
                 }
             };
