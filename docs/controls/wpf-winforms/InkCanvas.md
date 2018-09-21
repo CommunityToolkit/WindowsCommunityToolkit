@@ -43,7 +43,7 @@ This control, like the UWP **Windows.UI.Xaml.Controls.InkCanvas** control, provi
 
 ## Requirements
 
-| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
+| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17709.0) |
 | -- | -- |
 | Namespace | Windows Forms (coming soon): Microsoft.Toolkit.Forms.UI.Controls <br/> WPF: Microsoft.Toolkit.Wpf.UI.Controls |
 | NuGet package | Windows Forms (coming soon): [Microsoft.Toolkit.Forms.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls)  <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls) |
