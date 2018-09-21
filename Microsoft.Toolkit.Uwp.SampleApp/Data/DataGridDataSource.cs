@@ -64,9 +64,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 await GetDataAsync();
             }
 
-            mountains = _items?.Select(x => x.Mountain).Distinct().ToList();
+            _mountains = _items?.Select(x => x.Mountain).Distinct().ToList();
 
-            return mountains;
+            return _mountains;
         }
 
         // Sorting implementation using LINQ
