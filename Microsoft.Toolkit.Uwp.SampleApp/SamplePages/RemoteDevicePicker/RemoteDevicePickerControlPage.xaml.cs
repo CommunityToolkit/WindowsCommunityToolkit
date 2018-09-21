@@ -5,8 +5,6 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.System.RemoteSystems;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -24,10 +22,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
             {
                 Title = "Pick Remote Device",
-                SelectionMode = ListViewSelectionMode.Extended
+                SecondaryButtonText = "Select",
+                SelectionMode = bool.Parse(SelectionCheckBox.IsChecked.ToString()) ? ListViewSelectionMode.Extended : ListViewSelectionMode.Single
             };
-            var result = await remoteDevicePicker.PickDeviceAsync();
-            await new MessageDialog($"You picked {result.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", result.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
+            var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
+            MyInAppNotification.Show($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList()), 2000);
         }
     }
 }

@@ -4,9 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <Button Content="Pick Remote Device" HorizontalAlignment="Center" VerticalAlignment="Center" Tapped="Button_Tapped"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Button Content="Pick Device(s)" HorizontalAlignment="Center" VerticalAlignment="Center" Tapped="Button_Tapped" Grid.Row="0" Width="{Binding ElementName=SelectionCheckBox, Path=ActualWidth}"/>
+            <CheckBox Content="Select Multiple devices" Grid.Row="1" x:Name="SelectionCheckBox"/>
+        </Grid>
+        <controls:InAppNotification x:Name="MyInAppNotification" ShowDismissButton="False"/>
     </Grid>
 </Page>
