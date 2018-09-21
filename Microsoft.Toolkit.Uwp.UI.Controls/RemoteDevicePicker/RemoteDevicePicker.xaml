@@ -79,7 +79,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlPageTextBaseHighBrush}" />
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="MaxHeight" Value="{ThemeResource ContentDialogMaxHeight}" />
         <Setter Property="MinHeight" Value="{ThemeResource ContentDialogMinHeight}" />
@@ -150,7 +150,7 @@
                                                     </ControlTemplate>
                                                 </ContentControl.Template>
                                             </ContentControl>
-                                            <Rectangle Fill="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Row="1" Height="2" Margin="0,0,0,10" />
+                                            <Rectangle Fill="{StaticResource SystemControlBackgroundAccentBrush}" Grid.Row="1" Height="1" Margin="0,0,0,10" />
                                             <Grid VerticalAlignment="Center" Grid.Row="2" Margin="10,5">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
@@ -169,10 +169,10 @@
                                                 Foreground="{TemplateBinding Foreground}"
                                                 Grid.Row="3" TextWrapping="Wrap">
                                                 <ContentPresenter.Content>
-                                                    <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
+                                                    <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" IsDoubleTapEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid>
+                                                                <Grid ToolTipService.ToolTip="{Binding ModelDisplayName}" >
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
@@ -187,7 +187,7 @@
                                             </ScrollContentPresenter>
                                         </Grid>
                                     </ScrollViewer>
-                                    <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+                                    <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="5">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />

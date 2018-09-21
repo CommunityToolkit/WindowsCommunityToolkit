@@ -10,9 +10,9 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System.RemoteSystems;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ListView _listDevices;
         private ComboBox _listDeviceTypes;
         private ProgressRing _progressRing;
-        private RemoteSystemWatcher _remoteSystemWatcher;
+        private Grid _commandSpace;
 
         /// <summary>
         /// Gets or sets List of All Remote Systems based on Selection Filter
@@ -77,7 +77,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RemoteDevicePicker()
         {
             DefaultStyleKey = typeof(RemoteDevicePicker);
-            SecondaryButtonText = "Done";
             RemoteSystems = new ObservableCollection<RemoteSystem>();
         }
 
@@ -87,9 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task<IEnumerable<RemoteSystem>> PickDeviceAsync()
         {
-            List<RemoteSystem> returnValue = new List<RemoteSystem>();
             await ShowAsync();
-            _remoteSystemWatcher.Stop();
+            IEnumerable<RemoteSystem> devices = ReturnDevices();
+            return devices;
+        }
+
+        internal IEnumerable<RemoteSystem> ReturnDevices()
+        {
+            List<RemoteSystem> returnValue = new List<RemoteSystem>();
             foreach (RemoteSystem item in _listDevices.SelectedItems)
             {
                 returnValue.Add(item);
@@ -99,11 +103,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc />
-        protected async override void OnApplyTemplate()
+        protected override void OnApplyTemplate()
         {
             _listDevices = GetTemplateChild("PART_ListDevices") as ListView;
             _listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
             _progressRing = GetTemplateChild("PART_ProgressRing") as ProgressRing;
+            _commandSpace = GetTemplateChild("CommandSpace") as Grid;
 
             List<string> deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
             deviceList.Add("All");
@@ -111,17 +116,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _listDeviceTypes.ItemsSource = deviceList.OrderBy(a => a.ToString());
             _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
+            _listDevices.SelectionChanged += ListDevices_SelectionChanged;
+            _listDevices.DoubleTapped += ListDevices_DoubleTapped;
             _listDeviceTypes.SelectedIndex = 0;
 
-            RemoteSystemAccessStatus accessStatus = await RemoteSystem.RequestAccessAsync();
-            if (accessStatus == RemoteSystemAccessStatus.Allowed)
-            {
-                _remoteSystemWatcher = RemoteSystem.CreateWatcher();
-                _remoteSystemWatcher.RemoteSystemAdded += RemoteSystemWatcher_RemoteSystemAdded;
-                _remoteSystemWatcher.RemoteSystemRemoved += RemoteSystemWatcher_RemoteSystemRemoved;
-                _remoteSystemWatcher.RemoteSystemUpdated += RemoteSystemWatcher_RemoteSystemUpdated;
-                _remoteSystemWatcher.Start();
-            }
+            _commandSpace.Visibility = SelectionMode == ListViewSelectionMode.Single ? Visibility.Collapsed : Visibility.Visible;
+
+            RomeHelper romeHelper = new RomeHelper();
+            RemoteSystems = romeHelper.RemoteSystems;
 
             UpdateProgressRing(true);
             UpdateList();
@@ -129,18 +131,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateList();
-
-        private void RemoteSystemWatcher_RemoteSystemUpdated(RemoteSystemWatcher sender, RemoteSystemUpdatedEventArgs args)
+        private void ListDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            if (_listDevices.SelectionMode == ListViewSelectionMode.Single)
             {
-                UpdateProgressRing(true);
-                RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystem.Id));
-                RemoteSystems.Add(args.RemoteSystem);
-                UpdateList();
-            });
+                ReturnDevices();
+                Hide();
+            }
         }
+
+        private void ListDevices_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
+        {
+            ReturnDevices();
+            Hide();
+        }
+
+        private void ListDeviceTypes_SelectionChanged(object sender, SelectionChangedEventArgs e) => UpdateList();
 
         internal void UpdateList()
         {
@@ -154,26 +160,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _listDevices.ItemsSource = bindinglist;
                 UpdateProgressRing(false);
             }
-        }
-
-        private async void RemoteSystemWatcher_RemoteSystemRemoved(RemoteSystemWatcher sender, RemoteSystemRemovedEventArgs args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                UpdateProgressRing(true);
-                RemoteSystems.Remove(RemoteSystems.First(a => a.Id == args.RemoteSystemId));
-                UpdateList();
-            });
-        }
-
-        private async void RemoteSystemWatcher_RemoteSystemAdded(RemoteSystemWatcher sender, RemoteSystemAddedEventArgs args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                UpdateProgressRing(true);
-                RemoteSystems.Add(args.RemoteSystem);
-                UpdateList();
-            });
         }
 
         internal void UpdateProgressRing(bool state)
