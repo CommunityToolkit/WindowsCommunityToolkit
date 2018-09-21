@@ -8,7 +8,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 # WindowsXamlHost control
 
 > [!NOTE]
-> This control is currently available as a developer preview. Although we encourage you to try out this control in your own prototype code now, we do not recommend that you use it in production code at this time. This control will continue to mature and stabilize in future toolkit releases.
+> This control is currently available as a developer preview. Although we encourage you to try out this control in your own prototype code now, we do not recommend that you use it in production code at this time. This control will continue to mature and stabilize in future toolkit releases. [Known Issues](../../knownissues.md)
 
 By using the **WindowsXamlHost** control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF or Windows Forms desktop application.
 

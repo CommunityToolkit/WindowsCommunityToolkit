@@ -26,3 +26,8 @@ For the complete list of issues and limitations in this release of the **WebView
 
 ### TextBoxRegEx
 * Some phone number formats are not supported - [see issue for details](https://github.com/Microsoft/WindowsCommunityToolkit//issues/1821)
+
+## Xaml Islands
+
+### WindowsXamlHost (Windows Forms)
+* Windows Forms app using WindowsXamlHost crashes when focus is changed away and back to the app - [see issue for details](https://github.com/Microsoft/WindowsCommunityToolkit/issues/2491)
