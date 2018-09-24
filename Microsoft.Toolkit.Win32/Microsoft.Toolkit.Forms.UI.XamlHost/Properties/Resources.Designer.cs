@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Microsoft.Toolkit.Win32.UI.Interop.Properties {
+namespace Microsoft.Toolkit.Forms.UI.XamlHost.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Win32.UI.Interop.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Toolkit.Win32.UI.Interop.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Microsoft.Toolkit.Forms.UI.XamlHost.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

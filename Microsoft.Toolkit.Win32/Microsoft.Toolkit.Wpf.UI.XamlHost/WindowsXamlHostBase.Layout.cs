@@ -8,7 +8,7 @@ using System.Windows;
 namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 {
     /// <summary>
-    /// Layout portion of windows XamlHostBase
+    /// Integrates UWP XAML in to WPF's layout system
     /// </summary>
     public partial class WindowsXamlHostBase
     {
@@ -21,11 +21,11 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             var desiredSize = new Size(0, 0);
 
-            if (desktopWindowXamlSource.Content != null)
+            if (_xamlSource.Content != null)
             {
-                desktopWindowXamlSource.Content.Measure(new Windows.Foundation.Size(constraint.Width, constraint.Height));
-                desiredSize.Width = desktopWindowXamlSource.Content.DesiredSize.Width;
-                desiredSize.Height = desktopWindowXamlSource.Content.DesiredSize.Height;
+                _xamlSource.Content.Measure(new Windows.Foundation.Size(constraint.Width, constraint.Height));
+                desiredSize.Width = _xamlSource.Content.DesiredSize.Width;
+                desiredSize.Height = _xamlSource.Content.DesiredSize.Height;
             }
 
             desiredSize.Width = Math.Min(desiredSize.Width, constraint.Width);
@@ -41,13 +41,13 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <returns>Size</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (desktopWindowXamlSource.Content != null)
+            if (_xamlSource.Content != null)
             {
                 // Arrange is required to support HorizontalAlignment and VerticalAlignment properties
                 // set to 'Stretch'.  The UWP XAML content will be 0 in the stretch alignment direction
                 // until Arrange is called, and the UWP XAML content is expanded to fill the available space.
                 var finalRect = new Windows.Foundation.Rect(0, 0, finalSize.Width, finalSize.Height);
-                desktopWindowXamlSource.Content.Arrange(finalRect);
+                _xamlSource.Content.Arrange(finalRect);
             }
 
             return base.ArrangeOverride(finalSize);
@@ -56,8 +56,8 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <summary>
         /// UWP XAML content size changed
         /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">SizeChangedEventArgs</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.SizeChangedEventArgs"/> instance containing the event data.</param>
         protected void XamlContentSizeChanged(object sender, Windows.UI.Xaml.SizeChangedEventArgs e)
         {
             InvalidateMeasure();
