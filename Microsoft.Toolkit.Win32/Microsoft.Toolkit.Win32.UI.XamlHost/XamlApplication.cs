@@ -17,6 +17,12 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
     /// </summary>
     internal class XamlApplication : Windows.UI.Xaml.Application, Windows.UI.Xaml.Markup.IXamlMetadataProvider
     {
+        private static readonly List<Type> FilteredTypes = new List<Type>
+        {
+            typeof(XamlApplication),
+            typeof(Windows.UI.Xaml.Markup.IXamlMetadataProvider)
+        };
+
         // Metadata provider identified by the root metadata provider
         private List<Windows.UI.Xaml.Markup.IXamlMetadataProvider> _metadataProviders = null;
 
@@ -86,7 +92,7 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         {
             if (_metadataProviders == null)
             {
-                _metadataProviders = MetadataProviderDiscovery.DiscoverMetadataProviders(new List<Type> { typeof(XamlApplication) });
+                _metadataProviders = MetadataProviderDiscovery.DiscoverMetadataProviders(FilteredTypes);
             }
         }
 
