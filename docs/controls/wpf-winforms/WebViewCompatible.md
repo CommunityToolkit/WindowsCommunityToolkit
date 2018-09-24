@@ -5,23 +5,22 @@ description: The Windows Community Toolkit provides a version of the UWP web vie
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, WebView, Windows Forms, WPF
 ---
 
-# WebViewCompatible controls for Windows Forms and WPF applications
+# WebViewCompatible control for Windows Forms and WPF
 
-The **WebViewCompatible** controls show web content in your Windows Forms or WPF desktop application.
+The **WebViewCompatible** control shows web content in your Windows Forms or WPF desktop application.
 
-![Web View Samples](../resources/images/Controls/WebView/web-view-samples.png)
+![WebViewCompatible example](../../resources/images/Controls/WebView/web-view-samples.png)
 
-These controls use the one of two rendering engines.  For Windows 10 client environments, the newer Microsoft Edge rendering engine is used to embed a view that renders richly formatted HTML content from a remote web server, dynamically generated code, or content files.  For legacy systems, the System.Windows.Controls.WebBrowser is used, providing Internet Explorer engine-based rendering.
+Unlike [WebView](WebView.md), **WebViewCompatible** uses one of two rendering engines to support a broader set of Windows clients:
 
-## About WebViewCompatible controls
+* On Windows 10 devices, the newer Microsoft Edge rendering engine is used to embed a view that renders richly formatted HTML content from a remote web server, dynamically generated code, or content files.
+* On devices running older versions of Windows, the [System.Windows.Controls.WebBrowser](https://docs.microsoft.com/dotnet/api/system.windows.controls.webbrowser?view=netframework-4.7.2) is used, which provides Internet Explorer engine-based rendering.
 
-The Windows Forms version of this control is coming soon. It will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. 
+## About WebViewCompatible control
 
-The WPF version is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. 
+The WPF version of this control is located in the **Microsoft.Toolkit.Wpf.UI.Controls** namespace. The Windows Forms version is coming soon, and it will be located in the **Microsoft.Toolkit.Forms.UI.Controls** namespace. You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
 
-You can find additional related types (such as event args classes) in the **Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT** namespace.
-
-Internally, these controls wrap the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class, so they provide a subset of members from that class. The [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) is similar to the [WebView](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview) class, but it is designed to run out of process in a desktop application (such as a WPF or Windows Forms application) and it supports a smaller set of members.  Because WebViewCompatible wraps [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) and WebBrowser, it provides a simpler subset of common functionality.
+Internally, these controls wrap the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class, so they provide a subset of members from that class. The [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) is similar to the [WebView](https://docs.microsoft.com/uwp/api/windows.ui.xaml.controls.webview) class, but it is designed to run out of process in a desktop application (such as a WPF or Windows Forms application) and it supports a smaller set of members.  Because **WebViewCompatible** wraps [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) and **WebBrowser**, it provides a simpler subset of common functionality.
 
 Unless specified otherwise in this article, the documentation for the [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class applies to the WPF and Windows Forms **WebView** controls. This article links to reference pages for the UWP [WebViewControl](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol) class for more information about most members.
 
@@ -37,37 +36,41 @@ Unless specified otherwise in this article, the documentation for the [WebViewCo
 
 ## Feature limitations
 
-When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** controls has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](WebView-known-issues.md).  The WebViewCompatible control has further limitations because it exposes a common interface that is a subset of common functionality across the two underlying implementations.  In a system that supports the Windows 10 WebViewControl, this control will exhibit those limitations plus further exclusions to the exposed functionality. In a legacy environment, this control will use WebBrowser, and have the same additional interface limitations.
+When compared to the UWP **WebView** control, the current release of the WPF and Windows Forms **WebView** controls has some limitations. For the complete list of these limitations, see [Known Issues of the WebView control for Windows Forms and WPF applications](WebView-known-issues.md). The **WebViewCompatible** control has further limitations because it exposes a common interface that is a subset of common functionality across the two underlying implementations. In a system that supports the Windows 10 **WebViewControl**, this control will exhibit those limitations plus further exclusions to the exposed functionality. In a legacy environment, this control will use **WebBrowser**, and have the same additional interface limitations.
 
-## Add the WebViewCompatible control to the Visual Studio Toolbox
+## Add the WebViewCompatible control to the Visual Studio Toolbox for Windows Forms applications
 
-First, open the Visual Studio **Toolbox**, then right-click anywhere in the toolbox, and select the **Choose Items** option.
+For Visual Studio 15.8 and later:
 
-<!-- Remove these steps before going public. This is for early adopters only -->
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
-### For Windows Forms applications
+2. Open the **Toolbox** in Visual Studio. The **WebViewCompatible** control appears in the **General** section of the **Toolbox** and you can drag it directly the designer.
 
-1. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box.
+For earlier versions of Visual Studio:
 
-2. Use the **Browse** button to locate the **Microsoft.Toolkit.Win32.UI.Controls.dll** in your NuGet package folder.
+1. Install the [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) NuGet package.
 
-   For help finding that folder, see [Managing the global packages, cache, and temp folders](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
+2. Open the **Toolbox** in Visual Studio, right-click anywhere in the toolbox, and select the **Choose Items** option.
 
-3. Add that file to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
+3. In the **.NET Framework Components** tab of the **Choose Toolbox Items** dialog box, click **Browse** to locate the **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** in your [NuGet package folder](https://docs.microsoft.com/nuget/consume-packages/managing-the-global-packages-and-cache-folders).
 
-   The **WebView** control appears in the **All Windows Forms** section of the **Toolbox**.
+4. Add **Microsoft.Toolkit.Forms.UI.Controls.WebView.dll** to the list of Toolbox controls, and then close the **Choose Toolbox Items** dialog box.
 
-   In **Solution Explorer**, the **Microsoft.Toolkit.Win32.UI.Controls.dll** file appears in the **References** list.
+   The **WebViewCompatible** control appears in the **General** section of the **Toolbox**.
 
-### For WPF applications
+   In **Solution Explorer**, the **Microsoft.Toolkit.Forms.UI.Controls.WebView** assembly appears in the **References** list.
 
-The **WebViewCompatible** control appears in the **Windows Community Toolkit** section of the **Toolbox** in Visual Studio or Blend and you can drag it directly the designer. You can also create an instance of the **WebViewCompatible** control in code, but we recommend that you do not add **WebViewCompatible** controls to popup windows because support for that scenario will soon be disabled for security reasons.
+## Add the WebViewCompatible control to the Visual Studio Toolbox for WPF applications
+
+1. Install the [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) NuGet package.
+
+2.  Open the **Toolbox** in Visual Studio or Blend. The **WebViewCompatible** control appears in the **Windows Community Toolkit** section of the **Toolbox** and you can drag it directly the designer. You can also create an instance of the **WebViewCompatible** control in code, but we recommend that you do not add **WebViewCompatible** controls to popup windows because support for that scenario will soon be disabled for security reasons.
 
 <a id="high-dpi" />
 
 ## Enable the WebViewCompatible control to appear properly on high DPI displays
 
-If users open your application on displays that have a high Dots Per Inch (DPI) displays, your WebView won't appear at the proper scale unless you configure your application first.
+If users open your application on displays that have a high DPI displays, your **WebViewCompatible** won't appear at the proper scale unless you configure your application first.
 
 ### Configure a Windows Forms application
 
@@ -119,7 +122,7 @@ You can use the [InvokeScript](https://docs.microsoft.com/uwp/api/windows.web.ui
 
 The **WebViewCompatible** control has several APIs for basic navigation:  [GoBack](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.goback), [GoForward](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.goforward), [Stop](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.stop), [Refresh](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.refresh), [CanGoBack](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.cangoback), and [CanGoForward](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.cangoforward). You can use these to add typical web browsing capabilities to your app.
 
-To set the initial content of the the **WebViewCompatible** control, you can set the [Source](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.source) property in code, XAML, or in the **Properties** window. You can also use the **Navigate** methods to load content in code. Here's an example.
+To set the initial content of the **WebViewCompatible** control, you can set the [Source](https://docs.microsoft.com/uwp/api/windows.web.ui.interop.webviewcontrol.source) property in code, XAML, or in the **Properties** window. You can also use the **Navigate** methods to load content in code. Here's an example.
 
 ```csharp
 webViewCompatible1.Navigate("http://www.contoso.com");
@@ -215,10 +218,10 @@ Scripts in the web view content can use **window.external.notify** with a string
 
 | Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17110.0) |
 | -- | -- |
-| Namespace | Microsoft.Toolkit.Forms.UI.Controls, Microsoft.Toolkit.Wpf.UI.Controls |
-| NuGet package | [Microsoft.Toolkit.Win32.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Win32.UI.Controls/) |
+| Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.Controls <br/> WPF: Microsoft.Toolkit.Wpf.UI.Controls |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.Controls.WebView) <br/> WPF: [Microsoft.Toolkit.Wpf.UI.Controls.WebView](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.Controls.WebView) |
 
 ## API Source Code
 
-- [WinForms.WebViewCompatible](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WinForms/WebView/Compatible)
-- [WPF.WebViewCompatible](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls/WPF/WebView/Compatible)
+- [WebViewCompatible (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.Controls.WebView)
+- [WebViewCompatible (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Wpf.UI.Controls.WebView)

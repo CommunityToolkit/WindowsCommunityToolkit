@@ -2,25 +2,29 @@
 title: WindowsXAMLHost control
 author: normesta
 description: This guide helps you add UWP XAML controls to your WPF.
-keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, host controls, xaml islands, WPF, Windows Forms
 ---
 
-# WindowsXAMLHost control
+# WindowsXamlHost control
 
-By using a Windows XAML host control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF desktop applications.
+> [!NOTE]
+> This control is currently available as a developer preview. Although we encourage you to try out this control in your own prototype code now, we do not recommend that you use it in production code at this time. This control will continue to mature and stabilize in future toolkit releases. [Known Issues](../../knownissues.md)
+
+By using the **WindowsXamlHost** control, you can add built-in or custom UWP controls to the User Interface (UI) of your WPF or Windows Forms desktop application.
 
 ## Get started
 
-The easiest way to get started is to add a Windows XAML host control to your application, and then associated it with a UWP control type.
+To get the **WindowsXamlHost** control, install the appropriate Nuget package.
 
-The Windows XAML host control creates an instance of the UWP control for you. You can then set properties and handle events on the UWP control.
+For WPF applications, install the [Microsoft.Toolkit.Wpf.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost) package.
 
-> [!NOTE]
-> Before you begin, [set up your project](https://docs.microsoft.com/windows/uwp/porting/desktop-to-uwp-enhance#first-set-up-your-project) so that it can use UWP types.
+For Windows Forms applications, install the [Microsoft.Toolkit.Forms.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost) package.
+
+After you install the NuGet package, [set up your project](https://docs.microsoft.com/windows/uwp/porting/desktop-to-uwp-enhance#first-set-up-your-project) so that it can use UWP types.
 
 ### Add a Windows XAML host control
 
-In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, and then drag it onto the designer of your WPF application.
+In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control, and then drag it onto the designer of your WPF or Windows Forms application.
 
 You'll find the **WindowsXamlHost** control in the **Windows Community Toolkit** section of the Visual Studio **Toolbox**.
 
@@ -30,24 +34,36 @@ In the **Properties** window, set the **InitialTypeName** property to the fully 
 
 You'll find the **InitialTypeName** property in the **XAML** section of the **Properties** window.
 
-![InitialTypeName property in Properties Window](../resources/images/Controls/WindowsXAMLHost/type-name-property-wpf.png)
+**WPF**
+
+![InitialTypeName property in Properties Window](../../resources/images/Controls/WindowsXAMLHost/type-name-property-wpf.png)
+
+**Windows Forms**
+
+![InitialTypeName property in Properties Window](../../resources/images/Controls/WindowsXAMLHost/type-name-property-windows-forms.png)
 
 ### Initialize the UWP control
 
-In the **Properties** window, double-click the **XamlRootChanged** field to generate an event handler.
+In the **Properties** window, double-click the **ChildChanged** field to generate an event handler.
 
-![WindowsXamlHost control in the toolbox](../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-wpf.png)
+**WPF**
+
+![WindowsXamlHost control in the toolbox](../../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-wpf.png)
+
+**Windows Forms**
+
+![WindowsXamlHost control in the toolbox](../../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-windows-forms.png)
 
 Initialize your UWP control by adding code to this handler. Your code can set properties and handle the events of the UWP control. Here's a basic example that sets a property and handles an event of a UWP **Button** class.
 
 ```csharp
 
-private void MyWindowsXAMLHost_XamlRootChanged(object sender, EventArgs e)
+private void MyWindowsXAMLHost_ChildChanged(object sender, EventArgs e)
 {
     WindowsXamlHost windowsXamlHost = (WindowsXamlHost)sender;
 
     Windows.UI.Xaml.Controls.Button button =
-        (Windows.UI.Xaml.Controls.Button)windowsXamlHost.XamlRoot;
+        (Windows.UI.Xaml.Controls.Button)windowsXamlHost.Child;
 
     button.Content = "My UWP button";
     button.Click += Button_Click;
@@ -58,7 +74,7 @@ private void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
     MessageBox.Show("My UWP button works");
 }
 ```
-If you don't want to initialize UWP controls in the **XamlRootChanged** event, you can create instances of UWP controls by using the **CreateXamlContentByType** convenience method. Before you show that control in the UI of your application, you'll have to associate it with a Windows XAML host control.
+If you don't want to initialize UWP controls in the **ChildChanged** event, you can create instances of UWP controls by using the **CreateXamlContentByType** convenience method. Before you show that control in the UI of your application, you'll have to associate it with a Windows XAML host control.
 
 Here's an example.
 
@@ -84,7 +100,8 @@ private void UseHelperMethod()
     myHostControl.Name = "myWindowsXamlHostControl";
 
     // Associate the Windows XAML host control with the UWP control.
-    myHostControl.XamlRoot = myButton;
+    // For Windows Forms applications, you might use this.Controls.Add(myHostControl);
+    myHostControl.Child = myButton;
 
     // Make the UWP control appear in the UI.
     this.MyStackPanel.Children.Add(myHostControl);
@@ -129,9 +146,10 @@ private void CreateUWPControlsFirst()
     myHostControl.Name = "myWindowsXamlHostControl";
 
     // Associate the Windows XAML host control with the UWP control.
-    myHostControl.XamlRoot = myButton;
+    myHostControl.Child = myButton;
 
     // Make the UWP control appear in the UI.
+    // For Windows Forms applications, you might use this.Controls.Add(myHostControl);
     this.MyStackPanel.Children.Add(myHostControl);
 }
 
@@ -144,17 +162,19 @@ private void MyButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
 
 ## Add a custom UWP control
 
-You can add a custom control that contains one or more UWP controls and custom functionality. To do this, you'll configure two projects: A UWP class library project, and the WPF application project.
+You can add a custom control that contains one or more UWP controls and custom functionality. To do this, you'll configure two projects: A UWP class library project, and the WPF or Windows Forms application project.
+
+The following instructions uses a WPF project.
 
 ### Configure a UWP class library project
 
 First, add a **Class Library (Universal Windows)** project to your solution.
 
-![Class library project](../resources/images/Controls/WindowsXAMLHost/class-library-project.png)
+![Class library project](../../resources/images/Controls/WindowsXAMLHost/class-library-project.png)
 
 In **Solution Explorer**, right-click the class library project, and then choose **Unload Project**. Then, right-click that project, and choose **Edit <Your project name>** to open it in the Visual Studio code editor.
 
-![Edit project](../resources/images/Controls/WindowsXAMLHost/edit-project.png)
+![Edit project](../../resources/images/Controls/WindowsXAMLHost/edit-project.png)
 
 Add these properties to the project file.
 
@@ -168,14 +188,15 @@ Add these properties to the project file.
 Add these post-build steps anywhere beneath the last element that has an ``Include`` attribute.
 
 ```xml
-<HostFrameworkProject>TestWPFApp</HostFrameworkProject>
-<PostBuildEvent>
-    md $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(TargetDir)\*.* $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(ProjectDir)\*.xaml $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
-    copy $(ProjectDir)\*.xaml.cs $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
-    copy $(ProjectDir)\obj\$(PlatformName)\$(ConfigurationName)\*.g.* $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
-</PostBuildEvent>
+<PropertyGroup>
+  <HostFrameworkProject>TestWPFApp</HostFrameworkProject>
+  <PostBuildEvent>md $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(TargetDir)\*.* $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(ProjectDir)\*.xaml $(SolutionDir)\$(HostFrameworkProject)\bin\$(ConfigurationName)\$(ProjectName)
+copy $(ProjectDir)\*.xaml.cs $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)
+copy $(ProjectDir)\obj\$(PlatformName)\$(ConfigurationName)\*.g.* $(SolutionDir)\$(HostFrameworkProject)\$(ProjectName)</PostBuildEvent>
+</PropertyGroup>
+
 ```
 >[!NOTE]
 >Make sure to set the value of the ``<HostFrameworkProject`` element to the name of your WPF project
@@ -186,22 +207,25 @@ Right-click the library project, and then choose **Reload Project**.
 
 Right-click the WPF project, and then click **Add Folder**. Give this folder the same name as your UWP library project.
 
-![Add folder to project](../resources/images/Controls/WindowsXAMLHost/folder-to-project.png)
+![Add folder to project](../../resources/images/Controls/WindowsXAMLHost/folder-to-project.png)
 
-Build the UWP class library project. Then, right-click the project, and choose **Add**->**Existing Item**.
-Browse to the location of the folder that you just created, select all of the files in that folder, and then click the **Add** button to add them to the folder in your project.
+Build the UWP class library project.
 
-![Add files to folder](../resources/images/Controls/WindowsXAMLHost/add-files-to-folder.png)
+Then, in **Solution Explorer**, right-click the folder that you just created in your WPF project, and choose **Add**->**Existing Item**. Then, browse to the location of the folder where the post-build steps copied files. (For example: *C:\NewVersion\TestWPFApp\TestWPFApp\bin\Debug\UWPClassLibrary*).
+
+Select all of the files in that folder, and then click the **Add** button to add them to the folder in your project.
+
+![Add files to folder](../../resources/images/Controls/WindowsXAMLHost/add-files-to-folder.png)
 
 Build your WPF application.
 
-## Bind data from your WPF application to a field in the custom control
+## Bind data from your desktop application to a field in the custom control
 
 In **Solution Explorer**, expand the UWP class library project, and open the code behind file of a page.
 
-![Code behind file](../resources/images/Controls/WindowsXAMLHost/code-behind-file-uwp-class.png)
+![Code behind file](../../resources/images/Controls/WindowsXAMLHost/code-behind-file-uwp-class.png)
 
-Add a field to that page. This example adds a field named ``WPFMessage``.
+Add a field to that page. This example adds a field named ``WPFMessage`` in a WPF application.
 
 ```csharp
 public sealed partial class MyPage : Page
@@ -233,11 +257,9 @@ In the Visual Studio **Toolbox** window, find the **WindowsXamlHost** control an
 
 In the **Properties** window, set the **InitialTypeName** property to the fully qualified name of the class in your UWP class library project that contains the field you defined earlier.
 
-![InitialTypeName property in Properties Window](../resources/images/Controls/WindowsXAMLHost/type-name-property-wpf-custom.png)
+![InitialTypeName property in Properties Window](../../resources/images/Controls/WindowsXAMLHost/type-name-property-wpf-custom.png)
 
-In the **Properties** window, double-click the **XamlRootChanged** field to generate an event handler.
-
-![WindowsXamlHost control in the toolbox](../resources/images/Controls/WindowsXAMLHost/xaml-content-updated-event-wpf-custom.png)
+In the **Properties** window, double-click the **ChildChanged** field to generate an event handler.
 
 In this handler, assign the value of the ``WPFMessage`` field that is in the UWP class to the value of the field that you add to the WPF application. In this example, the name of that field is also ``WPFMessage``.
 
@@ -245,11 +267,11 @@ In this handler, assign the value of the ``WPFMessage`` field that is in the UWP
 public partial class MainWindow : Window
 {
 
-    private void MyUWPPage_XamlRootChanged(object sender, EventArgs e)
+    private void MyUWPPage_ChildChanged(object sender, EventArgs e)
     {
         // Hook up x:Bind source
         global::Microsoft.Windows.Interop.WindowsXamlHost windowsXamlHost = sender as global::Microsoft.Windows.Interop.WindowsXamlHost;
-        global::UWPClassLibrary.MyPage myUWPPage = windowsXamlHost.XamlRoot as global::UWPClassLibrary.MyPage;
+        global::UWPClassLibrary.MyPage myUWPPage = windowsXamlHost.Child as global::UWPClassLibrary.MyPage;
 
         if (myUWPPage != null)
         {
@@ -269,3 +291,15 @@ public partial class MainWindow : Window
     }
 }
 ```
+
+## Requirements
+
+| Device family | .NET 4.6.2, Windows 10 (introduced v10.0.17709.0) |
+| -- | -- |
+| Namespace | Windows Forms: Microsoft.Toolkit.Forms.UI.XamlHost <br/> WPF: Microsoft.Toolkit.Wpf.UI.XamlHost |
+| NuGet package | Windows Forms: [Microsoft.Toolkit.Forms.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Forms.UI.XamlHost)  <br/> WPF: [Microsoft.Toolkit.Wpf.UI.XamlHost](https://www.nuget.org/packages/Microsoft.Toolkit.Wpf.UI.XamlHost) |
+
+## API Source Code
+
+- [WindowsXamlHost (Windows Forms)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Forms.UI.XamlHost)
+- [WindowsXamlHost (WPF)](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Wpf.UI.XamlHost)
