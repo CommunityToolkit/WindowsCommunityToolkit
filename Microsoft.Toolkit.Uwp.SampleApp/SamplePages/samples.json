@@ -14,6 +14,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/TextToolbar.md"
       },
       {
+        "Name": "DataGrid",
+        "Type": "DataGridPage",
+        "About": "Control that presents data in a customizable table of rows and columns.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid",
+        "XamlCodeFile": "DataGridCode.bind",
+        "Icon": "/SamplePages/DataGrid/DataGrid.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DataGrid.md"
+      },
+      {
         "Name": "Carousel",
         "Type": "CarouselPage",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
@@ -279,7 +288,7 @@
       {
         "Name": "StaggeredPanel",
         "Type": "StaggeredPanelPage",
-        "About": "Allows items to be displayed with a specified header.",
+        "About": "The StaggeredPanel allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
@@ -491,6 +500,23 @@
         "XamlCodeFile": "SharePointFileListXaml.bind",
         "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/SharePointFileList.md"
+      },
+      {
+        "Name": "PowerBIEmbedded",
+        "Type": "PowerBIEmbeddedPage",
+        "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
+        "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PowerBIEmbedded.md"
+      },
+      {
+        "Name": "PlannerTaskList",
+        "Type": "PlannerTaskListPage",
+        "About": "The PlannerTaskList Control displays a simple list of Planner tasks.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
+        "XamlCodeFile": "PlannerTaskListXaml.bind",
+        "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PlannerTaskList.md"
       }
     ]
   },
@@ -501,10 +527,12 @@
       {
         "Name": "Bing Service",
         "Type": "BingPage",
-        "About": "The Bing Service allows you to retrieve Microsoft Bing web search engine results.",
+        "About": "The Bing Service will be removed in a future major release. Please use the Cognitive services SDKs found at https://aka.ms/AA209h0.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing",
         "CodeFile": "BingCode.bind",
         "Icon": "/SamplePages/Bing Service/icon.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive Services SDKs found at https://aka.ms/AA209h0.",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Bing.md"
       },
       {
@@ -705,6 +733,13 @@
         "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
         "BadgeUpdateVersionRequired": "April 2018 update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/CameraHelper.md"
+      },
+      {
+        "Name": "ThemeListener",
+        "Type": "ThemeListenerPage",
+        "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/ThemeListener.md"
       }
     ]
   },
@@ -883,8 +918,9 @@
         "XamlCodeFile": "NavigationViewStylesXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/NavigationView.md",
         "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
-        "About": "Style extensions for the NavigationView to appear like the one used by Visual Studio Code.",
-        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        "About": "The NavigationView extension will be removed in a future major release.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The NavigationView extension will be removed in a future major release.",
         "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
         "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
       },
@@ -940,13 +976,6 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/developer-tools/FocusTracker.md"
-      },
-      {
-        "Name": "Analytics",
-        "Type": "AnalyticsPage",
-        "About": "List of frameworks to help you track activity in your apps.",
-        "CodeFile": "AnalyticsCode.bind",
-        "Icon": "/SamplePages/Analytics/Analytics.png"
       }
     ]
   },

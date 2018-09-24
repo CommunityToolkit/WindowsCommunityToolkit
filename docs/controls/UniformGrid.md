@@ -13,7 +13,7 @@ If no value for `Rows` and `Columns` are provided, the UniformGrid will create a
 
 If a fixed size is provided for `Rows` and `Columns` then additional children that can't fit in the number of cells provided won't be displayed.
 
-It differs from the [AdaptiveGridView](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/controls/adaptivegridview) which dictates 
+It differs from the [AdaptiveGridView](https://docs.microsoft.com/en-us/windows/communitytoolkit/controls/adaptivegridview) which dictates 
 its layout based on item sizes to where as the UniformGrid maintains the specified number of Rows and/or Columns.
 In addition, UniformGrid is a `Panel` instead of an `ItemsControl`.  As such, it could be used as a Panel in such ItemsControls.
 

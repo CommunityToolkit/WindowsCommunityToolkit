@@ -4,10 +4,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    RequestedTheme="@[Theme:Enum:ElementTheme.Default]">
+    mc:Ignorable="d">
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="auto" />
       <RowDefinition Height="*" />
@@ -43,8 +42,7 @@
                                   LinkForeground="@[Links:Brush:DodgerBlue]"
                                   Text="{Binding ElementName=UnformattedText, Path=Text}"
                                   SchemeList="companyportal,randomscheme"
-                                  UriPrefix="ms-appx://"
-                                  RequestedTheme="@[Theme:Enum:ElementTheme.Default]" />
+                                  UriPrefix="ms-appx://" />
     </ScrollViewer>
   </Grid>
 </Page>

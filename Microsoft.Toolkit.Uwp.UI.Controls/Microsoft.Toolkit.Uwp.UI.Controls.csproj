@@ -3,16 +3,14 @@
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
-    <Description>This library provides XAML user controls. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Hamburger Range WrapPanel Adaptive Markdown</PackageTags>
-
+    <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
 
-    <PackageReference Include="ColorCode.UWP" Version="2.0.3" />
+    <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
-
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />

@@ -7,5 +7,5 @@
     topicHref: /windows/
     items:
     - name: Windows Community Toolkit 
-      tocHref: /windows/uwpcommunitytoolkit/
-      topicHref: /windows/uwpcommunitytoolkit
+      tocHref: /windows/communitytoolkit/
+      topicHref: /windows/communitytoolkit
