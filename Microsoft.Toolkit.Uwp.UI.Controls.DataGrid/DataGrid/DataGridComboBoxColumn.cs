@@ -41,7 +41,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private FontWeight? _fontWeight;
         private Brush _foreground;
 
-
         /// <summary>
         /// Identifies the ItemsSource dependency property.
         /// </summary>
@@ -74,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public string DisplayMemberPath
         {
-            get { return (string) GetValue(DisplayMemberPathProperty); }
+            get { return (string)GetValue(DisplayMemberPathProperty); }
             set { SetValue(DisplayMemberPathProperty, value); }
         }
 
