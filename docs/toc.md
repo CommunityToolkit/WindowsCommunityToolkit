@@ -6,6 +6,14 @@
 ## [Adding the Windows Community Toolkit to your Visual Studio Toolbox](Toolbox-Support.md)
 
 # Controls
+## Controls for WPF and Windows Forms
+### [InkCanvas](controls/wpf-winforms/InkCanvas.md)
+### [InkToolbar](controls/wpf-winforms/InkToolbar.md)
+### [MediaPlayerElement](controls/wpf-winforms/MediaPlayerElement.md)
+### [WebView](controls/wpf-winforms/WebView.md)
+#### [WebView known issues](controls/wpf-winforms/WebView-known-issues.md)
+### [WebViewCompatible](controls/wpf-winforms/WebViewCompatible.md)
+### [WindowsXamlHost](controls/wpf-winforms/WindowsXamlHost.md)
 ## [AdaptiveGridView](controls/AdaptiveGridView.md)
 ## [BladeView](controls/BladeView.md)
 ## [CameraPreview](controls/CameraPreview.md)
@@ -54,8 +62,6 @@
 ## [TextToolbar](controls/TextToolbar.md)
 ## [TileControl](controls/TileControl.md)
 ## [UniformGrid](controls/UniformGrid.md)
-## [WebView (win32)](controls/WebView.md)
-### [WebView known issues](controls/WebView-known-issues.md)
 ## [WrapPanel](controls/WrapPanel.md)
 
 # Animations
