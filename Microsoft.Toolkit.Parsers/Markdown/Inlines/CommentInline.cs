@@ -47,12 +47,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            // Check the start sequence.
-            if (maxEnd - start < 4)
-            {
-                return null;
-            }
-
             string startSequence = markdown.Substring(start, 4);
             if (startSequence != "<!--")
             {
