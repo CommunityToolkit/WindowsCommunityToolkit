@@ -100,10 +100,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     {
                         throw new System.InvalidOperationException($"{nameof(WindowsXamlHostBase)}::{nameof(WndProc)}: Failed to SetFocus on UWP XAML window");
                     }
-                    
+
                     base.WndProc(ref m);
                     break;
-                    
+
                 case NativeDefines.WM_KILLFOCUS:
                     // If focus is being set on the UWP XAML island window then we should prevent LostFocus by
                     // handling this message.
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     }
 
                     break;
-                    
+
                 default:
                     base.WndProc(ref m);
                     break;
