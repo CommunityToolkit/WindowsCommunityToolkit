@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             return _items;
         }
 
+        // Load mountains into separate collection for use in combobox column
         public async Task<IEnumerable<string>> GetMountains()
         {
             if (_items == null || !_items.Any())
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
                 await GetDataAsync();
             }
 
-            _mountains = _items?.Select(x => x.Mountain).Distinct().ToList();
+            _mountains = _items?.OrderBy(x => x.Mountain).Select(x => x.Mountain).Distinct().ToList();
 
             return _mountains;
         }
