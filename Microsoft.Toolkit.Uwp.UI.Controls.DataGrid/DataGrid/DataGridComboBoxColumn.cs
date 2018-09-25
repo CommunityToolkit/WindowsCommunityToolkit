@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -11,12 +12,14 @@ using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Represents a <see cref="DataGrid"/> column that hosts content that in its cells. When in edit mode data can be changed to a value from a collection hosted in a ComboBox.
+    /// Represents a <see cref="DataGrid"/> column that hosts textual content in its cells. In edit mode data can be changed to a value from a collection hosted in a ComboBox.
     /// </summary>
     [StyleTypedProperty(Property = "ElementStyle", StyleTargetType = typeof(TextBlock))]
     [StyleTypedProperty(Property = "EditingElementStyle", StyleTargetType = typeof(ComboBox))]
@@ -27,10 +30,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string DATAGRIDCOMBOBOXCOLUMN_fontStyleName = "FontStyle";
         private const string DATAGRIDCOMBOBOXCOLUMN_fontWeightName = "FontWeight";
         private const string DATAGRIDCOMBOBOXCOLUMN_foregroundName = "Foreground";
+        private const string DATAGRIDCOMBOBOXCOLUMN_itemsSourceName = "ItemsSource";
+        private const string DATAGRIDCOMBOBOXCOLUMN_displayMemberPathName = "DisplayMemberPath";
         private const double DATAGRIDCOMBOBOXCOLUMN_leftMargin = 12.0;
         private const double DATAGRIDCOMBOBOXCOLUMN_rightMargin = 12.0;
 
         private double? _fontSize;
+        private DataGrid _owningGrid;
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight;
         private Brush _foreground;
@@ -39,15 +45,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ItemsSource dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", typeof(object), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(object)));
+            "ItemsSource", typeof(object), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(object), OnItemSourcePropertyChanged));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the ComboBox while in editing mode.
         /// </summary>
         public object ItemsSource
         {
-            get => (object)GetValue(ItemsSourceProperty);
-            set => SetValue(ItemsSourceProperty, value);
+            get { return (object)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        private static void OnItemSourcePropertyChanged(DependencyObject comboBoxDependencyObject, DependencyPropertyChangedEventArgs e)
+        {
+            var comboColumn = comboBoxDependencyObject as DataGridComboBoxColumn;
+            comboColumn.NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_itemsSourceName);
         }
 
         /// <summary>
@@ -61,8 +73,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public string DisplayMemberPath
         {
-            get => (string)GetValue(DisplayMemberPathProperty);
-            set => SetValue(DisplayMemberPathProperty, value);
+            get { return (string)GetValue(DisplayMemberPathProperty); }
+            set { SetValue(DisplayMemberPathProperty, value); }
         }
 
         /// <summary>
@@ -80,9 +92,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
                 "FontFamily", typeof(FontFamily), typeof(DataGridComboBoxColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
-        private static void OnFontFamilyPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnFontFamilyPropertyChanged(DependencyObject comboBoxColumnDependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var comboColumn = d as DataGridComboBoxColumn;
+            var comboColumn = comboBoxColumnDependencyObject as DataGridComboBoxColumn;
             comboColumn.NotifyPropertyChanged(DATAGRIDCOMBOBOXCOLUMN_fontFamilyName);
         }
 
@@ -169,28 +181,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.
+        /// Gets a <see cref="T:Windows.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new <see cref="T:System.Windows.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
+        /// <returns>A new <see cref="T:Windows.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
             var items = ItemsSource as IEnumerable<object>;
 
-            var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+            var selection = DisplayMemberPath != null
+                ? items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                : items?.FirstOrDefault(x => x.Equals(value));
 
             var comboBox = new ComboBox
             {
-                ItemsSource = ItemsSource,
-                DisplayMemberPath = DisplayMemberPath,
                 SelectedItem = selection,
-                Margin = new Thickness(0, 0, 0, 0),
+                Margin = default(Thickness),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center
             };
+
+            var itemsSourceBinding = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
+            };
+
+            var displayMemberPathBinding = new Binding
+            {
+                Source = this,
+                Path = new PropertyPath(DATAGRIDCOMBOBOXCOLUMN_displayMemberPathName)
+            };
+
+            comboBox.SetBinding(ComboBox.ItemsSourceProperty, itemsSourceBinding);
+            comboBox.SetBinding(ComboBox.DisplayMemberPathProperty, displayMemberPathBinding);
 
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             {
@@ -219,7 +246,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var item = args.AddedItems.FirstOrDefault();
                 if (item != null)
                 {
-                    var newValue = item.GetType().GetProperty(Binding.Path.Path).GetValue(item);
+                    var newValue = DisplayMemberPath != null
+                        ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
+                        : item;
+
                     dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
                 }
             };
@@ -228,11 +258,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a read-only <see cref="T:System.Windows.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a read-only <see cref="T:Windows.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new, read-only <see cref="T:System.Windows.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
+        /// <returns>A new, read-only <see cref="T:Windows.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             var textBlockElement = new TextBlock
@@ -265,9 +295,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
 
-            if (this.Binding != null || !isDesignMode)
+            if ((this.Binding != null || !isDesignMode) && EnsureOwningGrid())
             {
-                textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
+                if (DisplayMemberPath == null)
+                {
+                    textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
+                }
             }
 
             return textBlockElement;
@@ -281,13 +314,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
         {
             var comboBox = editingElement as ComboBox;
-            if (comboBox != null)
+            if (comboBox != null && uneditedValue != null)
             {
                 var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
                 var items = ItemsSource as IEnumerable<object>;
                 var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
                 comboBox.SelectedItem = selection;
+            }
+            else if (comboBox != null)
+            {
+                comboBox.SelectedItem = null;
             }
         }
 
@@ -340,6 +377,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_foregroundName)
                 {
                     RefreshForeground(textBlock, computedRowForeground);
+                }
+                else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
+                {
+                    OwningGrid.OnColumnBindingChanged(this);
                 }
                 else
                 {
@@ -447,6 +488,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 textElement.SetValue(fontSizeProperty, newFontSize);
             }
+        }
+
+        private bool EnsureOwningGrid()
+        {
+            if (this.OwningGrid != null)
+            {
+                if (this.OwningGrid != _owningGrid)
+                {
+                    _owningGrid = this.OwningGrid;
+                    _owningGrid.LoadingRow += OwningGrid_LoadingRow;
+                    _owningGrid.CellEditEnded += OwningGrid_CellEditEnded;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private void OwningGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+            SetDisplayMemberPathValue(e.Row);
+        }
+
+        private void OwningGrid_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
+        {
+            SetDisplayMemberPathValue(e.Row);
+        }
+
+        private void SetDisplayMemberPathValue(DataGridRow row)
+        {
+            if (this.OwningGrid != null)
+            {
+                var textBlock = this.GetCellContent(row) as TextBlock;
+                if (textBlock != null && DisplayMemberPath != null)
+                {
+                    var displayValue = GetDisplayValue(row.DataContext);
+
+                    textBlock.Text = displayValue as string ?? displayValue.ToString();
+                }
+            }
+        }
+
+        private object GetDisplayValue(object dataItem)
+        {
+            var value = dataItem.GetType().GetProperty(Binding?.Path.Path).GetValue(dataItem);
+
+            var items = ItemsSource as IEnumerable<object>;
+
+            var item = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+
+            var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item);
+
+            return displayValue;
         }
     }
 }
