@@ -88,24 +88,32 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 // WM_SETFOCUS should not be handled directly. MS Internal: DesktopWindowXamlSource.NavigateFocus
                 // non-directional Focus not moving Focus, not responding to keyboard input.
                 case NativeDefines.WM_SETFOCUS:
+                    // BUGBUG: Work-around internal aggressive FAILFAST bug.  Remove this when #19043466 or nested element support is fixed.
+                    if (m.WParam != m.HWnd)
+                    {
+                        // Temporarily drop some WM_SETFOCUS messages to prevent calling Focus on Focused element.  An
+                        // unnecessary Focus operation may trigger a FAILFAST inside UWP XAML's DesktopWindowXamlSource.
+                        return;
+                    }
+
                     if (UnsafeNativeMethods.IntSetFocus(_xamlIslandWindowHandle) == System.IntPtr.Zero)
                     {
                         throw new System.InvalidOperationException($"{nameof(WindowsXamlHostBase)}::{nameof(WndProc)}: Failed to SetFocus on UWP XAML window");
                     }
-
+                    
                     base.WndProc(ref m);
                     break;
-
+                    
                 case NativeDefines.WM_KILLFOCUS:
                     // If focus is being set on the UWP XAML island window then we should prevent LostFocus by
                     // handling this message.
-                    if (_xamlIslandWindowHandle == null || _xamlIslandWindowHandle != m.WParam)
+                    if (_xamlIslandWindowHandle == null || _xamlIslandWindowHandle != m.WParam || _xamlSource.HasFocus)
                     {
                         base.WndProc(ref m);
                     }
 
                     break;
-
+                    
                 default:
                     base.WndProc(ref m);
                     break;
