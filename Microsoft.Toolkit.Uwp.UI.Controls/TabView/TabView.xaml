@@ -9,6 +9,8 @@
                                              NotEmptyValue="Visible" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+    <local:EdgeTabWidthProvider x:Key="EdgeTabWidthProvider" />
+
     <Style TargetType="local:TabView">
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -18,15 +20,16 @@
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="TabNavigation" Value="Once" />
         <Setter Property="IsSwipeEnabled" Value="True" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
-        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="True" />
+        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
