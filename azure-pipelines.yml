@@ -1,5 +1,12 @@
-parameters: 
-  signStep: []
+trigger:
+- master
+- rel/*
+
+pool:
+  vmImage: vs2017-win2016
+
+variables: 
+  BuildConfiguration: Release
 
 steps:
 - task: BatchScript@1
@@ -26,13 +33,21 @@ steps:
   displayName: Set Version
   condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
       
-- powershell: .\build\Install-WindowsSdkISO.ps1 17713
+- powershell: .\build\Install-WindowsSdkISO.ps1 17758
   displayName: Insider SDK
 
 - powershell: .\build\build.ps1 -target=Package
   displayName: Build 
 
-- ${{ parameters.signStep }}
+- task: PowerShell@2
+  displayName: Authenticode Sign Packages
+  inputs:
+    filePath: build/Sign-Package.ps1
+  env:
+    SignClientUser: $(SignClientUser)
+    SignClientSecret: $(SignClientSecret)
+    ArtifactDirectory: bin\nupkg
+  condition: and(succeeded(), not(eq(variables['build.reason'], 'PullRequest')), not(eq(variables['SignClientSecret'], '')), not(eq(variables['SignClientUser'], '')))
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Package Artifacts
