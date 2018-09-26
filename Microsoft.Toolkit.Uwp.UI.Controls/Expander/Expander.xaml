@@ -596,7 +596,6 @@
                                   Grid.Column="0" 
                                   Grid.ColumnSpan="2"
                                   x:Name="PART_MainContent"
-                                  Height="{TemplateBinding Height}"
                                   Background="{TemplateBinding Background}">
                                 <ContentPresenter x:Name="ContentPresenter" Opacity="0"
                                                   HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
