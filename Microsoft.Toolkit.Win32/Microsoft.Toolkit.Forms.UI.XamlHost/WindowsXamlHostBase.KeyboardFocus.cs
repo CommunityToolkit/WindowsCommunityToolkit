@@ -3,15 +3,23 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A sample Windows Forms control that can be used to host XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     public partial class WindowsXamlHostBase
     {
+        /// <summary>
+        /// Last Focus Request GUID to uniquely identify Focus operations, primarily used with error callbacks
+        /// </summary>
+        private Guid _lastFocusRequest = Guid.Empty;
+        private bool _forceFocusNavigation = false;
+
         /// <summary>
         ///     Gets a value indicating whether this Control currently has focus. Check both the Control's
         ///     window handle and the hosted Xaml window handle. If either has focus
@@ -25,8 +33,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     // Get currently focused window handle and compare with Control
                     // and hosted Xaml content window handles
-                    var focusHandle = NativeMethods.GetFocus();
-                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && focusHandle == _xamlIslandWindowHandle);
+                    var focusHandle = SafeNativeMethods.GetFocus();
+                    return focusHandle == Handle || (_xamlIslandWindowHandle != IntPtr.Zero && _xamlSource.HasFocus);
                 }
 
                 return false;
@@ -34,72 +42,86 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        ///     Activates the Control
+        ///     Activates the Windows Forms WindowsXamlHost Control
         /// </summary>
         protected override void Select(bool directed, bool forward)
         {
-            if (!desktopWindowXamlSource.HasFocus)
-            {
-                desktopWindowXamlSource.NavigateFocus(
-                    new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
-                        Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First));
-            }
-
-            base.Select(directed, true);
+            ProcessTabKey(forward);
         }
 
         /// <summary>
-        ///     Processes a command key, ensuring that Xaml has an opportunity
+        ///     Processes a tab key, ensuring that Xaml has an opportunity
         ///     to handle the command before normal Windows Forms processing.
         ///     (Xaml must be notified of keys that invoke focus navigation.)
         /// </summary>
         /// <returns>true if the command was processed</returns>
-        protected override bool ProcessCmdKey(ref System.Windows.Forms.Message msg, System.Windows.Forms.Keys keyData)
+        protected override bool ProcessTabKey(bool forward)
         {
-            if (DesignMode)
-            {
-                return false;
-            }
-
-            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason? xamlSourceFocusNavigationReason;
-            switch (keyData)
-            {
-                // BUGBUG: Bug 18356717: DesktopWindowXamlSource.NavigateFocus non-directional Focus not
-                // moving Focus, not responding to keyboard input. Until then, use Next/Previous only.
-                case System.Windows.Forms.Keys.Tab | System.Windows.Forms.Keys.Shift:
-                    xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Left;
-                    break;
-                case System.Windows.Forms.Keys.Tab:
-                    xamlSourceFocusNavigationReason = Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Right;
-                    break;
-
-                default:
-                    xamlSourceFocusNavigationReason = null;
-                    break;
-            }
-
-            // The key send to this Control instance is not one of the navigation keys handled
-            // by global::Windows.UI.Xaml. Allow the base class to handle the key press.
-            if (xamlSourceFocusNavigationReason == null)
-            {
-                return base.ProcessCmdKey(ref msg, keyData);
-            }
-
             // Determine if the currently focused element is the last element for the requested
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
             // element.
-            Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationResult focusResult;
-            if (desktopWindowXamlSource.HasFocus)
+            if (!_xamlSource.HasFocus || _forceFocusNavigation)
             {
-                focusResult = desktopWindowXamlSource.NavigateFocus(
-                    new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
-                        xamlSourceFocusNavigationReason.Value));
+                _forceFocusNavigation = false;
+                var reason = forward ? Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First : Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last;
+                var request = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, default(Windows.Foundation.Rect));
+                _lastFocusRequest = request.CorrelationId;
+                var result = _xamlSource.NavigateFocus(request);
+                if (result.WasFocusMoved)
+                {
+                    return true;
+                }
 
-                return focusResult.WasFocusMoved;
+                return false;
             }
+            else
+            {
+                // Temporary Focus handling for Redstone 5
 
-            return false;
+                // Call Windows.UI.Xaml.Input.FocusManager.TryMoveFocus Next or Previous and return
+                Windows.UI.Xaml.Input.FocusNavigationDirection navigationDirection =
+                    forward ? Windows.UI.Xaml.Input.FocusNavigationDirection.Next : Windows.UI.Xaml.Input.FocusNavigationDirection.Previous;
+
+                return Windows.UI.Xaml.Input.FocusManager.TryMoveFocus(navigationDirection);
+            }
+        }
+
+        /// <summary>
+        /// Responds to DesktopWindowsXamlSource TakeFocusRequested event
+        /// </summary>
+        /// <param name="sender">DesktopWindowsXamlSource</param>
+        /// <param name="args">DesktopWindowXamlSourceTakeFocusRequestedEventArgs</param>
+        private void OnTakeFocusRequested(Windows.UI.Xaml.Hosting.DesktopWindowXamlSource sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs args)
+        {
+            if (_lastFocusRequest == args.Request.CorrelationId)
+            {
+                // If we've arrived at this point, then focus is being move back to us
+                // therefore, we should complete the operation to avoid an infinite recursion
+                // by "Restoring" the focus back to us under a new correlationId
+                var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
+                    Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
+                _xamlSource.NavigateFocus(newRequest);
+                _lastFocusRequest = newRequest.CorrelationId;
+            }
+            else
+            {
+                // Focus was not initiated by WindowsXamlHost. Continue processing the Focus request.
+                var reason = args.Request.Reason;
+                if (reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First || reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Last)
+                {
+                    var forward = reason == Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.First;
+                    _forceFocusNavigation = true;
+                    try
+                    {
+                        Parent.SelectNextControl(this, forward, tabStopOnly: true, nested: false, wrap: true);
+                    }
+                    finally
+                    {
+                        _forceFocusNavigation = false;
+                    }
+                }
+            }
         }
     }
 }

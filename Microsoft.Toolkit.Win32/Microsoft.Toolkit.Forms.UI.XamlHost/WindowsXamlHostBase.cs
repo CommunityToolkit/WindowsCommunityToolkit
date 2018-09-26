@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Security.Permissions;
 using System.Windows.Forms;
@@ -11,17 +12,24 @@ using Microsoft.Toolkit.Win32.UI.XamlHost;
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    ///     A sample Windows Forms control that hosts XAML content
+    ///     WindowsXamlHostBase hosts UWP XAML content inside Windows Forms
     /// </summary>
     [System.ComponentModel.DesignerCategory("code")]
-    public partial class WindowsXamlHostBase : Control
+    public abstract partial class WindowsXamlHostBase : ContainerControl
     {
 #pragma warning disable SA1401 // Fields must be private
                               /// <summary>
                               /// DesktopWindowXamlSource instance
                               /// </summary>
-        protected Windows.UI.Xaml.Hosting.DesktopWindowXamlSource desktopWindowXamlSource;
+        protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 #pragma warning restore SA1401 // Fields must be private
+
+        /// <summary>
+        /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
+        /// lifetime.  UWP XAML is spun up on the first WindowsXamlManager creation and
+        /// deinitialized when the last instance of WindowsXamlManager is destroyed.
+        /// </summary>
+        private readonly Windows.UI.Xaml.Hosting.WindowsXamlManager _windowsXamlManager;
 
         /// <summary>
         /// UWP XAML Application instance and root UWP XamlMetadataProvider.  Custom implementation required to
@@ -36,46 +44,42 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         private Size _lastXamlContentPreferredSize;
 
         /// <summary>
-        /// A reference count on the UWP XAML framework is tied to WindowsXamlManager's
-        /// lifetime.  UWP XAML is spun up on the first WindowsXamlManager creation and
-        /// deinitialized when the last instance of WindowsXamlManager is destroyed.
-        /// </summary>
-        private Windows.UI.Xaml.Hosting.WindowsXamlManager _windowsXamlManager;
-
-        /// <summary>
         ///    UWP XAML island window handle associated with this Control instance
         /// </summary>
         private IntPtr _xamlIslandWindowHandle = IntPtr.Zero;
 
         /// <summary>
+        ///     Fired when XAML content has been updated
+        /// </summary>
+        [Browsable(true)]
+        [Category("UWP XAML")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        [Description("Fired when UWP XAML content has been updated")]
+        public event EventHandler ChildChanged;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
         /// </summary>
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
         public WindowsXamlHostBase()
         {
+            SetStyle(ControlStyles.ContainerControl, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true);
 
-            // Respond to size changes on this Control
-            SizeChanged += WindowsXamlHost_SizeChanged;
+            // Must be a container control with TabStop == false to allow nested UWP XAML Focus
+            // BUGBUG: Uncomment when nested Focus is available
+            // TabStop = false;
 
-            // Create a custom UWP XAML Application object that implements reflection-based XAML metdata probing.
+            // Respond to size changes on this Control
+            SizeChanged += OnWindowXamlHostSizeChanged;
+
+            // Windows.UI.Xaml.Application object is required for loading custom control metadata.  If a custom
+            // Application object is not provided by the application, the host control will create one (XamlApplication).
             // Instantiation of the application object must occur before creating the DesktopWindowXamlSource instance.
-            // DesktopWindowXamlSource will create a generic Application object unable to load custom UWP XAML metadata.
-            if (_application == null)
-            {
-                try
-                {
-                    // global::Windows.UI.Xaml.Application.Current may throw if DXamlCore has not been initialized.
-                    // Treat the exception as an uninitialized global::Windows.UI.Xaml.Application condition.
-                    _application = Windows.UI.Xaml.Application.Current as XamlApplication;
-                }
-                catch
-                {
-                    _application = new XamlApplication();
-                }
-            }
+            // If no Application object is created before DesktopWindowXamlSource is created, DestkopWindowXamlSource
+            // will create a generic Application object unable to load custom UWP XAML metadata.
+            Microsoft.Toolkit.Win32.UI.XamlHost.XamlApplication.GetOrCreateXamlApplicationInstance(ref _application);
 
             // Create an instance of the WindowsXamlManager. This initializes and holds a
             // reference on the UWP XAML DXamlCore and must be explicitly created before
@@ -86,20 +90,79 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             _windowsXamlManager = Windows.UI.Xaml.Hosting.WindowsXamlManager.InitializeForCurrentThread();
 
             // Create DesktopWindowXamlSource, host for UWP XAML content
-            desktopWindowXamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+            _xamlSource = new Windows.UI.Xaml.Hosting.DesktopWindowXamlSource();
+
+            // Hook up method for DesktopWindowXamlSource Focus handling
+            _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
         }
 
         /// <summary>
-        /// Cleanup hosted XAML content
+        ///    Gets or sets XAML content for XamlContentHost
+        /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        internal Windows.UI.Xaml.UIElement ChildInternal
+        {
+            get => _xamlSource.Content;
+
+            set
+            {
+                if (!DesignMode)
+                {
+                    var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+
+                    if (oldFrameworkElement != null)
+                    {
+                        oldFrameworkElement.SizeChanged -= OnChildSizeChanged;
+                    }
+
+                    if (newFrameworkElement != null)
+                    {
+                        // If XAML content has changed, check XAML size and WindowsXamlHost.AutoSize
+                        // setting to determine if WindowsXamlHost needs to re-run layout.
+                        newFrameworkElement.SizeChanged += OnChildSizeChanged;
+                    }
+
+                    _xamlSource.Content = value;
+
+                    PerformLayout();
+
+                    ChildChanged?.Invoke(this, new EventArgs());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the root UWP XAML element on DesktopWindowXamlSource
+        /// </summary>
+        /// <param name="newValue">A UWP XAML Framework element</param>
+        protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
+        {
+            if (_xamlSource != null)
+            {
+                _xamlSource.Content = newValue;
+            }
+        }
+
+        /// <summary>
+        /// Clean up hosted UWP XAML content
         /// </summary>
         /// <param name="disposing">IsDisposing?</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                SizeChanged -= WindowsXamlHost_SizeChanged;
+                SizeChanged -= OnWindowXamlHostSizeChanged;
 
-                desktopWindowXamlSource?.Dispose();
+                // Required by CA2213: _xamlSource?.Dispose() is insufficient.
+                if (_xamlSource != null)
+                {
+                    _xamlSource.TakeFocusRequested -= OnTakeFocusRequested;
+                    _xamlSource.Dispose();
+                }
+
+                _windowsXamlManager?.Dispose();
             }
 
             base.Dispose(disposing);
@@ -114,9 +177,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
-                var desktopWindowXamlSourceNative = desktopWindowXamlSource.GetInterop();
+                var desktopWindowXamlSourceNative = _xamlSource.GetInterop();
                 desktopWindowXamlSourceNative.AttachToWindow(Handle);
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
+
+                // Set window style required by container control to support Focus
+                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_STYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
+                {
+                    throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
+                }
             }
 
             base.OnHandleCreated(e);

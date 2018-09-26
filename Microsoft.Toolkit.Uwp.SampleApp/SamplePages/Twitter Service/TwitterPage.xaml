@@ -11,7 +11,7 @@
                       x:DataType="twitter:Tweet">
             <Border Margin="12,0,12,12"
                     Padding="12"
-                    Background="White"
+                    Background="{ThemeResource Brush-Sample-Background}"
                     BorderBrush="{ThemeResource InfoArea-Titlebar}"
                     BorderThickness="1"
                     CornerRadius="4">
