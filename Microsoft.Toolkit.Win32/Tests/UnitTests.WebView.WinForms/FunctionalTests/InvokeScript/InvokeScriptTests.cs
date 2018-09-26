@@ -9,6 +9,37 @@ using Should;
 
 namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTests.InvokeScript
 {
+    // Issue #2367 - Deadlock when UI thread calls multiple InvokeScript with return value
+    [TestClass]
+    public class InvokeScriptMultipleTimesOnUIThread : HostFormWebViewContextSpecification
+    {
+        private string _actual;
+
+        protected override void Given()
+        {
+            base.Given();
+
+            WebView.NavigationCompleted += (o, e) =>
+            {
+                _actual = WebView.InvokeScript("eval", "document.title");
+                _actual = WebView.InvokeScript("eval", "document.title");
+                _actual = WebView.InvokeScript("eval", "document.title");
+                Form.Close();
+            };
+        }
+
+        protected override void When()
+        {
+            NavigateAndWaitForFormClose(TestConstants.Uris.ExampleCom);
+        }
+
+        [TestMethod]
+        public void JavaScriptReturnsWithoutDeadlock()
+        {
+            _actual.ShouldEqual("Example Domain");
+        }
+    }
+
     [TestClass]
     public class InvokeScriptAsyncNoArgumentsTests : HostFormWebViewContextSpecification
     {
@@ -109,12 +140,12 @@ function echoOneArgument(argument) {
             {
                 WriteLine($"Calling {nameof(WebView.InvokeScriptAsync)}");
 #pragma warning disable 4014
-                NewMethod(a as UI.Controls.WinForms.WebView);
+                NewMethod(a as Forms.UI.Controls.WebView);
 #pragma warning restore 4014
             };
         }
 
-        private async Task NewMethod(UI.Controls.WinForms.WebView a)
+        private async Task NewMethod(Forms.UI.Controls.WebView a)
         {
             _actual = await a.InvokeScriptAsync("echoOneArgument", "exampleParameter").ConfigureAwait(false);
             Form.Close();
