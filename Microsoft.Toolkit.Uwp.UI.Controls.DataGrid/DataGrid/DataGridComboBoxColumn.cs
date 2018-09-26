@@ -191,6 +191,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             EnsureColumnBinding(this.Binding, dataItem);
 
+            EnsureDisplayMemberPathExists(dataItem);
+
             var comboBox = new ComboBox
             {
                 Margin = default(Thickness),
@@ -284,6 +286,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(this.Binding, dataItem);
+
+            EnsureDisplayMemberPathExists(dataItem);
 
             var textBlockElement = new TextBlock
             {
@@ -582,6 +586,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(Binding.Path.Path)) ?? false)
             {
                 throw new ArgumentException($"Binding path {Binding.Path.Path} could not be found in type {dataItem.GetType()}. Ensure that the binding path has been set correctly.");
+            }
+        }
+
+        private void EnsureDisplayMemberPathExists(object dataItem)
+        {
+            if (DisplayMemberPath != null && (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)) ?? false))
+            {
+                throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {dataItem.GetType()}. Ensure that the value has been set correctly.");
             }
         }
     }
