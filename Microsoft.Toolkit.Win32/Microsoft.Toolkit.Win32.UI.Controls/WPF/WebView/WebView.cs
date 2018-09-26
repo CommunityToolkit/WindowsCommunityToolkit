@@ -477,11 +477,15 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.WPF
         }
 
         /// <inheritdoc cref="IWebView.AddPreLoadedScript" />
-        public void AddPreLoadedScript(string script)
+        [Obsolete("This item has been depreciated and will be removed in a future version. Use AddInitializeScript(string script) instead.", false)]
+        public void AddPreLoadedScript(string script) => AddInitializeScript(script);
+
+        /// <inheritdoc />
+        public void AddInitializeScript(string script)
         {
             VerifyAccess();
             Verify.IsNotNull(_webViewControl);
-            _webViewControl?.AddPreLoadedScript(script);
+            _webViewControl?.AddInitializeScript(script);
         }
 
         /// <inheritdoc cref="IWebView.Close" />
