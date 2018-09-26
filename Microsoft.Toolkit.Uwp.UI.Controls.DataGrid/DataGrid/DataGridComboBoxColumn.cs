@@ -591,9 +591,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnsureDisplayMemberPathExists(object dataItem)
         {
-            if (DisplayMemberPath != null && (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)) ?? false))
+            if (DisplayMemberPath != null)
             {
-                throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {dataItem.GetType()}. Ensure that the value has been set correctly.");
+                var items = ItemsSource as IEnumerable<object>;
+                var type = items?.GetItemType();
+
+                if (items != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
+                {
+                    throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {type}. Ensure that the value has been set correctly and note that for built-in types DisplayMemberPath should not be used.");
+                }
             }
         }
     }
