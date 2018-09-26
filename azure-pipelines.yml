@@ -33,7 +33,7 @@ steps:
   displayName: Set Version
   condition: and(succeeded(), eq(variables['system.pullrequest.isfork'], false))
       
-- powershell: .\build\Install-WindowsSdkISO.ps1 17758
+- powershell: .\build\Install-WindowsSdkISO.ps1 17713
   displayName: Insider SDK
 
 - powershell: .\build\build.ps1 -target=Package
