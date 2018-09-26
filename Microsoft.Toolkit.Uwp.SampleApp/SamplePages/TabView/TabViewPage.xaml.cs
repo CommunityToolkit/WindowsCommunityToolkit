@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ObservableCollection<DataItem> TabItemCollection { get; } = new ObservableCollection<DataItem>();
 
         private TabView _tabs;
+        private TabView _tabItems;
 
         private int _counter = 1;
 
@@ -43,6 +44,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
                 _tabs.TabClosing += Tabs_TabClosing;
             }
+
+            _tabItems = control.FindChildByName("TabItems") as TabView;
+            if (_tabItems != null)
+            {
+                _tabItems.ItemClick += TabItems_ItemClick;
+            }
+        }
+
+        private async void TabItems_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            await new MessageDialog("You clicked the '" + e.ClickedItem + "' tab.").ShowAsync();
         }
 
         private void AddTabClick(object sender, RoutedEventArgs e)
