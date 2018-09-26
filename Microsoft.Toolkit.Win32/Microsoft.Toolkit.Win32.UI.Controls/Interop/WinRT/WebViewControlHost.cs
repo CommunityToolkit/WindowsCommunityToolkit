@@ -291,13 +291,13 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             set;
         }
 
-        internal void AddPreLoadedScript(string script)
+        internal void AddInitializeScript(string script)
         {
             ApiInformationExtensions.ExecuteIfMethodPresent(
                 WinRtType,
-                "AddPreLoadedScript",
+                "AddInitializeScript",
                 1,
-                () => { _webViewControl?.AddPreLoadedScript(script); });
+                () => { _webViewControl?.AddInitializeScript(script); });
         }
 
         internal Uri BuildStream(string contentIdentifier, string relativePath)
