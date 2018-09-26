@@ -46,6 +46,8 @@ bool isvalid = str.IsDecimal();		//Returns false
 +1 9876543210
 001 9876543210
 001 987-654-3210
+19876543210
+1-987-654-3210
 ```
 
 ## Requirements
