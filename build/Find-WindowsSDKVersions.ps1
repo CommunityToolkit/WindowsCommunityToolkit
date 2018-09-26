@@ -49,8 +49,9 @@ function Get-SdkVersion
 
     [xml] $xml = Get-Content $file
 
-    $version = Get-NodeValue $xml 'PropertyGroup/TargetPlatformMinVersion'
-    $versions.Add($version) | Out-Null
+    # If you want a complete set of SDKs that are required, uncomment the following
+    # $version = Get-NodeValue $xml 'PropertyGroup/TargetPlatformMinVersion'
+    # $versions.Add($version) | Out-Null
 
     $version = Get-NodeValue $xml 'PropertyGroup/TargetPlatformVersion'
     $versions.Add($version) | Out-Null
