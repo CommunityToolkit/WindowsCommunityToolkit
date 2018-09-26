@@ -9,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
+using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -188,21 +189,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A new <see cref="T:Windows.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
-            var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
-
-            var items = ItemsSource as IEnumerable<object>;
-
-            var selection = DisplayMemberPath != null
-                ? items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
-                : items?.FirstOrDefault(x => x.Equals(value));
+            EnsureColumnBinding(this.Binding, dataItem);
 
             var comboBox = new ComboBox
             {
-                SelectedItem = selection,
                 Margin = default(Thickness),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Center
             };
+
+            if (dataItem != null)
+            {
+                var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
+
+                var items = ItemsSource as IEnumerable<object>;
+
+                var selection = DisplayMemberPath != null
+                    ? items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                    : items?.FirstOrDefault(x => x.Equals(value));
+
+                comboBox.SelectedItem = selection;
+            }
 
             var itemsSourceBinding = new Binding
             {
@@ -217,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
 
             comboBox.SetBinding(ComboBox.ItemsSourceProperty, itemsSourceBinding);
+
             comboBox.SetBinding(ComboBox.DisplayMemberPathProperty, displayMemberPathBinding);
 
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
@@ -250,7 +258,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
                         : item;
 
-                    dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
+                    if (dataItem != null)
+                    {
+                        dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
+                    }
+                    else
+                    {
+                        var dataType = this.OwningGrid.ItemsSource.GetItemType();
+                        var newDataItem = Activator.CreateInstance(dataType);
+                        dataType.GetProperty(Binding.Path.Path).SetValue(newDataItem, newValue);
+                        dataItem = newDataItem;
+                    }
                 }
             };
 
@@ -265,6 +283,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>A new, read-only <see cref="T:Windows.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
+            EnsureColumnBinding(this.Binding, dataItem);
+
             var textBlockElement = new TextBlock
             {
                 Margin = new Thickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
@@ -293,9 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
-            bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-
-            if ((this.Binding != null || !isDesignMode) && EnsureOwningGrid())
+            if (this.Binding != null && EnsureOwningGrid())
             {
                 if (DisplayMemberPath == null)
                 {
@@ -526,22 +544,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var displayValue = GetDisplayValue(row.DataContext);
 
-                    textBlock.Text = displayValue as string ?? displayValue.ToString();
+                    textBlock.Text = displayValue;
                 }
             }
         }
 
-        private object GetDisplayValue(object dataItem)
+        private string GetDisplayValue(object dataItem)
         {
-            var value = dataItem.GetType().GetProperty(Binding?.Path.Path).GetValue(dataItem);
+            if (this.Binding != null && dataItem != null)
+            {
+                var value = dataItem.GetType().GetProperty(Binding?.Path.Path).GetValue(dataItem);
 
-            var items = ItemsSource as IEnumerable<object>;
+                var items = ItemsSource as IEnumerable<object>;
 
-            var item = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var item = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
-            var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item);
+                var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
 
-            return displayValue;
+                return displayValue as string ?? displayValue.ToString();
+            }
+
+            return string.Empty;
+        }
+
+        private void EnsureColumnBinding(Binding binding, object dataItem)
+        {
+            if (binding == null)
+            {
+                if (!string.IsNullOrEmpty(Header as string))
+                {
+                    throw new ArgumentException($"Binding for column \"{Header}\" is null. Ensure that the binding path has been set correctly.");
+                }
+
+                throw new ArgumentException($"Binding for column of type {this.GetType()} is null. Ensure that the binding path has been set correctly.");
+            }
+
+            if (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(Binding.Path.Path)) ?? false)
+            {
+                throw new ArgumentException($"Binding path {Binding.Path.Path} could not be found in type {dataItem.GetType()}. Ensure that the binding path has been set correctly.");
+            }
         }
     }
 }
