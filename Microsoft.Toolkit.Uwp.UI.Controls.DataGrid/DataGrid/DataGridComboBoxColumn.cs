@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             EnsureColumnBinding(this.Binding, dataItem);
 
-            EnsureDisplayMemberPathExists(dataItem);
+            EnsureDisplayMemberPathExists();
 
             var comboBox = new ComboBox
             {
@@ -287,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             EnsureColumnBinding(this.Binding, dataItem);
 
-            EnsureDisplayMemberPathExists(dataItem);
+            EnsureDisplayMemberPathExists();
 
             var textBlockElement = new TextBlock
             {
@@ -589,7 +589,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void EnsureDisplayMemberPathExists(object dataItem)
+        private void EnsureDisplayMemberPathExists()
         {
             if (DisplayMemberPath != null)
             {
