@@ -13,14 +13,8 @@ ListView.ItemsSource = await FacebookService.Instance.RequestAsync(FacebookDataC
 // Get current user profile picture
 ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
 
-// Post a message on your wall
-await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, UrlText.Text);
-
 // Post a message on your wall using Facebook Dialog
 await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
-
-// Post a message with a picture on your wall
-await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
 
 // Get current user's photo albums
 await FacebookService.Instance.GetUserAlbumsAsync();

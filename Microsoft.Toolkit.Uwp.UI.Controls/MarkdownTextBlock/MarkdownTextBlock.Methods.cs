@@ -1,18 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using ColorCode;
 using Microsoft.Toolkit.Parsers.Markdown;
@@ -68,6 +61,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     // Try to parse the markdown.
                     MarkdownDocument markdown = new MarkdownDocument();
+                    foreach (string str in SchemeList.Split(',').ToList())
+                    {
+                        if (!string.IsNullOrEmpty(str))
+                        {
+                            MarkdownDocument.KnownSchemes.Add(str);
+                        }
+                    }
+
                     markdown.Parse(Text);
 
                     // Now try to display it
@@ -146,6 +147,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.TextWrapping = TextWrapping;
                     renderer.LinkForeground = LinkForeground;
                     renderer.ImageStretch = ImageStretch;
+                    renderer.ImageMaxHeight = ImageMaxHeight;
+                    renderer.ImageMaxWidth = ImageMaxWidth;
                     renderer.WrapCodeBlock = WrapCodeBlock;
 
                     _rootElement.Child = renderer.Render();
@@ -203,13 +206,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Called when the render has a link we need to listen to.
         /// </summary>
-        public void RegisterNewHyperLink(Image newImagelink, string linkUrl)
+        public void RegisterNewHyperLink(Image newImagelink, string linkUrl, bool isHyperLink)
         {
             // Setup a listener for clicks.
             newImagelink.Tapped += NewImagelink_Tapped;
 
             // Associate the URL with the hyperlink.
             newImagelink.SetValue(HyperlinkUrlProperty, linkUrl);
+
+            // Set if the Image is HyperLink or not
+            newImagelink.SetValue(IsHyperlinkProperty, isHyperLink);
 
             // Add it to our list
             _listeningHyperlinks.Add(newImagelink);

@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="CatAccessibility" xml:space="preserve">
+    <value>Accessibility</value>
+  </data>
+  <data name="CatAction" xml:space="preserve">
+    <value>Action</value>
+  </data>
+  <data name="CatAppearance" xml:space="preserve">
+    <value>Appearance</value>
+  </data>
+  <data name="CatBehavior" xml:space="preserve">
+    <value>Behavior</value>
+  </data>
+  <data name="CatData" xml:space="preserve">
+    <value>Data</value>
+  </data>
+  <data name="CatDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="CatDragDrop" xml:space="preserve">
+    <value>Drag Drop</value>
+  </data>
+  <data name="CatFocus" xml:space="preserve">
+    <value>Focus</value>
+  </data>
+  <data name="CatItems" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="CatLayout" xml:space="preserve">
+    <value>Layout</value>
+  </data>
+  <data name="CatSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="E_CANNOT_CHANGE_AFTER_INIT" xml:space="preserve">
+    <value>The code in your application is attempting to set a property of the WebView control that is read-only because the control has already begun initializing. Your code can modify this property before it calls the ISupportInitialize.BeginInit method, but not after.</value>
+    <comment>A member has been invoked after the control is already initialized</comment>
+  </data>
+  <data name="E_CLICKONCE_PARTIAL_TRUST" xml:space="preserve">
+    <value>Unable to initialize a WebView control in a ClickOnce application. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619</value>
+    <comment>ClickOnce uses AppLaunch.exe to host partial-trust applications (and we don't support partial trust)</comment>
+  </data>
+  <data name="E_NOTSUPPORTED_OS_RS4" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the system is running a version of Windows that doesn’t support this control. The WebView control runs only on Windows 10 April 2018 Update or later.</value>
+    <comment>WebView requires RS4 or later</comment>
+  </data>
+  <data name="E_UNRECOGNIZED_OS" xml:space="preserve">
+    <value>The system is running a version of Windows that doesn't support this control.</value>
+    <comment>OS version check received an OS combination it did not understand</comment>
+  </data>
+  <data name="E_WEBVIEW_ALREADY_INITIALIZED" xml:space="preserve">
+    <value>The code in your application is attempting to initialize a WebView control that is already initialized.</value>
+    <comment>Caller attempted to call BeginInit after calling EndInit</comment>
+  </data>
+  <data name="E_WEBVIEW_ALREADY_INITIALIZING" xml:space="preserve">
+    <value>The code in your application is attempting to initialize a WebView control that is already in the process of being initialized by a previous call to the ISupportInitialize.BeginInit() method.</value>
+    <comment>Caller attempted to call BeginInit after calling BeginInit</comment>
+  </data>
+  <data name="E_WEBVIEW_CANNOT_INVOKE_BEFORE_INIT" xml:space="preserve">
+    <value>The code in your application is attempting to use a member of the WebView control before the control is completely initialized.</value>
+    <comment>A WebView member has been invoked before the control has been initialized</comment>
+  </data>
+  <data name="E_WEBVIEW_INVALID_URI" xml:space="preserve">
+    <value>The code in your application sets the Source property or calls the Navigate method by using an invalid URI.</value>
+    <comment>Navigate called with a value that cannot be converted to Uri</comment>
+  </data>
+  <data name="E_WEBVIEW_NOT_ABSOLUTE_URI" xml:space="preserve">
+    <value>The code in your application sets the Source property or calls the Navigate method by using a URI that doesn’t have the format of an absolute URI.</value>
+    <comment>Source property or Navigate target invoked with a value that is not a proper absolute Uri</comment>
+  </data>
+  <data name="E_WEBVIEW_NOT_INITIALIZED" xml:space="preserve">
+    <value>The WebView control is not initialized.</value>
+  </data>
+  <data name="E_WEBVIEW_NOT_INITIALIZING" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the code in your application calls the IsSupportInitialize.EndInit() method without first calling the ISupportInitialize.BeginInit() method</value>
+    <comment>Caller attempted to finalize initialization of the control with EndInit with out requesting it be initialized with BeginInit</comment>
+  </data>
+  <data name="E_WEB_BROWSER_DISABLED" xml:space="preserve">
+    <value>Unable to initialize the WebView control because the Microsoft Edge web browser has been disabled by the group or location admin policy of your system.</value>
+    <comment>Browser disabled by admin local or group policy object</comment>
+  </data>
+  <data name="E_WEB_PERMISSION_RESTRICTED" xml:space="preserve">
+    <value>Unable to initialize a WebView control in a ClickOnce application or from an application that is opened in certain types of Web browsers. See Release notes: https://go.microsoft.com/fwlink/?linkid=872619</value>
+    <comment>Could be hosted in browser, as an internet zone XBAP, or standalone ClickOnce</comment>
+  </data>
+  <data name="WebViewContainsFullScreenElementChangedDesc" xml:space="preserve">
+    <value>Occurs when the status of WebView contains a full screen element.</value>
+  </data>
+  <data name="WebViewContentLoadingDesc" xml:space="preserve">
+    <value>Occurs when WebView started loading new content.</value>
+  </data>
+  <data name="WebViewDesc" xml:space="preserve">
+    <value>Embeds a view into your application that renders web content using the Microsoft Edge rendering engine.</value>
+    <comment>Used for AutoPop in toolbox</comment>
+  </data>
+  <data name="WebViewDomContentLoadedDesc" xml:space="preserve">
+    <value>Occurs when WebView finished parsing the current content.</value>
+  </data>
+  <data name="WebViewEnterpriseIdDesc" xml:space="preserve">
+    <value>Gets or sets the enterprise ID of this process.</value>
+  </data>
+  <data name="WebViewFrameContentLoadingDesc" xml:space="preserve">
+    <value>Occurs when a frame in WebView has started loading new content.</value>
+  </data>
+  <data name="WebViewFrameDomContentLoadedDesc" xml:space="preserve">
+    <value>Occurs when a frame in WebView finished parsing the current content.</value>
+  </data>
+  <data name="WebViewFrameNavigationCompletedDesc" xml:space="preserve">
+    <value>Occurs when a frame in WebView finished navigating to new content.</value>
+  </data>
+  <data name="WebViewFrameNavigationStartingDesc" xml:space="preserve">
+    <value>Occurs before a frame in WebView navigates to new content.</value>
+  </data>
+  <data name="WebViewLongRunningScriptDetectedDesc" xml:space="preserve">
+    <value>Occurs periodically while WebView executes JavaScript, letting you halt the script.</value>
+  </data>
+  <data name="WebViewMoveFocusRequestedDesc" xml:space="preserve">
+    <value>Occurs when a focus move is requested.</value>
+  </data>
+  <data name="WebViewNavigationCompletedDesc" xml:space="preserve">
+    <value>Occurs when WebView finished navigating to new content.</value>
+  </data>
+  <data name="WebViewNavigationStartingDesc" xml:space="preserve">
+    <value>Occurs before WebView navigates to new content.</value>
+  </data>
+  <data name="WebViewNewWindowRequestedDesc" xml:space="preserve">
+    <value>Occurs when an action is performed that causes content to be opened in a new window.</value>
+  </data>
+  <data name="WebViewPermissionRequestedDesc" xml:space="preserve">
+    <value>Occurs when WebView requires a permission.</value>
+  </data>
+  <data name="WebViewScriptNotifyDesc" xml:space="preserve">
+    <value>Occurs when content in WebView passes a string from JavaScript.</value>
+  </data>
+  <data name="WebViewSourceDesc" xml:space="preserve">
+    <value>Gets or sets the Uniform Resource Identifier (URI) source of the content to display.</value>
+  </data>
+  <data name="WebViewUnsafeContentWarningDisplayingDesc" xml:space="preserve">
+    <value>Occurs when WebView shows a warning page for content that was reported as unsafe by SmartScreen filter.</value>
+  </data>
+  <data name="WebViewUnsupportedUriSchemeIdentifiedDesc" xml:space="preserve">
+    <value>Occurs when an attempt is made to navigate to a Source using a scheme that WebView does not support.</value>
+  </data>
+  <data name="WebViewUnviewableContentIdentifiedDesc" xml:space="preserve">
+    <value>Occurs when WebView attempts to download an unsupported file.</value>
+  </data>
+  <data name="WebViewWebResourceRequestedDesc" xml:space="preserve">
+    <value>Occurs when WebView requests a HTTP resource.</value>
+  </data>
+</root>

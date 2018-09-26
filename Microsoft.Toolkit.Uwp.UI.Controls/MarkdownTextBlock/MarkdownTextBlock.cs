@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Windows.UI.Xaml;
@@ -21,6 +13,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
     {
+        private long _fontSizePropertyToken;
+        private long _backgroundPropertyToken;
+        private long _borderBrushPropertyToken;
+        private long _borderThicknessPropertyToken;
+        private long _characterSpacingPropertyToken;
+        private long _fontFamilyPropertyToken;
+        private long _fontStretchPropertyToken;
+        private long _fontStylePropertyToken;
+        private long _fontWeightPropertyToken;
+        private long _foregroundPropertyToken;
+        private long _paddingPropertyToken;
+        private long _requestedThemePropertyToken;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownTextBlock"/> class.
         /// </summary>
@@ -29,24 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Set our style.
             DefaultStyleKey = typeof(MarkdownTextBlock);
 
-            // Listens for theme changes and updates the rendering.
-            themeListener = new Helpers.ThemeListener();
-            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
-
-            // Register for property callbacks that are owned by our parent class.
-            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
-            RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
+            Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         private void ThemeListener_ThemeChanged(Helpers.ThemeListener sender)
@@ -54,14 +43,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RenderMarkdown();
         }
 
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            RegisterThemeChangedHandler();
+
+            // Register for property callbacks that are owned by our parent class.
+            _fontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
+            _backgroundPropertyToken = RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
+            _borderBrushPropertyToken = RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
+            _borderThicknessPropertyToken = RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
+            _characterSpacingPropertyToken = RegisterPropertyChangedCallback(CharacterSpacingProperty, OnPropertyChanged);
+            _fontFamilyPropertyToken = RegisterPropertyChangedCallback(FontFamilyProperty, OnPropertyChanged);
+            _fontStretchPropertyToken = RegisterPropertyChangedCallback(FontStretchProperty, OnPropertyChanged);
+            _fontStylePropertyToken = RegisterPropertyChangedCallback(FontStyleProperty, OnPropertyChanged);
+            _fontWeightPropertyToken = RegisterPropertyChangedCallback(FontWeightProperty, OnPropertyChanged);
+            _foregroundPropertyToken = RegisterPropertyChangedCallback(ForegroundProperty, OnPropertyChanged);
+            _paddingPropertyToken = RegisterPropertyChangedCallback(PaddingProperty, OnPropertyChanged);
+            _requestedThemePropertyToken = RegisterPropertyChangedCallback(RequestedThemeProperty, OnPropertyChanged);
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (themeListener != null)
+            {
+                UnhookListeners();
+                themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+                themeListener.Dispose();
+                themeListener = null;
+            }
+
+            // Register for property callbacks that are owned by our parent class.
+            UnregisterPropertyChangedCallback(FontSizeProperty, _fontSizePropertyToken);
+            UnregisterPropertyChangedCallback(BackgroundProperty, _backgroundPropertyToken);
+            UnregisterPropertyChangedCallback(BorderBrushProperty, _borderBrushPropertyToken);
+            UnregisterPropertyChangedCallback(BorderThicknessProperty, _borderThicknessPropertyToken);
+            UnregisterPropertyChangedCallback(CharacterSpacingProperty, _characterSpacingPropertyToken);
+            UnregisterPropertyChangedCallback(FontFamilyProperty, _fontFamilyPropertyToken);
+            UnregisterPropertyChangedCallback(FontStretchProperty, _fontStylePropertyToken);
+            UnregisterPropertyChangedCallback(FontWeightProperty, _fontWeightPropertyToken);
+            UnregisterPropertyChangedCallback(ForegroundProperty, _foregroundPropertyToken);
+            UnregisterPropertyChangedCallback(PaddingProperty, _paddingPropertyToken);
+            UnregisterPropertyChangedCallback(RequestedThemeProperty, _requestedThemePropertyToken);
+        }
+
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            RegisterThemeChangedHandler();
+
             // Grab our root
             _rootElement = GetTemplateChild("RootElement") as Border;
 
             // And make sure to render any markdown we have.
             RenderMarkdown();
+        }
+
+        private void RegisterThemeChangedHandler()
+        {
+            themeListener = themeListener ?? new Helpers.ThemeListener();
+            themeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            themeListener.ThemeChanged += ThemeListener_ThemeChanged;
         }
     }
 }

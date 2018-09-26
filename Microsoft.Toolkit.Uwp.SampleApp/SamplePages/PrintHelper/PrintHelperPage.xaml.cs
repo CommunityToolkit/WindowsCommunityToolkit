@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -40,6 +32,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PrintOrientation.Landscape
             };
             DefaultOrientationComboBox.SelectedIndex = 0;
+
+            SampleController.Current.RegisterNewCommand("Print", Print_Click);
+            SampleController.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
+            SampleController.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -85,18 +81,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Print", Print_Click);
-            Shell.Current.RegisterNewCommand("Direct Print", DirectPrint_Click);
-            Shell.Current.RegisterNewCommand("Custom Print", CustomPrint_Click);
-        }
-
         private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             DirectPrintContainer.Children.Remove(PrintableContent);
 
@@ -115,12 +102,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             _printHelper = new PrintHelper(DirectPrintContainer);
 
@@ -136,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            await _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions, true);
+            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions, true);
         }
 
         private async void CustomPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -148,7 +135,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             // Provide an invisible container
             _printHelper = new PrintHelper(CustomPrintContainer);
@@ -163,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
                 // Static header
-                var header = new TextBlock { Text = "UWP Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+                var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
                 Grid.SetRow(header, 0);
                 grid.Children.Add(header);
 
@@ -195,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 printHelperOptions.AddDisplayOption(StandardPrintTaskOptions.Orientation);
             }
 
-            _printHelper.ShowPrintUIAsync("UWP Community Toolkit Sample App", printHelperOptions);
+            await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
         }
 
         private void ReleasePrintHelper()
@@ -207,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 DirectPrintContainer.Children.Add(PrintableContent);
             }
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()

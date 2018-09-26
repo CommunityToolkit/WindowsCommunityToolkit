@@ -1,14 +1,6 @@
-// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 
@@ -29,15 +21,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets a value indicating whether the invoked item is an options item
         /// </summary>
         public bool IsItemOptions { get; internal set; }
-    }
-
-    /// <summary>
-    /// EventArgs used for the <see cref="HamburgerMenu"/> ItemInvoked event
-    /// </summary>
-    [Obsolete("The HamburgetMenuItemInvokedEventArgs will be removed caused by a typo. Please use the HamburgerMenuItemInvokedEventArgs instead.")]
-#pragma warning disable SA1402 // File may only contain a single class
-    public class HamburgetMenuItemInvokedEventArgs : HamburgerMenuItemInvokedEventArgs
-#pragma warning restore SA1402 // File may only contain a single class
-    {
     }
 }

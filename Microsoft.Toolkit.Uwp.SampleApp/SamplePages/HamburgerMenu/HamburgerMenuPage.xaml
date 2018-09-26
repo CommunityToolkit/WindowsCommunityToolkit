@@ -8,7 +8,7 @@
 
     <!-- Note: We need to include the HamburgerMenuItemCollection in usage here so that we can access the type in the Xaml Renderer -->
     <Grid Padding="50"
-          Background="{StaticResource Brush-Grey-05}"
+          Background="{ThemeResource Brush-Grey-05}"
           Visibility="Collapsed">
         <controls:HamburgerMenu>
             <!--  Items  -->

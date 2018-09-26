@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.IO;
@@ -135,76 +127,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
             return GetFileStreamAsync(fileName, accessMode, workingFolder);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application installation folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsPackagedFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = Package.Current.InstalledLocation;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsLocalFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = ApplicationData.Current.LocalFolder;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local cache folder.
-        /// </summary>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsLocalCacheFileExistsAsync(string fileName)
-        {
-            StorageFolder workingFolder = ApplicationData.Current.LocalCacheFolder;
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local cache folder.
-        /// </summary>
-        /// <param name="knownFolderId">The well known folder ID to use</param>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static Task<bool> IsKnownFolderFileExistsAsync(
-            KnownFolderId knownFolderId,
-            string fileName)
-        {
-            StorageFolder workingFolder = StorageFileHelper.GetFolderFromKnownFolderId(knownFolderId);
-            return workingFolder.IsFileExistsAsync(fileName);
-        }
-
-        /// <summary>
-        /// Test if a file exists in the application local folder.
-        /// </summary>
-        /// <param name="workingFolder">Folder to use.</param>
-        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-        /// <returns>True if file exists.</returns>
-        [Obsolete("Use StorageFileHelper.FileExistsAsync instead.")]
-        public static async Task<bool> IsFileExistsAsync(
-            this StorageFolder workingFolder,
-            string fileName)
-        {
-            var name = Path.GetFileName(fileName);
-            workingFolder = await GetSubFolderAsync(fileName, workingFolder);
-
-            var item = await workingFolder.TryGetItemAsync(name);
-
-            return item != null;
         }
 
         /// <summary>

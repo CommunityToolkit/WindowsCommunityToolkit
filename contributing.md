@@ -1,6 +1,6 @@
-# Contributing to UWP Community Toolkit
+# Contributing to the Windows Community Toolkit
 
-The foundation of **UWP Community Toolkit** is simplicity. 
+The foundation of the **Windows Community Toolkit** is simplicity. 
 
 A developer should be able to quickly and easily learn to use the API. 
 
@@ -21,7 +21,7 @@ That's why many of the guidelines of this document are obvious and serve only on
 
 
 ## <a name="question"></a> Questions
-Please do not open issues for general support questions and keep our GitHub issues for bug reports and feature requests. There is a much better chance of getting your question answered on [StackOverflow](https://stackoverflow.com/questions/tagged/uwp-community-toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
+Please do not open issues for general support questions and keep our GitHub issues for bug reports and feature requests. There is a much better chance of getting your question answered on [StackOverflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`
 
 ## <a name="issue"></a> Found a Bug?
 If you find a bug, you can help us by
@@ -36,7 +36,7 @@ For every contribution, you must:
 * target master branch (or an appropriate release branch if appropriate for a bug fix)
 
 * If adding a new feature
-    * Before starting coding, **you should open an uservoice entry** under "UWP Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
+    * Before starting coding, **you should open an uservoice entry** under "Windows Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
     * Add or update a documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/docs/.template.md). Once validated, your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
     * Add or update a sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
         * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
@@ -80,6 +80,21 @@ This is to help as part of our effort to build an accessible toolkit (starting w
 * DO NOT return true or false to give sucess status. Throw exceptions if there was a failure.
 * DO use verbs like GET.
 * DO NOT use verbs that are not already used like fetch.
+
+## <a name="accessibility"></a> Accessibility Guideline
+
+We'll follow this guideline to ensure the basic accessibility features for each control. 
+
+### Color & High Contrast themes
+* Controls must support the 4 high contrast themes by default on Windows, in addition to changing the theme while the app is running.
+* Controls must have a contrast ratio of at least 4.5:1 between the text (and images with text) and the background behind it.
+### Keyboard
+* Controls must support keyboard navigation (tabs and arrow keys), the tab order must be the same as the UI and non-interactive elements mustn't be focusable. 
+* Composite elements must ensure proper inner navigation among the contained elements
+* Clickable UI elements must be invokable with the keyboard (The trigger keys are enter and space).
+* Focusable elements must have a visual focus indicator. It's usually a rectangle shape around the control's normal bounding rectangle.
+### Narrator
+* Controls must support narrator.
 
 ## <a name="naming"></a> Naming conventions
 * We are following the coding guidelines of [.NET Core Foundational libraries](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md). 

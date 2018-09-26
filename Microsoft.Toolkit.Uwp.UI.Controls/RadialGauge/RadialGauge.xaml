@@ -2,21 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default"/>
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="RadialGaugeForegroundBrush" Color="Black" />
-            <SolidColorBrush x:Key="RadialGaugeAccentBrush" Color="Black" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="RadialGaugeForegroundBrush" Color="White" />
-            <SolidColorBrush x:Key="RadialGaugeAccentBrush" Color="White" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
-    
     <Style TargetType="local:RadialGauge">
-        <Setter Property="UseSystemFocusVisuals" Value="True"></Setter>
-        <Setter Property="Foreground" Value="{ThemeResource RadialGaugeForegroundBrush}"/>
+        <Setter Property="NeedleBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="TrailBrush" Value="{ThemeResource SystemControlBackgroundAccentBrush}" />
+        <Setter Property="ScaleBrush" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Setter Property="ScaleTickBrush" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Setter Property="TickBrush" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}"/>
+        <Setter Property="UseSystemFocusVisuals" Value="True" /> 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:RadialGauge">
@@ -48,7 +41,7 @@
                                            TextAlignment="Center" />
                                 <TextBlock Margin="0"
                                            FontSize="16"
-                                           Foreground="{ThemeResource RadialGaugeAccentBrush}"
+                                           Foreground="{TemplateBinding Foreground}"
                                            Text="{TemplateBinding Unit}"
                                            TextAlignment="Center" />
                             </StackPanel>

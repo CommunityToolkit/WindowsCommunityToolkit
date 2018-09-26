@@ -1,19 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Core;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -37,12 +28,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public string Url { get; set; }
 
         /// <summary>
+        /// Gets or sets the image Render URL.
+        /// </summary>
+        public string RenderUrl { get; set; }
+
+        /// <summary>
         /// Gets or sets a text to display on hover.
         /// </summary>
         public string Tooltip { get; set; }
 
         /// <inheritdoc/>
         public string Text { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the ID of a reference, if this is a reference-style link.
+        /// </summary>
+        public string ReferenceId { get; set; }
 
         /// <summary>
         /// Gets image width
@@ -64,7 +65,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
-        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
+        /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>
@@ -72,6 +73,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> A parsed markdown image, or <c>null</c> if this is not a markdown image. </returns>
         internal static InlineParseResult Parse(string markdown, int start, int end)
         {
+            int refstart = 0;
+
             // Expect a '!' character.
             if (start >= end || markdown[start] != '!')
             {
@@ -109,16 +112,73 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // Expect the '(' character.
             pos++;
-            if (pos == end || markdown[pos] != '(')
-            {
-                return null;
-            }
 
-            // Skip whitespace
-            pos++;
-            while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+            string reference = string.Empty;
+            string url = string.Empty;
+            int imageWidth = 0;
+            int imageHeight = 0;
+
+            if (pos < end && markdown[pos] == '[')
             {
-                pos++;
+                refstart = pos;
+
+                // Find the reference ']' character
+                while (pos < end)
+                {
+                    if (markdown[pos] == ']')
+                    {
+                        break;
+                    }
+
+                    pos++;
+                }
+
+                reference = markdown.Substring(refstart + 1, pos - refstart - 1);
+            }
+            else if (pos < end && markdown[pos] == '(')
+            {
+                while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                {
+                    pos++;
+                }
+
+                // Extract the URL.
+                int urlStart = pos;
+                while (pos < end && markdown[pos] != ')')
+                {
+                    pos++;
+                }
+
+                var imageDimensionsPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
+
+                url = imageDimensionsPos > 0
+                    ? TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, imageDimensionsPos)
+                    : TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, pos);
+
+                if (imageDimensionsPos > 0)
+                {
+                    // trying to find 'x' which separates image width and height
+                    var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
+
+                    // didn't find separator, trying to parse value as imageWidth
+                    if (dimensionsSepatorPos == -1)
+                    {
+                        var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
+
+                        int.TryParse(imageWidthStr, out imageWidth);
+                    }
+                    else
+                    {
+                        var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
+
+                        // got width and height
+                        if (dimensions.Length == 2)
+                        {
+                            int.TryParse(dimensions[0], out imageWidth);
+                            int.TryParse(dimensions[1], out imageHeight);
+                        }
+                    }
+                }
             }
 
             if (pos == end)
@@ -126,57 +186,52 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            // Extract the URL.
-            int urlStart = pos;
-            while (pos < end && markdown[pos] != ')')
-            {
-                pos++;
-            }
-
-            var imageDimensionsPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
-
-            var url = imageDimensionsPos > 0
-                ? TextRunInline.ResolveEscapeSequences(markdown, urlStart, imageDimensionsPos)
-                : TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
-
-            int imageWidth = 0;
-            int imageHeight = 0;
-
-            if (imageDimensionsPos > 0)
-            {
-                // trying to find 'x' which separates image width and height
-                var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
-
-                // didn't find separator, trying to parse value as imageWidth
-                if (dimensionsSepatorPos == -1)
-                {
-                    var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
-
-                    int.TryParse(imageWidthStr, out imageWidth);
-                }
-                else
-                {
-                    var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
-
-                    // got width and height
-                    if (dimensions.Length == 2)
-                    {
-                        int.TryParse(dimensions[0], out imageWidth);
-                        int.TryParse(dimensions[1], out imageHeight);
-                    }
-                }
-            }
-
             // We found something!
             var result = new ImageInline
             {
                 Tooltip = tooltip,
+                RenderUrl = url,
+                ReferenceId = reference,
                 Url = url,
                 Text = markdown.Substring(start, pos + 1 - start),
                 ImageWidth = imageWidth,
                 ImageHeight = imageHeight
             };
             return new InlineParseResult(result, start, pos + 1);
+        }
+
+        /// <summary>
+        /// If this is a reference-style link, attempts to converts it to a regular link.
+        /// </summary>
+        /// <param name="document"> The document containing the list of references. </param>
+        internal void ResolveReference(MarkdownDocument document)
+        {
+            if (document == null)
+            {
+                throw new ArgumentNullException("document");
+            }
+
+            if (ReferenceId == null)
+            {
+                return;
+            }
+
+            // Look up the reference ID.
+            var reference = document.LookUpReference(ReferenceId);
+            if (reference == null)
+            {
+                return;
+            }
+
+            // The reference was found. Check the URL is valid.
+            if (!Common.IsUrlValid(reference.Url))
+            {
+                return;
+            }
+
+            // Everything is cool when you're part of a team.
+            RenderUrl = reference.Url;
+            ReferenceId = null;
         }
 
         /// <summary>

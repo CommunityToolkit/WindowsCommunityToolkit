@@ -1,21 +1,15 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
@@ -34,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         public SampleAppMarkdownRenderer(MarkdownDocument document, ILinkRegister linkRegister, IImageResolver imageResolver, ICodeBlockResolver codeBlockResolver)
             : base(document, linkRegister, imageResolver, codeBlockResolver)
         {
+            LanguageRequested += SampleAppMarkdownRenderer_LanguageRequested;
         }
 
         /// <summary>
@@ -73,53 +68,154 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
 
             var lastIndex = collection.Count() - 1;
+            var prevIndex = lastIndex - 1;
 
             // Removes the current Code Block UI from the UI Collection, and wraps it in additional UI.
             if (collection[lastIndex] is ScrollViewer viewer)
             {
                 collection.RemoveAt(lastIndex);
 
-                // Creates a Header to specify Language and provide a copy button.
-                var headerGrid = new Grid
+                // Combine Code Blocks if a Different Language.
+                if (language != "XAML"
+                    && prevIndex >= 0
+                    && collection[prevIndex] is StackPanel prevPanel
+                    && prevPanel.Tag is CustCodeBlock block
+                    && !block.Languages.ContainsKey("XAML") // Prevent combining of XAML Code Blocks.
+                    && !block.Languages.ContainsKey(language))
                 {
-                    Background = new SolidColorBrush(Color.FromArgb(17, 0, 0, 0))
-                };
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    // Add New Lang to Existing Block
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+                    block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
-                var languageBlock = new TextBlock
+                    if (prevPanel.Children.FirstOrDefault() is Grid headerGrid)
+                    {
+                        var langHead = headerGrid.Children.FirstOrDefault();
+                        if (langHead is TextBlock textLangHead)
+                        {
+                            // Replace TextBlock with ComboBox
+                            headerGrid.Children.Remove(textLangHead);
+                            var combLangHead = new ComboBox
+                            {
+                                Items =
+                                {
+                                    textLangHead.Text,
+                                    language
+                                },
+                                SelectedIndex = 0,
+                                MinWidth = 80
+                            };
+
+                            headerGrid.Children.Add(combLangHead);
+
+                            combLangHead.SelectionChanged += (s, e) =>
+                            {
+                                var newLang = combLangHead.SelectedItem as string;
+                                block.CurrentLanguage = newLang;
+                                LanguageRequested?.Invoke(combLangHead, newLang);
+
+                                var newViewer = block.Languages[newLang].viewer;
+
+                                // Remove old Viewer.
+                                var lastItem = prevPanel.Children.Count - 1;
+                                if (lastItem >= 0)
+                                {
+                                    prevPanel.Children.RemoveAt(lastItem);
+                                }
+
+                                prevPanel.Children.Add(newViewer);
+                            };
+
+                            LanguageRequested += (s, e) =>
+                            {
+                                if (s != combLangHead)
+                                {
+                                    if (combLangHead.Items.Contains(e))
+                                    {
+                                        combLangHead.SelectedItem = e;
+                                        block.CurrentLanguage = e;
+                                    }
+                                }
+                            };
+
+                            if (DesiredLang == language)
+                            {
+                                combLangHead.SelectedItem = language;
+                                block.CurrentLanguage = language;
+                            }
+                        }
+                        else if (langHead is ComboBox combLangHead)
+                        {
+                            // Add Lang to ComboBox
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+                            block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+                            combLangHead.Items.Add(language);
+
+                            if (DesiredLang == language)
+                            {
+                                combLangHead.SelectedItem = language;
+                                block.CurrentLanguage = language;
+                            }
+                        }
+                    }
+                }
+                else
                 {
-                    Text = language,
-                    VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(10, 0, 0, 0)
-                };
-                headerGrid.Children.Add(languageBlock);
+                    block = new CustCodeBlock();
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+                    block.Languages.Add(language, (viewer, element.Text));
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+                    block.CurrentLanguage = language;
 
-                var copyButton = new Button
-                {
-                    Content = "Copy",
-                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                    VerticalAlignment = VerticalAlignment.Stretch
-                };
+                    // Creates a Header to specify Language and provide a copy button.
+                    var headerGrid = new Grid
+                    {
+                        Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0))
+                    };
+                    headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                    headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-                copyButton.Click += (s, e) =>
-                {
-                    var content = new DataPackage();
-                    content.SetText(element.Text);
-                    Clipboard.SetContent(content);
-                };
+                    var languageBlock = new TextBlock
+                    {
+                        Text = language,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Margin = new Thickness(10, 0, 0, 0)
+                    };
+                    headerGrid.Children.Add(languageBlock);
 
-                headerGrid.Children.Add(copyButton);
-                Grid.SetColumn(copyButton, 1);
+                    var copyButton = new Button
+                    {
+                        Content = "Copy",
+                        HorizontalAlignment = HorizontalAlignment.Stretch,
+                        VerticalAlignment = VerticalAlignment.Stretch
+                    };
 
-                // Collection the adornment and the standard UI, add them to a Stackpanel, and add it back to the collection.
-                var panel = new StackPanel();
-                panel.Children.Add(headerGrid);
-                panel.Children.Add(viewer);
-                panel.Background = viewer.Background;
-                panel.Margin = viewer.Margin;
+                    copyButton.Click += (s, e) =>
+                    {
+                        var text = block.Languages[block.CurrentLanguage].text;
 
-                collection.Add(panel);
+                        var content = new DataPackage();
+                        content.SetText(text);
+                        Clipboard.SetContent(content);
+                    };
+
+                    headerGrid.Children.Add(copyButton);
+                    Grid.SetColumn(copyButton, 1);
+
+                    // Collection the adornment and the standard UI, add them to a Stackpanel, and add it back to the collection.
+                    var panel = new StackPanel
+                    {
+                        Background = viewer.Background,
+                        Margin = viewer.Margin,
+                        Tag = block
+                    };
+
+                    panel.Children.Add(headerGrid);
+                    panel.Children.Add(viewer);
+
+                    collection.Add(panel);
+                }
             }
         }
 
@@ -144,6 +240,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             SolidColorBrush localbackground = null;
             string symbolglyph = string.Empty;
 
+            var theme = SampleController.Current.GetActualTheme();
+
             // Check the required structure of the Quote is correct. Determine if it is a DocFX Note.
             if (element.Blocks.First() is ParagraphBlock para)
             {
@@ -165,8 +263,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 // Removes the identifier from the text
                                 textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
 
-                                localforeground = style.LightForeground;
-                                localbackground = style.LightBackground;
+                                if (theme == ElementTheme.Light)
+                                {
+                                    localforeground = style.LightForeground;
+                                    localbackground = style.LightBackground;
+                                }
+                                else
+                                {
+                                    localforeground = new SolidColorBrush(Colors.White);
+                                    localbackground = style.DarkBackground;
+                                }
                             }
                         }
                     }
@@ -210,6 +316,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     border.Margin = new Thickness(0, 5, 0, 5);
                     border.Background = localbackground;
 
+                    if (theme == ElementTheme.Light)
+                    {
+                        border.BorderThickness = new Thickness(0.5);
+                        border.BorderBrush = localforeground;
+                    }
+
                     var headerPanel = new StackPanel
                     {
                         Orientation = Orientation.Horizontal,
@@ -243,7 +355,46 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
         }
 
+        /// <summary>
+        /// Sets the Desired Language for the Sample App.
+        /// </summary>
+        /// <param name="sender">Language Combobox</param>
+        /// <param name="e">New Language</param>
+        private void SampleAppMarkdownRenderer_LanguageRequested(object sender, string e)
+        {
+            DesiredLang = e;
+        }
+
+        /// <summary>
+        /// The Note Glyph.
+        /// </summary>
         private const string NoteGlyph = "\uE946";
+
+        /// <summary>
+        /// The Key for Settings.
+        /// </summary>
+        private const string DesiredLangKey = "Docs-DesiredLang";
+
+        /// <summary>
+        /// Gets or sets the Desired Language from Settings.
+        /// </summary>
+        public string DesiredLang
+        {
+            get
+            {
+                return storage.Read<string>(DesiredLangKey);
+            }
+
+            set
+            {
+                storage.Save(DesiredLangKey, value);
+            }
+        }
+
+        /// <summary>
+        /// The Local Storage Helper.
+        /// </summary>
+        private LocalObjectStorageHelper storage = new LocalObjectStorageHelper();
 
         /// <summary>
         /// DocFX note types and styling info.
@@ -285,6 +436,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         };
 
         /// <summary>
+        /// The Event if a Language change is requested.
+        /// </summary>
+        public event EventHandler<string> LanguageRequested;
+
+        /// <summary>
         /// Identification and styles related to each Note type.
         /// </summary>
         private class DocFXNote
@@ -300,6 +456,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             public SolidColorBrush LightBackground { get; set; }
 
             public SolidColorBrush DarkBackground { get; set; }
+        }
+
+        /// <summary>
+        /// Code Block Tag Information to track current Language and Alternate Views.
+        /// </summary>
+        private class CustCodeBlock
+        {
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
+            public Dictionary<string, (FrameworkElement viewer, string text)> Languages { get; } = new Dictionary<string, (FrameworkElement viewer, string text)>();
+#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+
+            public string CurrentLanguage { get; set; }
         }
     }
 }

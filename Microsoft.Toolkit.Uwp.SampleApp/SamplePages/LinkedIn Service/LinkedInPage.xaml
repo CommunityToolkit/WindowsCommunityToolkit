@@ -7,10 +7,10 @@
       mc:Ignorable="d">
 
     <Grid MaxWidth="800"
-          Background="{StaticResource Brush-Grey-05}">
+          Background="{ThemeResource Brush-Grey-05}">
         <Grid Margin="24"
-              Background="{StaticResource Brush-Grey-04}"
-              BorderBrush="#FFCCCCCC"
+              Background="{ThemeResource Brush-Grey-04}"
+              BorderBrush="{ThemeResource InfoArea-Titlebar}"
               BorderThickness="1"
               CornerRadius="4">
             <Grid.RowDefinitions>
@@ -52,7 +52,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -65,7 +65,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Credentials" />
                         </Grid>
 
@@ -102,7 +102,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -116,7 +116,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Share" />
                         </Grid>
 
@@ -126,7 +126,7 @@
                             <TextBox x:Name="ShareText"
                                      Margin="0,0,0,12"
                                      Header="Share"
-                                     Text="Check out the UWP Community Toolkit! https://aka.ms/uwpct" />
+                                     Text="Check out the Windows Community Toolkit! https://aka.ms/uwpct" />
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
                                         Margin="0,0,12,0"

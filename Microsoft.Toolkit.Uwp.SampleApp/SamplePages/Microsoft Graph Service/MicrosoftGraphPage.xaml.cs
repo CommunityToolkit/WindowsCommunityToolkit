@@ -1,23 +1,13 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.ObjectModel;
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
 using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftGraph;
+using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Popups;
@@ -54,10 +44,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
+            var upn = LoginHint.Text;
             var item = VersionEndpointDropdown.SelectedItem as ComboBoxItem;
             var endpointVersion = item.Tag.ToString() == "v2" ? AuthenticationModel.V2 : AuthenticationModel.V1;
 
             MicrosoftGraphService.Instance.AuthenticationModel = endpointVersion;
+            MicrosoftGraphService.Instance.SignInFailed += async (ss, se) =>
+            {
+                var error = new MessageDialog(se.Exception.ToString());
+                await error.ShowAsync();
+            };
 
             // Initialize the service
             switch (endpointVersion)
@@ -76,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Login via Azure Active Directory
             try
             {
-                if (!await MicrosoftGraphService.Instance.LoginAsync())
+                if (!await MicrosoftGraphService.Instance.LoginAsync(upn))
                 {
                     var error = new MessageDialog("Unable to sign in to Office 365");
                     await error.ShowAsync();
@@ -108,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             try
             {
                 // Retrieve user's info from Azure Active Directory
@@ -136,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
 
             EventsBox.Visibility = Visibility.Visible;
@@ -160,11 +156,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top,
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = true; });
                 },
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = false; });
                 },
                 async ex =>
                 {
@@ -206,11 +202,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top,
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = true; });
                 },
                 async () =>
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = false; });
                 },
                 async ex =>
                 {
@@ -308,6 +304,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (DelegatedPermissionScopes != null)
             {
                 DelegatedPermissionScopes.Visibility = item.Tag.ToString() == "v2" ? Visibility.Visible : Visibility.Collapsed;
+                LoginHint.Visibility = DelegatedPermissionScopes.Visibility;
             }
         }
     }

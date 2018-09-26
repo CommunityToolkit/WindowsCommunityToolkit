@@ -4,23 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
-    <StackPanel Padding="12">
-        <TextBlock
-                Text="Inspect Application Theme"
+    <controls:WrapPanel
+                Margin="18"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+        <StackPanel Margin="20">
+            <TextBlock
+                Text="System Theme"
                 FontWeight="Bold"
-                FontSize="25" />
+                FontSize="18" />
 
-        <TextBlock
-            Text="Current Theme:"
-            Margin="0,10,0,0" />
+            <TextBlock x:Name="SystemTheme" />
+        </StackPanel>
 
-        <TextBlock x:Name="CurrentTheme" />
+        <StackPanel Margin="20">
+            <TextBlock
+                Text="Sample Theme"
+                FontWeight="Bold"
+                FontSize="18" />
 
-        <TextBlock
-            Text="*This sample doesn't work since the UWP Community Toolkit requests the Light Theme at the current time."
-            FontStyle="Italic"
-            Margin="0,10,0,0" />
-    </StackPanel>
+            <TextBlock x:Name="CurrentTheme" />
+        </StackPanel>
+    </controls:WrapPanel>
 </Page>

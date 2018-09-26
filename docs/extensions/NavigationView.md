@@ -2,12 +2,15 @@
 title: NavigationView Styles
 author: michael-hawker
 description: Visual Studio Code Style and Behaviors for the NavigationView control.
-keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, NavigationView, VSCode, Visual Studio Code
+keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, NavigationView, VSCode, Visual Studio Code
 ---
 
 # NavigationView Styles
+
+> [!NOTE] The NavigationView extension will be removed in a future major release.
+
 <!-- Describe your control -->
-The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
+The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/communitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
 
 This can create a companion 'toolbox' style experience for navigation along-side the main, more 'static', content of an app.
 
@@ -51,11 +54,11 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 | Property | Type | Description |
 | -- | -- | -- |
 | NavigationViewExtensions.SelectedIndex | int | Changes the `NavigationView`'s selected item based on its index.  A value out of range will deselect any item. |
-| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so When a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
+| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so when a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
 
 ## Sample Code
 
-[NavigationView Styles Sample Page](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[NavigationView Styles Sample Page](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/NavigationViewStyles). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -66,7 +69,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 
 ## API Source Code
 
-- [NavigationView Styles source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView)
+- [NavigationView Styles source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView)
 
 ## Related Topics
 

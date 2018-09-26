@@ -1,13 +1,16 @@
 ---
 title: RSS Parser
 author: williamabradley
-description: The RSS Parser allows you to parse an RSS content String into RSS Schema.
-keywords: uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, rss, rss parsing, parser
+description: The RSS Parser allows you to parse an RSS content String into an RSS Schema.
+keywords: windows community toolkit, uwp community toolkit, uwp toolkit, microsoft community toolkit, microsoft toolkit, rss, rss parsing, parser
+dev_langs:
+  - csharp
+  - vb
 ---
 
 # RSS Parser
 
-The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.rss.rssparser) class allows you to parse a RSS content String into a RSS Schema.
+The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.parsers.rss.rssparser) class allows you to parse an RSS content String into an RSS Schema.
 
 ## Example
 
@@ -15,7 +18,6 @@ The [RssParser](https://docs.microsoft.com/en-us/dotnet/api/microsoft.toolkit.pa
 public async void ParseRSS()
 {
     string feed = null;
-    RSSFeed.Clear();
 
     using (var client = new HttpClient())
     {
@@ -39,6 +41,26 @@ public async void ParseRSS()
     }
 }
 ```
+```vb
+Public Async Sub ParseRSS()
+    Dim feed As String = Nothing
+    Using client = New HttpClient()
+        Try
+            feed = Await client.GetStringAsync("https://visualstudiomagazine.com/rss-feeds/news.aspx")
+        Catch
+        End Try
+    End Using
+
+    If feed IsNot Nothing Then
+        Dim parser = New RssParser()
+        Dim rss = parser.Parse(feed)
+        For Each element In rss
+            Console.WriteLine($"Title: {element.Title}")
+            Console.WriteLine($"Summary: {element.Summary}")
+        Next
+    End If
+End Sub
+```
 
 ## Classes
 
@@ -57,9 +79,9 @@ public async void ParseRSS()
 
 ## Sample Code
 
-[RSS Parser Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RssParser/RssParserPage.xaml.cs).
+[RSS Parser Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/RssParser/RssParserPage.xaml.cs).
 
-You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -70,4 +92,4 @@ You can see this in action in [UWP Community Toolkit Sample App](https://www.mic
 
 ## API Source Code
 
-- [RSS Parser source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Parsers/Rss)
+- [RSS Parser source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Parsers/Rss)

@@ -5,49 +5,50 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        <DataTemplate x:Key="PhotoTemplate">
-            <Grid Width="{Binding Width}"
-                  Height="{Binding Height}"
-                  Margin="0">
-                <Image HorizontalAlignment="Center"
-                       Stretch="UniformToFill">
-                    <Image.Source>
-                        <BitmapImage DecodePixelHeight="200"
-                                     UriSource="{Binding Thumbnail}" />
-                    </Image.Source>
-                </Image>
-                <Border VerticalAlignment="Bottom">
-                    <Border.Background>
-                        <LinearGradientBrush EndPoint="0,1">
-                            <GradientStop Offset="0" Color="Transparent" />
-                            <GradientStop Offset="1" Color="#33000000" />
-                        </LinearGradientBrush>
-                    </Border.Background>
-                    <TextBlock Margin="5,20,5,5"
-                               VerticalAlignment="Bottom"
-                               Text="{Binding Category}" />
-                </Border>
-            </Grid>
-        </DataTemplate>
-        <Style TargetType="ListViewItem">
-            <Setter Property="Margin" Value="0" />
-            <Setter Property="Padding" Value="0" />
-        </Style>
-    </Page.Resources>
+  <Page.Resources>
+    <DataTemplate x:Key="PhotoTemplate">
+      <Grid Width="{Binding Width}"
+            Height="{Binding Height}"
+            Margin="0">
+        <Image HorizontalAlignment="Center"
+               Stretch="UniformToFill">
+          <Image.Source>
+            <BitmapImage DecodePixelHeight="200"
+                         UriSource="{Binding Thumbnail}" />
+          </Image.Source>
+        </Image>
+        <Border VerticalAlignment="Bottom">
+          <Border.Background>
+            <LinearGradientBrush EndPoint="0,1">
+              <GradientStop Offset="0" Color="Transparent" />
+              <GradientStop Offset="1" Color="#33000000" />
+            </LinearGradientBrush>
+          </Border.Background>
+          <TextBlock Margin="5,20,5,5"
+                     VerticalAlignment="Bottom"
+                     Text="{Binding Category}"
+                     Foreground="White" />
+        </Border>
+      </Grid>
+    </DataTemplate>
+    <Style TargetType="ListViewItem">
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Padding" Value="0" />
+    </Style>
+  </Page.Resources>
 
-    <Grid Padding="48">
-        <ListView Name="WrapPanelContainer"
-                  IsItemClickEnabled="True"
-                  ItemTemplate="{StaticResource PhotoTemplate}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <controls:WrapPanel Background="LightGray"
-                                        Padding="@[Padding:Thickness:0,0,0,0]@"
-                                        VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
-                                        HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ListView>
-    </Grid>
+  <Grid Padding="48">
+    <ListView Name="WrapPanelContainer"
+              IsItemClickEnabled="True"
+              ItemTemplate="{StaticResource PhotoTemplate}">
+      <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+          <controls:WrapPanel Background="{ThemeResource Brush-Grey-04}"
+                              Padding="@[Padding:Thickness:0,0,0,0]@"
+                              VerticalSpacing="@[VerticalSpacing:Slider:5:0-200]@"
+                              HorizontalSpacing="@[HorizontalSpacing:Slider:5:0-200]@" />
+        </ItemsPanelTemplate>
+      </ItemsControl.ItemsPanel>
+    </ListView>
+  </Grid>
 </Page>
