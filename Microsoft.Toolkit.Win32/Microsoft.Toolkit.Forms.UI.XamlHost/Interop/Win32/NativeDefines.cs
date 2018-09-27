@@ -25,6 +25,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         // Window Styles
         public const uint WS_EX_CONTROLPARENT = 0x00010000;
         public const int GWL_STYLE = -16;
+        public const int GWL_EXSTYLE = -20;
 
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 
