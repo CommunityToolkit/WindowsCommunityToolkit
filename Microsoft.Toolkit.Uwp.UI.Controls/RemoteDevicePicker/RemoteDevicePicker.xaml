@@ -169,16 +169,23 @@
                                                 Foreground="{TemplateBinding Foreground}"
                                                 Grid.Row="3" TextWrapping="Wrap">
                                                 <ContentPresenter.Content>
-                                                    <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" IsDoubleTapEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
+                                                    <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" IsDoubleTapEnabled="True" IsMultiSelectCheckBoxEnabled="True" SelectionMode="{TemplateBinding SelectionMode}">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid ToolTipService.ToolTip="{Binding ModelDisplayName}" >
+                                                                <Grid>
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" />
-                                                                    <TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Column="1" VerticalAlignment="Center" Margin="10,0" />
+                                                                    <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="{StaticResource HubHeaderThemeFontSize}"  />
+                                                                    <Grid Grid.Column="1" Margin="10,0">
+                                                                        <Grid.RowDefinitions>
+                                                                            <RowDefinition Height="*"/>
+                                                                            <RowDefinition Height="*"/>
+                                                                        </Grid.RowDefinitions>
+                                                                        <TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Row="0" VerticalAlignment="Center" Margin="10,0" />
+                                                                        <TextBlock Text="{Binding ModelDisplayName}" Tag="{Binding }" Grid.Row="1" VerticalAlignment="Center" Margin="10,0" />
+                                                                    </Grid>
                                                                 </Grid>
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
