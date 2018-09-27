@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System.RemoteSystems;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -118,9 +118,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
             _listDevices.SelectionChanged += ListDevices_SelectionChanged;
             _listDevices.DoubleTapped += ListDevices_DoubleTapped;
+            _listDevices.ContainerContentChanging += ListDevices_ContainerContentChanging;
             _listDeviceTypes.SelectedIndex = 0;
 
             _commandSpace.Visibility = SelectionMode == ListViewSelectionMode.Single ? Visibility.Collapsed : Visibility.Visible;
+            _listDevices.IsMultiSelectCheckBoxEnabled = SelectionMode == ListViewSelectionMode.Multiple ? true : false;
 
             RomeHelper romeHelper = new RomeHelper();
             RemoteSystems = romeHelper.RemoteSystems;
@@ -129,6 +131,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateList();
 
             base.OnApplyTemplate();
+        }
+
+        private void ListDevices_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
+        {
+            RemoteSystem model = (RemoteSystem)args.Item;
+            switch (model.Status)
+            {
+                case RemoteSystemStatus.Available:
+                    args.ItemContainer.IsEnabled = true;
+                    break;
+
+                case RemoteSystemStatus.DiscoveringAvailability:
+                case RemoteSystemStatus.Unavailable:
+                case RemoteSystemStatus.Unknown:
+                    args.ItemContainer.IsEnabled = false;
+                    break;
+            }
         }
 
         private void ListDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
