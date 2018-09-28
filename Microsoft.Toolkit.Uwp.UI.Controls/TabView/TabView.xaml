@@ -16,10 +16,8 @@
     <local:EdgeTabWidthProvider x:Key="EdgeTabWidthProvider" />
 
     <DataTemplate x:Key="DefaultItemHeaderTemplate">
-        <TextBlock Padding="0,0,8,0"
-                   FontWeight="SemiBold"
-                   Text="{Binding}"
-                   TextTrimming="CharacterEllipsis"
+        <TextBlock Text="{Binding}"
+                   TextTrimming="Clip"
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
@@ -131,7 +129,9 @@
                             <Button x:Name="AddTabButton"
                                     Width="44"
                                     Height="44"
-                                    FontFamily="Segoe MDL2 Assets">
+                                    Background="Transparent"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Style="{StaticResource ButtonRevealStyle}">
                                 &#xE710;
                             </Button>
                         </Grid>
@@ -177,7 +177,6 @@
                        IsHitTestVisible="False"
                        Opacity="0" />
             <Grid x:Name="ContentPresenterGrid"
-                  Margin="0,0,0,0"
                   Background="Transparent">
                 <Grid.RenderTransform>
                     <TranslateTransform x:Name="ContentPresenterTranslateTransform" />
@@ -209,7 +208,7 @@
                       HorizontalAlignment="Right"
                       Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                     <Border x:Name="ButtonBorder"
-                            Width="32"
+                            Width="36"
                             Height="44"
                             Background="{TemplateBinding Background}"
                             Visibility="Collapsed">
@@ -282,18 +281,21 @@
                            Style="{ThemeResource CaptionTextBlockStyle}"
                            Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.DragItemsCount}" />
             </Border>
+            <Rectangle x:Name="SelectedLine"
+                       Height="2"
+                       VerticalAlignment="Top"
+                       Fill="{StaticResource SystemControlHighlightListAccentLowBrush}"
+                       Opacity="0" />
 
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup x:Name="CommonStates">
                     <VisualState x:Name="Normal">
-
                         <Storyboard>
                             <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
                         </Storyboard>
                     </VisualState>
 
                     <VisualState x:Name="PointerOver">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="BorderBackground"
                                              Storyboard.TargetProperty="Opacity"
@@ -336,7 +338,6 @@
                     </VisualState>
 
                     <VisualState x:Name="Pressed">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="BorderBackground"
                                              Storyboard.TargetProperty="Opacity"
@@ -367,7 +368,6 @@
                     </VisualState>
 
                     <VisualState x:Name="Selected">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
                                              Storyboard.TargetProperty="Opacity"
@@ -399,6 +399,12 @@
                             </ObjectAnimationUsingKeyFrames>
                             <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
 
+                            <!--  Selected Bar  -->
+                            <DoubleAnimation Storyboard.TargetName="SelectedLine"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="1"
+                                             Duration="0" />
+
                             <!--  Close Button  -->
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
                                                            Storyboard.TargetProperty="Background">
@@ -414,7 +420,6 @@
                     </VisualState>
 
                     <VisualState x:Name="PointerOverSelected">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
                                              Storyboard.TargetProperty="Opacity"
@@ -446,6 +451,12 @@
                             </ObjectAnimationUsingKeyFrames>
                             <PointerUpThemeAnimation Storyboard.TargetName="ContentPresenter" />
 
+                            <!--  Selected Bar  -->
+                            <DoubleAnimation Storyboard.TargetName="SelectedLine"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="1"
+                                             Duration="0" />
+
                             <!--  Close Button  -->
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
                                                            Storyboard.TargetProperty="Background">
@@ -461,7 +472,6 @@
                     </VisualState>
 
                     <VisualState x:Name="PressedSelected">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="MultiSelectCheck"
                                              Storyboard.TargetProperty="Opacity"
@@ -492,6 +502,24 @@
                                                         Value="{ThemeResource SystemControlHighlightAltBaseHighBrush}" />
                             </ObjectAnimationUsingKeyFrames>
                             <PointerDownThemeAnimation TargetName="ContentPresenter" />
+
+                            <!--  Selected Bar  -->
+                            <DoubleAnimation Storyboard.TargetName="SelectedLine"
+                                             Storyboard.TargetProperty="Opacity"
+                                             To="1"
+                                             Duration="0" />
+
+                            <!--  Close Button  -->
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                                                           Storyboard.TargetProperty="Background">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                                                           Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="Visible" />
+                            </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
                 </VisualStateGroup>
@@ -807,7 +835,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
-        <Setter Property="Padding" Value="8,0,0,0" />
+        <Setter Property="Padding" Value="8,0,8,0" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
@@ -945,6 +973,7 @@
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
+                                          Style="{StaticResource RepeatButtonRevealStyle}"
                                           Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76B;
                             </RepeatButton>
@@ -961,6 +990,7 @@
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
+                                          Style="{StaticResource RepeatButtonRevealStyle}"
                                           Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76C;
                             </RepeatButton>

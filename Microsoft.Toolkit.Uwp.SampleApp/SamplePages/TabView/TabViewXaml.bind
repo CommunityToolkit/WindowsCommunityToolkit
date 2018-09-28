@@ -45,7 +45,7 @@
     
       <controls:TabView.RightHeaderTemplate>
         <DataTemplate>
-          <Button Padding="9.5">
+          <Button Width="44" Height="44" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
             <SymbolIcon Symbol="Setting"/>
           </Button>
         </DataTemplate>
