@@ -24,6 +24,7 @@
     </DataTemplate>
 
     <Style TargetType="local:TabView">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="CanReorderItems" Value="True" />
@@ -42,6 +43,7 @@
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
+        <!--  TODO: Should add TabHeight Property to use instead of hard-coded 44?  -->
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
@@ -62,10 +64,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:TabView">
-                    <Grid x:Name="TabViewContainer"
-                          Background="{TemplateBinding Background}"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          BorderThickness="{TemplateBinding BorderThickness}">
+                    <Grid x:Name="TabViewContainer">
                         <Grid.RowDefinitions>
                             <!--  0 Header  -->
                             <RowDefinition Height="Auto" />
@@ -127,7 +126,6 @@
                         <Grid Grid.Row="1"
                               Grid.Column="3"
                               HorizontalAlignment="Left"
-                              Background="{TemplateBinding Background}"
                               Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
                             <!--  TODO: Add to 'TabActionHeader' Template  -->
                             <Button x:Name="AddTabButton"
@@ -145,7 +143,10 @@
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="2"
-                                          Grid.ColumnSpan="6" />
+                                          Grid.ColumnSpan="6"
+                                          Background="{TemplateBinding Background}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          BorderThickness="{TemplateBinding BorderThickness}" />
 
                         <ContentPresenter Grid.Row="3"
                                           Grid.ColumnSpan="6"
@@ -184,6 +185,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <!--  Modifications of default ListViewItem Template for our Tab Here  -->
                 <Viewbox Width="16"
@@ -200,14 +202,15 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   Content="{TemplateBinding Header}"
                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                  ContentTransitions="{TemplateBinding ContentTransitions}" />
+                                  ContentTransitions="{TemplateBinding ContentTransitions}"
+                                  FontWeight="{TemplateBinding FontWeight}" />
                 <!--  Use grid to toggle visibility based on IsClosable property and inner border for hover animations.  -->
-                <Grid Grid.Column="1"
+                <Grid Grid.Column="2"
                       HorizontalAlignment="Right"
                       Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                     <Border x:Name="ButtonBorder"
                             Width="32"
-                            Height="32"
+                            Height="44"
                             Background="{TemplateBinding Background}"
                             Visibility="Collapsed">
                         <Button x:Name="CloseButton"
@@ -320,6 +323,11 @@
 
                             <!--  Close Button  -->
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                                                           Storyboard.TargetProperty="Background">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
@@ -372,7 +380,7 @@
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground"
                                                            Storyboard.TargetProperty="Fill">
                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />
+                                                        Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
                             </ObjectAnimationUsingKeyFrames>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                            Storyboard.TargetProperty="Foreground">
@@ -419,7 +427,7 @@
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground"
                                                            Storyboard.TargetProperty="Fill">
                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource SystemControlHighlightListAccentMediumBrush}" />
+                                                        Value="{ThemeResource SystemControlHighlightListLowBrush}" />
                             </ObjectAnimationUsingKeyFrames>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                            Storyboard.TargetProperty="Foreground">
@@ -444,6 +452,11 @@
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                             </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                                                           Storyboard.TargetProperty="Visibility">
+                                <DiscreteObjectKeyFrame KeyTime="0"
+                                                        Value="Visible" />
+                            </ObjectAnimationUsingKeyFrames>
                         </Storyboard>
                     </VisualState>
 
@@ -461,7 +474,7 @@
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="BorderBackground"
                                                            Storyboard.TargetProperty="Fill">
                                 <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="{ThemeResource SystemControlHighlightListAccentHighBrush}" />
+                                                        Value="{ThemeResource SystemControlHighlightListLowBrush}" />
                             </ObjectAnimationUsingKeyFrames>
                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
                                                            Storyboard.TargetProperty="Foreground">
@@ -787,9 +800,10 @@
     <Style TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
         <Setter Property="BorderThickness" Value="0,0,1,0" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
