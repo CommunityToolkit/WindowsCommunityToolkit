@@ -201,20 +201,19 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             IntPtr nCredPtr;
             PasswordCredential passCred = new PasswordCredential();
 
-            bool read = CredRead(key, CRED_TYPE.GENERIC, 0, out nCredPtr);
             int lastError = Marshal.GetHRForLastWin32Error();
 
-            if (read)
+            if (!CredRead(key, CRED_TYPE.GENERIC, 0, out nCredPtr))
+            {
+                return null;
+            }
+            else
             {
                 CriticalCredentialHandle critCred = new CriticalCredentialHandle(nCredPtr);
 
                 Credential credential = critCred.GetCredential();
                 passCred.UserName = credential.UserName;
                 passCred.Password = credential.CredentialBlob;
-            }
-            else
-            {
-                return null;
             }
 
             return passCred;
