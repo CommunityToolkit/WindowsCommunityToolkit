@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             if (!written)
             {
                 string message = "CredWrite failed with the error code " + lastError.ToString();
-                throw new Exception(message);
+                throw new InvalidOperationException(message);
             }
         }
 
