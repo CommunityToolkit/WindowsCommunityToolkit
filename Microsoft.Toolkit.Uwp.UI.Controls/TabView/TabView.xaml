@@ -9,6 +9,10 @@
                                              NotEmptyValue="Visible" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
+    <converters:DoubleToVisibilityConverter x:Key="GreaterThanZeroVisibilityConverter"
+                                            GreaterThan="12.0" />
+    <!--  TODO: Think we have a timing issue with TabWidthsAdjusting after this converter calculates...  -->
+
     <local:EdgeTabWidthProvider x:Key="EdgeTabWidthProvider" />
 
     <DataTemplate x:Key="DefaultItemHeaderTemplate">
@@ -75,20 +79,18 @@
                         <Grid.ColumnDefinitions>
                             <!--  0 Left Header  -->
                             <ColumnDefinition Width="Auto" />
-                            <!--  1 Scroll Button  -->
-                            <ColumnDefinition Width="Auto" />
-                            <!--  2 Tabs  -->
+                            <!--  1 Tabs  -->
                             <ColumnDefinition Width="Auto"
                                               local:TabView.ConstrainColumn="True"
                                               local:TabView.IgnoreColumn="True" />
-                            <!--  3 Scoll Button or Overflow Drop-down  -->
+                            <!--  2 Reserved: Overflow Drop-down  -->
                             <ColumnDefinition Width="Auto" />
-                            <!--  4 Auto Add Button  -->
+                            <!--  3 Auto Add Button  -->
                             <ColumnDefinition Width="Auto" />
-                            <!--  5 Padding  -->
+                            <!--  4 Padding  -->
                             <ColumnDefinition Width="*"
                                               local:TabView.IgnoreColumn="True" />
-                            <!--  6 Right Header  -->
+                            <!--  5 Right Header  -->
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <ContentPresenter Grid.Row="0"
@@ -100,9 +102,10 @@
                                           Grid.Column="0"
                                           Content="{TemplateBinding LeftHeader}"
                                           ContentTemplate="{TemplateBinding LeftHeaderTemplate}" />
+
                         <ScrollViewer x:Name="TabsScrollViewer"
                                       Grid.Row="1"
-                                      Grid.Column="2"
+                                      Grid.Column="1"
                                       AutomationProperties.AccessibilityView="Raw"
                                       BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
                                       HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
@@ -112,6 +115,7 @@
                                       IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
                                       IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
                                       IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                                      Style="{StaticResource TabViewScrollViewer}"
                                       TabNavigation="{TemplateBinding TabNavigation}"
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                                       VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
@@ -121,7 +125,7 @@
                         </ScrollViewer>
 
                         <Grid Grid.Row="1"
-                              Grid.Column="4"
+                              Grid.Column="3"
                               HorizontalAlignment="Left"
                               Background="{TemplateBinding Background}"
                               Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -135,16 +139,16 @@
                         </Grid>
 
                         <ContentPresenter Grid.Row="1"
-                                          Grid.Column="6"
+                                          Grid.Column="5"
                                           Content="{TemplateBinding RightHeader}"
                                           ContentTemplate="{TemplateBinding RightHeaderTemplate}" />
 
                         <ContentPresenter x:Name="TabContentPresenter"
                                           Grid.Row="2"
-                                          Grid.ColumnSpan="7" />
+                                          Grid.ColumnSpan="6" />
 
                         <ContentPresenter Grid.Row="3"
-                                          Grid.ColumnSpan="7"
+                                          Grid.ColumnSpan="6"
                                           Content="{TemplateBinding Footer}"
                                           ContentTemplate="{TemplateBinding FooterTemplate}" />
                     </Grid>
@@ -886,6 +890,68 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="TabViewScrollViewer"
+           TargetType="ScrollViewer">
+        <Setter Property="HorizontalScrollMode" Value="Auto" />
+        <Setter Property="VerticalScrollMode" Value="Auto" />
+        <Setter Property="IsHorizontalRailEnabled" Value="True" />
+        <Setter Property="IsVerticalRailEnabled" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="ZoomMode" Value="Disabled" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="VerticalScrollBarVisibility" Value="Visible" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ScrollViewer">
+                    <Border x:Name="Root"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <RepeatButton x:Name="ScrollBackButton"
+                                          Grid.Column="0"
+                                          Width="44"
+                                          Height="44"
+                                          Delay="50"
+                                          FontFamily="Segoe MDL2 Assets"
+                                          Interval="100"
+                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                &#xE76B;
+                            </RepeatButton>
+
+                            <ScrollContentPresenter x:Name="ScrollContentPresenter"
+                                                    Grid.Column="1"
+                                                    Margin="{TemplateBinding Padding}"
+                                                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                            <RepeatButton x:Name="ScrollForwardButton"
+                                          Grid.Column="2"
+                                          Width="44"
+                                          Height="44"
+                                          Delay="50"
+                                          FontFamily="Segoe MDL2 Assets"
+                                          Interval="100"
+                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                &#xE76C;
+                            </RepeatButton>
+                        </Grid>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

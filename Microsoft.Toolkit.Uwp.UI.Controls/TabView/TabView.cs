@@ -9,6 +9,7 @@ using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -18,18 +19,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TABCONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
     [TemplatePart(Name = TABVIEWCONTAINER_NAME, Type = typeof(Grid))]
     [TemplatePart(Name = TABITEMSPRESENTER_NAME, Type = typeof(ItemsPresenter))]
-    [TemplatePart(Name = TABADDBUTTON_NAME, Type = typeof(Button))]
+    [TemplatePart(Name = TABSCROLLVIEWER_NAME, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = TABADDBUTTON_NAME, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = TABSCROLLBACKBUTTON_NAME, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = TABSCROLLFORWARDBUTTON_NAME, Type = typeof(ButtonBase))]
     public partial class TabView : ListViewBase
     {
+        private const int SCROLL_AMOUNT = 50; // TODO: Should this come from TabWidthProvider?
+
         private const string TABCONTENTPRESENTER_NAME = "TabContentPresenter";
         private const string TABVIEWCONTAINER_NAME = "TabViewContainer";
         private const string TABITEMSPRESENTER_NAME = "TabsItemsPresenter";
+        private const string TABSCROLLVIEWER_NAME = "TabsScrollViewer";
         private const string TABADDBUTTON_NAME = "AddTabButton";
+        private const string TABSCROLLBACKBUTTON_NAME = "ScrollBackButton";
+        private const string TABSCROLLFORWARDBUTTON_NAME = "ScrollForwardButton";
 
         private ContentPresenter _tabContentPresenter;
         private Grid _tabViewContainer;
         private ItemsPresenter _tabItemsPresenter;
-        private Button _tabAddButton;
+        private ScrollViewer _tabScroller;
+        private ButtonBase _tabAddButton;
+        private ButtonBase _tabScrollBackButton;
+        private ButtonBase _tabScrollForwardButton;
 
         /// <summary>
         /// Occurs when a tab is dragged by the user outside of the <see cref="TabView"/>.  Generally, this paradigm is used to create a new-window with the torn-off tab.
@@ -92,7 +104,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabContentPresenter = GetTemplateChild(TABCONTENTPRESENTER_NAME) as ContentPresenter;
             _tabViewContainer = GetTemplateChild(TABVIEWCONTAINER_NAME) as Grid;
             _tabItemsPresenter = GetTemplateChild(TABITEMSPRESENTER_NAME) as ItemsPresenter;
-            _tabAddButton = GetTemplateChild(TABADDBUTTON_NAME) as Button;
+            _tabScroller = GetTemplateChild(TABSCROLLVIEWER_NAME) as ScrollViewer;
+            _tabAddButton = GetTemplateChild(TABADDBUTTON_NAME) as ButtonBase;
 
             DragLeave += TabPresenter_DragLeave;
             DragItemsCompleted += TabPresenter_DragItemsCompleted;
@@ -114,6 +127,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _tabAddButton.Click -= AddTabButton_Click;
                 _tabAddButton.Click += AddTabButton_Click;
+            }
+
+            if (_tabScroller != null)
+            {
+                _tabScroller.Loaded -= ScrollViewer_Loaded;
+                _tabScroller.Loaded += ScrollViewer_Loaded;
+            }
+        }
+
+        private void ScrollViewer_Loaded(object sender, RoutedEventArgs e)
+        {
+            _tabScroller.Loaded -= ScrollViewer_Loaded;
+
+            _tabScrollBackButton = _tabScroller.FindDescendantByName(TABSCROLLBACKBUTTON_NAME) as ButtonBase;
+            _tabScrollForwardButton = _tabScroller.FindDescendantByName(TABSCROLLFORWARDBUTTON_NAME) as ButtonBase;
+
+            if (_tabScrollBackButton != null)
+            {
+                _tabScrollBackButton.Click -= ScrollTabBackButton_Click;
+                _tabScrollBackButton.Click += ScrollTabBackButton_Click;
+            }
+
+            if (_tabScrollForwardButton != null)
+            {
+                _tabScrollForwardButton.Click -= ScrollTabForwardButton_Click;
+                _tabScrollForwardButton.Click += ScrollTabForwardButton_Click;
+            }
+        }
+
+        private void ScrollTabBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_tabScroller != null)
+            {
+                _tabScroller.ChangeView(Math.Max(0, _tabScroller.HorizontalOffset - SCROLL_AMOUNT), null, null);
+            }
+        }
+
+        private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_tabScroller != null)
+            {
+                _tabScroller.ChangeView(Math.Min(_tabScroller.ScrollableWidth, _tabScroller.HorizontalOffset + SCROLL_AMOUNT), null, null);
             }
         }
 
