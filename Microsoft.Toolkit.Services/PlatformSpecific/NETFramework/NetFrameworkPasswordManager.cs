@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             int lastError = Marshal.GetLastWin32Error();
             if (!written)
             {
-                string message = string.Format("CredWrite failed with the error code {0}.", lastError);
+                string message = "CredWrite failed with the error code " + lastError.ToString();
                 throw new Exception(message);
             }
         }
