@@ -77,6 +77,10 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
                 {
                     // These exceptions are expected
                 }
+                catch (BadImageFormatException)
+                {
+                    // DLL is not loadable by CLR (e.g. Native)
+                }
 
                 if (a != null)
                 {
