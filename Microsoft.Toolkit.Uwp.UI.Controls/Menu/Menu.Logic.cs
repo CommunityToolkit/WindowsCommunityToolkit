@@ -23,6 +23,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string ShiftValue = "SHIFT";
         private const string AltValue = "ALT";
 
+        /// <summary>
+        /// Gets or sets the current flyout placement, internal because the child menu item needs it to respect the menu direction of submenus
+        /// </summary>
         internal FlyoutPlacementMode? CurrentFlyoutPlacement { get; set; }
 
         private static bool NavigateUsingKeyboard(KeyEventArgs args, Menu menu, Orientation orientation)
