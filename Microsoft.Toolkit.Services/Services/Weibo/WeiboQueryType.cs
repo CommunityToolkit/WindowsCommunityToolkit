@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
+    /// <summary>
+    /// Type of Weibo Query.
+    /// </summary>
     public enum WeiboQueryType
     {
         /// <summary>

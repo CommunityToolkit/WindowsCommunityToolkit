@@ -344,6 +344,10 @@ namespace Microsoft.Toolkit.Services.Weibo
             return items;
         }
 
+        /// <summary>
+        /// Check validity of configuration.
+        /// </summary>
+        /// <param name="config">Query configuration.</param>
         protected override void ValidateConfig(WeiboDataConfig config)
         {
             if (config?.Query == null && config?.QueryType != WeiboQueryType.Home)

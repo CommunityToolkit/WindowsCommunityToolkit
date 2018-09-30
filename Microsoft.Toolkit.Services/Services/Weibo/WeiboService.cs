@@ -257,7 +257,6 @@ namespace Microsoft.Toolkit.Services.Weibo
             return null;
         }
 
-
         /// <summary>
         /// Post a status with associated pictures.
         /// Due to the restriction by Weibo API, your status must include a url which starts with "http"/"https".

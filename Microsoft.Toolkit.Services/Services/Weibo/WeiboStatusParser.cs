@@ -13,6 +13,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
+    /// <summary>
+    /// Weibo Timeline Parser.
+    /// </summary>
     public class WeiboStatusParser : Parsers.IParser<WeiboStatus>
     {
         /// <summary>

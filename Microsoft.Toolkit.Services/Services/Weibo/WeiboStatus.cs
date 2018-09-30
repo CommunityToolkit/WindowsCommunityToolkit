@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public WeiboGeoInfo GeographicInfo { get; set; }
 
         /// <summary>
-        /// A helper property to indicate whether the weibo status includes attached image.
+        /// Gets a bool value indicating whether the weibo status includes attached image.
         /// </summary>
         public bool HasAttachedImage => AttachedImages != null && AttachedImages.Length > 0;
     }

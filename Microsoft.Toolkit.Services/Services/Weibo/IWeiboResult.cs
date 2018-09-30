@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
+    /// <summary>
+    /// Any kind of weibo object.
+    /// </summary>
     public interface IWeiboResult
     {
     }
