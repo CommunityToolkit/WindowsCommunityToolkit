@@ -129,7 +129,7 @@
                             <Button x:Name="CredentialsBoxExpandButton"
                                     VerticalAlignment="Stretch"
                                     Click="CredentialsBoxExpandButton_OnClick"
-                                    Content="  "
+                                    Content=""
                                     FontFamily="Segoe MDL2 Assets" />
                             <TextBlock Grid.Column="1"
                                        Margin="12,6"
