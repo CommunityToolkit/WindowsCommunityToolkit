@@ -68,6 +68,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         NCMBUTTONUP = 0x00A8,
         NCMBUTTONDBLCLK = 0x00A9,
 
+        KEYDOWN = 0x0100,
+        KEYUP = 0x0101,
+        CHAR = 0x0102,
+
         SYSKEYDOWN = 0x0104,
         SYSKEYUP = 0x0105,
         SYSCHAR = 0x0106,
