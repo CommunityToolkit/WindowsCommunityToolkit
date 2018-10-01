@@ -4,7 +4,7 @@
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-    internal enum TileSize
+    public enum TileSize
     {
         Small,
         Medium,
