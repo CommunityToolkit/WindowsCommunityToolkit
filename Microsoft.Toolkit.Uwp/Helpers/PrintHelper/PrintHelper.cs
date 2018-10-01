@@ -189,7 +189,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         public void Dispose()
         {
-
             if (_printDocument == null)
             {
                 return;
