@@ -34,6 +34,8 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// </summary>
         private const string BaseUrl = "https://api.weibo.com/2";
         private const string OAuthBaseUrl = "https://api.weibo.com/oauth2";
+        private const string PasswordKey = "Weibo";
+        private const string StorageKey = "WeiboUid";
 
         private static HttpClient _client;
 
@@ -71,8 +73,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             _storageManager = storageManager;
             if (_client == null)
             {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
+                HttpClientHandler handler = new HttpClientHandler {AutomaticDecompression = DecompressionMethods.GZip};
                 _client = new HttpClient(handler);
             }
         }
@@ -83,8 +84,8 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var crendetials = _passwordManager.Get("Weibo");
-            var uidString = _storageManager.Get("WeiboUid");
+            var crendetials = _passwordManager.Get(PasswordKey);
+            var uidString = _storageManager.Get(StorageKey);
             if (long.TryParse(uidString, out var uid) && crendetials != null)
             {
                 _tokens.AccessToken = crendetials.Password;
@@ -107,14 +108,11 @@ namespace Microsoft.Toolkit.Services.Weibo
                 case AuthenticationResultStatus.Success:
                     LoggedIn = true;
                     return await ExchangeRequestTokenForAccessTokenAsync(result.ResponseData);
-
                 case AuthenticationResultStatus.ErrorHttp:
-                    Debug.WriteLine("WAB failed, message={0}", result.ResponseErrorDetail.ToString());
                     LoggedIn = false;
                     return false;
 
                 case AuthenticationResultStatus.UserCancel:
-                    Debug.WriteLine("WAB user aborted.");
                     LoggedIn = false;
                     return false;
             }
@@ -128,11 +126,11 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// </summary>
         public void Logout()
         {
-            var credential = _passwordManager.Get("Weibo");
+            var credential = _passwordManager.Get(PasswordKey);
             if (credential != null)
             {
-                _passwordManager.Remove("Weibo");
-                _storageManager.Set("WeiboUid", null);
+                _passwordManager.Remove(PasswordKey);
+                _storageManager.Set(StorageKey, null);
                 Uid = null;
             }
 
@@ -185,13 +183,18 @@ namespace Microsoft.Toolkit.Services.Weibo
             JObject jObject = JObject.Parse(data);
 
             string accessToken = jObject["access_token"].ToObject<string>();
+            if (string.IsNullOrEmpty(accessToken))
+            {
+                throw new NullReferenceException("The accessToken is null.");
+            }
+
             long uid = jObject["uid"].ToObject<long>();
 
             Uid = uid;
             _tokens.AccessToken = accessToken;
 
-            _passwordManager.Store("Weibo", new PasswordCredential { UserName = "AccessToken", Password = accessToken });
-            _storageManager.Set("WeiboUid", uid.ToString());
+            _passwordManager.Store(PasswordKey, new PasswordCredential { UserName = "AccessToken", Password = accessToken });
+            _storageManager.Set(StorageKey, uid.ToString());
 
             return true;
         }

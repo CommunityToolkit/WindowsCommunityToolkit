@@ -1,5 +1,5 @@
 // Initialize service
-WeiboService.Instance.Initialize(AppKey.Text, AppSecret.Text, RedirectUri.Text);
+WeiboService.Instance.Initialize(AppKey, AppSecret, RedirectUri);
 
 // Login to Weibo
 if (!await WeiboService.Instance.LoginAsync())
