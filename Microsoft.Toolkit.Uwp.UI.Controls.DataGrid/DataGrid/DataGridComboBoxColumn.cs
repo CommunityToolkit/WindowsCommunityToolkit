@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -204,11 +205,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-                var items = ItemsSource as IEnumerable<object>;
+                var items = ItemsSource as IEnumerable;
 
                 var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
-                    : items?.FirstOrDefault(x => x.Equals(value));
+                    ? items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                    : items?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -256,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var item = args.AddedItems.FirstOrDefault();
                 if (item != null)
                 {
-                    var newValue = DisplayMemberPath != null
+                    var newValue = !string.IsNullOrEmpty(this.DisplayMemberPath)
                         ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
                         : item;
 
@@ -323,6 +324,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
                 }
+                else
+                {
+                    textBlockElement.Text = GetDisplayValue(dataItem);
+                }
             }
 
             return textBlockElement;
@@ -339,8 +344,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (comboBox != null && uneditedValue != null)
             {
                 var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
-                var items = ItemsSource as IEnumerable<object>;
-                var selection = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var items = ItemsSource as IEnumerable;
+                var selection = items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -559,9 +564,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-                var items = ItemsSource as IEnumerable<object>;
+                var items = ItemsSource as IEnumerable;
 
-                var item = items?.FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var item = items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
                 var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
 
@@ -593,7 +598,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!string.IsNullOrEmpty(DisplayMemberPath))
             {
-                var items = ItemsSource as IEnumerable<object>;
+                var items = ItemsSource as IEnumerable;
                 var type = items?.GetItemType();
 
                 if (items != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
