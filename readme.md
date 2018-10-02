@@ -12,13 +12,13 @@ The Windows Community Toolkit is a collection of helper functions, custom contro
 Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
 
 ## Documentation
-All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/windows/communitytoolkit/). All API documentation can be found at the [.NET API Browser.](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit)
+All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/windows/communitytoolkit/). All API documentation can be found at the [.NET API Browser](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit).
 
 ## Windows Community Toolkit Sample App
-Want to see the toolkit in action before jumping into the code?  Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
+Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages
-NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
+NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI. Enter one of the package names below to search for it online.
 
 Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
 
@@ -35,10 +35,10 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Facebook, LinkedIn, Microsoft Graph, Twitter and more |
 | Microsoft.Toolkit.Uwp.UI | UI Packages - Brushes, XAML converters, Visual tree extensions, and other extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
-| Microsoft.Toolkit.Uwp.UI.Controls.DataGrid | XAML DataGrid control | 
-| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
-| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
+| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. |
+| Microsoft.Toolkit.Uwp.UI.Controls.DataGrid | XAML DataGrid control |
+| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
+| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
 ## <a name="supported"></a> Supported SDKs
 * Creators Update (15063)
@@ -167,7 +167,7 @@ Once you search you should see a list similar to the one below (versions may be 
 ## Feedback and Requests
 Please use [GitHub Issues](https://github.com/Microsoft/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For feature requests, please also create an entry in our [UserVoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
-For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`
+For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
@@ -179,7 +179,7 @@ Do you want to contribute? Here are our [contribution guidelines](https://github
 
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
 to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct). 
+For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
 
 ## Roadmap
 Read what we [plan for next iterations](https://github.com/Microsoft/WindowsCommunityToolkit/milestones), and feel free to ask questions.
