@@ -11,6 +11,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -437,6 +438,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <value>The maximum angle, in the range from -180 to 540.</value>
         protected double NormalizedMaxAngle => _normalizedMaxAngle;
+
+        /// <inheritdoc/>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new RadialGaugeAutomationPeer(this);
+        }
 
         /// <summary>
         /// Update the visual state of the control when its template is changed.
