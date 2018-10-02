@@ -272,10 +272,8 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
-                        <Border BorderThickness="{ThemeResource ToggleButtonBorderThemeThickness}" BorderBrush="{ThemeResource SystemControlBorderBrush}">
-                            <Slider x:Name="ArrowRotation" Visibility="Collapsed" Value="90" Minimum="-180" Maximum="180" />
-                        </Border>
-                        
+                        <Slider x:Name="ArrowRotation" Visibility="Collapsed" Value="90" Minimum="-180" Maximum="180" />
+
                         <FontIcon x:Name="Arrow"
                                   FontFamily="Segoe MDL2 Assets"
                                   FontSize="12"
