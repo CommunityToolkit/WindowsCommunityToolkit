@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -17,17 +9,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Newtonsoft.Json;
 using Windows.ApplicationModel;
-using Windows.Foundation.Metadata;
-using Windows.System.Profile;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
@@ -114,10 +102,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.ShowOnlyHeader("About");
-
-            var packageVersion = Package.Current.Id.Version;
-            Version.Text = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+            Shell.Current.SetTitles("About");
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
@@ -157,21 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             foreach (var child in InnerGrid.Children)
             {
-                if (child is ItemsControl itemsControl)
-                {
-                    foreach (var childOfChild in itemsControl.Items)
-                    {
-                        Implicit.GetShowAnimations((UIElement)childOfChild).Add(new OpacityAnimation()
-                        {
-                            From = 0,
-                            To = 1,
-                            Duration = TimeSpan.FromMilliseconds(300),
-                            Delay = TimeSpan.FromMilliseconds(counter++ * delay),
-                            SetInitialValueBeforeDelay = true
-                        });
-                    }
-                }
-                else
+                if (child is ItemsControl itemsControl == false)
                 {
                     Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
                     {
@@ -232,7 +203,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                 using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("landingPageLinks.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
-                    LandingPageLinks = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                    var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);
+                    var packageVersion = Package.Current.Id.Version;
+
+                    var resource = links.Resources.FirstOrDefault(item => item.ID == "app");
+                    if (resource != null)
+                    {
+                        resource.Links[0].Title = $"Version {packageVersion.Major}.{packageVersion.Minor}.{packageVersion.Build}";
+                    }
+
+                    LandingPageLinks = links;
                 }
 
                 var samples = new List<Sample>();
@@ -247,33 +227,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                 }
 
                 NewSamples = samples;
-            }
-
-            foreach (var section in LandingPageLinks.Resources.Reverse())
-            {
-                var stackPanel = new StackPanel()
-                {
-                    MinWidth = 267,
-                    Margin = new Thickness(0, 0, 0, 48)
-                };
-
-                stackPanel.Children.Add(
-                    new TextBlock()
-                    {
-                        FontSize = 20,
-                        FontFamily = new Windows.UI.Xaml.Media.FontFamily("Segoe UI"),
-                        Text = section.Title
-                    });
-
-                stackPanel.Children.Add(
-                    new ItemsControl()
-                    {
-                        Margin = new Thickness(0, 16, 0, 0),
-                        ItemsSource = section.Links,
-                        ItemTemplate = Resources["LinkTemplate"] as DataTemplate
-                    });
-
-                ResourcesSection.Items.Insert(0, stackPanel);
             }
         }
 
@@ -293,27 +246,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            var background = new Image()
-            {
-                Source = new BitmapImage(new Uri("ms-appx:///Assets/Photos/HERO.jpg")),
-                Stretch = Windows.UI.Xaml.Media.Stretch.UniformToFill
-            };
-
-            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Controls.ParallaxView"))
-            {
-                var parallaxView = new ParallaxView()
-                {
-                    Source = Scroller,
-                    VerticalShift = 50,
-                    Child = background
-                };
-
-                BackgroundBorder.Child = parallaxView;
-            }
-            else
-            {
-                BackgroundBorder.Child = background;
-            }
+            Shell.Current.AttachScroll(Scroller);
         }
     }
 }

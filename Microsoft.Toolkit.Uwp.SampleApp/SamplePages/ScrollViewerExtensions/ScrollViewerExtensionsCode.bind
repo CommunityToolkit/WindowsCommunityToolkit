@@ -11,26 +11,27 @@
     <common:DoubleTopThicknessConverter x:Key="DoubleTopThicknessConverter" />
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ListView Name="listView"
-              extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}">
+              extensions:ScrollViewerExtensions.VerticalScrollBarMargin="{Binding MinHeight, ElementName=MyHeaderGrid, Converter={StaticResource DoubleTopThicknessConverter}}"
+              extensions:ScrollViewerExtensions.EnableMiddleClickScrolling="@[EnableMiddleClickScrolling:Bool:True]">
       <ListView.Header>
         <controls:ScrollHeader Mode="Sticky">
           <Grid x:Name="MyHeaderGrid"
                 MinHeight="@[Header MinHeight:DoubleSlider:250:150-500]"
-                Background="#AA000000">
+                Background="{ThemeResource Brush-Sample-TransparentHeader}">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center">
               <TextBlock Margin="12"
                          FontSize="48"
                          FontWeight="Bold"
-                         Foreground="{StaticResource Brush-White}"
+                         Foreground="{ThemeResource Brush-Main}"
                          Text="Scroll Header"
                          TextAlignment="Center"
                          TextWrapping="WrapWholeWords" />
               <TextBlock Margin="12,0,12,12"
                          VerticalAlignment="Center"
-                         Foreground="{StaticResource Brush-White}"
+                         Foreground="{ThemeResource Brush-Main}"
                          Text="The attached property allows you to assign a Thickness to both vertical and horizontal ScrollBar inside any container. In this example, VerticalScrollBarMargin is bound to StickyHeader's MinHeight. Moving MinHeight's Slider will move the vertical ScrollBar accordingly."
                          TextAlignment="Center"
                          TextWrapping="WrapWholeWords" />
@@ -41,7 +42,7 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <Grid MinHeight="100"
-                Background="{StaticResource Brush-Grey-02}">
+                Background="{ThemeResource Brush-Grey-03}">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
               <ColumnDefinition Width="*" />

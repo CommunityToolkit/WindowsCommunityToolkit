@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -103,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (folder != null)
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     string newFolderName = await OneDriveSampleHelpers.InputTextDialogAsync("New Folder Name");
@@ -118,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -132,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 var oneDriveFile = (OneDriveStorageFile)item;
                 using (var remoteStream = (await oneDriveFile.StorageFilePlatformService.OpenAsync()) as IRandomAccessStream)
                 {
@@ -146,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 
@@ -176,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         /// <returns>Task to support await of async call.</returns>
         public static async Task UploadSimpleFileAsync(OneDriveStorageFolder folder)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             try
             {
@@ -207,7 +199,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 
@@ -227,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     {
                         using (var localStream = await selectedFile.OpenReadAsync())
                         {
-                            Shell.Current.DisplayWaitRing = true;
+                            SampleController.Current.DisplayWaitRing = true;
 
                             // If the file exceed the Maximum size (ie 4MB)
                             var largeFileCreated = await folder.StorageFolderPlatformService.UploadFileAsync(selectedFile.Name, localStream, CreationCollisionOption.GenerateUniqueName, 320 * 1024);
@@ -250,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 
@@ -258,7 +250,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 string newName = await OneDriveSampleHelpers.InputTextDialogAsync("New Name");
                 if (!string.IsNullOrEmpty(newName))
                 {
@@ -276,13 +268,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 
         public static async Task CopyToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             try
             {
                 var folder = await OneDriveSampleHelpers.OpenFolderPicker("Copy to", rootFolder);
@@ -302,13 +294,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 
         public static async Task MoveToAsync(OneDriveStorageItem item, OneDriveStorageFolder rootFolder)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             try
             {
                 var folder = await OneDriveSampleHelpers.OpenFolderPicker("Move to", rootFolder);
@@ -328,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 

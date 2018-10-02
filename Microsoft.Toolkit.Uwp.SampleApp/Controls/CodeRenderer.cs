@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using ColorCode;
@@ -32,10 +24,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private string _displayedText;
         private ILanguage _language;
         private bool _rendered;
+        private ElementTheme _theme;
 
         public CodeRenderer()
         {
             DefaultStyleKey = typeof(CodeRenderer);
+            _theme = SystemTheme();
+            SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
         /// <summary>
@@ -92,8 +87,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void RenderDocument()
         {
-            _codeView.Blocks.Clear();
-            _formatter = new RichTextBlockFormatter();
+            _codeView?.Blocks?.Clear();
+            _formatter = new RichTextBlockFormatter(_theme);
             _formatter.FormatRichTextBlock(_displayedText, _language, _codeView);
             _rendered = true;
         }
@@ -109,13 +104,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private async void PrintButton_Click(object sender, RoutedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             var printblock = new RichTextBlock
             {
-                FontFamily = _codeView.FontFamily
+                FontFamily = _codeView.FontFamily,
+                RequestedTheme = ElementTheme.Light
             };
-            _formatter.FormatRichTextBlock(_displayedText, _language, printblock);
+            var printFormatter = new RichTextBlockFormatter(ElementTheme.Light);
+            printFormatter.FormatRichTextBlock(_displayedText, _language, printblock);
 
             _printHelper = new PrintHelper(_container);
             _printHelper.AddFrameworkElementToPrint(printblock);
@@ -135,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             _printHelper.Dispose();
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void PrintHelper_OnPrintSucceeded()
@@ -155,6 +152,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private void PrintHelper_OnPrintCanceled()
         {
             ReleasePrintHelper();
+        }
+
+        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
+        {
+            // Only Handle System Theme Changes.
+            if (e.CustomSet)
+            {
+                return;
+            }
+
+            _theme = SystemTheme();
+            try
+            {
+                _rendered = false;
+                RenderDocument();
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// Casts Application Theme to Element Theme, as Formatter accepts ElementTheme.
+        /// </summary>
+        /// <returns>Element Theme</returns>
+        private ElementTheme SystemTheme()
+        {
+            return SampleController.Current.SystemTheme() == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
         }
     }
 }

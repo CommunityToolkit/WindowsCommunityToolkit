@@ -83,15 +83,15 @@ Dim content = uiElement.GetContentControl()
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
-* [LogicalTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs)
+* [LogicalTree extensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs)
 
 ## Related Topics
 
-- [VisualTree Extensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/visualtree)
+- [VisualTree Extensions](https://docs.microsoft.com/windows/communitytoolkit/extensions/visualtree)

@@ -1,6 +1,6 @@
 ---
 title: MarkdownTextBlock XAML Control
-author: quinndamerell, deltakosh, tipa, haefele, avknaidu, nmetulev, shenchauhan, vijay-nirmal, pedrolamas, williamabradley
+author: williamabradley
 description: The MarkdownTextBlock control provides full markdown parsing and rendering for Universal Windows Apps.
 keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp toolkit, MarkdownTextBlock, xaml, xaml control
 ---
@@ -26,7 +26,6 @@ Under the hood, the control uses XAML sub elements to build the visual rendering
 
 Here are some limitations you may encounter:
 
-- Images cannot be embedded inside a hyperlink
 - All images are stretched with the same stretch value (defined by ImageStretch property)
 - Relative Links & Relative Images needs to be handled manually using `LinkClicked` event.
 
@@ -98,6 +97,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 | QuoteForeground | Brush | Gets or sets the brush used to render the text inside a quote block. If this is `null`, then Foreground is used |
 | QuoteMargin | Thickness | Gets or sets the space outside of quote borders |
 | QuotePadding | Thickness | Gets or sets the space between the quote border and the text |
+| SchemeList | string(separated by comma) | Gets or sets the custom SchemeList to render a URL. |
 | TableBorderBrush | boBrushol | Gets or sets the brush used to render table borders. If this is null, then [TableBorderBrush](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.markdowntextblock.tableborderbrush#Microsoft_Toolkit_Uwp_UI_Controls_MarkdownTextBlock_TableBorderBrush) is used |
 | TableBorderThickness | double | Gets or sets the thickness of any table borders |
 | TableCellPadding | Thickness | Gets or sets the padding inside each cell |
@@ -114,8 +114,7 @@ The MarkdownTextBlock control is highly customizable to blend with any theme. Cu
 | -- | -- |
 | CodeBlockResolving | Fired when a Code Block is being Rendered. The default implementation is to output the CodeBlock as Plain Text. You must set `Handled` to `true` in order to process your changes |
 | ImageClicked | Fired when an image element in the markdown was tapped |
-| ImageResolving | 	
-Fired when an image from the markdown document needs to be resolved. The default implementation is basically. You must set `Handled` to `true` in order to process your changes |
+| ImageResolving | Fired when an image from the markdown document needs to be resolved. The default implementation is basically. You must set `Handled` to `true` in order to process your changes |
 | LinkClicked | Fired when a link element in the markdown was tapped |
 | MarkdownRendered | Fired when the text is done parsing and formatting. Fires each time the markdown is rendered |
 
@@ -206,28 +205,28 @@ block.SetRenderer<InheritedMarkdownRenderer>();
 
 This will likely require intimate knowledge of the implementation of the `MarkdownRenderer`, take a look at the following:
 
-* [MarkdownRenderer and Helpers](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render)
-* [Sample App custom markdown renderer](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
+* [MarkdownRenderer and Helpers](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/Render)
+* [Sample App custom markdown renderer](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/Controls/SampleAppMarkdownRenderer)
 
 ## Sample Code
 
-[MarkdownTextBlock Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock). You can see this in action in [UWP Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[MarkdownTextBlock Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/MarkdownTextBlock). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Default Template 
 
-[MarkdownTextBlock XAML File](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
+[MarkdownTextBlock XAML File](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock/MarkdownTextBlock.xaml) is the XAML template used in the toolkit for the default styling.
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Controls |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI.Controls](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI.Controls/) |
 
 ## API
 
-* [MarkdownTextBlock source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
+* [MarkdownTextBlock source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock)
 
 ## Related Topics
 
-* [Markdown Parser](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/parsers/markdownparser)
+* [Markdown Parser](https://docs.microsoft.com/en-us/windows/communitytoolkit/parsers/markdownparser)

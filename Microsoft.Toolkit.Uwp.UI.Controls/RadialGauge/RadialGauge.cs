@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Numerics;
@@ -71,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the NeedleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleBrushProperty =
-            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red), OnFaceChanged));
+            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the Value dependency property.
@@ -89,25 +81,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the TrailBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TrailBrushProperty =
-            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Orange)));
+            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the ScaleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleBrushProperty =
-            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the ScaleTickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleTickBrushProperty =
-            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnFaceChanged));
+            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TickBrushProperty =
-            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnFaceChanged));
+            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ValueStringFormat dependency property.

@@ -1,22 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
@@ -27,6 +17,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown
     /// </summary>
     public class MarkdownDocument : MarkdownBlock
     {
+        /// <summary>
+        /// Gets a list of URL schemes.
+        /// </summary>
+        public static List<string> KnownSchemes { get; private set; } = new List<string>()
+        {
+            "http",
+            "https",
+            "ftp",
+            "steam",
+            "irc",
+            "news",
+            "mumble",
+            "ssh",
+            "ms-windows-store",
+            "sip"
+        };
+
         private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
@@ -48,8 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            int actualEnd;
-            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out actualEnd);
+            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out int actualEnd);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -197,8 +203,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
 
                 // Find the end of the current line.
-                int startOfNextLine;
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out startOfNextLine);
+                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
                 if (nonSpaceChar == '\0')
                 {
@@ -374,8 +379,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 return null;
             }
 
-            LinkReferenceBlock result;
-            if (_references.TryGetValue(id, out result))
+            if (_references.TryGetValue(id, out LinkReferenceBlock result))
             {
                 return result;
             }

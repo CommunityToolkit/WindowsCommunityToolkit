@@ -1,0 +1,177 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Branding  -->
+    <Color x:Key="Brand-Color">#3750D1</Color>
+
+    <SolidColorBrush x:Key="Brush-Brand-Color" Color="{StaticResource Brand-Color}" />
+
+    <!--  Colors  -->
+    <Color x:Key="White">#FFFFFFFF</Color>
+    <Color x:Key="Black">#FF000000</Color>
+    <Color x:Key="Blue-01">#FF0078D7</Color>
+    <Color x:Key="Red">#FFFF0000</Color>
+
+    <!-- Titlebar -->
+    <Color x:Key="Titlebar-Foreground">#FFDDDDDD</Color>
+
+    <SolidColorBrush x:Key="Brush-Red" Color="{StaticResource Red}" />
+
+    <!--  Brushes  -->
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <!-- Colors -->
+            <Color x:Key="Color-Main">White</Color>
+            <Color x:Key="Color-Alt">Black</Color>
+            <Color x:Key="Grey-01">#FF333333</Color>
+            <Color x:Key="Grey-02">#FF444444</Color>
+            <Color x:Key="Grey-03">#FF555555</Color>
+            <Color x:Key="Grey-04">#FFDDDDDD</Color>
+            <Color x:Key="Grey-05">#FFF0F0F0</Color>
+            <Color x:Key="SampleInfo-Background">#FFEEEEEE</Color>
+
+            <!-- Branding Colors -->
+            <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
+                         Color="{StaticResource Brand-Color}" />
+            <SolidColorBrush x:Key="Brush-Link-Normal"
+                         Color="#CC191919" />
+            <!-- UI Elements -->
+            <SolidColorBrush x:Key="SliderThumbBackground"
+                             Color="Black" />
+            <SolidColorBrush x:Key="Brush-Grey-01"
+                         Color="{ThemeResource Grey-01}" />
+            <SolidColorBrush x:Key="Brush-Grey-02"
+                         Color="{ThemeResource Grey-02}" />
+            <SolidColorBrush x:Key="Brush-Grey-03"
+                         Color="{ThemeResource Grey-03}" />
+            <SolidColorBrush x:Key="Brush-Grey-04"
+                         Color="{ThemeResource Grey-04}" />
+            <SolidColorBrush x:Key="Brush-Grey-05"
+                         Color="{ThemeResource Grey-05}" />
+            <SolidColorBrush x:Key="Brush-Main"
+                         Color="{StaticResource White}" />
+            <SolidColorBrush x:Key="Brush-Alt"
+                          Color="Black" />
+            <SolidColorBrush x:Key="Brush-Sample-Background"
+                             Color="White" />
+            <SolidColorBrush x:Key="Brush-Blue-01"
+                         Color="{StaticResource Blue-01}" />
+            <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="Border-AboutPage-Vertical"
+                             Color="#19000000" />
+            <SolidColorBrush x:Key="Background-AboutPage-Main"
+                             Color="#FFF3F5F5" />
+            <SolidColorBrush x:Key="Background-AboutPage-SidePane"
+                             Color="#D4F3F3F3" />
+            <SolidColorBrush x:Key="Background-NavigationBar"
+                             Color="White" />
+            <SolidColorBrush x:Key="Border-NavigationBar"
+                             Color="#48000000" />
+            <SolidColorBrush x:Key="Menu-DropDown-Background"
+                             Color="#FFF3F3F3" />
+            <SolidColorBrush x:Key="Commands-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="InfoArea-Titlebar"
+                             Color="#FFCCCCCC" />
+            <SolidColorBrush x:Key="DocumentationBackground"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="DocumentationForeground"
+                             Color="Black" />
+            <SolidColorBrush x:Key="BackingTint"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="SampleIconBacking"
+                             Color="#E6E6E6" />
+            <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
+                             Color="DarkRed" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
+                             Color="#11000000" />
+            <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
+                             Color="#FFCCCCCC" />
+            <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
+                             Color="#AA000000" />
+
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FFF6F8FA" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FFC2C4C6" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Dark">
+            <!-- Colors -->
+            <Color x:Key="Color-Main">Black</Color>
+            <Color x:Key="Color-Alt">White</Color>
+            <Color x:Key="Grey-01">#FFF0F0F0</Color>
+            <Color x:Key="Grey-02">#FFDDDDDD</Color>
+            <Color x:Key="Grey-03">#FF555555</Color>
+            <Color x:Key="Grey-04">#FF444444</Color>
+            <Color x:Key="Grey-05">#FF333333</Color>
+            <Color x:Key="SampleInfo-Background">#FF222222</Color>
+
+            <!-- Branding Colors -->
+            <SolidColorBrush x:Key="SystemControlHighlightAccentBrush"
+                         Color="{StaticResource Brand-Color}" />
+            <SolidColorBrush x:Key="Brush-Link-Normal"
+                         Color="#CCFFFFFF" />
+            <!-- UI Elements -->
+            <SolidColorBrush x:Key="SliderThumbBackground"
+                             Color="White" />
+            <SolidColorBrush x:Key="Brush-Grey-01"
+                         Color="{ThemeResource Grey-01}" />
+            <SolidColorBrush x:Key="Brush-Grey-02"
+                         Color="{ThemeResource Grey-02}" />
+            <SolidColorBrush x:Key="Brush-Grey-03"
+                         Color="{ThemeResource Grey-03}" />
+            <SolidColorBrush x:Key="Brush-Grey-04"
+                         Color="{ThemeResource Grey-04}" />
+            <SolidColorBrush x:Key="Brush-Grey-05"
+                         Color="{ThemeResource Grey-05}" />
+            <SolidColorBrush x:Key="Brush-Main"
+                         Color="{StaticResource Black}" />
+            <SolidColorBrush x:Key="Brush-Alt"
+                          Color="White" />
+            <SolidColorBrush x:Key="Brush-Sample-Background"
+                             Color="{ThemeResource Grey-05}" />
+            <SolidColorBrush x:Key="Brush-Blue-01"
+                         Color="{StaticResource Blue-01}" />
+            <SolidColorBrush x:Key="Border-AboutPage-Horizontal"
+                             Color="#33FFFFFF" />
+            <SolidColorBrush x:Key="Border-AboutPage-Vertical"
+                             Color="#19FFFFFF" />
+            <SolidColorBrush x:Key="Background-AboutPage-Main"
+                             Color="#FF262626" />
+            <SolidColorBrush x:Key="Background-AboutPage-SidePane"
+                             Color="#D4000000" />
+            <SolidColorBrush x:Key="Background-NavigationBar"
+                             Color="#FF161616" />
+            <SolidColorBrush x:Key="Border-NavigationBar"
+                             Color="#1AFFFFFF" />
+            <SolidColorBrush x:Key="Menu-DropDown-Background"
+                             Color="#FF282828" />
+            <SolidColorBrush x:Key="Commands-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="InfoArea-Titlebar"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="DocumentationBackground"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="DocumentationForeground"
+                             Color="White" />
+            <SolidColorBrush x:Key="BackingTint"
+                             Color="#33000000" />
+            <SolidColorBrush x:Key="SampleIconBacking"
+                             Color="#E6E6E6" />
+            <SolidColorBrush x:Key="ExceptionNotification-IconForeground"
+                             Color="DarkRed" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-Background"
+                             Color="{ThemeResource SampleInfo-Background}" />
+            <SolidColorBrush x:Key="Brush-SampleInfo-HeaderBacking"
+                             Color="#4C000000" />
+            <SolidColorBrush x:Key="Brush-Sample-HeaderBacking"
+                             Color="#FF1C1C1C" />
+            <SolidColorBrush x:Key="Brush-Sample-TransparentHeader"
+                             Color="#66FFFFFF" />
+
+            <SolidColorBrush x:Key="SampleMarkdownBackgroundBrush" Color="#FF171717" />
+            <SolidColorBrush x:Key="SampleMarkdownInlineCodeBackgroundBrush" Color="#FF404040" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+</ResourceDictionary>

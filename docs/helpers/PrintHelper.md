@@ -18,9 +18,10 @@ Please note that controls cannot be linked to a visual tree. This means that the
 If you want to use a control from your current XAML page, you can disconnect it before sending it to print (by removing it from its container) or you can create just create a new one from scratch.
 
 Please check the sample app code to see how to disconnect/reconnect a control that you want to print:
-https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs
+https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/PrintHelper/PrintHelperPage.xaml.cs
 
 Several events are available to control the printing process:
+
 * OnPrintFailed will be triggered if the user cancels the print or if something goes wrong
 * OnPrintSucceeded will be triggered after a successful print
 * OnPreviewPagesCreated will be triggered after print preview pages are generated. This allows you to control the look and feel of your page before they are sent to the spooler.
@@ -28,6 +29,9 @@ Several events are available to control the printing process:
 In addition, you can customize the printing dialog using the `PrintHelperOptions` class. To use it, create an instance of the class, add the options you'd like to display on the printing dialog and set the default options. Then, you can use it as a parameter in the `PrintHelper` class constructor to set them as the default for the instance, or send them as parameters to `ShowPrintUIAsync` to use them for a single print job.
 
 You can call `ShowPrintUIAsync` with a second parameter to determine that the list of controls to print should directly be taken from the content of the container passed to the PrintHelper constructor. In this mode you are responsible for the sizing and the layout.
+
+> [!IMPORTANT]
+Printing in Dark Theme will likely print white text, which won't be visible. To fix this, ensure the text is a visible color before printing, then restore the original color.
 
 ## Syntax
 
@@ -294,11 +298,11 @@ await printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", print
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp |
 | NuGet package | [Microsoft.Toolkit.Uwp](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
 
 ## API
 
-* [Print Helper source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)
+* [Print Helper source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper/)

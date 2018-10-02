@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Reflection;
@@ -21,8 +13,11 @@ using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable SA1118
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
@@ -64,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             bool succeeded = false;
 
             try
@@ -79,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     scopes = new string[] { MicrosoftGraphScope.FilesReadAll };
                 }
 
-                Services.OneDrive.OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
+                OneDriveService.Instance.Initialize(appClientId, scopes, null, null);
 
                 if (!await OneDriveService.Instance.LoginAsync())
                 {
@@ -103,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
 
             if (succeeded)
@@ -194,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             try
             {
                 OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(top);
@@ -205,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 menuButton.Visibility = Visibility.Visible;
                 BackButton.Visibility = Visibility.Visible;
             }
@@ -228,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (item.IsFolder())
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
@@ -241,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -251,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_graphCurrentFolder != null)
             {
                 OneDriveStorageFolder currentFolder = null;
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
@@ -272,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -282,7 +277,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_graphCurrentFolder != null)
             {
                 OneDriveStorageFolder currentFolder = null;
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
@@ -303,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -347,7 +342,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
             messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = true; });
                 try
                 {
                     await itemToDelete.DeleteAsync();
@@ -359,7 +354,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = false; });
                 }
             })));
 
@@ -389,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
 
                 var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
@@ -403,7 +398,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
+            }
+        }
+
+        private async void FileNameTextBlock_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            var textblock = (TextBlock)e.OriginalSource;
+            var fileItem = (OneDriveStorageFile)textblock.DataContext;
+            var tooltipPanel = ToolTipService.GetToolTip(textblock) as StackPanel;
+            var image = tooltipPanel.FindName("ThumbNail") as Windows.UI.Xaml.Controls.Image;
+            if (image.Source == null)
+            {
+                if (fileItem.Thumbnail == null)
+                {
+                    await fileItem.UpdateThumbnailPropertyAsync();
+                }
+
+                image.Source = new BitmapImage(new Uri(fileItem.Thumbnail));
             }
         }
     }

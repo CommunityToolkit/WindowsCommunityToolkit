@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +9,7 @@ using System.Reflection;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI;
+using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -70,8 +63,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Label
                     var label = new TextBlock
                     {
-                        Text = option.Label + ":",
-                        Foreground = new SolidColorBrush(Colors.Black)
+                        Text = option.Label,
+                        FontSize = 15,
+                        FontWeight = FontWeights.Bold
                     };
                     RootPanel.Children.Add(label);
 
@@ -109,6 +103,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             dependencyProperty = RangeBase.ValueProperty;
 
                             break;
+
                         case PropertyKind.Enum:
                             var enumType = option.DefaultValue.GetType();
                             var comboBox = new ComboBox
@@ -121,6 +116,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = comboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
+
                         case PropertyKind.Bool:
                             var checkBox = new ToggleSwitch();
 
@@ -132,6 +128,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = checkBox;
                             dependencyProperty = ToggleSwitch.IsOnProperty;
                             break;
+
                         case PropertyKind.Brush:
                             var colorComboBox = new ComboBox();
                             var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
@@ -152,6 +149,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             controlToAdd = colorComboBox;
                             dependencyProperty = Selector.SelectedItemProperty;
                             break;
+
                         case PropertyKind.TimeSpan:
                             var timeSlider = new Slider();
                             var timeSliderOption = option as SliderPropertyOptions;
@@ -172,6 +170,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             converter = new TimeSpanConverter();
 
                             break;
+
                         case PropertyKind.Thickness:
                             var thicknessTextBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 
@@ -179,6 +178,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                             dependencyProperty = TextBox.TextProperty;
                             converter = new ThicknessConverter();
                             break;
+
                         default:
                             var textBox = new TextBox { Text = (propertyDict[option.Name] as ValueHolder).Value.ToString() };
 

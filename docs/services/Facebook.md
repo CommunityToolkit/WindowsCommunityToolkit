@@ -79,14 +79,8 @@ ListView.ItemsSource = await FacebookService.Instance.RequestAsync(FacebookDataC
 // Get current user profile picture
 ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
 
-// Post a message on your wall
-await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, UrlText.Text);
-
 // Post a message on your wall using Facebook Dialog
 await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text);
-
-// Post a message with a picture on your wall
-await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, picture.Name, stream);
 
 // Get current user's photo albums
 await FacebookService.Instance.GetUserAlbumsAsync();
@@ -109,14 +103,8 @@ ListView.ItemsSource = Await FacebookService.Instance.RequestAsync(FacebookDataC
 ' Get current user profile picture
 ProfileImage.DataContext = Await FacebookService.Instance.GetUserPictureInfoAsync()
 
-' Post a message on your wall
-Await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, UrlText.Text)
-
 ' Post a message on your wall using Facebook Dialog
 Await FacebookService.Instance.PostToFeedWithDialogAsync(TitleText.Text, DescriptionText.Text, UrlText.Text)
-
-' Post a message with a picture on your wall
-Await FacebookService.Instance.PostToFeedAsync(TitleText.Text, MessageText.Text, DescriptionText.Text, picture.Name, Stream)
 
 ' Get current user's photo albums
 Await FacebookService.Instance.GetUserAlbumsAsync()
@@ -281,21 +269,19 @@ Class for connecting to Facebook
 | GetUserPhotosByAlbumIdAsync(string, int, string) | Task<List<FacebookPhoto>> | Retrieves list of user photos by album id |
 | GetUserPhotosByAlbumIdAsync(string, int, int, string) | Task<IncrementalLoadingCollection<FacebookRequestSource<FacebookPhoto>, FacebookPhoto>> | Retrieves list of user photos by album id |
 | GetPhotoByPhotoIdAsync(string) | Task<FacebookPhoto> | Retrieves a photo by id |
-| PostToFeedAsync(string) | Task<bool> | Enables direct posting data to the timeline |
 | PostToFeedWithDialogAsync(string) | Task<bool> | Enables posting data to the timeline using Facebook dialog |
-| PostPictureToFeedAsync(string, string, IRandomAccessStreamWithContentType) | Task<string> | Enables posting a picture to the timeline |
 
 ## Sample Code
 
-[Facebook Service Sample Page Source](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Facebook%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Facebook Service Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Facebook%20Service). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.Services |
 | NuGet package | [Microsoft.Toolkit.Uwp.Services](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.Services/) |
 
 ## API
 
-* [Facebook Service source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook)
+* [Facebook Service source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook)

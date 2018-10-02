@@ -55,7 +55,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Windows, Version=255.255.255.255, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\Windows.winmd</HintPath>
+      <HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.17134.0\Windows.winmd</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
@@ -71,12 +71,12 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
     <Reference Include="Windows.Foundation.FoundationContract">
-      <HintPath>$(ProgramFiles)\Windows Kits\10\References\Windows.Foundation.FoundationContract\2.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <HintPath>$(ProgramFiles)\Windows Kits\10\References\10.0.17134.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
       <Aliases>WindowsRuntime</Aliases>
       <Private>False</Private>
     </Reference>
     <Reference Include="Windows.Foundation.UniversalApiContract">
-      <HintPath>$(ProgramFiles)\Windows Kits\10\References\Windows.Foundation.UniversalApiContract\3.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
+      <HintPath>$(ProgramFiles)\Windows Kits\10\References\10.0.17134.0\Windows.Foundation.UniversalApiContract\6.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
       <Aliases>WindowsRuntime</Aliases>
       <Private>False</Private>
     </Reference>

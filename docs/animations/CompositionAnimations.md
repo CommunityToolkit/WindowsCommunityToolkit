@@ -92,7 +92,7 @@ A collection of animations.
 ## Examples
 
 > [!NOTE]
-Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/implicitanimations) to run these animations.
+Use [Implicit Composition Animations in XAML](https://docs.microsoft.com/windows/communitytoolkit/animations/implicitanimations) to run these animations.
 
 Let's create some plain animation first. Theses animation will run when the `Target` property is changed.
 
@@ -143,7 +143,7 @@ Now we can add KeyFrames
 
 ## Sample Code
 
-[Implicit Composition Animations in XAML sample page source](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Implicit%20Animations/ImplicitAnimationsPage.xaml). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
+[Implicit Composition Animations in XAML sample page source](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/Implicit%20Animations/ImplicitAnimationsPage.xaml). You can see this in action in [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9NBLGGH4TLCQ).
 
 ## Requirements
 
@@ -154,7 +154,7 @@ Now we can add KeyFrames
 
 ## API
 
-* [Composition animations source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/CompositionAnimations)
+* [Composition animations source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.UI.Animations/CompositionAnimations)
 
 ## Related Topics
 

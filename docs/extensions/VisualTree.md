@@ -71,15 +71,15 @@ control = uiElement.FindAscendant(Of ScrollViewer)()
 
 ## Requirements
 
-| Device family | Universal, 10.0.14393.0 or higher |
+| Device family | Universal, 10.0.15063.0 or higher |
 | --- | --- |
 | Namespace | Microsoft.Toolkit.Uwp.UI.Extensions |
 | NuGet package | [Microsoft.Toolkit.Uwp.UI](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp.UI/) |
 
 ## API
 
-* [VisualTree extensions source code](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
+* [VisualTree extensions source code](https://github.com/Microsoft/WindowsCommunityToolkit//blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/VisualTree.cs)
 
 ## Related Topics
 
-- [LogicalTree Extensions](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/logicaltree)
+- [LogicalTree Extensions](https://docs.microsoft.com/en-us/windows/communitytoolkit/extensions/logicaltree)

@@ -6,6 +6,6 @@
     tocHref: /windows/
     topicHref: /windows/
     items:
-    - name: UWP Community Toolkit 
-      tocHref: /windows/uwpcommunitytoolkit/
-      topicHref: /windows/uwpcommunitytoolkit
+    - name: Windows Community Toolkit 
+      tocHref: /windows/communitytoolkit/
+      topicHref: /windows/communitytoolkit

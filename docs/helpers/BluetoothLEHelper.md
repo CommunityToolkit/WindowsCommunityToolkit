@@ -159,4 +159,4 @@ End If
 
 ## API
 
-* [BluetoothLEHelper source code](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper)
+* [BluetoothLEHelper source code](https://github.com/Microsoft/WindowsCommunityToolkit//tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper)
