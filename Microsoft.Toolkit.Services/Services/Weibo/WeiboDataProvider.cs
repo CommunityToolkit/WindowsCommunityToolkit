@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             _storageManager = storageManager;
             if (_client == null)
             {
-                HttpClientHandler handler = new HttpClientHandler {AutomaticDecompression = DecompressionMethods.GZip};
+                HttpClientHandler handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
                 _client = new HttpClient(handler);
             }
         }
