@@ -2,28 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default" />
-        <ResourceDictionary x:Key="Light">
-            <SolidColorBrush x:Key="RadialGaugeForegroundBrush"
-                             Color="Black" />
-            <SolidColorBrush x:Key="RadialGaugeAccentBrush"
-                             Color="Black" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="Dark">
-            <SolidColorBrush x:Key="RadialGaugeForegroundBrush"
-                             Color="White" />
-            <SolidColorBrush x:Key="RadialGaugeAccentBrush"
-                             Color="White" />
-        </ResourceDictionary>
-        <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="RadialGaugeForegroundBrush"
-                             Color="Green" />
-            <SolidColorBrush x:Key="RadialGaugeAccentBrush"
-                             Color="Blue" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
-
     <Style TargetType="local:RadialGauge">
         <Setter Property="NeedleBrush"
                 Value="{ThemeResource SystemControlHighlightChromeHighBrush}" />
