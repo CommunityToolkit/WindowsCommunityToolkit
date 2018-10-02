@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="$(GeneratedFilesDir)module.g.cpp" />
+    <ClCompile Include="DirectWriteTextBlock.cpp" />
+    <ClCompile Include="DirectWriteRenderArgBuilder.cpp">
+      <Filter>DirectWriteTextBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectWriteResourceManager.cpp">
+      <Filter>DirectWriteTextBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="UniversalWindowsAppPackageFontLoader\FontFileEnumerator.cpp">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="UniversalWindowsAppPackageFontLoader\FontCollectionLoader.cpp">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="DirectWriteTextBlock.h" />
+    <ClInclude Include="DirectWriteRenderArgBuilder.h">
+      <Filter>DirectWriteTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectWriteResourceManager.h">
+      <Filter>DirectWriteTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="UniversalWindowsAppPackageFontLoader\UniversalPackageFontData.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="UniversalWindowsAppPackageFontLoader\FontFileEnumerator.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="UniversalWindowsAppPackageFontLoader\FontCollectionLoader.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Microsoft_Toolkit_Uwp_UI_Controls_WinRT.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="DirectWriteTextBlock">
+      <UniqueIdentifier>{5c9410b2-e6cd-4e91-80d5-5a476962d413}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UniversalWindowsAppPackageFontLoader">
+      <UniqueIdentifier>{05649367-fea9-4b44-9514-f1d8e391d701}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Midl Include="DirectWriteTextBlock.idl">
+      <Filter>DirectWriteTextBlock</Filter>
+    </Midl>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Themes\Generic.xaml" />
+    <Page Include="Dictionary.xaml" />
+  </ItemGroup>
+</Project>

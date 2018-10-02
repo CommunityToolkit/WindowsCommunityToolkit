@@ -1,0 +1,20 @@
+namespace Microsoft_Toolkit_Uwp_UI_Controls_WinRT
+{
+    [default_interface]
+    runtimeclass DirectWriteTextBlock : Windows.UI.Xaml.Controls.Control, Windows.Foundation.IClosable
+    {
+        DirectWriteTextBlock();
+
+        static Windows.UI.Xaml.DependencyProperty TextProperty{ get; };
+        String Text;
+
+        static Windows.UI.Xaml.DependencyProperty TextLocaleProperty{ get; };
+        String TextLocale;
+
+        static Windows.UI.Xaml.DependencyProperty TextOrientationProperty{ get; };
+        Windows.UI.Xaml.Controls.Orientation TextOrientation;
+
+        static Windows.UI.Xaml.DependencyProperty TextWrapProperty{ get; };
+        Windows.UI.Xaml.TextWrapping TextWrap;
+    }
+}
