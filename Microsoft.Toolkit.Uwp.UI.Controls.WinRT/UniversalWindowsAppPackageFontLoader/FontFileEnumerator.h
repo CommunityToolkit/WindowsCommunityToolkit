@@ -1,7 +1,9 @@
 #pragma once
 #include "UniversalPackageFontData.h"
 
-namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::UniversalWindowsAppPackageFontLoader
+BEGIN_NAMESPACE_CONTROLS_WINRT
+
+namespace UniversalWindowsAppPackageFontLoader
 {
     /// <summary>
     /// This is an enumerator that basically just enumerates 1 custom font into DWrite from the Universal Windows App package.
@@ -36,3 +38,5 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         bool m_enumerated = false;
     };
 }
+
+END_NAMESPACE_CONTROLS_WINRT

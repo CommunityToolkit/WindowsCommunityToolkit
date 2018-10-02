@@ -1,7 +1,9 @@
 #pragma once
 #include "UniversalPackageFontData.h"
 
-namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::UniversalWindowsAppPackageFontLoader
+BEGIN_NAMESPACE_CONTROLS_WINRT
+
+namespace UniversalWindowsAppPackageFontLoader
 {
     /// <summary>
     /// This is just to glue together a custom font file in the Universal Windows app package
@@ -28,12 +30,12 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         /// This sees if the incoming XAML FontFamily value has something that looks like
         /// a custom font file like foo.ttf#bar
         /// </summary>
-        static bool HasCustomFontFamily(winrt::hstring const& xamlFontFamily);
+        static bool HasCustomFontFamily(Platform::String^ xamlFontFamily);
 
         /// <summary>
         /// This parses something that looks like /foo/bar.ttf#baz into the ttf path and the font name (baz).
         /// </summary>
-        static void ParseXamlFontFamily(winrt::hstring const& xamlFontFamily, _Out_ UniversalPackageFontData& parsedFont);
+        static void ParseXamlFontFamily(Platform::String^ xamlFontFamily, _Out_ UniversalPackageFontData& parsedFont);
 
         /// <summary>
         /// Get the singleton loader.
@@ -43,14 +45,16 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
     private:
         struct FontEnumeratorEntry
         {
-            winrt::hstring customFont;
+            Platform::String^ customFont;
             winrt::com_ptr<IDWriteFontFileEnumerator> enumerator;
         };
 
         // enumerators are cached due to memory usages.
-        bool FindCachedEnumerator(winrt::hstring const& xamlFontFamily, winrt::com_ptr<IDWriteFontFileEnumerator>& enumerator);
+        bool FindCachedEnumerator(Platform::String^ xamlFontFamily, winrt::com_ptr<IDWriteFontFileEnumerator>& enumerator);
 
         std::vector<FontEnumeratorEntry> m_fontEnumerators;
         static winrt::com_ptr<IDWriteFontCollectionLoader> s_comInstance;
     };
 }
+
+END_NAMESPACE_CONTROLS_WINRT

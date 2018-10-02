@@ -1,0 +1,28 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls.WinRT">
+
+    <Style TargetType="local:DirectWriteTextBlock" >
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontStretch" Value="Normal" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="TextWrap" Value="NoWrap" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemColorWindowTextColor}" />
+        <Setter Property="TextOrientation" Value="Vertical" />
+        <Setter Property="TextLocale" Value="en-US" />
+        <Setter Property="AutomationProperties.Name" Value="{TemplateBinding Text}" />
+        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:DirectWriteTextBlock">
+                    <Image x:Name="Image" Stretch="None" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

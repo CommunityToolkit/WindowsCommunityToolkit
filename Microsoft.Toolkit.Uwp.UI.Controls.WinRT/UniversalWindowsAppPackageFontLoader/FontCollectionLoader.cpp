@@ -5,7 +5,9 @@
 #include "FontFileEnumerator.h"
 #include "FontCollectionLoader.h"
 
-namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::UniversalWindowsAppPackageFontLoader
+BEGIN_NAMESPACE_CONTROLS_WINRT
+
+namespace UniversalWindowsAppPackageFontLoader
 {
     winrt::com_ptr<IDWriteFontCollectionLoader> FontCollectionLoader::s_comInstance;
 
@@ -17,19 +19,19 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
     {
     }
 
-    bool FontCollectionLoader::HasCustomFontFamily(winrt::hstring const& xamlFontFamily)
+    bool FontCollectionLoader::HasCustomFontFamily(Platform::String^ xamlFontFamily)
     {
         // is there a .ttf in the path?
-        std::wstring wstringPath{ xamlFontFamily };
+        std::wstring wstringPath{ xamlFontFamily->Data() };
         std::transform(wstringPath.begin(), wstringPath.end(), wstringPath.begin(), towlower);
         auto foundCustomFontFile = wstringPath.find(L".ttf#", 0);
         return foundCustomFontFile != std::wstring::npos;
     }
 
-    void FontCollectionLoader::ParseXamlFontFamily(_In_ winrt::hstring const& xamlFontFamily, _Out_ UniversalPackageFontData& parsedFont)
+    void FontCollectionLoader::ParseXamlFontFamily(_In_ Platform::String^ xamlFontFamily, _Out_ UniversalPackageFontData& parsedFont)
     {
         parsedFont = {};
-        std::wstring wstringPath{ xamlFontFamily };
+        std::wstring wstringPath{ xamlFontFamily->Data() };
         auto delimLocation = wstringPath.find(L'#');
         if (delimLocation != std::wstring::npos)
         {
@@ -40,11 +42,11 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         }
     }
 
-    bool FontCollectionLoader::FindCachedEnumerator(winrt::hstring const& xamlFontFamily, winrt::com_ptr<IDWriteFontFileEnumerator>& enumerator)
+    bool FontCollectionLoader::FindCachedEnumerator(Platform::String^ xamlFontFamily, winrt::com_ptr<IDWriteFontFileEnumerator>& enumerator)
     {
         for (auto& entry : m_fontEnumerators)
         {
-            if (entry.customFont == xamlFontFamily)
+            if (entry.customFont->Equals(xamlFontFamily))
             {
                 enumerator = entry.enumerator;
                 return true;
@@ -58,7 +60,7 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
     try
     {
         *fontFileEnumerator = nullptr;
-        auto xamlFontFamily = winrt::hstring(reinterpret_cast<const wchar_t*>(collectionKey), collectionKeySize);
+        auto xamlFontFamily = ref new Platform::String(reinterpret_cast<const wchar_t*>(collectionKey), collectionKeySize);
 
         if (HasCustomFontFamily(xamlFontFamily))
         {
@@ -101,3 +103,5 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         return s_comInstance;
     }
 }
+
+END_NAMESPACE_CONTROLS_WINRT

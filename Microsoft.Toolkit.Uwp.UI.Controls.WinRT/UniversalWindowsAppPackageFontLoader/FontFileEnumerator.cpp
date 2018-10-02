@@ -1,9 +1,9 @@
 #include "pch.h"
-#include <winrt/Windows.Storage.h>
-#include <winrt/Windows.ApplicationModel.h>
 #include "FontFileEnumerator.h"
 
-namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::UniversalWindowsAppPackageFontLoader
+BEGIN_NAMESPACE_CONTROLS_WINRT
+
+namespace UniversalWindowsAppPackageFontLoader
 {
     using namespace Windows::Storage;
 
@@ -39,8 +39,8 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         if (!m_enumerated)
         {
             m_currentFontFile = nullptr;
-            StorageFolder uwappStorage{ Windows::ApplicationModel::Package::Current().InstalledLocation() };
-            std::wstring filePath{ uwappStorage.Path() };
+            auto uwappStorage = Windows::ApplicationModel::Package::Current->InstalledLocation;
+            std::wstring filePath{ uwappStorage->Path->Data() };
             filePath.append(m_packageFontArgs.packageFontFilePath);
             winrt::check_hresult(m_factory->CreateFontFileReference(filePath.c_str(), nullptr, m_currentFontFile.put()));
 
@@ -66,3 +66,5 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         return winrt::to_hresult();
     }
 }
+
+END_NAMESPACE_CONTROLS_WINRT

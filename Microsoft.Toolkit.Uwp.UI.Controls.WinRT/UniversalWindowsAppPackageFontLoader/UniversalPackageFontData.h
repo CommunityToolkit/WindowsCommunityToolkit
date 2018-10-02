@@ -1,6 +1,8 @@
 #pragma once
 
-namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::UniversalWindowsAppPackageFontLoader
+BEGIN_NAMESPACE_CONTROLS_WINRT
+
+namespace UniversalWindowsAppPackageFontLoader
 {
     struct UniversalPackageFontData
     {
@@ -8,3 +10,5 @@ namespace winrt::Microsoft_Toolkit_Uwp_UI_Controls_WinRT::implementation::Univer
         std::wstring customFontName;
     };
 }
+
+END_NAMESPACE_CONTROLS_WINRT

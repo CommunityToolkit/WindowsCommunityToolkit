@@ -1,17 +1,6 @@
-﻿//
-// pch.h
-// Header for platform projection include files
-//
+﻿#pragma once
 
-#pragma once
-
-#include "winrt/Windows.Foundation.h"
-
-// these are here if we have a .xaml file.
-#include <winrt/Windows.UI.h>
-#include <winrt/windows.ui.xaml.h>
-#include <winrt/windows.ui.xaml.markup.h>
-
+#include <winrt/base.h>
 #include <vector>
 #include <memory>
 #include <algorithm>
@@ -19,3 +8,8 @@
 #include <d3d11.h>
 #include <d2d1_1.h>
 #include <dwrite.h>
+
+#define BEGIN_NAMESPACE_CONTROLS_WINRT namespace Microsoft { namespace Toolkit { namespace Uwp { namespace UI { namespace Controls { namespace WinRT {
+#define END_NAMESPACE_CONTROLS_WINRT } } } } } }
+
+#include "DirectWriteTextBlock\DirectWriteTextBlock.h"
