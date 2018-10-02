@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return Size;
             }
 
-            if (_xamlSource.Content != null)
+            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
@@ -45,12 +45,24 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             }
 
             var preferredSize = Size.Empty;
-            if (_xamlSource.Content != null)
+            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
             {
                 preferredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
+        }
+
+        /// <summary>
+        ///     Sets a scaling factor based on the current dpi value on the scaling panel
+        /// </summary>
+        protected void UpdateDpiScalingFactor()
+        {
+            DpiScalingPanel panel = _xamlSource.Content as DpiScalingPanel;
+
+            double newScalingFactor = _dpiScalingRenderTransformEnabled ? (this.DeviceDpi / 96.0f) : 1.0f;
+
+            panel.SetScalingFactor(newScalingFactor);
         }
 
         /// <summary>
@@ -119,7 +131,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (AutoSize)
             {
-                if (_xamlSource.Content != null)
+                if ((_xamlSource.Content as DpiScalingPanel).Child != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
@@ -130,6 +142,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     PerformLayout();
                 }
             }
+        }
+
+        /// <summary>
+        ///     Event handler for <see cref="System.Windows.Forms.Control.DpiChangedAfterParent" />. Update scaling transform
+        ///     if necessary and re-run Windows Forms layout on this Control instance.
+        /// </summary>
+        private void OnWindowsXamlHostDpiChangedAfterParent(object sender, EventArgs e)
+        {
+            UpdateDpiScalingFactor();
+            PerformLayout();
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.XamlHost</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Forms.UI.XamlHost</AssemblyName>
     <RunCodeAnalysis>true</RunCodeAnalysis>
@@ -45,7 +45,7 @@
     <Reference Include="System.Runtime.WindowsRuntime">
       <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" >
+    <Reference Include="System.Runtime.WindowsRuntime.UI.Xaml">
       <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.UI.Xaml.dll</HintPath>
     </Reference>
   </ItemGroup>

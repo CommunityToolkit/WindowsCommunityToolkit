@@ -18,10 +18,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public abstract partial class WindowsXamlHostBase : ContainerControl
     {
 #pragma warning disable SA1401 // Fields must be private
-                              /// <summary>
-                              /// DesktopWindowXamlSource instance
-                              /// </summary>
+        /// <summary>
+        /// DesktopWindowXamlSource instance
+        /// </summary>
         protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
+
+        /// <summary>
+        ///    A render transform to scale the UWP XAML content should be applied
+        /// </summary>
+        protected internal bool _dpiScalingRenderTransformEnabled = false;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -74,6 +79,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // Respond to size changes on this Control
             SizeChanged += OnWindowXamlHostSizeChanged;
 
+            // Respond to dpi changes on this control
+            DpiChangedAfterParent += OnWindowsXamlHostDpiChangedAfterParent;
+
             // Windows.UI.Xaml.Application object is required for loading custom control metadata.  If a custom
             // Application object is not provided by the application, the host control will create one (XamlApplication).
             // Instantiation of the application object must occur before creating the DesktopWindowXamlSource instance.
@@ -94,6 +102,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             // Hook up method for DesktopWindowXamlSource Focus handling
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
+
+            // Add scaling panel as the root XAML element
+            _xamlSource.Content = new DpiScalingPanel();
+            UpdateDpiScalingFactor();
         }
 
         /// <summary>
@@ -103,14 +115,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => _xamlSource.Content;
+            get => (_xamlSource.Content as DpiScalingPanel).Child;
 
             set
             {
                 if (!DesignMode)
                 {
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = (_xamlSource.Content as DpiScalingPanel).Child as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
@@ -124,7 +136,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    _xamlSource.Content = value;
+                    (_xamlSource.Content as DpiScalingPanel).Child = value;
 
                     PerformLayout();
 
@@ -141,7 +153,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         {
             if (_xamlSource != null)
             {
-                _xamlSource.Content = newValue;
+                (_xamlSource.Content as DpiScalingPanel).Child = newValue;
             }
         }
 
@@ -154,6 +166,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (disposing)
             {
                 SizeChanged -= OnWindowXamlHostSizeChanged;
+                DpiChangedAfterParent -= OnWindowsXamlHostDpiChangedAfterParent;
 
                 // Required by CA2213: _xamlSource?.Dispose() is insufficient.
                 if (_xamlSource != null)
