@@ -35,9 +35,9 @@ Output:
 | Methods | Return Type | Description |
 | -- | -- | -- |
 | Fill | void | Fills elements of a rectangular array at the given position and size to a specific value. |
-| GetRow | IEnumerable | Retrieves a row from a rectangular array as an enumerable. |
-| GetColumn | IEnumerable | Retrieves a column from a rectangular or jagged array as an enumerable. |
-| ToArrayString | string | Returns a nice debug string representation of an array, multi-dimensional rectangular, or jagged array. |
+| GetRow | IEnumerable | Yields a row from a rectangular array. |
+| GetColumn | IEnumerable | Yields a column from a rectangular or jagged array. |
+| ToArrayString | string | Returns a simple string representation of an array. |
 
 ## Requirements (Windows 10 Device Family)
 
