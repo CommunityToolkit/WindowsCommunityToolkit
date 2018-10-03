@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieves a row from a rectangular array as an enumerable.
+        /// Yields a row from a rectangular array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="rectarray">The source array.</param>
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieves a column from a rectangular array as an enumerable.
+        /// Yields a column from a rectangular array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="rectarray">The source array.</param>
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieves a column from a jagged array.
+        /// Yields a column from a jagged array.
         /// An exception will be thrown if the column is out of bounds, and return default in places where there are no elements from inner arrays.
         /// Note: There is no equivalent GetRow method, as you can use array[row] to retrieve.
         /// </summary>
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Joins an array together in a simple string representation.
+        /// Returns a simple string representation of an array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="array">The source array.</param>
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Joins a jagged array together in a simple string representation.
+        /// Returns a simple string representation of a jagged array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="mdarray">The source array.</param>
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Joins a rectangular array together in a simple string representation.
+        /// Returns a simple string representation of a rectangular array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="rectarray">The source array.</param>
