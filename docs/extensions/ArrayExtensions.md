@@ -37,10 +37,10 @@ Output:
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| Fill | void | Fills in values of a multi-dimensional rectangular array to specified value based on the position and size given. |
-| GetRow | IEnumerable | Retrieve a row as an enumerable from a multi-dimensional rectangular array. |
-| GetColumn | IEnumerable | Retrieve a column from a multi-dimensional rectangular or jagged array. |
-| ToArrayString | string | Create a nice debug string representation of an array, multi-dimensional rectangular, or jagged array. |
+| Fill | void | Fills elements of a rectangular array at the given position and size to a specific value. |
+| GetRow | IEnumerable | Retrieves a row from a rectangular array as an enumerable. |
+| GetColumn | IEnumerable | Retrieves a column from a rectangular or jagged array as an enumerable. |
+| ToArrayString | string | Returns a nice debug string representation of an array, multi-dimensional rectangular, or jagged array. |
 
 &nbsp;
 
