@@ -47,14 +47,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ItemsSource dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", typeof(object), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(object), OnItemSourcePropertyChanged));
+            "ItemsSource", typeof(IEnumerable), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(IEnumerable), OnItemSourcePropertyChanged));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the ComboBox while in editing mode.
         /// </summary>
-        public object ItemsSource
+        public IEnumerable ItemsSource
         {
-            get { return (object)GetValue(ItemsSourceProperty); }
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
 
@@ -194,6 +194,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             EnsureDisplayMemberPathExists();
 
+            EnsureItemsSourceBinding();
+
             var comboBox = new ComboBox
             {
                 Margin = default(Thickness),
@@ -205,11 +207,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-                var items = ItemsSource as IEnumerable;
-
-                var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
-                    : items?.Cast<object>().FirstOrDefault(x => x.Equals(value));
+               var selection = !string.IsNullOrEmpty(DisplayMemberPath)
+                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
+                    : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -290,6 +290,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             EnsureDisplayMemberPathExists();
 
+            EnsureItemsSourceBinding();
+
             var textBlockElement = new TextBlock
             {
                 Margin = new Thickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
@@ -344,8 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (comboBox != null && uneditedValue != null)
             {
                 var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
-                var items = ItemsSource as IEnumerable;
-                var selection = items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -407,7 +408,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
                 {
-                    OwningGrid.OnColumnBindingChanged(this);
+                    this.OwningGrid.OnColumnBindingChanged(this);
                 }
                 else
                 {
@@ -564,9 +565,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
 
-                var items = ItemsSource as IEnumerable;
-
-                var item = items?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
 
                 var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
 
@@ -598,12 +597,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!string.IsNullOrEmpty(DisplayMemberPath))
             {
-                var items = ItemsSource as IEnumerable;
-                var type = items?.GetItemType();
+                var type = ItemsSource?.GetItemType();
 
-                if (items != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
+                if (ItemsSource != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
                 {
                     throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {type}. Ensure that the value has been set correctly and note that for built-in types DisplayMemberPath should not be used.");
+                }
+            }
+        }
+
+        private void EnsureItemsSourceBinding()
+        {
+            if (!string.IsNullOrEmpty(DisplayMemberPath) && ItemsSource != null)
+            {
+                var item = ItemsSource.Cast<object>().FirstOrDefault();
+
+                if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(Binding.Path.Path)))
+                {
+                    throw new ArgumentException($"The ItemsSource elements do not contain a property \"{Binding.Path.Path}\". Ensure that the binding path has been set correctly.");
                 }
             }
         }
