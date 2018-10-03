@@ -195,10 +195,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             }
 
             _printCanvas = null;
-
-            _printDocument.Paginate -= CreatePrintPreviewPages;
-            _printDocument.GetPreviewPage -= GetPrintPreviewPage;
-            _printDocument.AddPages -= AddPrintPages;
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                _printDocument.Paginate -= CreatePrintPreviewPages;
+                _printDocument.GetPreviewPage -= GetPrintPreviewPage;
+                _printDocument.AddPages -= AddPrintPages;
+            });
         }
 
         /// <summary>
@@ -217,8 +219,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (!_directPrint)
             {
-                _canvasContainer.Children.Remove(_printCanvas);
-                _printCanvas.Children.Clear();
+                DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                {
+                    _canvasContainer.Children.Remove(_printCanvas);
+                    _printCanvas.Children.Clear();
+                });
             }
 
             _stateBags.Clear();
@@ -502,15 +507,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         private void ClearPageCache()
         {
-            if (!_directPrint)
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
-                foreach (Page page in _printPreviewPages)
+                if (!_directPrint)
                 {
-                    page.Content = null;
+                    foreach (Page page in _printPreviewPages)
+                    {
+                        page.Content = null;
+                    }
                 }
-            }
 
             _printPreviewPages.Clear();
+            });
         }
     }
 }
