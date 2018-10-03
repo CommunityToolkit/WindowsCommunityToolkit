@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateOverlayAlignment()
         {
-            var rootGrid = (Grid)GetTemplateChild(RootGridPart);
+            var rootGrid = GetTemplateChild(RootGridPart) as Grid;
 
             if (rootGrid != null)
             {
