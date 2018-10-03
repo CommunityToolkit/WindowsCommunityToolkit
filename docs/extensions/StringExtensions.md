@@ -7,7 +7,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 ### String Extensions
 
-Developers can now leverage the StringExtensions class and validate strings against common scenarios
+Provides helpers and extensions for strings, including validation methods for common scenarios.
 
 ## Syntax
 
