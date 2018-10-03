@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieves a column from a rectangular array.
+        /// Retrieves a column from a rectangular array as an enumerable.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="rectarray">The source array.</param>
