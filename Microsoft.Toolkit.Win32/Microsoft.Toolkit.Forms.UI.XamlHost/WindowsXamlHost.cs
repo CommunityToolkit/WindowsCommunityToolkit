@@ -62,27 +62,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a render transform is added to the UWP control corresponding to the current dpi scaling factor
-        /// </summary>
-        /// <value>The dpi scaling mode.</value>
-        /// <remarks>A custom render transform added to the root UWP control will be overwritten.</remarks>
-        [ReadOnly(false)]
-        [Browsable(true)]
-        [Category("Layout")]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
-        public bool DpiScalingRenderTransform
-        {
-            get => _dpiScalingRenderTransformEnabled;
-
-            set
-            {
-                _dpiScalingRenderTransformEnabled = value;
-                UpdateDpiScalingFactor();
-                PerformLayout();
-            }
-        }
-
-        /// <summary>
         /// Gets or sets XAML content for XamlContentHost
         /// </summary>
         /// <value>The <see cref="Windows.UI.Xaml.UIElement"/>.</value>
