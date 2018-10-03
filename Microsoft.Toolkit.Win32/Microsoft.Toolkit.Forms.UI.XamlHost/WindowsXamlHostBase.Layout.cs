@@ -4,6 +4,7 @@
 
 using System;
 using System.Drawing;
+using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -59,8 +60,17 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         protected void UpdateDpiScalingFactor()
         {
             DpiScalingPanel panel = _xamlSource.Content as DpiScalingPanel;
+            double dpi = 96.0f;
+            if (_xamlIslandWindowHandle != IntPtr.Zero)
+            {
+                uint windowDpi = SafeNativeMethods.GetDpiForWindow(_xamlIslandWindowHandle);
+                if (windowDpi > 0)
+                {
+                    dpi = windowDpi;
+                }
+            }
 
-            double newScalingFactor = _dpiScalingRenderTransformEnabled ? (this.DeviceDpi / 96.0f) : 1.0f;
+            double newScalingFactor = _dpiScalingRenderTransformEnabled ? (dpi / 96.0f) : 1.0f;
 
             panel.SetScalingFactor(newScalingFactor);
         }
@@ -142,16 +152,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     PerformLayout();
                 }
             }
-        }
-
-        /// <summary>
-        ///     Event handler for <see cref="System.Windows.Forms.Control.DpiChangedAfterParent" />. Update scaling transform
-        ///     if necessary and re-run Windows Forms layout on this Control instance.
-        /// </summary>
-        private void OnWindowsXamlHostDpiChangedAfterParent(object sender, EventArgs e)
-        {
-            UpdateDpiScalingFactor();
-            PerformLayout();
         }
     }
 }

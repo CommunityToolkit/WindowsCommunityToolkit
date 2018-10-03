@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
     <RootNamespace>Microsoft.Toolkit.Forms.UI.XamlHost</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Forms.UI.XamlHost</AssemblyName>
     <RunCodeAnalysis>true</RunCodeAnalysis>

@@ -79,9 +79,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             // Respond to size changes on this Control
             SizeChanged += OnWindowXamlHostSizeChanged;
 
-            // Respond to dpi changes on this control
-            DpiChangedAfterParent += OnWindowsXamlHostDpiChangedAfterParent;
-
             // Windows.UI.Xaml.Application object is required for loading custom control metadata.  If a custom
             // Application object is not provided by the application, the host control will create one (XamlApplication).
             // Instantiation of the application object must occur before creating the DesktopWindowXamlSource instance.
@@ -105,7 +102,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             // Add scaling panel as the root XAML element
             _xamlSource.Content = new DpiScalingPanel();
-            UpdateDpiScalingFactor();
         }
 
         /// <summary>
@@ -166,7 +162,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (disposing)
             {
                 SizeChanged -= OnWindowXamlHostSizeChanged;
-                DpiChangedAfterParent -= OnWindowsXamlHostDpiChangedAfterParent;
 
                 // Required by CA2213: _xamlSource?.Dispose() is insufficient.
                 if (_xamlSource != null)
@@ -199,6 +194,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
                 }
+
+                UpdateDpiScalingFactor();
             }
 
             base.OnHandleCreated(e);
