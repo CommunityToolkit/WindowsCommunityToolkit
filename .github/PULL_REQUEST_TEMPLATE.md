@@ -27,7 +27,7 @@ What kind of change does this PR introduce?
 Please check if your PR fulfills the following requirements:
 
 - [ ] Tested code with current [supported SDKs](../readme.md#supported)
-- [ ] Docs have been added/updated which fit [documentation template](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/docs/.template.md). (for bug fixes / features)
+- [ ] Pull Request has been submitted to the documentation repository [instructions](..\contributing.md#docs). Link: <!-- docs PR link -->
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
     - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
