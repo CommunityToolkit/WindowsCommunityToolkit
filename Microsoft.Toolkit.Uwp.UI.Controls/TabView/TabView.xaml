@@ -202,7 +202,8 @@
                                   Content="{TemplateBinding Header}"
                                   ContentTemplate="{TemplateBinding HeaderTemplate}"
                                   ContentTransitions="{TemplateBinding ContentTransitions}"
-                                  FontWeight="{TemplateBinding FontWeight}" />
+                                  FontWeight="{TemplateBinding FontWeight}"
+                                  OpticalMarginAlignment="TrimSideBearings" />
                 <!--  Use grid to toggle visibility based on IsClosable property and inner border for hover animations.  -->
                 <Grid Grid.Column="2"
                       HorizontalAlignment="Right"
@@ -835,7 +836,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
-        <Setter Property="Padding" Value="8,0,8,0" />
+        <Setter Property="Padding" Value="12,0,0,0" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
