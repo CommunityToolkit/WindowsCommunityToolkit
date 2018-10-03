@@ -2,13 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
+    [Flags]
     public enum TileSize
     {
-        Small,
-        Medium,
-        Wide,
-        Large
+        Small = 0,
+        Medium = 1,
+        Wide = 2,
+        Large = 4
     }
 }
