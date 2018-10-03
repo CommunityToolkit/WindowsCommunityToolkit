@@ -16,15 +16,15 @@ namespace Microsoft.Toolkit.Extensions
     {
         /// <summary>
         /// Fills elements of a rectangular array at the given position and size to a specific value.
-        /// Positions outside the bounds of the array are ignored.
+        /// Ranges given will fill in as many elements as possible, ignoring positions outside the bounds of the array.
         /// </summary>
         /// <typeparam name="T">The element type of the array.</typeparam>
         /// <param name="array">The source array.</param>
         /// <param name="value">Value to fill with.</param>
         /// <param name="row">Row to start on (inclusive, zero-index).</param>
         /// <param name="col">Column to start on (inclusive, zero-index).</param>
-        /// <param name="width">Width of area to fill.</param>
-        /// <param name="height">Height of area to fill.</param>
+        /// <param name="width">Positive width of area to fill.</param>
+        /// <param name="height">Positive height of area to fill.</param>
         public static void Fill<T>(this T[,] array, T value, int row, int col, int width, int height)
         {
             for (int r = row; r < row + height; r++)
