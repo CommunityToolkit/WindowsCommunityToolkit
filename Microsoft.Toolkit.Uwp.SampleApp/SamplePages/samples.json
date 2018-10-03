@@ -11,7 +11,7 @@
         "XamlCodeFile": "TextToolbar.bind",
         "CodeFile": "TextToolbarCode.bind",
         "Icon": "/SamplePages/TextToolbar/TextToolbar.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/TextToolbar.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TextToolbar.md"
       },
       {
         "Name": "DataGrid",
@@ -20,7 +20,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid",
         "XamlCodeFile": "DataGridCode.bind",
         "Icon": "/SamplePages/DataGrid/DataGrid.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DataGrid.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DataGrid.md"
       },
       {
         "Name": "Carousel",
@@ -29,7 +29,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
         "XamlCodeFile": "CarouselCode.bind",
         "Icon": "/SamplePages/Carousel/Carousel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/Carousel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Carousel.md"
       },
       {
         "Name": "AdaptiveGridView",
@@ -38,7 +38,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
         "Icon": "/SamplePages/AdaptiveGridView/AdaptiveGridView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/AdaptiveGridView.md"
       },
       {
         "Name": "UniformGrid",
@@ -47,7 +47,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid",
         "XamlCodeFile": "UniformGridXaml.bind",
         "Icon": "/SamplePages/UniformGrid/UniformGrid.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/UniformGrid.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/UniformGrid.md"
       },
       {
         "Name": "HamburgerMenu",
@@ -58,7 +58,7 @@
         "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HamburgerMenu.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HamburgerMenu.md"
       },
       {
         "Name": "RangeSelector",
@@ -67,7 +67,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
         "Icon": "/SamplePages/RangeSelector/RangeSelector.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/RangeSelector.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RangeSelector.md"
       },
       {
         "Name": "ImageEx",
@@ -76,7 +76,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx",
         "XamlCodeFile": "ImageExCode.bind",
         "Icon": "/SamplePages/ImageEx/ImageEx.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/ImageEx.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageEx.md"
       },
       {
         "Name": "HeaderedTextBlock",
@@ -85,7 +85,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HeaderedTextBlock.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedTextBlock.md"
       },
       {
         "Name": "MasterDetailsView",
@@ -95,7 +95,7 @@
         "XamlCodeFile": "MasterDetailsView.bind",
         "CodeFile": "MasterDetailsViewCode.bind",
         "Icon": "/SamplePages/MasterDetailsView/MasterDetailsView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/MasterDetailsView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MasterDetailsView.md"
       },
       {
         "Name": "MarkdownTextBlock",
@@ -105,7 +105,7 @@
         "XamlCodeFile": "MarkdownTextBlock.bind",
         "CodeFile": "MarkdownTextBlockCode.bind",
         "Icon": "/SamplePages/MarkdownTextBlock/MarkdownTextBlock.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/MarkdownTextBlock.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/MarkdownTextBlock.md"
       },
       {
         "Name": "RadialGauge",
@@ -114,7 +114,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
         "Icon": "/SamplePages/RadialGauge/RadialGauge.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/RadialGauge.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialGauge.md"
       },
       {
         "Name": "RadialProgressBar",
@@ -123,7 +123,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
         "XamlCodeFile": "RadialProgressBarCode.bind",
         "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/RadialProgressBar.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RadialProgressBar.md"
       },
       {
         "Name": "SlidableListItem",
@@ -134,7 +134,7 @@
         "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The SlidableListItem is deprecated and will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/SlidableListItem.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/SlidableListItem.md"
       },
       {
         "Name": "PullToRefreshListView",
@@ -146,7 +146,7 @@
         "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/PullToRefreshListview.md"
       },
       {
         "Name": "RotatorTile",
@@ -155,7 +155,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
         "XamlCodeFile": "RotatorTileCode.bind",
         "Icon": "/SamplePages/RotatorTile/RotatorTile.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/RotatorTile.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RotatorTile.md"
       },
       {
         "Name": "BladeView",
@@ -164,7 +164,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
         "Icon": "/SamplePages/BladeView/BladeView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/BladeView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/BladeView.md"
       },
       {
         "Name": "ScrollHeader",
@@ -173,7 +173,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
         "XamlCodeFile": "ScrollHeaderCode.bind",
         "Icon": "/SamplePages/ScrollHeader/ScrollHeader.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/ScrollHeader.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ScrollHeader.md"
       },
       {
         "Name": "GridSplitter",
@@ -182,7 +182,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
         "Icon": "/SamplePages/GridSplitter/GridSplitter.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/GridSplitter.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/GridSplitter.md"
       },
       {
         "Name": "DropShadowPanel",
@@ -192,7 +192,7 @@
         "XamlCodeFile": "DropShadowPanelXaml.bind",
         "Icon": "/SamplePages/DropShadowPanel/DropShadowPanel.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DropShadowPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DropShadowPanel.md"
       },
       {
         "Name": "Loading",
@@ -201,7 +201,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
         "XamlCodeFile": "LoadingCode.bind",
         "Icon": "/SamplePages/Loading/Loading.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/Loading.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Loading.md"
       },
       {
         "Name": "Expander",
@@ -210,7 +210,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander",
         "XamlCodeFile": "ExpanderXaml.bind",
         "Icon": "/SamplePages/Expander/Expander.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/Expander.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Expander.md"
       },
       {
         "Name": "TileControl",
@@ -219,7 +219,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TileControl",
         "XamlCodeFile": "TileControl.bind",
         "Icon": "/SamplePages/TileControl/TileControl.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/TileControl.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TileControl.md"
       },
       {
         "Name": "WrapPanel",
@@ -228,7 +228,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
         "Icon": "/SamplePages/WrapPanel/WrapPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/WrapPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/WrapPanel.md"
       },
       {
         "Name": "OrbitView",
@@ -237,7 +237,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView",
         "XamlCodeFile": "OrbitViewXaml.bind",
         "Icon": "/SamplePages/OrbitView/OrbitView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/OrbitView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/OrbitView.md"
       },
       {
         "Name": "Menu",
@@ -246,7 +246,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/Menu.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Menu.md"
       },
       {
         "Name": "InAppNotification",
@@ -256,7 +256,7 @@
         "XamlCodeFile": "InAppNotificationXaml.bind",
         "CodeFile": "InAppNotificationCode.bind",
         "Icon": "/SamplePages/InAppNotification/InAppNotification.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/InAppNotification.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InAppNotification.md"
       },
       {
         "Name": "DockPanel",
@@ -265,7 +265,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel",
         "XamlCodeFile": "DockPanel.bind",
         "Icon": "/SamplePages/DockPanel/DockPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DockPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/DockPanel.md"
       },
       {
         "Name": "HeaderedContentControl",
@@ -274,7 +274,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedContentControl",
         "XamlCodeFile": "HeaderedContentControlXaml.bind",
         "Icon": "/SamplePages/HeaderedContentControl/HeaderedContentControl.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HeaderedContentControl.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedContentControl.md"
       },
       {
         "Name": "HeaderedItemsControl",
@@ -283,7 +283,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedItemsControl",
         "XamlCodeFile": "HeaderedItemsControlXaml.bind",
         "Icon": "/SamplePages/HeaderedItemsControl/HeaderedItemsControl.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HeaderedItemsControl.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedItemsControl.md"
       },
       {
         "Name": "StaggeredPanel",
@@ -292,7 +292,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/StaggeredPanel.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/StaggeredPanel.md"
       },
       {
         "Name": "LayoutTransformControl",
@@ -301,7 +301,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl",
         "XamlCodeFile": "LayoutTransformControlXaml.bind",
         "Icon": "/SamplePages/LayoutTransformControl/LayoutTransformControl.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/LayoutTransformControl.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/LayoutTransformControl.md"
       },
       {
         "Name": "CameraPreview",
@@ -312,7 +312,7 @@
         "CodeFile": "CameraPreviewCode.bind",
         "Icon": "/SamplePages/CameraPreview/CameraPreview.png",
         "BadgeUpdateVersionRequired": "April 2018 update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/CameraPreview.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/CameraPreview.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview" // check for April update
       },
       {
@@ -324,7 +324,7 @@
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/InfiniteCanvas.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       }
     ]
   },
@@ -340,7 +340,7 @@
         "CodeFile": "FadeBehaviorCode.bind",
         "XamlCodeFile": "FadeBehaviorXaml.bind",
         "Icon": "/SamplePages/Fade/FadeBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Fade.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Fade.md"
       },
       {
         "Name": "Scale",
@@ -350,7 +350,7 @@
         "CodeFile": "ScaleBehaviorCode.bind",
         "XamlCodeFile": "ScaleBehaviorXaml.bind",
         "Icon": "/SamplePages/Scale/scaleBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Scale.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Scale.md"
       },
       {
         "Name": "Offset",
@@ -360,7 +360,7 @@
         "CodeFile": "OffsetBehaviorCode.bind",
         "XamlCodeFile": "OffsetBehaviorXaml.bind",
         "Icon": "/SamplePages/Offset/offsetBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Offset.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Offset.md"
       },
       {
         "Name": "Rotate",
@@ -370,7 +370,7 @@
         "CodeFile": "RotateBehaviorCode.bind",
         "XamlCodeFile": "RotateBehaviorXaml.bind",
         "Icon": "/SamplePages/Rotate/rotateBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Rotate.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Rotate.md"
       },
       {
         "Name": "Blur",
@@ -381,7 +381,7 @@
         "XamlCodeFile": "BlurBehaviorXaml.bind",
         "Icon": "/SamplePages/Blur/blurBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Blur.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Blur.md"
       },
       {
         "Name": "Saturation",
@@ -392,7 +392,7 @@
         "XamlCodeFile": "SaturationBehaviorXaml.bind",
         "Icon": "/SamplePages/Saturation/saturationBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Saturation.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Saturation.md"
       },
       {
         "Name": "Light",
@@ -403,7 +403,7 @@
         "XamlCodeFile": "LightBehaviorXaml.bind",
         "Icon": "/SamplePages/Light/LightBehavior.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Light.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Light.md"
       },
       {
         "Name": "FadeHeader",
@@ -413,7 +413,7 @@
         "CodeFile": "FadeHeaderBehaviorCode.bind",
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/FadeHeader.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/FadeHeader.md"
       },
       {
         "Name": "ParallaxService",
@@ -424,7 +424,7 @@
         "Icon": "/SamplePages/ParallaxService/Parallax.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ParallaxService.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ParallaxService.md"
       },
       {
         "Name": "ReorderGridAnimation",
@@ -434,7 +434,7 @@
         "XamlCodeFile": "ReorderGrid.bind",
         "Icon": "/SamplePages/ReorderGridAnimation/ReorderGrid.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ReorderGrid.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ReorderGrid.md"
       },
       {
         "Name": "Implicit Animations",
@@ -444,7 +444,7 @@
         "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
         "XamlCodeFile": "ImplicitAnimationsCode.bind",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ImplicitAnimations.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ImplicitAnimations.md"
       },
       {
         "Name": "Connected Animations",
@@ -455,7 +455,7 @@
         "DisableXamlEditorRendering": true,
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ConnectedAnimations.md"
       }
     ]
   },
@@ -471,7 +471,7 @@
         "CodeFile": "AadLoginCode.bind",
         "XamlCodeFile": "AadLoginXaml.bind",
         "Icon": "/SamplePages/AadLogin/AadLogin.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/AadLogin.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
       },
       {
         "Name": "ProfileCard",
@@ -480,7 +480,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
         "XamlCodeFile": "ProfileCardXaml.bind",
         "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/ProfileCard.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
       },
       {
         "Name": "PeoplePicker",
@@ -489,7 +489,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PeoplePicker.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
       },
       {
         "Name": "SharePointFileList",
@@ -499,7 +499,7 @@
         "CodeFile": "SharePointFileListCode.bind",
         "XamlCodeFile": "SharePointFileListXaml.bind",
         "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/SharePointFileList.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/SharePointFileList.md"
       },
       {
         "Name": "PowerBIEmbedded",
@@ -507,7 +507,7 @@
         "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
         "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PowerBIEmbedded.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PowerBIEmbedded.md"
       },
       {
         "Name": "PlannerTaskList",
@@ -516,7 +516,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
         "XamlCodeFile": "PlannerTaskListXaml.bind",
         "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/graph/PlannerTaskList.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
       }
     ]
   },
@@ -533,7 +533,7 @@
         "Icon": "/SamplePages/Bing Service/icon.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive Services SDKs found at https://aka.ms/AA209h0.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Bing.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Bing.md"
       },
       {
         "Name": "Facebook Service",
@@ -542,7 +542,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Facebook.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
       },
       {
         "Name": "Twitter Service",
@@ -551,7 +551,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Twitter",
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Twitter.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Twitter.md"
       },
       {
         "Name": "Microsoft Graph Service",
@@ -560,7 +560,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftGraph",
         "CodeFile": "MicrosoftGraphCode.bind",
         "Icon": "/SamplePages/Microsoft Graph Service/mslogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/MicrosoftGraph.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/MicrosoftGraph.md"
       },
       {
         "Name": "OneDrive Service",
@@ -569,7 +569,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/OneDrive/",
         "CodeFile": "OneDriveCode.bind",
         "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/OneDrive.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/OneDrive.md"
       },
       {
         "Name": "LinkedIn Service",
@@ -578,7 +578,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/LinkedIn/",
         "CodeFile": "LinkedInCode.bind",
         "Icon": "/SamplePages/LinkedIn Service/LinkedInLogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Linkedin.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Linkedin.md"
       },
       {
         "Name": "Microsoft Translator Service",
@@ -587,7 +587,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/MicrosoftTranslator",
         "CodeFile": "MicrosoftTranslatorCode.bind",
         "Icon": "/SamplePages/Microsoft Translator Service/TranslatorService.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/MicrosoftTranslator.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/MicrosoftTranslator.md"
       }
     ]
   },
@@ -603,7 +603,7 @@
         "CodeFile": "LiveTileCode.bind",
         "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
         "Icon": "/SamplePages/LiveTile/LiveTile.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
       {
         "Name": "Toast",
@@ -613,7 +613,7 @@
         "CodeFile": "ToastCode.bind",
         "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
         "Icon": "/SamplePages/Toast/Toast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       },
       {
         "Name": "WeatherLiveTileAndToast",
@@ -623,7 +623,7 @@
         "CodeFile": "WeatherLiveTileAndToastCode.bind",
         "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
         "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/notifications/NotificationsOverview.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
       }
     ]
   },
@@ -639,7 +639,7 @@
         "CodeFile": "ImageCacheCode.bind",
         "XamlCodeFile": "ImageCacheXaml.bind",
         "Icon": "/SamplePages/ImageCache/ImageCache.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/ImageCache.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ImageCache.md"
       },
       {
         "Name": "Object Storage",
@@ -648,7 +648,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
         "CodeFile": "ObjectStorageCode.bind",
         "Icon": "/SamplePages/Object Storage/ObjectStorage.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/ObjectStorage.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ObjectStorage.md"
       },
       {
         "Name": "Incremental Loading Collection",
@@ -657,7 +657,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
         "CodeFile": "IncrementalLoadingCollectionCode.bind",
         "Icon": "/SamplePages/Incremental Loading Collection/icon.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/IncrementalLoadingCollection.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/IncrementalLoadingCollection.md"
       },
       {
         "Name": "BackgroundTaskHelper",
@@ -666,7 +666,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
         "CodeFile": "BackgroundTaskHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/BackgroundTaskHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BackgroundTaskHelper.md"
       },
       {
         "Name": "NetworkHelper",
@@ -675,7 +675,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/Network",
         "CodeFile": "NetworkHelperCode.bind",
         "Icon": "/SamplePages/NetworkHelper/NetworkHelper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/NetworkHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/NetworkHelper.md"
       },
       {
         "Name": "BluetoothLEHelper",
@@ -684,7 +684,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
         "Icon": "/SamplePages/BluetoothLEHelper/BluetoothLEHelper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/BluetoothLEHelper.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/BluetoothLEHelper.md",
         "BadgeUpdateVersionRequired": "Creators Update required"
       },
       {
@@ -694,7 +694,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
         "CodeFile": "SystemInformationCode.bind",
         "Icon": "/SamplePages/SystemInformation/SystemInformation.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/SystemInformation.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/SystemInformation.md"
       },
       {
         "Name": "PrintHelper",
@@ -704,7 +704,7 @@
         "CodeFile": "PrintHelperCode.bind",
         "XamlCodeFile": "PrintHelperXaml.bind",
         "Icon": "/SamplePages/PrintHelper/PrintHelper.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/PrintHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/PrintHelper.md"
       },
       {
         "Name": "DispatcherHelper",
@@ -713,7 +713,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs",
         "CodeFile": "DispatcherHelperCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/DispatcherHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/DispatcherHelper.md"
       },
       {
         "Name": "AdvancedCollectionView",
@@ -722,7 +722,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
         "CodeFile": "AdvancedCollectionView.bind",
         "Icon": "/SamplePages/AdvancedCollectionView/AdvancedCollectionView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/AdvancedCollectionView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/AdvancedCollectionView.md"
       },
       {
         "Name": "CameraHelper",
@@ -732,14 +732,14 @@
         "CodeFile": "CameraHelperCode.bind",
         "Icon": "/SamplePages/CameraHelper/CameraHelper.png",
         "BadgeUpdateVersionRequired": "April 2018 update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/CameraHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/CameraHelper.md"
       },
       {
         "Name": "ThemeListener",
         "Type": "ThemeListenerPage",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/helpers/ThemeListener.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
       }
     ]
   },
@@ -756,7 +756,7 @@
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/BackdropBlurBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       },
       {
         "Name": "BackdropInvertBrush",
@@ -767,7 +767,7 @@
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/BackdropInvertBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropInvertBrush.md"
       },
       {
         "Name": "BackdropGammaTransferBrush",
@@ -778,7 +778,7 @@
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/BackdropGammaTransferBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
       {
         "Name": "BackdropSaturationBrush",
@@ -789,7 +789,7 @@
         "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/BackdropSaturationBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSaturationBrush.md"
       },
       {
         "Name": "BackdropSepiaBrush",
@@ -800,7 +800,7 @@
         "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/BackdropSepiaBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
       {
         "Name": "ImageBlendBrush",
@@ -811,7 +811,7 @@
         "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/ImageBlendBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/ImageBlendBrush.md"
       },
       {
         "Name": "RadialGradientBrush",
@@ -822,7 +822,7 @@
         "Icon": "/SamplePages/RadialGradientBrush/RadialGradientBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/brushes/RadialGradientBrush.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/RadialGradientBrush.md"
       }
     ]
   },
@@ -837,7 +837,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ListViewExtensions",
         "XamlCodeFile": "ListViewExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/ListViewExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ListViewExtensions.md"
       },
       {
         "Name": "ViewExtensions",
@@ -846,7 +846,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions",
         "XamlCodeFile": "ViewExtensionsCode.bind",
         "Icon": "/SamplePages/ViewExtensions/ViewExtensions.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/ViewExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ViewExtensions.md"
       },
       {
         "Name": "TextBoxMask",
@@ -855,7 +855,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxMask",
         "XamlCodeFile": "TextBoxMask.bind",
         "Icon": "/SamplePages/TextBoxMask/TextBoxMask.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/TextBoxMask.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/TextBoxMask.md"
       },
       {
         "Name": "Mouse",
@@ -864,7 +864,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/Mouse",
         "XamlCodeFile": "MouseCursorPage.bind",
         "Icon": "/SamplePages/Mouse/MouseCursor.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/MouseCursor.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/MouseCursor.md"
       },
       {
         "Name": "TextBoxRegex",
@@ -873,7 +873,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/TextBoxRegEx",
         "XamlCodeFile": "TextBoxRegex.bind",
         "Icon": "/SamplePages/TextBoxRegex/TextBoxRegex.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/TextBoxRegex.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/TextBoxRegex.md"
       },
       {
         "Name": "SurfaceDialTextbox",
@@ -883,7 +883,7 @@
         "XamlCodeFile": "SurfaceDialTextboxCode.bind",
         "Icon": "/SamplePages/SurfaceDialTextbox/SurfaceDialTextbox.png",
         "BadgeUpdateVersionRequired": "Anniversary Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/SurfaceDialTextboxHelper.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/SurfaceDialTextboxHelper.md"
       },
       {
         "Name": "Visual Extensions",
@@ -893,7 +893,7 @@
         "XamlCodeFile": "VisualExtensionsCode.bind",
         "Icon": "/SamplePages/Visual Extensions/VisualExtensions.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/VisualExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/VisualExtensions.md"
       },
       {
         "Name": "FrameworkElementExtensions",
@@ -902,7 +902,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/FrameworkElement",
         "XamlCodeFile": "FrameworkElementExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/FrameworkElementExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/FrameworkElementExtensions.md"
       },
       {
         "Name": "StringExtensions",
@@ -910,13 +910,13 @@
         "About": "String Extensions to validate strings",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit/Extensions",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/StringExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/StringExtensions.md"
       },
       {
         "Name": "NavigationViewStyles",
         "Type": "NavigationViewStylesPage",
         "XamlCodeFile": "NavigationViewStylesXaml.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/NavigationView.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/NavigationView.md",
         "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
         "About": "The NavigationView extension will be removed in a future major release.",
         "BadgeUpdateVersionRequired": "DEPRECATED",
@@ -931,7 +931,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/ScrollViewer",
         "XamlCodeFile": "ScrollViewerExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/ScrollViewerExtensions.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ScrollViewerExtensions.md"
       }
     ]
   },
@@ -944,14 +944,14 @@
         "Type": "MarkdownParserPage",
         "About": "The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/parsers/MarkdownParser.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
       },
       {
         "Name": "RSS Parser",
         "Type": "RssParserPage",
         "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
         "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/parsers/RssParser.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/RssParser.md"
       }
     ]
   },
@@ -966,7 +966,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/AlignmentGrid",
         "XamlCodeFile": "AlignmentGridXaml.bind",
         "Icon": "/SamplePages/AlignmentGrid/AlignmentGrid.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/developer-tools/AlignmentGrid.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/AlignmentGrid.md"
       },
       {
         "Name": "FocusTracker",
@@ -975,7 +975,7 @@
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/FocusTracker",
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/developer-tools/FocusTracker.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
       }
     ]
   },
@@ -990,7 +990,7 @@
         "XamlCodeFile": "GazeInteractionXaml.bind",
         "CodeFile": "GazeInteractionCode.bind",
         "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/gaze/GazeInteractionLibrary.md",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
         "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
       },
       {
