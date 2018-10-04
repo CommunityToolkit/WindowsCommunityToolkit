@@ -1,4 +1,4 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras/1.6.55">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <ProjectGuid>{45524ED2-8B5A-42E8-97A2-DCA44ECC83AA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
