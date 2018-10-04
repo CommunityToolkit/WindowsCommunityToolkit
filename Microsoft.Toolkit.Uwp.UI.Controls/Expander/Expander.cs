@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
-    [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = ContentOverlayPart, Type = typeof(Grid))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : HeaderedContentControl
     {
@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             OnExpandDirectionChanged(false);
             OnDisplayModeOrIsExpandedChanged(false);
+            OnContentOverlayChanged();
         }
 
         /// <summary>
@@ -148,7 +149,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnContentOverlayChanged()
         {
-            UpdateOverlayAlignment();
+            if (GetTemplateChild(ContentOverlayPart) is Grid contentOverlay)
+            {
+                contentOverlay.Visibility = ContentOverlay != null ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
@@ -181,39 +185,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VisualStateManager.GoToState(this, visualState, useTransitions);
             }
 
-            UpdateOverlayAlignment();
-        }
-
-        private void UpdateOverlayAlignment()
-        {
-            var rootGrid = GetTemplateChild(RootGridPart) as Grid;
-
-            if (rootGrid != null)
-            {
-                switch (ExpandDirection)
-                {
-                    case ExpandDirection.Left:
-                        rootGrid.VerticalAlignment = VerticalAlignment.Stretch;
-                        rootGrid.HorizontalAlignment =
-                            (ContentOverlay == null && !IsExpanded) ? HorizontalAlignment.Right : HorizontalAlignment.Stretch;
-                        break;
-                    case ExpandDirection.Down:
-                        rootGrid.VerticalAlignment =
-                            (ContentOverlay == null && !IsExpanded) ? VerticalAlignment.Top : VerticalAlignment.Stretch;
-                        rootGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        break;
-                    case ExpandDirection.Right:
-                        rootGrid.VerticalAlignment = VerticalAlignment.Stretch;
-                        rootGrid.HorizontalAlignment =
-                            (ContentOverlay == null && !IsExpanded) ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
-                        break;
-                    case ExpandDirection.Up:
-                        rootGrid.VerticalAlignment =
-                            (ContentOverlay == null && !IsExpanded) ? VerticalAlignment.Bottom : VerticalAlignment.Stretch;
-                        rootGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
-                        break;
-                }
-            }
         }
 
         private string GetDisplayModeVisualState(string collapsedState, string visibleState)

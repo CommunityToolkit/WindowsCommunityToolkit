@@ -30,6 +30,10 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
+                        <Rectangle x:Name="HoverPanel"
+                                   Grid.ColumnSpan="2"
+                                   Fill="Transparent" />
+
                         <Slider x:Name="ArrowRotation"
                                 Maximum="180"
                                 Minimum="-180"
@@ -64,9 +68,6 @@
                                           Foreground="{TemplateBinding Foreground}"
                                           RenderTransformOrigin="0.5,0.5" />
 
-                        <Rectangle x:Name="HoverPanel"
-                                   Grid.ColumnSpan="2"
-                                   Fill="Transparent" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -305,8 +306,7 @@
                 <ControlTemplate TargetType="controls:Expander">
                     <Border BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <Grid x:Name="PART_RootGrid"
-                              Background="{TemplateBinding Background}">
+                        <Grid x:Name="PART_RootGrid">
                             <Grid.RowDefinitions>
                                 <RowDefinition x:Name="RowOne"
                                                Height="Auto" />
@@ -319,20 +319,24 @@
                                 <ColumnDefinition x:Name="ColumnTwo"
                                                   Width="*" />
                             </Grid.ColumnDefinitions>
-                            <ContentControl x:Name="PART_ContentOverlay"
-                                            Grid.Row="1"
-                                            Grid.RowSpan="1"
-                                            Grid.Column="0"
-                                            Grid.ColumnSpan="2"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalContentAlignment="Stretch"
-                                            VerticalContentAlignment="Stretch"
-                                            Content="{TemplateBinding ContentOverlay}">
-                                <ContentControl.RenderTransform>
-                                    <ScaleTransform />
-                                </ContentControl.RenderTransform>
-                            </ContentControl>
+                            <Grid x:Name="PART_ContentOverlay"
+                                  Grid.Row="1"
+                                  Grid.RowSpan="1"
+                                  Grid.Column="0"
+                                  Grid.ColumnSpan="2"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  Background="{TemplateBinding Background}">
+                                  <ContentControl Content="{TemplateBinding ContentOverlay}"
+                                                  HorizontalContentAlignment="Stretch"
+                                                  VerticalContentAlignment="Stretch"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch">
+                                    <ContentControl.RenderTransform>
+                                        <ScaleTransform />
+                                    </ContentControl.RenderTransform>
+                                </ContentControl>
+                            </Grid>
                             <Grid x:Name="PART_MainContent"
                                   Grid.Row="1"
                                   Grid.RowSpan="1"
@@ -346,7 +350,7 @@
                                                   VerticalContentAlignment="Stretch"
                                                   Opacity="0">
                                     <ContentPresenter.RenderTransform>
-                                        <TranslateTransform Y="20" />
+                                        <TranslateTransform Y="0" />
                                     </ContentPresenter.RenderTransform>
                                 </ContentPresenter>
                                 <Grid.RenderTransform>
@@ -394,6 +398,7 @@
                                         <Setter Target="ColumnOne.Width" Value="*" />
                                         <Setter Target="ColumnTwo.Width" Value="Auto" />
                                         <Setter Target="PART_MainContent.RenderTransformOrigin" Value="1, 0.5" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(TranslateTransform.Y)" Value="0" />
                                     </VisualState.Setters>
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
@@ -404,15 +409,6 @@
                                                                   Value="0" />
                                             <LinearDoubleKeyFrame KeyTime="0:0:0.25"
                                                                   Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
-                                            <LinearDoubleKeyFrame KeyTime="0"
-                                                                  Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15"
-                                                                  Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25"
-                                                                  Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
@@ -470,6 +466,7 @@
                                         <Setter Target="PART_ContentOverlay.(Grid.RowSpan)" Value="2" />
                                         <Setter Target="PART_ContentOverlay.(Grid.Column)" Value="1" />
                                         <Setter Target="PART_ContentOverlay.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="ContentPresenter.(UIElement.RenderTransform).(TranslateTransform.Y)" Value="0" />
                                         <Setter Target="RotateLayoutTransform.Angle" Value="-90" />
                                     </VisualState.Setters>
                                     <Storyboard>
@@ -481,15 +478,6 @@
                                                                   Value="0" />
                                             <LinearDoubleKeyFrame KeyTime="0:0:0.25"
                                                                   Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter"
-                                                                       Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)">
-                                            <LinearDoubleKeyFrame KeyTime="0"
-                                                                  Value="0" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.15"
-                                                                  Value="20" />
-                                            <LinearDoubleKeyFrame KeyTime="0:0:0.25"
-                                                                  Value="0" />
                                         </DoubleAnimationUsingKeyFrames>
                                         <DoubleAnimation Storyboard.TargetName="PART_MainContent"
                                                          Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
@@ -590,15 +578,7 @@
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15"
                                                                     Value="Collapsed" />
                                         </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" 
-                                                                       Storyboard.TargetProperty="(FrameworkElement.Background)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.01" Value="Transparent"/>
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
-                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
-                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
-                                    </Storyboard>
+                                   </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedDown">
                                     <VisualState.Setters>
@@ -662,16 +642,6 @@
                                             <DiscreteObjectKeyFrame KeyTime="0:0:0.15"
                                                                     Value="Collapsed" />
                                         </ObjectAnimationUsingKeyFrames>
-
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PART_RootGrid" 
-                                                                       Storyboard.TargetProperty="(FrameworkElement.Background)">
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.00" Value="Transparent"/>
-                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.15" Value="{Binding ElementName=PART_MainContent, Path=Background}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <DoubleAnimation Storyboard.TargetName="PART_RootGrid"
-                                                         Storyboard.TargetProperty="(FrameworkElement.Height)"
-                                                         Duration="0:0:0.15" To="{Binding ElementName=PART_LayoutTransformer, Path=ActualHeight}" />
-
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="CollapsedUp">
