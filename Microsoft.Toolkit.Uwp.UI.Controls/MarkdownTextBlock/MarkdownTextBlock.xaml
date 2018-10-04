@@ -20,7 +20,7 @@
 
     <Style TargetType="controls:MarkdownTextBlock">
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="LinkForeground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Setter Property="LinkForeground" Value="{ThemeResource SystemColorHotlightColor}" />
         <Setter Property="QuoteBackground" Value="Transparent" />
         <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownQuoteForeground}" />
         <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
