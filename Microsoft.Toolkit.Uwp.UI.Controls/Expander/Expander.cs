@@ -184,7 +184,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, visualState, useTransitions);
             }
-
         }
 
         private string GetDisplayModeVisualState(string collapsedState, string visibleState)
