@@ -7,7 +7,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 
 ### String Extensions
 
-Developers can now leverage the StringExtensions class and validate strings against common scenarios
+Provides helpers and extensions for strings, including validation methods for common scenarios.
 
 ## Syntax
 
@@ -25,16 +25,16 @@ bool isvalid = str.IsDecimal();		//Returns false
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| IsEmail(string) | boolean | Returns whether said string is a valid email or not. Uses general Email Regex (RFC 5322 Official Standard) from emailregex.com |
-| IsDecimal(string) | boolean | Returns whether said string is a valid decimal number or not. |
-| IsNumeric(string) | boolean | Returns whether said string is a valid integer or not. |
-| IsPhoneNumber(string) | boolean | Returns whether said string is a valid phonenumber or not. |
-| IsCharacterString(string) | boolean | Returns whether said string contains only letters or not. |
-| ToSafeString(object) | string | Converts object into string. |
-| DecodeHtml(string) | string | Decode HTML string. |
-| FixHtml(string) | string | Applies regular expressions to string of HTML to remove comments, scripts, styles. |
-| Truncate(string, int) | string | Trims and Truncates the specified string to the specified length. |
-| Truncate(string, int, bool) | string | Trims and Truncates the specified string to the specified length and adds an ellipsis (...) at the end of the string when set to true. |
+| IsEmail(string) | boolean | Determines whether a string is a valid email address. |
+| IsDecimal(string) | boolean | Determines whether a string is a valid decimal number. |
+| IsNumeric(string) | boolean | Determines whether a string is a valid integer. |
+| IsPhoneNumber(string) | boolean | Determines whether a string is a valid phone number. |
+| IsCharacterString(string) | boolean | Determines whether a string contains only letters. |
+| ToSafeString(object) | string | Returns a string representation of an object. |
+| DecodeHtml(string) | string | Returns a string with HTML comments, scripts, styles, and tags removed. |
+| FixHtml(string) | string | Returns a string with HTML comments, scripts, and styles removed. |
+| Truncate(string, int) | string | Truncates a string to the specified length. |
+| Truncate(string, int, bool) | string | Truncates a string to the specified length, adding an ellipsis (`...`) at the end of the string when set to true. |
 
 ## Requirements
 
