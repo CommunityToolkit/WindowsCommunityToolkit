@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.16299;netstandard1.4;net461</TargetFrameworks>
+    <TargetFrameworks>uap10.0.16299;netstandard2.0;net461</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
