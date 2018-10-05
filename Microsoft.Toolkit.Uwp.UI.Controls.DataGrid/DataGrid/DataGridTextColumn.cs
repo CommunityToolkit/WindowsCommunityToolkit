@@ -198,9 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RefreshForeground(textBox, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
-            bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-
-            if (this.Binding != null || !isDesignMode)
+            if (this.Binding != null)
             {
                 textBox.SetBinding(this.BindingTarget, this.Binding);
             }
@@ -241,9 +239,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
-            bool isDesignMode = Windows.ApplicationModel.DesignMode.DesignModeEnabled;
-
-            if (this.Binding != null || !isDesignMode)
+            if (this.Binding != null)
             {
                 textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
             }
