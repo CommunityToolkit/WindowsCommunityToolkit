@@ -9,37 +9,10 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification/Styles/VSCodeNotificationStyle.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <ResourceDictionary.ThemeDictionaries>
-        <ResourceDictionary x:Key="Default">
-            <contract5Present:AcrylicBrush x:Key="InAppNotificationAcrylicBackgroundBrush"
-                                           BackgroundSource="Backdrop"
-                                           FallbackColor="{ThemeResource SystemChromeMediumLowColor}"
-                                           TintColor="{ThemeResource SystemChromeMediumLowColor}"
-                                           TintOpacity="0.8" />
-        </ResourceDictionary>
-
-        <ResourceDictionary x:Key="HighContrast">
-            <contract5Present:AcrylicBrush x:Key="InAppNotificationAcrylicBackgroundBrush"
-                                           BackgroundSource="Backdrop"
-                                           FallbackColor="{ThemeResource SystemColorButtonFaceColor}"
-                                           TintColor="{ThemeResource SystemColorButtonFaceColor}"
-                                           TintOpacity="0.8" />
-        </ResourceDictionary>
-
-        <ResourceDictionary x:Key="Light">
-            <contract5Present:AcrylicBrush x:Key="InAppNotificationAcrylicBackgroundBrush"
-                                           BackgroundSource="Backdrop"
-                                           FallbackColor="{ThemeResource SystemChromeMediumLowColor}"
-                                           TintColor="{ThemeResource SystemChromeMediumLowColor}"
-                                           TintOpacity="0.8" />
-        </ResourceDictionary>
-    </ResourceDictionary.ThemeDictionaries>
-
-    <Style x:Key="BaseInAppNotificationsStyle"
-           TargetType="local:InAppNotification">
+    <Style TargetType="local:InAppNotification" x:Key="BaseInAppNotificationsStyle">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundBaseLowBrush}" />
         <Setter Property="Visibility" Value="Collapsed" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -57,13 +30,11 @@
         <Setter Property="Template" Value="{StaticResource MSEdgeNotificationTemplate}" />
     </Style>
 
-    <contract5NotPresent:Style BasedOn="{StaticResource BaseInAppNotificationsStyle}"
-                               TargetType="local:InAppNotification">
+    <contract5NotPresent:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
     </contract5NotPresent:Style>
 
-    <contract5Present:Style BasedOn="{StaticResource BaseInAppNotificationsStyle}"
-                            TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource InAppNotificationAcrylicBackgroundBrush}" />
+    <contract5Present:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
+        <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" />
     </contract5Present:Style>
 </ResourceDictionary>
