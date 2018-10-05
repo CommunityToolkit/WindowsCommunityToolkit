@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="anchor">the element that will animate alongside the main element</param>
         public static void AttachAnchorElementForConnectedAnimation(this Page page, UIElement element, UIElement anchor)
         {
-            if (anchor != null)
+            if (anchor != null && element != null)
             {
                 var coordinatedElements = GetPageCoordinatedAnimationElements(page);
                 if (!coordinatedElements.TryGetValue(anchor, out var list))
@@ -278,7 +278,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="anchor">the element that should not animate alongside the main element</param>
         public static void RemoveAnchoredElementForConnectedAnimation(this Page page, UIElement element, UIElement anchor)
         {
-            if (anchor != null)
+            if (anchor != null && element != null)
             {
                 var coordinatedElements = GetPageCoordinatedAnimationElements(page);
                 if (coordinatedElements.TryGetValue(anchor, out var oldElementList))
