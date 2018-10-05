@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
@@ -51,6 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
             foreach (var props in connectedAnimationsProps.Values)
             {
+                ConnectedAnimation animation = null;
+
                 if (props.IsListAnimation && parameter != null && ApiInformationHelper.IsCreatorsUpdateOrAbove)
                 {
                     foreach (var listAnimProperty in props.ListAnimProperties)
@@ -60,22 +63,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                         {
                             try
                             {
-                                listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
+                                animation = listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
                             }
                             catch
                             {
-                                // Ignore
+                                animation = null;
                             }
                         }
                     }
                 }
                 else if (!props.IsListAnimation)
                 {
-                    cas.PrepareToAnimate(props.Key, props.Element);
+                    animation = cas.PrepareToAnimate(props.Key, props.Element);
                 }
                 else
                 {
                     continue;
+                }
+
+                if (animation != null &&
+                    e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back &&
+                    ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
+                {
+                    animation.Configuration = new DirectConnectedAnimationConfiguration();
                 }
 
                 _previousPageConnectedAnimationProps[props.Key] = props;
