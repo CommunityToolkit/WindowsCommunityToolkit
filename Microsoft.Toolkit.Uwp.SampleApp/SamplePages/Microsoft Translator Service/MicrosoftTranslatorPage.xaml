@@ -1,7 +1,6 @@
 ﻿<Page x:Class="Microsoft.Toolkit.Uwp.SampleApp.SamplePages.MicrosoftTranslatorPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:bing="using:Microsoft.Toolkit.Uwp.Services.Bing"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
@@ -31,9 +30,9 @@
             <ComboBox x:Name="Languages"
                       Margin="0,10,0,0"
                       HorizontalAlignment="Stretch"
-                      DisplayMemberPath="Name"
+                      DisplayMemberPath="Value"
                       Header="Target Language:"
-                      SelectedValuePath="Code" />
+                      SelectedValuePath="Key" />
             <Button x:Name="Translate"
                     Margin="0,10,0,0"
                     Click="Translate_OnClick"

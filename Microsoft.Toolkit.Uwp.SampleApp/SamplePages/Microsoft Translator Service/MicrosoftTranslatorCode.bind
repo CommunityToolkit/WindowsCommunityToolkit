@@ -1,7 +1,8 @@
 /* Go to Azure Portal at https://portal.azure.com/#create/Microsoft.CognitiveServices/apitype/TextTranslation
  * to get a Translator Service key
  */
-await TranslatorService.Instance.InitializeAsync("<translator service key");	
+await TranslatorService.Instance.InitializeAsync("<translator service key");
 
 // Translates the text to Italian.
-var translatedText = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
+var translationResult = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
+var translatedText = translationResult.Translation.Text;

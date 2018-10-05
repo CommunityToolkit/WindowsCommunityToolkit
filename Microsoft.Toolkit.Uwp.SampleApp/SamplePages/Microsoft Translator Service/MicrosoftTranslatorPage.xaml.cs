@@ -49,9 +49,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Languages.ItemsSource = null;
 
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguageNamesAsync();
+            var languages = await _translatorClient.GetLanguagesAsync("en");
 
-            Languages.ItemsSource = languages.OrderBy(d => d.Name);
+            Languages.ItemsSource = languages;
             Languages.SelectedIndex = 0;
 
             SampleController.Current.DisplayWaitRing = false;
@@ -75,9 +75,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             // Translates the text to the selected language.
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var translatedText = await _translatorClient.TranslateAsync(Sentence.Text, Languages.SelectedValue.ToString());
+            var translationResult = await _translatorClient.TranslateAsync(Sentence.Text, Languages.SelectedValue.ToString());
 
-            Translation.Text = translatedText;
+            Translation.Text = translationResult.Translation?.Text;
 
             SampleController.Current.DisplayWaitRing = false;
         }
