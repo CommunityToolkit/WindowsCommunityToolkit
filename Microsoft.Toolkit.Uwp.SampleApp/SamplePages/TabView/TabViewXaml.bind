@@ -26,8 +26,7 @@
     
       <!-- Tabs -->
       <controls:TabViewItem Header="Home" HeaderIcon="Home" 
-                            IsClosable="False"
-                            IsSelected="True">
+                            IsClosable="False">
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Ignored">

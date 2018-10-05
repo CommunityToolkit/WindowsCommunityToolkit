@@ -67,6 +67,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.DefaultStyleKey = typeof(TabView);
 
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
+
+            Loaded += TabView_Loaded;
+        }
+
+        private async void TabView_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= TabView_Loaded;
+
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+            {
+                // Need to set a tab's selection on load, otherwise ListView resets to null.
+                SetSelection();
+
+                // Need to set the contentpresenter's content here for embedded XAML TabViewItems, otherwise never loads, platform issue?
+                if (_tabContentPresenter.Content == null)
+                {
+                    _tabContentPresenter.Content = (ContainerFromItem(SelectedItem) as TabViewItem)?.Content;
+                }
+
+                // Need to 'refresh' the ContentPresenter for ItemsSource Databound scenarios for it to render... :(
+                _tabContentPresenter.UpdateLayout();
+            });
         }
 
         /// <inheritdoc/>
@@ -327,6 +349,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (args.DropResult == DataPackageOperation.None)
             {
                 TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(args.Items.FirstOrDefault()));
+            }
+            else
+            {
+                // If dragging the active tab, there's an issue with the CP blanking.
+                #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
+                {
+                    // Need to set the contentpresenter's content here for embedded XAML TabViewItems, otherwise never loads, platform issue?
+                    if (_tabContentPresenter.Content == null)
+                    {
+                        _tabContentPresenter.Content = (ContainerFromItem(SelectedItem) as TabViewItem)?.Content;
+                    }
+
+                    // Need to 'refresh' the ContentPresenter for ItemsSource Databound scenarios for it to render... :(
+                    _tabContentPresenter.UpdateLayout();
+                });
+                #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }
 

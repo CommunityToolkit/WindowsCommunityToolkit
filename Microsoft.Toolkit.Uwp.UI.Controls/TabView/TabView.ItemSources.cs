@@ -32,6 +32,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _previousItems = Items;
 
+            base.OnItemsChanged(e);
+
             if (Items != null)
             {
                 Items.VectorChanged += Items_VectorChanged;
@@ -39,13 +41,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Update Sizing (in case there are less items now)
             TabView_SizeChanged(this, null);
+        }
 
-            base.OnItemsChanged(e);
+        private void SetSelection()
+        {
+            if (SelectedItem == null)
+            {
+                if (SelectedIndex >= 0 && SelectedIndex < Items.Count())
+                {
+                    SelectedItem = Items[SelectedIndex];
+                }
+                else if (Items.Count() >= 1)
+                {
+                    SelectedItem = Items[0];
+                }
+            }
         }
 
         private void Items_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
         {
-            if (@event.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
+            if (@event.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemInserted)
+            {
+                SetSelection();
+            }
+            else if (@event.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
             {
                 TabView_SizeChanged(this, null);
             }
@@ -83,7 +102,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                SetSelection();
+            }
+            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
             {
                 TabView_SizeChanged(this, null);
             }
