@@ -361,6 +361,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
+        /// <summary>
+        /// Sets the object that will be used during next Frame navigation for
+        /// Connected Animation involving a list control (item must be an element of
+        /// ListViewBase.ItemsSource collection).
+        /// Useful if the parameter used during page navigation is different from the
+        /// data item in the list control. Also useful during back navigation if the
+        /// item navigating back to is different from the item that was navigated from.
+        /// </summary>
+        /// <param name="frame">The Frame handling the navigation</param>
+        /// <param name="item">The data item from a list control to be animated during next frame navigation</param>
+        public static void SetListDataItemForNextConnectedAnnimation(this Frame frame, object item)
+        {
+            GetConnectedAnimationHelper(frame)?.SetParameterForNextFrameNavigation(item);
+        }
+
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)

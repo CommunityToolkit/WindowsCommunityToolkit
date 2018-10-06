@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         private readonly Dictionary<string, ConnectedAnimationProperties> _previousPageConnectedAnimationProps = new Dictionary<string, ConnectedAnimationProperties>();
 
+        private object _nextParameter;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ConnectedAnimationHelper"/> class.
         /// </summary>
@@ -41,9 +43,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             frame.Navigated += Frame_Navigated;
         }
 
+        internal void SetParameterForNextFrameNavigation(object parameter)
+        {
+            _nextParameter = parameter;
+        }
+
         private void Frame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
-            var parameter = e.Parameter != null && !(e.Parameter is string str && string.IsNullOrEmpty(str)) ? e.Parameter : null;
+            object parameter = null;
+
+            if (_nextParameter != null)
+            {
+                parameter = _nextParameter;
+            }
+            else
+            {
+                parameter = e.Parameter != null && !(e.Parameter is string str && string.IsNullOrEmpty(str)) ? e.Parameter : null;
+            }
 
             var cas = ConnectedAnimationService.GetForCurrentView();
 
@@ -59,11 +75,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     foreach (var listAnimProperty in props.ListAnimProperties)
                     {
                         if (listAnimProperty.ListViewBase.ItemsSource is IEnumerable<object> items &&
-                            items.Contains(e.Parameter))
+                            items.Contains(parameter))
                         {
                             try
                             {
-                                animation = listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, e.Parameter, listAnimProperty.ElementName);
+                                animation = listAnimProperty.ListViewBase.PrepareConnectedAnimation(props.Key, parameter, listAnimProperty.ElementName);
                             }
                             catch
                             {
@@ -107,7 +123,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 page.Loaded -= loadedHandler;
 
                 object parameter;
-                if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
+                if (_nextParameter != null)
+                {
+                    parameter = _nextParameter;
+                }
+                else if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
                 {
                     var sourcePage = (sender as Frame).ForwardStack.LastOrDefault();
                     parameter = sourcePage?.Parameter;
@@ -182,6 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 _previousPageConnectedAnimationProps.Clear();
+                _nextParameter = null;
             }
 
             navigatedPage.Loaded += loadedHandler;
