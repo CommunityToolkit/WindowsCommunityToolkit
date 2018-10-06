@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             SampleController.Current.DisplayWaitRing = true;
-            await WeiboService.Instance.TweetStatusAsync(TweetText.Text);
+            await WeiboService.Instance.PostStatusAsync(TweetText.Text);
             SampleController.Current.DisplayWaitRing = false;
         }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 using (var stream = await picture.OpenReadAsync())
                 {
                     SampleController.Current.DisplayWaitRing = true;
-                    await WeiboService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
+                    await WeiboService.Instance.PostStatusAsync(TweetText.Text, stream.AsStream());
                     SampleController.Current.DisplayWaitRing = false;
                 }
             }

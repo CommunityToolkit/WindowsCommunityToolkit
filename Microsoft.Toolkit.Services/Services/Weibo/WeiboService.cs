@@ -241,17 +241,17 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// </summary>
         /// <param name="status">The status information.</param>
         /// <returns>Returns the published weibo status.</returns>
-        public async Task<WeiboStatus> TweetStatusAsync(string status)
+        public async Task<WeiboStatus> PostStatusAsync(string status)
         {
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatusAsync(status);
+                return await Provider.PostStatusAsync(status);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(status);
+                return await PostStatusAsync(status);
             }
 
             return null;
@@ -265,17 +265,17 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="status">The status information.</param>
         /// <param name="picture">Picture to attach to the status.</param>
         /// <returns>Returns the published weibo status.</returns>
-        public async Task<WeiboStatus> TweetStatusAsync(string status, Stream picture)
+        public async Task<WeiboStatus> PostStatusAsync(string status, Stream picture)
         {
             if (Provider.LoggedIn)
             {
-                return await Provider.TweetStatusAsync(status, picture);
+                return await Provider.PostStatusAsync(status, picture);
             }
 
             var isLoggedIn = await LoginAsync();
             if (isLoggedIn)
             {
-                return await TweetStatusAsync(status, picture);
+                return await PostStatusAsync(status, picture);
             }
 
             return null;

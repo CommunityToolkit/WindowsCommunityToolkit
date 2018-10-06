@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -50,7 +49,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Gets or sets logged in user information.
         /// </summary>
-        public long? Uid { get; set; }
+        public long? Uid { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the provider is already logged in
@@ -78,17 +77,29 @@ namespace Microsoft.Toolkit.Services.Weibo
             }
         }
 
+#if WINRT
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public WeiboDataProvider(WeiboOAuthTokens tokens)
+            : this(tokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager())
+        {
+        }
+#endif
+
         /// <summary>
         /// Log user in to Weibo.
         /// </summary>
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var crendetials = _passwordManager.Get(PasswordKey);
+            var credentials = _passwordManager.Get(PasswordKey);
             var uidString = _storageManager.Get(StorageKey);
-            if (long.TryParse(uidString, out var uid) && crendetials != null)
+            if (long.TryParse(uidString, out var uid) && credentials != null)
             {
-                _tokens.AccessToken = crendetials.Password;
+                _tokens.AccessToken = credentials.Password;
                 Uid = uid;
                 LoggedIn = true;
                 return true;
@@ -198,27 +209,6 @@ namespace Microsoft.Toolkit.Services.Weibo
 
             return true;
         }
-
-#if WINRT
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
-        /// Constructor.
-        /// </summary>
-        /// <param name="tokens">OAuth tokens for request.</param>
-        public WeiboDataProvider(WeiboOAuthTokens tokens)
-        {
-            _tokens = tokens;
-            _authenticationBroker = new UwpAuthenticationBroker();
-            _passwordManager = new UwpPasswordManager();
-            _storageManager = new UwpStorageManager();
-            if (_client == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-                _client = new HttpClient(handler);
-            }
-        }
-#endif
 
         /// <summary>
         /// Retrieve user data.
@@ -403,7 +393,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="status">Status text.</param>
         /// <param name="picture">Picture to attach to the status.</param>
         /// <returns>Success or failure.</returns>
-        public async Task<WeiboStatus> TweetStatusAsync(string status, Stream picture = null)
+        public async Task<WeiboStatus> PostStatusAsync(string status, Stream picture = null)
         {
             var uri = new Uri($"{BaseUrl}/statuses/share.json");
 
