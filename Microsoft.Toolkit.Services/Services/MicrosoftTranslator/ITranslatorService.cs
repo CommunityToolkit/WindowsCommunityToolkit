@@ -76,8 +76,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <returns>An array of <see cref="ServiceLanguage"/> containing the language codes and names supported for translation by <strong>Microsoft Translator Service</strong>.</returns>
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
-        /// <remarks><para>This method performs a non-blocking request for language name.</para>
-        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/post_GetLanguageNames.
+        /// <remarks><para>This method performs a non-blocking request for language names.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages.
         /// </para>
         /// </remarks>
         /// <seealso cref="GetLanguagesAsync"/>
