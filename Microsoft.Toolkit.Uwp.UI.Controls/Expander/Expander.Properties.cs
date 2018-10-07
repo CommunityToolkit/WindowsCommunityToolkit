@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="ContentOverlay"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ContentOverlayProperty =
-            DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement)));
+            DependencyProperty.Register(nameof(ContentOverlay), typeof(UIElement), typeof(Expander), new PropertyMetadata(default(UIElement), OnContentOverlayChanged));
 
         /// <summary>
         /// Identifies the <see cref="HeaderStyle"/> dependency property.
@@ -95,6 +95,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (previousExpandDirection != newExpandDirection)
             {
                 expander.OnExpandDirectionChanged();
+            }
+        }
+
+        private static void OnContentOverlayChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var expander = d as Expander;
+            var previousContentOverlay = (UIElement)e.OldValue;
+            var newContentOverlay = (UIElement)e.NewValue;
+
+            if (previousContentOverlay != newContentOverlay)
+            {
+                expander.OnContentOverlayChanged();
             }
         }
     }
