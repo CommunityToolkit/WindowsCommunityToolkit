@@ -121,15 +121,33 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Retrieves the languages available for translation.
         /// </summary>
-        /// <param name="requestLanguage">The language in which to obtain the name of the languages. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used. If this property is <strong>null</strong> too, the default English language wil be used.</param>
-        /// <returns>A dictionary containing the languages supported for translation by <strong>Microsoft Translator Service</strong>.</returns>
+        /// <returns>A string array containing the language codes supported for translation by <strong>Microsoft Translator Service</strong>.</returns>
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language codes.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages.
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/get_GetLanguagesForTranslate.
         /// </para>
         /// </remarks>
-        public async Task<Dictionary<string, Language>> GetLanguagesAsync(string requestLanguage = null)
+        /// <seealso cref="GetLanguageNamesAsync(string)"/>
+        public async Task<IEnumerable<string>> GetLanguagesAsync()
+        {
+            var languages = await GetLanguageNamesAsync();
+            return languages.Select(l => l.Code);
+        }
+
+        /// <summary>
+        /// Retrieves friendly names for the languages available for text translation.
+        /// </summary>
+        /// <param name="language">The language used to localize the language names. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <returns>An array of <see cref="ServiceLanguage"/> containing the language codes and names supported for translation by <strong>Microsoft Translator Service</strong>.</returns>
+        /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method performs a non-blocking request for language name.</para>
+        /// <para>For more information, go to https://docs.microsofttranslator.com/text-translate.html#!/default/post_GetLanguageNames.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="GetLanguagesAsync"/>
+        public async Task<IEnumerable<ServiceLanguage>> GetLanguageNamesAsync(string language = null)
         {
             // Check if it is necessary to obtain/update access token.
             await CheckUpdateTokenAsync().ConfigureAwait(false);
@@ -137,20 +155,21 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             var uriString = $"{BaseUrl}languages?scope=translation&{ApiVersion}";
             using (var request = CreateHttpRequest(uriString))
             {
-                requestLanguage = requestLanguage ?? Language;
-                if (!string.IsNullOrWhiteSpace(requestLanguage))
+                language = language ?? Language;
+                if (!string.IsNullOrWhiteSpace(language))
                 {
                     // If necessary, adds the Accept-Language header in order to get localized language names.
-                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(requestLanguage));
+                    request.Headers.AcceptLanguage.Add(new StringWithQualityHeaderValue(language));
                 }
 
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
                 var jsonContent = JToken.Parse(content)["translation"];
-                var responseContent = JsonConvert.DeserializeObject<Dictionary<string, Language>>(jsonContent.ToString());
+                var responseContent = JsonConvert.DeserializeObject<Dictionary<string, ServiceLanguage>>(jsonContent.ToString()).ToList();
+                responseContent.ForEach(r => r.Value.Code = r.Key);
 
-                return responseContent;
+                return responseContent.Select(r => r.Value).OrderBy(r => r.Name).ToList();
             }
         }
 

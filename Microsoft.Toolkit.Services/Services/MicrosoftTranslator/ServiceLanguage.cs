@@ -7,13 +7,18 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 {
     /// <summary>
-    /// Strong type for Language
+    /// Holds information about langagues supported for text translation and speech synthesis.
     /// </summary>
-    /// <seealso cref="ITranslatorService.GetLanguagesAsync(string)"/>
-    public class Language
+    /// <seealso cref="ITranslatorService.GetLanguageNamesAsync(string)"/>
+    public class ServiceLanguage
     {
         /// <summary>
-        /// Gets or sets the display name of the language in the locale requested via Accept-Language header.
+        /// Gets or sets the language code.
+        /// </summary>
+        public string Code { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language friendly name.
         /// </summary>
         public string Name { get; set; }
 
@@ -28,7 +33,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         [JsonProperty("dir")]
         public string Directionality { get; set; }
 
-        /// <inheritdoc/>
+        /// <summary>
+        /// Returns the language friendly name.
+        /// </summary>
+        /// <returns>The language friendly name.</returns>
         public override string ToString() => Name;
     }
 }

@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Languages.ItemsSource = null;
 
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguagesAsync("en");
+            var languages = await _translatorClient.GetLanguageNamesAsync("it");
 
             Languages.ItemsSource = languages;
             Languages.SelectedIndex = 0;
