@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     public class DataGridDataSource
     {
         private static ObservableCollection<DataGridDataItem> _items;
+        private static List<string> _mountains;
         private static CollectionViewSource groupedItems;
         private string _cachedSortedColumn = string.Empty;
 
@@ -54,6 +55,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             }
 
             return _items;
+        }
+
+        // Load mountains into separate collection for use in combobox column
+        public async Task<IEnumerable<string>> GetMountains()
+        {
+            if (_items == null || !_items.Any())
+            {
+                await GetDataAsync();
+            }
+
+            _mountains = _items?.OrderBy(x => x.Mountain).Select(x => x.Mountain).Distinct().ToList();
+
+            return _mountains;
         }
 
         // Sorting implementation using LINQ
