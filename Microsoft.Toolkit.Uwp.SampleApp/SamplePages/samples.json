@@ -325,6 +325,17 @@
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/InfiniteCanvas.md"
+      },
+      {
+        "Name": "DirectWriteTextBlock",
+        "Type": "DirectWriteTextBlockPage",
+        "About": "TODO",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.WinRT/DirectWriteTextBlock",
+        "XamlCodeFile": "DirectWriteTextBlockCode.bind",
+        // TODO: "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
+        // TODO: check for API needed in 17734 "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
+        "BadgeUpdateVersionRequired": "April 2018 Update required",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DirectWriteTextBlock.md"
       }
     ]
   },
