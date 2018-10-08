@@ -1,10 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
-
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using System;
 using System.Numerics;
-using Windows.ApplicationModel;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI;
@@ -177,6 +176,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
 
+        // High-contrast accessibility
+        private static readonly ThemeListener ThemeListener = new ThemeListener();
+        private SolidColorBrush needleBrush;
+        private Brush trailBrush;
+        private Brush scaleBrush;
+        private SolidColorBrush scaleTickBrush;
+        private SolidColorBrush tickBrush;
+        private Brush foreground;
+
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
 
@@ -192,7 +200,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialGauge);
 
+            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
+
             KeyDown += RadialGauge_KeyDown;
+        }
+
+        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            OnColorsChanged();
         }
 
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -451,9 +467,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             PointerReleased += RadialGauge_PointerReleased;
-            OnScaleChanged(this);
+
+            // Remember user defined colors.
+            needleBrush = NeedleBrush;
+            trailBrush = TrailBrush;
+            scaleBrush = ScaleBrush;
+            scaleTickBrush = ScaleTickBrush;
+            tickBrush = TickBrush;
+            foreground = Foreground;
+
+            // Apply color scheme.
+            OnColorsChanged();
 
             base.OnApplyTemplate();
+        }
+
+        private void OnColorsChanged()
+        {
+            if (ThemeListener.IsHighContrast)
+            {
+                // Apply High Contrast Theme.
+                if (Application.Current.Resources["SystemControlHighlightChromeHighBrush"] is SolidColorBrush highlightBrush)
+                {
+                    NeedleBrush = highlightBrush;
+                    TrailBrush = highlightBrush;
+                }
+
+                if (Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"] is SolidColorBrush backgroundBrush)
+                {
+                    ScaleBrush = backgroundBrush;
+                    ScaleTickBrush = backgroundBrush;
+                }
+
+                if (Application.Current.Resources["SystemControlForegroundBaseHighBrush"] is SolidColorBrush foregroundBrush)
+                {
+                    TickBrush = foregroundBrush;
+                    Foreground = foregroundBrush;
+                }
+            }
+            else
+            {
+                // Apply User Defined or Default Theme.
+                NeedleBrush = needleBrush;
+                TrailBrush = trailBrush;
+                ScaleBrush = scaleBrush;
+                ScaleTickBrush = scaleTickBrush;
+                TickBrush = tickBrush;
+                Foreground = foreground;
+            }
+
+            OnScaleChanged(this);
         }
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
