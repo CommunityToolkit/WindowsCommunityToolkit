@@ -90,6 +90,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 {
                     return AutomationControlType.Text;
                 }
+
+                if (this.OwningColumn is DataGridComboBoxColumn)
+                {
+                    return AutomationControlType.ComboBox;
+                }
             }
 
             return AutomationControlType.Custom;

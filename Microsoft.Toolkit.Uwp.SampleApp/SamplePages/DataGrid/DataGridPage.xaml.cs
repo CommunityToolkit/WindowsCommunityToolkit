@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -35,6 +37,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 dataGrid.ItemsSource = await viewModel.GetDataAsync();
                 dataGrid.Sorting += DataGrid_Sorting;
                 dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
+
+                var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag.Equals("Mountain")) as DataGridComboBoxColumn;
+                if (comboBoxColumn != null)
+                {
+                    comboBoxColumn.ItemsSource = await viewModel.GetMountains();
+                }
             }
 
             groupButton = control.FindDescendantByName("groupButton") as AppBarButton;
