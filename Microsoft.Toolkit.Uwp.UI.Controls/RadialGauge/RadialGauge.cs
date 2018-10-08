@@ -167,6 +167,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected static readonly DependencyProperty ValueAngleProperty =
             DependencyProperty.Register(nameof(ValueAngle), typeof(double), typeof(RadialGauge), new PropertyMetadata(null));
 
+        // High-contrast accessibility
+        private static readonly ThemeListener ThemeListener = new ThemeListener();
+
         // Template Parts.
         private const string ContainerPartName = "PART_Container";
         private const string ScalePartName = "PART_Scale";
@@ -175,15 +178,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
-
-        // High-contrast accessibility
-        private static readonly ThemeListener ThemeListener = new ThemeListener();
-        private SolidColorBrush needleBrush;
-        private Brush trailBrush;
-        private Brush scaleBrush;
-        private SolidColorBrush scaleTickBrush;
-        private SolidColorBrush tickBrush;
-        private Brush foreground;
+        
+        private SolidColorBrush _needleBrush;
+        private Brush _trailBrush;
+        private Brush _scaleBrush;
+        private SolidColorBrush _scaleTickBrush;
+        private SolidColorBrush _tickBrush;
+        private Brush _foreground;
 
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
@@ -469,12 +470,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased += RadialGauge_PointerReleased;
 
             // Remember user defined colors.
-            needleBrush = NeedleBrush;
-            trailBrush = TrailBrush;
-            scaleBrush = ScaleBrush;
-            scaleTickBrush = ScaleTickBrush;
-            tickBrush = TickBrush;
-            foreground = Foreground;
+            _needleBrush = NeedleBrush;
+            _trailBrush = TrailBrush;
+            _scaleBrush = ScaleBrush;
+            _scaleTickBrush = ScaleTickBrush;
+            _tickBrush = TickBrush;
+            _foreground = Foreground;
 
             // Apply color scheme.
             OnColorsChanged();
@@ -508,12 +509,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 // Apply User Defined or Default Theme.
-                NeedleBrush = needleBrush;
-                TrailBrush = trailBrush;
-                ScaleBrush = scaleBrush;
-                ScaleTickBrush = scaleTickBrush;
-                TickBrush = tickBrush;
-                Foreground = foreground;
+                NeedleBrush = _needleBrush;
+                TrailBrush = _trailBrush;
+                ScaleBrush = _scaleBrush;
+                ScaleTickBrush = _scaleTickBrush;
+                TickBrush = _tickBrush;
+                Foreground = _foreground;
             }
 
             OnScaleChanged(this);
