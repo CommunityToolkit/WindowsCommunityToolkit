@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Services.Weibo
     /// <summary>
     /// Weibo Timeline item.
     /// </summary>
-    public class WeiboStatus : Toolkit.Parsers.SchemaBase, IWeiboResult
+    public class WeiboStatus : Toolkit.Parsers.SchemaBase
     {
         /// <summary>
         /// Gets or sets time item was created.

@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         private readonly IStorageManager _storageManager;
 
         /// <summary>
-        /// Gets or sets logged in user information.
+        /// Gets if logged in user information.
         /// </summary>
         public long? Uid { get; private set; }
 

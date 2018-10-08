@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class WeiboPage
     {
-        private ObservableCollection<IWeiboResult> _tweets;
+        private ObservableCollection<WeiboStatus> _tweets;
         
         public WeiboPage()
         {
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            _tweets = new ObservableCollection<IWeiboResult>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            _tweets = new ObservableCollection<WeiboStatus>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
 
             ListView.ItemsSource = _tweets;
 
