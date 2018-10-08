@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
-        
+
         private SolidColorBrush _needleBrush;
         private Brush _trailBrush;
         private Brush _scaleBrush;
@@ -456,6 +456,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The maximum angle, in the range from -180 to 540.</value>
         protected double NormalizedMaxAngle => _normalizedMaxAngle;
 
+        /// <summary>
+        /// Gets the default accent brush.
+        /// </summary>
+        private SolidColorBrush ThemeAccentBrush => (SolidColorBrush)Application.Current.Resources["SystemControlHighlightChromeHighBrush"];
+
+        /// <summary>
+        /// Gets the default background brush.
+        /// </summary>
+        private SolidColorBrush ThemeBackgroundBrush => (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"];
+
+        /// <summary>
+        /// Gets the default foreground brush.
+        /// </summary>
+        private SolidColorBrush ThemeForegroundBrush => (SolidColorBrush)Application.Current.Resources["SystemControlForegroundBaseHighBrush"];
+
         /// <inheritdoc/>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
@@ -470,15 +485,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             PointerReleased += RadialGauge_PointerReleased;
 
             // Remember user defined colors.
-            _needleBrush = NeedleBrush;
-            _trailBrush = TrailBrush;
-            _scaleBrush = ScaleBrush;
-            _scaleTickBrush = ScaleTickBrush;
-            _tickBrush = TickBrush;
-            _foreground = Foreground;
+            if (ThemeAccentBrush is SolidColorBrush highlightBrush)
+            {
+                _needleBrush = NeedleBrush.Color == highlightBrush.Color ? null : NeedleBrush;
+                _trailBrush = (TrailBrush as SolidColorBrush).Color == highlightBrush.Color ? null : TrailBrush;
+            }
+
+            if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
+            {
+                _scaleBrush = (ScaleBrush as SolidColorBrush).Color == backgroundBrush.Color ? null : ScaleBrush;
+                _scaleTickBrush = ScaleTickBrush.Color == backgroundBrush.Color ? null : ScaleTickBrush;
+            }
+
+            if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
+            {
+                _tickBrush = TickBrush.Color == foregroundBrush.Color ? null : TickBrush;
+                _foreground = (Foreground as SolidColorBrush).Color == foregroundBrush.Color ? null : Foreground;
+            }
 
             // Apply color scheme.
-            OnColorsChanged();
+            if (ThemeListener.IsHighContrast)
+            {
+                OnColorsChanged();
+            }
+            else
+            {
+                OnFaceChanged(this);
+            }
 
             base.OnApplyTemplate();
         }
@@ -488,19 +521,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ThemeListener.IsHighContrast)
             {
                 // Apply High Contrast Theme.
-                if (Application.Current.Resources["SystemControlHighlightChromeHighBrush"] is SolidColorBrush highlightBrush)
+                if (ThemeAccentBrush is SolidColorBrush highlightBrush)
                 {
                     NeedleBrush = highlightBrush;
                     TrailBrush = highlightBrush;
                 }
 
-                if (Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"] is SolidColorBrush backgroundBrush)
+                if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
                 {
                     ScaleBrush = backgroundBrush;
                     ScaleTickBrush = backgroundBrush;
                 }
 
-                if (Application.Current.Resources["SystemControlForegroundBaseHighBrush"] is SolidColorBrush foregroundBrush)
+                if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
                 {
                     TickBrush = foregroundBrush;
                     Foreground = foregroundBrush;
@@ -509,12 +542,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 // Apply User Defined or Default Theme.
-                NeedleBrush = _needleBrush;
-                TrailBrush = _trailBrush;
-                ScaleBrush = _scaleBrush;
-                ScaleTickBrush = _scaleTickBrush;
-                TickBrush = _tickBrush;
-                Foreground = _foreground;
+                if (_needleBrush == null)
+                {
+                    ClearValue(NeedleBrushProperty);
+                }
+                else
+                {
+                    NeedleBrush = _needleBrush;
+                }
+
+                if (_trailBrush == null)
+                {
+                    ClearValue(TrailBrushProperty);
+                }
+                else
+                {
+                    TrailBrush = _trailBrush;
+                }
+
+                if (_scaleBrush == null)
+                {
+                    ClearValue(ScaleBrushProperty);
+                }
+                else
+                {
+                    ScaleBrush = _scaleBrush;
+                }
+
+                if (_scaleTickBrush == null)
+                {
+                    ClearValue(ScaleTickBrushProperty);
+                }
+                else
+                {
+                    ScaleTickBrush = _scaleTickBrush;
+                }
+
+                if (_foreground == null)
+                {
+                    ClearValue(ForegroundProperty);
+                }
+                else
+                {
+                    Foreground = _foreground;
+                }
+
+                if (_tickBrush == null)
+                {
+                    ClearValue(TickBrushProperty);
+                }
+                else
+                {
+                    TickBrush = _tickBrush;
+                }
             }
 
             OnScaleChanged(this);
