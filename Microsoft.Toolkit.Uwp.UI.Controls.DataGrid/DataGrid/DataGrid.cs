@@ -6385,7 +6385,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll += new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered += new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited += new PointerEventHandler(VerticalScrollBar_PointerExited);
-                //PointerWheelChanged += new PointerEventHandler(VerticalScrollBar_PointerWheelChanged);
             }
         }
 
