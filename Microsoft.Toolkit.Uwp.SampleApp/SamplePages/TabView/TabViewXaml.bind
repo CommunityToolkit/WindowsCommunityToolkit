@@ -5,6 +5,14 @@
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+  
+  <Page.Resources>
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabView/TabView.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+  </Page.Resources>
 
   <Grid>
     <Grid.RowDefinitions>
@@ -59,10 +67,16 @@
         </DataTemplate>
       </controls:TabView.FooterTemplate>
     </controls:TabView>
+    
     <controls:TabView x:Name="TabItems"
                       Grid.Row="1"
                       IsItemClickEnabled="True"
-                      ItemsSource="{Binding TabItemCollection}">
+                      ItemsSource="{Binding TabItemCollection}"
+                      Style="{StaticResource TabViewDocumentStyle}">
+      <controls:TabView.Resources>
+        <!--  Known ListView Overrides  -->
+        <x:Double x:Key="ListViewItemMinHeight">32</x:Double>
+      </controls:TabView.Resources>
       <controls:TabView.ItemHeaderTemplate>
         <DataTemplate>
           <TextBlock>

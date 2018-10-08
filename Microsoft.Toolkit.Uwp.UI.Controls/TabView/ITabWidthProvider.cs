@@ -28,7 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="tabs">Collection of <see cref="TabViewItem"/>.</param>
         /// <param name="items">Collection of items from the Items (<see cref="ItemCollection"/>) or ItemsSource of the <see cref="TabView"/>.</param>
         /// <param name="availableWidth">Maximum size available to display tabs.</param>
+        /// <param name="parent">Parent <see cref="TabView"/> container.</param>
         /// <returns>Set of widths for each tab.</returns>
-        IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth);
+        IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth, TabView parent);
     }
 }

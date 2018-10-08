@@ -21,7 +21,49 @@
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
+    <Thickness x:Key="TabViewItemHeaderIconMargin">12,0,0,0</Thickness>
+    <Thickness x:Key="TabViewItemHeaderCloseMargin">-12,0,0,0</Thickness>
+
+    <!--  Default Compact/WPF Style  -->
     <Style TargetType="local:TabView">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="IsSwipeEnabled" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
+        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
+        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
+        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
+        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
+        <Setter Property="ItemContainerTransitions">
+            <Setter.Value>
+                <TransitionCollection>
+                    <AddDeleteThemeTransition />
+                    <ContentThemeTransition />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                </TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template" Value="{StaticResource TabViewTemplate}" />
+    </Style>
+
+    <Style x:Key="TabViewDocumentStyle"
+           TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -41,8 +83,8 @@
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
-        <!--  TODO: Should add TabHeight Property to use instead of hard-coded 44?  -->
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
@@ -59,104 +101,103 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="local:TabView">
-                    <Grid x:Name="TabViewContainer">
-                        <Grid.RowDefinitions>
-                            <!--  0 Header  -->
-                            <RowDefinition Height="Auto" />
-                            <!--  1 Tabs  -->
-                            <RowDefinition Height="Auto" />
-                            <!--  2 Content  -->
-                            <RowDefinition Height="*" />
-                            <!--  3 Footer  -->
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <!--  0 Left Header  -->
-                            <ColumnDefinition Width="Auto" />
-                            <!--  1 Tabs  -->
-                            <ColumnDefinition Width="Auto"
-                                              local:TabView.ConstrainColumn="True"
-                                              local:TabView.IgnoreColumn="True" />
-                            <!--  2 Reserved: Overflow Drop-down  -->
-                            <ColumnDefinition Width="Auto" />
-                            <!--  3 Auto Add Button  -->
-                            <ColumnDefinition Width="Auto" />
-                            <!--  4 Padding  -->
-                            <ColumnDefinition Width="*"
-                                              local:TabView.IgnoreColumn="True" />
-                            <!--  5 Right Header  -->
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <ContentPresenter Grid.Row="0"
-                                          Grid.ColumnSpan="7"
-                                          Content="{TemplateBinding Header}"
-                                          ContentTemplate="{TemplateBinding HeaderTemplate}" />
-
-                        <ContentPresenter Grid.Row="1"
-                                          Grid.Column="0"
-                                          Content="{TemplateBinding LeftHeader}"
-                                          ContentTemplate="{TemplateBinding LeftHeaderTemplate}" />
-
-                        <ScrollViewer x:Name="TabsScrollViewer"
-                                      Grid.Row="1"
-                                      Grid.Column="1"
-                                      AutomationProperties.AccessibilityView="Raw"
-                                      BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
-                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                                      IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
-                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                                      IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
-                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                                      IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
-                                      Style="{StaticResource TabViewScrollViewer}"
-                                      TabNavigation="{TemplateBinding TabNavigation}"
-                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
-                            <ItemsPresenter x:Name="TabsItemsPresenter"
-                                            Padding="{TemplateBinding Padding}" />
-                        </ScrollViewer>
-
-                        <Grid Grid.Row="1"
-                              Grid.Column="3"
-                              HorizontalAlignment="Left"
-                              Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <!--  TODO: Add to 'TabActionHeader' Template  -->
-                            <Button x:Name="AddTabButton"
-                                    Width="44"
-                                    Height="44"
-                                    Background="Transparent"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Style="{StaticResource ButtonRevealStyle}">
-                                &#xE710;
-                            </Button>
-                        </Grid>
-
-                        <ContentPresenter Grid.Row="1"
-                                          Grid.Column="5"
-                                          Content="{TemplateBinding RightHeader}"
-                                          ContentTemplate="{TemplateBinding RightHeaderTemplate}" />
-
-                        <ContentPresenter x:Name="TabContentPresenter"
-                                          Grid.Row="2"
-                                          Grid.ColumnSpan="6"
-                                          Background="{TemplateBinding Background}"
-                                          BorderBrush="{TemplateBinding BorderBrush}"
-                                          BorderThickness="{TemplateBinding BorderThickness}" />
-
-                        <ContentPresenter Grid.Row="3"
-                                          Grid.ColumnSpan="6"
-                                          Content="{TemplateBinding Footer}"
-                                          ContentTemplate="{TemplateBinding FooterTemplate}" />
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Template" Value="{StaticResource TabViewTemplate}" />
     </Style>
+
+    <ControlTemplate x:Key="TabViewTemplate"
+                     TargetType="local:TabView">
+        <Grid x:Name="TabViewContainer">
+            <Grid.RowDefinitions>
+                <!--  0 Header  -->
+                <RowDefinition Height="Auto" />
+                <!--  1 Tabs  -->
+                <RowDefinition Height="Auto" />
+                <!--  2 Content  -->
+                <RowDefinition Height="*" />
+                <!--  3 Footer  -->
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <!--  0 Left Header  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  1 Tabs  -->
+                <ColumnDefinition Width="Auto"
+                                  local:TabView.ConstrainColumn="True"
+                                  local:TabView.IgnoreColumn="True" />
+                <!--  2 Reserved: Overflow Drop-down  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  3 Auto Add Button  -->
+                <ColumnDefinition Width="Auto" />
+                <!--  4 Padding  -->
+                <ColumnDefinition Width="*"
+                                  local:TabView.IgnoreColumn="True" />
+                <!--  5 Right Header  -->
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ContentPresenter Grid.Row="0"
+                              Grid.ColumnSpan="7"
+                              Content="{TemplateBinding Header}"
+                              ContentTemplate="{TemplateBinding HeaderTemplate}" />
+
+            <ContentPresenter Grid.Row="1"
+                              Grid.Column="0"
+                              Content="{TemplateBinding LeftHeader}"
+                              ContentTemplate="{TemplateBinding LeftHeaderTemplate}" />
+
+            <ScrollViewer x:Name="TabsScrollViewer"
+                          Grid.Row="1"
+                          Grid.Column="1"
+                          AutomationProperties.AccessibilityView="Raw"
+                          BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
+                          HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                          HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                          IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
+                          IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                          IsHorizontalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsHorizontalScrollChainingEnabled}"
+                          IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                          IsVerticalScrollChainingEnabled="{TemplateBinding ScrollViewer.IsVerticalScrollChainingEnabled}"
+                          Style="{StaticResource TabViewScrollViewer}"
+                          TabNavigation="{TemplateBinding TabNavigation}"
+                          VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                          VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                          ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
+                <ItemsPresenter x:Name="TabsItemsPresenter"
+                                Padding="{TemplateBinding Padding}" />
+            </ScrollViewer>
+
+            <Grid Grid.Row="1"
+                  Grid.Column="3"
+                  HorizontalAlignment="Left"
+                  Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
+                <!--  TODO: Add to 'TabActionHeader' Template  -->
+                <Button x:Name="AddTabButton"
+                        Width="{ThemeResource ListViewItemMinHeight}"
+                        Height="{ThemeResource ListViewItemMinHeight}"
+                        Background="Transparent"
+                        FontFamily="Segoe MDL2 Assets"
+                        Style="{StaticResource ButtonRevealStyle}">
+                    &#xE710;
+                </Button>
+            </Grid>
+
+            <ContentPresenter Grid.Row="1"
+                              Grid.Column="5"
+                              Content="{TemplateBinding RightHeader}"
+                              ContentTemplate="{TemplateBinding RightHeaderTemplate}" />
+
+            <ContentPresenter x:Name="TabContentPresenter"
+                              Grid.Row="2"
+                              Grid.ColumnSpan="6"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}" />
+
+            <ContentPresenter Grid.Row="3"
+                              Grid.ColumnSpan="6"
+                              Content="{TemplateBinding Footer}"
+                              ContentTemplate="{TemplateBinding FooterTemplate}" />
+        </Grid>
+    </ControlTemplate>
 
     <!--  Modified ListViewItemExpanded Template - https://msdn.microsoft.com/en-us/library/windows/apps/mt299136.aspx  -->
     <ControlTemplate x:Key="TabViewItemHeaderTemplate"
@@ -189,7 +230,7 @@
                 <!--  Modifications of default ListViewItem Template for our Tab Here  -->
                 <Viewbox Width="16"
                          Height="16"
-                         Margin="{TemplateBinding Padding}"
+                         Margin="{ThemeResource TabViewItemHeaderIconMargin}"
                          VerticalAlignment="Center"
                          Visibility="{Binding HeaderIcon, Converter={StaticResource NullVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                     <ContentPresenter Content="{TemplateBinding HeaderIcon}" />
@@ -210,7 +251,8 @@
                       Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                     <Border x:Name="ButtonBorder"
                             Width="36"
-                            Height="44"
+                            Height="{ThemeResource ListViewItemMinHeight}"
+                            Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
                             Background="{TemplateBinding Background}"
                             Visibility="Collapsed">
                         <Button x:Name="CloseButton"
@@ -826,7 +868,8 @@
     </ControlTemplate>
 
     <!--  Style for Windows.UI.Xaml.Controls.ListViewItem  -->
-    <Style TargetType="local:TabViewItem">
+    <Style x:Key="DefaultTabViewItemStyle"
+           TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -836,7 +879,7 @@
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsHoldingEnabled" Value="True" />
-        <Setter Property="Padding" Value="12,0,0,0" />
+        <Setter Property="Padding" Value="12,0,12,0" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource ListViewItemMinWidth}" />
@@ -969,8 +1012,8 @@
 
                             <RepeatButton x:Name="ScrollBackButton"
                                           Grid.Column="0"
-                                          Width="44"
-                                          Height="44"
+                                          Width="{ThemeResource ListViewItemMinHeight}"
+                                          Height="{ThemeResource ListViewItemMinHeight}"
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
@@ -986,8 +1029,8 @@
 
                             <RepeatButton x:Name="ScrollForwardButton"
                                           Grid.Column="2"
-                                          Width="44"
-                                          Height="44"
+                                          Width="{ThemeResource ListViewItemMinHeight}"
+                                          Height="{ThemeResource ListViewItemMinHeight}"
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"

@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabWidthProvider"/> dependency property.</returns>
         public static readonly DependencyProperty TabWidthProviderProperty =
-            DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new EdgeTabWidthProvider()));
+            DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new ActualTabWidthProvider()));
 
         public static bool GetIgnoreColumn(ColumnDefinition obj)
         {

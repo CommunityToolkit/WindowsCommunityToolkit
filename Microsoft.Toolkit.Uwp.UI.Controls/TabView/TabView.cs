@@ -216,14 +216,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         // Calculate the width for each tab from the provider and determine how much space they take.
                         var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
-                        var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available).GetEnumerator();
+                        var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available, this).GetEnumerator();
 
                         foreach (var tab in tvis)
                         {
                             if (widthIterator.MoveNext())
                             {
                                 var width = widthIterator.Current;
-                                tab.Width = Math.Max(width, 0);
+                                if (width > 0)
+                                {
+                                    tab.Width = Math.Max(width, 0);
+                                }
+                                else
+                                {
+                                    tab.Width = double.NaN;
+                                }
                                 required += width;
                             }
                         }

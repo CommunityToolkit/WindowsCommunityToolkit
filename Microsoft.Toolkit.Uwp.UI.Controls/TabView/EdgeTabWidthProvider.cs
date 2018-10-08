@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const int StandardWidth = 200;
 
         /// <inheritdoc/>
-        public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth)
+        public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth, TabView parent)
         {
             if (tabs.Count() <= 1)
             {
