@@ -1263,7 +1263,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        // Field used for accessing the ItemsSource though the interface ISupportIncrementalLoading
         private ISupportIncrementalLoading _incrementalItemsSource;
+
+        private bool _canLoadIncrementalData;
+
+        private bool _itemsSourceIsIncremental;
+
+        // Method that loads additional data once the user has scrolled to a certain threashold
+        private async void LoadMoreDataFromIncrementalItemsSource()
+        {
+            if (_itemsSourceIsIncremental && _incrementalItemsSource.HasMoreItems && _canLoadIncrementalData)
+            {
+                DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
+                if (peer != null)
+                {
+                    IScrollProvider isp = (IScrollProvider)peer;
+                    if (isp.VerticalScrollPercent >= IncrementalThreshold)
+                    {
+                        _canLoadIncrementalData = false;
+
+                        await _incrementalItemsSource.LoadMoreItemsAsync(0);
+
+                        _canLoadIncrementalData = true;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Identifies the IncrementalThreshold dependency property.
+        /// </summary>
+        public static readonly DependencyProperty IncrementalThresholdProperty = DependencyProperty.Register(
+            "IncrementalThreshold", typeof(double), typeof(DataGrid), new PropertyMetadata(85.0, OnIncrementalThresholdChanged));
+
+        private static void OnIncrementalThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            var newThreshold = (double)e.NewValue;
+
+            if (newThreshold < 50.0)
+            {
+                dataGrid.IncrementalThreshold = 50.0;
+            }
+
+            if (newThreshold > 100.0)
+            {
+                dataGrid.IncrementalThreshold = 100.0;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the scroll threshold for loading more data from collections implementing ISupportIncrementalLoading. The value should be in the range between 50 - 100 and defaults to 85 if not provided.
+        /// </summary>
+        public double IncrementalThreshold
+        {
+            get { return (double) GetValue(IncrementalThresholdProperty); }
+            set { SetValue(IncrementalThresholdProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the control.
@@ -1370,11 +1427,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 dataGrid._measured = false;
                 dataGrid.InvalidateMeasure();
 
+                // Determine if incremental loading should be used
                 if (dataGrid.ItemsSource is ISupportIncrementalLoading incrementalItemsSource)
                 {
                     dataGrid._incrementalItemsSource = incrementalItemsSource;
                     dataGrid._itemsSourceIsIncremental = true;
                     dataGrid._canLoadIncrementalData = true;
+                }
+                else
+                {
+                    dataGrid._incrementalItemsSource = default(ISupportIncrementalLoading);
+                    dataGrid._itemsSourceIsIncremental = false;
+                    dataGrid._canLoadIncrementalData = false;
                 }
             }
         }
@@ -9012,30 +9076,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             ProcessVerticalScroll(e.ScrollEventType);
             LoadMoreDataFromIncrementalItemsSource();
-        }
-
-        private bool _canLoadIncrementalData;
-
-        private bool _itemsSourceIsIncremental;
-
-        private async void LoadMoreDataFromIncrementalItemsSource()
-        {
-            if (_itemsSourceIsIncremental && _incrementalItemsSource.HasMoreItems && _canLoadIncrementalData)
-            {
-                DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
-                if (peer != null)
-                {
-                    IScrollProvider isp = (IScrollProvider)peer;
-                    if (isp.VerticalScrollPercent > 85.0)
-                    {
-                        _canLoadIncrementalData = false;
-
-                        await _incrementalItemsSource.LoadMoreItemsAsync(0);
-
-                        _canLoadIncrementalData = true;
-                    }
-                }
-            }
         }
     }
 }
