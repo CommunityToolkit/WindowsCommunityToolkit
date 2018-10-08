@@ -5,14 +5,13 @@ description: Array extension methods from toolkit
 keywords: windows 10, uwp, uwp community toolkit, uwp toolkit, Extensions, array
 ---
 
-### How it works
+### Array Extensions
 
-Provides a few helpers for dealing with multi-dimensional and jagged arrays.  Also, provides string helpers for debug output.
+Provides a few helpers for dealing with multidimensional and jagged arrays. Also, provides string helpers for debug output.
 
 ## Syntax
 
 ```c#
-
 using Microsoft.Toolkit.Extensions;
 
 bool[,] inside = new bool[4, 5];
@@ -31,18 +30,14 @@ Output:
  */
 ```
 
-&nbsp;
-
 ## Methods
 
 | Methods | Return Type | Description |
 | -- | -- | -- |
-| Fill | void | Fills in values of a multi-dimensional rectangular array to specified value based on the position and size given. |
-| GetRow | IEnumerable | Retrieve a row as an enumerable from a multi-dimensional rectangular array. |
-| GetColumn | IEnumerable | Retrieve a column from a multi-dimensional rectangular or jagged array. |
-| ToArrayString | string | Create a nice debug string representation of an array, multi-dimensional rectangular, or jagged array. |
-
-&nbsp;
+| Fill | void | Fills elements of a rectangular array at the given position and size to a specific value. |
+| GetRow | IEnumerable | Yields a row from a rectangular array. |
+| GetColumn | IEnumerable | Yields a column from a rectangular or jagged array. |
+| ToArrayString | string | Returns a simple string representation of an array. |
 
 ## Requirements (Windows 10 Device Family)
 
@@ -52,8 +47,6 @@ Output:
 | NuGet package | [Microsoft.Toolkit](https://www.nuget.org/packages/Microsoft.Toolkit/) |
 
 The Array Extensions supports .NET Standard
-
-&nbsp;
 
 ## API
 

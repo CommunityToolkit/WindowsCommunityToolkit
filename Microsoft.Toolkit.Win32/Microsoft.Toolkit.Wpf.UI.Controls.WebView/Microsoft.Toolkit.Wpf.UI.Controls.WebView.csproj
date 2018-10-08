@@ -1,0 +1,63 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net462</TargetFramework>
+    <RootNamespace>Microsoft.Toolkit.Wpf.UI.Controls</RootNamespace>
+    <AssemblyName>Microsoft.Toolkit.Wpf.UI.Controls.WebView</AssemblyName>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+
+    <Title>Windows Community Toolkit WPF WebView Control</Title>
+    <Description>This library provides XAML controls for WPF WebView. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>WebView Win32 WPF XAML</PackageTags>
+
+    <DefineConstants>$(DefineConstants);WPF</DefineConstants>
+
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);DEV_DEBUG;DEBUG_LAYOUT</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\WebView.Shared\**\*.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\Win32\**\*.cs" LinkBase="Interop/Win32" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Verify.cs" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\ApiInformationExtensions.cs" LinkBase="Interop/WinRT" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\CoreAcceleratorKeyEventType.cs" LinkBase="Interop/WinRT" />
+    <Compile Include="..\Microsoft.Toolkit.Win32.UI.Controls\Interop\WinRT\VirtualKey.cs" LinkBase="Interop/WinRT" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Support\**" />
+    <EmbeddedResource Remove="Support\**" />
+    <None Remove="Support\**" />
+    <Page Remove="Support\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\WebView.Shared\DesignerUI.resx" Link="DesignerUI.resx" />
+    <Compile Update="..\WebView.Shared\DesignerUI.Designer.cs" Link="DesignerUI.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="System.Runtime.WindowsRuntime">
+      <HintPath>$(WINDIR)\Microsoft.NET\Framework\v4.0.30319\System.Runtime.WindowsRuntime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
+  </ItemGroup>
+</Project>

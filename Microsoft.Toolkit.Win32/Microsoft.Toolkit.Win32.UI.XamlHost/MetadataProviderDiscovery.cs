@@ -30,15 +30,17 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
             // List of discovered UWP XAML metadata providers
             var metadataProviders = new List<IXamlMetadataProvider>();
 
-            // Reflection-based runtime metadata probing
-            var currentDirectory = new FileInfo(typeof(MetadataProviderDiscovery).Assembly.Location).Directory;
+            // Get all assemblies loaded in app domain and placed side-by-side from all DLL and EXE
+            var loadedAssemblies = GetAssemblies();
+            var uniqueAssemblies = new HashSet<Assembly>(loadedAssemblies, EqualityComparerFactory<Assembly>.CreateComparer(
+                a => a.GetName().FullName.GetHashCode(),
+                (a, b) => a.GetName().FullName.Equals(b.GetName().FullName, StringComparison.OrdinalIgnoreCase)));
 
-            foreach (var file in currentDirectory.GetFiles("*.dll").Union(currentDirectory.GetFiles("*.exe")))
+            // Load all types loadable from the assembly, ignoring any types that could not be resolved due to an issue in the dependency chain
+            foreach (var assembly in uniqueAssemblies)
             {
                 try
                 {
-                    var assembly = Assembly.LoadFrom(file.FullName);
-
                     LoadTypesFromAssembly(assembly, ref metadataProviders, ref filteredTypes);
                 }
                 catch (FileLoadException)
@@ -47,10 +49,44 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
                 }
             }
 
-            // Load any types from this assembly
-            LoadTypesFromAssembly(Assembly.GetExecutingAssembly(), ref metadataProviders, ref filteredTypes);
-
             return metadataProviders;
+        }
+
+        private static IEnumerable<Assembly> GetAssemblies()
+        {
+            yield return Assembly.GetExecutingAssembly();
+
+            // Get assemblies already loaded in the current app domain
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                yield return a;
+            }
+
+            // Reflection-based runtime metadata probing
+            var currentDirectory = new FileInfo(typeof(MetadataProviderDiscovery).Assembly.Location).Directory;
+
+            foreach (var file in currentDirectory.GetFiles("*.dll").Union(currentDirectory.GetFiles("*.exe")))
+            {
+                Assembly a = null;
+
+                try
+                {
+                    a = Assembly.LoadFrom(file.FullName);
+                }
+                catch (FileLoadException)
+                {
+                    // These exceptions are expected
+                }
+                catch (BadImageFormatException)
+                {
+                    // DLL is not loadable by CLR (e.g. Native)
+                }
+
+                if (a != null)
+                {
+                    yield return a;
+                }
+            }
         }
 
         /// <summary>
@@ -62,18 +98,73 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
         private static void LoadTypesFromAssembly(Assembly assembly, ref List<IXamlMetadataProvider> metadataProviders, ref List<Type> filteredTypes)
         {
             // Load types inside the executing assembly
-            foreach (var type in assembly.GetTypes())
+            foreach (var type in GetLoadableTypes(assembly))
             {
                 if (filteredTypes.Contains(type))
                 {
                     continue;
                 }
 
+                // TODO: More type checking here
+                // Not interface, not abstract, not generic, etc.
                 if (typeof(IXamlMetadataProvider).IsAssignableFrom(type))
                 {
                     var provider = (IXamlMetadataProvider)Activator.CreateInstance(type);
                     metadataProviders.Add(provider);
                 }
+            }
+        }
+
+        // Algorithm from StackOverflow answer here:
+        // http://stackoverflow.com/questions/7889228/how-to-prevent-reflectiontypeloadexception-when-calling-assembly-gettypes
+        private static IEnumerable<Type> GetLoadableTypes(Assembly assembly)
+        {
+            if (assembly == null)
+            {
+                throw new ArgumentNullException(nameof(assembly));
+            }
+
+            try
+            {
+                return assembly.DefinedTypes.Select(t => t.AsType());
+            }
+            catch (ReflectionTypeLoadException ex)
+            {
+                return ex.Types.Where(t => t != null);
+            }
+        }
+
+        private static class EqualityComparerFactory<T>
+        {
+            private class MyComparer : IEqualityComparer<T>
+            {
+                private readonly Func<T, int> _getHashCodeFunc;
+                private readonly Func<T, T, bool> _equalsFunc;
+
+                public MyComparer(Func<T, int> getHashCodeFunc, Func<T, T, bool> equalsFunc)
+                {
+                    _getHashCodeFunc = getHashCodeFunc;
+                    _equalsFunc = equalsFunc;
+                }
+
+                public bool Equals(T x, T y) => _equalsFunc(x, y);
+
+                public int GetHashCode(T obj) => _getHashCodeFunc(obj);
+            }
+
+            public static IEqualityComparer<T> CreateComparer(Func<T, int> getHashCodeFunc, Func<T, T, bool> equalsFunc)
+            {
+                if (getHashCodeFunc == null)
+                {
+                    throw new ArgumentNullException(nameof(getHashCodeFunc));
+                }
+
+                if (equalsFunc == null)
+                {
+                    throw new ArgumentNullException(nameof(equalsFunc));
+                }
+
+                return new MyComparer(getHashCodeFunc, equalsFunc);
             }
         }
     }

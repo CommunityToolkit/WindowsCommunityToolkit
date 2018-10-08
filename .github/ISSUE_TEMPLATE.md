@@ -37,15 +37,15 @@ Nuget Package(s):
 Package Version(s): 
 
 Windows 10 Build Number:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (build number: )
 
 App min and target version:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:
