@@ -1318,7 +1318,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public double IncrementalThreshold
         {
-            get { return (double) GetValue(IncrementalThresholdProperty); }
+            get { return (double)GetValue(IncrementalThresholdProperty); }
             set { SetValue(IncrementalThresholdProperty, value); }
         }
 
@@ -6386,7 +6386,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.PointerEntered += new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited += new PointerEventHandler(VerticalScrollBar_PointerExited);
                 //PointerWheelChanged += new PointerEventHandler(VerticalScrollBar_PointerWheelChanged);
-                
             }
         }
 
