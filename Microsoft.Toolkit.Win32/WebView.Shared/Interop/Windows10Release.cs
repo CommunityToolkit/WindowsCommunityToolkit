@@ -43,5 +43,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop
         /// 10.0.17134.0 (Redstone 4)
         /// </summary>
         April2018 = 1803,
+
+        /// <summary>
+        /// 10.0.17763.0 (Redstone 5)
+        /// </summary>
+        October2018 = 1809,
     }
 }
