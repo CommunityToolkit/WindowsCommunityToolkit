@@ -279,6 +279,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\DirectWriteTextBlock\DirectWriteTextBlock.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />

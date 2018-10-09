@@ -103,7 +103,13 @@ Size DirectWriteTextBlock::MeasureOverride(Size availableSize)
     builder.SetTextWrapping(TextWrap);
 
     auto args = builder.BuildRenderArgs();
-    return RenderText(args);
+
+    // have to do this in order to modify the image measure correctly.
+    auto resultSize = RenderText(args);
+    m_image->Width = resultSize.Width;
+    m_image->Height = resultSize.Height;
+    m_image->Measure(availableSize);
+    return resultSize;
 }
 
 void DirectWriteTextBlock::Close()
@@ -138,7 +144,7 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
 {
     if (args.text->IsEmpty())
     {
-        return Size{ 0, 0 };
+        return Size(0.0f, 0.0f);
     }
 
     auto resourceManager = DirectWriteResourceManager::GetInstance();
@@ -240,6 +246,7 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     }
 
     m_image->Source = imageSource;
+
     // XAML will rescale, so we divide by scale here.
     return Size{ static_cast<float>(sisWidth / scale), static_cast<float>(sisHeight / scale) };
 }

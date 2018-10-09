@@ -8,6 +8,12 @@
   
     <Grid>
         <controls:DirectWriteTextBlock 
-            Text="@[Text:String:Windows Community Toolkit]" />
+            Text="@[Text:String:Windows Community Toolkit]"
+            FontFamily="@[FontFamily:String:Segoe UI]"
+            FontWeight="@[FontWeight:String:Normal]"
+            FontStyle="@[FontStyle:Enum:FontStyle.Normal]"
+            FontStretch="@[FontStretch:Enum:FontStretch.Normal]"
+            TextOrientation="@[TextOrientation:Enum:Orientation.Vertical]"
+            FontSize="@[FontSize:Slider:15:1-100]" />
     </Grid>
 </Page>
