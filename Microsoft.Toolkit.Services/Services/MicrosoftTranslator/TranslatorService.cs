@@ -80,14 +80,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         }
 
         /// <inheritdoc/>
-        public async Task<DetectLanguageResponse> DetectLanguageWithResponseAsync(string input)
+        public async Task<DetectedLanguageResponse> DetectLanguageWithResponseAsync(string input)
         {
-            var response = await DetectLanguageWithResponseAsync(new string[] { input }).ConfigureAwait(false);
+            var response = await DetectLanguagesWithResponseAsync(new string[] { input }).ConfigureAwait(false);
             return response.FirstOrDefault();
         }
 
         /// <inheritdoc/>
-        public async Task<IEnumerable<DetectLanguageResponse>> DetectLanguageWithResponseAsync(IEnumerable<string> input)
+        public async Task<IEnumerable<DetectedLanguageResponse>> DetectLanguagesWithResponseAsync(IEnumerable<string> input)
         {
             if (input == null)
             {
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var responseContent = JsonConvert.DeserializeObject<IEnumerable<DetectLanguageResponse>>(content);
+                var responseContent = JsonConvert.DeserializeObject<IEnumerable<DetectedLanguageResponse>>(content);
                 return responseContent;
             }
         }

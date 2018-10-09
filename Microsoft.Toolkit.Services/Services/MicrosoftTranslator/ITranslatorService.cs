@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// Detects the language of a text.
         /// </summary>
         /// <param name="input">A string representing the text whose language must be detected.</param>
-        /// <returns>A <see cref="DetectLanguageResponse"/> object containing information about the detected language.</returns>
+        /// <returns>A <see cref="DetectedLanguageResponse"/> object containing information about the detected language.</returns>
         /// <exception cref="ArgumentNullException">
         /// <list type="bullet">
         /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
@@ -88,13 +88,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// </para></remarks>
         /// <seealso cref="GetLanguagesAsync"/>
         /// <seealso cref="Language"/>
-        Task<DetectLanguageResponse> DetectLanguageWithResponseAsync(string input);
+        Task<DetectedLanguageResponse> DetectLanguageWithResponseAsync(string input);
 
         /// <summary>
         /// Detects the language of a text.
         /// </summary>
         /// <param name="input">A string array containing the sentences whose language must be detected.</param>
-        /// <returns>A <see cref="DetectLanguageResponse"/> array with one result for each string in the input array. Each object contains information about the detected language.</returns>
+        /// <returns>A <see cref="DetectedLanguageResponse"/> array with one result for each string in the input array. Each object contains information about the detected language.</returns>
         /// <exception cref="ArgumentException">
         /// <list type="bullet">
         /// <term>The <paramref name="input"/> parameter doesn't contain any element.</term>
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// </para></remarks>
         /// <seealso cref="GetLanguagesAsync"/>
         /// <seealso cref="Language"/>
-        Task<IEnumerable<DetectLanguageResponse>> DetectLanguageWithResponseAsync(IEnumerable<string> input);
+        Task<IEnumerable<DetectedLanguageResponse>> DetectLanguagesWithResponseAsync(IEnumerable<string> input);
 
         /// <summary>
         /// Retrieves the languages available for translation.
