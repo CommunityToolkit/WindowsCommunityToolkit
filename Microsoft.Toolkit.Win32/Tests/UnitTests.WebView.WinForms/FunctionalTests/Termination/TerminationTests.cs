@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
 
         protected override void CreateWebView()
         {
-            WebView = new UI.Controls.WinForms.WebView();
+            WebView = new Forms.UI.Controls.WebView();
             ((ISupportInitialize)WebView).BeginInit();
             ((ISupportInitialize)WebView).EndInit();
 
@@ -51,12 +51,14 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         }
 
         [TestMethod]
+        [Timeout(TestConstants.Timeouts.Longest)]
         public void TheTerminatedProcessShouldNoLongerHaveAProcessId()
         {
             WebView.Process.ProcessId.ShouldEqual(0U);
         }
 
         [TestMethod]
+        [Timeout(TestConstants.Timeouts.Longest)]
         public void TheProcessExitedEventWasRaised()
         {
             _mre.WaitOne(TestConstants.Timeouts.Short);

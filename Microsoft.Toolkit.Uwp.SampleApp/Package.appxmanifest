@@ -4,7 +4,7 @@
   <mp:PhoneIdentity PhoneProductId="52b9212c-97a9-4639-9426-3e1ea9c1569e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Microsoft.Toolkit.Uwp.SampleApp</DisplayName>
-    <PublisherDisplayName>davca</PublisherDisplayName>
+    <PublisherDisplayName>Microsoft</PublisherDisplayName>
     <Logo>Assets\UWPCommunityToolkitSampleAppStoreLogo.png</Logo>
   </Properties>
   <Dependencies>

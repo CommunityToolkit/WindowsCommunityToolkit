@@ -9,12 +9,24 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
-    /// All common string extensions should go here
+    /// Helpers for working with strings.
     /// </summary>
     public static class StringExtensions
     {
+        /// <summary>
+        /// Regular expression for matching a phone number.
+        /// </summary>
         internal const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
+
+        /// <summary>
+        /// Regular expression for matching a string that contains only letters.
+        /// </summary>
         internal const string CharactersRegex = "^[A-Za-z]+$";
+
+        /// <summary>
+        /// Regular expression for matching an email address.
+        /// </summary>
+        /// <remarks>General Email Regex (RFC 5322 Official Standard) from emailregex.com.</remarks>
         internal const string EmailRegex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
 
         /// <summary>
@@ -23,85 +35,85 @@ namespace Microsoft.Toolkit.Extensions
         private const string RemoveHtmlTagsRegex = @"(?></?\w+)(?>(?:[^>'""]+|'[^']*'|""[^""]*"")*)>";
 
         /// <summary>
-        /// Regular expression for removing comments.
+        /// Regular expression for removing comments from HTML.
         /// </summary>
         private static readonly Regex RemoveHtmlCommentsRegex = new Regex("<!--.*?-->", RegexOptions.Singleline);
 
         /// <summary>
-        /// Regular expression for removing scripts.
+        /// Regular expression for removing scripts from HTML.
         /// </summary>
         private static readonly Regex RemoveHtmlScriptsRegex = new Regex(@"(?s)<script.*?(/>|</script>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Regular expression for removing styles.
+        /// Regular expression for removing styles from HTML.
         /// </summary>
         private static readonly Regex RemoveHtmlStylesRegex = new Regex(@"(?s)<style.*?(/>|</style>)", RegexOptions.Singleline | RegexOptions.IgnoreCase);
 
         /// <summary>
-        /// Returns whether said string is a valid email or not.
-        /// Uses general Email Regex (RFC 5322 Official Standard) from emailregex.com
+        /// Determines whether a string is a valid email address.
         /// </summary>
-        /// <param name="str">string value.</param>
-        /// <returns><c>true</c> for valid email.<c>false</c> otherwise</returns>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> for a valid email address; otherwise, <c>false</c>.</returns>
         public static bool IsEmail(this string str)
         {
             return Regex.IsMatch(str, EmailRegex);
         }
 
         /// <summary>
-        /// Returns whether said string is a valid decimal number or not.
+        /// Determines whether a string is a valid decimal number.
         /// </summary>
-        /// <returns><c>true</c> for valid decimal number.<c>false</c> otherwise</returns>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> for a valid decimal number; otherwise, <c>false</c>.</returns>
         public static bool IsDecimal(this string str)
         {
             return decimal.TryParse(str, NumberStyles.Number, CultureInfo.InvariantCulture, out decimal _decimal);
         }
 
         /// <summary>
-        /// Returns whether said string is a valid integer or not.
+        /// Determines whether a string is a valid integer.
         /// </summary>
-        /// <param name="str">string value.</param>
-        /// <returns><c>true</c> for valid integer.<c>false</c> otherwise</returns>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> for a valid integer; otherwise, <c>false</c>.</returns>
         public static bool IsNumeric(this string str)
         {
             return int.TryParse(str, out int _integer);
         }
 
         /// <summary>
-        /// Returns whether said string is a valid phonenumber or not.
+        /// Determines whether a string is a valid phone number.
         /// </summary>
-        /// <param name="str">string value.</param>
-        /// <returns><c>true</c> for valid phonenumber.<c>false</c> otherwise</returns>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> for a valid phone number; otherwise, <c>false</c>.</returns>
         public static bool IsPhoneNumber(this string str)
         {
             return Regex.IsMatch(str, PhoneNumberRegex);
         }
 
         /// <summary>
-        /// Returns whether said string contains only letters or not.
+        /// Determines whether a string contains only letters.
         /// </summary>
-        /// <param name="str">string value.</param>
-        /// <returns><c>true</c> for valid Character.<c>false</c> otherwise</returns>
+        /// <param name="str">The string to test.</param>
+        /// <returns><c>true</c> if the string contains only letters; otherwise, <c>false</c>.</returns>
         public static bool IsCharacterString(this string str)
         {
             return Regex.IsMatch(str, CharactersRegex);
         }
 
         /// <summary>
-        /// Converts object into string.
+        /// Returns a string representation of an object.
         /// </summary>
-        /// <param name="value">Object value.</param>
-        /// <returns>Returns string value.</returns>
+        /// <param name="value">The object to convert.</param>
+        /// <returns>String representation of the object.</returns>
         public static string ToSafeString(this object value)
         {
             return value?.ToString();
         }
 
         /// <summary>
-        /// Decode HTML string.
+        /// Returns a string with HTML comments, scripts, styles, and tags removed.
         /// </summary>
         /// <param name="htmlText">HTML string.</param>
-        /// <returns>Returns decoded HTML string.</returns>
+        /// <returns>Decoded HTML string.</returns>
         public static string DecodeHtml(this string htmlText)
         {
             if (htmlText == null)
@@ -118,10 +130,10 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Applies regular expressions to string of HTML to remove comments, scripts, styles.
+        /// Returns a string with HTML comments, scripts, and styles removed.
         /// </summary>
-        /// <param name="html">HTML string to fix</param>
-        /// <returns>Fixed HTML string</returns>
+        /// <param name="html">HTML string to fix.</param>
+        /// <returns>Fixed HTML string.</returns>
         public static string FixHtml(this string html)
         {
             // Remove comments
@@ -137,7 +149,7 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Trims and Truncates the specified string to the specified length.
+        /// Truncates a string to the specified length.
         /// </summary>
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
@@ -148,11 +160,11 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Trims and Truncates the specified string to the specified length.
+        /// Truncates a string to the specified length.
         /// </summary>
         /// <param name="value">The string to be truncated.</param>
         /// <param name="length">The maximum length.</param>
-        /// <param name="ellipsis">if set to <c>true</c> add a text ellipsis.</param>
+        /// <param name="ellipsis"><c>true</c> to add ellipsis to the truncated text; otherwise, <c>false</c>.</param>
         /// <returns>Truncated string.</returns>
         public static string Truncate(this string value, int length, bool ellipsis)
         {

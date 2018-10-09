@@ -20,6 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// Occurs when sign in failed when attempting to sign in
         /// </summary>
+        [Obsolete("Please use the SignInFailed event in MicrosoftGraphService instead.")]
         public event EventHandler<SignInFailedEventArgs> SignInFailed;
 
         /// <summary>

@@ -6,8 +6,11 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 ---
 
 # NavigationView Styles
+
+> [!NOTE] The NavigationView extension will be removed in a future major release.
+
 <!-- Describe your control -->
-The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
+The [NavigationView Styles](https://docs.microsoft.com/en-us/windows/communitytoolkit/extensions/navigationview) are a set of styles and extensions to reskin a `NavigationView` to look and behave like the `Activity Bar` and `Side Bar` in *Visual Studio Code*.
 
 This can create a companion 'toolbox' style experience for navigation along-side the main, more 'static', content of an app.
 
@@ -51,7 +54,7 @@ You need to include the toolkit extensions namespace, add the style dictionary t
 | Property | Type | Description |
 | -- | -- | -- |
 | NavigationViewExtensions.SelectedIndex | int | Changes the `NavigationView`'s selected item based on its index.  A value out of range will deselect any item. |
-| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so When a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
+| NavigationViewExtensions.CollapseOnClick | bool | Changes the `NavigationView` behavior so when a user clicks on an already selected `NavigationViewItem` its content's visibility will collapse. |
 
 ## Sample Code
 

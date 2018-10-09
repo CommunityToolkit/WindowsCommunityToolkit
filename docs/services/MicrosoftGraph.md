@@ -17,7 +17,7 @@ The **MicrosoftGraph** Service allows easy access to the Microsoft Graph in orde
 * Retrieve User events
 
 > [!NOTE]
-This API will not work on an XBOX UWP Application
+This API will not work on an Xbox UWP Application
  
 ## Get a Client Id
 
@@ -119,6 +119,19 @@ End If
 If Not Await MicrosoftGraphService.Instance.LoginAsync() Then
     Return
 End If
+```
+
+```csharp
+// Register event handler to capture authentication state changes
+MicrosoftGraphService.Instance.IsAuthenticatedChanged += (sender, e) =>
+{
+    // do something
+};
+// Register event handler to capture sign in exceptions
+MicrosoftGraphService.Instance.SignInFailed += (sender, e) =>
+{
+    // do something
+};
 ```
 
 ### Get the connected user's info

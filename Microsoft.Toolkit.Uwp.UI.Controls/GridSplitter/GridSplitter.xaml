@@ -20,20 +20,14 @@
                             <VisualStateGroup x:Name="GridSplitterStates">
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
-                                    <Storyboard>
-                                        <ColorAnimation Duration="0"
-                                                        To="{ThemeResource SystemBaseLowColor}"
-                                                        Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-                                                        Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
-                                    <Storyboard>
-                                        <ColorAnimation Duration="0"
-                                                        To="{ThemeResource SystemBaseHighColor}"
-                                                        Storyboard.TargetProperty="(Grid.Background).(SolidColorBrush.Color)"
-                                                        Storyboard.TargetName="RootGrid" />
-                                    </Storyboard>
+                                    <VisualState.Setters>
+                                        <Setter Target="RootGrid.Background" Value="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}" />
+                                    </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
