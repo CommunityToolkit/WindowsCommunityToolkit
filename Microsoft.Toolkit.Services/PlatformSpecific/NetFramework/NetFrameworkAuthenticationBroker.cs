@@ -10,12 +10,12 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkAuthenticationBroker : IAuthenticationBroker
     {
-        private PopupForm popupForm;
+        private PopupWPF popupForm;
 
         public Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri)
         {
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
-            popupForm = new PopupForm(callbackUri);
+            popupForm = new PopupWPF(callbackUri);
             popupForm.FormClosed += (sender, e) =>
             {
                 var result = new AuthenticationResult();
@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 }
 
                 taskCompletionSource.SetResult(result);
+                return false;
             };
 
             popupForm.Show();

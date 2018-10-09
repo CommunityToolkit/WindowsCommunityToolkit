@@ -18,7 +18,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         private Uri actualUrl;
         private string callbackHost;
-
         /// <summary>
         /// Gets or sets the actual url.
         /// </summary>

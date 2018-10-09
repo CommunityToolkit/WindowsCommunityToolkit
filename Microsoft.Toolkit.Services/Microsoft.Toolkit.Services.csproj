@@ -10,7 +10,7 @@
     <DebugType>Full</DebugType>
     <NoWarn>CS8002</NoWarn>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
@@ -39,6 +39,8 @@
   <ItemGroup Condition="!('$(TargetFramework)'=='net462')">
     <Compile Remove="Services\MicrosoftGraph\WinForms\**\*" />
     <Compile Remove="PlatformSpecific\NetFramework\**\*" />
+    <None Remove="PlatformSpecific\NetFramework\**\*" />
+    <Page Remove="PlatformSpecific\NetFramework\**\*" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)'=='net462'">
@@ -48,9 +50,23 @@
     <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="5.0.0-preview.gb86cb1c4cb" />
+    <Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="PlatformSpecific\NetFramework\PopupWPF.xaml.cs">
+      <DependentUpon>PlatformSpecific\NetFramework\PopupWPF.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
-  
+
   <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0')">
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
