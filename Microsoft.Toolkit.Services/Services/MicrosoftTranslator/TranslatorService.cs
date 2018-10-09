@@ -28,9 +28,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         private const string AuthorizationUri = "Authorization";
         private const string JsonMediaType = "application/json";
 
-        private const int _maxTextLength = 5000;
-        private const int _MaxTextLengthForDetection = 10000;
+        private const int _MaxArrayLengthForTranslation = 25;
+        private const int _MaxTextLengthForTranslation = 5000;
         private const int _MaxArrayLengthForDetection = 100;
+        private const int _MaxTextLengthForDetection = 10000;
 
         private static HttpClient client = new HttpClient();
 
@@ -58,6 +59,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         private TranslatorService()
         {
             _authToken = new AzureAuthToken(string.Empty);
+            Language = CultureInfo.CurrentCulture.Name.ToLower();
         }
 
         /// <inheritdoc/>
@@ -90,6 +92,11 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             if (input == null)
             {
                 throw new ArgumentNullException(nameof(input));
+            }
+
+            if (!input.Any())
+            {
+                throw new ArgumentException($"{nameof(input)} array must contain at least 1 element");
             }
 
             if (input.Count() > _MaxArrayLengthForDetection)
@@ -146,39 +153,78 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         }
 
         /// <inheritdoc/>
-        public async Task<TranslationResponse> TranslateAsync(string text, string from, string to)
+        public Task<string> TranslateAsync(string input, string to = null) => TranslateAsync(input, null, to ?? Language);
+
+        /// <inheritdoc/>
+        public async Task<string> TranslateAsync(string input, string from, string to)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            var response = await TranslateWithResponseAsync(new string[] { input }, from, new string[] { to }).ConfigureAwait(false);
+            return response.FirstOrDefault()?.Translation.Text;
+        }
+
+        /// <inheritdoc/>
+        public Task<TranslationResponse> TranslateWithResponseAsync(string input, string to = null) => TranslateWithResponseAsync(input, null, to ?? Language);
+
+        /// <inheritdoc/>
+        public async Task<TranslationResponse> TranslateWithResponseAsync(string input, string from, string to)
+        {
+            var response = await TranslateWithResponseAsync(new string[] { input }, from, new string[] { to }).ConfigureAwait(false);
+            return response.FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, string from, string to) => TranslateWithResponseAsync(input, from, new string[] { to });
+
+        /// <inheritdoc/>
+        public Task<TranslationResponse> TranslateWithResponseAsync(string input, IEnumerable<string> to) => TranslateWithResponseAsync(input, null, to);
+
+        /// <inheritdoc/>
+        public async Task<TranslationResponse> TranslateWithResponseAsync(string input, string from, IEnumerable<string> to)
+        {
+            var response = await TranslateWithResponseAsync(new string[] { input }, from, to).ConfigureAwait(false);
+            return response.FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, IEnumerable<string> to = null) => TranslateWithResponseAsync(input, null, to);
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, string from, IEnumerable<string> to)
+        {
+            if (input == null)
             {
-                throw new ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(input));
             }
 
-            if (text.Length > _maxTextLength)
+            if (input.Count() > _MaxArrayLengthForTranslation)
             {
-                throw new ArgumentException($"{nameof(text)} parameter cannot be longer than {_maxTextLength} characters");
+                throw new ArgumentException($"{nameof(input)} array can have at most {_MaxArrayLengthForTranslation} elements");
+            }
+
+            if (input.Any(str => string.IsNullOrWhiteSpace(str) || str.Length > _MaxTextLengthForTranslation))
+            {
+                throw new ArgumentException($"Each sentence cannot be null and longer than {_MaxTextLengthForTranslation} characters");
+            }
+
+            if (to == null || !to.Any())
+            {
+                to = new string[] { Language };
             }
 
             // Checks if it is necessary to obtain/update access token.
             await CheckUpdateTokenAsync().ConfigureAwait(false);
 
-            if (string.IsNullOrWhiteSpace(to))
-            {
-                to = Language;
-            }
-
-            var uriString = (string.IsNullOrWhiteSpace(from) ? $"{BaseUrl}translate?to={to}" : $"{BaseUrl}translate?from={from}&to={to}") + $"&{ApiVersion}";
-            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, new object[] { new { Text = text } }))
+            var toQueryString = string.Join("&", to.Select(t => $"to={t}"));
+            var uriString = (string.IsNullOrWhiteSpace(from) ? $"{BaseUrl}translate?{toQueryString}" : $"{BaseUrl}translate?from={from}&{toQueryString}") + $"&{ApiVersion}";
+            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t })))
             {
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var responseContent = JsonConvert.DeserializeObject<IEnumerable<TranslationResponse>>(content).FirstOrDefault();
+                var responseContent = JsonConvert.DeserializeObject<IEnumerable<TranslationResponse>>(content);
                 return responseContent;
             }
         }
-
-        /// <inheritdoc/>
-        public Task<TranslationResponse> TranslateAsync(string text, string to = null) => TranslateAsync(text, null, to);
 
         /// <inheritdoc/>
         public Task InitializeAsync() => CheckUpdateTokenAsync();

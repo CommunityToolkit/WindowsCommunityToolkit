@@ -94,12 +94,17 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// Detects the language of a text.
         /// </summary>
         /// <param name="input">A string array containing the sentences whose language must be detected.</param>
-        /// <returns>A <see cref="DetectLanguageResponse"/> array with one result for each string in the input array. Each object containing information about the detected language.</returns>
-        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter contains more than 100 elements.</exception>
+        /// <returns>A <see cref="DetectLanguageResponse"/> array with one result for each string in the input array. Each object contains information about the detected language.</returns>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter doesn't contain any element.</term>
+        /// <term>The <paramref name="input"/> array contains more than 100 elements.</term>
+        /// </list>
+        /// </exception>
         /// <exception cref="ArgumentNullException">
         /// <list type="bullet">
         /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
-        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// <term>The <paramref name="input"/> array is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</term>
         /// </list>
         /// </exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
@@ -139,44 +144,229 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Translates a text string into the specified language.
         /// </summary>
-        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
-        /// <param name="text">A string representing the text to translate.</param>
+        /// <returns>A string representing the translated text.</returns>
+        /// <param name="input">A string representing the text to translate.</param>
+        /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter is longer than 1000 characters.</exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<string> TranslateAsync(string input, string to = null);
+
+        /// <summary>
+        /// Translates a text string into the specified language.
+        /// </summary>
+        /// <returns>A string representing the translated text.</returns>
+        /// <param name="input">A string representing the text to translate.</param>
         /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
         /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
         /// <exception cref="ArgumentNullException">
         /// <list type="bullet">
         /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
-        /// <term>The <paramref name="text"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
         /// </list>
         /// </exception>
-        /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
         /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>
-        Task<TranslationResponse> TranslateAsync(string text, string from, string to);
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<string> TranslateAsync(string input, string from, string to);
 
         /// <summary>
         /// Translates a text string into the specified language.
         /// </summary>
         /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
-        /// <param name="text">A string representing the text to translate.</param>
+        /// <param name="input">A string representing the text to translate.</param>
         /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
         /// <exception cref="ArgumentNullException">
         /// <list type="bullet">
         /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
-        /// <term>The <paramref name="text"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
         /// </list>
         /// </exception>
-        /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
+        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
         /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>
-        Task<TranslationResponse> TranslateAsync(string text, string to = null);
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<TranslationResponse> TranslateWithResponseAsync(string input, string to = null);
+
+        /// <summary>
+        /// Translates a text string into the specified languages.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
+        /// <param name="input">A string representing the text to translate.</param>
+        /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter is longer than 1000 characters.</exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<TranslationResponse> TranslateWithResponseAsync(string input, string from, string to);
+
+        /// <summary>
+        /// Translates a list of sentences into the specified language.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> array with one result for each language code in the <paramref name="to"/> array. Each object contains translated text and information.</returns>
+        /// <param name="input">A string array containing the sentences to translate.</param>
+        /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter is longer than 1000 characters.</term>
+        /// <term>The <paramref name="input"/> array contains more than 25 elements.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, string from, string to);
+
+        /// <summary>
+        /// Translates a text into the specified languages.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
+        /// <param name="input">A string representing the text to translate.</param>
+        /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <param name="to">A string array representing the language codes to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter is longer than 1000 characters.</term>
+        /// <term>The <paramref name="to"/> array contains more than 25 elements.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<TranslationResponse> TranslateWithResponseAsync(string input, string from, IEnumerable<string> to);
+
+        /// <summary>
+        /// Translates a text string into the specified languages.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
+        /// <param name="input">A string representing the text to translate.</param>
+        /// <param name="to">A string array representing the language codes to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter is longer than 1000 characters.</term>
+        /// <term>The <paramref name="to"/> array contains more than 25 elements.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<TranslationResponse> TranslateWithResponseAsync(string input, IEnumerable<string> to);
+
+        /// <summary>
+        /// Translates a list of sentences into the specified languages.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> array with one result for each language code in the <paramref name="to"/> array. Each object contains translated text and information.</returns>
+        /// <param name="input">A string array containing the sentences to translate.</param>
+        /// <param name="to">A string array representing the language codes to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter is longer than 1000 characters.</term>
+        /// <term>The <paramref name="input"/> array contains more than 25 elements.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, IEnumerable<string> to = null);
+
+        /// <summary>
+        /// Translates a list of sentences into the specified languages.
+        /// </summary>
+        /// <returns>A <see cref="TranslationResponse"/> array with one result for each language code in the <paramref name="to"/> array. Each object contains translated text and information.</returns>
+        /// <param name="input">A string array containing the sentences to translate.</param>
+        /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <param name="to">A string array representing the language codes to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic).</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// <list type="bullet">
+        /// <term>The <paramref name="input"/> parameter is longer than 1000 characters.</term>
+        /// <term>The <paramref name="input"/> array contains more than 25 elements.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method perform a non-blocking request for text translation.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// </para>
+        /// </remarks>
+        /// <seealso cref="Language"/>
+        /// <seealso cref="GetLanguagesAsync"/>
+        Task<IEnumerable<TranslationResponse>> TranslateWithResponseAsync(IEnumerable<string> input, string from, IEnumerable<string> to);
     }
 }

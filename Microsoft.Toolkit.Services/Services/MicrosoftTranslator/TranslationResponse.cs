@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Gets or sets a <see cref="DetectLanguageBase"/> object describing the detected language.
         /// </summary>
-        /// <remarks>This property has a value only when the <see cref="ITranslatorService.TranslateAsync(string, string)"/> method is invoked without the <strong>from</strong> parameter, so that automatic language detection is applied to determine the source language.
+        /// <remarks>This property has a value only when the <see cref="ITranslatorService.TranslateWithResponseAsync(string, string)"/> method is invoked without the <strong>from</strong> parameter, so that automatic language detection is applied to determine the source language.
         /// </remarks>
         public DetectLanguageBase DetectedLanguage { get; set; }
 
