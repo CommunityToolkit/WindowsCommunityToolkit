@@ -205,9 +205,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private static readonly DependencyProperty PageCoordinatedAnimationElementsProperty =
             DependencyProperty.RegisterAttached("PageCoordinatedAnimationElements", typeof(Dictionary<UIElement, List<UIElement>>), typeof(Connected), new PropertyMetadata(null));
 
-        private static void RegisterKey(this Page page, string key, UIElement element)
+        /// <summary>
+        /// Registers an <see cref="UIElement"/> with the ConnectedAnimations service to run automatically on page navigation
+        /// </summary>
+        /// <param name="page">The parent page of the element</param>
+        /// <param name="key">The key of the element (same key will need to be used on another page)</param>
+        /// <param name="element">The element to animate</param>
+        /// <param name="anchors">Any other elements to animate alongside the element</param>
+        public static void RegisterElementForConnectedAnimation(this Page page, string key, UIElement element, IEnumerable<UIElement> anchors = null)
         {
-            if (key != null)
+            if (key != null && element != null)
             {
                 var animation = new ConnectedAnimationProperties()
                 {
@@ -217,10 +224,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
 
                 var props = GetPageConnectedAnimationProperties(page);
                 props[key] = animation;
+
+                if (anchors != null)
+                {
+                    foreach (var anchor in anchors)
+                    {
+                        page.AttachAnchorElementForConnectedAnimation(element, anchor);
+                    }
+                }
             }
         }
 
-        private static void RemoveKey(this Page page, string key)
+        /// <summary>
+        /// Unregisters an <see cref="UIElement"/> from the ConnectedAnimations service
+        /// </summary>
+        /// <param name="page">The parent page of the element</param>
+        /// <param name="key">The key used to register the element</param>
+        public static void UnregisterElementForConnectedAnimation(this Page page, string key)
         {
             if (key != null)
             {
@@ -229,9 +249,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void AttachElementToAnimatingElement(this Page page, UIElement element, UIElement anchor)
+        /// <summary>
+        /// Add an anchor element to animate alongside the main element
+        /// </summary>
+        /// <param name="page">the parent page of the elements</param>
+        /// <param name="element">the main element that will be animating</param>
+        /// <param name="anchor">the element that will animate alongside the main element</param>
+        public static void AttachAnchorElementForConnectedAnimation(this Page page, UIElement element, UIElement anchor)
         {
-            if (anchor != null)
+            if (anchor != null && element != null)
             {
                 var coordinatedElements = GetPageCoordinatedAnimationElements(page);
                 if (!coordinatedElements.TryGetValue(anchor, out var list))
@@ -244,9 +270,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void RemoveAnchoredElement(this Page page, UIElement element, UIElement anchor)
+        /// <summary>
+        /// Remove an anchor element from animating alongside the main element
+        /// </summary>
+        /// <param name="page">the parent page of the elements</param>
+        /// <param name="element">the main element that will be animating</param>
+        /// <param name="anchor">the element that should not animate alongside the main element</param>
+        public static void RemoveAnchoredElementForConnectedAnimation(this Page page, UIElement element, UIElement anchor)
         {
-            if (anchor != null)
+            if (anchor != null && element != null)
             {
                 var coordinatedElements = GetPageCoordinatedAnimationElements(page);
                 if (coordinatedElements.TryGetValue(anchor, out var oldElementList))
@@ -256,7 +288,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void RegisterListItem(this Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase, string key, string elementName)
+        /// <summary>
+        /// Registers an element (part of a DataTemplate in a list control)
+        /// with the ConnectedAnimations service to run automatically on page navigation
+        /// </summary>
+        /// <param name="page">The parent page of the list control</param>
+        /// <param name="listViewBase">The list control (such as ListView or GridView)</param>
+        /// <param name="key">The key of the element (same key will need to be used on another page)</param>
+        /// <param name="elementName">The name of the element in the DataTemplate that should be animated</param>
+        public static void RegisterListItemForConnectedAnimation(this Page page, ListViewBase listViewBase, string key, string elementName)
         {
             if (listViewBase == null || string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(elementName))
             {
@@ -285,7 +325,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void RemoveListItem(this Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase, string key)
+        /// <summary>
+        /// Unregisters an element (part of a DataTemplate in a list control) from the ConnectedAnimations service
+        /// </summary>
+        /// <param name="page">The parent page of the list control</param>
+        /// <param name="listViewBase">The list control (such as ListView or GridView)</param>
+        /// <param name="key">The key used to register the element</param>
+        public static void UnregisterListItemForConnectedAnimation(this Page page, ListViewBase listViewBase, string key)
         {
             if (listViewBase == null || string.IsNullOrWhiteSpace(key))
             {
@@ -315,6 +361,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
+        /// <summary>
+        /// Sets the object that will be used during next Frame navigation for
+        /// Connected Animation involving a list control (item must be an element of
+        /// ListViewBase.ItemsSource collection).
+        /// Useful if the parameter used during page navigation is different from the
+        /// data item in the list control. Also useful during back navigation if the
+        /// item navigating back to is different from the item that was navigated from.
+        /// </summary>
+        /// <param name="frame">The Frame handling the navigation</param>
+        /// <param name="item">The data item from a list control to be animated during next frame navigation</param>
+        public static void SetListDataItemForNextConnectedAnnimation(this Frame frame, object item)
+        {
+            GetConnectedAnimationHelper(frame)?.SetParameterForNextFrameNavigation(item);
+        }
+
         private static void OnKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
@@ -333,11 +394,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 GetConnectedAnimationHelper(frame);
                 if (e.OldValue is string oldKey)
                 {
-                    (frame.Content as Page).RemoveKey(oldKey);
+                    (frame.Content as Page)?.UnregisterElementForConnectedAnimation(oldKey);
                 }
                 if (e.NewValue is string newKey)
                 {
-                    (frame.Content as Page).RegisterKey(newKey, element);
+                    (frame.Content as Page)?.RegisterElementForConnectedAnimation(newKey, element);
                 }
             });
         }
@@ -360,12 +421,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 GetConnectedAnimationHelper(frame);
                 if (e.OldValue is UIElement oldAnchor)
                 {
-                    (frame.Content as Page).RemoveAnchoredElement(element, oldAnchor);
+                    (frame.Content as Page)?.RemoveAnchoredElementForConnectedAnimation(element, oldAnchor);
                 }
 
                 if (e.NewValue is UIElement newAnchor)
                 {
-                    (frame.Content as Page).AttachElementToAnimatingElement(element, newAnchor);
+                    (frame.Content as Page)?.AttachAnchorElementForConnectedAnimation(element, newAnchor);
                 }
             });
         }
@@ -386,13 +447,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
                 GetConnectedAnimationHelper(frame);
-
-                if (e.OldValue is string oldKey)
+                if (frame.Content is Page page)
                 {
-                    (frame.Content as Page).RemoveListItem(element, oldKey);
-                }
+                    if (e.OldValue is string oldKey)
+                    {
+                        page.UnregisterListItemForConnectedAnimation(element, oldKey);
+                    }
 
-                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
+                    AddListViewBaseItemAnimationDetails(page, element);
+                }
             });
         }
 
@@ -412,17 +475,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
                 GetConnectedAnimationHelper(frame);
-
-                if (e.OldValue is string oldElementName)
+                if (frame.Content is Page page)
                 {
-                    var elementKey = GetListItemKey(element);
-                    if (elementKey != null)
+                    if (e.OldValue is string oldElementName)
                     {
-                        (frame.Content as Page).RemoveListItem(element, elementKey);
+                        var elementKey = GetListItemKey(element);
+                        if (elementKey != null)
+                        {
+                            page.UnregisterListItemForConnectedAnimation(element, elementKey);
+                        }
                     }
-                }
 
-                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
+                    AddListViewBaseItemAnimationDetails(page, element);
+                }
             });
         }
 
@@ -465,7 +530,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     return;
                 }
 
-                page.RegisterListItem(listViewBase, key, elementName);
+                page.RegisterListItemForConnectedAnimation(listViewBase, key, elementName);
             }
         }
     }
