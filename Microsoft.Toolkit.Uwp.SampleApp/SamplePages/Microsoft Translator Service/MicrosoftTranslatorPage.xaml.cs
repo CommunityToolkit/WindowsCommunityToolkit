@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Linq;
 using Microsoft.Toolkit.Services.MicrosoftTranslator;
 using Windows.System;
 using Windows.UI.Xaml;
@@ -49,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Languages.ItemsSource = null;
 
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguageNamesAsync("it");
+            var languages = await _translatorClient.GetLanguageNamesAsync("en");
 
             Languages.ItemsSource = languages;
             Languages.SelectedIndex = 0;
@@ -71,12 +70,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.DisplayWaitRing = true;
 
+            DetectedLanguage.Text = string.Empty;
             Translation.Text = string.Empty;
 
             // Translates the text to the selected language.
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var translationResult = await _translatorClient.TranslateAsync(Sentence.Text, Languages.SelectedValue.ToString());
+            var translationResult = await _translatorClient.TranslateWithResponseAsync(Sentence.Text, Languages.SelectedValue.ToString());
 
+            DetectedLanguage.Text = $"Detected source language: {translationResult.DetectedLanguage.Language} ({translationResult.DetectedLanguage.Score:P0})";
             Translation.Text = translationResult.Translation?.Text;
 
             SampleController.Current.DisplayWaitRing = false;
