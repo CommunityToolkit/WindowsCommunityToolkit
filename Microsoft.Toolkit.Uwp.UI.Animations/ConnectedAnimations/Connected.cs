@@ -394,11 +394,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 GetConnectedAnimationHelper(frame);
                 if (e.OldValue is string oldKey)
                 {
-                    (frame.Content as Page).UnregisterElementForConnectedAnimation(oldKey);
+                    (frame.Content as Page)?.UnregisterElementForConnectedAnimation(oldKey);
                 }
                 if (e.NewValue is string newKey)
                 {
-                    (frame.Content as Page).RegisterElementForConnectedAnimation(newKey, element);
+                    (frame.Content as Page)?.RegisterElementForConnectedAnimation(newKey, element);
                 }
             });
         }
@@ -421,12 +421,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 GetConnectedAnimationHelper(frame);
                 if (e.OldValue is UIElement oldAnchor)
                 {
-                    (frame.Content as Page).RemoveAnchoredElementForConnectedAnimation(element, oldAnchor);
+                    (frame.Content as Page)?.RemoveAnchoredElementForConnectedAnimation(element, oldAnchor);
                 }
 
                 if (e.NewValue is UIElement newAnchor)
                 {
-                    (frame.Content as Page).AttachAnchorElementForConnectedAnimation(element, newAnchor);
+                    (frame.Content as Page)?.AttachAnchorElementForConnectedAnimation(element, newAnchor);
                 }
             });
         }
@@ -447,13 +447,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
                 GetConnectedAnimationHelper(frame);
-
-                if (e.OldValue is string oldKey)
+                if (frame.Content is Page page)
                 {
-                    (frame.Content as Page).UnregisterListItemForConnectedAnimation(element, oldKey);
-                }
+                    if (e.OldValue is string oldKey)
+                    {
+                        page.UnregisterListItemForConnectedAnimation(element, oldKey);
+                    }
 
-                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
+                    AddListViewBaseItemAnimationDetails(page, element);
+                }
             });
         }
 
@@ -473,17 +475,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             GetParentFrameAndExecuteAction(element, (frame) =>
             {
                 GetConnectedAnimationHelper(frame);
-
-                if (e.OldValue is string oldElementName)
+                if (frame.Content is Page page)
                 {
-                    var elementKey = GetListItemKey(element);
-                    if (elementKey != null)
+                    if (e.OldValue is string oldElementName)
                     {
-                        (frame.Content as Page).UnregisterListItemForConnectedAnimation(element, elementKey);
+                        var elementKey = GetListItemKey(element);
+                        if (elementKey != null)
+                        {
+                            page.UnregisterListItemForConnectedAnimation(element, elementKey);
+                        }
                     }
-                }
 
-                AddListViewBaseItemAnimationDetails(frame.Content as Page, element);
+                    AddListViewBaseItemAnimationDetails(page, element);
+                }
             });
         }
 
