@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
     /// <summary>
     /// Strong type for Detect Language Response
     /// </summary>
-    /// <seealso cref="ITranslatorService.DetectLanguageAsync(string)"/>
+    /// <seealso cref="ITranslatorService.DetectLanguageWithResponseAsync(string)"/>
     public class DetectLanguageResponse : DetectLanguage
     {
         /// <summary>

@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
 
         private const int _maxTextLength = 5000;
         private const int _MaxTextLengthForDetection = 10000;
+        private const int _MaxArrayLengthForDetection = 100;
 
         private static HttpClient client = new HttpClient();
 
@@ -70,25 +71,42 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         public string Language { get; set; }
 
         /// <inheritdoc/>
-        public async Task<DetectLanguageResponse> DetectLanguageAsync(string text)
+        public async Task<string> DetectLanguageAsync(string input)
         {
-            if (string.IsNullOrWhiteSpace(text))
+            var response = await DetectLanguageWithResponseAsync(input).ConfigureAwait(false);
+            return response?.Language;
+        }
+
+        /// <inheritdoc/>
+        public async Task<DetectLanguageResponse> DetectLanguageWithResponseAsync(string input)
+        {
+            var response = await DetectLanguageWithResponseAsync(new string[] { input }).ConfigureAwait(false);
+            return response.FirstOrDefault();
+        }
+
+        /// <inheritdoc/>
+        public async Task<IEnumerable<DetectLanguageResponse>> DetectLanguageWithResponseAsync(IEnumerable<string> input)
+        {
+            if (input == null)
             {
-                throw new ArgumentNullException(nameof(text));
+                throw new ArgumentNullException(nameof(input));
             }
 
-            text = text.Substring(0, Math.Min(text.Length, _MaxTextLengthForDetection));
+            if (input.Count() > _MaxArrayLengthForDetection)
+            {
+                throw new ArgumentException($"{nameof(input)} array can have at most {_MaxArrayLengthForDetection} elements");
+            }
 
             // Checks if it is necessary to obtain/update access token.
             await CheckUpdateTokenAsync().ConfigureAwait(false);
 
             var uriString = $"{BaseUrl}detect?{ApiVersion}";
-            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, new object[] { new { Text = text } }))
+            using (var request = CreateHttpRequest(uriString, HttpMethod.Post, input.Select(t => new { Text = t.Substring(0, Math.Min(t.Length, _MaxTextLengthForDetection)) })))
             {
                 var response = await client.SendAsync(request).ConfigureAwait(false);
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
 
-                var responseContent = JsonConvert.DeserializeObject<IEnumerable<DetectLanguageResponse>>(content).FirstOrDefault();
+                var responseContent = JsonConvert.DeserializeObject<IEnumerable<DetectLanguageResponse>>(content);
                 return responseContent;
             }
         }

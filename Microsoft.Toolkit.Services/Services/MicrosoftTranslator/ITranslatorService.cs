@@ -55,12 +55,12 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Detects the language of a text.
         /// </summary>
-        /// <param name="text">A string representing the text whose language must be detected.</param>
-        /// <returns>A <see cref="DetectLanguageResponse"/> object containing information about the detected language.</returns>
+        /// <param name="input">A string representing the text whose language must be detected.</param>
+        /// <returns>A string containing a two-character Language code for the given text.</returns>
         /// <exception cref="ArgumentNullException">
         /// <list type="bullet">
         /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
-        /// <term>The <paramref name="text"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
         /// </list>
         /// </exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
@@ -69,7 +69,46 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// </para></remarks>
         /// <seealso cref="GetLanguagesAsync"/>
         /// <seealso cref="Language"/>
-        Task<DetectLanguageResponse> DetectLanguageAsync(string text);
+        Task<string> DetectLanguageAsync(string input);
+
+        /// <summary>
+        /// Detects the language of a text.
+        /// </summary>
+        /// <param name="input">A string representing the text whose language must be detected.</param>
+        /// <returns>A <see cref="DetectLanguageResponse"/> object containing information about the detected language.</returns>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method performs a non-blocking request for language detection.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-detect.
+        /// </para></remarks>
+        /// <seealso cref="GetLanguagesAsync"/>
+        /// <seealso cref="Language"/>
+        Task<DetectLanguageResponse> DetectLanguageWithResponseAsync(string input);
+
+        /// <summary>
+        /// Detects the language of a text.
+        /// </summary>
+        /// <param name="input">A string array containing the sentences whose language must be detected.</param>
+        /// <returns>A <see cref="DetectLanguageResponse"/> array with one result for each string in the input array. Each object containing information about the detected language.</returns>
+        /// <exception cref="ArgumentException">The <paramref name="input"/> parameter contains more than 100 elements.</exception>
+        /// <exception cref="ArgumentNullException">
+        /// <list type="bullet">
+        /// <term>The <see cref="SubscriptionKey"/> property hasn't been set.</term>
+        /// <term>The <paramref name="input"/> parameter is <strong>null</strong> (<strong>Nothing</strong> in Visual Basic) or empty.</term>
+        /// </list>
+        /// </exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks><para>This method performs a non-blocking request for language detection.</para>
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-detect.
+        /// </para></remarks>
+        /// <seealso cref="GetLanguagesAsync"/>
+        /// <seealso cref="Language"/>
+        Task<IEnumerable<DetectLanguageResponse>> DetectLanguageWithResponseAsync(IEnumerable<string> input);
 
         /// <summary>
         /// Retrieves the languages available for translation.
