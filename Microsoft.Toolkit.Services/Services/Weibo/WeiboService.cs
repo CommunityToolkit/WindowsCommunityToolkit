@@ -22,21 +22,21 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Private field for WeiboDataProvider.
         /// </summary>
-        private WeiboDataProvider weiboDataProvider;
+        private WeiboDataProvider _weiboDataProvider;
 
         /// <summary>
         /// Field for tracking oAuthTokens.
         /// </summary>
-        private WeiboOAuthTokens tokens;
+        private WeiboOAuthTokens _tokens;
 
-        private IPasswordManager passwordManager;
-        private IStorageManager storageManager;
-        private IAuthenticationBroker authenticationBroker;
+        private IPasswordManager _passwordManager;
+        private IStorageManager _storageManager;
+        private IAuthenticationBroker _authenticationBroker;
 
         /// <summary>
         /// Field for tracking initialization status.
         /// </summary>
-        private bool isInitialized;
+        private bool _isInitialized;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeiboService"/> class.
@@ -48,12 +48,12 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Private singleton field.
         /// </summary>
-        private static WeiboService instance;
+        private static WeiboService _instance;
 
         /// <summary>
         /// Gets public singleton property.
         /// </summary>
-        public static WeiboService Instance => instance ?? (instance = new WeiboService());
+        public static WeiboService Instance => _instance ?? (_instance = new WeiboService());
 
         /// <summary>
         /// Gets the current logged in user id.
@@ -122,14 +122,14 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <returns>Success or failure.</returns>
         public bool Initialize(WeiboOAuthTokens oAuthTokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
-            tokens = oAuthTokens ?? throw new ArgumentNullException(nameof(oAuthTokens));
-            this.authenticationBroker = authenticationBroker ?? throw new ArgumentNullException(nameof(authenticationBroker));
-            this.passwordManager = passwordManager ?? throw new ArgumentNullException(nameof(passwordManager));
-            this.storageManager = storageManager ?? throw new ArgumentNullException(nameof(storageManager));
+            _tokens = oAuthTokens ?? throw new ArgumentNullException(nameof(oAuthTokens));
+            this._authenticationBroker = authenticationBroker ?? throw new ArgumentNullException(nameof(authenticationBroker));
+            this._passwordManager = passwordManager ?? throw new ArgumentNullException(nameof(passwordManager));
+            this._storageManager = storageManager ?? throw new ArgumentNullException(nameof(storageManager));
 
-            isInitialized = true;
+            _isInitialized = true;
 
-            weiboDataProvider = null;
+            _weiboDataProvider = null;
 
             return true;
         }
@@ -165,12 +165,12 @@ namespace Microsoft.Toolkit.Services.Weibo
         {
             get
             {
-                if (!isInitialized)
+                if (!_isInitialized)
                 {
                     throw new InvalidOperationException("Provider not initialized.");
                 }
 
-                return weiboDataProvider ?? (weiboDataProvider = new WeiboDataProvider(tokens, authenticationBroker, passwordManager, storageManager));
+                return _weiboDataProvider ?? (_weiboDataProvider = new WeiboDataProvider(_tokens, _authenticationBroker, _passwordManager, _storageManager));
             }
         }
 

@@ -388,7 +388,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Tweets a status update.
+        /// Posts a status update.
         /// </summary>
         /// <param name="status">Status text.</param>
         /// <param name="picture">Picture to attach to the status.</param>
