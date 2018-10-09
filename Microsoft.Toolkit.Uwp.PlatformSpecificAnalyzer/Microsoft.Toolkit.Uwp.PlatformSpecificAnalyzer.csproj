@@ -11,10 +11,15 @@
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
-  
+
   <ItemGroup>
-    <EmbeddedResource Include="Differences-5.0.0.0.gz" />
+    <None Remove="Differences-6.0.0.0.gz" />
+    <None Remove="Differences-7.0.0.0.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Differences-6.0.0.0.gz" />
+    <EmbeddedResource Include="Differences-7.0.0.0.gz" />
   </ItemGroup>
    
   <ItemGroup>
