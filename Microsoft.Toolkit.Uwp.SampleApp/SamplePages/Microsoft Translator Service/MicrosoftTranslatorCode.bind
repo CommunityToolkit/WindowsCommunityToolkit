@@ -4,5 +4,5 @@
 await TranslatorService.Instance.InitializeAsync("<translator service key");
 
 // Translates the text to Italian.
-var translationResult = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
+var translationResult = await TranslatorService.Instance.TranslateWithResponseAsync("Hello everyone!", "it");
 var translatedText = translationResult.Translation.Text;
