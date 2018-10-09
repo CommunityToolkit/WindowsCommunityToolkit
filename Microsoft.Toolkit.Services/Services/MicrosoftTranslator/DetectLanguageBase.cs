@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
     /// </summary>
     /// <seealso cref="ITranslatorService.DetectLanguageAsync(string)"/>
     /// <seealso cref="ITranslatorService.TranslateAsync(string, string)"/>
-    public class BaseDetectLanguage
+    public class DetectLanguageBase
     {
         /// <summary>
         /// Gets or sets the code of the detected language.

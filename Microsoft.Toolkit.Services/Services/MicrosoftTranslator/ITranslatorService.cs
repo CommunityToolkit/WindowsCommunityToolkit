@@ -39,6 +39,20 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         Task InitializeAsync();
 
         /// <summary>
+        /// Initializes the <see cref="TranslatorService"/> class by getting an access token for the service.
+        /// </summary>
+        /// <param name="subscriptionKey">The subscription key for the Microsoft Translator Service on Azure.</param>
+        /// <param name="language">A string representing the supported language code to speak the text in. The code must be present in the list of codes returned from the method <see cref="GetLanguagesAsync"/>.</param>
+        /// <returns>A <see cref="Task"/> that represents the initialize operation.</returns>
+        /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
+        /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
+        /// <remarks>
+        /// <para>Calling this method isn't mandatory, because the token is get/refreshed everytime is needed. However, it is called at startup, it can speed-up subsequest requests.</para>
+        /// <para>You must register Microsoft Translator on https://portal.azure.com to obtain the Subscription key needed to use the service.</para>
+        /// </remarks>
+        Task InitializeAsync(string subscriptionKey, string language = null);
+
+        /// <summary>
         /// Detects the language of a text.
         /// </summary>
         /// <param name="text">A string representing the text whose language must be detected.</param>
@@ -51,7 +65,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// </exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language detection.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-detect.
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-detect.
         /// </para></remarks>
         /// <seealso cref="GetLanguagesAsync"/>
         /// <seealso cref="Language"/>
@@ -63,7 +77,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <returns>A string array containing the language codes supported for translation by <strong>Microsoft Translator Service</strong>.</returns>        /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language codes.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages.
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages.
         /// </para>
         /// </remarks>
         /// <seealso cref="GetLanguageNamesAsync(string)"/>
@@ -77,7 +91,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <exception cref="ArgumentNullException">The <see cref="SubscriptionKey"/> property hasn't been set.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method performs a non-blocking request for language names.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-languages.
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-languages.
         /// </para>
         /// </remarks>
         /// <seealso cref="GetLanguagesAsync"/>
@@ -86,7 +100,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <summary>
         /// Translates a text string into the specified language.
         /// </summary>
-        /// <returns>A <see cref="TranslateResponse"/> object containing translated text and information.</returns>
+        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
         /// <param name="text">A string representing the text to translate.</param>
         /// <param name="from">A string representing the language code of the original text. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
         /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
@@ -99,16 +113,16 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>
-        Task<TranslateResponse> TranslateAsync(string text, string from, string to);
+        Task<TranslationResponse> TranslateAsync(string text, string from, string to);
 
         /// <summary>
         /// Translates a text string into the specified language.
         /// </summary>
-        /// <returns>A <see cref="TranslateResponse"/> object containing translated text and information.</returns>
+        /// <returns>A <see cref="TranslationResponse"/> object containing translated text and information.</returns>
         /// <param name="text">A string representing the text to translate.</param>
         /// <param name="to">A string representing the language code to translate the text into. The code must be present in the list of codes returned from the <see cref="GetLanguagesAsync"/> method. If the parameter is set to <strong>null</strong>, the language specified in the <seealso cref="Language"/> property will be used.</param>
         /// <exception cref="ArgumentNullException">
@@ -120,10 +134,10 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
         /// <exception cref="ArgumentException">The <paramref name="text"/> parameter is longer than 1000 characters.</exception>
         /// <exception cref="TranslatorServiceException">The provided <see cref="SubscriptionKey"/> isn't valid or has expired.</exception>
         /// <remarks><para>This method perform a non-blocking request for text translation.</para>
-        /// <para>For more information, go to https://docs.microsoft.com/en-us/azure/cognitive-services/translator/reference/v3-0-translate.
+        /// <para>For more information, go to https://docs.microsoft.com/azure/cognitive-services/translator/reference/v3-0-translate.
         /// </para>
         /// </remarks>
         /// <seealso cref="Language"/>
-        Task<TranslateResponse> TranslateAsync(string text, string to = null);
+        Task<TranslationResponse> TranslateAsync(string text, string to = null);
     }
 }

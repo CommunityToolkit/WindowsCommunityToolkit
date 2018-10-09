@@ -11,14 +11,14 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
     /// Strong type for Translate Response
     /// </summary>
     /// <seealso cref="ITranslatorService.TranslateAsync(string, string, string)"/>
-    public class TranslateResponse
+    public class TranslationResponse
     {
         /// <summary>
-        /// Gets or sets a <see cref="BaseDetectLanguage"/> object describing the detected language.
+        /// Gets or sets a <see cref="DetectLanguageBase"/> object describing the detected language.
         /// </summary>
         /// <remarks>This property has a value only when the <see cref="ITranslatorService.TranslateAsync(string, string)"/> method is invoked without the <strong>from</strong> parameter, so that automatic language detection is applied to determine the source language.
         /// </remarks>
-        public BaseDetectLanguage DetectedLanguage { get; set; }
+        public DetectLanguageBase DetectedLanguage { get; set; }
 
         /// <summary>
         /// Gets or sets an array of translation results.

@@ -8,7 +8,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
     /// Strong type for Detect Language
     /// </summary>
     /// <seealso cref="ITranslatorService.DetectLanguageAsync(string)"/>
-    public class DetectLanguage : BaseDetectLanguage
+    public class DetectLanguage : DetectLanguageBase
     {
         /// <summary>
         /// Gets or sets a value indicating whether the detected language is one of the languages supported for text translation.
