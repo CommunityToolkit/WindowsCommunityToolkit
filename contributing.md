@@ -47,9 +47,6 @@ PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
 
-### What about the t-shirt?
-Did your contribute but didn't get the t-shirt? Then make sure to fill out [this form](https://1drv.ms/xs/s!AjZLNGpIZBbgr7ZvtqjV-LcgdRcc7A).
-
 ## <a name="xaml"></a> Quality assurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:
  * Your control must be usable and efficient with keyboard only

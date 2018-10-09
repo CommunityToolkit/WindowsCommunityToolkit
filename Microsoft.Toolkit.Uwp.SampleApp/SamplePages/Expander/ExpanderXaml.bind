@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
   <Page.Resources>
-    <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
+    <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
   </Page.Resources>
 
   <Grid>
