@@ -11,7 +11,7 @@
         <Setter Property="FontWeight" Value="Normal" />
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="TextWrap" Value="NoWrap" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemColorWindowTextColor}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemColorButtonTextBrush}" />
         <Setter Property="TextOrientation" Value="Vertical" />
         <Setter Property="TextLocale" Value="en-US" />
         <Setter Property="AutomationProperties.Name" Value="{TemplateBinding Text}" />
@@ -19,7 +19,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DirectWriteTextBlock">
-                    <Image x:Name="Image" Stretch="None" />
+                    <Image x:Name="Image" Stretch="None" 
+                        AutomationProperties.Name="{TemplateBinding Text}"
+                        AutomationProperties.AccessibilityView="Raw" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
