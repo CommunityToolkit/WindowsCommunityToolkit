@@ -167,9 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected static readonly DependencyProperty ValueAngleProperty =
             DependencyProperty.Register(nameof(ValueAngle), typeof(double), typeof(RadialGauge), new PropertyMetadata(null));
 
-        // High-contrast accessibility
-        private static readonly ThemeListener ThemeListener = new ThemeListener();
-
         // Template Parts.
         private const string ContainerPartName = "PART_Container";
         private const string ScalePartName = "PART_Scale";
@@ -179,6 +176,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
 
+        // High-contrast accessibility
+        private static readonly ThemeListener ThemeListener = new ThemeListener();
         private SolidColorBrush _needleBrush;
         private Brush _trailBrush;
         private Brush _scaleBrush;
@@ -504,100 +503,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Apply color scheme.
-            if (ThemeListener.IsHighContrast)
-            {
-                OnColorsChanged();
-            }
-            else
-            {
-                OnFaceChanged(this);
-            }
+            OnColorsChanged();
 
             base.OnApplyTemplate();
-        }
-
-        private void OnColorsChanged()
-        {
-            if (ThemeListener.IsHighContrast)
-            {
-                // Apply High Contrast Theme.
-                if (ThemeAccentBrush is SolidColorBrush highlightBrush)
-                {
-                    NeedleBrush = highlightBrush;
-                    TrailBrush = highlightBrush;
-                }
-
-                if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
-                {
-                    ScaleBrush = backgroundBrush;
-                    ScaleTickBrush = backgroundBrush;
-                }
-
-                if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
-                {
-                    TickBrush = foregroundBrush;
-                    Foreground = foregroundBrush;
-                }
-            }
-            else
-            {
-                // Apply User Defined or Default Theme.
-                if (_needleBrush == null)
-                {
-                    ClearValue(NeedleBrushProperty);
-                }
-                else
-                {
-                    NeedleBrush = _needleBrush;
-                }
-
-                if (_trailBrush == null)
-                {
-                    ClearValue(TrailBrushProperty);
-                }
-                else
-                {
-                    TrailBrush = _trailBrush;
-                }
-
-                if (_scaleBrush == null)
-                {
-                    ClearValue(ScaleBrushProperty);
-                }
-                else
-                {
-                    ScaleBrush = _scaleBrush;
-                }
-
-                if (_scaleTickBrush == null)
-                {
-                    ClearValue(ScaleTickBrushProperty);
-                }
-                else
-                {
-                    ScaleTickBrush = _scaleTickBrush;
-                }
-
-                if (_foreground == null)
-                {
-                    ClearValue(ForegroundProperty);
-                }
-                else
-                {
-                    Foreground = _foreground;
-                }
-
-                if (_tickBrush == null)
-                {
-                    ClearValue(TickBrushProperty);
-                }
-                else
-                {
-                    TickBrush = _tickBrush;
-                }
-            }
-
-            OnScaleChanged(this);
         }
 
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -799,6 +707,90 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             radialGauge._root.Children.InsertAtTop(radialGauge._needle);
 
             OnValueChanged(radialGauge);
+        }
+
+        private void OnColorsChanged()
+        {
+            if (ThemeListener.IsHighContrast)
+            {
+                // Apply High Contrast Theme.
+                if (ThemeAccentBrush is SolidColorBrush highlightBrush)
+                {
+                    NeedleBrush = highlightBrush;
+                    TrailBrush = highlightBrush;
+                }
+
+                if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
+                {
+                    ScaleBrush = backgroundBrush;
+                    ScaleTickBrush = backgroundBrush;
+                }
+
+                if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
+                {
+                    TickBrush = foregroundBrush;
+                    Foreground = foregroundBrush;
+                }
+            }
+            else
+            {
+                // Apply User Defined or Default Theme.
+                if (_needleBrush == null)
+                {
+                    ClearValue(NeedleBrushProperty);
+                }
+                else
+                {
+                    NeedleBrush = _needleBrush;
+                }
+
+                if (_trailBrush == null)
+                {
+                    ClearValue(TrailBrushProperty);
+                }
+                else
+                {
+                    TrailBrush = _trailBrush;
+                }
+
+                if (_scaleBrush == null)
+                {
+                    ClearValue(ScaleBrushProperty);
+                }
+                else
+                {
+                    ScaleBrush = _scaleBrush;
+                }
+
+                if (_scaleTickBrush == null)
+                {
+                    ClearValue(ScaleTickBrushProperty);
+                }
+                else
+                {
+                    ScaleTickBrush = _scaleTickBrush;
+                }
+
+                if (_foreground == null)
+                {
+                    ClearValue(ForegroundProperty);
+                }
+                else
+                {
+                    Foreground = _foreground;
+                }
+
+                if (_tickBrush == null)
+                {
+                    ClearValue(TickBrushProperty);
+                }
+                else
+                {
+                    TickBrush = _tickBrush;
+                }
+            }
+
+            OnScaleChanged(this);
         }
 
         private void RadialGauge_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
