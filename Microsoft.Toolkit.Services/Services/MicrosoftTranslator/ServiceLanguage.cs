@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             Code = code;
             Name = name;
             NativeName = nativeName ?? name;
-            Directionality = directionality ?? "rtl";
+            Directionality = directionality ?? "ltr";
         }
     }
 }
