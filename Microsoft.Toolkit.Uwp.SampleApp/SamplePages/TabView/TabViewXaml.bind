@@ -4,6 +4,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
   
   <Page.Resources>
@@ -33,8 +34,7 @@
       </controls:TabView.LeftHeaderTemplate>      
     
       <!-- Tabs -->
-      <controls:TabViewItem Header="Home" HeaderIcon="Home" 
-                            IsClosable="False">
+      <controls:TabViewItem Header="Home" HeaderIcon="Home">
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Ignored">
@@ -43,10 +43,11 @@
         </controls:TabViewItem.HeaderTemplate>
         <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Tab 3" HeaderIcon="Video">
+      <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"
+                            IsClosable="{ex:NullableBool Value=True}">
         <TextBlock Padding="16">Try closing and re-ordering the tabs.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Not Closable">
+      <controls:TabViewItem Header="Not Closable" IsClosable="{ex:NullableBool Value=True}">
         <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
       </controls:TabViewItem>
     

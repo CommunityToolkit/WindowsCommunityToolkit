@@ -102,7 +102,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return new TabViewItem()
             {
-                HeaderTemplate = ItemHeaderTemplate
+                HeaderTemplate = ItemHeaderTemplate,
+                IsClosable = CanCloseTabs
             };
         }
 
@@ -306,6 +307,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (tvi.HeaderTemplate == null)
             {
                 tvi.HeaderTemplate = ItemHeaderTemplate;
+            }
+
+            if (tvi.IsClosable == null)
+            {
+                tvi.IsClosable = CanCloseTabs;
             }
 
             base.PrepareContainerForItemOverride(element, item);

@@ -82,6 +82,7 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="CanCloseTabs" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />

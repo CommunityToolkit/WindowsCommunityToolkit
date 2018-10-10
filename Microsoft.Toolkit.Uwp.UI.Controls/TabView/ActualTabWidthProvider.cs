@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // If it's selected leave extra room for close button and add right-margin.
-                yield return (tab.IsSelected && tab.IsClosable ? TabCloseMargin : 0) + size;
+                yield return (tab.IsSelected && tab.IsClosable == true ? TabCloseMargin : 0) + size;
             }
         }
 

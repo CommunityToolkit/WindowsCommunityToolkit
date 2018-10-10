@@ -110,6 +110,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(IsAddTabButtonVisible), typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
         /// <summary>
+        /// Gets or sets a value indicating whether by default a Tab can be closed or not if no value to <see cref="TabViewItem.IsClosable"/> is provided.
+        /// </summary>
+        public bool CanCloseTabs
+        {
+            get { return (bool)GetValue(CanCloseTabsProperty); }
+            set { SetValue(CanCloseTabsProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="CanCloseTabs"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="CanCloseTabs"/> dependency property.</returns>
+        public static readonly DependencyProperty CanCloseTabsProperty =
+            DependencyProperty.Register(nameof(CanCloseTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets or sets the implementer of <see cref="ITabWidthProvider"/> interface to provide widths of tabs for <see cref="TabView"/>.
         /// </summary>
         public ITabWidthProvider TabWidthProvider
