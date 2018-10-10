@@ -130,6 +130,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            if (_parentMenu?.CurrentFlyoutPlacement != null)
+            {
+                MenuFlyout.Placement = _parentMenu.CurrentFlyoutPlacement.Value;
+            }
+
             UpdateEnabledVisualState();
 
             base.OnApplyTemplate();
