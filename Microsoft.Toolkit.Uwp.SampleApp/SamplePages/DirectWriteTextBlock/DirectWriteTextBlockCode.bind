@@ -5,15 +5,23 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls.WinRT"
     mc:Ignorable="d">
-  
+
     <Grid>
-        <controls:DirectWriteTextBlock 
-            Text="@[Text:String:Windows Community Toolkit]"
-            FontFamily="@[FontFamily:String:Segoe UI]"
-            FontWeight="@[FontWeight:String:Normal]"
-            FontStyle="@[FontStyle:Enum:FontStyle.Normal]"
-            FontStretch="@[FontStretch:Enum:FontStretch.Normal]"
-            TextOrientation="@[TextOrientation:Enum:Orientation.Vertical]"
-            FontSize="@[FontSize:Slider:15:1-100]" />
+        <StackPanel Background="@[ContainerBackground:String:Black]">
+            <TextBlock Text="This is a standard XAML Textblock for comparison."
+                FontFamily="@[FontFamily:String:Segoe UI]"
+                FontWeight="@[FontWeight:String:Normal]"
+                FontStyle="@[FontStyle:Enum:FontStyle.Normal]"
+                FontStretch="@[FontStretch:Enum:FontStretch.Normal]"
+                FontSize="@[FontSize:Slider:15:1-100]" />
+            <controls:DirectWriteTextBlock
+                Text="@[Text:String:Windows Community Toolkit]"
+                FontFamily="@[FontFamily:String:Segoe UI]"
+                FontWeight="@[FontWeight:String:Normal]"
+                FontStyle="@[FontStyle:Enum:FontStyle.Normal]"
+                FontStretch="@[FontStretch:Enum:FontStretch.Normal]"
+                TextOrientation="@[TextOrientation:Enum:Orientation.Vertical]"
+                FontSize="@[FontSize:Slider:15:1-100]" />
+        </StackPanel>
     </Grid>
 </Page>

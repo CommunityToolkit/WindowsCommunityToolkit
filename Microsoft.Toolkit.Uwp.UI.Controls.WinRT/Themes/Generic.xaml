@@ -19,12 +19,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DirectWriteTextBlock">
-                    <Image x:Name="Image" Stretch="None" 
-                        AutomationProperties.Name="{TemplateBinding Text}"
-                        AutomationProperties.AccessibilityView="Raw" />
+                    <Border x:Name="TextBackground"
+                            Background="{TemplateBinding Background}"
+                            AutomationProperties.AccessibilityView="Raw">
+                        <Image x:Name="Image" Stretch="None" 
+                            AutomationProperties.Name="{TemplateBinding Text}"
+                            AutomationProperties.AccessibilityView="Raw" />
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
 </ResourceDictionary>
