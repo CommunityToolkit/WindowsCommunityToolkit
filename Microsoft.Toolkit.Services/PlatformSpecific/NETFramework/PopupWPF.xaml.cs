@@ -27,8 +27,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         public Uri actualUrl;
         private string callbackHost;
 
-        public Func<object, object, object> FormClosed { get; internal set; }
-
         public PopupWPF(Uri callbackUrl)
         {
             InitializeComponent();
