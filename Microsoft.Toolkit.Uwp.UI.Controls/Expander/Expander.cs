@@ -146,6 +146,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void OnContentOverlayChanged()
+        {
+            UpdateOverlayAlignment();
+        }
+
         private void OnDisplayModeOrIsExpandedChanged(bool useTransitions = true)
         {
             UpdateDisplayModeOrExpanderDirection(useTransitions);
@@ -174,6 +179,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!string.IsNullOrWhiteSpace(visualState))
             {
                 VisualStateManager.GoToState(this, visualState, useTransitions);
+            }
+
+            UpdateOverlayAlignment();
+        }
+
+        private void UpdateOverlayAlignment()
+        {
+            var rootGrid = GetTemplateChild(RootGridPart) as Grid;
+
+            if (rootGrid != null)
+            {
+                switch (ExpandDirection)
+                {
+                    case ExpandDirection.Left:
+                        rootGrid.VerticalAlignment = VerticalAlignment.Stretch;
+                        rootGrid.HorizontalAlignment =
+                            (ContentOverlay == null && !IsExpanded) ? HorizontalAlignment.Right : HorizontalAlignment.Stretch;
+                        break;
+                    case ExpandDirection.Down:
+                        rootGrid.VerticalAlignment =
+                            (ContentOverlay == null && !IsExpanded) ? VerticalAlignment.Top : VerticalAlignment.Stretch;
+                        rootGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        break;
+                    case ExpandDirection.Right:
+                        rootGrid.VerticalAlignment = VerticalAlignment.Stretch;
+                        rootGrid.HorizontalAlignment =
+                            (ContentOverlay == null && !IsExpanded) ? HorizontalAlignment.Left : HorizontalAlignment.Stretch;
+                        break;
+                    case ExpandDirection.Up:
+                        rootGrid.VerticalAlignment =
+                            (ContentOverlay == null && !IsExpanded) ? VerticalAlignment.Bottom : VerticalAlignment.Stretch;
+                        rootGrid.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        break;
+                }
             }
         }
 
