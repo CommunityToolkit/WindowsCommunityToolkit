@@ -18,18 +18,18 @@ namespace Microsoft.Toolkit.Services.Weibo
     /// </summary>
     internal class WeiboOAuthRequest
     {
-        private static HttpClient client;
+        private static HttpClient _client;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeiboOAuthRequest"/> class.
         /// </summary>
         public WeiboOAuthRequest()
         {
-            if (client == null)
+            if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.AutomaticDecompression = DecompressionMethods.GZip;
-                client = new HttpClient(handler);
+                _client = new HttpClient(handler);
             }
         }
 
@@ -55,8 +55,9 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                 request.RequestUri = requestUriBuilder.Uri;
 
-                using (HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false))
+                using (HttpResponseMessage response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
+                    response.ThrowIfNotValid();
                     return ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
@@ -92,7 +93,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                     request.Content = formUrlEncodedContent;
 
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
@@ -148,7 +149,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                                 request.Content = multipartFormDataContent;
 
-                                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
@@ -177,9 +178,12 @@ namespace Microsoft.Toolkit.Services.Weibo
 
         private string ProcessError(string content)
         {
-            if (content.StartsWith("\"error\":"))
+            if (content.StartsWith("{\"error\":"))
             {
-                WeiboError error = JsonConvert.DeserializeObject<WeiboError>(content);
+                WeiboError error = JsonConvert.DeserializeObject<WeiboError>(content, new JsonSerializerSettings()
+                {
+                    Error = (sender, args) => throw new JsonException("Invalid Weibo error response!", args.ErrorContext.Error)
+                });
 
                 throw new WeiboException { Error = error };
             }
