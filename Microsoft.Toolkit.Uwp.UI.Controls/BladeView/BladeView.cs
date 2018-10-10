@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             BladeItem blade = item as BladeItem;
             if (blade == null)
             {
-                blade = ContainerFromItem(item) as BladeItem;
+                blade = (BladeItem)ContainerFromItem(item);
             }
 
             return blade;
