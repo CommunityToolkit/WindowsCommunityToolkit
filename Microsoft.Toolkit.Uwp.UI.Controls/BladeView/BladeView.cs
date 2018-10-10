@@ -183,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (BladeMode == BladeMode.Fullscreen)
             {
-                var bladeItem = (BladeItem)ContainerFromItem(sender[(int)e.Index]);
+                var bladeItem = GetBladeItem(sender[(int)e.Index]);
                 if (bladeItem != null)
                 {
                     if (!_cachedBladeItemSizes.ContainsKey(bladeItem))
