@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty FontFamilyProperty =
             DependencyProperty.Register(
-                "FontFamily",
+                DATAGRIDTEXTCOLUMN_fontFamilyName,
                 typeof(FontFamily),
                 typeof(DataGridTextColumn),
                 new PropertyMetadata(null, OnFontFamilyPropertyChanged));

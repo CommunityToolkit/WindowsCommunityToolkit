@@ -4,18 +4,15 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -46,8 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the ItemsSource dependency property.
         /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", typeof(IEnumerable), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(IEnumerable), OnItemSourcePropertyChanged));
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_itemsSourceName,
+                typeof(IEnumerable),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(default(IEnumerable), OnItemSourcePropertyChanged));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the ComboBox while in editing mode.
@@ -67,8 +68,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the DisplayMemberPath dependency property.
         /// </summary>
-        public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
-            "DisplayMemberPath", typeof(string), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty DisplayMemberPathProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_displayMemberPathName,
+                typeof(string),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Gets or sets the name or path of the property that is displayed in the ComboBox.
@@ -91,8 +96,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the FontFamily dependency property.
         /// </summary>
-        public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
-                "FontFamily", typeof(FontFamily), typeof(DataGridComboBoxColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
+        public static readonly DependencyProperty FontFamilyProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_fontFamilyName,
+                typeof(FontFamily),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
         private static void OnFontFamilyPropertyChanged(DependencyObject comboBoxColumnDependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -205,11 +214,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (dataItem != null)
             {
-                var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
+                var value = dataItem.GetType().GetProperty(this.Binding.Path.Path).GetValue(dataItem);
 
-               var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value))
-                    : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
+               var selection = !string.IsNullOrEmpty(this.DisplayMemberPath)
+                    ? this.ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(this.Binding.Path.Path).GetValue(x).Equals(value))
+                    : this.ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -258,18 +267,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (item != null)
                 {
                     var newValue = !string.IsNullOrEmpty(this.DisplayMemberPath)
-                        ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
+                        ? item.GetType().GetProperty(this.Binding.Path.Path).GetValue(item)
                         : item;
 
                     if (dataItem != null)
                     {
-                        dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
+                        dataItem.GetType().GetProperty(this.Binding.Path.Path).SetValue(dataItem, newValue);
                     }
                     else
                     {
                         var dataType = this.OwningGrid.ItemsSource.GetItemType();
                         var newDataItem = Activator.CreateInstance(dataType);
-                        dataType.GetProperty(Binding.Path.Path).SetValue(newDataItem, newValue);
+                        dataType.GetProperty(this.Binding.Path.Path).SetValue(newDataItem, newValue);
                         dataItem = newDataItem;
                     }
                 }
@@ -287,9 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);
-
             EnsureDisplayMemberPathExists();
-
             EnsureItemsSourceBinding();
 
             var textBlockElement = new TextBlock
@@ -322,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (this.Binding != null && EnsureOwningGrid())
             {
-                if (string.IsNullOrEmpty(DisplayMemberPath))
+                if (string.IsNullOrEmpty(this.DisplayMemberPath))
                 {
                     textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
                 }
@@ -345,8 +352,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var comboBox = editingElement as ComboBox;
             if (comboBox != null && uneditedValue != null)
             {
-                var value = uneditedValue.GetType().GetProperty(Binding.Path.Path).GetValue(uneditedValue);
-                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var value = uneditedValue.GetType().GetProperty(this.Binding.Path.Path).GetValue(uneditedValue);
+                var selection = this.ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(this.Binding.Path.Path).GetValue(x).Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -525,6 +532,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (this.OwningGrid != _owningGrid)
                 {
                     _owningGrid = this.OwningGrid;
+                    _owningGrid.Columns.CollectionChanged += new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
                     _owningGrid.LoadingRow += OwningGrid_LoadingRow;
                     _owningGrid.CellEditEnded += OwningGrid_CellEditEnded;
                 }
@@ -545,11 +553,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDisplayMemberPathValue(e.Row);
         }
 
+        private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Contains(this) && _owningGrid != null)
+            {
+                _owningGrid.Columns.CollectionChanged -= new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
+                _owningGrid.LoadingRow -= OwningGrid_LoadingRow;
+                _owningGrid.CellEditEnded -= OwningGrid_CellEditEnded;
+                _owningGrid = null;
+            }
+        }
+
         private void SetDisplayMemberPathValue(DataGridRow row)
         {
-            if (this.OwningGrid != null && !string.IsNullOrEmpty(DisplayMemberPath))
+            if (this.OwningGrid != null && !string.IsNullOrEmpty(this.DisplayMemberPath))
             {
-                var textBlock = this.GetCellContent(row) as TextBlock;
+                var textBlock = GetCellContent(row) as TextBlock;
                 if (textBlock != null)
                 {
                     var displayValue = GetDisplayValue(row.DataContext);
@@ -561,13 +580,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private string GetDisplayValue(object dataItem)
         {
-            if (Binding?.Path != null && dataItem != null)
+            if (this.Binding?.Path != null && dataItem != null)
             {
-                var value = dataItem.GetType().GetProperty(Binding.Path.Path).GetValue(dataItem);
+                var value = dataItem.GetType().GetProperty(this.Binding.Path.Path).GetValue(dataItem);
 
-                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(Binding.Path.Path).GetValue(x).Equals(value));
+                var item = this.ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(this.Binding.Path.Path).GetValue(x).Equals(value));
 
-                var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
+                var displayValue = item?.GetType().GetProperty(this.DisplayMemberPath).GetValue(item) ?? string.Empty;
 
                 return displayValue as string ?? displayValue.ToString();
             }
@@ -577,44 +596,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnsureColumnBinding(object dataItem)
         {
-            if (Binding?.Path == null)
+            if (this.Binding?.Path == null)
             {
-                if (!string.IsNullOrEmpty(Header as string))
+                if (!string.IsNullOrEmpty(this.Header as string))
                 {
-                    throw new ArgumentException($"Binding for column \"{Header}\" is null. Ensure that the binding path has been set correctly.");
+                    throw DataGridError.DataGridComboBoxColumn.UnsetBinding(this.Header as string);
                 }
 
-                throw new ArgumentException($"Binding for column of type {this.GetType()} is null. Ensure that the binding path has been set correctly.");
+                throw DataGridError.DataGridComboBoxColumn.UnsetBinding(GetType());
             }
 
             if (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(this.Binding.Path.Path)) ?? false)
             {
-                throw new ArgumentException($"Binding path {this.Binding.Path.Path} could not be found in type {dataItem.GetType()}. Ensure that the binding path has been set correctly.");
+                throw DataGridError.DataGridComboBoxColumn.UnknownBindingPath(this.Binding, dataItem.GetType());
             }
         }
 
         private void EnsureDisplayMemberPathExists()
         {
-            if (!string.IsNullOrEmpty(DisplayMemberPath))
+            if (!string.IsNullOrEmpty(this.DisplayMemberPath))
             {
-                var type = ItemsSource?.GetItemType();
+                var type = this.ItemsSource?.GetItemType();
 
-                if (ItemsSource != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
+                if (this.ItemsSource != null && !type.GetProperties().Any(x => x.Name.Equals(this.DisplayMemberPath)))
                 {
-                    throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {type}. Ensure that the value has been set correctly and note that for built-in types DisplayMemberPath should not be used.");
+                    throw DataGridError.DataGridComboBoxColumn.UnknownDisplayMemberPath(this.DisplayMemberPath, type);
                 }
             }
         }
 
         private void EnsureItemsSourceBinding()
         {
-            if (!string.IsNullOrEmpty(DisplayMemberPath) && ItemsSource != null)
+            if (!string.IsNullOrEmpty(this.DisplayMemberPath) && this.ItemsSource != null)
             {
-                var item = ItemsSource.Cast<object>().FirstOrDefault();
+                var item = this.ItemsSource.Cast<object>().FirstOrDefault();
 
-                if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(Binding.Path.Path)))
+                if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(this.Binding.Path.Path)))
                 {
-                    throw new ArgumentException($"The ItemsSource elements do not contain a property \"{Binding.Path.Path}\". Ensure that the binding path has been set correctly.");
+                    throw DataGridError.DataGridComboBoxColumn.UnknownItemsSourcePath(this.Binding);
                 }
             }
         }
