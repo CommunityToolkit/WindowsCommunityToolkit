@@ -121,11 +121,10 @@ Size DirectWriteTextBlock::MeasureOverride(Size availableSize)
     auto args = builder.BuildRenderArgs();
     UpdateElementsForHighContrast();
 
-    // have to do this in order to modify the image measure correctly.
     auto resultSize = RenderText(args);
-    m_image->Width = resultSize.Width;
-    m_image->Height = resultSize.Height;
-    m_image->Measure(availableSize);
+
+    // call __super::Measure after we've already set the source to the new image.
+    __super::MeasureOverride(availableSize);
     return resultSize;
 }
 
