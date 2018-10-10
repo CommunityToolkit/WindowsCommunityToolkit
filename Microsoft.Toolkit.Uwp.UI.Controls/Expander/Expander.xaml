@@ -3,7 +3,10 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
                     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
                     mc:Ignorable="d">
+
+    <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible" />
 
     <Style x:Key="HeaderToggleButtonStyle"
            TargetType="ToggleButton">
@@ -326,6 +329,7 @@
                                   Grid.ColumnSpan="2"
                                   HorizontalAlignment="Stretch"
                                   VerticalAlignment="Stretch"
+                                  Visibility="{Binding ContentOverlay, RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource NullToVisibilityConverter}}"
                                   Background="{TemplateBinding Background}">
                                   <ContentControl Content="{TemplateBinding ContentOverlay}"
                                                   HorizontalContentAlignment="Stretch"

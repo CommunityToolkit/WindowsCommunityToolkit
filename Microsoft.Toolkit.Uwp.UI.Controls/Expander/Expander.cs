@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
-    [TemplatePart(Name = ContentOverlayPart, Type = typeof(Grid))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : HeaderedContentControl
     {
@@ -57,7 +56,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             OnExpandDirectionChanged(false);
             OnDisplayModeOrIsExpandedChanged(false);
-            OnContentOverlayChanged();
         }
 
         /// <summary>
@@ -144,14 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (button.IsChecked.HasValue && button.IsChecked.Value)
             {
                 VisualStateManager.GoToState(button, "Checked", true);
-            }
-        }
-
-        private void OnContentOverlayChanged()
-        {
-            if (GetTemplateChild(ContentOverlayPart) is Grid contentOverlay)
-            {
-                contentOverlay.Visibility = ContentOverlay != null ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
