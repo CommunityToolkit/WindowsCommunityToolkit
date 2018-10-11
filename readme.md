@@ -165,12 +165,12 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
 
 ## Feedback and Requests
-Please use [GitHub Issues](https://github.com/Microsoft/WindowsCommunityToolkit/issues) for bug reports and feature requests.
+Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For feature requests, please also create an entry in our [UserVoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
 ## Contributing
-Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
 
 ## Principles
 * Principle **#1**: The toolkit will be kept simple.
@@ -182,7 +182,7 @@ to clarify expected behavior in our community.
 For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
 
 ## Roadmap
-Read what we [plan for next iterations](https://github.com/Microsoft/WindowsCommunityToolkit/milestones), and feel free to ask questions.
+Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
 
