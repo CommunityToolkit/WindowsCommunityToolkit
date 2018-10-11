@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
     /// </summary>
     public partial class PopupForm : Form
     {
-        // User agent to avoid incompatibilities with WebBrowser control
+   
         private string initialHost;
         private string callbackHost;
 
