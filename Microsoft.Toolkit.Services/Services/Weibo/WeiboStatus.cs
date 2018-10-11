@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Gets or sets the Reposted Weibo status
         /// </summary>
         [JsonProperty("retweeted_status")]
-        public WeiboStatus RetweetedStatus { get; set; }
+        public WeiboStatus RepostedStatus { get; set; }
 
         /// <summary>
         /// Gets or sets the repost count
