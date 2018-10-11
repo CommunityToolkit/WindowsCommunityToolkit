@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,15 +21,22 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
     /// </summary>
     public partial class PopupWPF : Window
     {
-
         private string initialHost;
-        public Uri actualUrl;
         private string callbackHost;
 
+        /// <summary>
+        /// Gets or sets the current URL before closing the form
+        /// </summary>
+        public Uri ActualUrl { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PopupWPF"/> class.
+        /// </summary>
+        /// <param name="callbackUrl">Uri callback url</param>
         public PopupWPF(Uri callbackUrl)
         {
             InitializeComponent();
-         
+
             WebView1.NavigationStarting += WebViewNavigationStarting;
             callbackHost = GetTopLevelDomain(callbackUrl);
         }
@@ -41,19 +47,22 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             {
                 if (GetTopLevelDomain(e.Uri) == callbackHost)
                 {
-                    actualUrl = e.Uri;
+                    ActualUrl = e.Uri;
                 }
 
                 this.Close();
             }
         }
 
-        public void navigateTo(string url)
+        /// <summary>
+        /// Loads a given url in the WebView
+        /// </summary>
+        /// <param name="url">Url string to navigate to.</param>
+        public void NavigateTo(string url)
         {
             initialHost = GetTopLevelDomain(url);
             WebView1.Navigate(url);
         }
-
 
         private string GetTopLevelDomain(string url)
         {
@@ -72,4 +81,3 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         }
     }
 }
-

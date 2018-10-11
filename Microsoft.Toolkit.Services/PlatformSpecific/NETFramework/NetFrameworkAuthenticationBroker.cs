@@ -40,11 +40,11 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             popupWindow = new PopupWPF(callbackUri);
             popupWindow.Closed += (sender, e) =>
             {
-                taskCompletionSource.SetResult(HandleExit(popupWindow.actualUrl));
+                taskCompletionSource.SetResult(HandleExit(popupWindow.ActualUrl));
             };
 
             popupWindow.Show();
-            popupWindow.navigateTo(requestUri.AbsoluteUri);
+            popupWindow.NavigateTo(requestUri.AbsoluteUri);
             return taskCompletionSource.Task;
         }
 
@@ -56,11 +56,11 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             popupForm.FormClosed += (sender, e) =>
             {
                
-            	taskCompletionSource.SetResult(HandleExit(popupForm.actualUrl));
+            	taskCompletionSource.SetResult(HandleExit(popupForm.ActualUrl));
             };
 
             popupForm.Show();
-            popupForm.navigateTo(requestUri.AbsoluteUri);
+            popupForm.NavigateTo(requestUri.AbsoluteUri);
             return taskCompletionSource.Task;
         }
 

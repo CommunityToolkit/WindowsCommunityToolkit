@@ -14,14 +14,14 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
     /// </summary>
     public partial class PopupForm : Form
     {
+        // User agent to avoid incompatibilities with WebBrowser control
         private string initialHost;
-
-        public Uri actualUrl;
         private string callbackHost;
+
         /// <summary>
-        /// Gets or sets the actual url.
+        /// Gets or sets the current URL before closing the form
         /// </summary>
-        public Uri ActualUrl { get => actualUrl; set => actualUrl = value; }
+        public Uri ActualUrl { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PopupForm"/> class.
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         /// Loads a given url in the WebBrowser
         /// </summary>
         /// <param name="url">Url string to navigate to.</param>
-        public void navigateTo(string url)
+        public void NavigateTo(string url)
         {
             initialHost = GetTopLevelDomain(url);
             webBrowser1.Navigate(url);
