@@ -283,10 +283,10 @@ void DirectWriteRenderArgBuilder::BuildFontCollection(Platform::String^ fontFami
         // the key is a void* meaning the size is actual size.
         auto fontFamilyString = fontFamily->Data();
         auto fontFamilySize = fontFamily->Length() * sizeof(wchar_t);
-        dwriteFactory->CreateCustomFontCollection(customLoader.get(), fontFamilyString, fontFamilySize, m_builtArgs.fontCollection.put());
+        dwriteFactory->CreateCustomFontCollection(customLoader.get(), fontFamilyString, static_cast<unsigned int>(fontFamilySize), m_builtArgs.fontCollection.put());
 
         // set font family to the parsed font family.
-        m_builtArgs.fontFamily = ref new String(parseData.customFontName.data(), parseData.customFontName.size());
+        m_builtArgs.fontFamily = ref new String(parseData.customFontName.data(), static_cast<unsigned int>(parseData.customFontName.size()));
     }
     else
     {

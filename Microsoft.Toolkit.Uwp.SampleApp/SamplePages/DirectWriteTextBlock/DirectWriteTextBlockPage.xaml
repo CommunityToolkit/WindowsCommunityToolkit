@@ -10,6 +10,9 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <controls:DirectWriteTextBlock />
+        <StackPanel>
+            <TextBlock Text="This is a standard XAML Textblock for comparison."/>
+            <controls:DirectWriteTextBlock />
+        </StackPanel>
     </Grid>
 </Page>

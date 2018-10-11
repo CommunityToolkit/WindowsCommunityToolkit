@@ -332,8 +332,8 @@
         "About": "TODO",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.WinRT/DirectWriteTextBlock",
         "XamlCodeFile": "DirectWriteTextBlockCode.bind",
-        // TODO: "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
-        // TODO: check for API needed in 17734 "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
+        "Icon": "/SamplePages/DirectWriteTextBlock/DirectWriteTextBlock.png",
+        "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "April 2018 Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/DirectWriteTextBlock.md"
       }

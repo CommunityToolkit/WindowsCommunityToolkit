@@ -9,18 +9,29 @@
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FFF6F8FA" />
             <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FFDDDFE1" />
             <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FF6E747C" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="#FFF6F8FA" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
             <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
             <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="#FF202020" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
+            <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
+            <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
+   
     <Style TargetType="controls:MarkdownTextBlock">
+        <Setter Property="Background" Value="{ThemeResource MarkdownRichTextBlockBackground}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="LinkForeground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Setter Property="LinkForeground" Value="{ThemeResource SystemColorHotlightColor}" />
         <Setter Property="QuoteBackground" Value="Transparent" />
         <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownQuoteForeground}" />
         <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />

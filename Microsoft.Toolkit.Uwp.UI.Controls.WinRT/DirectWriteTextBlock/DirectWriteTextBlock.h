@@ -83,13 +83,18 @@ protected:
     Windows::Foundation::Size MeasureOverride(Windows::Foundation::Size availableSize) override;
 
 private:
-    static void OnDependencyPropertyChanged(Windows::UI::Xaml::DependencyObject^ d, Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e);
-    static void OnInheritedDependencyPropertyChanged(Windows::UI::Xaml::DependencyObject^ d, Windows::UI::Xaml::DependencyProperty^ e);
-    void OnDpiChanged(Windows::Graphics::Display::DisplayInformation^ displayInfo, Platform::Object^ obj);
+    static void OnDependencyPropertyChanged(_In_ Windows::UI::Xaml::DependencyObject^ d, _In_ Windows::UI::Xaml::DependencyPropertyChangedEventArgs^ e);
+    static void OnInheritedDependencyPropertyChanged(_In_ Windows::UI::Xaml::DependencyObject^ d, _In_ Windows::UI::Xaml::DependencyProperty^ e);
+    void OnDpiChanged(_In_ Windows::Graphics::Display::DisplayInformation^ displayInfo, _In_ Platform::Object^ obj);
+    void OnHighContrastSettingsChanged(_In_ Windows::UI::ViewManagement::AccessibilitySettings^ accessibilitySettings, _In_ Platform::Object^ obj);
     Windows::Foundation::Size RenderText(DirectWriteTextRenderArgs const& args);
     void Close();
+    void UpdateTextBrushesForHighContrast();
+    void UpdateElementsForHighContrast();
 
     Windows::Foundation::EventRegistrationToken m_dpiChangedToken = {};
+    Windows::Foundation::EventRegistrationToken m_highContrastChangedToken = {};
+
     long long m_foregroundChangedToken = 0;
     long long m_fontSizeChangedToken = 0;
     long long m_fontFamilyChangedToken = 0;
@@ -98,7 +103,12 @@ private:
     long long m_fontWeightChangedToken = 0;
     long long m_fontStyleChangedToken = 0;
 
+    Windows::UI::ViewManagement::AccessibilitySettings^ m_accessibilitySettings;
     Windows::UI::Xaml::Controls::Image^ m_image;
+    Windows::UI::Xaml::Controls::Border^ m_textBackground;
+    Windows::UI::Xaml::Media::Brush^ m_textForegroundBrush;
+    Windows::UI::Xaml::Media::Brush^ m_textBackgroundBrush;
+    bool m_isHighContrast;
 };
 
 END_NAMESPACE_CONTROLS_WINRT

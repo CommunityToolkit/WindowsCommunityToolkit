@@ -19,6 +19,7 @@ using namespace Windows::UI::Xaml::Input;
 using namespace Windows::UI::Xaml::Interop;
 using namespace Windows::UI::Xaml::Media;
 using namespace Windows::UI::Xaml::Media::Imaging;
+using namespace Windows::UI::ViewManagement;
 
 DependencyProperty^ DirectWriteTextBlock::m_textProperty = DependencyProperty::Register(
     L"Text",
@@ -51,6 +52,10 @@ DirectWriteTextBlock::DirectWriteTextBlock()
     auto displayInfo = DisplayInformation::GetForCurrentView();
     m_dpiChangedToken = displayInfo->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectWriteTextBlock::OnDpiChanged);
 
+    m_accessibilitySettings = ref new AccessibilitySettings();
+    m_highContrastChangedToken = m_accessibilitySettings->HighContrastChanged += ref new TypedEventHandler<AccessibilitySettings^, Platform::Object^>(this, &DirectWriteTextBlock::OnHighContrastSettingsChanged);
+    m_isHighContrast = m_accessibilitySettings->HighContrast;
+
 #define REGISTER_INHERITED_PROPERTY_CALLBACK(token, inheritedProperty) \
     token = RegisterPropertyChangedCallback(inheritedProperty, ref new DependencyPropertyChangedCallback(&DirectWriteTextBlock::OnInheritedDependencyPropertyChanged))
 
@@ -75,16 +80,27 @@ void DirectWriteTextBlock::OnApplyTemplate()
     __super::OnApplyTemplate();
 
     auto maybeImage = dynamic_cast<Image^>(GetTemplateChild(L"Image"));
-    if (maybeImage == nullptr)
+    if (!maybeImage)
+    {
+        winrt::throw_hresult(E_NOT_VALID_STATE);
+    }
+
+    // this border is essentially just used to emulate the XAML text high contrast background.
+    // the consumer can use it to set background to the text block, but normally, it should just be
+    // left null.
+    auto maybeBorder = dynamic_cast<Border^>(GetTemplateChild(L"TextBackground"));
+    if (!maybeBorder)
     {
         winrt::throw_hresult(E_NOT_VALID_STATE);
     }
 
     m_image = maybeImage;
+    m_textBackground = maybeBorder;
 }
 
 Size DirectWriteTextBlock::MeasureOverride(Size availableSize)
 {
+    UpdateTextBrushesForHighContrast();
     auto displayInfo = DisplayInformation::GetForCurrentView();
     DirectWriteRenderArgBuilder builder;
     builder.SetAvailableHeight(availableSize.Height);
@@ -96,14 +112,48 @@ Size DirectWriteTextBlock::MeasureOverride(Size availableSize)
     builder.SetFontStretch(FontStretch);
     builder.SetFontStyle(FontStyle);
     builder.SetFontWeight(FontWeight);
-    builder.SetForegroundBrush(Foreground);
+    builder.SetForegroundBrush(m_textForegroundBrush);
     builder.SetText(Text);
     builder.SetTextLocale(TextLocale);
     builder.SetTextOrientation(TextOrientation);
     builder.SetTextWrapping(TextWrap);
 
     auto args = builder.BuildRenderArgs();
-    return RenderText(args);
+    UpdateElementsForHighContrast();
+
+    auto resultSize = RenderText(args);
+
+    // call __super::Measure after we've already set the source to the new image.
+    __super::MeasureOverride(availableSize);
+    return resultSize;
+}
+
+void DirectWriteTextBlock::UpdateTextBrushesForHighContrast()
+{
+    if (m_isHighContrast)
+    {
+        // XAML High Contrast TextBlock behavior emulation: XAML on high contrast basically sets
+        // a background to the TextBlock in order to get text to always appear in High Contrast.
+        // To emulate this, we basically look up the applicable text brushes from the system
+        // resource dictionary and override any foreground/background the user may have set like
+        // standard textblock would.
+        
+        auto resources = Application::Current->Resources;
+        auto highContrastForeground = static_cast<Windows::UI::Color>(resources->Lookup(L"SystemColorWindowTextColor"));
+        auto highContrastBackground = static_cast<Windows::UI::Color>(resources->Lookup(L"SystemColorWindowColor"));
+        m_textForegroundBrush = ref new SolidColorBrush(highContrastForeground);
+        m_textBackgroundBrush = ref new SolidColorBrush(highContrastBackground);
+    }
+    else
+    {
+        m_textForegroundBrush = this->Foreground;
+        m_textBackgroundBrush = this->Background;
+    }
+}
+
+void DirectWriteTextBlock::UpdateElementsForHighContrast()
+{
+    m_textBackground->Background = m_textBackgroundBrush;
 }
 
 void DirectWriteTextBlock::Close()
@@ -131,6 +181,12 @@ void DirectWriteTextBlock::Close()
         m_dpiChangedToken = {};
     }
 
+    if (m_highContrastChangedToken.Value != 0)
+    {
+        m_accessibilitySettings->HighContrastChanged -= m_highContrastChangedToken;
+        m_highContrastChangedToken = {};
+    }
+
 #undef UNREGISTER_INHERITED_PROPERTY_CALLBACK
 }
 
@@ -138,7 +194,7 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
 {
     if (args.text->IsEmpty())
     {
-        return Size{ 0, 0 };
+        return Size(0.0f, 0.0f);
     }
 
     auto resourceManager = DirectWriteResourceManager::GetInstance();
@@ -240,11 +296,12 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     }
 
     m_image->Source = imageSource;
+
     // XAML will rescale, so we divide by scale here.
     return Size{ static_cast<float>(sisWidth / scale), static_cast<float>(sisHeight / scale) };
 }
 
-void DirectWriteTextBlock::OnDependencyPropertyChanged(DependencyObject^ d, DependencyPropertyChangedEventArgs^ /* e */)
+void DirectWriteTextBlock::OnDependencyPropertyChanged(_In_ DependencyObject^ d, _In_ DependencyPropertyChangedEventArgs^ /* e */)
 {
     auto textBlockInstance = dynamic_cast<DirectWriteTextBlock^>(d);
     if (textBlockInstance)
@@ -253,7 +310,7 @@ void DirectWriteTextBlock::OnDependencyPropertyChanged(DependencyObject^ d, Depe
     }
 }
 
-void DirectWriteTextBlock::OnInheritedDependencyPropertyChanged(DependencyObject^ d, DependencyProperty^ /* e */)
+void DirectWriteTextBlock::OnInheritedDependencyPropertyChanged(_In_ DependencyObject^ d, _In_ DependencyProperty^ /* e */)
 {
     auto textBlockInstance = dynamic_cast<DirectWriteTextBlock^>(d);
     if (textBlockInstance)
@@ -262,8 +319,14 @@ void DirectWriteTextBlock::OnInheritedDependencyPropertyChanged(DependencyObject
     }
 }
 
-void DirectWriteTextBlock::OnDpiChanged(DisplayInformation^ /* displayInfo */, Object^ /* obj */)
+void DirectWriteTextBlock::OnDpiChanged(_In_ DisplayInformation^ /* displayInfo */, _In_ Object^ /* obj */)
 {
+    InvalidateMeasure();
+}
+
+void DirectWriteTextBlock::OnHighContrastSettingsChanged(_In_ AccessibilitySettings^ accessibilitySettings, _In_ Object^ /* obj */)
+{
+    m_isHighContrast = accessibilitySettings->HighContrast;
     InvalidateMeasure();
 }
 
