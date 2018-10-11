@@ -58,7 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
                 var device = CanvasDevice.GetSharedDevice();
                 var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
-
                 var surface = graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
 
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
@@ -97,5 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _surfaceBrush = null;
             }
         }
+
     }
 }

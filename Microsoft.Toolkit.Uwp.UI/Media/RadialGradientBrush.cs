@@ -7,6 +7,7 @@
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Brushes;
+using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -107,23 +108,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         private void RegisterAppResumeHandler()
         {
-            Application.Current.Resuming -= App_Resuming;
-            Application.Current.Resuming += App_Resuming;
+            var device = CanvasDevice.GetSharedDevice();
+            device.DeviceLost += RadialGradientBrush_DeviceLost;
+            CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device).RenderingDeviceReplaced += RadialGradientBrush_RenderingDeviceReplaced;
+        }
+
+        private void RadialGradientBrush_RenderingDeviceReplaced(Windows.UI.Composition.CompositionGraphicsDevice sender, Windows.UI.Composition.RenderingDeviceReplacedEventArgs args)
+        {
+            sender.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
+            OnConnected();
+            OnDisconnected();
+        }
+
+        private void RadialGradientBrush_DeviceLost(CanvasDevice sender, object args)
+        {
+            sender.DeviceLost -= RadialGradientBrush_DeviceLost;
+            OnConnected();
+            OnDisconnected();
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
         /// Removes the Application Resuming event handler.
         /// </summary>
-        ~RadialGradientBrush()
-        {
-            Application.Current.Resuming -= App_Resuming;
-        }
-
-        private void App_Resuming(object sender, object e)
-        {
-            OnDisconnected();
-            OnConnected();
-        }
     }
 }
