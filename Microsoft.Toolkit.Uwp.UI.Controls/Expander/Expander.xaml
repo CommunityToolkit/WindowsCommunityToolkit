@@ -42,7 +42,6 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <Style x:Key="HeaderToggleButtonStyle" TargetType="ToggleButton">
-        <!--Background="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"-->
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
@@ -116,7 +115,9 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Fill"
                                                                        Storyboard.TargetName="HoverPanel">
                                             <DiscreteObjectKeyFrame KeyTime="0"
-                                                                    Value="{ThemeResource SystemControlCheckedChromeBrush}" />
+                                                                    Value="{ThemeResource SystemControlCheckedChromeBrush}" /> 
+                                             <!--<DiscreteObjectKeyFrame KeyTime="0"
+                                                                    Value="{ThemeResource SystemControlHighlightListAccentLowBrush}" />--> 
                                         </ObjectAnimationUsingKeyFrames>
 
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
