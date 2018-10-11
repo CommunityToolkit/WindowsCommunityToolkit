@@ -90,9 +90,9 @@ namespace Microsoft.Toolkit.Services.LinkedIn
 
             Tokens = tokens ?? throw new ArgumentException("Invalid token");
             RequiredPermissions = requiredPermissions;
-            _authentication = new UwpAuthenticationBroker();
-            _storageManager = new UwpStorageManager();
-            _passwordManager = new UwpPasswordManager();
+            _authentication = new UwpAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _storageManager = new UwpStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
+            _passwordManager = new UwpPasswordManager() ?? throw new ArgumentException("Invalid PasswordManager");
         }
 #endif
 
@@ -107,9 +107,9 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         {
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
-            _authentication = new NetFrameworkAuthenticationBroker();
-            _storageManager = new NetFrameworkStorageManager();
-            _passwordManager = new NetFrameworkPasswordManager();
+            _authentication = new NetFrameworkAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _storageManager = new NetFrameworkStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
+            _passwordManager = new NetFrameworkPasswordManager() ?? throw new ArgumentException("Invalid PasswordManager");
         }
 #endif
 
