@@ -119,7 +119,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <!--  0 Left Header  -->
+                <!--  0 TabStartHeader  -->
                 <ColumnDefinition Width="Auto" />
                 <!--  1 Tabs  -->
                 <ColumnDefinition Width="Auto"
@@ -132,7 +132,7 @@
                 <!--  4 Padding  -->
                 <ColumnDefinition Width="*"
                                   local:TabView.IgnoreColumn="True" />
-                <!--  5 Right Header  -->
+                <!--  5 TabEndHeader  -->
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ContentPresenter Grid.Row="0"
@@ -142,8 +142,8 @@
 
             <ContentPresenter Grid.Row="1"
                               Grid.Column="0"
-                              Content="{TemplateBinding LeftHeader}"
-                              ContentTemplate="{TemplateBinding LeftHeaderTemplate}" />
+                              Content="{TemplateBinding TabStartHeader}"
+                              ContentTemplate="{TemplateBinding TabStartHeaderTemplate}" />
 
             <ScrollViewer x:Name="TabsScrollViewer"
                           Grid.Row="1"
@@ -183,8 +183,8 @@
 
             <ContentPresenter Grid.Row="1"
                               Grid.Column="5"
-                              Content="{TemplateBinding RightHeader}"
-                              ContentTemplate="{TemplateBinding RightHeaderTemplate}" />
+                              Content="{TemplateBinding TabEndHeader}"
+                              ContentTemplate="{TemplateBinding TabEndHeaderTemplate}" />
 
             <ContentPresenter x:Name="TabContentPresenter"
                               Grid.Row="2"

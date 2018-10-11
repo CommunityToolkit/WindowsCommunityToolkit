@@ -27,11 +27,11 @@
           <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
         </DataTemplate>
       </controls:TabView.HeaderTemplate>
-      <controls:TabView.LeftHeaderTemplate>
+      <controls:TabView.TabStartHeaderTemplate>
         <DataTemplate>
           <TextBlock Padding="16,0,12,0" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="Tabs"/>
         </DataTemplate>
-      </controls:TabView.LeftHeaderTemplate>      
+      </controls:TabView.TabStartHeaderTemplate>      
     
       <!-- Tabs -->
       <controls:TabViewItem Header="Home" HeaderIcon="Home">
@@ -51,13 +51,13 @@
         <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
       </controls:TabViewItem>
     
-      <controls:TabView.RightHeaderTemplate>
+      <controls:TabView.TabEndHeaderTemplate>
         <DataTemplate>
           <Button Width="44" Height="44" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
             <SymbolIcon Symbol="Setting"/>
           </Button>
         </DataTemplate>
-      </controls:TabView.RightHeaderTemplate>
+      </controls:TabView.TabEndHeaderTemplate>
     
       <controls:TabView.FooterTemplate>
         <DataTemplate>

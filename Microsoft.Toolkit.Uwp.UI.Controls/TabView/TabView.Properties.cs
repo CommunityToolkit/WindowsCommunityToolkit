@@ -16,66 +16,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the content to appear to the left or above the tab strip.
         /// </summary>
-        public object LeftHeader
+        public object TabStartHeader
         {
-            get { return (object)GetValue(LeftHeaderProperty); }
-            set { SetValue(LeftHeaderProperty, value); }
+            get { return (object)GetValue(TabStartHeaderProperty); }
+            set { SetValue(TabStartHeaderProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="LeftHeader"/> dependency property.
+        /// Identifies the <see cref="TabStartHeader"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="LeftHeader"/> dependency property.</returns>
-        public static readonly DependencyProperty LeftHeaderProperty =
-            DependencyProperty.Register(nameof(LeftHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+        /// <returns>The identifier for the <see cref="TabStartHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty TabStartHeaderProperty =
+            DependencyProperty.Register(nameof(TabStartHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="LeftHeader"/>.
+        /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabStartHeader"/>.
         /// </summary>
-        public DataTemplate LeftHeaderTemplate
+        public DataTemplate TabStartHeaderTemplate
         {
-            get { return (DataTemplate)GetValue(LeftHeaderTemplateProperty); }
-            set { SetValue(LeftHeaderTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(TabStartHeaderTemplateProperty); }
+            set { SetValue(TabStartHeaderTemplateProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="LeftHeaderTemplate"/> dependency property.
+        /// Identifies the <see cref="TabStartHeaderTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="LeftHeaderTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty LeftHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(LeftHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+        /// <returns>The identifier for the <see cref="TabStartHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty TabStartHeaderTemplateProperty =
+            DependencyProperty.Register(nameof(TabStartHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the content to appear to the right or below the tab strip.
         /// </summary>
-        public object RightHeader
+        public object TabEndHeader
         {
-            get { return (object)GetValue(RightHeaderProperty); }
-            set { SetValue(RightHeaderProperty, value); }
+            get { return (object)GetValue(TabEndHeaderProperty); }
+            set { SetValue(TabEndHeaderProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="RightHeader"/> dependency property.
+        /// Identifies the <see cref="TabEndHeader"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="RightHeader"/> dependency property.</returns>
-        public static readonly DependencyProperty RightHeaderProperty =
-            DependencyProperty.Register(nameof(RightHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+        /// <returns>The identifier for the <see cref="TabEndHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty TabEndHeaderProperty =
+            DependencyProperty.Register(nameof(TabEndHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="RightHeader"/>.
+        /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabEndHeader"/>.
         /// </summary>
-        public DataTemplate RightHeaderTemplate
+        public DataTemplate TabEndHeaderTemplate
         {
-            get { return (DataTemplate)GetValue(RightHeaderTemplateProperty); }
-            set { SetValue(RightHeaderTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(TabEndHeaderTemplateProperty); }
+            set { SetValue(TabEndHeaderTemplateProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="RightHeaderTemplate"/> dependency property.
+        /// Identifies the <see cref="TabEndHeaderTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="RightHeaderTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty RightHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(RightHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+        /// <returns>The identifier for the <see cref="TabEndHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty TabEndHeaderTemplateProperty =
+            DependencyProperty.Register(nameof(TabEndHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the default <see cref="DataTemplate"/> for the <see cref="TabViewItem.HeaderTemplate"/>.
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ItemHeaderTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="LeftHeaderTemplate"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="TabStartHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty ItemHeaderTemplateProperty =
             DependencyProperty.Register(nameof(ItemHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
