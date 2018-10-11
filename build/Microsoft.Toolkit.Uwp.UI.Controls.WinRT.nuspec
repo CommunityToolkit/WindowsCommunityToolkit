@@ -33,5 +33,8 @@
       <file src="..\Release\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.dll" target="runtimes\win10-x86\native"/>
       <file src="..\Release\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.pri" target="runtimes\win10-x86\native"/>
       <file src="..\Release\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Themes\Generic.xaml" target="runtimes\win10-x86\native\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Themes"/>
+
+      <!-- .targets -->
+      <file src="..\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.targets" target="build\native"/>
   </files>
 </package>
