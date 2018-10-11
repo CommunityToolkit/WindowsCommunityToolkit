@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
         /// <summary>
         /// Gets or sets a value indicating whether status is truncated
-        /// (true when tweet is longer than 140 characters)
+        /// (true when Weibo status is longer than 140 characters)
         /// This entity may be deprecated - it never seems to be set to true.
         /// </summary>
         [JsonProperty("truncated")]
@@ -88,16 +88,16 @@ namespace Microsoft.Toolkit.Services.Weibo
         public WeiboUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets the Retweeted Weibo status
+        /// Gets or sets the Reposted Weibo status
         /// </summary>
         [JsonProperty("retweeted_status")]
         public WeiboStatus RetweetedStatus { get; set; }
 
         /// <summary>
-        /// Gets or sets the retweet count
+        /// Gets or sets the repost count
         /// </summary>
         [JsonProperty("reposts_count")]
-        public int RetweetCount { get; set; }
+        public int RepostCount { get; set; }
 
         /// <summary>
         /// Gets or sets the comment count

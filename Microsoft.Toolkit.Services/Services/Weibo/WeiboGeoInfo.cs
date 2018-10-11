@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 namespace Microsoft.Toolkit.Services.Services.Weibo
 {
     /// <summary>
-    /// Geographic information for a tweet
+    /// Geographic information for a Weibo status
     /// </summary>
     public class WeiboGeoInfo
     {

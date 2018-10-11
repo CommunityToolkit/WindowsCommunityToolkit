@@ -72,13 +72,13 @@ namespace Microsoft.Toolkit.Services.Weibo
         public int FriendsCount { get; set; }
 
         /// <summary>
-        /// Gets or sets total count of tweets user has liked.
+        /// Gets or sets total count of statuses user has liked.
         /// </summary>
         [JsonProperty("favourites_count")]
         public int FavoritesCount { get; set; }
 
         /// <summary>
-        /// Gets or sets total count of tweets (including retweets) posted by user.
+        /// Gets or sets total count of Weibo statuses (including reposted statuses) posted by user.
         /// </summary>
         [JsonProperty("statuses_count")]
         public int StatusesCount { get; set; }
