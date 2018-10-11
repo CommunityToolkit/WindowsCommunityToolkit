@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             };
 
             popupForm.Show();
-            popupForm.navigateTo(requestUri.AbsoluteUri);d
+            popupForm.navigateTo(requestUri.AbsoluteUri);
             return taskCompletionSource.Task;
         }
 

@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
     {
         private string initialHost;
 
-        private Uri actualUrl;
+        public Uri actualUrl;
         private string callbackHost;
         /// <summary>
         /// Gets or sets the actual url.
@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         /// Loads a given url in the WebBrowser
         /// </summary>
         /// <param name="url">Url string to navigate to.</param>
-        public void NavigateTo(string url)
+        public void navigateTo(string url)
         {
             initialHost = GetTopLevelDomain(url);
             webBrowser1.Navigate(url);
