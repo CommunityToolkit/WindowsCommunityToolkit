@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
@@ -9,7 +9,7 @@
 
   <ItemGroup>
 
-    <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
+    <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
