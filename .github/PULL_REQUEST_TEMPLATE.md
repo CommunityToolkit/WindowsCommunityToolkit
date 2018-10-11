@@ -1,5 +1,5 @@
 Issue: #
-<!-- Link to relevant issue. All PRs should be asociated with an issue -->
+<!-- Link to relevant issue. All PRs should be associated with an issue -->
 
 ## PR Type
 What kind of change does this PR introduce?
