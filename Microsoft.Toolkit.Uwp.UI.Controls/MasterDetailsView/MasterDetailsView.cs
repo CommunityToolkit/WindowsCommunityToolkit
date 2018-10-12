@@ -298,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var navigationManager = SystemNavigationManager.GetForCurrentView();
                     if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
                     {
-                        // Setting this indicates that he system back button is being used
+                        // Setting this indicates that the system back button is being used
                         _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
                     else if ((_navigationView == null) || (_frame == null))
