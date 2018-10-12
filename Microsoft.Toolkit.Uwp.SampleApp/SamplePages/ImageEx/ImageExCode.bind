@@ -15,7 +15,7 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="White" />
-            <Setter Property="Width" Value="400" />
+            <Setter Property="Width" Value="300" />
             <Setter Property="Height" Value="300" />
         </Style>
     </Page.Resources>
@@ -36,6 +36,13 @@
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   CornerRadius="30,60,30,60"
+                                  Style="{StaticResource BaseStyle}"/>
+              
+                <controls:ImageEx x:Name="ImageExControl3"
+                                  CornerRadius="999"
+                                  IsCacheEnabled="@[Enable Cache]"
+                                  Source="/Assets/Photos/Owl.jpg"
+                                  PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   Style="{StaticResource BaseStyle}"/>
            </StackPanel>    
         </ScrollViewer>

@@ -85,6 +85,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void AddImage(bool broken, bool placeholder, bool round = false)
         {
             ImageEx newImage = new ImageEx();
+            newImage.Style = resources["BaseStyle"] as Style;
+
             if (round)
             {
                 newImage.CornerRadius = new CornerRadius(999);
