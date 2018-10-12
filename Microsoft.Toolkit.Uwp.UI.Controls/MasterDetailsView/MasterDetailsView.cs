@@ -301,8 +301,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // Setting this indicates that he system back button is being used
                         _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
-                    else if (_navigationView == null)
+                    else if ((_navigationView == null) || (_frame == null))
                     {
+                        // We can only use the new NavigationView if we also have a Frame
+                        // If there is no frame we have to use the inline button
                         _inlineBackButton.Visibility = Visibility.Visible;
                     }
                     else
@@ -328,7 +330,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_previousSystemBackButtonVisibility.HasValue == false)
                     {
-                        if (_navigationView == null)
+                        if ((_navigationView == null) || (_frame == null))
                         {
                             _inlineBackButton.Visibility = Visibility.Collapsed;
                         }
