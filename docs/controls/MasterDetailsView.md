@@ -29,6 +29,7 @@ The [MasterDetailsView Control](https://docs.microsoft.com/dotnet/api/microsoft.
 
 | Property | Type | Description |
 | -- | -- | -- |
+| BackButtonBehavior | BackButtonBehavior | Gets or sets the behavior to use for the back button. |
 | CompactModeThresholdWidth | double | If width of control is less than CompactModeThresholdWidth, the control will only display the master or details view - otherwise it will show both views. |
 | DetailsCommandBar | CommandBar | Gets or sets the Windows.UI.Xaml.Controls.CommandBar for the details section |
 | DetailsHeader | object | Gets or sets the content for the details pane's header |
