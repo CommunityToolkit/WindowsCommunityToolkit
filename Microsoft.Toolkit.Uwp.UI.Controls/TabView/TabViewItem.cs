@@ -20,22 +20,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(TabViewItem);
         }
-
-        /// <inheritdoc/>
-        public override bool Equals(object obj)
-        {
-            return Header != null && obj != null && Header.GetHashCode() == obj.GetHashCode();
-        }
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {
-            var hashCode = -709474937;
-            hashCode = (hashCode * -1521134295) + EqualityComparer<object>.Default.GetHashCode(Header);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<IconElement>.Default.GetHashCode(HeaderIcon);
-            hashCode = (hashCode * -1521134295) + EqualityComparer<DataTemplate>.Default.GetHashCode(HeaderTemplate);
-            hashCode = (hashCode * -1521134295) + IsClosable.GetHashCode();
-            return hashCode;
-        }
     }
 }
