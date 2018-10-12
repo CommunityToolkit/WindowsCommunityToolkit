@@ -66,6 +66,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="DetailsHeader"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsHeaderProperty = DependencyProperty.Register(
+            nameof(DetailsHeader),
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="DetailsHeaderTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsHeaderTemplateProperty = DependencyProperty.Register(
+            nameof(DetailsHeaderTemplate),
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
@@ -194,6 +214,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
             set { SetValue(MasterHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the details pane's header
+        /// </summary>
+        /// <returns>
+        /// The content of the details pane's header. The default is null.
+        /// </returns>
+        public object DetailsHeader
+        {
+            get { return GetValue(DetailsHeaderProperty); }
+            set { SetValue(DetailsHeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the content of the details pane's header.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the details pane header object. The default is null.
+        /// </returns>
+        public DataTemplate DetailsHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(DetailsHeaderTemplateProperty); }
+            set { SetValue(DetailsHeaderTemplateProperty, value); }
         }
 
         /// <summary>

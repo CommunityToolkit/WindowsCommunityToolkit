@@ -54,14 +54,22 @@
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
                                 <Grid x:Name="SelectionDetailsPanel">
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
+                                    <Grid>
+                                        <ContentPresenter x:Name="DetailsHeaderPresenter"
+                                                          Background="{TemplateBinding Background}"
+                                                          Content="{TemplateBinding DetailsHeader}"
+                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"/>
+                                    </Grid>
                                     <ContentPresenter x:Name="DetailsPresenter"
-                                                  Background="{TemplateBinding Background}"
-                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                                      Background="{TemplateBinding Background}"
+                                                      ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                                      Grid.Row="1">
                                     </ContentPresenter>
-                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="1"></Grid>
+                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="2"></Grid>
                                     <Grid.RenderTransform>
                                         <TranslateTransform x:Name="DetailsPresenterTransform" />
                                     </Grid.RenderTransform>
