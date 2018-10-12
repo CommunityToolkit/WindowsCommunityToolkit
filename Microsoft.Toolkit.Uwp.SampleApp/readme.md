@@ -156,7 +156,7 @@ Select the category where you want your page to be listed and add the following 
 
 ## Thumbnail Images
 
-> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/WindowsCommunityToolkit-design-assets)
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
 
 ## Restricting Samples to Specific API Sets
 
