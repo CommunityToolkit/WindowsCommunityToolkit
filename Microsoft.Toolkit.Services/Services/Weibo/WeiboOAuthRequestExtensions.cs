@@ -15,7 +15,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
-
+    /// <summary>
+    /// Weibo Oauth request extensions to add utilities for internal use.
+    /// </summary>
     internal static class WeiboOAuthRequestExtensions
     {
         public static void ThrowIfNotValid(this HttpResponseMessage response)

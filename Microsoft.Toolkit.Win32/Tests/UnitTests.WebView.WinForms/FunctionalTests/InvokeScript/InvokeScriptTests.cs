@@ -140,12 +140,12 @@ function echoOneArgument(argument) {
             {
                 WriteLine($"Calling {nameof(WebView.InvokeScriptAsync)}");
 #pragma warning disable 4014
-                NewMethod(a as UI.Controls.WinForms.WebView);
+                NewMethod(a as Forms.UI.Controls.WebView);
 #pragma warning restore 4014
             };
         }
 
-        private async Task NewMethod(UI.Controls.WinForms.WebView a)
+        private async Task NewMethod(Forms.UI.Controls.WebView a)
         {
             _actual = await a.InvokeScriptAsync("echoOneArgument", "exampleParameter").ConfigureAwait(false);
             Form.Close();

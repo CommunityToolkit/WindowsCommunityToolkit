@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ActiveBlades.Add(blade);
                 UpdateLayout();
 
-                // Need to do this because of touch. See more information here: https://github.com/Microsoft/WindowsCommunityToolkit/issues/760#issuecomment-276466464
+                // Need to do this because of touch. See more information here: https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/760#issuecomment-276466464
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);

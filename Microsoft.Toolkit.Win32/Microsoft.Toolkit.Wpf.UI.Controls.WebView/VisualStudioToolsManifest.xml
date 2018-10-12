@@ -1,0 +1,8 @@
+<FileList>
+  <File Reference="Microsoft.Toolkit.Wpf.UI.Controls.WebView.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.WebView" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.WebViewCompatible" />
+    </ToolboxItems>
+  </File>
+</FileList>

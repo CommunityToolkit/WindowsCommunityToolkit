@@ -4,6 +4,9 @@
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
+    /// <summary>
+    /// Query string configuration.
+    /// </summary>
     public class WeiboDataConfig
     {
         /// <summary>

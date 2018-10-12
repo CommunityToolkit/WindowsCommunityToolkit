@@ -2,10 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Weibo;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using Microsoft.Toolkit.Services.Weibo;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Popups;
@@ -15,7 +15,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class WeiboPage
     {
-        private ObservableCollection<IWeiboResult> _tweets;
+        private ObservableCollection<WeiboStatus> _tweets;
+        
         public WeiboPage()
         {
             InitializeComponent();
@@ -23,9 +24,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ShareBox.Visibility = Visibility.Collapsed;
             HideTweetPanel();
 
-            AppKey.Text = "";
-            AppSecret.Text = "";
-            RedirectUri.Text = "";
+            AppKey.Text = string.Empty;
+            AppSecret.Text = string.Empty;
+            RedirectUri.Text = string.Empty;
         }
 
         private async void ConnectButton_OnClick(object sender, RoutedEventArgs e)
@@ -56,7 +57,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             HideCredentialsPanel();
             ShowTweetPanel();
 
-
             WeiboUser user;
             try
             {
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            _tweets = new ObservableCollection<IWeiboResult>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            _tweets = new ObservableCollection<WeiboStatus>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
 
             ListView.ItemsSource = _tweets;
 
@@ -118,10 +118,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             SampleController.Current.DisplayWaitRing = true;
-            await WeiboService.Instance.TweetStatusAsync(TweetText.Text);
+            await WeiboService.Instance.PostStatusAsync(TweetText.Text);
             SampleController.Current.DisplayWaitRing = false;
-
-
         }
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
@@ -144,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 using (var stream = await picture.OpenReadAsync())
                 {
                     SampleController.Current.DisplayWaitRing = true;
-                    await WeiboService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
+                    await WeiboService.Instance.PostStatusAsync(TweetText.Text, stream.AsStream());
                     SampleController.Current.DisplayWaitRing = false;
                 }
             }

@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.OAuth;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Services.OAuth;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
@@ -18,18 +18,18 @@ namespace Microsoft.Toolkit.Services.Weibo
     /// </summary>
     internal class WeiboOAuthRequest
     {
-        private static HttpClient client;
+        private static HttpClient _client;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WeiboOAuthRequest"/> class.
         /// </summary>
         public WeiboOAuthRequest()
         {
-            if (client == null)
+            if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
                 handler.AutomaticDecompression = DecompressionMethods.GZip;
-                client = new HttpClient(handler);
+                _client = new HttpClient(handler);
             }
         }
 
@@ -55,8 +55,9 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                 request.RequestUri = requestUriBuilder.Uri;
 
-                using (HttpResponseMessage response = await client.SendAsync(request).ConfigureAwait(false))
+                using (HttpResponseMessage response = await _client.SendAsync(request).ConfigureAwait(false))
                 {
+                    response.ThrowIfNotValid();
                     return ProcessError(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
                 }
             }
@@ -92,7 +93,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                     request.Content = formUrlEncodedContent;
 
-                    using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                    using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                     {
                         if (response.StatusCode == HttpStatusCode.OK)
                         {
@@ -107,9 +108,7 @@ namespace Microsoft.Toolkit.Services.Weibo
                     }
                 }
             }
-
         }
-
 
         /// <summary>
         /// HTTP Post request to specified Uri.
@@ -134,7 +133,6 @@ namespace Microsoft.Toolkit.Services.Weibo
                             byteContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data") { FileName = "attachment", Name = "pic" };
                             multipartFormDataContent.Add(byteContent, "pic");
 
-
                             using (var request = new HttpRequestMessage(HttpMethod.Post, requestUri))
                             {
                                 UriBuilder requestUriBuilder = new UriBuilder(request.RequestUri);
@@ -151,7 +149,7 @@ namespace Microsoft.Toolkit.Services.Weibo
 
                                 request.Content = multipartFormDataContent;
 
-                                using (var response = await client.SendAsync(request).ConfigureAwait(false))
+                                using (var response = await _client.SendAsync(request).ConfigureAwait(false))
                                 {
                                     if (response.StatusCode == HttpStatusCode.OK)
                                     {
@@ -167,7 +165,6 @@ namespace Microsoft.Toolkit.Services.Weibo
                             }
                         }
                     }
-
                 }
             }
             catch (ObjectDisposedException)
@@ -181,9 +178,12 @@ namespace Microsoft.Toolkit.Services.Weibo
 
         private string ProcessError(string content)
         {
-            if (content.StartsWith("\"error\":"))
+            if (content.StartsWith("{\"error\":"))
             {
-                WeiboError error = JsonConvert.DeserializeObject<WeiboError>(content);
+                WeiboError error = JsonConvert.DeserializeObject<WeiboError>(content, new JsonSerializerSettings()
+                {
+                    Error = (sender, args) => throw new JsonException("Invalid Weibo error response!", args.ErrorContext.Error)
+                });
 
                 throw new WeiboException { Error = error };
             }

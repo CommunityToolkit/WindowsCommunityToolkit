@@ -2,20 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Services.Services.Weibo;
-using Newtonsoft.Json;
 using System;
 using System.Globalization;
+using Microsoft.Toolkit.Services.Services.Weibo;
+using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.Weibo
 {
     /// <summary>
     /// Weibo Timeline item.
     /// </summary>
-    public class WeiboStatus : Toolkit.Parsers.SchemaBase, IWeiboResult
+    public class WeiboStatus : Toolkit.Parsers.SchemaBase
     {
-        private string _text;
-
         /// <summary>
         /// Gets or sets time item was created.
         /// </summary>
@@ -49,15 +47,11 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Gets or sets text of the status (handles both 140 and 280 characters)
         /// </summary>
         [JsonProperty("text")]
-        public string Text
-        {
-            get { return _text; }
-            set { _text = value; }
-        }
+        public string Text { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether status is truncated
-        /// (true when tweet is longer than 140 characters)
+        /// (true when Weibo status is longer than 140 characters)
         /// This entity may be deprecated - it never seems to be set to true.
         /// </summary>
         [JsonProperty("truncated")]
@@ -94,16 +88,16 @@ namespace Microsoft.Toolkit.Services.Weibo
         public WeiboUser User { get; set; }
 
         /// <summary>
-        /// Gets or sets the Retweeted Weibo status
+        /// Gets or sets the Reposted Weibo status
         /// </summary>
         [JsonProperty("retweeted_status")]
-        public WeiboStatus RetweetedStatus { get; set; }
+        public WeiboStatus RepostedStatus { get; set; }
 
         /// <summary>
-        /// Gets or sets the retweet count
+        /// Gets or sets the repost count
         /// </summary>
         [JsonProperty("reposts_count")]
-        public int RetweetCount { get; set; }
+        public int RepostCount { get; set; }
 
         /// <summary>
         /// Gets or sets the comment count
@@ -142,7 +136,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public WeiboGeoInfo GeographicInfo { get; set; }
 
         /// <summary>
-        /// A helper property to indicate whether the weibo status includes attached image.
+        /// Gets a value indicating whether the weibo status includes attached images.
         /// </summary>
         public bool HasAttachedImage => AttachedImages != null && AttachedImages.Length > 0;
     }
