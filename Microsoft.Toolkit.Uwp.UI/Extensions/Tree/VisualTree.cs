@@ -156,5 +156,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             return parent.FindAscendant<T>();
         }
+
+        /// <summary>
+        /// Find first visual ascendant control of a specified type.
+        /// </summary>
+        /// <typeparam name="T">Type to search for.</typeparam>
+        /// <param name="element">Child element.</param>
+        /// <returns>Ascendant control or null if not found.</returns>
+        public static IEnumerable<DependencyObject> GetAscendants(this DependencyObject element)
+        {
+            var parent = VisualTreeHelper.GetParent(element);
+
+            while (parent != null)
+            {
+                yield return parent;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+        }
     }
 }
