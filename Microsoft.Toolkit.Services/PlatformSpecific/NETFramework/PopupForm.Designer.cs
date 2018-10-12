@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
+
     partial class PopupForm
     {
         /// <summary>

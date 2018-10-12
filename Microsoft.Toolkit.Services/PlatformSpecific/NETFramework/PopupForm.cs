@@ -11,7 +11,9 @@ using System.Windows.Forms;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
+#pragma warning disable SA1601 // Partial elements must be documented
     public partial class PopupForm : Form
+#pragma warning restore SA1601 // Partial elements must be documented
     {
         private string initialHost;
         private string callbackHost;
@@ -22,7 +24,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         public Uri ActualUrl { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PopupWPF"/> class.
+        /// Initializes a new instance of the <see cref="PopupForm"/> class.
         /// </summary>
         /// <param name="callbackUrl">Uri callback url</param>
         public PopupForm(Uri callbackUrl)
