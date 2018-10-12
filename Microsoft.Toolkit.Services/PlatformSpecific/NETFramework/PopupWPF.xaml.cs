@@ -12,7 +12,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-//using Win32NavigationStartingEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
@@ -53,19 +52,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
                 this.Close();
             }
         }
-
-        //private void WebViewNavigationStarting(object sender, Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs e)
-        //{
-        //    if (initialHost != GetTopLevelDomain(e.Uri))
-        //    {
-        //        if (GetTopLevelDomain(e.Uri) == callbackHost)
-        //        {
-        //            ActualUrl = e.Uri;
-        //        }
-
-        //        this.Close();
-        //    }
-        //}
 
         /// <summary>
         /// Loads a given url in the WebView
