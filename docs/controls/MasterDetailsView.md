@@ -31,6 +31,8 @@ The [MasterDetailsView Control](https://docs.microsoft.com/dotnet/api/microsoft.
 | -- | -- | -- |
 | CompactModeThresholdWidth | double | If width of control is less than CompactModeThresholdWidth, the control will only display the master or details view - otherwise it will show both views. |
 | DetailsCommandBar | CommandBar | Gets or sets the Windows.UI.Xaml.Controls.CommandBar for the details section |
+| DetailsHeader | object | Gets or sets the content for the details pane's header |
+| DetailsHeaderTemplate | DataTemplate | Gets or sets the DataTemplate used to display the content of the details pane's header |
 | DetailsTemplate | DataTemplate | Gets or sets the DataTemplate used to display the details |
 | MapDetails | Func<object,object> | Gets or sets a function for mapping the selected item to a different model. This new model will be the DataContext of the Details area |
 | MasterCommandBar | CommandBar | Gets or sets the Windows.UI.Xaml.Controls.CommandBar for the master section |
