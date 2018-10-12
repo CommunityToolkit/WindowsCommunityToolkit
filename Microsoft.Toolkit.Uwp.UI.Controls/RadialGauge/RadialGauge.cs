@@ -455,21 +455,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The maximum angle, in the range from -180 to 540.</value>
         protected double NormalizedMaxAngle => _normalizedMaxAngle;
 
-        /// <summary>
-        /// Gets the default accent brush.
-        /// </summary>
-        private SolidColorBrush ThemeAccentBrush => (SolidColorBrush)Application.Current.Resources["SystemControlHighlightChromeHighBrush"];
-
-        /// <summary>
-        /// Gets the default background brush.
-        /// </summary>
-        private SolidColorBrush ThemeBackgroundBrush => (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumLowBrush"];
-
-        /// <summary>
-        /// Gets the default foreground brush.
-        /// </summary>
-        private SolidColorBrush ThemeForegroundBrush => (SolidColorBrush)Application.Current.Resources["SystemControlForegroundBaseHighBrush"];
-
         /// <inheritdoc/>
         protected override AutomationPeer OnCreateAutomationPeer()
         {
@@ -483,24 +468,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             PointerReleased += RadialGauge_PointerReleased;
 
-            // Remember user defined colors.
-            if (ThemeAccentBrush is SolidColorBrush highlightBrush)
-            {
-                _needleBrush = NeedleBrush.Color == highlightBrush.Color ? null : NeedleBrush;
-                _trailBrush = (TrailBrush as SolidColorBrush).Color == highlightBrush.Color ? null : TrailBrush;
-            }
-
-            if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
-            {
-                _scaleBrush = (ScaleBrush as SolidColorBrush).Color == backgroundBrush.Color ? null : ScaleBrush;
-                _scaleTickBrush = ScaleTickBrush.Color == backgroundBrush.Color ? null : ScaleTickBrush;
-            }
-
-            if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
-            {
-                _tickBrush = TickBrush.Color == foregroundBrush.Color ? null : TickBrush;
-                _foreground = (Foreground as SolidColorBrush).Color == foregroundBrush.Color ? null : Foreground;
-            }
+            // Remember local brushes.
+            _needleBrush = ReadLocalValue(NeedleBrushProperty) as SolidColorBrush;
+            _trailBrush = ReadLocalValue(TrailBrushProperty) as SolidColorBrush;
+            _scaleBrush = ReadLocalValue(ScaleBrushProperty) as SolidColorBrush;
+            _scaleTickBrush = ReadLocalValue(ScaleTickBrushProperty) as SolidColorBrush;
+            _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
+            _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
 
             // Apply color scheme.
             OnColorsChanged();
@@ -714,83 +688,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ThemeListener.IsHighContrast)
             {
                 // Apply High Contrast Theme.
-                if (ThemeAccentBrush is SolidColorBrush highlightBrush)
-                {
-                    NeedleBrush = highlightBrush;
-                    TrailBrush = highlightBrush;
-                }
-
-                if (ThemeBackgroundBrush is SolidColorBrush backgroundBrush)
-                {
-                    ScaleBrush = backgroundBrush;
-                    ScaleTickBrush = backgroundBrush;
-                }
-
-                if (ThemeForegroundBrush is SolidColorBrush foregroundBrush)
-                {
-                    TickBrush = foregroundBrush;
-                    Foreground = foregroundBrush;
-                }
+                ClearBrush(_needleBrush, NeedleBrushProperty);
+                ClearBrush(_trailBrush, TrailBrushProperty);
+                ClearBrush(_scaleBrush, ScaleBrushProperty);
+                ClearBrush(_scaleBrush, ScaleTickBrushProperty);
+                ClearBrush(_tickBrush, TickBrushProperty);
+                ClearBrush(_foreground, ForegroundProperty);
             }
             else
             {
                 // Apply User Defined or Default Theme.
-                if (_needleBrush == null)
-                {
-                    ClearValue(NeedleBrushProperty);
-                }
-                else
-                {
-                    NeedleBrush = _needleBrush;
-                }
-
-                if (_trailBrush == null)
-                {
-                    ClearValue(TrailBrushProperty);
-                }
-                else
-                {
-                    TrailBrush = _trailBrush;
-                }
-
-                if (_scaleBrush == null)
-                {
-                    ClearValue(ScaleBrushProperty);
-                }
-                else
-                {
-                    ScaleBrush = _scaleBrush;
-                }
-
-                if (_scaleTickBrush == null)
-                {
-                    ClearValue(ScaleTickBrushProperty);
-                }
-                else
-                {
-                    ScaleTickBrush = _scaleTickBrush;
-                }
-
-                if (_foreground == null)
-                {
-                    ClearValue(ForegroundProperty);
-                }
-                else
-                {
-                    Foreground = _foreground;
-                }
-
-                if (_tickBrush == null)
-                {
-                    ClearValue(TickBrushProperty);
-                }
-                else
-                {
-                    TickBrush = _tickBrush;
-                }
+                RestoreBrush(_needleBrush, NeedleBrushProperty);
+                RestoreBrush(_trailBrush, TrailBrushProperty);
+                RestoreBrush(_scaleBrush, ScaleBrushProperty);
+                RestoreBrush(_scaleBrush, ScaleTickBrushProperty);
+                RestoreBrush(_tickBrush, TickBrushProperty);
+                RestoreBrush(_foreground, ForegroundProperty);
             }
 
             OnScaleChanged(this);
+        }
+
+        private void ClearBrush(Brush brush, DependencyProperty prop)
+        {
+            if (brush != null)
+            {
+                ClearValue(prop);
+            }
+        }
+
+        private void RestoreBrush(Brush source, DependencyProperty prop)
+        {
+            if (source != null)
+            {
+                SetValue(prop, source);
+            }
         }
 
         private void RadialGauge_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
