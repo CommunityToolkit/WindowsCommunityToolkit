@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-﻿using System;
-using System.Windows;
-
 using System.Threading.Tasks;
+using System.Windows;
 using Microsoft.Toolkit.Services.Core;
 using ApplicationForm = System.Windows.Forms.Application;
 
@@ -55,8 +53,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             popupForm = new PopupForm(callbackUri);
             popupForm.FormClosed += (sender, e) =>
             {
-               
-            	taskCompletionSource.SetResult(HandleExit(popupForm.ActualUrl));
+                taskCompletionSource.SetResult(HandleExit(popupForm.ActualUrl));
             };
 
             popupForm.Show();

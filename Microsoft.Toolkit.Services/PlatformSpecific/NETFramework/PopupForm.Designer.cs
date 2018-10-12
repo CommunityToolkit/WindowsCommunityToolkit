@@ -1,9 +1,6 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
+﻿namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
+
     partial class PopupForm
     {
         /// <summary>
@@ -32,34 +29,35 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         /// </summary>
         private void InitializeComponent()
         {
-            this.webBrowser1 = new System.Windows.Forms.WebBrowser();
+            this.webView1 = new Microsoft.Toolkit.Forms.UI.Controls.WebView();
+            ((System.ComponentModel.ISupportInitialize)(this.webView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // webBrowser1
+            // webView1
             // 
-            this.webBrowser1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser1.Location = new System.Drawing.Point(0, 0);
-            this.webBrowser1.MinimumSize = new System.Drawing.Size(20, 20);
-            this.webBrowser1.Name = "webBrowser1";
-            this.webBrowser1.Size = new System.Drawing.Size(1328, 742);
-            this.webBrowser1.TabIndex = 0;
-            this.webBrowser1.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.WebBrowser1_DocumentCompleted);
+            this.webView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.webView1.Location = new System.Drawing.Point(0, 0);
+            this.webView1.MinimumSize = new System.Drawing.Size(20, 20);
+            this.webView1.Name = "webView1";
+            this.webView1.Size = new System.Drawing.Size(800, 450);
+            this.webView1.TabIndex = 0;
             // 
-            // PopupForm
+            // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1328, 742);
-            this.Controls.Add(this.webBrowser1);
-            this.Name = "PopupForm";
-            this.Text = "PopupForm";
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.webView1);
+            this.Name = "Form1";
+            this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.webView1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.WebBrowser webBrowser1;
+        private Microsoft.Toolkit.Forms.UI.Controls.WebView webView1;
     }
 }
+

@@ -1,20 +1,20 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
+﻿using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
-    /// <summary>
-    /// Redirect form for Twitter Service login.
-    /// </summary>
+#pragma warning disable SA1601 // Partial elements must be documented
     public partial class PopupForm : Form
+#pragma warning restore SA1601 // Partial elements must be documented
     {
-   
         private string initialHost;
         private string callbackHost;
 
@@ -30,23 +30,18 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         public PopupForm(Uri callbackUrl)
         {
             InitializeComponent();
-            webBrowser1.AllowNavigation = true;
-            webBrowser1.Navigating += WebBrowserNavigating;
+
+            webView1.NavigationStarting += (s, e) => WebViewNavigationStartingHandler(e.Uri);
             callbackHost = GetTopLevelDomain(callbackUrl);
         }
 
-        /// <summary>
-        /// Checks if the actual page is the Callback url.
-        /// </summary>
-        /// <param name="sender">sender object</param>
-        /// <param name="e">WebBrowser navigating event arguments</param>
-        private void WebBrowserNavigating(object sender, WebBrowserNavigatingEventArgs e)
+        private void WebViewNavigationStartingHandler(Uri uri)
         {
-            if (initialHost != GetTopLevelDomain(e.Url))
+            if (initialHost != GetTopLevelDomain(uri))
             {
-                if (GetTopLevelDomain(e.Url) == callbackHost)
+                if (GetTopLevelDomain(uri) == callbackHost)
                 {
-                    ActualUrl = e.Url;
+                    ActualUrl = uri;
                 }
 
                 this.Close();
@@ -54,39 +49,21 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         }
 
         /// <summary>
-        /// Loads a given url in the WebBrowser
+        /// Loads a given url in the WebView
         /// </summary>
         /// <param name="url">Url string to navigate to.</param>
         public void NavigateTo(string url)
         {
             initialHost = GetTopLevelDomain(url);
-            webBrowser1.Navigate(url);
+            webView1.Navigate(url);
         }
 
-        /// <summary>
-        /// empty
-        /// </summary>
-        /// <param name="sender">Sender object</param>
-        /// <param name="e">WebBrowserDocumentCompleteEventArgs</param>
-        private void WebBrowser1_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
-        {
-        }
-
-        /// <summary>
-        /// Invoke the GetTopLevelDomain method
-        /// </summary>
-        /// <param name="url">URL String</param>
-        /// <returns>Url's top level domain</returns>
         private string GetTopLevelDomain(string url)
         {
             return GetTopLevelDomain(new Uri(url));
         }
 
-        /// <summary>
-        /// Gets the top level domain from a given url
-        /// </summary>
-        /// <param name="url">URI url</param>
-        /// <returns>The top level domain</returns>
+
         private string GetTopLevelDomain(Uri url)
         {
             var hostParts = url.Host.Split('.').Select(x => x.ToString());
