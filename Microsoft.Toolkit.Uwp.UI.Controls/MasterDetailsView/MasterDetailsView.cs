@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
-        private AppViewBackButtonVisibility? _previousBackButtonVisibility;
+        private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
         private bool _previousNavigationViewBackEnabled;
         private bool _previousNavigationViewBackVisibilty;
         private ContentPresenter _detailsPresenter;
@@ -299,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
                     {
                         // Setting this indicates that he system back button is being used
-                        _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
                     else if (_navigationView == null)
                     {
@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     var navigationManager = SystemNavigationManager.GetForCurrentView();
-                    _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
                     navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 }
@@ -326,7 +326,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
-                    if (_previousBackButtonVisibility.HasValue == false)
+                    if (_previousSystemBackButtonVisibility.HasValue == false)
                     {
                         if (_navigationView == null)
                         {
@@ -339,11 +339,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
 
-                if (_previousBackButtonVisibility.HasValue)
+                if (_previousSystemBackButtonVisibility.HasValue)
                 {
                     // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility.Value;
-                    _previousBackButtonVisibility = null;
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                    _previousSystemBackButtonVisibility = null;
                 }
             }
         }
