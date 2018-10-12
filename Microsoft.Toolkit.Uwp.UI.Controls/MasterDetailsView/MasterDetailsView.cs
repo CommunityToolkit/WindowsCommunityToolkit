@@ -312,7 +312,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         SetNavigationViewBackButtonState(true, true);
                     }
                 }
-                else
+                else if (BackButtonBehavior != BackButtonBehavior.Manual)
                 {
                     var navigationManager = SystemNavigationManager.GetForCurrentView();
                     _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
