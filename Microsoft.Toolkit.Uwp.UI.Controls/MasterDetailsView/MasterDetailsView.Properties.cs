@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="DetailsHeader"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="DetailsHeader"/> dependency property.</returns>
         public static readonly DependencyProperty DetailsHeaderProperty = DependencyProperty.Register(
             nameof(DetailsHeader),
             typeof(object),
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="DetailsHeaderTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="DetailsHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty DetailsHeaderTemplateProperty = DependencyProperty.Register(
             nameof(DetailsHeaderTemplate),
             typeof(DataTemplate),
