@@ -72,7 +72,8 @@
                                         </Button>
                                         <ContentPresenter x:Name="DetailsHeaderPresenter"
                                                           Content="{TemplateBinding DetailsHeader}"
-                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"/>
+                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"
+                                                          Grid.Column="1"/>
                                     </Grid>
                                     <ContentPresenter x:Name="DetailsPresenter"
                                                       Background="{TemplateBinding Background}"
