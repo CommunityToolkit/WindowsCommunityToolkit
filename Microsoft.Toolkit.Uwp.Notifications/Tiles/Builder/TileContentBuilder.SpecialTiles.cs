@@ -10,8 +10,20 @@ using System.Text;
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
 #if !WINRT
+    /// <summary>
+    /// Builder class used to create <see cref="TileContent"/>
+    /// </summary>
     public partial class TileContentBuilder
     {
+        /// <summary>
+        /// Helper method for creating a tile notification content for using Contact tile template.
+        /// </summary>
+        /// <param name="contactImageUri">Source for the contact picture</param>
+        /// <param name="contactName">Name of the contact</param>
+        /// <param name="contactImageAltText">A description of the contact image, for users of assistive technologies.</param>
+        /// <param name="contactImageAddImageQuery">Indicating whether Windows should append a query string to the image URI supplied in the Tile notification.</param>
+        /// <param name="textLanguage">Gets or sets the target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual.</param>
+        /// <returns>An instance of <see cref="TileBindingContentContact"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentContact CreateContactTileContent(Uri contactImageUri, string contactName, string contactImageAltText = default(string), bool? contactImageAddImageQuery = default(bool?), string textLanguage = default(string))
         {
             var contactTileContent = new TileBindingContentContact();
@@ -28,6 +40,13 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return contactTileContent;
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using Iconic tile template.
+        /// </summary>
+        /// <param name="iconImageUri">Source of the icon image.</param>
+        /// <param name="iconImageAltText">A description of the icon image, for users of assistive technologies.</param>
+        /// <param name="iconImageAddImageQuery">Indicating whether Windows should append a query string to the image URI supplied in the Tile notification.</param>
+        /// <returns>An instance of <see cref="TileBindingContentIconic"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentIconic CreateIconicTileContent(Uri iconImageUri, string iconImageAltText = default(string), bool? iconImageAddImageQuery = default(bool?))
         {
             var iconicTileContent = new TileBindingContentIconic();
@@ -36,6 +55,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return iconicTileContent;
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using People tile template.
+        /// </summary>
+        /// <param name="peoplePictureSources">Sources of pictures that will be used on the people tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPeople"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPeople CreatePeopleTileContent(params Uri[] peoplePictureSources)
         {
             IEnumerable<TileBasicImage> images = peoplePictureSources.Select(u => CreateTileBasicImage(u, default(string), default(bool?)));
@@ -43,6 +67,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return CreatePeopleTileContent(images);
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using People tile template.
+        /// </summary>
+        /// <param name="peoplePictures">Sources of pictures with description and image query indicator that will be used on the people tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPeople"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPeople CreatePeopleTileContent(params (Uri source, string imageAltText, bool? addImageQuery)[] peoplePictures)
         {
             IEnumerable<TileBasicImage> images = peoplePictures.Select(t => CreateTileBasicImage(t.source, t.imageAltText, t.addImageQuery));
@@ -50,6 +79,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return CreatePeopleTileContent(images);
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using People tile template.
+        /// </summary>
+        /// <param name="peoplePictures">Pictures that will be used on the people tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPeople"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPeople CreatePeopleTileContent(IEnumerable<TileBasicImage> peoplePictures)
         {
             var peopleTileContent = new TileBindingContentPeople();
@@ -62,6 +96,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return peopleTileContent;
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using Photos tile template.
+        /// </summary>
+        /// <param name="photoSources">Sources of pictures that will be used on the photos tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPhotos"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPhotos CreatePhotosTileContent(params Uri[] photoSources)
         {
             IEnumerable<TileBasicImage> images = photoSources.Select(u => CreateTileBasicImage(u, default(string), default(bool?)));
@@ -69,6 +108,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return CreatePhotosTileContent(images);
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using Photos tile template.
+        /// </summary>
+        /// <param name="photos">Sources of pictures with description and addImageQuery indicator that will be used for the photos tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPhotos"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPhotos CreatePhotosTileContent(params (Uri source, string imageAltText, bool? addImageQuery)[] photos)
         {
             IEnumerable<TileBasicImage> images = photos.Select(t => CreateTileBasicImage(t.source, t.imageAltText, t.addImageQuery));
@@ -76,6 +120,11 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return CreatePhotosTileContent(images);
         }
 
+        /// <summary>
+        /// Helper method for creating a tile notification content for using Photos tile template.
+        /// </summary>
+        /// <param name="photos">Pictures that will be used for the photos tile.</param>
+        /// <returns>An instance of <see cref="TileBindingContentPhotos"/> represent a payload of a tile notification.</returns>
         public static TileBindingContentPhotos CreatePhotosTileContent(IEnumerable<TileBasicImage> photos)
         {
             var photoTileContent = new TileBindingContentPhotos();
