@@ -131,6 +131,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ((MasterDetailsView)d).HandleStateChanges();
         }
 
+        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            
+        }
+
         /// <summary>
         /// Fired when the MasterCommandBar changes.
         /// </summary>

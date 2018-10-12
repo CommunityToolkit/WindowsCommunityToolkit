@@ -135,12 +135,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
 
         /// <summary>
+        /// Identifies the <see cref="BackButtonBehavior"/> dependancy property
+        /// </summary>
+        public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
+            nameof(BackButtonBehavior),
+            typeof(BackButtonBehavior),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
+            get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
@@ -171,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </returns>
         public object MasterHeader
         {
-            get { return (object)GetValue(MasterHeaderProperty); }
+            get { return GetValue(MasterHeaderProperty); }
             set { SetValue(MasterHeaderProperty, value); }
         }
 
@@ -205,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object NoSelectionContent
         {
-            get { return (object)GetValue(NoSelectionContentProperty); }
+            get { return GetValue(NoSelectionContentProperty); }
             set { SetValue(NoSelectionContentProperty, value); }
         }
 
@@ -256,6 +265,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(CompactModeThresholdWidthProperty); }
             set { SetValue(CompactModeThresholdWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the behavior to use for the back button
+        /// </summary>
+        /// <returns>The current BackButtonBehavior. The default is System.</returns>
+        public BackButtonBehavior BackButtonBehavior
+        {
+            get { return (BackButtonBehavior)GetValue(BackButtonBehaviorProperty); }
+            set { SetValue(BackButtonBehaviorProperty, value); }
         }
 
         /// <summary>
