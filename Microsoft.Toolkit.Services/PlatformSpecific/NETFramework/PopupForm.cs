@@ -46,19 +46,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
         }
 
-        //private void WebViewNavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
-        //{
-        //    if (initialHost != GetTopLevelDomain(e.Uri))
-        //    {
-        //        if (GetTopLevelDomain(e.Uri) == callbackHost)
-        //        {
-        //            ActualUrl = e.Uri;
-        //        }
-
-        //        this.Close();
-        //    }
-        //}
-
         /// <summary>
         /// Loads a given url in the WebView
         /// </summary>
@@ -85,15 +72,5 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
             return hostParts.ElementAt(0);
         }
-
-        //private void Form1_Load(object sender, EventArgs e)
-        //{
-           
-        //}
-
-        //private void webView1_DOMContentLoaded(object sender, Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlDOMContentLoadedEventArgs e)
-        //{
-
-        //}
     }
 }
