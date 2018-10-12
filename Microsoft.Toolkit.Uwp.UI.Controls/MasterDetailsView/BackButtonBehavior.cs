@@ -4,11 +4,29 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The behavior to use for navigating between the <see cref="MasterDetailsView"/> master and details views
+    /// </summary>
     public enum BackButtonBehavior
     {
+        /// <summary>
+        /// Automatically determine the best approach to use.
+        /// </summary>
         Automatic,
+
+        /// <summary>
+        /// Use a back button built into the <see cref="MasterDetailsView"/>
+        /// </summary>
         Inline,
+
+        /// <summary>
+        /// Use the system back button controlled by the <see cref="Windows.UI.Core.SystemNavigationManager"/>.
+        /// </summary>
         System,
+
+        /// <summary>
+        /// Do not enable any back buttons. Use this if you plan to handle all navigation or have your own back button in the application.
+        /// </summary>
         Manual,
     }
 }
