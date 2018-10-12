@@ -57,6 +57,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="5.0.0-preview.gb86cb1c4cb" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="5.0.0-preview.gb86cb1c4cb" />
     <Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,6 +75,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="PlatformSpecific\NETFramework\" />
     <Folder Include="Services\Internal\" />
   </ItemGroup>
 

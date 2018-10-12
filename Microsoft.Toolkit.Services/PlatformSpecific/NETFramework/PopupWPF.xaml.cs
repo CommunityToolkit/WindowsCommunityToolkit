@@ -12,7 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using WebViewControlNavigationStartingEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs;
+//using Win32NavigationStartingEventArgs = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
@@ -37,22 +37,35 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         {
             InitializeComponent();
 
-            WebView1.NavigationStarting += WebViewNavigationStarting;
+            WebView1.NavigationStarting += (s, e) => WebViewNavigationStartingHandler(e.Uri);
             callbackHost = GetTopLevelDomain(callbackUrl);
         }
 
-        private void WebViewNavigationStarting(object sender, WebViewControlNavigationStartingEventArgs e)
+        private void WebViewNavigationStartingHandler(Uri uri)
         {
-            if (initialHost != GetTopLevelDomain(e.Uri))
+            if (initialHost != GetTopLevelDomain(uri))
             {
-                if (GetTopLevelDomain(e.Uri) == callbackHost)
+                if (GetTopLevelDomain(uri) == callbackHost)
                 {
-                    ActualUrl = e.Uri;
+                    ActualUrl = uri;
                 }
 
                 this.Close();
             }
         }
+
+        //private void WebViewNavigationStarting(object sender, Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.WebViewControlNavigationStartingEventArgs e)
+        //{
+        //    if (initialHost != GetTopLevelDomain(e.Uri))
+        //    {
+        //        if (GetTopLevelDomain(e.Uri) == callbackHost)
+        //        {
+        //            ActualUrl = e.Uri;
+        //        }
+
+        //        this.Close();
+        //    }
+        //}
 
         /// <summary>
         /// Loads a given url in the WebView
