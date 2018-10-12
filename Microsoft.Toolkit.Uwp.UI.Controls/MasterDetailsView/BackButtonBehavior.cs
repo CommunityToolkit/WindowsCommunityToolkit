@@ -12,6 +12,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Automatically determine the best approach to use.
         /// </summary>
+        /// <remarks>
+        /// If the back button controlled by <see cref="Windows.UI.Core.SystemNavigationManager"/> is already visible, the <see cref="MasterDetailsView"/> will hook into that button.
+        /// If the new NavigationView provided by the Windows UI nuget package is used, the <see cref="MasterDetailsView"/> will enable and show that button.
+        /// Otherwise the inline button is used
+        /// </remarks>
         Automatic,
 
         /// <summary>
