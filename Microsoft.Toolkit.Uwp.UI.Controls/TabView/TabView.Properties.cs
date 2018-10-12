@@ -46,6 +46,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TabStartHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
+        /// Gets or sets the content to appear next to the tab strip.
+        /// </summary>
+        public object TabActionHeader
+        {
+            get { return (object)GetValue(TabActionHeaderProperty); }
+            set { SetValue(TabActionHeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TabActionHeader"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="TabActionHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty TabActionHeaderProperty =
+            DependencyProperty.Register(nameof(TabActionHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabActionHeader"/>.
+        /// </summary>
+        public DataTemplate TabActionHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(TabActionHeaderTemplateProperty); }
+            set { SetValue(TabActionHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TabActionHeaderTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="TabActionHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty TabActionHeaderTemplateProperty =
+            DependencyProperty.Register(nameof(TabActionHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets the content to appear to the right or below the tab strip.
         /// </summary>
         public object TabEndHeader

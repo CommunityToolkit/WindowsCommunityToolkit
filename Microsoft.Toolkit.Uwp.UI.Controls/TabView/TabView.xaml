@@ -21,11 +21,33 @@
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate x:Key="DefaultTabActionHeaderTemplate">
+        <StackPanel x:Name="TabActionHeaderContainer"
+                    ex:FrameworkElementExtensions.AncestorType="local:TabView"
+                    Orientation="Horizontal">
+            <Grid Visibility="{Binding (ex:FrameworkElementExtensions.Ancestor).IsAddTabButtonVisible, ElementName=TabActionHeaderContainer, Converter={StaticResource BoolToVisibilityConverter}}">
+                <Button x:Name="AddTabButton"
+                        Width="{ThemeResource ListViewItemMinHeight}"
+                        Height="{ThemeResource ListViewItemMinHeight}"
+                        Background="Transparent"
+                        Style="{StaticResource ButtonRevealStyle}">
+                    <Viewbox MaxWidth="16"
+                             MaxHeight="16">
+                        <FontIcon FontFamily="Segoe MDL2 Assets"
+                                  Glyph="&#xE710;" />
+                    </Viewbox>
+                </Button>
+            </Grid>
+            <ContentControl Content="{Binding (ex:FrameworkElementExtensions.Ancestor).TabActionHeader, ElementName=TabActionHeaderContainer}" />
+        </StackPanel>
+    </DataTemplate>
+
     <Thickness x:Key="TabViewItemHeaderIconMargin">12,0,0,0</Thickness>
     <Thickness x:Key="TabViewItemHeaderCloseMargin">-12,0,0,0</Thickness>
+    <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
 
-    <!--  Default Compact/WPF Style  -->
-    <Style TargetType="local:TabView">
+    <Style x:Key="BaseTabViewStyle"
+           TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -41,6 +63,7 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="TabActionHeaderTemplate" Value="{StaticResource DefaultTabActionHeaderTemplate}" />
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
         <Setter Property="ItemContainerTransitions">
@@ -62,47 +85,19 @@
         <Setter Property="Template" Value="{StaticResource TabViewTemplate}" />
     </Style>
 
+    <!--  Default Compact/WPF Style  -->
+    <Style BasedOn="{StaticResource BaseTabViewStyle}"
+           TargetType="local:TabView" />
+
     <Style x:Key="TabViewDocumentStyle"
+           BasedOn="{StaticResource BaseTabViewStyle}"
            TargetType="local:TabView">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
-        <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="CanReorderItems" Value="True" />
         <Setter Property="CanDragItems" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
-        <Setter Property="IsSwipeEnabled" Value="True" />
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Enabled" />
-        <Setter Property="ScrollViewer.IsHorizontalRailEnabled" Value="False" />
-        <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
-        <Setter Property="ScrollViewer.IsVerticalRailEnabled" Value="False" />
-        <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
-        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
-        <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="CanCloseTabs" Value="True" />
+        <Setter Property="IsAddTabButtonVisible" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
-        <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
-        <Setter Property="ItemContainerTransitions">
-            <Setter.Value>
-                <TransitionCollection>
-                    <AddDeleteThemeTransition />
-                    <ContentThemeTransition />
-                    <EntranceThemeTransition IsStaggeringEnabled="False" />
-                </TransitionCollection>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="ItemsPanel">
-            <Setter.Value>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" />
-                </ItemsPanelTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template" Value="{StaticResource TabViewTemplate}" />
     </Style>
 
     <ControlTemplate x:Key="TabViewTemplate"
@@ -166,20 +161,11 @@
                                 Padding="{TemplateBinding Padding}" />
             </ScrollViewer>
 
-            <Grid Grid.Row="1"
-                  Grid.Column="3"
-                  HorizontalAlignment="Left"
-                  Visibility="{Binding IsAddTabButtonVisible, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolToVisibilityConverter}}">
-                <!--  TODO: Add to 'TabActionHeader' Template  -->
-                <Button x:Name="AddTabButton"
-                        Width="{ThemeResource ListViewItemMinHeight}"
-                        Height="{ThemeResource ListViewItemMinHeight}"
-                        Background="Transparent"
-                        FontFamily="Segoe MDL2 Assets"
-                        Style="{StaticResource ButtonRevealStyle}">
-                    &#xE710;
-                </Button>
-            </Grid>
+            <ContentPresenter Grid.Row="1"
+                              Grid.Column="3"
+                              HorizontalAlignment="Left"
+                              Content="{TemplateBinding TabActionHeader}"
+                              ContentTemplate="{TemplateBinding TabActionHeaderTemplate}" />
 
             <ContentPresenter Grid.Row="1"
                               Grid.Column="5"
@@ -229,8 +215,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <!--  Modifications of default ListViewItem Template for our Tab Here  -->
-                <Viewbox Width="16"
-                         Height="16"
+                <Viewbox Width="{ThemeResource TabViewItemHeaderIconSize}"
+                         Height="{ThemeResource TabViewItemHeaderIconSize}"
                          Margin="{ThemeResource TabViewItemHeaderIconMargin}"
                          VerticalAlignment="Center"
                          Visibility="{Binding HeaderIcon, Converter={StaticResource NullVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">

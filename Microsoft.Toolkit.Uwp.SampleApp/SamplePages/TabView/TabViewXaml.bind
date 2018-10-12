@@ -20,18 +20,13 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:TabView x:Name="Tabs"
-                      IsAddTabButtonVisible="True">
-      <controls:TabView.HeaderTemplate>
-        <DataTemplate>
-          <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
-        </DataTemplate>
-      </controls:TabView.HeaderTemplate>
-      <controls:TabView.TabStartHeaderTemplate>
-        <DataTemplate>
-          <TextBlock Padding="16,0,12,0" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="Tabs"/>
-        </DataTemplate>
-      </controls:TabView.TabStartHeaderTemplate>      
+    <controls:TabView x:Name="Tabs">
+      <controls:TabView.Header>
+        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
+      </controls:TabView.Header>
+      <controls:TabView.TabStartHeader>
+        <TextBlock Padding="16,0,12,0" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="Tabs"/>
+      </controls:TabView.TabStartHeader>      
     
       <!-- Tabs -->
       <controls:TabViewItem Header="Home" HeaderIcon="Home">
@@ -45,28 +40,32 @@
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"
                             IsClosable="{ex:NullableBool Value=True}">
-        <TextBlock Padding="16">Try closing and re-ordering the tabs.</TextBlock>
+        <TextBlock Padding="16">Try closing and re-ordering the tabs in the 2nd sample below.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Not Closable" IsClosable="{ex:NullableBool Value=True}">
         <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
       </controls:TabViewItem>
+
+      <controls:TabView.TabActionHeader>
+        <Button Width="44" Height="44" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Padding="2,2,0,0">
+          <SymbolIcon Symbol="AddFriend"/>
+        </Button>
+      </controls:TabView.TabActionHeader>
     
-      <controls:TabView.TabEndHeaderTemplate>
-        <DataTemplate>
-          <Button Width="44" Height="44" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
+      <controls:TabView.TabEndHeader>
+        <Button Width="44" Height="44" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
+          <Viewbox MaxWidth="16" MaxHeight="16">
             <SymbolIcon Symbol="Setting"/>
-          </Button>
-        </DataTemplate>
-      </controls:TabView.TabEndHeaderTemplate>
+          </Viewbox>
+        </Button>
+      </controls:TabView.TabEndHeader>
     
-      <controls:TabView.FooterTemplate>
-        <DataTemplate>
+      <controls:TabView.Footer>
           <TextBlock Padding="16,8,16,8" 
                      HorizontalAlignment="Right"
                      FontSize="16" FontWeight="Bold" 
                      Text="TabView Control Footer" />
-        </DataTemplate>
-      </controls:TabView.FooterTemplate>
+      </controls:TabView.Footer>
     </controls:TabView>
     
     <controls:TabView x:Name="TabItems"

@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             TabItemCollection.Add(new DataItem() { MyText = "Third Tab", Value = 300 });
             TabItemCollection.Add(new DataItem() { MyText = "Tab Plus", Value = 400 });
 
-            SampleController.Current.RegisterNewCommand("Add Lower Tab", AddTabClick);
+            SampleController.Current.RegisterNewCommand("Add Upper Tab", AddUpperTabClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -40,7 +40,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tabs = control.FindChildByName("Tabs") as TabView;
             if (_tabs != null)
             {
-                _tabs.AddTabButtonClick += Tabs_AddTab;
                 _tabs.TabDraggedOutside += Tabs_TabDraggedOutside;
                 _tabs.TabClosing += Tabs_TabClosing;
             }
@@ -48,6 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tabItems = control.FindChildByName("TabItems") as TabView;
             if (_tabItems != null)
             {
+                _tabItems.AddTabButtonClick += AddTabButtonClicked_Lower;
                 _tabItems.ItemClick += TabItems_ItemClick;
             }
         }
@@ -57,12 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await new MessageDialog("You clicked the '" + e.ClickedItem + "' tab.").ShowAsync();
         }
 
-        private void AddTabClick(object sender, RoutedEventArgs e)
-        {
-            TabItemCollection.Add(new DataItem() { MyText = "New Tab", Value = 500 });
-        }
-
-        private void Tabs_AddTab(object sender, EventArgs e)
+        private void AddUpperTabClick(object sender, RoutedEventArgs e)
         {
             _tabs.Items.Add(new TabViewItem()
             {
@@ -70,6 +65,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 HeaderIcon = new SymbolIcon(Symbol.Document),
                 Content = "This is a new tab."
             });
+        }
+
+        private void AddTabButtonClicked_Lower(object sender, EventArgs e)
+        {
+            TabItemCollection.Add(new DataItem() { MyText = "New Tab", Value = 500 });
         }
 
         private void Tabs_TabClosing(object sender, TabClosingEventArgs e)

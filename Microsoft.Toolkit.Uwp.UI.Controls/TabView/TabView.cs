@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TABVIEWCONTAINER_NAME, Type = typeof(Grid))]
     [TemplatePart(Name = TABITEMSPRESENTER_NAME, Type = typeof(ItemsPresenter))]
     [TemplatePart(Name = TABSCROLLVIEWER_NAME, Type = typeof(ScrollViewer))]
-    [TemplatePart(Name = TABADDBUTTON_NAME, Type = typeof(ButtonBase))]
     [TemplatePart(Name = TABSCROLLBACKBUTTON_NAME, Type = typeof(ButtonBase))]
     [TemplatePart(Name = TABSCROLLFORWARDBUTTON_NAME, Type = typeof(ButtonBase))]
     public partial class TabView : ListViewBase
@@ -75,6 +74,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Loaded -= TabView_Loaded;
 
+            // The Add button is part of our default TabActionHeader, which isn't part of our control template.
+            _tabAddButton = this.FindDescendantByName(TABADDBUTTON_NAME) as ButtonBase;
+
+            if (_tabAddButton != null)
+            {
+                _tabAddButton.Click -= AddTabButton_Click;
+                _tabAddButton.Click += AddTabButton_Click;
+            }
+
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
             {
                 // Need to set a tab's selection on load, otherwise ListView resets to null.
@@ -128,7 +136,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabViewContainer = GetTemplateChild(TABVIEWCONTAINER_NAME) as Grid;
             _tabItemsPresenter = GetTemplateChild(TABITEMSPRESENTER_NAME) as ItemsPresenter;
             _tabScroller = GetTemplateChild(TABSCROLLVIEWER_NAME) as ScrollViewer;
-            _tabAddButton = GetTemplateChild(TABADDBUTTON_NAME) as ButtonBase;
 
             DragLeave += TabPresenter_DragLeave;
             DragItemsCompleted += TabPresenter_DragItemsCompleted;
@@ -144,12 +151,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 SelectionChanged -= TabView_SelectionChanged;
                 SelectionChanged += TabView_SelectionChanged;
-            }
-
-            if (_tabAddButton != null)
-            {
-                _tabAddButton.Click -= AddTabButton_Click;
-                _tabAddButton.Click += AddTabButton_Click;
             }
 
             if (_tabScroller != null)
