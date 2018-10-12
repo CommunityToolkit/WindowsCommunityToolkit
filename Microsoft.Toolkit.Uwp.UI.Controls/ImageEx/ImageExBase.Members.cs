@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Shared Code for ImageEx and RoundImageEx
+    /// Base Code for ImageEx
     /// </summary>
     public partial class ImageExBase
     {
