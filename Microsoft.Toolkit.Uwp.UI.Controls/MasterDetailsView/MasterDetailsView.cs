@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
-        private AppViewBackButtonVisibility _previousBackButtonVisibility;
+        private AppViewBackButtonVisibility? _previousBackButtonVisibility;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
@@ -301,10 +301,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _inlineBackButton.Visibility = Visibility.Collapsed;
                 }
-                else
+
+                if (_previousBackButtonVisibility.HasValue)
                 {
                     // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility;
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility.Value;
                 }
             }
         }
