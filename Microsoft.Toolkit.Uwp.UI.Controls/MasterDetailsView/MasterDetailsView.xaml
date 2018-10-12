@@ -58,9 +58,19 @@
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Grid>
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="MasterDetailsBackButton"
+                                                Background="Transparent"
+                                                Height="44" 
+                                                Width="48" 
+                                                Visibility="Collapsed">
+                                            <SymbolIcon Symbol="Back"/>
+                                        </Button>
                                         <ContentPresenter x:Name="DetailsHeaderPresenter"
-                                                          Background="{TemplateBinding Background}"
                                                           Content="{TemplateBinding DetailsHeader}"
                                                           ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"/>
                                     </Grid>
