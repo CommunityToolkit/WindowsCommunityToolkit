@@ -55,6 +55,16 @@ function Get-SdkVersion
 
     $version = Get-NodeValue $xml 'PropertyGroup/TargetPlatformVersion'
     $versions.Add($version) | Out-Null
+
+    # Versions may also be specified without the 10.0.xxxxx.0 format in the
+    # PropertyGroup/DefaultTargetPlatformVersion and PropertyGroup/DefaultTargetPlatformMinVersion
+
+    # If you want a complete set of SDKs that are required, uncomment the following
+    # $version = Get-NodeValue $xml 'PropertyGroup/DefaultTargetPlatformMinVersion'
+    # $versions.Add("10.0." + $version + ".0") | Out-Null
+
+    $version = Get-NodeValue $xml 'PropertyGroup/DefaultTargetPlatformVersion'
+    $versions.Add("10.0." + $version + ".0") | Out-Null
 }
 
 function Test-RegistryPathAndValue
