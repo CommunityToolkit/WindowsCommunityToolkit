@@ -21,7 +21,7 @@
             <Setter Property="Width" Value="400" />
             <Setter Property="Height" Value="300" />
         </Style>
-        <Style x:Key="RoundStyle" TargetType="controls:RoundImageEx" BasedOn="{StaticResource BaseStyle}">
+        <Style x:Key="RoundStyle" TargetType="controls:ImageEx" BasedOn="{StaticResource BaseStyle}">
             <Setter Property="Width" Value="200" />
             <Setter Property="Height" Value="200" />
             <Setter Property="CornerRadius" Value="999" />
@@ -48,7 +48,7 @@
               
                 <TextBlock Text="Above ImageEx will have rounded corners on the Fall Creators Update." Margin="4" HorizontalAlignment="Center"/>
 
-                <controls:RoundImageEx x:Name="RoundImageExControl1"
+                <controls:ImageEx x:Name="RoundImageExControl1"
                                        IsCacheEnabled="@[Enable Cache]"
                                        Source="/Assets/Photos/Owl.jpg"
                                        PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
