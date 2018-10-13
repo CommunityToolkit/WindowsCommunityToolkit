@@ -19,6 +19,3 @@ await WeiboService.Instance.PostStatusAsync(StatusText.Text);
 
 // Post a status with a picture
 await WeiboService.Instance.PostStatusAsync(StatusText.Text, stream);
-
-// Search for a specific tag
-ListView.ItemsSource = await WeiboService.Instance.SearchAsync(TagText.Text, 50);

@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public long? Uid => Provider.Uid;
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="appKey">App key.</param>
         /// <param name="appSecret">App secret.</param>
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Initialize underlying provider with relevent token information.
+        /// Initialize underlying provider with relevant token information.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>
         /// <param name="authenticationBroker">Authentication result interface.</param>
@@ -237,7 +237,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Post a status.
         /// Due to the restriction by Weibo API, your status must include a url which starts with "http"/"https".
-        /// You should add the url domain as one of the security domain in application information settings of your Weibo app.
+        /// You can add a url to the list of secure domains in the basic information section on your Weibo application page.
         /// </summary>
         /// <param name="status">The status information.</param>
         /// <returns>Returns the published weibo status.</returns>
@@ -258,9 +258,9 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 
         /// <summary>
-        /// Post a status with associated pictures.
+        /// Post a status with a picture.
         /// Due to the restriction by Weibo API, your status must include a url which starts with "http"/"https".
-        /// You should add the url domain as one of the security domain in application information settings of your Weibo app.
+        /// You can add a url to the list of secure domains in the basic information section on your Weibo application page.
         /// </summary>
         /// <param name="status">The status information.</param>
         /// <param name="picture">Picture to attach to the status.</param>
