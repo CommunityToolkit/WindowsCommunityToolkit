@@ -15,14 +15,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class WeiboPage
     {
-        private ObservableCollection<WeiboStatus> _tweets;
-        
+        private ObservableCollection<WeiboStatus> _statuses;
+
         public WeiboPage()
         {
             InitializeComponent();
 
             ShareBox.Visibility = Visibility.Collapsed;
-            HideTweetPanel();
+            HideStatusPanel();
 
             AppKey.Text = string.Empty;
             AppSecret.Text = string.Empty;
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ShareBox.Visibility = Visibility.Visible;
 
             HideCredentialsPanel();
-            ShowTweetPanel();
+            ShowStatusPanel();
 
             WeiboUser user;
             try
@@ -79,9 +79,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.DataContext = user;
             ProfileImage.Visibility = Visibility.Visible;
 
-            _tweets = new ObservableCollection<WeiboStatus>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+            _statuses = new ObservableCollection<WeiboStatus>(await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
 
-            ListView.ItemsSource = _tweets;
+            ListView.ItemsSource = _statuses;
 
             SampleController.Current.DisplayWaitRing = false;
         }
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
 
             SampleController.Current.DisplayWaitRing = true;
-            await WeiboService.Instance.PostStatusAsync(TweetText.Text);
+            await WeiboService.Instance.PostStatusAsync(StatusText.Text);
             SampleController.Current.DisplayWaitRing = false;
         }
 
@@ -142,34 +142,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 using (var stream = await picture.OpenReadAsync())
                 {
                     SampleController.Current.DisplayWaitRing = true;
-                    await WeiboService.Instance.PostStatusAsync(TweetText.Text, stream.AsStream());
+                    await WeiboService.Instance.PostStatusAsync(StatusText.Text, stream.AsStream());
                     SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
 
-        private void TweetBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
+        private void StatusBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
         {
-            if (TweetPanel.Visibility == Visibility.Visible)
+            if (StatusPanel.Visibility == Visibility.Visible)
             {
-                HideTweetPanel();
+                HideStatusPanel();
             }
             else
             {
-                ShowTweetPanel();
+                ShowStatusPanel();
             }
         }
 
-        private void ShowTweetPanel()
+        private void ShowStatusPanel()
         {
-            TweetBoxExpandButton.Content = "";
-            TweetPanel.Visibility = Visibility.Visible;
+            StatusBoxExpandButton.Content = "";
+            StatusPanel.Visibility = Visibility.Visible;
         }
 
-        private void HideTweetPanel()
+        private void HideStatusPanel()
         {
-            TweetBoxExpandButton.Content = "";
-            TweetPanel.Visibility = Visibility.Collapsed;
+            StatusBoxExpandButton.Content = "";
+            StatusPanel.Visibility = Visibility.Collapsed;
         }
     }
 }

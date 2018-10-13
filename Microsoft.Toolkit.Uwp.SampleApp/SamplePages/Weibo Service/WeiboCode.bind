@@ -14,11 +14,11 @@ ProfileImage.DataContext = user;
 // Get user timeline
 ListView.ItemsSource = await WeiboService.Instance.GetUserTimeLineAsync(user.ScreenName, 50);
 
-// Post a tweet
-await WeiboService.Instance.TweetStatusAsync(TweetText.Text);
+// Post a status
+await WeiboService.Instance.PostStatusAsync(StatusText.Text);
 
-// Post a tweet with a picture
-await WeiboService.Instance.TweetStatusAsync(TweetText.Text, stream);
+// Post a status with a picture
+await WeiboService.Instance.PostStatusAsync(StatusText.Text, stream);
 
 // Search for a specific tag
 ListView.ItemsSource = await WeiboService.Instance.SearchAsync(TagText.Text, 50);
