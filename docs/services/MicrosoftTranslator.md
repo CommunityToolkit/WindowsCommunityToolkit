@@ -24,13 +24,14 @@ The **Microsoft Translator Service** allows you to translate text to various sup
 await TranslatorService.Instance.InitializeAsync("<translator service key");
 
 // Retrieves friendly names for the languages available for text translation.
-var languages = await TranslatorService.Instance.GetLanguageNamesAsync();
+var languages = await TranslatorService.Instance.GetLanguageNamesAsync("en");
 
 // Detects the language of a text.
 var language = await TranslatorService.Instance.DetectLanguageAsync("Hello everyone!");
 
 // Translates the text to Italian.
-var translatedText = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
+var translateResult = await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it");
+var translatedText = translateResult.Translation.Text;
 ```
 ```vb
 ' Imports Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator
@@ -44,7 +45,8 @@ Dim languages = Await TranslatorService.Instance.GetLanguageNamesAsync()
 Dim language = Await TranslatorService.Instance.DetectLanguageAsync("Hello everyone!")
 
 ' Translates the text to Italian.
-Dim translatedText = Await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it")
+Dim translateResult = Await TranslatorService.Instance.TranslateAsync("Hello everyone!", "it")
+Dim translatedText = translateResult.Translation.Text;
 ```
 
 ## Sample Code

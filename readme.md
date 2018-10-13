@@ -18,9 +18,9 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages
-NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI. Enter one of the package names below to search for it online.
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* . Enter one of the package names below to search for it online.
 
-Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
+Once you do a search, you should see a list similar to the one below (versions may be different, but names should be the same).
 
 ![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
 
