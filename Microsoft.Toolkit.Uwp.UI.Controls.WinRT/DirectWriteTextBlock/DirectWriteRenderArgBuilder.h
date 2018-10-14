@@ -1,6 +1,35 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #pragma once
 
 BEGIN_NAMESPACE_CONTROLS_WINRT
+
+public enum class DirectWriteReadingDirection : int
+{
+    LeftToRight,
+    RightToLeft,
+    TopToBottom,
+    BottomToTop
+};
+
+public enum class DirectWriteTextAlignment : int
+{
+    Leading,
+    Trailing,
+    Center,
+    Justified
+};
+
+public enum class DirectWriteWordWrapping : int
+{
+    Wrap,
+    NoWrap,
+    EmergencyBreak,
+    WholeWord,
+    Character
+};
 
 /// <summary>
 /// These are arguments which are used to render the DWrite string.
@@ -17,6 +46,7 @@ struct DirectWriteTextRenderArgs
     DWRITE_FLOW_DIRECTION flowDirection;
     DWRITE_FONT_WEIGHT fontWeight;
     DWRITE_WORD_WRAPPING textWrapping;
+    DWRITE_TEXT_ALIGNMENT textAlignment;
     float fontSize;
     float rawPixelsPerViewPixel;
     float availableWidth;
@@ -31,7 +61,7 @@ struct DirectWriteTextRenderArgs
 /// is using the text block from C# (most users are expected to do this), a crash ultimately
 /// just gives them a "something went wrong and a native exception was thrown" which is not
 /// super helpful. Recovery will at least render something that looks incorrect on the screen.
-/// <summary>
+/// </summary>
 class DirectWriteRenderArgBuilder
 {
 public:
@@ -39,77 +69,83 @@ public:
 
     /// <summary>
     /// The font family, by default Segoe UI
-    /// <summary>
+    /// </summary>
     void SetFontFamily(Windows::UI::Xaml::Media::FontFamily^ fontFamily);
 
     /// <summary>
     /// The text to render, empty string by default.
-    /// <summary>
+    /// </summary>
     void SetText(Platform::String^ text);
 
     /// <summary>
     /// The text locale for DWrite, en-US by default.
-    /// <summary>
+    /// </summary>
     void SetTextLocale(Platform::String^ textLocale);
 
     /// <summary>
     /// The foreground brush, Black by default
-    /// <summary>
+    /// </summary>
     void SetForegroundBrush(Windows::UI::Xaml::Media::Brush^ brush);
 
     /// <summary>
     /// The font style, Normal by default
-    /// <summary>
+    /// </summary>
     void SetFontStyle(Windows::UI::Text::FontStyle fontStyle);
 
     /// <summary>
     /// The font stretch, normal by default
-    /// <summary>
+    /// </summary>
     void SetFontStretch(Windows::UI::Text::FontStretch fontStretch);
 
     /// <summary>
-    /// The text orientation, vertical by default since if you're going to use horizontal, you should use a XAML TextBlock
-    /// <summary>
-    void SetTextOrientation(Windows::UI::Xaml::Controls::Orientation textOrientation);
+    /// The text reading direction, top to bottom by default
+    /// </summary>
+    void SetTextReadingDirection(DirectWriteReadingDirection textReadingDirection);
 
     /// <summary>
     /// The flow direction, LeftToRight by default
-    /// <summary>
+    /// </summary>
     void SetFlowDirection(Windows::UI::Xaml::FlowDirection flowDirection);
 
     /// <summary>
     /// The font weight, Normal by default
-    /// <summary>
+    /// </summary>
     void SetFontWeight(Windows::UI::Text::FontWeight fontWeight);
 
     /// <summary>
     /// The font size, 15 by default.
-    /// <summary>
+    /// </summary>
     void SetFontSize(double fontSize);
 
     /// <summary>
     /// The DPI to render at, 1 by default
-    /// <summary>
+    /// </summary>
     void SetDPI(double rawPixelsPerViewPixel);
 
     /// <summary>
     /// The available width to render at
-    /// <summary>
+    /// </summary>
     void SetAvailableWidth(float availableWidth);
 
     /// <summary>
     /// The available height to render at.
-    /// <summary>
+    /// </summary>
     void SetAvailableHeight(float availableHeight);
 
     /// <summary>
     /// The text wrap mode, None by default.
+    /// </summary>
+    void SetTextWrapping(DirectWriteWordWrapping textWrapping);
+
     /// <summary>
-    void SetTextWrapping(Windows::UI::Xaml::TextWrapping textWrapping);
+    /// The text alignment mode, Leading by default.
+    /// </summary>
+    void SetTextAlignment(DirectWriteTextAlignment textAlignment);
+
 
     /// <summary>
     /// The render arguments.
-    /// <summary>
+    /// </summary>
     DirectWriteTextRenderArgs& BuildRenderArgs();
 
 private:
