@@ -25,7 +25,7 @@ Please do not open issues for general support questions and keep our GitHub issu
 
 ## <a name="issue"></a> Found a Bug?
 If you find a bug, you can help us by
-[submitting an issue](https://github.com/Microsoft/UWPCommunityToolkit/issues). Even better, you can
+[submitting an issue](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues). Even better, you can
 [submit a Pull Request](#pr) with a fix.
 
 ## <a name="pr"></a> Submitting a pull request
@@ -37,9 +37,9 @@ For every contribution, you must:
 
 * If adding a new feature
     * Before starting coding, **you should open an uservoice entry** under "Windows Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
-    * Add or update a documentation page in the [documentation folder](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/docs/.template.md). Once validated, your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
-    * Add or update a sample for the [Sample app](https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
-        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
+    * Add or update a documentation page in the [documentation folder](https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/docs/.template.md). Once validated, your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
+    * Add or update a sample for the [Sample app](https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
+        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
     * Add or update unit tests (if applicable)
 
 

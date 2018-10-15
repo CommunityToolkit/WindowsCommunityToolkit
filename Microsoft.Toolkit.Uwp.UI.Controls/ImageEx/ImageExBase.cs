@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Shared Code for ImageEx and RoundImageEx
+    /// Base Code for ImageEx
     /// </summary>
     [TemplateVisualState(Name = LoadingState, GroupName = CommonGroup)]
     [TemplateVisualState(Name = LoadedState, GroupName = CommonGroup)]
