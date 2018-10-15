@@ -8,7 +8,7 @@ keywords: windows 10, uwp, windows community toolkit, uwp community toolkit, uwp
 # ImageEx XAML Control
 
 The [ImageEx Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.imageex) and [RoundImageEx Control](https://docs.microsoft.com/dotnet/api/microsoft.toolkit.uwp.ui.controls.roundimageex) downloads images asynchronously, while showing a loading indicator. Source images are then stored in the application's local cache to preserve resources and load time. ImageEx also extends the default *Image* and *ImageBrush* Platform controls respectively to improve performance through caching. You can also use a placeholder image that will be displayed while loading the main image.
- 
+
 ## Syntax
 
 ```xaml
@@ -33,6 +33,8 @@ On Windows 10.0.16299.0 or higher, `CornerRadius` is supported on ImageEx.  Use 
 | Property | Type | Description |
 | -- | -- | -- |
 | NineGrid | Thickness | Gets or sets the nine-grid used by the image |
+| IsCacheEnabled | bool | Gets or sets a value indicating whether gets or sets cache state |
+| ImageExCachingStrategy | enum | Gets or sets a value indicating how the Image will be cached |
 
 ## RoundImageEx Properties
 

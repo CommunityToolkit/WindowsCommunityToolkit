@@ -9,7 +9,7 @@ using System.Windows;
 namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 {
     /// <summary>
-    /// Focus portion of WindowsXamlHostBase
+    /// Focus and Keyboard handling for Focus integration with UWP XAML
     /// </summary>
     public partial class WindowsXamlHostBase
     {
@@ -58,9 +58,9 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         {
             base.OnGotFocus(e);
 
-            if (!desktopWindowXamlSource.HasFocus)
+            if (!_xamlSource.HasFocus)
             {
-                desktopWindowXamlSource.NavigateFocus(
+                _xamlSource.NavigateFocus(
                     new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                         Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Programmatic));
             }
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <summary>
         /// Process Tab from host framework
         /// </summary>
-        /// <param name="request">TraversalRequest that contains requested navigation direction</param>
+        /// <param name="request"><see cref="System.Windows.Input.TraversalRequest"/> that contains requested navigation direction</param>
         /// <returns>Did handle tab</returns>
         protected override bool TabIntoCore(System.Windows.Input.TraversalRequest request)
         {
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
             var sourceFocusNavigationRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(reason, origin, _lastFocusRequest);
             try
             {
-                var result = desktopWindowXamlSource.NavigateFocus(sourceFocusNavigationRequest);
+                var result = _xamlSource.NavigateFocus(sourceFocusNavigationRequest);
 
                 // Returning true indicates that focus moved.  This will cause the HwndHost to
                 // move focus to the source’s hwnd (call SetFocus Win32 API)
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         /// <returns>result of transformed rectangle</returns>
         private static Windows.Foundation.Rect BoundsRelativeTo(FrameworkElement sibling1, System.Windows.Media.Visual sibling2)
         {
-            Windows.Foundation.Rect origin;
+            Windows.Foundation.Rect origin = default(Windows.Foundation.Rect);
 
             if (sibling1 != null)
             {
@@ -124,10 +124,10 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
-        /// Take Focus Requested
+        /// Handles the <see cref="E:TakeFocusRequested" /> event.
         /// </summary>
-        /// <param name="sender">event source</param>
-        /// <param name="e">event arguments</param>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs"/> instance containing the event data.</param>
         private void OnTakeFocusRequested(object sender, Windows.UI.Xaml.Hosting.DesktopWindowXamlSourceTakeFocusRequestedEventArgs e)
         {
             if (_lastFocusRequest == e.Request.CorrelationId)
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
                 // by "Restoring" the focus back to us under a new correctationId
                 var newRequest = new Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationRequest(
                     Windows.UI.Xaml.Hosting.XamlSourceFocusNavigationReason.Restore);
-                desktopWindowXamlSource.NavigateFocus(newRequest);
+                _xamlSource.NavigateFocus(newRequest);
             }
             else
             {

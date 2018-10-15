@@ -8,24 +8,28 @@ using System.Runtime.InteropServices;
 namespace Microsoft.Toolkit.Win32.UI.XamlHost
 {
     /// <summary>
-    /// IDesktopWindowXamlSourceNative interface enables access to native methods on DesktopWindowXamlSourceNative,
-    /// including the method used to set the window handle of the DesktopWindowXamlSource instance.
+    /// Enables access to native methods on DesktopWindowXamlSourceNative
     /// </summary>
+    /// <remarks>
+    /// Includes the method used to set the window handle of the <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> instance.
+    /// </remarks>
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     [Guid("3cbcf1bf-2f76-4e9c-96ab-e84b37972554")]
     public interface IDesktopWindowXamlSourceNative
     {
         /// <summary>
-        /// Attaches the DesktopWindowXamlSource to a window using a window handle.
-        /// The associated window will be used to parent UWP XAML visuals, appearing
-        /// as UWP XAML's logical render target.
+        /// Attaches the <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> to a window using a window handle.
         /// </summary>
         /// <param name="parentWnd">pointer to parent Wnd</param>
+        /// <remarks>
+        /// The associated window will be used to parent UWP XAML visuals, appearing
+        /// as UWP XAML's logical render target.
+        /// </remarks>
         void AttachToWindow(IntPtr parentWnd);
 
         /// <summary>
-        /// Gets the handle associated with the DesktopWindowXamlSource instance.
+        /// Gets the handle associated with the <see cref="Windows.UI.Xaml.Hosting.DesktopWindowXamlSource" /> instance.
         /// </summary>
         IntPtr WindowHandle { get; }
     }

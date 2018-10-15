@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
         protected override void CreateWebView()
         {
             // This is what Windows Forms designer emits
-            WebView = new UI.Controls.WinForms.WebView();
+            WebView = new Forms.UI.Controls.WebView();
             ((ISupportInitialize)WebView).BeginInit();
             Form.SuspendLayout();
             WebView.Dock = DockStyle.Fill;
