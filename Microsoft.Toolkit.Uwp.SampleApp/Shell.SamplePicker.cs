@@ -33,11 +33,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _currentSample = value;
-                var nop = SetHamburgerMenuSelection();
+                var nop = SetNavViewSelection();
             }
         }
 
-        private async Task SetHamburgerMenuSelection()
+        private async Task SetNavViewSelection()
         {
             if (_currentSample != null)
             {
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             _selectedCategory = null;
 
-            var noop = SetHamburgerMenuSelection();
+            var noop = SetNavViewSelection();
         }
 
         private async void ShowSamplePicker(Sample[] samples = null)

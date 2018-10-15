@@ -319,7 +319,6 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
-    <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
@@ -380,7 +379,6 @@
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
@@ -870,9 +868,6 @@
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
-      <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
       <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
     </Compile>
@@ -1315,10 +1310,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
