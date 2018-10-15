@@ -69,6 +69,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
+            if (_inlineBackButton != null)
+            {
+                _inlineBackButton.Click -= OnInlineBackButtonClicked;
+            }
+
             _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
             if (_inlineBackButton != null)
             {
