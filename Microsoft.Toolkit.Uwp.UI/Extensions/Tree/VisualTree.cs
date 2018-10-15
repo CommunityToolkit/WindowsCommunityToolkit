@@ -158,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
-        /// Find first visual ascendant control of a specified type.
+        /// Find all visual ascendants for the element.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
