@@ -137,18 +137,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/SlidableListItem.md"
       },
       {
-        "Name": "PullToRefreshListView",
-        "Type": "PullToRefreshListViewPage",
-        "About": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
-        "CodeFile": "PullToRefreshListViewCode.bind",
-        "XamlCodeFile": "PullToRefreshListViewXaml.bind",
-        "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
-      },
-      {
         "Name": "RotatorTile",
         "Type": "RotatorTilePage",
         "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
@@ -414,17 +402,6 @@
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/FadeHeader.md"
-      },
-      {
-        "Name": "ParallaxService",
-        "Type": "ParallaxPage",
-        "About": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "XamlCodeFile": "ParallaxPage.bind",
-        "Icon": "/SamplePages/ParallaxService/Parallax.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ParallaxService.md"
       },
       {
         "Name": "ReorderGridAnimation",

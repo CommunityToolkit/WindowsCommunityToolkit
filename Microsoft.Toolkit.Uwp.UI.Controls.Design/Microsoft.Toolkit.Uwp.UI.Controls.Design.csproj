@@ -117,7 +117,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Common\ToolboxCategoryPaths.cs" />
-    <Compile Include="PullToRefreshListViewMetadata.cs" />
     <Compile Include="RadialGaugeMetadata.cs" />
     <Compile Include="RadialProgressBarMetadata.cs" />
     <Compile Include="RangeSelectorMetadata.cs" />

@@ -343,7 +343,6 @@
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
-    <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
@@ -361,7 +360,6 @@
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
@@ -389,7 +387,6 @@
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
@@ -433,7 +430,6 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
-    <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
@@ -471,7 +467,6 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
@@ -809,9 +804,6 @@
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ParallaxService\ParallaxPage.xaml.cs">
-      <DependentUpon>ParallaxPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
@@ -869,9 +861,6 @@
     </Compile>
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
-      <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Rotate\RotateBehaviorPage.xaml.cs">
       <DependentUpon>RotateBehaviorPage.xaml</DependentUpon>
@@ -1239,10 +1228,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ParallaxService\ParallaxPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1316,10 +1301,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

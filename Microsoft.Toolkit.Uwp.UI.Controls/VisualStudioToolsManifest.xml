@@ -28,7 +28,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.PullToRefreshListView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
