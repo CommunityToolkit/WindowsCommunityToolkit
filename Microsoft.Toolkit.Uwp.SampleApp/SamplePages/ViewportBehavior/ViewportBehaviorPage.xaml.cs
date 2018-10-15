@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
 
             LogsItemsControl.ItemsSource = _logs;
-            EffectElement.Fade(value: 0, duration: 0).Start();
+            EffectElement.Blur(value: 10, duration: 0).Start();
         }
 
         private async void AddLog(string log)
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddLog("Entered viewport");
 
-            await EffectElement.Fade(value: 1, duration: 2000).StartAsync();
+            await EffectElement.Blur(value: 0, duration: 1500).StartAsync();
         }
 
         private async void EffectHost_ExitedViewport(object sender, EventArgs e)
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AddLog("Exited viewport");
 
             EffectElement.Source = null;
-            await EffectElement.Fade(value: 0, duration: 0).StartAsync();
+            await EffectElement.Blur(value: 8, duration: 0).StartAsync();
         }
 
         private void EffectHost_EnteringViewport(object sender, EventArgs e)
