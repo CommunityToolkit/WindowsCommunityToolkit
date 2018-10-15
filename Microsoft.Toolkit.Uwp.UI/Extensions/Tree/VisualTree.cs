@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         /// <param name="element">Child element.</param>
         /// <returns>A collection of parent elements or null if none found.</returns>
-        public static IEnumerable<DependencyObject> GetAscendants(this DependencyObject element)
+        public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
         {
             var parent = VisualTreeHelper.GetParent(element);
 

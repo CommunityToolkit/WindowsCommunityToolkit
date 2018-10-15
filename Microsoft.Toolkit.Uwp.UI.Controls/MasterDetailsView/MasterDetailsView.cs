@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
-                _navigationView = this.GetAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
+                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
                 _frame = this.FindAscendant<Frame>();
                 if (_frame != null)
                 {
