@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-    <ItemGroup>
-        <SDKReference Include="Microsoft.VCLibs, Version 14.0">
-            <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
-        </SDKReference>
+     <PropertyGroup>
+        <PackagePlatform Condition="'$(Platform)' == 'Win32'">x86</PackagePlatform>
+        <PackagePlatform Condition="'$(Platform)' != 'Win32'">$(Platform)</PackagePlatform>
+    </PropertyGroup>
+    <ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'UAP'">
+        <Reference Include="$(MSBuildThisFileDirectory)..\..\lib\uap10.0.17134\Microsoft.Toolkit.Uwp.Input.GazeInteraction.winmd">
+            <Implementation>Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll</Implementation>
+        </Reference>
+        <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(PackagePlatform)\native\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" />
     </ItemGroup>
 </Project>
