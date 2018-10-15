@@ -59,11 +59,11 @@ await WeiboService.Instance.PostStatusAsync(StatusText.Text, stream);
 | Methods | Return Type | Description |
 | -- | -- | -- |
 | Initialize(string, string, string, IAuthenticationBroker, IPasswordManager, IStorageManager) | bool | Initialize underlying provider with relevant token information. |
-| LoginAsync() | Task |  Log user in to Weibo. |
-| GetUserAsync(string) | Task |  Retrieve user data. |
-| GetUserTimeLineAsync(string, int) | Task |  Retrieve user timeline data. |
-| PostStatusAsync(string) | Task |  Post a status. |
-| PostStatusAsync(string, Stream) | Task |  Post a status with a picture. |
+| LoginAsync() | Task&lt;bool&gt; |  Log user in to Weibo. |
+| GetUserAsync(string) | Task&lt;WeiboUser&gt; |  Retrieve user data. |
+| GetUserTimeLineAsync(string, int) | Task&lt;IEnumerable&lt;WeiboStatus&gt;&gt; |  Retrieve user timeline data. |
+| PostStatusAsync(string) | Task&lt;WeiboStatus&gt; |  Post a status. |
+| PostStatusAsync(string, Stream) | Task&lt;WeiboStatus&gt; |  Post a status with a picture. |
 
 ## Sample Code
 
