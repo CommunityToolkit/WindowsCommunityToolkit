@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <StackPanel Background="@[ContainerBackground:String:Black]">
+        <StackPanel>
             <TextBlock Text="This is a standard XAML Textblock for comparison."
                 FontFamily="@[FontFamily:String:Segoe UI]"
                 FontWeight="@[FontWeight:String:Normal]"
@@ -20,7 +20,6 @@
                 FontWeight="@[FontWeight:String:Normal]"
                 FontStyle="@[FontStyle:Enum:FontStyle.Normal]"
                 FontStretch="@[FontStretch:Enum:FontStretch.Normal]"
-                TextOrientation="@[TextOrientation:Enum:Orientation.Vertical]"
                 FontSize="@[FontSize:Slider:15:1-100]" />
         </StackPanel>
     </Grid>

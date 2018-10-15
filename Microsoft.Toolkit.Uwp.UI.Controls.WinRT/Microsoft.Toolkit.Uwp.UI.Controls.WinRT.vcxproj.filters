@@ -14,12 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="UniversalWindowsAppPackageFontLoader\FontCollectionLoader.cpp">
-      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
-    </ClCompile>
-    <ClCompile Include="UniversalWindowsAppPackageFontLoader\FontFileEnumerator.cpp">
-      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
-    </ClCompile>
     <ClCompile Include="DirectWriteTextBlock\DirectWriteRenderArgBuilder.cpp">
       <Filter>DirectWriteTextBlock</Filter>
     </ClCompile>
@@ -29,18 +23,15 @@
     <ClCompile Include="DirectWriteTextBlock\DirectWriteTextBlock.cpp">
       <Filter>DirectWriteTextBlock</Filter>
     </ClCompile>
+    <ClCompile Include="DirectWriteTextBlock\DirectWriteFontCollectionLoader.cpp">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectWriteTextBlock\DirectWriteFontFileEnumerator.cpp">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="UniversalWindowsAppPackageFontLoader\FontCollectionLoader.h">
-      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="UniversalWindowsAppPackageFontLoader\FontFileEnumerator.h">
-      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
-    </ClInclude>
-    <ClInclude Include="UniversalWindowsAppPackageFontLoader\UniversalPackageFontData.h">
-      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
-    </ClInclude>
     <ClInclude Include="DirectWriteTextBlock\DirectWriteRenderArgBuilder.h">
       <Filter>DirectWriteTextBlock</Filter>
     </ClInclude>
@@ -49,6 +40,15 @@
     </ClInclude>
     <ClInclude Include="DirectWriteTextBlock\DirectWriteTextBlock.h">
       <Filter>DirectWriteTextBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectWriteTextBlock\DirectWriteFontCollectionLoader.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectWriteTextBlock\DirectWriteFontFileEnumerator.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectWriteTextBlock\DirectWriteUniversalPackageFontData.h">
+      <Filter>UniversalWindowsAppPackageFontLoader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

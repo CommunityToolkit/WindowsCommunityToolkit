@@ -1,5 +1,9 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #include "pch.h"
-#include "UniversalWindowsAppPackageFontLoader\FontCollectionLoader.h"
+#include "DirectWriteFontCollectionLoader.h"
 #include "DirectWriteResourceManager.h"
 
 BEGIN_NAMESPACE_CONTROLS_WINRT
@@ -36,6 +40,12 @@ IDXGIDevice* DirectWriteResourceManager::GetDXGIDeviceNoRef()
 {
     winrt::check_hresult(InitializeDeviceResources());
     return m_dxgiDevice.get();
+}
+
+HRESULT DirectWriteResourceManager::RebuildDeviceResources()
+{
+    m_deviceResourcesInitialized = false;
+    return InitializeDeviceResources();
 }
 
 HRESULT DirectWriteResourceManager::InitializeDeviceResources()
@@ -102,7 +112,7 @@ HRESULT DirectWriteResourceManager::InitializeDeviceResources()
             reinterpret_cast<IUnknown**>(m_dwriteFactory.put())
         ));
 
-        auto customLoader = UniversalWindowsAppPackageFontLoader::FontCollectionLoader::GetInstance();
+        auto customLoader = DirectWriteFontCollectionLoader::GetInstance();
         m_dwriteFactory->RegisterFontCollectionLoader(customLoader.get());
 
         m_deviceResourcesInitialized = true;

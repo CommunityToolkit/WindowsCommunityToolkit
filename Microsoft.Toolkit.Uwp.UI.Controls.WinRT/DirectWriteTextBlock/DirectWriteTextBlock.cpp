@@ -1,5 +1,6 @@
-﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
-// See LICENSE in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 #include "pch.h"
 #include "DirectWriteTextBlock.h"
@@ -33,17 +34,24 @@ DependencyProperty^ DirectWriteTextBlock::m_textLocaleProperty = DependencyPrope
     DirectWriteTextBlock::typeid,
     ref new PropertyMetadata(L"en-US", ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
 
-DependencyProperty^ DirectWriteTextBlock::m_textOrientationProperty = DependencyProperty::Register(
-    L"TextOrientation",
-    Windows::UI::Xaml::Controls::Orientation::typeid,
+DependencyProperty^ DirectWriteTextBlock::m_textReadingDirectionProperty = DependencyProperty::Register(
+    L"TextReadingDirection",
+    DirectWriteReadingDirection::typeid,
     DirectWriteTextBlock::typeid,
-    ref new PropertyMetadata(Windows::UI::Xaml::Controls::Orientation::Vertical, ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
+    ref new PropertyMetadata(ref new Platform::Box<DirectWriteReadingDirection>(DirectWriteReadingDirection::TopToBottom), ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
 
 DependencyProperty^ DirectWriteTextBlock::m_textWrapProperty = DependencyProperty::Register(
     L"TextWrap",
-    Windows::UI::Xaml::TextWrapping::typeid,
+    DirectWriteWordWrapping::typeid,
     DirectWriteTextBlock::typeid,
-    ref new PropertyMetadata(Windows::UI::Xaml::TextWrapping::NoWrap, ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
+    ref new PropertyMetadata(ref new Platform::Box<DirectWriteWordWrapping>(DirectWriteWordWrapping::NoWrap), ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
+
+DependencyProperty^ DirectWriteTextBlock::m_textAlignmentProperty = DependencyProperty::Register(
+    L"TextAlign",
+    DirectWriteTextAlignment::typeid,
+    DirectWriteTextBlock::typeid,
+    ref new PropertyMetadata(ref new Platform::Box<DirectWriteTextAlignment>(DirectWriteTextAlignment::Leading), ref new PropertyChangedCallback(&DirectWriteTextBlock::OnDependencyPropertyChanged)));
+
 
 DirectWriteTextBlock::DirectWriteTextBlock()
 {
@@ -115,8 +123,9 @@ Size DirectWriteTextBlock::MeasureOverride(Size availableSize)
     builder.SetForegroundBrush(m_textForegroundBrush);
     builder.SetText(Text);
     builder.SetTextLocale(TextLocale);
-    builder.SetTextOrientation(TextOrientation);
+    builder.SetTextReadingDirection(TextReadingDirection);
     builder.SetTextWrapping(TextWrap);
+    builder.SetTextAlignment(TextAlign);
 
     auto args = builder.BuildRenderArgs();
     UpdateElementsForHighContrast();
@@ -218,11 +227,14 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     // Trying to set readingDirection + FlowDirection to LEFT_TO_RIGHT will result in
     // a failed HRESULT From DWRITE. Since the defaults work fine for horizontal, only
     // set these values for text orientation = vertical.
-    if (this->TextOrientation == Orientation::Vertical)
+    auto textReadingDirection = this->TextReadingDirection;
+    if (textReadingDirection != DirectWriteReadingDirection::LeftToRight)
     {
         textFormat->SetReadingDirection(args.readingDirection);
         textFormat->SetFlowDirection(args.flowDirection);
     }
+
+    textFormat->SetTextAlignment(args.textAlignment);
 
     winrt::com_ptr<IDWriteTextLayout> textLayout;
     winrt::check_hresult(dwriteFactory->CreateTextLayout(
@@ -247,7 +259,8 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     winrt::com_ptr<IDXGISurface> surface;
     RECT updateRect = { 0, 0, static_cast<LONG>(sisWidth), static_cast<LONG>(sisHeight) };
     POINT offset = { 0, 0 };
-    if (SUCCEEDED(sisNative->BeginDraw(updateRect, surface.put(), &offset)))
+    m_lastDrawError = sisNative->BeginDraw(updateRect, surface.put(), &offset);
+    if (SUCCEEDED(m_lastDrawError))
     {
         auto d2dContext = resourceManager->GetD2dDCNoRef();
 
@@ -291,14 +304,32 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
             brush.get(),
             D2D1_DRAW_TEXT_OPTIONS_ENABLE_COLOR_FONT);
 
-        d2dContext->EndDraw();
+        HRESULT d2dEndDrawResult = d2dContext->EndDraw();
         sisNative->EndDraw();
+
+        if (d2dEndDrawResult == D2DERR_RECREATE_TARGET)
+        {
+            winrt::check_hresult(resourceManager->RebuildDeviceResources());
+        }
+
+        m_image->Source = imageSource;
+        m_drawRetries = 0;
+
+        // XAML will rescale, so we divide by scale here.
+        return Size{ static_cast<float>(sisWidth / scale), static_cast<float>(sisHeight / scale) };
     }
-
-    m_image->Source = imageSource;
-
-    // XAML will rescale, so we divide by scale here.
-    return Size{ static_cast<float>(sisWidth / scale), static_cast<float>(sisHeight / scale) };
+    else if (m_drawRetries == 0)
+    {
+        // D2D draw can fail for multiple reasons where rebuilding the D3D device might be necessary.
+        winrt::check_hresult(resourceManager->RebuildDeviceResources());
+        m_drawRetries++;
+        return RenderText(args);
+    }
+    else
+    {
+        // if we fail to draw 2x a retry, just bail.
+        return Size{};
+    }
 }
 
 void DirectWriteTextBlock::OnDependencyPropertyChanged(_In_ DependencyObject^ d, _In_ DependencyPropertyChangedEventArgs^ /* e */)

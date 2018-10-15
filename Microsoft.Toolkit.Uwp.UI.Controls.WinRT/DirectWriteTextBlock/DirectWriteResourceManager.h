@@ -1,10 +1,14 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #pragma once
 
 BEGIN_NAMESPACE_CONTROLS_WINRT
 
 /// <summary>
 /// This manages D3D/DWrite resources and prevents reinitialization.
-/// <summary>
+/// </summary>
 class DirectWriteResourceManager
 {
 public:
@@ -13,33 +17,38 @@ public:
 
     /// <summary>
     /// This is a singleton to prevent reintializing D3D
-    /// <summary>
+    /// </summary>
     static DirectWriteResourceManager* GetInstance();
 
     /// <summary>
     /// The DWrite Factory, caller doesn't take a reference.
-    /// <summary>
+    /// </summary>
     IDWriteFactory* GetDirectWriteFactoryNoRef();
 
     /// <summary>
     /// The D3D Device, caller doesn't take a reference.
-    /// <summary>
+    ///  </summary>
     ID3D11Device* GetD3dDeviceNoRef();
 
     /// <summary>
     /// The D2D Device, caller doesn't take a reference.
-    /// <summary>
+    ///  </summary>
     ID2D1DeviceContext* GetD2dDCNoRef();
 
     /// <summary>
     /// The DXGI Device, caller doesn't take a reference.
-    /// <summary>
+    ///  </summary>
     IDXGIDevice* GetDXGIDeviceNoRef();
 
     /// <summary>
     /// Initializes the device resources.
-    /// <summary>
+    ///  </summary>
     HRESULT InitializeDeviceResources();
+    
+    /// <summary>
+    /// Reinitializes the device resources.
+    /// </summary>
+    HRESULT RebuildDeviceResources();
 
 private:
     winrt::com_ptr<IDWriteFactory> m_dwriteFactory;

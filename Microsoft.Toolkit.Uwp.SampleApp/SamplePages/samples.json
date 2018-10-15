@@ -329,7 +329,7 @@
       {
         "Name": "DirectWriteTextBlock",
         "Type": "DirectWriteTextBlockPage",
-        "About": "TODO",
+        "About": "DirectWriteTextBlock is a text block like class which generates an image using the DirectWrite API and displays it. Display vertically oriented text with it.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.WinRT/DirectWriteTextBlock",
         "XamlCodeFile": "DirectWriteTextBlockCode.bind",
         "Icon": "/SamplePages/DirectWriteTextBlock/DirectWriteTextBlock.png",

@@ -12,16 +12,18 @@
         <Setter Property="FontStyle" Value="Normal" />
         <Setter Property="TextWrap" Value="NoWrap" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
-        <Setter Property="TextOrientation" Value="Vertical" />
+        <Setter Property="TextReadingDirection" Value="TopToBottom" />
+        <Setter Property="TextAlign" Value="Leading" />
         <Setter Property="TextLocale" Value="en-US" />
         <Setter Property="AutomationProperties.Name" Value="{TemplateBinding Text}" />
-        <Setter Property="AutomationProperties.AccessibilityView" Value="Raw" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DirectWriteTextBlock">
+                    <!-- Note: This border is basically how we get the narrator effect of highlighting and saying the text
+                    without the additional "Image" append. -->
                     <Border x:Name="TextBackground"
                             Background="{TemplateBinding Background}"
-                            AutomationProperties.AccessibilityView="Raw">
+                            AutomationProperties.Name="{TemplateBinding Text}">
                         <Image x:Name="Image" Stretch="None" 
                             AutomationProperties.Name="{TemplateBinding Text}"
                             AutomationProperties.AccessibilityView="Raw" />

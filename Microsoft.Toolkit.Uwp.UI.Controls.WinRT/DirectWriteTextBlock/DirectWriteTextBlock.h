@@ -1,5 +1,6 @@
-﻿// Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
-// See LICENSE in the project root for license information.
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 #pragma once
 
@@ -14,11 +15,43 @@ BEGIN_NAMESPACE_CONTROLS_WINRT
         { \
             type get() \
             { \
-                return (type)GetValue(membername); \
+                return (type)(GetValue(membername)); \
             } \
             void set(type value) \
             { \
                 SetValue(membername, value); \
+            } \
+        } \
+        static property Windows::UI::Xaml::DependencyProperty^ name ## Property \
+        { \
+            Windows::UI::Xaml::DependencyProperty^ get() \
+            { \
+                return membername; \
+            } \
+        } \
+    private: \
+        static Windows::UI::Xaml::DependencyProperty^ membername; \
+    public:
+
+#define DEFINE_XAML_DEPENDENCY_PROPERTY_VALUE_TYPE(type, name, membername) \
+    public: \
+        property type name \
+        { \
+            type get() \
+            { \
+                auto boxedType = dynamic_cast<Platform::IBox<type>^>(GetValue(membername)); \
+                if (boxedType != nullptr) \
+                { \
+                    return boxedType->Value; \
+                } \
+                else \
+                { \
+                    return static_cast<type>((int)(GetValue(membername))); \
+                } \
+            } \
+            void set(type value) \
+            { \
+                SetValue(membername, ref new Platform::Box<type>(value)); \
             } \
         } \
         static property Windows::UI::Xaml::DependencyProperty^ name ## Property \
@@ -53,10 +86,6 @@ public:
     DirectWriteTextBlock();
     virtual ~DirectWriteTextBlock();
 
-    // Note: DWrite actually supports a lot more rendering modes than XAML, but we're able to get most of what we want
-    // with just the XAML built in types. In the event we need more of the DWrite API surface, we would need
-    // to define our own enums which map to the DWrite enums.
-
     /// <summary>
     /// The text to render
     /// </summary>
@@ -68,14 +97,19 @@ public:
     DEFINE_XAML_DEPENDENCY_PROPERTY(Platform::String^, TextLocale, m_textLocaleProperty);
 
     /// <summary>
-    /// The orientation of the text.
+    /// The reading direction of the text.
     /// </summary>
-    DEFINE_XAML_DEPENDENCY_PROPERTY(Windows::UI::Xaml::Controls::Orientation, TextOrientation, m_textOrientationProperty);
+    DEFINE_XAML_DEPENDENCY_PROPERTY_VALUE_TYPE(DirectWriteReadingDirection, TextReadingDirection, m_textReadingDirectionProperty);
 
     /// <summary>
     /// How the text is wrapped. To Wrap text, just set the Height or Width of this control.
     /// </summary>
-    DEFINE_XAML_DEPENDENCY_PROPERTY(Windows::UI::Xaml::TextWrapping, TextWrap, m_textWrapProperty);
+    DEFINE_XAML_DEPENDENCY_PROPERTY_VALUE_TYPE(DirectWriteWordWrapping, TextWrap, m_textWrapProperty);
+
+    /// <summary>
+    /// The direct write based alignment of the text. This is agnostic of XAML and only supports DirectWrite values.
+    /// </summary>
+    DEFINE_XAML_DEPENDENCY_PROPERTY_VALUE_TYPE(DirectWriteTextAlignment, TextAlign, m_textAlignmentProperty);
 
 protected:
     // These are the methods we're overriding from IFrameworkElementOverrides.
@@ -108,7 +142,9 @@ private:
     Windows::UI::Xaml::Controls::Border^ m_textBackground;
     Windows::UI::Xaml::Media::Brush^ m_textForegroundBrush;
     Windows::UI::Xaml::Media::Brush^ m_textBackgroundBrush;
-    bool m_isHighContrast;
+    bool m_isHighContrast = false;
+    HRESULT m_lastDrawError = S_OK;
+    unsigned int m_drawRetries = 0;
 };
 
 END_NAMESPACE_CONTROLS_WINRT

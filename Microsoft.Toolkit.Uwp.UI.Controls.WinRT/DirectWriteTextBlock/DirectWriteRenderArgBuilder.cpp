@@ -1,7 +1,11 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 #include "pch.h"
 #include "DirectWriteRenderArgBuilder.h"
 #include "DirectWriteResourceManager.h"
-#include "UniversalWindowsAppPackageFontLoader\FontCollectionLoader.h"
+#include "DirectWriteFontCollectionLoader.h"
 
 BEGIN_NAMESPACE_CONTROLS_WINRT
 
@@ -32,6 +36,7 @@ DirectWriteRenderArgBuilder::DirectWriteRenderArgBuilder()
     m_builtArgs.textLocale = ref new String(L"en-US");
     m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_NO_WRAP;
     m_builtArgs.fontCollection = nullptr;
+    m_builtArgs.textAlignment = DWRITE_TEXT_ALIGNMENT_LEADING;
 }
 
 void DirectWriteRenderArgBuilder::SetFontFamily(FontFamily^ fontFamily)
@@ -149,16 +154,22 @@ void DirectWriteRenderArgBuilder::SetFontStretch(FontStretch fontStretch)
     }
 }
 
-void DirectWriteRenderArgBuilder::SetTextOrientation(Orientation textOrientation)
+void DirectWriteRenderArgBuilder::SetTextReadingDirection(DirectWriteReadingDirection textReadingDirection)
 {
-    switch (textOrientation)
+    switch (textReadingDirection)
     {
-    case Orientation::Vertical: __fallthrough;
+    case DirectWriteReadingDirection::TopToBottom: __fallthrough;
     default:
         m_builtArgs.readingDirection = DWRITE_READING_DIRECTION::DWRITE_READING_DIRECTION_TOP_TO_BOTTOM;
         break;
-    case Orientation::Horizontal:
+    case DirectWriteReadingDirection::LeftToRight:
         m_builtArgs.readingDirection = DWRITE_READING_DIRECTION::DWRITE_READING_DIRECTION_LEFT_TO_RIGHT;
+        break;
+    case DirectWriteReadingDirection::RightToLeft:
+        m_builtArgs.readingDirection = DWRITE_READING_DIRECTION::DWRITE_READING_DIRECTION_RIGHT_TO_LEFT;
+        break;
+    case DirectWriteReadingDirection::BottomToTop:
+        m_builtArgs.readingDirection = DWRITE_READING_DIRECTION::DWRITE_READING_DIRECTION_BOTTOM_TO_TOP;
         break;
     }
 }
@@ -218,19 +229,45 @@ void DirectWriteRenderArgBuilder::SetFontWeight(FontWeight fontWeight)
     }
 }
 
-void DirectWriteRenderArgBuilder::SetTextWrapping(TextWrapping textWrapping)
+void DirectWriteRenderArgBuilder::SetTextWrapping(DirectWriteWordWrapping textWrapping)
 {
     switch (textWrapping)
     {
-    case TextWrapping::NoWrap:
+    case DirectWriteWordWrapping::NoWrap:
     default:
         m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_NO_WRAP;
         break;
-    case TextWrapping::Wrap:
+    case DirectWriteWordWrapping::Wrap:
         m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_WRAP;
         break;
-    case TextWrapping::WrapWholeWords:
+    case DirectWriteWordWrapping::WholeWord:
         m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_WHOLE_WORD;
+        break;
+    case DirectWriteWordWrapping::EmergencyBreak:
+        m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_EMERGENCY_BREAK;
+        break;
+    case DirectWriteWordWrapping::Character:
+        m_builtArgs.textWrapping = DWRITE_WORD_WRAPPING::DWRITE_WORD_WRAPPING_CHARACTER;
+        break;
+    }
+}
+
+void DirectWriteRenderArgBuilder::SetTextAlignment(DirectWriteTextAlignment textAlignment)
+{
+    switch (textAlignment)
+    {
+    case DirectWriteTextAlignment::Leading:
+    default:
+        m_builtArgs.textAlignment = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_LEADING;
+        break;
+    case DirectWriteTextAlignment::Trailing:
+        m_builtArgs.textAlignment = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_TRAILING;
+        break;
+    case DirectWriteTextAlignment::Center:
+        m_builtArgs.textAlignment = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_CENTER;
+        break;
+    case DirectWriteTextAlignment::Justified:
+        m_builtArgs.textAlignment = DWRITE_TEXT_ALIGNMENT::DWRITE_TEXT_ALIGNMENT_JUSTIFIED;
         break;
     }
 }
@@ -272,13 +309,13 @@ void DirectWriteRenderArgBuilder::BuildFontCollection(Platform::String^ fontFami
 {
     // default arg is system font collection, what we're looking for is if we're trying to
     // find a local custom ttf file.
-    if (UniversalWindowsAppPackageFontLoader::FontCollectionLoader::HasCustomFontFamily(fontFamily))
+    if (DirectWriteFontCollectionLoader::HasCustomFontFamily(fontFamily))
     {
         auto resourceManager = DirectWriteResourceManager::GetInstance();
         auto dwriteFactory = resourceManager->GetDirectWriteFactoryNoRef();
-        UniversalWindowsAppPackageFontLoader::UniversalPackageFontData parseData = {};
-        UniversalWindowsAppPackageFontLoader::FontCollectionLoader::ParseXamlFontFamily(fontFamily, parseData);
-        auto customLoader = UniversalWindowsAppPackageFontLoader::FontCollectionLoader::GetInstance();
+        DirectWriteUniversalPackageFontData parseData = {};
+        DirectWriteFontCollectionLoader::ParseXamlFontFamily(fontFamily, parseData);
+        auto customLoader = DirectWriteFontCollectionLoader::GetInstance();
 
         // the key is a void* meaning the size is actual size.
         auto fontFamilyString = fontFamily->Data();
