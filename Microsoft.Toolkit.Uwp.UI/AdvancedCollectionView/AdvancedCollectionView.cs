@@ -595,42 +595,47 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private void SourceNcc_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (_deferCounter > 0)
-            {
-                return;
-            }
-
             // ReSharper disable once SwitchStatementMissingSomeCases
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
                     AttachPropertyChangedHandler(e.NewItems);
-                    if (e.NewItems?.Count == 1)
+                    if (_deferCounter <= 0)
                     {
-                        HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
+                        if (e.NewItems?.Count == 1)
+                        {
+                            HandleItemAdded(e.NewStartingIndex, e.NewItems[0]);
+                        }
+                        else
+                        {
+                            HandleSourceChanged();
+                        }
                     }
 
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     DetachPropertyChangedHandler(e.OldItems);
-                    if (e.OldItems?.Count == 1)
+                    if (_deferCounter <= 0)
                     {
-                        HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
-                    }
-                    else
-                    {
-                        HandleSourceChanged();
+                        if (e.OldItems?.Count == 1)
+                        {
+                            HandleItemRemoved(e.OldStartingIndex, e.OldItems[0]);
+                        }
+                        else
+                        {
+                            HandleSourceChanged();
+                        }
                     }
 
                     break;
                 case NotifyCollectionChangedAction.Move:
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Reset:
-                    HandleSourceChanged();
+                    if (_deferCounter <= 0)
+                    {
+                        HandleSourceChanged();
+                    }
+
                     break;
             }
         }
