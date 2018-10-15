@@ -5,7 +5,6 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HeaderedContentControl/HeaderedContentControl.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HeaderedItemsControl/HeaderedItemsControl.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector/RangeSelector.xaml" />
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/ImageEx/ImageEx.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock/HeaderedTextBlock.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge/RadialGauge.xaml" />

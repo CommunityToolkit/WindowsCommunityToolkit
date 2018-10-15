@@ -363,7 +363,6 @@
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
-    <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
     <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
     <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
@@ -390,7 +389,6 @@
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
-    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
@@ -868,9 +866,6 @@
     <Compile Include="SamplePages\Scale\ScaleBehaviorPage.xaml.cs">
       <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
-      <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
     </Compile>
@@ -1317,10 +1312,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Scale\ScaleBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

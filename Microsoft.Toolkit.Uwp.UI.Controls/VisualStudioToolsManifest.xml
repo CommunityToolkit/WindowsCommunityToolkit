@@ -33,7 +33,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SlidableListItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
