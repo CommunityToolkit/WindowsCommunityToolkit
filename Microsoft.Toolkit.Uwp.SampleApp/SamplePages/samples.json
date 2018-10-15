@@ -297,7 +297,7 @@
       {
         "Name": "StaggeredPanel",
         "Type": "StaggeredPanelPage",
-        "About": "Allows items to be displayed with a specified header.",
+        "About": "The StaggeredPanel allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
         "XamlCodeFile": "StaggeredPanel.bind",
         "Icon": "/SamplePages/StaggeredPanel/StaggeredPanel.png",

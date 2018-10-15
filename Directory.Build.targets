@@ -1,6 +1,6 @@
 <Project>
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
       <PropertyGroup>
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
@@ -20,7 +20,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="'$(IsWin32Project)' == 'true'">
+    <When Condition="'$(IsWin32Project)' == 'true' or '$(IsWpfProject)' == 'true' or '$(IsFormsProject)' == 'true'">
       <PropertyGroup>
         <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == ''">10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
         <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == ''">10.0.$(DefaultTargetPlatformMinVersion).0</TargetPlatformMinVersion>
