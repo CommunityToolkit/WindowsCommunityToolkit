@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -17,40 +18,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TabView
     {
         // Temporary tracking of previous collections for removing events.
-        private ItemCollection _previousItems;
-        private INotifyCollectionChanged _previousItemsSource;
         private MethodInfo _removeItemsSourceMethod;
 
         /// <inheritdoc/>
         protected override void OnItemsChanged(object e)
         {
-            // Un/Register for Items changes
-            if (_previousItems != null)
-            {
-                _previousItems.VectorChanged -= Items_VectorChanged;
-            }
-
-            _previousItems = Items;
+            IVectorChangedEventArgs args = (IVectorChangedEventArgs)e;
 
             base.OnItemsChanged(e);
 
-            if (Items != null)
+            if (args.CollectionChange == CollectionChange.ItemRemoved && SelectedIndex == -1)
             {
-                Items.VectorChanged += Items_VectorChanged;
+                // If we remove the selected item we should select the previous item
+                int startIndex = (int)args.Index + 1;
+                if (startIndex > Items.Count)
+                {
+                    startIndex = 0;
+                }
+
+                SelectedIndex = FindNextTabIndex(startIndex, -1);
             }
 
             // Update Sizing (in case there are less items now)
             TabView_SizeChanged(this, null);
         }
 
-        private void SetSelection()
+        private void SetInitialSelection()
         {
             if (SelectedItem == null)
             {
+                // If we have an index, but didn't get the selection, make the selection
                 if (SelectedIndex >= 0 && SelectedIndex < Items.Count())
                 {
                     SelectedItem = Items[SelectedIndex];
                 }
+
+                // Otherwise, select the first item by default
                 else if (Items.Count() >= 1)
                 {
                     SelectedItem = Items[0];
@@ -58,36 +61,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void Items_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+        // Finds the next visible & enabled tab index.
+        private int FindNextTabIndex(int startIndex, int direction)
         {
-            if (@event.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemInserted)
+            int index = startIndex;
+            if (direction != 0)
             {
-                SetSelection();
+                for (int i = 0; i < Items.Count; i++)
+                {
+                    index += direction;
+
+                    if (index >= Items.Count)
+                    {
+                        index = 0;
+                    }
+                    else if (index < 0)
+                    {
+                        index = Items.Count - 1;
+                    }
+
+                    var tabItem = ContainerFromIndex(index) as TabViewItem;
+                    if (tabItem != null && tabItem.IsEnabled && tabItem.Visibility == Visibility.Visible)
+                    {
+                        break;
+                    }
+                }
             }
-            else if (@event.CollectionChange == Windows.Foundation.Collections.CollectionChange.ItemRemoved)
-            {
-                TabView_SizeChanged(this, null);
-            }
+
+            return index;
         }
 
         private void ItemsSource_PropertyChanged(DependencyObject sender, DependencyProperty dp)
         {
-            if (_previousItemsSource != null)
-            {
-                _previousItemsSource.CollectionChanged -= ItemsSource_CollectionChanged;
-            }
-
-            if (ItemsSource != null && ItemsSource is INotifyCollectionChanged obs)
-            {
-                _previousItemsSource = obs;
-
-                obs.CollectionChanged += ItemsSource_CollectionChanged;
-            }
-            else
-            {
-                _previousItemsSource = null;
-            }
-
             // Use reflection to store a 'Remove' method of any possible collection in ItemsSource
             // Cache for efficiency later.
             if (ItemsSource != null)
@@ -97,18 +102,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 _removeItemsSourceMethod = null;
-            }
-        }
-
-        private void ItemsSource_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Add)
-            {
-                SetSelection();
-            }
-            else if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Remove)
-            {
-                TabView_SizeChanged(this, null);
             }
         }
 

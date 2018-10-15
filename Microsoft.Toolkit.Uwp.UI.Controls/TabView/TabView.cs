@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -86,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
             {
                 // Need to set a tab's selection on load, otherwise ListView resets to null.
-                SetSelection();
+                SetInitialSelection();
 
                 // Need to set the contentpresenter's content here for embedded XAML TabViewItems, otherwise never loads, platform issue?
                 if (_tabContentPresenter.Content == null)
@@ -217,23 +218,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (available > 0)
                     {
                         // Calculate the width for each tab from the provider and determine how much space they take.
-                        var tvis = _tabItemsPresenter.FindDescendants<TabViewItem>();
-                        var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available, this).GetEnumerator();
-
-                        foreach (var tab in tvis)
+                        var tvis = _tabItemsPresenter?.FindDescendants<TabViewItem>();
+                        if (tvis != null)
                         {
-                            if (widthIterator.MoveNext())
+                            var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available, this).GetEnumerator();
+
+                            foreach (var tab in tvis)
                             {
-                                var width = widthIterator.Current;
-                                if (width > 0)
+                                if (widthIterator.MoveNext())
                                 {
-                                    tab.Width = Math.Max(width, 0);
+                                    var width = widthIterator.Current;
+                                    if (width > 0)
+                                    {
+                                        tab.Width = Math.Max(width, 0);
+                                    }
+                                    else
+                                    {
+                                        tab.Width = double.NaN;
+                                    }
+                                    required += width;
                                 }
-                                else
-                                {
-                                    tab.Width = double.NaN;
-                                }
-                                required += width;
                             }
                         }
                     }
