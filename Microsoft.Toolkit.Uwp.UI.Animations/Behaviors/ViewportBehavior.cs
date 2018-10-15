@@ -11,10 +11,15 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
     /// <summary>
-    /// A class for listening element enter or exit the viewport
+    /// A class for listening element enter or exit the ScrollViewer viewport
     /// </summary>
     public class ViewportBehavior : BehaviorBase<FrameworkElement>
     {
+        /// <summary>
+        /// The ScrollViewer hosting this element.
+        /// </summary>
+        private ScrollViewer _hostScrollViewer;
+
         /// <summary>
         /// The IsFullyInViewport value of the associated element
         /// </summary>
@@ -28,27 +33,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             DependencyProperty.Register(nameof(IsInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsInViewportChanged));
 
         /// <summary>
-        /// Associated element fully enter the viewport event
+        /// Associated element fully enter the ScrollViewer viewport event
         /// </summary>
         public event EventHandler EnteredViewport;
 
         /// <summary>
-        /// Associated element fully exit the viewport event
+        /// Associated element fully exit the ScrollViewer viewport event
         /// </summary>
         public event EventHandler ExitedViewport;
 
         /// <summary>
-        /// Associated element enter the viewport event
+        /// Associated element enter the ScrollViewer viewport event
         /// </summary>
         public event EventHandler EnteringViewport;
 
         /// <summary>
-        /// Associated element exit the viewport event
+        /// Associated element exit the ScrollViewer viewport event
         /// </summary>
         public event EventHandler ExitingViewport;
 
         /// <summary>
-        /// Gets a value indicating whether associated element is fully in the viewport
+        /// Gets a value indicating whether associated element is fully in the ScrollViewer viewport
         /// </summary>
         public bool IsFullyInViewport
         {
@@ -57,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         }
 
         /// <summary>
-        /// Gets a value indicating whether associated element is in the viewport
+        /// Gets a value indicating whether associated element is in the ScrollViewer viewport
         /// </summary>
         public bool IsInViewport
         {
@@ -75,7 +80,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             base.OnAttached();
 
-            AssociatedObject.LayoutUpdated += AssociatedObject_LayoutUpdated;
+            var parent = VisualTreeHelper.GetParent(AssociatedObject);
+            if (parent == null)
+            {
+                AssociatedObject.Loaded += AssociatedObject_Loaded;
+                return;
+            }
+
+            Init();
         }
 
         /// <summary>
@@ -88,7 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             base.OnDetaching();
 
-            AssociatedObject.LayoutUpdated -= AssociatedObject_LayoutUpdated;
+            _hostScrollViewer.ViewChanged -= ParentScrollViewer_ViewChanged;
+            _hostScrollViewer = null;
         }
 
         private static void OnIsFullyInViewportChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -119,56 +132,72 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             }
         }
 
-        private void AssociatedObject_LayoutUpdated(object sender, object e)
+        private void ParentScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            FrameworkElement hostElement = AssociatedObject;
+            var associatedElementRect = AssociatedObject.TransformToVisual(_hostScrollViewer)
+                .TransformBounds(new Rect(0, 0, AssociatedObject.ActualWidth, AssociatedObject.ActualHeight));
+            var hostScrollViewerRect = new Rect(0, 0, _hostScrollViewer.ActualWidth, _hostScrollViewer.ActualHeight);
+
+            if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) ||
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) ||
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Bottom)) ||
+                hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Bottom)))
+            {
+                IsInViewport = true;
+
+                if (hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Top)) &&
+                    hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Top)) &&
+                    hostScrollViewerRect.Contains(new Point(associatedElementRect.Right, associatedElementRect.Bottom)) &&
+                    hostScrollViewerRect.Contains(new Point(associatedElementRect.Left, associatedElementRect.Bottom)))
+                {
+                    IsFullyInViewport = true;
+                }
+                else
+                {
+                    IsFullyInViewport = false;
+                }
+            }
+            else
+            {
+                IsInViewport = false;
+            }
+        }
+
+        private void Init()
+        {
+            _hostScrollViewer = GetScrollViewer();
+            if (_hostScrollViewer == null)
+            {
+                throw new InvalidOperationException("This behavior can only attach the element which is under a ScrollViewer.");
+            }
+
+            _hostScrollViewer.ViewChanged += ParentScrollViewer_ViewChanged;
+        }
+
+        private ScrollViewer GetScrollViewer()
+        {
+            DependencyObject hostElement = AssociatedObject;
             while (true)
             {
-                var parent = VisualTreeHelper.GetParent(hostElement) as FrameworkElement;
+                var parent = VisualTreeHelper.GetParent(hostElement);
                 if (parent == null)
                 {
-                    break;
+                    return null;
                 }
 
-                if (parent is ScrollViewer)
+                if (parent is ScrollViewer scrollViewer)
                 {
-                    hostElement = parent;
-                    break;
+                    return scrollViewer;
                 }
 
                 hostElement = parent;
             }
+        }
 
-            if (hostElement != null)
-            {
-                var associatedControlRect = AssociatedObject.TransformToVisual(hostElement)
-                    .TransformBounds(new Rect(0, 0, AssociatedObject.ActualWidth, AssociatedObject.ActualHeight));
-                var rootContentRect = new Rect(0, 0, hostElement.ActualWidth, hostElement.ActualHeight);
-
-                if (rootContentRect.Contains(new Point(associatedControlRect.Left, associatedControlRect.Top)) ||
-                    rootContentRect.Contains(new Point(associatedControlRect.Right, associatedControlRect.Top)) ||
-                    rootContentRect.Contains(new Point(associatedControlRect.Right, associatedControlRect.Bottom)) ||
-                    rootContentRect.Contains(new Point(associatedControlRect.Left, associatedControlRect.Bottom)))
-                {
-                    IsInViewport = true;
-
-                    if (rootContentRect.Contains(new Point(associatedControlRect.Left, associatedControlRect.Top)) &&
-                        rootContentRect.Contains(new Point(associatedControlRect.Right, associatedControlRect.Top)) &&
-                        rootContentRect.Contains(new Point(associatedControlRect.Right, associatedControlRect.Bottom)) &&
-                        rootContentRect.Contains(new Point(associatedControlRect.Left, associatedControlRect.Bottom)))
-                    {
-                        IsFullyInViewport = true;
-                    }
-                    else
-                    {
-                        IsFullyInViewport = false;
-                    }
-                }
-                else
-                {
-                    IsInViewport = false;
-                }
-            }
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+            Init();
         }
     }
 }
