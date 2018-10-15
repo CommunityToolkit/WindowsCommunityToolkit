@@ -160,7 +160,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Find all visual ascendants for the element.
         /// </summary>
-        /// <typeparam name="T">Type to search for.</typeparam>
         /// <param name="element">Child element.</param>
         /// <returns>Ascendant control or null if not found.</returns>
         public static IEnumerable<DependencyObject> GetAscendants(this DependencyObject element)
