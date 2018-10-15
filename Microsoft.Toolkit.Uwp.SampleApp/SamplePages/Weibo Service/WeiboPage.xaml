@@ -70,9 +70,13 @@
                                    Text="{x:Bind GeographicInfo}" />
                     </StackPanel>
 
-                    <Image x:Name="ThumbImage" Grid.Row="3"
+                    <Image x:Name="ThumbImage"
+                           Grid.Row="3"
                            x:Load="{x:Bind HasAttachedImage, Mode=OneWay}"
-                           Source="{Binding ThumbnailImageUrl}" MaxWidth="100" MaxHeight="100" HorizontalAlignment="Left" />
+                           Source="{Binding ThumbnailImageUrl}"
+                           MaxWidth="100" 
+                           MaxHeight="100"
+                           HorizontalAlignment="Left" />
                 </Grid>
             </Border>
         </DataTemplate>
@@ -143,7 +147,8 @@
                                     Margin="24"
                                     Orientation="Vertical">
                             <HyperlinkButton Margin="0,0,0,15"
-                                             Content="Show me how to get these values" />
+                                             Content="Show me how to get these values" 
+                                             NavigateUri="https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Weibo/"/>
                             <TextBox x:Name="AppKey"
                                      Margin="0,0,0,12"
                                      Header="App Key:" />
@@ -160,7 +165,7 @@
                                     Content="Connect" />
                         </StackPanel>
                     </Grid>
-                    <!--  Tweet area  -->
+                    <!--  Status area  -->
                     <Grid x:Name="ShareBox"
                           Grid.Row="1">
                         <Grid.RowDefinitions>
@@ -173,9 +178,9 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="TweetBoxExpandButton"
+                            <Button x:Name="StatusBoxExpandButton"
                                     VerticalAlignment="Stretch"
-                                    Click="TweetBoxExpandButton_OnClick"
+                                    Click="StatusBoxExpandButton_OnClick"
                                     Content=""
                                     FontFamily="Segoe MDL2 Assets" />
                             <TextBlock Grid.Column="1"
@@ -183,17 +188,19 @@
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
                                        Foreground="{ThemeResource Brush-Grey-01}"
-                                       Text="Tweet" />
+                                       Text="Status" />
                         </Grid>
 
-                        <StackPanel x:Name="TweetPanel"
+                        <StackPanel x:Name="StatusPanel"
                                     Grid.Row="1"
                                     Margin="24">
-                            <TextBox x:Name="TweetText"
+                            <TextBox x:Name="StatusText"
                                      Margin="0,0,0,12"
                                      Header="Weibo status" />
-                            <TextBlock Margin="0,0,0,12" VerticalAlignment="Top" TextWrapping="Wrap" Text="Due to the restriction by Weibo API, your status must include a url which starts with &quot;http&quot;/&quot;https&quot;.&#x0a;You should add the url domain as one of the security domain in application information settings of your Weibo app.">
-                            </TextBlock>
+                            <TextBlock Margin="0,0,0,12"
+                                       VerticalAlignment="Top"
+                                       TextWrapping="Wrap"
+                                       Text="Due to the restriction by Weibo API, your status must include a url which starts with &quot;http&quot;/&quot;https&quot;.&#x0a;You should add the url domain as one of the security domain in application information settings of your Weibo app." />
 
                             <StackPanel Orientation="Horizontal">
                                 <Button x:Name="ShareButton"
@@ -216,7 +223,8 @@
                               ItemTemplate="{StaticResource WeiboSchemaTemplate}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="HorizontalContentAlignment" 
+                                        Value="Stretch" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="ListViewItem">
