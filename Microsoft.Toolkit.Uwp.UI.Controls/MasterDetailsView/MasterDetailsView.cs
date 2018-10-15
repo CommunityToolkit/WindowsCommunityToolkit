@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
         private bool _previousNavigationViewBackEnabled;
-        private bool _previousNavigationViewBackVisibilty;
+        private NavigationViewBackButtonVisible _previousNavigationViewBackVisibilty;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
@@ -314,7 +314,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        SetNavigationViewBackButtonState(true, true);
+                        SetNavigationViewBackButtonState(NavigationViewBackButtonVisible.Visible, true);
                     }
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
@@ -397,13 +397,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, state, animate);
         }
 
-        private void SetNavigationViewBackButtonState(bool visible, bool enabled)
+        private void SetNavigationViewBackButtonState(NavigationViewBackButtonVisible visible, bool enabled)
         {
             var navType = _navigationView.GetType();
             var visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)
             {
-                _previousNavigationViewBackVisibilty = (bool)visibleProperty.GetValue(_navigationView);
+                _previousNavigationViewBackVisibilty = (NavigationViewBackButtonVisible)visibleProperty.GetValue(_navigationView);
                 visibleProperty.SetValue(_navigationView, visible);
             }
 
