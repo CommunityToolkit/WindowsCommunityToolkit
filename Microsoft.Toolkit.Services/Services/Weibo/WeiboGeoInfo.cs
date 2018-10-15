@@ -12,27 +12,25 @@ namespace Microsoft.Toolkit.Services.Services.Weibo
     public class WeiboGeoInfo
     {
         /// <summary>
-        /// Gets the numeric latitude (null if the value could not be converted)
+        /// Gets the type of geographic information
         /// </summary>
-        [JsonProperty("latitude")]
-        public double Latitude { get; internal set; }
+        [JsonProperty("type")]
+        public string Type { get; internal set; }
 
         /// <summary>
-        /// Gets the numeric longitude (null if the value could not be converted)
+        /// Gets the coordinates
         /// </summary>
-        [JsonProperty("longitude")]
-        public double Longitude { get; internal set; }
-
-        /// <summary>
-        /// Gets the city
-        /// </summary>
-        [JsonProperty("city_name")]
-        public double City { get; internal set; }
+        [JsonProperty("coordinates")]
+        public double[] Coordinates { get; internal set; }
 
         /// <inheritdoc/>
         public override string ToString()
         {
-            return $"({Latitude}, {Longitude})";
+            if (Coordinates.Length > 1)
+            {
+                return $"({Coordinates[0]}, {Coordinates[1]})";
+            }
+            return "(0, 0)";
         }
     }
 }
