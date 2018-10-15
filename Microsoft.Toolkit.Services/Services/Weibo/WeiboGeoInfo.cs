@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Services.Services.Weibo
             {
                 return $"({Coordinates[0]}, {Coordinates[1]})";
             }
+
             return "(0, 0)";
         }
     }
