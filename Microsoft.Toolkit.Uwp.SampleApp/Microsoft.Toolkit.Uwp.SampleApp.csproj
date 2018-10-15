@@ -291,7 +291,6 @@
     <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
     <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
-    <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
@@ -306,7 +305,6 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
-    <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Carousel\Carousel.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
@@ -749,9 +747,6 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
-      <DependentUpon>BingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\BladeView\BladePage.xaml.cs">
       <DependentUpon>BladePage.xaml</DependentUpon>
     </Compile>
@@ -1162,10 +1157,6 @@
     <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Bing Service\BingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BladeView\BladePage.xaml">
       <SubType>Designer</SubType>
