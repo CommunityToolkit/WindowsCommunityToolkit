@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.inkToolbar1.Name = "inkToolbar1";
             this.inkToolbar1.Size = new System.Drawing.Size(1574, 60);
             this.inkToolbar1.TabIndex = 2;
-            this.inkToolbar1.TargetInkCanvas = null;
+            this.inkToolbar1.TargetInkCanvas = this.inkCanvas1;
             this.inkToolbar1.Text = "inkToolbar1";
             // 
             // inkCanvas1
