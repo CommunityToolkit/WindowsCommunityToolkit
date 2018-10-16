@@ -68,7 +68,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             return GetTopLevelDomain(new Uri(url));
         }
 
-
         private string GetTopLevelDomain(Uri url)
         {
             var hostParts = url.Host.Split('.').Select(x => x.ToString());

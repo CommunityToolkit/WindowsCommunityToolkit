@@ -12,7 +12,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkAuthenticationBroker : IAuthenticationBroker
     {
-
         public Task<AuthenticationResult> Authenticate(Uri requestUri, Uri callbackUri)
         {
             int numberForms = ApplicationForm.OpenForms.Count;
