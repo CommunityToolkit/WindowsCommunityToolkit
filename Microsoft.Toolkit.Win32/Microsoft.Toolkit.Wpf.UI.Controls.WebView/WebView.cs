@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             nameof(Source),
             typeof(Uri),
             typeof(WebView),
-            new PropertyMetadata(WebViewDefaults.AboutBlankUri, PropertyChangedCallback));
+            new FrameworkPropertyMetadata(WebViewDefaults.AboutBlankUri, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault | FrameworkPropertyMetadataOptions.Journal, PropertyChangedCallback));
 
         private WebViewControlProcess _process;
 
@@ -475,8 +475,24 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <inheritdoc />
         public Uri Source
         {
-            get => (Uri)GetValue(SourceProperty);
-            set => SetValue(SourceProperty, value);
+            get
+            {
+                VerifyAccess();
+                return _initializationState == InitializationState.IsInitialized
+                    ? _webViewControl?.Source
+                    : (Uri)GetValue(SourceProperty);
+            }
+
+            set
+            {
+                VerifyAccess();
+                SetValue(SourceProperty, value);
+
+                if (_initializationState == InitializationState.IsInitialized)
+                {
+                    Navigate(value);
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -646,7 +662,14 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             VerifyAccess();
 
             // TODO: Support for pack://
-            Source = source;
+            do
+            {
+                Dispatcher.CurrentDispatcher.DoEvents();
+            }
+            while (!_initializationComplete.WaitOne(InitializationBlockingTime));
+
+            Verify.IsNotNull(_webViewControl);
+            _webViewControl.Navigate(source);
         }
 
         /// <inheritdoc />
@@ -883,14 +906,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
                 // Dependency properties may be set in XAML, which would cause entry here; however,
                 // control is initialized asynchronously and may not be completed as of yet. The settings
                 // are then read by initialization and state transferred
-                if (dependencyPropertyChangedEventArgs.Property.Name == nameof(Source))
-                {
-                    if (wv.WebViewControlInitialized)
-                    {
-                        wv._webViewControl.Navigate(dependencyPropertyChangedEventArgs.NewValue as Uri);
-                    }
-                }
-                else if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
+                if (dependencyPropertyChangedEventArgs.Property.Name == nameof(IsIndexedDBEnabled))
                 {
                     if (wv.WebViewControlInitialized)
                     {
@@ -1033,6 +1049,11 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         private void OnNavigationCompleted(object sender, WebViewControlNavigationCompletedEventArgs args)
         {
+            VerifyAccess();
+            Dispatcher.Invoke(
+                () => { SetCurrentValue(SourceProperty, args.Uri); },
+                DispatcherPriority.DataBind);
+
             // We could have used
             // if (NavigationCompleted != null) NavigationCompleted(this, args);
             // However, if there is a subscriber and the moment the null check and the call to
@@ -1048,6 +1069,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         private void OnNavigationStarting(object sender, WebViewControlNavigationStartingEventArgs args)
         {
+            VerifyAccess();
+
             var handler = NavigationStarting;
             if (handler != null)
             {
