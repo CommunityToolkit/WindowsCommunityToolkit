@@ -648,7 +648,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the brush used to render yaml borders.  If this is <c>null</c>, then
-        /// <see cref="YamlBorderBrush"/> is used.
+        /// <see cref="TableBorderBrush"/> is used.
         /// </summary>
         public Brush YamlBorderBrush
         {
