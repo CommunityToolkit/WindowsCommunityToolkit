@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             base.OnNavigatedTo(e);
 
-            Shell.Current.SetTitles("About");
+            Shell.Current.SetAppTitle("About");
 
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
 
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
             var keyChar = (char)args.VirtualKey;
             if (char.IsLetterOrDigit(keyChar))
             {
-                var t = Shell.Current.StartSearch(keyChar.ToString());
+                Shell.Current.StartSearch(keyChar.ToString());
             }
         }
 
