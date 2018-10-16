@@ -89,7 +89,6 @@
     <Compile Include="AdaptiveGridViewMetadata.cs" />
     <Compile Include="ExpanderMetadata.cs" />
     <Compile Include="GridSplitterMetadata.cs" />
-    <Compile Include="HamburgerMenuMetadata.cs" />
     <Compile Include="HeaderedTextBlockMetadata.cs" />
     <Compile Include="ImageExMetadata.cs" />
     <Compile Include="InAppNotificationMetadata.cs" />
