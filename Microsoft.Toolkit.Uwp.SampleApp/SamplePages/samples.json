@@ -543,6 +543,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Twitter.md"
       },
       {
+        "Name": "Weibo Service",
+        "Type": "WeiboPage",
+        "About": "The Weibo Service allows you to retrieve or publish data to Weibo.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Weibo",
+        "CodeFile": "WeiboCode.bind",
+        "Icon": "/SamplePages/Weibo Service/WeiboLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Weibo.md"
+      },
+      {
         "Name": "Microsoft Graph Service",
         "Type": "MicrosoftGraphPage",
         "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
