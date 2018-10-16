@@ -66,10 +66,6 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
-            if (requiredPermissions == null)
-            {
-                throw new ArgumentException("Invalid LinkedInPermission");
-            }
 
             Tokens = tokens ?? throw new ArgumentException("Invalid token");
             RequiredPermissions = requiredPermissions;
@@ -105,7 +101,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-            Tokens = tokens;
+            Tokens = tokens ?? throw new ArgumentException("Invalid token");
             RequiredPermissions = requiredPermissions;
             _authentication = new NetFrameworkAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
             _storageManager = new NetFrameworkStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
