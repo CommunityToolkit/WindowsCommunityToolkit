@@ -126,5 +126,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             OnConnected();
             OnDisconnected();
         }
+
+        /// <summary>
+        /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
+        /// Remove the event handlers when the app is closed.
+        /// </summary>
+        ~RadialGradientBrush ()
+        {
+            var device = CanvasDevice.GetSharedDevice();
+            device.DeviceLost -= RadialGradientBrush_DeviceLost;
+            CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device).RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
+        }
     }
 }
