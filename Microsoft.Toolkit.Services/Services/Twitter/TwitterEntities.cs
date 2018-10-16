@@ -19,6 +19,13 @@ namespace Microsoft.Toolkit.Services.Twitter
         public TwitterHashtag[] Hashtags { get; set; }
 
         /// <summary>
+        /// Gets or sets Symbols array of the tweet.
+        /// This array will be empty if no Symbols are present.
+        /// </summary>
+        [JsonProperty("Symbols")]
+        public TwitterSymbol[] Symbols { get; set; }
+
+        /// <summary>
         /// Gets or sets Media array of the tweet.
         /// This array will not exist if no media is present.
         /// </summary>
