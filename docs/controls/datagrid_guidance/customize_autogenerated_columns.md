@@ -40,7 +40,7 @@ private void dataGrid1_AutoGeneratingColumn(object sender, DataGridAutoGeneratin
 In the AutoGeneratingColumn event handler, access the DataGridColumn properties by referencing the **DataGridAutoGeneratingColumnEventArgs.Column** property.
 ```C#
 //Modify the header of the "Name" column
-if (e.Column.Header.ToString() = "Name")
+if (e.Column.Header.ToString() == "Name")
 {
     e.Column.Header = "Task";
 }
@@ -82,4 +82,4 @@ if (e.PropertyType == GetType(Boolean))
 * [Add a DataGrid control to a page](datagrid_basics.md)
 * [Customize the DataGrid control using styling and formatting options](styling_formatting_options.md)
 * [Sizing options in the DataGrid control](sizing_options.md)
-* [DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit//tree/harinikmsft/datagrid/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid) 
+* [DataGrid Sample Page Source](https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp/SamplePages/DataGrid) 
