@@ -14,13 +14,6 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <Compile Remove="Services\Internal\**" />
-    <EmbeddedResource Remove="Services\Internal\**" />
-    <None Remove="Services\Internal\**" />
-    <Page Remove="Services\Internal\**" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
