@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,12 +11,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
-#pragma warning disable SA1601 // Partial elements must be documented
+    /// <summary>
+    /// Service WebView for winforms
+    /// </summary>
     public partial class PopupForm : Form
-#pragma warning restore SA1601 // Partial elements must be documented
     {
         private string initialHost;
         private string callbackHost;

@@ -66,14 +66,12 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
-
             Tokens = tokens ?? throw new ArgumentException("Invalid token");
             RequiredPermissions = requiredPermissions;
             _authentication = authentication ?? throw new ArgumentException("Invalid AuthenticationBroker");
             _storageManager = storageManager ?? throw new ArgumentException("Invalid StorageManager");
             _passwordManager = passwordManager ?? throw new ArgumentException("Invalid PasswordManager");
         }
-
 #if WINRT
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
@@ -83,7 +81,6 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-
             Tokens = tokens ?? throw new ArgumentException("Invalid token");
             RequiredPermissions = requiredPermissions;
             _authentication = new UwpAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
@@ -203,7 +200,6 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         public async Task<U> ShareDataAsync<T, U>(T dataToShare)
         {
             var shareRequest = dataToShare as LinkedInShareRequest;
-
             if (shareRequest != null)
             {
                 LinkedInVisibility.ParseVisibilityStringToEnum(shareRequest.Visibility.Code);
