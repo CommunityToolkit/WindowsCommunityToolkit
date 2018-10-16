@@ -11,7 +11,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.DropShadowPanel" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.Expander" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HamburgerMenu" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedContentControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedItemsControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.HeaderedTextBlock" />
@@ -33,7 +32,6 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RoundImageEx" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SlidableListItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
