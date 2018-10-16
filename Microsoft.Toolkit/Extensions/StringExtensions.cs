@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <summary>
         /// Regular expression for matching a phone number.
         /// </summary>
-        internal const string PhoneNumberRegex = @"^\s*\+?\s*([0-9][\s-]*){9,}$";
+        internal const string PhoneNumberRegex = @"^[+]?(\d{1,3})?[\s.-]?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 
         /// <summary>
         /// Regular expression for matching a string that contains only letters.
