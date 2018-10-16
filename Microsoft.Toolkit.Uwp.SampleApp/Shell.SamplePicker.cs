@@ -149,6 +149,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             GridViewItem container = (GridViewItem)args.ItemContainer ?? new GridViewItem();
+
+            container.Loaded -= ContainerItem_Loaded;
+            container.PointerEntered -= ItemContainer_PointerEntered;
+            container.PointerExited -= ItemContainer_PointerExited;
+
             container.Loaded += ContainerItem_Loaded;
             container.PointerEntered += ItemContainer_PointerEntered;
             container.PointerExited += ItemContainer_PointerExited;
