@@ -96,6 +96,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _surfaceBrush = null;
             }
         }
-
     }
 }

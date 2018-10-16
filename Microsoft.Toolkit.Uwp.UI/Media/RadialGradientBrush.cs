@@ -126,10 +126,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             OnConnected();
             OnDisconnected();
         }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
-        /// Removes the Application Resuming event handler.
-        /// </summary>
     }
 }
