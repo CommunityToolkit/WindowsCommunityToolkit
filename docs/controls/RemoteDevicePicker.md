@@ -17,7 +17,7 @@ The [RemoteDevicePicker](https://docs.microsoft.com/dotnet/api/microsoft.toolkit
 RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
 {
     Title = "Pick Remote Device",
-    SelectionMode = ListViewSelectionMode.Extended
+    SelectionMode = RemoteDevicesSelectionMode.Multiple
 };
 var result = await remoteDevicePicker.PickDeviceAsync();
 await new MessageDialog($"You picked {result.Count.ToString()} Device(s)" + Environment.NewLine + string.Join(",", result.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
@@ -27,8 +27,8 @@ await new MessageDialog($"You picked {result.Count.ToString()} Device(s)" + Envi
 
 | Property | Type | Description |
 | -- | -- | -- |
-| SelectionMode | ListViewSelectionMode | Gets or sets the DeviceList Selection Mode. Defaults to ListViewSelectionMode.Single |
-| HeaderLineBrush | Brush | Gets or sets the Line Color on control Header. takes **SystemControlBackgroundAccentBrush** by default |
+| SelectionMode | RemoteDevicesSelectionMode | Gets or sets the DeviceList Selection Mode. Defaults to RemoteDevicesSelectionMode.Single |
+| ShowAdvancedFilters | Boolean | Gets or sets a value indicating whether Advanced Filters visible or not |
 
 ## Sample Code
 
