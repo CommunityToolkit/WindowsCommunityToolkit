@@ -122,6 +122,9 @@
     <PackageReference Include="Microsoft.Services.Store.Engagement">
       <Version>10.1711.28001</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.0.180916002-prerelease</Version>
+    </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.6.0-alpha</Version>
     </PackageReference>
@@ -316,7 +319,6 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteraction.png" />
     <Content Include="SamplePages\GazeTracing\GazeTracing.png" />
     <Content Include="SamplePages\GridSplitter\GridSplitter.png" />
-    <Content Include="SamplePages\HamburgerMenu\HamburgerMenu.png" />
     <Content Include="SamplePages\AlignmentGrid\AlignmentGrid.png" />
     <Content Include="SamplePages\HeaderedContentControl\HeaderedContentControl.png" />
     <Content Include="SamplePages\HeaderedItemsControl\HeaderedItemsControl.png" />
@@ -377,7 +379,6 @@
     <Content Include="SamplePages\Twitter Service\TwitterCode.bind" />
     <Content Include="SamplePages\Twitter Service\icon.png" />
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
-    <Content Include="SamplePages\HamburgerMenu\HamburgerMenuCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
@@ -531,6 +532,8 @@
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="Shell.Search.cs" />
+    <Compile Include="Shell.SamplePicker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -554,7 +557,6 @@
     <Compile Include="Controls\AadAuthControl.xaml.cs">
       <DependentUpon>AadAuthControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExtendedHamburgerMenu.cs" />
     <Compile Include="Controls\SampleAppMarkdownRenderer.cs" />
     <Compile Include="Controls\XamlCodeEditor.xaml.cs">
       <DependentUpon>XamlCodeEditor.xaml</DependentUpon>
@@ -868,9 +870,6 @@
     <Compile Include="SamplePages\Facebook Service\FacebookPage.xaml.cs">
       <DependentUpon>FacebookPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml.cs">
-      <DependentUpon>HamburgerMenuPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockPage.xaml.cs">
       <DependentUpon>HeaderedTextBlockPage.xaml</DependentUpon>
     </Compile>
@@ -942,11 +941,6 @@
     <Page Include="Controls\CodeRenderer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\ExtendedHamburgerMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
     <Page Include="Controls\AadAuthControl.xaml">
       <SubType>Designer</SubType>
@@ -1321,10 +1315,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\Facebook Service\FacebookPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\HamburgerMenu\HamburgerMenuPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
