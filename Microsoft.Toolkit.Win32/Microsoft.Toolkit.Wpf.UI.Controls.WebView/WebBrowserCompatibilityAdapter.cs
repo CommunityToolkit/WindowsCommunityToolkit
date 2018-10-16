@@ -68,12 +68,22 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         public override bool GoBack()
         {
+            if (_browser == null)
+            {
+                return false;
+            }
+
             _browser?.GoBack();
             return true;
         }
 
         public override bool GoForward()
         {
+            if (_browser == null)
+            {
+                return false;
+            }
+
             _browser?.GoForward();
             return true;
         }

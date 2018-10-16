@@ -39,14 +39,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         public override bool GoBack()
         {
-            _browser.GoBack();
-            return true;
+            return _browser.GoBack();
         }
 
         public override bool GoForward()
         {
-            _browser.GoForward();
-            return true;
+            return _browser.GoForward();
         }
 
         public override string InvokeScript(string scriptName)
