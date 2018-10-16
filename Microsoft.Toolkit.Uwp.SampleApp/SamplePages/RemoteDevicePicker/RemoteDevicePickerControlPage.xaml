@@ -15,7 +15,8 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Button Content="Pick Device(s)" HorizontalAlignment="Center" VerticalAlignment="Center" Tapped="Button_Tapped" Grid.Row="0" Width="{Binding ElementName=MyComboBox, Path=ActualWidth}" />
-            <ComboBox x:Name="MyComboBox" Grid.Row="1" MinWidth="200" Header="Selection Mode" />
+            <CheckBox Content="Show Advanced Filters" Grid.Row="1" x:Name="ShowAdvancedFilters"/>
+            <ComboBox x:Name="MyComboBox" Grid.Row="2" MinWidth="200" Header="Selection Mode" />
         </Grid>
         <controls:InAppNotification x:Name="MyInAppNotification" ShowDismissButton="False" />
     </Grid>

@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public RemoteDevicePickerControlPage()
         {
             InitializeComponent();
-            var selectionEnum = Enum.GetNames(typeof(ListViewSelectionMode)).Cast<string>().ToList();
+            var selectionEnum = Enum.GetNames(typeof(RemoteDeviceSelectionMode)).Cast<string>().ToList();
             MyComboBox.ItemsSource = selectionEnum;
             MyComboBox.SelectedIndex = 1;
         }
@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
             {
                 Title = "Pick Remote Device",
-                SecondaryButtonText = "Select",
-                SelectionMode = (ListViewSelectionMode)Enum.Parse(typeof(ListViewSelectionMode), MyComboBox.SelectedValue.ToString())
+                SelectionMode = (RemoteDeviceSelectionMode)Enum.Parse(typeof(RemoteDeviceSelectionMode), MyComboBox.SelectedValue.ToString()),
+                ShowAdvancedFilters = ShowAdvancedFilters.IsChecked.Value
             };
             var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
             MyInAppNotification.Show($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList()), 2000);

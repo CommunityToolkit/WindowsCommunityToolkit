@@ -1,8 +1,8 @@
 ﻿RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
 {
     Title = "Pick Remote Device",
-    SecondaryButtonText = "Select",
+	SelectionMode = RemoteDevicesSelectionMode.Multiple
 };
-remoteDevicePicker.SelectionMode = bool.Parse(SelectionCheckBox.IsChecked.ToString()) ? ListViewSelectionMode.Extended : ListViewSelectionMode.Single;
+
 var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
 await new MessageDialog($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
