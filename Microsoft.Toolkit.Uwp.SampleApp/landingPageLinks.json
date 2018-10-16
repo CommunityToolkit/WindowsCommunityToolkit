@@ -55,6 +55,14 @@
           "url": "https://github.com/Microsoft/Windows-universal-samples"
         },
         {
+          "title": "XAML Controls Gallery",
+          "url": "https://www.microsoft.com/p/xaml-controls-gallery/9msvh128x2zt"
+        },
+        {
+          "title": "Windows UI Library",
+          "url": "https://docs.microsoft.com/uwp/toolkits/winui/"
+        },
+        {
           "title": "Windows Template Studio",
           "url": "https://github.com/microsoft/windowsTemplateStudio"
         },
