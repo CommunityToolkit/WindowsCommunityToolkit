@@ -32,6 +32,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="RemoteDeviceHelper"/> class.
+        /// </summary>
+        public RemoteDeviceHelper(List<IRemoteSystemFilter> filter)
+        {
+            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            GenerateSystemsWithFilter(filter);
+        }
+
+        /// <summary>
         /// Initiate Enumeration
         /// </summary>
         public void GenerateSystems()

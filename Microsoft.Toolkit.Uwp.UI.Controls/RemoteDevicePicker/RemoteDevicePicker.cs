@@ -27,9 +27,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ComboBox _listDeviceTypes;
         private ProgressRing _progressRing;
         private Grid _commandSpace;
-        private ComboBox _deviceDiscoveryItemsControl;
-        private ComboBox _deviceStatusItemsControl;
-        private ComboBox _authorizationTypeItemsControl;
+        private ComboBox _deviceDiscovery;
+        private ComboBox _deviceStatus;
+        private ComboBox _authorizationType;
         private Grid _advancedFiltersGrid;
 
         /// <summary>
@@ -107,26 +107,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
-            if (_listDeviceTypes != null)
-            {
-                _listDeviceTypes.SelectionChanged -= ListDeviceTypes_SelectionChanged;
-            }
-
-            if (_listDevices != null)
-            {
-                _listDevices.SelectionChanged -= ListDevices_SelectionChanged;
-                _listDevices.DoubleTapped -= ListDevices_DoubleTapped;
-                _listDevices.ContainerContentChanging -= ListDevices_ContainerContentChanging;
-                _listDeviceTypes.SelectedIndex = -1;
-            }
+            UnhookEvents();
 
             _listDevices = GetTemplateChild("PART_ListDevices") as ListView;
             _listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
             _progressRing = GetTemplateChild("PART_ProgressRing") as ProgressRing;
             _commandSpace = GetTemplateChild("CommandSpace") as Grid;
-            _deviceDiscoveryItemsControl = GetTemplateChild("DiscoveryType") as ComboBox;
-            _deviceStatusItemsControl = GetTemplateChild("StatusType") as ComboBox;
-            _authorizationTypeItemsControl = GetTemplateChild("AuthorizationType") as ComboBox;
+            _deviceDiscovery = GetTemplateChild("DiscoveryType") as ComboBox;
+            _deviceStatus = GetTemplateChild("StatusType") as ComboBox;
+            _authorizationType = GetTemplateChild("AuthorizationType") as ComboBox;
             _advancedFiltersGrid = GetTemplateChild("AdvancedFiltersGrid") as Grid;
 
             List<string> deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
@@ -155,29 +144,102 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _advancedFiltersGrid.Visibility = ShowAdvancedFilters ? Visibility.Visible : Visibility.Collapsed;
             }
 
-            RemoteDeviceHelper romeHelper = new RemoteDeviceHelper();
-            RemoteSystems = romeHelper.RemoteSystems;
+            LoadFilters();
+
+            if (_deviceDiscovery != null)
+            {
+                _deviceDiscovery.SelectionChanged += Filters_SelectionChanged;
+            }
+
+            if (_authorizationType != null)
+            {
+                _authorizationType.SelectionChanged += Filters_SelectionChanged;
+            }
+
+            if (_deviceStatus != null)
+            {
+                _deviceStatus.SelectionChanged += Filters_SelectionChanged;
+            }
+
+            RemoteDeviceHelper remoteDeviceHelper = new RemoteDeviceHelper();
+            RemoteSystems = remoteDeviceHelper.RemoteSystems;
 
             UpdateProgressRing(true);
             UpdateList();
 
             Focus(FocusState.Programmatic);
 
-            LoadFilters();
-
             base.OnApplyTemplate();
+        }
+
+        private void UnhookEvents()
+        {
+            if (_listDeviceTypes != null)
+            {
+                _listDeviceTypes.SelectionChanged -= ListDeviceTypes_SelectionChanged;
+            }
+
+            if (_listDevices != null)
+            {
+                _listDevices.SelectionChanged -= ListDevices_SelectionChanged;
+                _listDevices.DoubleTapped -= ListDevices_DoubleTapped;
+                _listDevices.ContainerContentChanging -= ListDevices_ContainerContentChanging;
+                _listDeviceTypes.SelectedIndex = -1;
+            }
+
+            if (_deviceDiscovery != null)
+            {
+                _deviceDiscovery.SelectionChanged -= Filters_SelectionChanged;
+            }
+
+            if (_authorizationType != null)
+            {
+                _authorizationType.SelectionChanged -= Filters_SelectionChanged;
+            }
+
+            if (_deviceStatus != null)
+            {
+                _deviceStatus.SelectionChanged -= Filters_SelectionChanged;
+            }
+        }
+
+        private void Filters_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            BuildFilters();
         }
 
         private void LoadFilters()
         {
             List<string> discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceDiscoveryItemsControl.ItemsSource = discoveryType;
+            _deviceDiscovery.ItemsSource = discoveryType;
 
             List<string> statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceStatusItemsControl.ItemsSource = statusType;
+            _deviceStatus.ItemsSource = statusType;
 
             List<string> authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _authorizationTypeItemsControl.ItemsSource = authType;
+            _authorizationType.ItemsSource = authType;
+        }
+
+        private void BuildFilters()
+        {
+            List<IRemoteSystemFilter> filters = new List<IRemoteSystemFilter>();
+            RemoteSystemDiscoveryTypeFilter discoveryFilter;
+            RemoteSystemAuthorizationKindFilter authorizationKindFilter;
+            RemoteSystemStatusTypeFilter statusFilter;
+
+            discoveryFilter = new RemoteSystemDiscoveryTypeFilter((RemoteSystemDiscoveryType)Enum.Parse(typeof(RemoteSystemDiscoveryType), _deviceDiscovery?.SelectedValue.ToString()));
+            authorizationKindFilter = new RemoteSystemAuthorizationKindFilter((RemoteSystemAuthorizationKind)Enum.Parse(typeof(RemoteSystemAuthorizationKind), _authorizationType?.SelectedValue.ToString()));
+            statusFilter = new RemoteSystemStatusTypeFilter((RemoteSystemStatusType)Enum.Parse(typeof(RemoteSystemStatusType), _deviceStatus?.SelectedValue.ToString()));
+
+            filters.Add(discoveryFilter);
+            filters.Add(authorizationKindFilter);
+            filters.Add(statusFilter);
+
+            RemoteDeviceHelper remoteDeviceHelper = new RemoteDeviceHelper(filters);
+            RemoteSystems = remoteDeviceHelper.RemoteSystems;
+
+            UpdateProgressRing(true);
+            UpdateList();
         }
 
         private void ListDevices_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
