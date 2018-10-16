@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
         /// Remove the event handlers when the app is closed.
         /// </summary>
-        ~RadialGradientBrush ()
+        ~RadialGradientBrush()
         {
             var device = CanvasDevice.GetSharedDevice();
             device.DeviceLost -= RadialGradientBrush_DeviceLost;
