@@ -23,12 +23,23 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             add
             {
                 _webView.ContentLoading += value;
-                _webView.FrameContentLoading += value;
             }
 
             remove
             {
                 _webView.ContentLoading -= value;
+            }
+        }
+
+        public event EventHandler<WebViewControlContentLoadingEventArgs> FrameContentLoading
+        {
+            add
+            {
+                _webView.FrameContentLoading += value;
+            }
+
+            remove
+            {
                 _webView.FrameContentLoading -= value;
             }
         }
@@ -38,13 +49,11 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             add
             {
                 _webView.NavigationCompleted += value;
-                _webView.FrameNavigationCompleted += value;
             }
 
             remove
             {
                 _webView.NavigationCompleted -= value;
-                _webView.FrameNavigationCompleted -= value;
             }
         }
 
@@ -53,13 +62,37 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             add
             {
                 _webView.NavigationStarting += value;
-                _webView.FrameNavigationStarting += value;
             }
 
             remove
             {
                 _webView.NavigationStarting -= value;
+            }
+        }
+
+        public event EventHandler<WebViewControlNavigationStartingEventArgs> FrameNavigationStarting
+        {
+            add
+            {
+                _webView.FrameNavigationStarting += value;
+            }
+
+            remove
+            {
                 _webView.FrameNavigationStarting -= value;
+            }
+        }
+
+        public event EventHandler<WebViewControlNavigationCompletedEventArgs> FrameNavigationCompleted
+        {
+            add
+            {
+                _webView.FrameNavigationCompleted += value;
+            }
+
+            remove
+            {
+                _webView.FrameNavigationCompleted -= value;
             }
         }
 

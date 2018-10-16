@@ -126,6 +126,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             {
                 if (_browser != null)
                 {
+                    _browser.Navigating -= OnBrowserNavigating;
+                    _browser.LoadCompleted -= OnBrowserNavigated;
                     _browser.Dispose();
                 }
 
