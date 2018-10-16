@@ -8,7 +8,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using Microsoft.Toolkit.Services.Twitter;
-using Microsoft.Toolkit.Uwp.Services;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
