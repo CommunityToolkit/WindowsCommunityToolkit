@@ -50,17 +50,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/UniformGrid.md"
       },
       {
-        "Name": "HamburgerMenu",
-        "Type": "HamburgerMenuPage",
-        "About": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
-        "XamlCodeFile": "HamburgerMenuCode.bind",
-        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HamburgerMenu.md"
-      },
-      {
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
@@ -561,6 +550,15 @@
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Twitter.md"
+      },
+      {
+        "Name": "Weibo Service",
+        "Type": "WeiboPage",
+        "About": "The Weibo Service allows you to retrieve or publish data to Weibo.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Weibo",
+        "CodeFile": "WeiboCode.bind",
+        "Icon": "/SamplePages/Weibo Service/WeiboLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Weibo.md"
       },
       {
         "Name": "Microsoft Graph Service",
