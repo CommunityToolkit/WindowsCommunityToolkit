@@ -12,7 +12,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 <!-- - Feature request (UserVoice request: ) --> 
 <!-- - Sample app request -->
 <!-- - Documentation issue or request -->
-<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question -->
+<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md#question -->
 
 
 ## Current behavior
