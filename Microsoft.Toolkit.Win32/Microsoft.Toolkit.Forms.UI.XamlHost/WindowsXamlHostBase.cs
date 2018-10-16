@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
 
                 // Set window style required by container control to support Focus
-                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_STYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
+                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_EXSTYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
                 {
                     throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
                 }

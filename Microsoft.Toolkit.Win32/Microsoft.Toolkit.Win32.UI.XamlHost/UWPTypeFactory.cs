@@ -35,16 +35,16 @@ namespace Microsoft.Toolkit.Win32.UI.XamlHost
 
             systemType = FindBuiltInType(xamlTypeName);
 
-            if (xamlType != null)
-            {
-                // Create custom UWP XAML type
-                return (Windows.UI.Xaml.FrameworkElement)xamlType.ActivateInstance();
-            }
-
             if (systemType != null)
             {
                 // Create built-in UWP XAML type
                 return (Windows.UI.Xaml.FrameworkElement)Activator.CreateInstance(systemType);
+            }
+
+            if (xamlType != null)
+            {
+                // Create custom UWP XAML type
+                return (Windows.UI.Xaml.FrameworkElement)xamlType.ActivateInstance();
             }
 
             throw new InvalidOperationException("Microsoft.Windows.Interop.UWPTypeFactory: Could not create type: " + xamlTypeName);

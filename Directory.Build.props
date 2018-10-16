@@ -4,10 +4,10 @@
     <Authors>Microsoft.Toolkit</Authors>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NoPackageAnalysis>true</NoPackageAnalysis>
-    <PackageIconUrl>https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
-    <PackageProjectUrl>https://github.com/Microsoft/WindowsCommunityToolkit</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
-    <PackageReleaseNotes>v3.0 release https://github.com/Microsoft/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
+    <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
+    <PackageReleaseNotes>v3.0 release https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
     <DefaultLanguage>en-US</DefaultLanguage>
@@ -18,8 +18,8 @@
     <IsWpfProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
     <IsFormsProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
-    <DefaultTargetPlatformVersion>17134</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>15063</DefaultTargetPlatformMinVersion>
+    <DefaultTargetPlatformVersion>17763</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
   </PropertyGroup>
 
@@ -43,9 +43,9 @@
           - /azure-pipelines.yml
 
         This also needs to be installed on your local machine. Can do this with PowerShell:
-          ./build/Install-WindowsSDKISO.ps1 17758
+          ./build/Install-WindowsSDKISO.ps1 17763
         -->
-        <TargetPlatformVersion>10.0.17758.0</TargetPlatformVersion>
+        <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
         <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
 
         <!-- Compiler -->

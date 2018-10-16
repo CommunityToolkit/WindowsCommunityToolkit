@@ -30,7 +30,7 @@
             <controls:MasterDetailsView.DetailsTemplate>
                 <DataTemplate>
                     <RelativePanel Margin="24">
-                        <controls:RoundImageEx x:Name="FromEllipse"
+                        <controls:ImageEx x:Name="FromEllipse"
                                                Source="{Binding Thumbnail}"
                                                Width="50"
                                                Height="50"
