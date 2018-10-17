@@ -123,10 +123,10 @@
       <Version>10.1711.28001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.180916002-prerelease</Version>
+      <Version>2.0.181011001</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
-      <Version>0.6.0-alpha</Version>
+      <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
