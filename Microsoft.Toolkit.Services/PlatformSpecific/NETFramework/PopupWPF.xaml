@@ -8,9 +8,6 @@
         mc:Ignorable="d"
         Title="PopupPage" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Controls:WebView Grid.Row="0" x:Name="WebView1"  Width="800" Height="800" HorizontalAlignment="Left"  Margin="10,10,0,0" VerticalAlignment="Top"/>
     </Grid>
 </Window>

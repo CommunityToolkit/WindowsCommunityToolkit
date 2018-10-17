@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
         /// </summary>
         /// <param name="key">Key to lookup</param>
         /// <returns>Return string value if exists if not null</returns>
-        public Task<string> Get(string key)
+        public Task<string> GetAsync(string key)
         {
             return Task.FromResult<string>(ApplicationData.Current.LocalSettings.Values[key]?.ToString());
         }
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.Uwp
         /// <param name="key">Key name in storage</param>
         /// <param name="value">Value associated to the storage</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task Set(string key, string value)
+        public Task SetAsync(string key, string value)
         {
             ApplicationData.Current.LocalSettings.Values[key] = value;
             return Task.CompletedTask;

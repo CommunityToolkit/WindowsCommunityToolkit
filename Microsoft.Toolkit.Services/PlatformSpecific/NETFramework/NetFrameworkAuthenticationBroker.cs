@@ -30,7 +30,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             }
         }
 
-        public Task<AuthenticationResult> AutenticateWindow(Uri requestUri, Uri callbackUri)
+        public async Task<AuthenticationResult> AutenticateWindow(Uri requestUri, Uri callbackUri)
         {
             PopupWPF popupWindow;
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
@@ -42,10 +42,10 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
             popupWindow.Show();
             popupWindow.NavigateTo(requestUri.AbsoluteUri);
-            return taskCompletionSource.Task;
+            return await taskCompletionSource.Task;
         }
 
-        public Task<AuthenticationResult> AutenticateForm(Uri requestUri, Uri callbackUri)
+        public async Task<AuthenticationResult> AutenticateForm(Uri requestUri, Uri callbackUri)
         {
             PopupForm popupForm;
             var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
@@ -57,12 +57,11 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
             popupForm.Show();
             popupForm.NavigateTo(requestUri.AbsoluteUri);
-            return taskCompletionSource.Task;
+            return await taskCompletionSource.Task;
         }
 
-        public AuthenticationResult HandleExit(Uri actualUrl)
+        private AuthenticationResult HandleExit(Uri actualUrl)
         {
-            var taskCompletionSource = new TaskCompletionSource<AuthenticationResult>();
             var result = new AuthenticationResult();
             if (actualUrl != null)
             {

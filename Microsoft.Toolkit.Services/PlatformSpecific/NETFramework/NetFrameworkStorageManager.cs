@@ -15,20 +15,20 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkStorageManager : IStorageManager
     {
-        private const string FILE_NAME = "twitter_service_data.txt";
-        private const char SEPARATOR = ':';
+        private const string FileName = "twitter_service_data.txt";
+        private const char Separator = ':';
 
-        public async Task<string> Get(string key)
+        public async Task<string> GetAsync(string key)
         {
             var isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
-            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(FILE_NAME, FileMode.OpenOrCreate, isoStore))
+            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(FileName, FileMode.OpenOrCreate, isoStore))
             {
                 using (StreamReader reader = new StreamReader(isoStream))
                 {
                     while (!reader.EndOfStream)
                     {
-                        var line = (await reader.ReadLineAsync()).Split(SEPARATOR);
+                        var line = (await reader.ReadLineAsync()).Split(Separator);
                         var currentKey = line.First();
                         if (currentKey == key)
                         {
@@ -41,15 +41,15 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             return null;
         }
 
-        public Task Set(string key, string value)
+        public Task SetAsync(string key, string value)
         {
             var isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
-            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(FILE_NAME, FileMode.Append, isoStore))
+            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(FileName, FileMode.Append, isoStore))
             {
                 using (StreamWriter writer = new StreamWriter(isoStream))
                 {
-                    return writer.WriteLineAsync(string.Concat(key, SEPARATOR, value));
+                    return writer.WriteLineAsync(string.Concat(key, Separator, value));
                 }
             }
         }
