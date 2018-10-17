@@ -84,28 +84,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AddImage(bool broken, bool placeholder, bool round = false)
         {
-            ImageExBase newImage = null;
+            ImageEx newImage = new ImageEx();
+            newImage.Style = resources["BaseStyle"] as Style;
+
             if (round)
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                newImage = new RoundImageEx
-                {
-                };
-#pragma warning restore CS0618 // Type or member is obsolete
-
-                if (resources?.ContainsKey("RoundStyle") == true)
-                {
-                    newImage.Style = resources["RoundStyle"] as Style;
-                }
-            }
-            else
-            {
-                newImage = new ImageEx();
-
-                if (resources?.ContainsKey("RectangleStyle") == true)
-                {
-                    newImage.Style = resources["RectangleStyle"] as Style;
-                }
+                newImage.CornerRadius = new CornerRadius(999);
             }
 
             newImage.Source = broken ? photos[imageIndex].Thumbnail + "broken" : photos[imageIndex].Thumbnail;

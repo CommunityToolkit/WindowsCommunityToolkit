@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
 {
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
 
         private void ListView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            Frame.Navigate(typeof(ThirdPage), e.ClickedItem);
+            Frame.Navigate(typeof(ThirdPage), e.ClickedItem, new SuppressNavigationTransitionInfo());
         }
     }
 }
