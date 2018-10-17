@@ -55,10 +55,8 @@ The Radial Gauge supports animated transitions between configuration states. The
 | TickWidth | double | Gets or sets the width of the ticks, in percentage of the gauge radius |
 | TrailBrush | Brush | Gets or sets the trail brush |
 | Unit | string | Gets or sets the displayed unit measure |
-| UnitBrush | Brush | Gets or sets the brush for the displayed unit measure |
 | Value | double | Gets or sets the current value |
 | ValueAngle | double | Gets or sets the current angle of the needle (between MinAngle and MaxAngle). Setting the angle will update the Value |
-| ValueBrush | Brush | Gets or sets the brush for the displayed value |
 | ValueStringFormat | string | Gets or sets the value string format |
 
 ## Control style and template
