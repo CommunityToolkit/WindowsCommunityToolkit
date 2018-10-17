@@ -10,6 +10,7 @@ using Microsoft.Graphics.Canvas.Brushes;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
@@ -23,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : CanvasBrushBase
     {
+
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RadialGradientBrush)d;
@@ -108,21 +110,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         private void RegisterAppResumeHandler()
         {
-            var device = CanvasDevice.GetSharedDevice();
-            device.DeviceLost += RadialGradientBrush_DeviceLost;
-            CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device).RenderingDeviceReplaced += RadialGradientBrush_RenderingDeviceReplaced;
+            Device.DeviceLost += RadialGradientBrush_DeviceLost;
+            Graphics.RenderingDeviceReplaced += RadialGradientBrush_RenderingDeviceReplaced;
         }
 
-        private void RadialGradientBrush_RenderingDeviceReplaced(Windows.UI.Composition.CompositionGraphicsDevice sender, Windows.UI.Composition.RenderingDeviceReplacedEventArgs args)
+        private void RadialGradientBrush_RenderingDeviceReplaced(CompositionGraphicsDevice sender, Windows.UI.Composition.RenderingDeviceReplacedEventArgs args)
         {
-            sender.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
+            Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
             OnConnected();
             OnDisconnected();
         }
 
         private void RadialGradientBrush_DeviceLost(CanvasDevice sender, object args)
         {
-            sender.DeviceLost -= RadialGradientBrush_DeviceLost;
+            Device.DeviceLost -= RadialGradientBrush_DeviceLost;
             OnConnected();
             OnDisconnected();
         }
@@ -133,9 +134,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         ~RadialGradientBrush()
         {
-            var device = CanvasDevice.GetSharedDevice();
-            device.DeviceLost -= RadialGradientBrush_DeviceLost;
-            CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device).RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
+            Device.DeviceLost -= RadialGradientBrush_DeviceLost;
+            Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
         }
     }
 }

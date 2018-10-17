@@ -39,11 +39,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected abstract bool OnDraw(CanvasDevice device, CanvasDrawingSession session, Vector2 size);
 
         /// <summary>
+        /// Gets or sets the shared device.
+        /// </summary>
+        protected CanvasDevice Device { get; set; }
+
+        /// <summary>
+        /// Gets or sets the internal graphics composition.
+        /// </summary>
+        protected CompositionGraphicsDevice Graphics { get; set; }
+
+        /// <summary>
         /// Initializes the Composition Brush.
         /// </summary>
         protected override void OnConnected()
         {
             base.OnConnected();
+            Device = CanvasDevice.GetSharedDevice();
+            Graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, Device);
 
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
@@ -55,15 +67,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 }
 
                 var size = new Vector2(SurfaceWidth, SurfaceHeight);
-
-                var device = CanvasDevice.GetSharedDevice();
-                var graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
-                var surface = graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
+                var surface = Graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
 
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
                 {
                     // Call Implementor to draw on session.
-                    if (!OnDraw(device, session, size))
+                    if (!OnDraw(Device, session, size))
                     {
                         return;
                     }
