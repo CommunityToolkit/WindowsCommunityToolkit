@@ -566,9 +566,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void OnFillerColumnWidthNeeded(double finalWidth)
         {
+            DoubleUtil.AreClose(1, 2);
             DataGridFillerColumn fillerColumn = this.ColumnsInternal.FillerColumn;
             double totalColumnsWidth = this.ColumnsInternal.VisibleEdgedColumnsWidth;
-            if (finalWidth > totalColumnsWidth && !DoubleUtil.AreClose(finalWidth, totalColumnsWidth))
+            if (finalWidth > totalColumnsWidth && finalWidth - totalColumnsWidth > 1.0)
             {
                 fillerColumn.FillerWidth = finalWidth - totalColumnsWidth;
             }
