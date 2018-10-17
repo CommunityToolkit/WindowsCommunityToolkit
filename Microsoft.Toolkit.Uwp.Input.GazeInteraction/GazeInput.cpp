@@ -45,6 +45,16 @@ void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
     GazePointer::Instance->_completeBrush = value;
 }
 
+double GazeInput::DwellStrokeThickness::get()
+{
+    return GazePointer::Instance->_dwellStrokeThickness;
+}
+
+void GazeInput::DwellStrokeThickness::set(double value)
+{
+    GazePointer::Instance->_dwellStrokeThickness = value;
+}
+
 Interaction GazeInput::Interaction::get()
 {
     return GazePointer::Instance->_interaction;

@@ -5,6 +5,7 @@
 
 #include "GazeCursor.h"
 #include "GazeFeedbackPopupFactory.h"
+#include "GazeEventArgs.h"
 #include "IGazeFilter.h"
 #include "Interaction.h"
 #include "PointerState.h"
@@ -54,12 +55,27 @@ public:
     /// </summary>
     IAsyncOperation<bool>^ RequestCalibrationAsync();
 
+    event EventHandler<GazeEventArgs^>^ GazeEvent
+    {
+        EventRegistrationToken add(EventHandler<GazeEventArgs^>^ handler);
+        void remove(EventRegistrationToken token);
+        void raise(Object^ sender, GazeEventArgs^ e);
+    }
+
+private:
+
+    event EventHandler<GazeEventArgs^>^ _gazeEvent;
+    GazeEventArgs^ const _gazeEventArgs = ref new GazeEventArgs();
+    int _gazeEventCount = 0;
+
 internal:
     Brush^ _enterBrush = nullptr;
 
     Brush^ _progressBrush = ref new SolidColorBrush(Colors::Green);
 
     Brush^ _completeBrush = ref new SolidColorBrush(Colors::Red);
+
+    double _dwellStrokeThickness = 2;
 
     Interaction _interaction = Interaction::Disabled;
 
@@ -137,6 +153,7 @@ private:
 
 private:
 
+    bool _initialized;
     bool _isShuttingDown;
 
     TimeSpan GetDefaultPropertyValue(PointerState state);
