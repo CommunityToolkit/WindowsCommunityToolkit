@@ -24,7 +24,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     [ContentProperty(Name = nameof(GradientStops))]
     public partial class RadialGradientBrush : CanvasBrushBase
     {
-
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (RadialGradientBrush)d;
