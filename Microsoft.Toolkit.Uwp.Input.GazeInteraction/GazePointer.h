@@ -111,6 +111,14 @@ internal:
         void set(bool value) { _isSwitchEnabled = value; }
     }
 
+public:
+
+    property bool IsAlwaysActivated
+    {
+        bool get() { return _isAlwaysActivated; }
+        void set(bool value) { _isAlwaysActivated = value; }
+    }
+
 internal:
 
     static property GazePointer^ Instance { GazePointer^ get(); }
@@ -201,6 +209,7 @@ private:
     TimeSpan _defaultRepeatDelay = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
 
+    bool                                _isAlwaysActivated;
     bool                                _isSwitchEnabled;
     GazeTargetItem^                     _currentlyFixatedElement;
 };

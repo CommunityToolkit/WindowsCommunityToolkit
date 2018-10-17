@@ -363,8 +363,11 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
     switch (Window::Current->CoreWindow->ActivationMode)
     {
     default:
-        invokable = _nonInvokeGazeTargetItem;
-        break;
+        if (!_isAlwaysActivated)
+        {
+            invokable = _nonInvokeGazeTargetItem;
+            break;
+        }
 
     case CoreWindowActivationMode::ActivatedInForeground:
     case CoreWindowActivationMode::ActivatedNotForeground:
