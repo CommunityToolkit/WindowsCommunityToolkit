@@ -56,11 +56,11 @@ void GazeInput::Interaction::set(GazeInteraction::Interaction value)
     {
         if (value == GazeInteraction::Interaction::Enabled)
         {
-            GazePointer::Instance->AddRoot(nullptr);
+            GazePointer::Instance->AddRoot(0);
         }
         else if (GazePointer::Instance->_interaction == GazeInteraction::Interaction::Enabled)
         {
-            GazePointer::Instance->RemoveRoot(nullptr);
+            GazePointer::Instance->RemoveRoot(0);
         }
 
         GazePointer::Instance->_interaction = value;

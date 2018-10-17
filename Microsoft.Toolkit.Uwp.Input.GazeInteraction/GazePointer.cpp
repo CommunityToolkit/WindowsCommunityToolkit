@@ -44,9 +44,9 @@ GazePointer^ GazePointer::Instance::get()
     return value;
 }
 
-void GazePointer::AddRoot(Object^ element)
+void GazePointer::AddRoot(int proxyId)
 {
-    _roots->InsertAt(0, element);
+    _roots->InsertAt(0, proxyId);
 
     if (_roots->Size == 1)
     {
@@ -55,10 +55,10 @@ void GazePointer::AddRoot(Object^ element)
     }
 }
 
-void GazePointer::RemoveRoot(Object^ element)
+void GazePointer::RemoveRoot(int proxyId)
 {
     unsigned int index = 0;
-    if (_roots->IndexOf(element, &index))
+    if (_roots->IndexOf(proxyId, &index))
     {
         _roots->RemoveAt(index);
     }

@@ -124,8 +124,8 @@ internal:
     static property GazePointer^ Instance { GazePointer^ get(); }
     EventRegistrationToken _unloadedToken;
 
-    void AddRoot(Object^ element);
-    void RemoveRoot(Object^ element);
+    void AddRoot(int proxyId);
+    void RemoveRoot(int proxyId);
 
 
     property bool IsDeviceAvailable { bool get() { return _devices->Size != 0; }}
@@ -170,7 +170,7 @@ private:
     void OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args);
 
 private:
-    Vector<Object^>^ _roots = ref new Vector<Object^>();
+    Vector<int>^ _roots = ref new Vector<int>();
 
     TimeSpan                               _eyesOffDelay;
 

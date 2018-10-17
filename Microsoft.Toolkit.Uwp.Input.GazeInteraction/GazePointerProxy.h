@@ -59,6 +59,11 @@ private:
 private:
 
     /// <summary>
+    /// Non-zero ID associated with this instance.
+    /// </summary>
+    int _uniqueId;
+
+    /// <summary>
     /// Indicator that the corresponding element is part of the visual tree.
     /// </summary>
     bool _isLoaded;
