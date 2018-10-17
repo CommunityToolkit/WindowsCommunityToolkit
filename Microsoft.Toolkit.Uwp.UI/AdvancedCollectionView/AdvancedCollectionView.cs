@@ -324,7 +324,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         public bool CanFilter => true;
 
         /// <summary>
-        /// Gets or sets the predicate used to filter the visisble items
+        /// Gets or sets the predicate used to filter the visible items
         /// </summary>
         public Predicate<object> Filter
         {
