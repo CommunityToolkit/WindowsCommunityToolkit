@@ -200,10 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialGauge);
 
-            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
-            ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
-
-            KeyDown += RadialGauge_KeyDown;
+            Unloaded += RadialGauge_Unloaded;
         }
 
         private void ThemeListener_ThemeChanged(ThemeListener sender)
@@ -232,6 +229,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Value = Math.Min(Maximum, Value + step);
                 e.Handled = true;
             }
+        }
+
+        private void RadialGauge_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Unregister event handlers.
+            KeyDown -= RadialGauge_KeyDown;
+            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            PointerReleased -= RadialGauge_PointerReleased;
         }
 
         /// <summary>
@@ -466,8 +471,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            PointerReleased += RadialGauge_PointerReleased;
-
             // Remember local brushes.
             _needleBrush = ReadLocalValue(NeedleBrushProperty) as SolidColorBrush;
             _trailBrush = ReadLocalValue(TrailBrushProperty) as SolidColorBrush;
@@ -475,6 +478,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _scaleTickBrush = ReadLocalValue(ScaleTickBrushProperty) as SolidColorBrush;
             _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
             _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
+
+            // Register event handlers.
+            PointerReleased += RadialGauge_PointerReleased;
+            ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            KeyDown += RadialGauge_KeyDown;
 
             // Apply color scheme.
             OnColorsChanged();
