@@ -21,7 +21,7 @@ The Radial Gauge supports animated transitions between configuration states. The
 <controls:RadialGauge x:Name="RadialGaugeControl" Column="1" Value="70" Minimum="0" 
 	Maximum="180" TickSpacing="20" ScaleWidth="26" Unit="Units" TickBrush="Gainsboro"
 	ScaleTickBrush="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-	UnitBrush="Black" ValueBrush="Black" NeedleWidth="5" TickLength="18">
+	NeedleWidth="5" TickLength="18">
 </controls:RadialGauge>
 ```
 
