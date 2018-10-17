@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
-            Tokens = tokens ?? throw new ArgumentException("Invalid token");
+            Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = authentication ?? throw new ArgumentException("Invalid AuthenticationBroker");
             _storageManager = storageManager ?? throw new ArgumentException("Invalid StorageManager");
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-            Tokens = tokens ?? throw new ArgumentException("Invalid token");
+            Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = new UwpAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
             _storageManager = new UwpStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
@@ -98,9 +98,9 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
-            Tokens = tokens ?? throw new ArgumentException("Invalid token");
+            Tokens = tokens;
             RequiredPermissions = requiredPermissions;
-            _authentication = new NetFrameworkAuthenticationBroker() ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _authentication = new NetFrameworkAuthenticationBroker();
             _storageManager = new NetFrameworkStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
             _passwordManager = new NetFrameworkPasswordManager() ?? throw new ArgumentException("Invalid PasswordManager");
         }
