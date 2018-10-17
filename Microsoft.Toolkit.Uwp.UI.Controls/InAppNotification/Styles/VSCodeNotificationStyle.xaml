@@ -8,7 +8,7 @@
             out below -->
         <ResourceDictionary x:Key="Default">
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="#0E639C" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="#0E639C" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="White" />
             <SolidColorBrush x:Key="SystemControlGridBackgroundBrush" Color="#007ACC" />
             <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="#333333" />
@@ -20,11 +20,11 @@
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="Red" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
             <SolidColorBrush x:Key="SystemControlGridBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
             <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
             <SolidColorBrush x:Key="SystemControlForegroundBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="{ThemeResource SystemControlBackgroundListLowBrush}" />
+            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -47,7 +47,7 @@
                           Background="{TemplateBinding Background}"
                           BorderBrush="{TemplateBinding BorderBrush}"
                           BorderThickness="{TemplateBinding BorderThickness}">
-                        <ContentPresenter Content="{TemplateBinding Content}"
+                        <ContentPresenter x:Name="ContentHolder" Content="{TemplateBinding Content}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                           Foreground="{TemplateBinding Foreground}"/>
@@ -177,7 +177,8 @@
                                   HorizontalContentAlignment="Stretch"
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   VerticalContentAlignment="Center"
-                                  TextWrapping="NoWrap" />
+                                  TextWrapping="NoWrap" 
+                                  HighContrastAdjustment="None" />
             </Grid>
         </Grid>
     </ControlTemplate>
