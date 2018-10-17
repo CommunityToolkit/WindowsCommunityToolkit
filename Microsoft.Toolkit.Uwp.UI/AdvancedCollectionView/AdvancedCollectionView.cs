@@ -94,8 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
                 _sourceWeakEventListener?.Detach();
 
-                var sourceNcc = _source as INotifyCollectionChanged;
-                if (sourceNcc != null)
+                if (_source is INotifyCollectionChanged sourceNcc)
                 {
                     _sourceWeakEventListener =
                         new WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs>(this)
