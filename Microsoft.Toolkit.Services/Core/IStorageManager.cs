@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Services.Core
         /// </summary>
         /// <param name="key"> Token value </param>
         /// <returns> Returns a string value</returns>
-        Task<string> Get(string key);
+        Task<string> GetAsync(string key);
 
         /// <summary>
         /// Sets the key value
@@ -24,6 +24,6 @@ namespace Microsoft.Toolkit.Services.Core
         /// <param name="key"> Token key </param>
         /// <param name="value"> String value </param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        Task Set(string key, string value);
+        Task SetAsync(string key, string value);
     }
 }

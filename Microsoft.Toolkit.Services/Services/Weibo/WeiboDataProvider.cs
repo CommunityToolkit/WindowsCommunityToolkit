@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public async Task<bool> LoginAsync()
         {
             var credentials = _passwordManager.Get(PasswordKey);
-            string uidString = await _storageManager.Get(StorageKey);
+            string uidString = await _storageManager.GetAsync(StorageKey);
             if (long.TryParse(uidString, out var uid) && credentials != null)
             {
                 _tokens.AccessToken = credentials.Password;
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             if (credential != null)
             {
                 _passwordManager.Remove(PasswordKey);
-                _storageManager.Set(StorageKey, null);
+                _storageManager.SetAsync(StorageKey, null);
                 Uid = null;
             }
 
@@ -205,7 +205,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             _tokens.AccessToken = accessToken;
 
             _passwordManager.Store(PasswordKey, new PasswordCredential { UserName = "AccessToken", Password = accessToken });
-            await _storageManager.Set(StorageKey, uid.ToString());
+            await _storageManager.SetAsync(StorageKey, uid.ToString());
 
             return true;
         }

@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         public async Task<bool> LoginAsync()
         {
             var crendetials = _passwordManager.Get("TwitterAccessToken");
-            var user = await _storageManager.Get("TwitterScreenName");
+            var user = await _storageManager.GetAsync("TwitterScreenName");
             if (!string.IsNullOrEmpty(user) && crendetials != null)
             {
                 _tokens.AccessToken = crendetials.UserName;
@@ -287,7 +287,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             if (credential != null)
             {
                 _passwordManager.Remove("TwitterAccessToken");
-                _storageManager.Set("TwitterScreenName", null);
+                _storageManager.SetAsync("TwitterScreenName", null);
                 UserScreenName = null;
                 LoggedIn = false;
             }
@@ -709,7 +709,7 @@ namespace Microsoft.Toolkit.Services.Twitter
             _tokens.AccessTokenSecret = accessTokenSecret;
 
             _passwordManager.Store("TwitterAccessToken", new PasswordCredential { UserName = accessToken, Password = accessTokenSecret });
-            await _storageManager.Set("TwitterScreenName", screenName);
+            await _storageManager.SetAsync("TwitterScreenName", screenName);
 
             return true;
         }

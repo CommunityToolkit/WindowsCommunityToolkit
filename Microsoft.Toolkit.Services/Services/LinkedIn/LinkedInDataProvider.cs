@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var user = await _storageManager.Get(LinkedInConstants.STORAGEKEYUSER);
+            var user = await _storageManager.GetAsync(LinkedInConstants.STORAGEKEYUSER);
             var credential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
             if (!string.IsNullOrEmpty(user) && credential != null)
             {
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                     Tokens.AccessToken = accessToken;
 
                     _passwordManager.Store(LinkedInConstants.STORAGEKEYACCESSTOKEN, new PasswordCredential { UserName = LinkedInConstants.STORAGEKEYUSER, Password = accessToken });
-                    await _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, LinkedInConstants.STORAGEKEYUSER);
+                    await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, LinkedInConstants.STORAGEKEYUSER);
                     return true;
                 }
             }
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             if (crendential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
-                _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, null);
+                _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
             }
 
             LoggedIn = false;

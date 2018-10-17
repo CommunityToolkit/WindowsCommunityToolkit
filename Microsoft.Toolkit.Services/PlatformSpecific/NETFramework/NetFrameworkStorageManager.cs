@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         private const string FileName = "twitter_service_data.txt";
         private const char Separator = ':';
 
-        public async Task<string> Get(string key)
+        public async Task<string> GetAsync(string key)
         {
             var isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             return null;
         }
 
-        public Task Set(string key, string value)
+        public Task SetAsync(string key, string value)
         {
             var isoStore = IsolatedStorageFile.GetStore(IsolatedStorageScope.User | IsolatedStorageScope.Assembly, null, null);
 
