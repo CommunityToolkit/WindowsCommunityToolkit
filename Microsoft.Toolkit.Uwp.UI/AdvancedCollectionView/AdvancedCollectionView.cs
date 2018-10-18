@@ -468,18 +468,27 @@ namespace Microsoft.Toolkit.Uwp.UI
             if ((filterResult ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
             {
                 var oldIndex = _view.IndexOf(item);
-                _view.RemoveAt(oldIndex);
-                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, item));
 
+                _view.RemoveAt(oldIndex);
                 var targetIndex = _view.BinarySearch(item, this);
                 if (targetIndex < 0)
                 {
                     targetIndex = ~targetIndex;
                 }
 
-                _view.Insert(targetIndex, item);
+                // Only trigger expensive UI updates if the index really changed:
+                if (targetIndex != oldIndex)
+                {
+                    OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemRemoved, oldIndex, item));
 
-                OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
+                    _view.Insert(targetIndex, item);
+
+                    OnVectorChanged(new VectorChangedEventArgs(CollectionChange.ItemInserted, targetIndex, item));
+                }
+                else
+                {
+                    _view.Insert(targetIndex, item);
+                }
             }
             else if (string.IsNullOrEmpty(e.PropertyName))
             {
