@@ -7,19 +7,18 @@
         <!-- Default is a fallback if a more precise theme isn't called
             out below -->
         <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="Red" />
-            <SolidColorBrush x:Key="SystemControlButtonBorderBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorButtonTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="Transparent" />
         </ResourceDictionary>
 
         <!-- HighContrast is used in all high contrast themes -->
         <ResourceDictionary x:Key="HighContrast">
-            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
-            <SolidColorBrush x:Key="SystemControlButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationPointerOverForegroundBrush" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlMSEdgeNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
-
-    <SolidColorBrush x:Key="FooRed" Color="Red" />
-    <SolidColorBrush x:Key="FooGreen" Color="Green" />
 
     <Style x:Key="DismissTextBlockButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource HyperlinkButtonBackground}" />
@@ -32,7 +31,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
                     <Grid x:Name="RootGrid" Margin="{TemplateBinding Padding}" Background="{TemplateBinding Background}">
-                        <Border BorderThickness="2" BorderBrush="{ThemeResource SystemControlButtonBorderBrush}">
+                        <Border x:Name="TextBorder" BorderThickness="2" BorderBrush="{ThemeResource SystemControlMSEdgeNotificationButtonBorderBrush}">
                             <ContentPresenter x:Name="Text"
                                               Content="{TemplateBinding Content}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -43,27 +42,21 @@
                                 <VisualState x:Name="Normal" />
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
-                                        <!--<ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
-                                        </ObjectAnimationUsingKeyFrames>
-                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
-                                        </ObjectAnimationUsingKeyFrames>-->
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource FooRed}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource FooGreen}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Text" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverForegroundBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlMSEdgeNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>

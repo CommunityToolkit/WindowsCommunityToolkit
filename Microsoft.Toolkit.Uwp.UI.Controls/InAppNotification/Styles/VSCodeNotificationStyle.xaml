@@ -10,10 +10,10 @@
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="#0E639C" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="#0E639C" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="White" />
-            <SolidColorBrush x:Key="SystemControlGridBackgroundBrush" Color="#007ACC" />
-            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="#333333" />
-            <SolidColorBrush x:Key="SystemControlForegroundBrush" Color="White" />
-            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="#1177BB" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush" Color="#007ACC" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush" Color="#333333" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush" Color="White" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush" Color="#1177BB" />
         </ResourceDictionary>
 
         <!-- HighContrast is used in all high contrast themes -->
@@ -21,10 +21,10 @@
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
             <SolidColorBrush x:Key="SystemControlVSNotificationButtonTextBrush" Color="{ThemeResource SystemColorButtonTextColor}" />
-            <SolidColorBrush x:Key="SystemControlGridBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
-            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
-            <SolidColorBrush x:Key="SystemControlForegroundBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
-            <SolidColorBrush x:Key="SystemControlPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationGridBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationForegroundBrush" Color="{ThemeResource SystemColorWindowTextColor}" />
+            <SolidColorBrush x:Key="SystemControlVSNotificationPointerOverChromeBrush" Color="{ThemeResource SystemColorHighlightColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
@@ -58,7 +58,7 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
@@ -68,7 +68,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlVSNotificationPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
@@ -85,8 +85,8 @@
     </Style>
 
     <Style x:Key="VSCodeNotificationStyle" TargetType="local:InAppNotification">
-        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBrush}" />
-        <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBrush}" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlVSNotificationBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource SystemControlVSNotificationForegroundBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="ShowDismissButton" Value="False" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -170,7 +170,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Grid Margin="10 5" Height="20" Background="{ThemeResource SystemControlGridBackgroundBrush}">
+                <Grid Margin="10 5" Height="20" Background="{ThemeResource SystemControlVSNotificationGridBackgroundBrush}">
                     <TextBlock Text="info"
                                Padding="5 0"
                                FontWeight="Bold"
