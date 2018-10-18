@@ -237,6 +237,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             KeyDown -= RadialGauge_KeyDown;
             ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             PointerReleased -= RadialGauge_PointerReleased;
+            Unloaded -= RadialGauge_Unloaded;
         }
 
         /// <summary>
