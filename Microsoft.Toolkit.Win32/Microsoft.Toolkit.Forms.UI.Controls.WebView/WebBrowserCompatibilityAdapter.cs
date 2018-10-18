@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
-    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter
+    internal sealed class WebBrowserCompatibilityAdapter : WebBaseCompatibilityAdapter, IDisposable
     {
         private WebBrowser _browser = new WebBrowser();
 
@@ -75,6 +75,32 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         {
             _browser.Navigating += OnBrowserNavigating;
             _browser.Navigated += OnBrowserNavigated;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~WebBrowserCompatibilityAdapter()
+        {
+            Dispose(false);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_browser != null)
+                {
+                    _browser.Navigated -= OnBrowserNavigated;
+                    _browser.Navigating -= OnBrowserNavigating;
+                    _browser.Dispose();
+                }
+
+                _browser = null;
+            }
         }
     }
 }
