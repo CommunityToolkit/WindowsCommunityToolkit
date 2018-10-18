@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
-    // [Designer(typeof(WebViewCompatibleDesigner))]
     [DefaultProperty(Constants.ComponentDefaultProperty)]
     [DefaultEvent(Constants.ComponentDefaultEvent)]
     [Docking(DockingBehavior.AutoDock)]
