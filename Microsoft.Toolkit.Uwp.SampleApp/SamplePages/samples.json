@@ -386,12 +386,13 @@
       {
         "Name": "Light",
         "Type": "LightBehaviorPage",
-        "About": "Light XAML elements using composition",
+        "About": "The Light effect will be removed in a future major release",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The Light effect will be removed in a future major release",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
         "Icon": "/SamplePages/Light/LightBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Light.md"
       },
       {
