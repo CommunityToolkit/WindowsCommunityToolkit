@@ -356,49 +356,6 @@
                 </Grid>
             </ControlTemplate>
 
-            <Style x:Key="VisualStudioCodeNotificationButtonStyle" TargetType="ButtonBase">
-                <Setter Property="Background" Value="{ThemeResource SystemControlVSNotificationButtonBackgroundBrush}" />
-                <Setter Property="Foreground" Value="{ThemeResource SystemControlVSNotificationButtonTextBrush}" />
-                <Setter Property="VerticalAlignment" Value="Stretch" />
-                <Setter Property="FontSize" Value="14" />
-                <Setter Property="Padding" Value="10 0" />
-                <Setter Property="Height" Value="35" />
-                <Setter Property="BorderThickness" Value="2" />
-                <Setter Property="BorderBrush" Value="{ThemeResource SystemControlVSNotificationButtonBorderBrush}" />
-                <Setter Property="Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="ButtonBase">
-                            <Grid x:Name="RootGrid" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                                <ContentPresenter Content="{TemplateBinding Content}"
-                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  Foreground="{TemplateBinding Foreground}" />
-                                
-                                <VisualStateManager.VisualStateGroups>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Normal" />
-                                        <VisualState x:Name="PointerOver">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Pressed">
-                                            <Storyboard>
-                                                <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
-                                                </ObjectAnimationUsingKeyFrames>
-                                            </Storyboard>
-                                        </VisualState>
-                                        <VisualState x:Name="Disabled" />
-                                    </VisualStateGroup>
-                                </VisualStateManager.VisualStateGroups>
-                            </Grid>
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
         </ResourceDictionary>
     </Page.Resources>
 

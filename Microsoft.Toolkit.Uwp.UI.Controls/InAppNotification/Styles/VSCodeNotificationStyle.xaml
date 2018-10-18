@@ -28,7 +28,6 @@
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
-    
     <Style x:Key="VisualStudioCodeNotificationButtonStyle" TargetType="ButtonBase">
         <Setter Property="Background" Value="{ThemeResource SystemControlVSNotificationButtonBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlVSNotificationButtonTextBrush}" />
@@ -38,6 +37,7 @@
         <Setter Property="Height" Value="35" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlVSNotificationButtonBorderBrush}" />
+        <Setter Property="HighContrastAdjustment" Value="None" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ButtonBase">
@@ -60,12 +60,18 @@
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
                                         </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
+                                        </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                                             <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlPointerOverChromeBrush}" />
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentHolder" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemColorHighlightTextColor}" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -178,7 +184,7 @@
                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                   VerticalContentAlignment="Center"
                                   TextWrapping="NoWrap" 
-                                  HighContrastAdjustment="None" />
+                                  />
             </Grid>
         </Grid>
     </ControlTemplate>
