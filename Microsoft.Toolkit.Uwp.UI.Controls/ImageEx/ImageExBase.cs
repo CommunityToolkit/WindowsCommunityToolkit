@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = PartProgress, Type = typeof(ProgressRing))]
     public abstract partial class ImageExBase : Control
     {
+        private bool _isInViewport;
+
         /// <summary>
         /// Image name in template
         /// </summary>
@@ -77,6 +79,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public ImageExBase()
         {
             LockObj = new object();
+
+            if (IsLazyLoadingSupported)
+            {
+                EffectiveViewportChanged += ImageExBase_EffectiveViewportChanged;
+            }
         }
 
         /// <summary>
@@ -170,7 +177,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             ImageExInitialized?.Invoke(this, EventArgs.Empty);
 
-            SetSource(Source);
+            if (IsLazyLoadingSupported)
+            {
+                if (Source == null || !EnableLazyLoading || _isInViewport)
+                {
+                    _lazyLoadingSource = null;
+                    SetSource(Source);
+                }
+                else
+                {
+                    _lazyLoadingSource = Source;
+                }
+            }
+            else
+            {
+                SetSource(Source);
+            }
 
             AttachImageOpened(OnImageOpened);
             AttachImageFailed(OnImageFailed);
@@ -201,6 +223,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             ImageExFailed?.Invoke(this, new ImageExFailedEventArgs(new Exception(e.ErrorMessage)));
             VisualStateManager.GoToState(this, FailedState, true);
+        }
+
+        private void ImageExBase_EffectiveViewportChanged(FrameworkElement sender, EffectiveViewportChangedEventArgs args)
+        {
+            var bringIntoViewDistanceX = args.BringIntoViewDistanceX;
+            var bringIntoViewDistanceY = args.BringIntoViewDistanceY;
+
+            var width = ActualWidth;
+            var height = ActualHeight;
+
+            if (bringIntoViewDistanceX <= width && bringIntoViewDistanceY <= height)
+            {
+                _isInViewport = true;
+
+                if (_lazyLoadingSource != null)
+                {
+                    var source = _lazyLoadingSource;
+                    _lazyLoadingSource = null;
+                    SetSource(source);
+                }
+            }
+            else
+            {
+                _isInViewport = false;
+            }
         }
     }
 }

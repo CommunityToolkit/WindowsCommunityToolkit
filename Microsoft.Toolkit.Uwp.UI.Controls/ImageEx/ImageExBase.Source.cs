@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Uri _uri;
         private bool _isHttpSource;
         private CancellationTokenSource _tokenSource = null;
+        private object _lazyLoadingSource;
 
         /// <summary>
         /// Gets or sets the source used by the image
@@ -41,9 +42,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as ImageExBase;
 
+            if (control == null)
+            {
+                return;
+            }
+
             if (e.OldValue == null || e.NewValue == null || !e.OldValue.Equals(e.NewValue))
             {
-                control?.SetSource(e.NewValue);
+                if (IsLazyLoadingSupported)
+                {
+                    if (e.NewValue == null || !control.EnableLazyLoading || control._isInViewport)
+                    {
+                        control._lazyLoadingSource = null;
+                        control.SetSource(e.NewValue);
+                    }
+                    else
+                    {
+                        control._lazyLoadingSource = e.NewValue;
+                    }
+                }
+                else
+                {
+                    control.SetSource(e.NewValue);
+                }
             }
         }
 
