@@ -74,9 +74,4 @@
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PlatformSpecific\NETFramework\" />
-    <Folder Include="Services\Internal\" />
-  </ItemGroup>
-
 </Project>
