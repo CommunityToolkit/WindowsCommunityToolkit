@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Provides an extension which allows lighting.
     /// </summary>
+    [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
     public static partial class AnimationExtensions
     {
         /// <summary>

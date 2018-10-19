@@ -14,7 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// </summary>
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase" />
     /// <seealso cref="AnimationExtensions.IsLightingSupported"/>
-    [Obsolete("The Light effect will be removed in a future major release")]
+    [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
+
     public class Light : CompositionBehaviorBase<FrameworkElement>
     {
         /// <summary>
