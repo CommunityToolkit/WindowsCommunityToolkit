@@ -105,15 +105,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
             return false;
         }
-
-        /// <summary>
-        /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
-        /// Remove the event handlers when the app is closed.
-        /// </summary>
-        //~RadialGradientBrush()
-        //{
-        //    Device.DeviceLost -= RadialGradientBrush_DeviceLost;
-        //    Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
-        //}
     }
 }
