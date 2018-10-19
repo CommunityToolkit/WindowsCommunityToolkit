@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     [DefaultProperty(Constants.ComponentDefaultProperty)]
     [DefaultEvent(Constants.ComponentDefaultEvent)]
     [Docking(DockingBehavior.AutoDock)]
-    [Description("Embeds a view into your application that renders web content using the Microsoft Edge rendering engine")]
+    [Description("Embeds a view into your application that renders web content using the a rendering engine")]
     public class WebViewCompatible : Control, IWebViewCompatible
     {
         private const string WinRtType = "Windows.Web.UI.Interop.WebViewControl";
