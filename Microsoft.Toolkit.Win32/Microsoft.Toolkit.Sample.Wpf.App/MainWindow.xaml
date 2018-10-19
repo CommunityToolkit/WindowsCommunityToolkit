@@ -46,7 +46,7 @@
             </TabItem>
             <TabItem>
                 <TabItem.Header>MapControl</TabItem.Header>
-                <controls:MapControl x:Name="myMap" />
+                <controls:MapControl x:Name="myMap" Loaded="myMap_Loaded"/>
             </TabItem>
             <TabItem>
                 <TabItem.Header>SwapChainPanel</TabItem.Header>
