@@ -2,8 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.Devices.Geolocation;
-
 namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 {
     /// <summary>
@@ -11,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class Geopoint
     {
-        private BasicGeoposition basicGeoposition;
+        private Windows.Devices.Geolocation.BasicGeoposition basicGeoposition;
 
         internal Windows.Devices.Geolocation.Geopoint UwpInstance { get; }
 
@@ -26,13 +24,20 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
 
         public Geopoint(BasicGeoposition basicGeoposition)
         {
-            this.basicGeoposition = basicGeoposition;
+            this.basicGeoposition = new Windows.Devices.Geolocation.BasicGeoposition()
+            {
+                Latitude = basicGeoposition.Latitude,
+                Longitude = basicGeoposition.Longitude,
+                Altitude = basicGeoposition.Altitude
+            };
+
+            UwpInstance = new Windows.Devices.Geolocation.Geopoint(this.basicGeoposition);
         }
 
         /// <summary>
         /// Gets <see cref="Windows.Devices.Geolocation.Geopoint.Position"/>
         /// </summary>
-        public Windows.Devices.Geolocation.BasicGeoposition Position
+        public BasicGeoposition Position
         {
             get => UwpInstance.Position;
         }
