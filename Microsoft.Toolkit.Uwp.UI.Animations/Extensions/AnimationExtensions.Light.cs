@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// <summary>
     /// Provides an extension which allows lighting.
     /// </summary>
-    [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
     public static partial class AnimationExtensions
     {
         /// <summary>
@@ -65,6 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="easingType">The easing function</param>
         /// <param name="easingMode">The easing mode</param>
         /// <returns>An animation set.</returns>
+        [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
         public static AnimationSet Light(
             this FrameworkElement associatedObject,
             double distance = 0d,
@@ -97,6 +97,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <returns>
         /// An Animation Set.
         /// </returns>
+        [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
         public static AnimationSet Light(
             this AnimationSet animationSet,
             double distance = 0d,
