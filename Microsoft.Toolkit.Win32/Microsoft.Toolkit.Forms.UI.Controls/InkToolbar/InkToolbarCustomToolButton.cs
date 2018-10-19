@@ -43,7 +43,11 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsExtensionGlyphShown property is set <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShown"/>
         /// </summary>
-        public bool IsExtensionGlyphShown { get => UwpControl.IsExtensionGlyphShown; set => UwpControl.IsExtensionGlyphShown = value; }
+        public bool IsExtensionGlyphShown
+        {
+            get => UwpControl.IsExtensionGlyphShown;
+            set => UwpControl.IsExtensionGlyphShown = value;
+        }
 
         /// <summary>
         /// Gets the underlying Uwp control's Toolkind property <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
