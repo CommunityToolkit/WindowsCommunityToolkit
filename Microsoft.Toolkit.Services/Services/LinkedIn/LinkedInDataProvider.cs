@@ -84,8 +84,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = new UwpAuthenticationBroker();
-            _storageManager = new UwpStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
-            _passwordManager = new UwpPasswordManager() ?? throw new ArgumentException("Invalid PasswordManager");
+            _storageManager = new UwpStorageManager();
+            _passwordManager = new UwpPasswordManager();
         }
 #endif
 
