@@ -4,35 +4,14 @@
 
 using System;
 using System.Reflection;
-using Microsoft.Toolkit.Services.Bing;
 
 namespace Microsoft.Toolkit.Services
 {
     /// <summary>
     /// This class offers general purpose methods.
     /// </summary>
-    public static class ExtensionMethods
+    internal static class ExtensionMethods
     {
-        /// <summary>
-        /// Converts between country code and country name.
-        /// </summary>
-        /// <param name="value">BingCountry enumeration.</param>
-        /// <returns>Returns country code.</returns>
-        public static string GetStringValue(this BingCountry value)
-        {
-            return GetStringValue((Enum)value);
-        }
-
-        /// <summary>
-        /// Converts between language code and language name.
-        /// </summary>
-        /// <param name="value">BingLanguage enumeration.</param>
-        /// <returns>Returns language code.</returns>
-        public static string GetStringValue(this BingLanguage value)
-        {
-            return GetStringValue((Enum)value);
-        }
-
         /// <summary>
         /// Converts between enumeration value and string value.
         /// </summary>

@@ -4,18 +4,15 @@
 
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -46,8 +43,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the ItemsSource dependency property.
         /// </summary>
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(
-            "ItemsSource", typeof(IEnumerable), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(IEnumerable), OnItemSourcePropertyChanged));
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_itemsSourceName,
+                typeof(IEnumerable),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(default(IEnumerable), OnItemSourcePropertyChanged));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the ComboBox while in editing mode.
@@ -67,8 +68,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the DisplayMemberPath dependency property.
         /// </summary>
-        public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
-            "DisplayMemberPath", typeof(string), typeof(DataGridComboBoxColumn), new PropertyMetadata(default(string)));
+        public static readonly DependencyProperty DisplayMemberPathProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_displayMemberPathName,
+                typeof(string),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(default(string)));
 
         /// <summary>
         /// Gets or sets the name or path of the property that is displayed in the ComboBox.
@@ -91,8 +96,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the FontFamily dependency property.
         /// </summary>
-        public static readonly DependencyProperty FontFamilyProperty = DependencyProperty.Register(
-                "FontFamily", typeof(FontFamily), typeof(DataGridComboBoxColumn), new PropertyMetadata(null, OnFontFamilyPropertyChanged));
+        public static readonly DependencyProperty FontFamilyProperty =
+            DependencyProperty.Register(
+                DATAGRIDCOMBOBOXCOLUMN_fontFamilyName,
+                typeof(FontFamily),
+                typeof(DataGridComboBoxColumn),
+                new PropertyMetadata(null, OnFontFamilyPropertyChanged));
 
         private static void OnFontFamilyPropertyChanged(DependencyObject comboBoxColumnDependencyObject, DependencyPropertyChangedEventArgs e)
         {
@@ -232,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             {
-                comboBox.FontFamily = this.FontFamily;
+                comboBox.FontFamily = FontFamily;
             }
 
             if (_fontSize.HasValue)
@@ -257,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var item = args.AddedItems.FirstOrDefault();
                 if (item != null)
                 {
-                    var newValue = !string.IsNullOrEmpty(this.DisplayMemberPath)
+                    var newValue = !string.IsNullOrEmpty(DisplayMemberPath)
                         ? item.GetType().GetProperty(Binding.Path.Path).GetValue(item)
                         : item;
 
@@ -267,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        var dataType = this.OwningGrid.ItemsSource.GetItemType();
+                        var dataType = OwningGrid.ItemsSource.GetItemType();
                         var newDataItem = Activator.CreateInstance(dataType);
                         dataType.GetProperty(Binding.Path.Path).SetValue(newDataItem, newValue);
                         dataItem = newDataItem;
@@ -287,9 +296,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);
-
             EnsureDisplayMemberPathExists();
-
             EnsureItemsSourceBinding();
 
             var textBlockElement = new TextBlock
@@ -300,7 +307,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
             {
-                textBlockElement.FontFamily = this.FontFamily;
+                textBlockElement.FontFamily = FontFamily;
             }
 
             if (_fontSize.HasValue)
@@ -320,11 +327,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RefreshForeground(textBlockElement, (cell != null & cell.OwningRow != null) ? cell.OwningRow.ComputedForeground : null);
 
-            if (this.Binding != null && EnsureOwningGrid())
+            if (Binding != null && EnsureOwningGrid())
             {
                 if (string.IsNullOrEmpty(DisplayMemberPath))
                 {
-                    textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
+                    textBlockElement.SetBinding(TextBlock.TextProperty, Binding);
                 }
                 else
                 {
@@ -388,7 +395,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontFamilyName)
                 {
-                    textBlock.FontFamily = this.FontFamily;
+                    textBlock.FontFamily = FontFamily;
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontSizeName)
                 {
@@ -396,11 +403,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontStyleName)
                 {
-                    textBlock.FontStyle = this.FontStyle;
+                    textBlock.FontStyle = FontStyle;
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontWeightName)
                 {
-                    textBlock.FontWeight = this.FontWeight;
+                    textBlock.FontWeight = FontWeight;
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_foregroundName)
                 {
@@ -408,18 +415,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
                 {
-                    this.OwningGrid.OnColumnBindingChanged(this);
+                    OwningGrid.OnColumnBindingChanged(this);
                 }
                 else
                 {
-                    if (this.FontFamily != null)
+                    if (FontFamily != null)
                     {
-                        textBlock.FontFamily = this.FontFamily;
+                        textBlock.FontFamily = FontFamily;
                     }
 
                     SetTextFontSize(textBlock, TextBlock.FontSizeProperty);
-                    textBlock.FontStyle = this.FontStyle;
-                    textBlock.FontWeight = this.FontWeight;
+                    textBlock.FontStyle = FontStyle;
+                    textBlock.FontWeight = FontWeight;
                     RefreshForeground(textBlock, computedRowForeground);
                 }
 
@@ -428,7 +435,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontFamilyName)
             {
-                comboBox.FontFamily = this.FontFamily;
+                comboBox.FontFamily = FontFamily;
             }
             else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontSizeName)
             {
@@ -436,11 +443,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontStyleName)
             {
-                comboBox.FontStyle = this.FontStyle;
+                comboBox.FontStyle = FontStyle;
             }
             else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_fontWeightName)
             {
-                comboBox.FontWeight = this.FontWeight;
+                comboBox.FontWeight = FontWeight;
             }
             else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_foregroundName)
             {
@@ -448,14 +455,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                if (this.FontFamily != null)
+                if (FontFamily != null)
                 {
-                    comboBox.FontFamily = this.FontFamily;
+                    comboBox.FontFamily = FontFamily;
                 }
 
                 SetTextFontSize(comboBox, ComboBox.FontSizeProperty);
-                comboBox.FontStyle = this.FontStyle;
-                comboBox.FontWeight = this.FontWeight;
+                comboBox.FontStyle = FontStyle;
+                comboBox.FontWeight = FontWeight;
                 RefreshForeground(comboBox, computedRowForeground);
             }
         }
@@ -477,7 +484,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RefreshForeground(ComboBox comboBox, Brush computedRowForeground)
         {
-            if (this.Foreground == null)
+            if (Foreground == null)
             {
                 if (computedRowForeground != null)
                 {
@@ -486,13 +493,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                comboBox.Foreground = this.Foreground;
+                comboBox.Foreground = Foreground;
             }
         }
 
         private void RefreshForeground(TextBlock textBlock, Brush computedRowForeground)
         {
-            if (this.Foreground == null)
+            if (Foreground == null)
             {
                 if (computedRowForeground != null)
                 {
@@ -501,13 +508,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                textBlock.Foreground = this.Foreground;
+                textBlock.Foreground = Foreground;
             }
         }
 
         private void SetTextFontSize(DependencyObject textElement, DependencyProperty fontSizeProperty)
         {
-            double newFontSize = this.FontSize;
+            double newFontSize = FontSize;
             if (double.IsNaN(newFontSize))
             {
                 textElement.ClearValue(fontSizeProperty);
@@ -520,11 +527,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool EnsureOwningGrid()
         {
-            if (this.OwningGrid != null)
+            if (OwningGrid != null)
             {
-                if (this.OwningGrid != _owningGrid)
+                if (OwningGrid != _owningGrid)
                 {
-                    _owningGrid = this.OwningGrid;
+                    _owningGrid = OwningGrid;
+                    _owningGrid.Columns.CollectionChanged += new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
                     _owningGrid.LoadingRow += OwningGrid_LoadingRow;
                     _owningGrid.CellEditEnded += OwningGrid_CellEditEnded;
                 }
@@ -545,11 +553,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SetDisplayMemberPathValue(e.Row);
         }
 
+        private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (OwningGrid == null && _owningGrid != null)
+            {
+                _owningGrid.Columns.CollectionChanged -= new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
+                _owningGrid.LoadingRow -= OwningGrid_LoadingRow;
+                _owningGrid.CellEditEnded -= OwningGrid_CellEditEnded;
+                _owningGrid = null;
+            }
+        }
+
         private void SetDisplayMemberPathValue(DataGridRow row)
         {
-            if (this.OwningGrid != null && !string.IsNullOrEmpty(DisplayMemberPath))
+            if (OwningGrid != null && !string.IsNullOrEmpty(DisplayMemberPath))
             {
-                var textBlock = this.GetCellContent(row) as TextBlock;
+                var textBlock = GetCellContent(row) as TextBlock;
                 if (textBlock != null)
                 {
                     var displayValue = GetDisplayValue(row.DataContext);
@@ -581,15 +600,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (!string.IsNullOrEmpty(Header as string))
                 {
-                    throw new ArgumentException($"Binding for column \"{Header}\" is null. Ensure that the binding path has been set correctly.");
+                    throw DataGridError.DataGridComboBoxColumn.UnsetBinding(Header as string);
                 }
 
-                throw new ArgumentException($"Binding for column of type {this.GetType()} is null. Ensure that the binding path has been set correctly.");
+                throw DataGridError.DataGridComboBoxColumn.UnsetBinding(GetType());
             }
 
-            if (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(this.Binding.Path.Path)) ?? false)
+            if (!dataItem?.GetType().GetProperties().Any(x => x.Name.Equals(Binding.Path.Path)) ?? false)
             {
-                throw new ArgumentException($"Binding path {this.Binding.Path.Path} could not be found in type {dataItem.GetType()}. Ensure that the binding path has been set correctly.");
+                throw DataGridError.DataGridComboBoxColumn.UnknownBindingPath(Binding, dataItem.GetType());
             }
         }
 
@@ -601,7 +620,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (ItemsSource != null && !type.GetProperties().Any(x => x.Name.Equals(DisplayMemberPath)))
                 {
-                    throw new ArgumentException($"DisplayMemberPath \"{DisplayMemberPath}\" could not be found in type {type}. Ensure that the value has been set correctly and note that for built-in types DisplayMemberPath should not be used.");
+                    throw DataGridError.DataGridComboBoxColumn.UnknownDisplayMemberPath(DisplayMemberPath, type);
                 }
             }
         }
@@ -614,7 +633,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(Binding.Path.Path)))
                 {
-                    throw new ArgumentException($"The ItemsSource elements do not contain a property \"{Binding.Path.Path}\". Ensure that the binding path has been set correctly.");
+                    throw DataGridError.DataGridComboBoxColumn.UnknownItemsSourcePath(Binding);
                 }
             }
         }
