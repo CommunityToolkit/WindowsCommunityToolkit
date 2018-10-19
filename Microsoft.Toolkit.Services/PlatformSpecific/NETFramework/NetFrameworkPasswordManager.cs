@@ -51,22 +51,19 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         public PasswordCredential Get(string key)
         {
             IntPtr nCredPtr;
-            PasswordCredential passCred = new PasswordCredential();
-
             int lastError = Marshal.GetHRForLastWin32Error();
 
             if (!CredRead(key, CRED_TYPE.GENERIC, 0, out nCredPtr))
             {
                 return null;
             }
-            else
-            {
-                CriticalCredentialHandle critCred = new CriticalCredentialHandle(nCredPtr);
 
-                Credential credential = critCred.GetCredential();
-                passCred.UserName = credential.UserName;
-                passCred.Password = credential.CredentialBlob;
-            }
+            CriticalCredentialHandle critCred = new CriticalCredentialHandle(nCredPtr);
+
+            Credential credential = critCred.GetCredential();
+            PasswordCredential passCred = new PasswordCredential();
+            passCred.UserName = credential.UserName;
+            passCred.Password = credential.CredentialBlob;
 
             return passCred;
         }
