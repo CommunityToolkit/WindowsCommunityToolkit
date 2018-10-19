@@ -45,7 +45,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             SurfaceHeight = 512;
 
             GradientStops = new GradientStopCollection();
-            RegisterAppResumeHandler();
         }
 
         /// <summary>
@@ -107,34 +106,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             return false;
         }
 
-        private void RegisterAppResumeHandler()
-        {
-            Device.DeviceLost += RadialGradientBrush_DeviceLost;
-            Graphics.RenderingDeviceReplaced += RadialGradientBrush_RenderingDeviceReplaced;
-        }
-
-        private void RadialGradientBrush_RenderingDeviceReplaced(CompositionGraphicsDevice sender, Windows.UI.Composition.RenderingDeviceReplacedEventArgs args)
-        {
-            Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
-            OnConnected();
-            OnDisconnected();
-        }
-
-        private void RadialGradientBrush_DeviceLost(CanvasDevice sender, object args)
-        {
-            Device.DeviceLost -= RadialGradientBrush_DeviceLost;
-            OnConnected();
-            OnDisconnected();
-        }
-
         /// <summary>
         /// Finalizes an instance of the <see cref="RadialGradientBrush"/> class.
         /// Remove the event handlers when the app is closed.
         /// </summary>
-        ~RadialGradientBrush()
-        {
-            Device.DeviceLost -= RadialGradientBrush_DeviceLost;
-            Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
-        }
+        //~RadialGradientBrush()
+        //{
+        //    Device.DeviceLost -= RadialGradientBrush_DeviceLost;
+        //    Graphics.RenderingDeviceReplaced -= RadialGradientBrush_RenderingDeviceReplaced;
+        //}
     }
 }
