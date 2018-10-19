@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkStorageManager : IStorageManager
     {
-        private const string FileName = "twitter_service_data.txt";
+        private const string FileName = "credential_service_data.txt";
         private const char Separator = ':';
 
         public async Task<string> GetAsync(string key)

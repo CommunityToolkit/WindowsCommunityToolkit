@@ -10,7 +10,7 @@ using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
-#if WINFORMS
+#if NET462
 using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
 #endif
 
@@ -126,8 +126,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         }
 #endif
 
-#if WINFORMS
- /// <summary>
+#if NET462
+        /// <summary>
         /// Initialize underlying provider with relevent token information for Uwp.
         /// </summary>
         /// <param name="oAuthTokens">Token instance.</param>

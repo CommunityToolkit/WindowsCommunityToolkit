@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.16299;netstandard2.0;net462</TargetFrameworks>
+    <TargetFrameworks>uap10.0.16299;netstandard2.0;NET462</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
@@ -13,10 +13,6 @@
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
-    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINFORMS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
@@ -72,11 +68,6 @@
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="PlatformSpecific\NETFramework\" />
-    <Folder Include="Services\Internal\" />
   </ItemGroup>
 
 </Project>
