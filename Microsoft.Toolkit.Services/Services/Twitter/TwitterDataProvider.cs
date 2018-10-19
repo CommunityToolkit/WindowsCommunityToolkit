@@ -20,7 +20,7 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
-#if WINFORMS
+#if NET462
 using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
 #endif
 
@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 #endif
 
-#if WINFORMS
+#if NET462
         /// <summary>
         /// Initializes a new instance of the <see cref="TwitterDataProvider"/> class.
         /// Constructor.

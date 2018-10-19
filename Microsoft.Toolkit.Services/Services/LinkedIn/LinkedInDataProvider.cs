@@ -15,7 +15,7 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
-#if WINFORMS
+#if NET462
 using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
 #endif
 
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         }
 #endif
 
-#if WINFORMS
+#if NET462
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
         /// Constructor.

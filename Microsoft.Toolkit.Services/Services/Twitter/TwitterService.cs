@@ -14,7 +14,7 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
-#if WINFORMS
+#if NET462
 using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
 #endif
 
@@ -173,8 +173,8 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 #endif
 
-#if WINFORMS
-                /// <summary>
+#if NET462
+        /// <summary>
         /// Initialize underlying provider with relevent token information for Uwp.
         /// </summary>
         /// <param name="consumerKey">Consumer key.</param>
