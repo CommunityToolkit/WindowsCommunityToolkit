@@ -41,5 +41,4 @@
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
   </ItemGroup>
-
 </Project>
