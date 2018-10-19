@@ -31,12 +31,12 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private readonly bool _liveShapingEnabled;
 
+        private readonly HashSet<string> _observedFilterProperties = new HashSet<string>();
+
         private IList _source;
 
         private Predicate<object> _filter;
         private int _deferCounter;
-
-        private HashSet<string> _observedFilterProperties = new HashSet<string>();
 
         private WeakEventListener<AdvancedCollectionView, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 
