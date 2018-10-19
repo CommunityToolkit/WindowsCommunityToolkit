@@ -15,10 +15,6 @@
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
-  <!--<PropertyGroup Condition="'$(TargetFramework)' == 'net462'">
-    <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINFORMS</DefineConstants>
-  </PropertyGroup>-->
-
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
