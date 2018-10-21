@@ -3,10 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Windows;
 using System.Windows.Forms.Design;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -18,7 +16,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         public override void InitializeNewComponent(IDictionary defaultValues)
         {
             base.InitializeNewComponent(defaultValues);
-            if (Component is WindowsXamlHostBaseExt toolbarbutton)
+            if (Component is WindowsXamlHostBase toolbarbutton)
             {
                 // Set MinimumSize in the designer, so that the control doesn't go to 0-height
                 toolbarbutton.MinimumSize = new System.Drawing.Size(20, 20);

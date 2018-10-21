@@ -4,7 +4,9 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -12,9 +14,9 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
     /// </summary>
     [Designer(typeof(InkToolbarDesigner))]
-    public class InkToolbar : WindowsXamlHostBaseExt
+    public class InkToolbar : WindowsXamlHostBase
     {
-        protected Windows.UI.Xaml.Controls.InkToolbar UwpControl => XamlElement as Windows.UI.Xaml.Controls.InkToolbar;
+        protected Windows.UI.Xaml.Controls.InkToolbar UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbar;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
@@ -43,17 +45,17 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         private void InkToolbar_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
         {
-            if (e.Control is WindowsXamlHostBaseExt control)
+            if (e.Control is WindowsXamlHostBase control)
             {
-                UwpControl.Children.Remove(control.XamlElement);
+                UwpControl.Children.Remove(control.GetUwpInternalObject() as UIElement);
             }
         }
 
         private void InkToolbar_ControlAdded(object sender, System.Windows.Forms.ControlEventArgs e)
         {
-            if (e.Control is WindowsXamlHostBaseExt control)
+            if (e.Control is WindowsXamlHostBase control)
             {
-                UwpControl.Children.Add(control.XamlElement);
+                UwpControl.Children.Add(control.GetUwpInternalObject() as UIElement);
             }
         }
 
@@ -102,10 +104,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
         /// </summary>
-        public Microsoft.Toolkit.Forms.UI.Controls.WindowsXamlHostBaseExt ActiveTool
+        public WindowsXamlHostBase ActiveTool
         {
-            get => (WindowsXamlHostBaseExt)UwpControl.ActiveTool.GetWrapper();
-            set => UwpControl.ActiveTool = value.XamlElement as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+            get => (WindowsXamlHostBase)UwpControl.ActiveTool.GetWrapper();
+            set => UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
         }
 
         /// <summary>

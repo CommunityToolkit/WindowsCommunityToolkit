@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
     /// </summary>
     [Designer(typeof(InkToolbarToolButtonDesigner))]
-    public class InkToolbarCustomToolButton : WindowsXamlHostBaseExt
+    public class InkToolbarCustomToolButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl { get; set; }
 
@@ -33,11 +34,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
-        }
-
-        protected override void SetContent()
-        {
+            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
         }
 
         /// <summary>

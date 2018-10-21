@@ -3,8 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Windows;
-using Microsoft.Toolkit.Forms.UI.Controls;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
@@ -12,9 +11,9 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// <summary>
     /// Forms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.SwapChainPanel"/>
     /// </summary>
-    public class SwapChainPanel : WindowsXamlHostBaseExt
+    public class SwapChainPanel : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.SwapChainPanel UwpControl => XamlElement as Windows.UI.Xaml.Controls.SwapChainPanel;
+        internal Windows.UI.Xaml.Controls.SwapChainPanel UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.SwapChainPanel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SwapChainPanel"/> class, a

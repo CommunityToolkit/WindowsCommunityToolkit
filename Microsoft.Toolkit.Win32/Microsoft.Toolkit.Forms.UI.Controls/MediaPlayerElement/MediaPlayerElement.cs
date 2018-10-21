@@ -4,14 +4,15 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
     [Designer(typeof(MediaPlayerElementDesigner))]
-    public class MediaPlayerElement : WindowsXamlHostBaseExt
+    public class MediaPlayerElement : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => XamlElement as Windows.UI.Xaml.Controls.MediaPlayerElement;
+        internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.MediaPlayerElement;
 
         public MediaPlayerElement()
             : this(typeof(Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)

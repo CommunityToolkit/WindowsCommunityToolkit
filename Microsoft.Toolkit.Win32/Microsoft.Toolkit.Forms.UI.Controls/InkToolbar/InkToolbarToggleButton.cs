@@ -4,6 +4,7 @@
 
 using System;
 using System.ComponentModel;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>
     /// </summary>
     [Designer(typeof(InkToolbarToolButtonDesigner))]
-    public class InkToolbarToggleButton : WindowsXamlHostBaseExt
+    public class InkToolbarToggleButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl { get; set; }
 
@@ -33,14 +34,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
+            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
             UwpControl.Checked += UwpControl_Checked;
             UwpControl.Indeterminate += UwpControl_Indeterminate;
             UwpControl.Unchecked += UwpControl_Unchecked;
-        }
-
-        protected override void SetContent()
-        {
         }
 
         /// <summary>

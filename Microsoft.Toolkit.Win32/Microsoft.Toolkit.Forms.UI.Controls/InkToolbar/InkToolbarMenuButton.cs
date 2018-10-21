@@ -4,7 +4,7 @@
 
 using System;
 using System.ComponentModel;
-using Microsoft.Toolkit.Win32.UI.Interop;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
     /// </summary>
     [Designer(typeof(InkToolbarToolButtonDesigner))]
-    public class InkToolbarMenuButton : WindowsXamlHostBaseExt
+    public class InkToolbarMenuButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl { get; set; }
 
@@ -33,14 +33,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
+            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
             UwpControl.Checked += UwpControl_Checked;
             UwpControl.Indeterminate += UwpControl_Indeterminate;
             UwpControl.Unchecked += UwpControl_Unchecked;
-        }
-
-        protected override void SetContent()
-        {
         }
 
         /// <summary>

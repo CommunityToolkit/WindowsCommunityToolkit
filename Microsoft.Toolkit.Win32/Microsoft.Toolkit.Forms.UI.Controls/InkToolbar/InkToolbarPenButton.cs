@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
@@ -12,7 +13,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// <summary>
     /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
     /// </summary>[Designer(typeof(InkToolbarToolButtonDesigner))]
-    public class InkToolbarPenButton : WindowsXamlHostBaseExt
+    public class InkToolbarPenButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl { get; set; }
 
@@ -33,11 +34,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = XamlElement as Windows.UI.Xaml.Controls.InkToolbarPenButton;
-        }
-
-        protected override void SetContent()
-        {
+            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarPenButton;
         }
 
         /// <summary>

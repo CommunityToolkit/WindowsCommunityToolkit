@@ -4,14 +4,16 @@
 
 using System;
 using System.Linq;
+using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
     /// <summary>
     /// Forms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
     /// </summary>
-    public class MapControl : WindowsXamlHostBaseExt
+    public class MapControl : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => this.UwpControl as Windows.UI.Xaml.Controls.Maps.MapControl;
 
@@ -61,17 +63,17 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         private void InkToolbar_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
         {
-            if (e.Control is WindowsXamlHostBaseExt control)
+            if (e.Control is WindowsXamlHostBase control)
             {
-                UwpControl.Children.Remove(control.XamlElement);
+                UwpControl.Children.Remove(control.GetUwpInternalObject() as UIElement);
             }
         }
 
         private void InkToolbar_ControlAdded(object sender, System.Windows.Forms.ControlEventArgs e)
         {
-            if (e.Control is WindowsXamlHostBaseExt control)
+            if (e.Control is WindowsXamlHostBase control)
             {
-                UwpControl.Children.Add(control.XamlElement);
+                UwpControl.Children.Add(control.GetUwpInternalObject() as UIElement);
             }
         }
 

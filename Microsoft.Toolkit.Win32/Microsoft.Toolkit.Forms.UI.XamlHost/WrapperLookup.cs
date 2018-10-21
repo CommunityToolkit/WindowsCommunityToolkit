@@ -6,18 +6,18 @@ using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Forms.UI.Controls
+namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
     /// <summary>
-    /// WrapperLookup is a set of extension methods to extend <see cref="FrameworkElement"/> to make it relatively easy
+    /// WrapperLookup is a set of extension methods to extend <see cref="UIElement"/> to make it relatively easy
     /// to find its associated WindowsXamlHostBaseExt.
     /// (WPF Interop uses an attached DependencyProperty for this).
     /// </summary>
     public static class WrapperLookup
     {
-        private static readonly IDictionary<FrameworkElement, WeakReference<WindowsXamlHostBaseExt>> _controlCollection = new Dictionary<FrameworkElement, WeakReference<WindowsXamlHostBaseExt>>();
+        private static readonly IDictionary<UIElement, WeakReference<WindowsXamlHostBase>> _controlCollection = new Dictionary<UIElement, WeakReference<WindowsXamlHostBase>>();
 
-        public static WindowsXamlHostBaseExt GetWrapper(this FrameworkElement control)
+        public static WindowsXamlHostBase GetWrapper(this UIElement control)
         {
             if (control == null)
             {
@@ -33,17 +33,17 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             return null;
         }
 
-        public static void SetWrapper(this FrameworkElement control, WindowsXamlHostBaseExt wrapper)
+        public static void SetWrapper(this UIElement control, WindowsXamlHostBase wrapper)
         {
             if (control == null || wrapper == null)
             {
                 return;
             }
 
-            _controlCollection.Add(control, new WeakReference<WindowsXamlHostBaseExt>(wrapper));
+            _controlCollection.Add(control, new WeakReference<WindowsXamlHostBase>(wrapper));
         }
 
-        public static void ClearWrapper(this FrameworkElement control)
+        public static void ClearWrapper(this UIElement control)
         {
             if (control == null)
             {

@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public abstract partial class WindowsXamlHostBase : ContainerControl
     {
 #pragma warning disable SA1401 // Fields must be private
-                              /// <summary>
-                              /// DesktopWindowXamlSource instance
-                              /// </summary>
+        /// <summary>
+        /// DesktopWindowXamlSource instance
+        /// </summary>
         protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
 #pragma warning restore SA1401 // Fields must be private
 
@@ -96,6 +96,21 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
         }
 
+        protected WindowsXamlHostBase(string typeName)
+            : this()
+        {
+            ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+        }
+
+        /// <summary>
+        /// Exposes ChildInternal without exposing its actual Type.
+        /// </summary>
+        /// <returns>the underlying UWP child object</returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
+        }
+
         /// <summary>
         ///    Gets or sets XAML content for XamlContentHost
         /// </summary>
@@ -137,7 +152,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// Sets the root UWP XAML element on DesktopWindowXamlSource
         /// </summary>
         /// <param name="newValue">A UWP XAML Framework element</param>
-        protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
+        protected virtual void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
             if (_xamlSource != null)
             {
@@ -163,6 +178,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 }
 
                 _windowsXamlManager?.Dispose();
+                ChildInternal?.ClearWrapper();
             }
 
             base.Dispose(disposing);
@@ -185,6 +201,12 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_EXSTYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
                 {
                     throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
+                }
+
+                if (ChildInternal != null)
+                {
+                    SetContent(ChildInternal);
+                    ChildInternal.SetWrapper(this);
                 }
             }
 
