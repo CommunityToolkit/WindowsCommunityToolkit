@@ -33,7 +33,7 @@ public enum class DirectWriteWordWrapping : int
 
 /// <summary>
 /// These are arguments which are used to render the DWrite string.
-/// <summary>
+/// </summary>
 struct DirectWriteTextRenderArgs
 {
     Platform::String^ fontFamily;
