@@ -19,11 +19,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:DirectWriteTextBlock">
-                    <!-- Note: This border is basically how we get the narrator effect of highlighting and saying the text
-                    without the additional "Image" append. -->
                     <Border x:Name="TextBackground"
-                            Background="{TemplateBinding Background}"
-                            AutomationProperties.Name="{TemplateBinding Text}">
+                            Background="{TemplateBinding Background}">
                         <Image x:Name="Image" Stretch="None" 
                             AutomationProperties.Name="{TemplateBinding Text}"
                             AutomationProperties.AccessibilityView="Raw" />

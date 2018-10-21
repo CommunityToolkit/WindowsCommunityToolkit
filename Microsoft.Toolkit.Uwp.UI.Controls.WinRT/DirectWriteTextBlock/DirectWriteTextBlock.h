@@ -142,6 +142,7 @@ private:
     Windows::UI::Xaml::Controls::Border^ m_textBackground;
     Windows::UI::Xaml::Media::Brush^ m_textForegroundBrush;
     Windows::UI::Xaml::Media::Brush^ m_textBackgroundBrush;
+    Windows::Graphics::Display::DisplayInformation^ m_displayInfo;
     bool m_isHighContrast = false;
     HRESULT m_lastDrawError = S_OK;
     unsigned int m_drawRetries = 0;

@@ -11,6 +11,7 @@
 
     <Grid>
         <StackPanel>
+            <!-- Need a custom Design project in order to get my custom enums into the .bind file.-->
             <TextBlock Text="This is a standard XAML Textblock for comparison."/>
             <controls:DirectWriteTextBlock />
         </StackPanel>

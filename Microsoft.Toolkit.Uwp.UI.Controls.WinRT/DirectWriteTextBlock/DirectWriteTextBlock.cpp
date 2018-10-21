@@ -57,8 +57,8 @@ DirectWriteTextBlock::DirectWriteTextBlock()
 {
 	DefaultStyleKey = "Microsoft.Toolkit.Uwp.UI.Controls.WinRT.DirectWriteTextBlock";
 
-    auto displayInfo = DisplayInformation::GetForCurrentView();
-    m_dpiChangedToken = displayInfo->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectWriteTextBlock::OnDpiChanged);
+    m_displayInfo = DisplayInformation::GetForCurrentView();
+    m_dpiChangedToken = m_displayInfo->DpiChanged += ref new TypedEventHandler<DisplayInformation^, Object^>(this, &DirectWriteTextBlock::OnDpiChanged);
 
     m_accessibilitySettings = ref new AccessibilitySettings();
     m_highContrastChangedToken = m_accessibilitySettings->HighContrastChanged += ref new TypedEventHandler<AccessibilitySettings^, Platform::Object^>(this, &DirectWriteTextBlock::OnHighContrastSettingsChanged);
@@ -185,8 +185,7 @@ void DirectWriteTextBlock::Close()
 
     if (m_dpiChangedToken.Value != 0)
     {
-        auto displayInfo = DisplayInformation::GetForCurrentView();
-        displayInfo->DpiChanged -= m_dpiChangedToken;
+        m_displayInfo->DpiChanged -= m_dpiChangedToken;
         m_dpiChangedToken = {};
     }
 
