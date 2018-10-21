@@ -41,10 +41,4 @@
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Internal\" />
-  </ItemGroup>
-
-
 </Project>
