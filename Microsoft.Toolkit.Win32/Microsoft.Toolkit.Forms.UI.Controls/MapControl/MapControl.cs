@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// </summary>
     public class MapControl : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => this.UwpControl as Windows.UI.Xaml.Controls.Maps.MapControl;
+        internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.Maps.MapControl;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapControl"/> class, a
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// Forms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public MapControl(string typeName)
+        internal MapControl(string typeName)
             : base(typeName)
         {
         }
@@ -295,10 +295,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TransformOrigin"/>
         /// </summary>
-        public Windows.Foundation.Point TransformOrigin
+        public Point TransformOrigin
         {
             get => UwpControl.TransformOrigin;
-            set => UwpControl.TransformOrigin = value;
+            set => UwpControl.TransformOrigin = value.UwpInstance;
         }
 
         /// <summary>
