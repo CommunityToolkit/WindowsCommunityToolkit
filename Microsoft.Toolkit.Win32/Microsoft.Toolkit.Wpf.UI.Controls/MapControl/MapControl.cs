@@ -9,9 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
-using Microsoft.Toolkit.Wpf.UI.Controls;
 using Microsoft.Toolkit.Wpf.UI.XamlHost;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
@@ -19,7 +17,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
     /// </summary>
     [ContentProperty(nameof(Children))]
-    public class MapControl : WindowsXamlHostBaseExt
+    public class MapControl : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => this.ChildInternal as Windows.UI.Xaml.Controls.Maps.MapControl;
 
