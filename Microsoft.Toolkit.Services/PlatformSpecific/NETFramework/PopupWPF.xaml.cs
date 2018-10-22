@@ -46,7 +46,8 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         private void WebViewNavigationStartingHandler(Uri uri)
         {
-            if (initialHost != GetTopLevelDomain(uri))
+            var topLevelDomain = GetTopLevelDomain(uri);
+            if (initialHost != topLevelDomain && topLevelDomain == callbackHost)
             {
                 if (GetTopLevelDomain(uri) == callbackHost)
                 {
@@ -74,6 +75,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         private string GetTopLevelDomain(Uri url)
         {
+            //var hostParts = url.AbsoluteUri.Split('.').Select(x => x.ToString());
             var hostParts = url.Host.Split('.').Select(x => x.ToString());
             if (hostParts.Count() > 1)
             {
