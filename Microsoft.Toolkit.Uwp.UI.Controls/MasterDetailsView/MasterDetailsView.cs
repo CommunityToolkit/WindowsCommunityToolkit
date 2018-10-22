@@ -42,7 +42,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
         private bool _previousNavigationViewBackEnabled;
-        private NavigationViewBackButtonVisible _previousNavigationViewBackVisibilty;
+
+        // Int used because the underlying type is an enum, but we don't have access to the enum
+        private int _previousNavigationViewBackVisibilty;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
         private Button _inlineBackButton;
@@ -286,6 +288,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetBackButtonVisibility(MasterDetailsViewState? previousState = null)
         {
+            const int backButtonVisible = 1;
+
             if (DesignMode.DesignModeEnabled)
             {
                 return;
@@ -314,7 +318,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else
                     {
-                        SetNavigationViewBackButtonState(NavigationViewBackButtonVisible.Visible, true);
+                        SetNavigationViewBackButtonState(backButtonVisible, true);
                     }
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
@@ -397,13 +401,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, state, animate);
         }
 
-        private void SetNavigationViewBackButtonState(NavigationViewBackButtonVisible visible, bool enabled)
+        private void SetNavigationViewBackButtonState(int visible, bool enabled)
         {
             var navType = _navigationView.GetType();
             var visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)
             {
-                _previousNavigationViewBackVisibilty = (NavigationViewBackButtonVisible)visibleProperty.GetValue(_navigationView);
+                _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
                 visibleProperty.SetValue(_navigationView, visible);
             }
 
