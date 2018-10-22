@@ -104,7 +104,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         protected WindowsXamlHostBase(string typeName)
             : this()
         {
-            ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            if (!DesignMode)
+            {
+                ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            }
         }
 
         /// <summary>

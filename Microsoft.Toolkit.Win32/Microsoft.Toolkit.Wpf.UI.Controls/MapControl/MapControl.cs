@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
@@ -35,7 +36,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>.
         /// Intended for internal framework use only.
         /// </summary>
-        public MapControl(string typeName)
+        internal MapControl(string typeName)
             : base(typeName)
         {
             Children = new List<DependencyObject>();
@@ -204,7 +205,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TransformOriginProperty"/>
         /// </summary>
-        public static DependencyProperty TransformOriginProperty { get; } = DependencyProperty.Register(nameof(TransformOrigin), typeof(Windows.Foundation.Point), typeof(MapControl));
+        public static DependencyProperty TransformOriginProperty { get; } = DependencyProperty.Register(nameof(TransformOrigin), typeof(Win32.UI.Controls.Interop.WinRT.Point), typeof(MapControl));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.WatermarkModeProperty"/>
@@ -312,43 +313,43 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryTiltAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryTiltAsync(double degrees) => UwpControl.TryTiltAsync(degrees);
+        public Task<bool> TryTiltAsync(double degrees) => UwpControl.TryTiltAsync(degrees).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryTiltToAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryTiltToAsync(double angleInDegrees) => UwpControl.TryTiltToAsync(angleInDegrees);
+        public Task<bool> TryTiltToAsync(double angleInDegrees) => UwpControl.TryTiltToAsync(angleInDegrees).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryZoomInAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryZoomInAsync() => UwpControl.TryZoomInAsync();
+        public Task<bool> TryZoomInAsync() => UwpControl.TryZoomInAsync().AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryZoomOutAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryZoomOutAsync() => UwpControl.TryZoomOutAsync();
+        public Task<bool> TryZoomOutAsync() => UwpControl.TryZoomOutAsync().AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryZoomToAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryZoomToAsync(double zoomLevel) => UwpControl.TryZoomToAsync(zoomLevel);
+        public Task<bool> TryZoomToAsync(double zoomLevel) => UwpControl.TryZoomToAsync(zoomLevel).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetSceneAsync(MapScene scene) => UwpControl.TrySetSceneAsync(scene.UwpInstance);
+        public Task<bool> TrySetSceneAsync(MapScene scene) => UwpControl.TrySetSceneAsync(scene.UwpInstance).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetSceneAsync(MapScene scene, MapAnimationKind animationKind) => UwpControl.TrySetSceneAsync(scene.UwpInstance, (Windows.UI.Xaml.Controls.Maps.MapAnimationKind)animationKind);
+        public Task<bool> TrySetSceneAsync(MapScene scene, MapAnimationKind animationKind) => UwpControl.TrySetSceneAsync(scene.UwpInstance, (Windows.UI.Xaml.Controls.Maps.MapAnimationKind)animationKind).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.GetVisibleRegion"/>
@@ -360,12 +361,12 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IReadOnlyList</returns>
-        public System.Collections.Generic.IReadOnlyList<MapElement> FindMapElementsAtOffset(Windows.Foundation.Point offset, double radius) => (System.Collections.Generic.IReadOnlyList<MapElement>)UwpControl.FindMapElementsAtOffset(offset, radius);
+        public System.Collections.Generic.IReadOnlyList<MapElement> FindMapElementsAtOffset(Win32.UI.Controls.Interop.WinRT.Point offset, double radius) => (System.Collections.Generic.IReadOnlyList<MapElement>)UwpControl.FindMapElementsAtOffset(offset.UwpInstance, radius);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
-        public void GetLocationFromOffset(Windows.Foundation.Point offset, AltitudeReferenceSystem desiredReferenceSystem, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.GetLocationFromOffset(offset, (Windows.Devices.Geolocation.AltitudeReferenceSystem)desiredReferenceSystem, out location);
+        public void GetLocationFromOffset(Win32.UI.Controls.Interop.WinRT.Point offset, AltitudeReferenceSystem desiredReferenceSystem, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.GetLocationFromOffset(offset.UwpInstance, (Windows.Devices.Geolocation.AltitudeReferenceSystem)desiredReferenceSystem, out location);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.StartContinuousPan"/>
@@ -381,41 +382,45 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryPanAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryPanAsync(double horizontalPixels, double verticalPixels) => UwpControl.TryPanAsync(horizontalPixels, verticalPixels);
+        public Task<bool> TryPanAsync(double horizontalPixels, double verticalPixels) => UwpControl.TryPanAsync(horizontalPixels, verticalPixels).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryPanToAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryPanToAsync(Geopoint location) => UwpControl.TryPanToAsync(location.UwpInstance);
+        public Task<bool> TryPanToAsync(Geopoint location) => UwpControl.TryPanToAsync(location.UwpInstance).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>bool</returns>
-        public bool TryGetLocationFromOffset(Windows.Foundation.Point offset, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.TryGetLocationFromOffset(offset, out location);
+        public bool TryGetLocationFromOffset(Win32.UI.Controls.Interop.WinRT.Point offset, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.TryGetLocationFromOffset(offset.UwpInstance, out location);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>bool</returns>
-        public bool TryGetLocationFromOffset(Windows.Foundation.Point offset, AltitudeReferenceSystem desiredReferenceSystem, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.TryGetLocationFromOffset(offset, (Windows.Devices.Geolocation.AltitudeReferenceSystem)(int)desiredReferenceSystem, out location);
+        public bool TryGetLocationFromOffset(Win32.UI.Controls.Interop.WinRT.Point offset, AltitudeReferenceSystem desiredReferenceSystem, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.TryGetLocationFromOffset(offset.UwpInstance, (Windows.Devices.Geolocation.AltitudeReferenceSystem)(int)desiredReferenceSystem, out location);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>bool</returns>
-        public System.Collections.Generic.IReadOnlyList<MapElement> FindMapElementsAtOffset(Windows.Foundation.Point offset) => (System.Collections.Generic.IReadOnlyList<MapElement>)UwpControl.FindMapElementsAtOffset(offset);
+        public System.Collections.Generic.IReadOnlyList<MapElement> FindMapElementsAtOffset(Win32.UI.Controls.Interop.WinRT.Point offset) => (System.Collections.Generic.IReadOnlyList<MapElement>)UwpControl.FindMapElementsAtOffset(offset.UwpInstance);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
-        public void GetLocationFromOffset(Windows.Foundation.Point offset, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.GetLocationFromOffset(offset, out location);
+        public void GetLocationFromOffset(Win32.UI.Controls.Interop.WinRT.Point offset, out Windows.Devices.Geolocation.Geopoint location) => UwpControl.GetLocationFromOffset(offset.UwpInstance, out location);
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.GetOffsetFromLocation"/>
         /// </summary>
-        public void GetOffsetFromLocation(Geopoint location, out Windows.Foundation.Point offset) => UwpControl.GetOffsetFromLocation(location.UwpInstance, out offset);
+        public void GetOffsetFromLocation(Geopoint location, out Win32.UI.Controls.Interop.WinRT.Point offset)
+        {
+            UwpControl.GetOffsetFromLocation(location.UwpInstance, out var uwpOffset);
+            offset = (Win32.UI.Controls.Interop.WinRT.Point)uwpOffset;
+        }
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.IsLocationInView"/>
@@ -427,32 +432,32 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TrySetViewBoundsAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetViewBoundsAsync(GeoboundingBox bounds, Windows.UI.Xaml.Thickness? margin, MapAnimationKind animation) => UwpControl.TrySetViewBoundsAsync(bounds, margin, animation);
+        public Task<bool> TrySetViewBoundsAsync(GeoboundingBox bounds, Windows.UI.Xaml.Thickness? margin, MapAnimationKind animation) => UwpControl.TrySetViewBoundsAsync(bounds, margin, animation);
         */
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetViewAsync(Geopoint center) => UwpControl.TrySetViewAsync(center.UwpInstance);
+        public Task<bool> TrySetViewAsync(Geopoint center) => UwpControl.TrySetViewAsync(center.UwpInstance).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetViewAsync(Geopoint center, double? zoomLevel) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel);
+        public Task<bool> TrySetViewAsync(Geopoint center, double? zoomLevel) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetViewAsync(Geopoint center, double? zoomLevel, double? heading, double? desiredPitch) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel, heading, desiredPitch);
+        public Task<bool> TrySetViewAsync(Geopoint center, double? zoomLevel, double? heading, double? desiredPitch) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel, heading, desiredPitch).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TrySetViewAsync(Geopoint center, double? zoomLevel, double? heading, double? desiredPitch, MapAnimationKind animation) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel, heading, desiredPitch, (Windows.UI.Xaml.Controls.Maps.MapAnimationKind)(int)animation);
+        public Task<bool> TrySetViewAsync(Geopoint center, double? zoomLevel, double? heading, double? desiredPitch, MapAnimationKind animation) => UwpControl.TrySetViewAsync(center.UwpInstance, zoomLevel, heading, desiredPitch, (Windows.UI.Xaml.Controls.Maps.MapAnimationKind)(int)animation).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.StartContinuousRotate"/>
@@ -488,13 +493,13 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryRotateAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryRotateAsync(double degrees) => UwpControl.TryRotateAsync(degrees);
+        public Task<bool> TryRotateAsync(double degrees) => UwpControl.TryRotateAsync(degrees).AsTask();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TryRotateToAsync"/>
         /// </summary>
         /// <returns>IAsyncOperation</returns>
-        public Windows.Foundation.IAsyncOperation<bool> TryRotateToAsync(double angleInDegrees) => UwpControl.TryRotateToAsync(angleInDegrees);
+        public Task<bool> TryRotateToAsync(double angleInDegrees) => UwpControl.TryRotateToAsync(angleInDegrees).AsTask();
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.WatermarkMode"/>
@@ -526,9 +531,9 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TransformOrigin"/>
         /// </summary>
-        public Windows.Foundation.Point TransformOrigin
+        public Win32.UI.Controls.Interop.WinRT.Point TransformOrigin
         {
-            get => (Windows.Foundation.Point)GetValue(TransformOriginProperty);
+            get => (Win32.UI.Controls.Interop.WinRT.Point)GetValue(TransformOriginProperty);
             set => SetValue(TransformOriginProperty, value);
         }
 
