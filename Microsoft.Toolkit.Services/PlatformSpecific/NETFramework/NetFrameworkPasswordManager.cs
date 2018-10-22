@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         {
             int lastError = Marshal.GetHRForLastWin32Error();
 
-            if (!CredRead(key, CRED_TYPE.GENERIC, 0, out IntPtr nCredPtr))
+            if (!CredRead(key, CRED_TYPE.GENERIC, 0, out var nCredPtr))
             {
                 return null;
             }
