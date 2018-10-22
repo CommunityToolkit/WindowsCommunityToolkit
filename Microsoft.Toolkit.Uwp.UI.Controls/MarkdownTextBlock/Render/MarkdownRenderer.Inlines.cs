@@ -556,8 +556,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             var borderthickness = InlineCodeBorderThickness;
             var padding = InlineCodePadding;
 
-            // var spacingoffset = -(borderthickness.Bottom + padding.Bottom);
-            // var margin = new Thickness(0, spacingoffset, 0, spacingoffset);
             var border = new Border
             {
                 BorderThickness = borderthickness,
