@@ -66,6 +66,26 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
+            if (string.IsNullOrEmpty(tokens.ClientSecret))
+            {
+                throw new ArgumentException("Missing client secret key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ClientId))
+            {
+                throw new ArgumentException("Missing client ID");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
+            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
+            {
+                throw new ArgumentException("Error retrieving required permissions");
+            }
+
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = authentication ?? throw new ArgumentException("Invalid AuthenticationBroker");
@@ -81,6 +101,26 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
+            if (string.IsNullOrEmpty(tokens.ClientSecret))
+            {
+                throw new ArgumentException("Missing client secret key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ClientId))
+            {
+                throw new ArgumentException("Missing client ID");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
+            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
+            {
+                throw new ArgumentException("Error retrieving required permissions");
+            }
+
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = new UwpAuthenticationBroker();
@@ -98,6 +138,21 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
         {
+            if (string.IsNullOrEmpty(tokens.ClientSecret))
+            {
+                    throw new ArgumentException("Missing client secret key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ClientId))
+            {
+                    throw new ArgumentException("Missing client ID");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                    throw new ArgumentException("Missing callback uri");
+            }
+
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = new NetFrameworkAuthenticationBroker();
