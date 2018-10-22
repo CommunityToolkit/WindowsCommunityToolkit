@@ -46,8 +46,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         private void WebViewNavigationStartingHandler(Uri uri)
         {
-            var topLevelDomain = GetTopLevelDomain(uri);
-            if (initialHost != topLevelDomain && topLevelDomain == callbackHost)
+            if (initialHost != GetTopLevelDomain(uri) && GetTopLevelDomain(uri) == callbackHost)
             {
                 if (GetTopLevelDomain(uri) == callbackHost)
                 {
