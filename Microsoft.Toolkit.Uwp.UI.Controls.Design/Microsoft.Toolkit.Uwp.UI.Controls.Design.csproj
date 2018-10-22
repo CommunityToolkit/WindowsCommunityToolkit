@@ -116,13 +116,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Common\ToolboxCategoryPaths.cs" />
-    <Compile Include="PullToRefreshListViewMetadata.cs" />
     <Compile Include="RadialGaugeMetadata.cs" />
     <Compile Include="RadialProgressBarMetadata.cs" />
     <Compile Include="RangeSelectorMetadata.cs" />
     <Compile Include="RotatorTileMetadata.cs" />
     <Compile Include="ScrollHeaderMetadata.cs" />
-    <Compile Include="SlidableListItemMetadata.cs" />
     <Compile Include="TextToolbarMetadata.cs" />
     <Compile Include="TileControlMetadata.cs" />
     <Compile Include="WrapPanelMetadata.cs" />

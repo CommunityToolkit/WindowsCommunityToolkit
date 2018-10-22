@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentVisible, GroupName = GroupContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
-    public sealed partial class InAppNotification : ContentControl
+    public partial class InAppNotification : ContentControl
     {
         private InAppNotificationDismissKind _lastDismissKind;
         private DispatcherTimer _animationTimer = new DispatcherTimer();
