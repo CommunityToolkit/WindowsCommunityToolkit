@@ -18,6 +18,9 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         protected Windows.UI.Xaml.Controls.InkToolbar UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbar;
 
+        private InkCanvas _targetInkCanvas;
+        private WindowsXamlHostBase _activeTool;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
         /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
@@ -66,6 +69,11 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         {
             get
             {
+                if (DesignMode)
+                {
+                    return _targetInkCanvas;
+                }
+
                 if (UwpControl?.TargetInkCanvas == null)
                 {
                     return null;
@@ -76,6 +84,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
             set
             {
+                if (DesignMode)
+                {
+                    _targetInkCanvas = value;
+                    return;
+                }
+
                 if (UwpControl != null)
                 {
                     UwpControl.TargetInkCanvas = value?.UwpControl;
@@ -106,8 +120,26 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public WindowsXamlHostBase ActiveTool
         {
-            get => (WindowsXamlHostBase)UwpControl.ActiveTool.GetWrapper();
-            set => UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+            get
+            {
+                if (DesignMode)
+                {
+                    return _activeTool;
+                }
+
+                return (WindowsXamlHostBase)UwpControl?.ActiveTool?.GetWrapper();
+            }
+
+            set
+            {
+                if (DesignMode)
+                {
+                    _activeTool = value;
+                    return;
+                }
+
+                UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+            }
         }
 
         /// <summary>

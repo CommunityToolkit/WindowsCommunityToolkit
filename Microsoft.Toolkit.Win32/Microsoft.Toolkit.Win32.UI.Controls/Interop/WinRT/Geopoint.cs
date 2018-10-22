@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// Initializes a new instance of the <see cref="Geopoint"/> class, a
         /// Wpf-enabled wrapper for <see cref="Windows.Devices.Geolocation.Geopoint"/>
         /// </summary>
-        public Geopoint(Windows.Devices.Geolocation.Geopoint instance)
+        internal Geopoint(Windows.Devices.Geolocation.Geopoint instance)
         {
             this.UwpInstance = instance;
         }
@@ -45,17 +45,17 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// <summary>
         /// Gets <see cref="Windows.Devices.Geolocation.Geopoint.AltitudeReferenceSystem"/>
         /// </summary>
-        public Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.AltitudeReferenceSystem AltitudeReferenceSystem
+        public AltitudeReferenceSystem AltitudeReferenceSystem
         {
-            get => (Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.AltitudeReferenceSystem)(int)UwpInstance.AltitudeReferenceSystem;
+            get => (AltitudeReferenceSystem)(int)UwpInstance.AltitudeReferenceSystem;
         }
 
         /// <summary>
         /// Gets <see cref="Windows.Devices.Geolocation.Geopoint.GeoshapeType"/>
         /// </summary>
-        public Windows.Devices.Geolocation.GeoshapeType GeoshapeType
+        public GeoshapeType GeoshapeType
         {
-            get => UwpInstance.GeoshapeType;
+            get => (GeoshapeType)UwpInstance.GeoshapeType;
         }
 
         /// <summary>

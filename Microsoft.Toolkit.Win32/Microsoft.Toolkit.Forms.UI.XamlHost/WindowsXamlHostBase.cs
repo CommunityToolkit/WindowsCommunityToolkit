@@ -62,6 +62,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         public WindowsXamlHostBase()
         {
+            if (DesignMode)
+            {
+                return;
+            }
+
             SetStyle(ControlStyles.ContainerControl, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.UserPaint, true);
