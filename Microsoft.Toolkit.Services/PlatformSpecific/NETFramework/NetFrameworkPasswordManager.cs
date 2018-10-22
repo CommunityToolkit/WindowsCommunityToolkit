@@ -50,10 +50,9 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 
         public PasswordCredential Get(string key)
         {
-            IntPtr nCredPtr;
             int lastError = Marshal.GetHRForLastWin32Error();
 
-            if (!CredRead(key, CRED_TYPE.GENERIC, 0, out nCredPtr))
+            if (!CredRead(key, CRED_TYPE.GENERIC, 0, out IntPtr nCredPtr))
             {
                 return null;
             }
