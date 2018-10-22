@@ -76,6 +76,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             {
                 return hostParts.ElementAt(1);
             }
+
             return hostParts.ElementAt(0);
         }
     }
