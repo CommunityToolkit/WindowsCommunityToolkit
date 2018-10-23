@@ -95,6 +95,17 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
+        public void Logout()
+        {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            LogoutAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        /// <summary>
+        /// Log user out of LinkedIn.
+        /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task<bool> LogoutAsync()
         {
