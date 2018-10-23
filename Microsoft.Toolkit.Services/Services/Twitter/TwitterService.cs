@@ -401,6 +401,15 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
+        /// Log user out of Twitter.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task<bool> LogoutAsync()
+        {
+           return Provider.LogoutAsync();
+        }
+
+        /// <summary>
         /// Open a connection to user's stream service
         /// </summary>
         /// <param name="callback">Method called each time a tweet arrives</param>

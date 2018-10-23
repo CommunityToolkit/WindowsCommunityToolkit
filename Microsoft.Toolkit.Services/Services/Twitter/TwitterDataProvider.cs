@@ -278,6 +278,25 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
+        /// Log user out of Twitter.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<bool> LogoutAsync()
+        {
+            var credential = _passwordManager.Get("TwitterAccessToken");
+
+            if (credential != null)
+            {
+                _passwordManager.Remove("TwitterAccessToken");
+                await _storageManager.SetAsync("TwitterScreenName", null);
+                UserScreenName = null;
+                LoggedIn = false;
+            }
+
+            return LoggedIn;
+        }
+
+        /// <summary>
         /// Tweets a status update.
         /// </summary>
         /// <param name="tweet">Tweet text.</param>
