@@ -6,6 +6,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             _themeListener = new ThemeListener();
 
             Current = this;
-            this.InitializeComponent();
+            InitializeComponent();
 
             _themeListener.ThemeChanged += (s) =>
             {
@@ -197,6 +198,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         var pageInstance = Activator.CreateInstance(CurrentSample.PageType);
                         SampleContent.Content = pageInstance;
+
+                        // Some samples use the OnNavigatedTo and OnNavigatedFrom
+                        // Can't use Frame here because some samples depend on the current Frame
+                        MethodInfo method = CurrentSample.PageType.GetMethod(
+                            "OnNavigatedTo",
+                            BindingFlags.Instance | BindingFlags.NonPublic);
+
+                        if (method != null)
+                        {
+                            method.Invoke(pageInstance, new object[] { e });
+                        }
                     }
                     catch
                     {
@@ -214,8 +226,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 DataContext = CurrentSample;
-
-                await Samples.PushRecentSample(CurrentSample);
 
                 var propertyDesc = CurrentSample.PropertyDescriptor;
 
@@ -290,7 +300,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (InfoAreaPivot.Items.Count == 0)
                 {
                     SidePaneState = PaneState.None;
-                    _hasDocumentation = false;
                 }
                 else
                 {
@@ -307,17 +316,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (!CanChangePaneState)
             {
                 SampleTitleBar.Children.Remove(NarrowInfoButton);
-                PaneStates.States.Clear();
-                WindowStates.States.Clear();
+            }
+
+            if (e.NavigationMode != NavigationMode.Back)
+            {
+                var nop = Samples.PushRecentSample(CurrentSample);
             }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if (SamplePage is ISampleNavigation nav)
+
+            if (SamplePage != null)
             {
-                nav.NavigatingAway();
+                MethodInfo method = CurrentSample.PageType.GetMethod(
+                    "OnNavigatedFrom",
+                    BindingFlags.Instance | BindingFlags.NonPublic);
+
+                if (method != null)
+                {
+                    method.Invoke(SamplePage, new object[] { e });
+                }
             }
 
             XamlCodeEditor = null;
@@ -331,7 +351,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (CurrentSample != null && CurrentSample.HasXAMLCode)
             {
-                this._lastRenderedProperties = true;
+                _lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
                 var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
@@ -642,7 +662,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private Page SamplePage => SampleContent.Content as Page;
 
-        private bool CanChangePaneState => _hasDocumentation && !_onlyDocumentation;
+        private bool CanChangePaneState => !_onlyDocumentation;
 
         private XamlRenderService _xamlRenderer = new XamlRenderService();
         private bool _lastRenderedProperties = true;
@@ -651,7 +671,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private bool _useBackground = false;
 
         private PaneState _paneState;
-        private bool _hasDocumentation = true;
         private bool _onlyDocumentation;
         private string documentationPath;
 
