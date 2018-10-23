@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public void Logout()
         {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            LogoutAsync();
+            Provider.LogoutAsync();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
         }
 
