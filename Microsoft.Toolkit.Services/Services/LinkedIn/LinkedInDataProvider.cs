@@ -101,8 +101,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
             _authentication = new NetFrameworkAuthenticationBroker();
-            _storageManager = new NetFrameworkStorageManager() ?? throw new ArgumentException("Invalid StorageManager");
-            _passwordManager = new NetFrameworkPasswordManager() ?? throw new ArgumentException("Invalid PasswordManager");
+            _storageManager = new NetFrameworkStorageManager();
+            _passwordManager = new NetFrameworkPasswordManager();
         }
 #endif
 
