@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.IO;
+using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Toolkit.Services.Core;
@@ -13,11 +15,34 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkPasswordManager : IPasswordManager
     {
+        static byte[] Compress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+        }
+
+        static byte[] Decompress(byte[] data)
+        {
+            using (var compressedStream = new MemoryStream(data))
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            using (var resultStream = new MemoryStream())
+            {
+                zipStream.CopyTo(resultStream);
+                return resultStream.ToArray();
+            }
+        }
+
         public void Store(string resource, PasswordCredential credential)
         {
             // Validations.
             byte[] byteArray = Encoding.Unicode.GetBytes(credential.Password);
-            if (byteArray.Length > 512)
+            var compressedArray = Compress(byteArray);
+            if (compressedArray.Length > 512)
             {
                 throw new ArgumentOutOfRangeException("The secret message has exceeded 512 bytes.");
             }
@@ -27,8 +52,8 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             {
                 TargetName = resource,
                 UserName = credential.UserName,
-                CredentialBlob = credential.Password,
-                CredentialBlobSize = (uint)Encoding.Unicode.GetBytes(credential.Password).Length,
+                CredentialBlob = Encoding.Unicode.GetString(compressedArray),
+                CredentialBlobSize = (uint)compressedArray.Length,
                 AttributeCount = 0,
                 Attributes = IntPtr.Zero,
                 Comment = null,
@@ -62,7 +87,16 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             Credential credential = critCred.GetCredential();
             PasswordCredential passCred = new PasswordCredential();
             passCred.UserName = credential.UserName;
-            passCred.Password = credential.CredentialBlob;
+            try
+            {
+                passCred.Password = Encoding.Unicode.GetString(Decompress(Encoding.Unicode.GetBytes(credential.CredentialBlob)));
+
+            }
+            catch (Exception e)
+            {
+
+                throw;
+            }
 
             return passCred;
         }
