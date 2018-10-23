@@ -88,10 +88,11 @@ namespace Microsoft.Toolkit.Services.Twitter
             }
 
             _tokens = tokens;
-            _authenticationBroker = authenticationBroker;
-            _passwordManager = passwordManager;
-            _storageManager = storageManager;
-            _signatureManager = signatureManager;
+            _authenticationBroker = authenticationBroker ?? throw new ArgumentException("Missing AuthenticationBroker");
+            _passwordManager = passwordManager ?? throw new ArgumentException("Missing PasswordManager");
+            _storageManager = storageManager ?? throw new ArgumentException("Missing StorageManager");
+            _signatureManager = signatureManager ?? throw new ArgumentException("Missing SignatureManager");
+
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler();
@@ -107,33 +108,8 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
+            : this(tokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager(), new UwpSignatureManager())
         {
-            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
-            {
-                throw new ArgumentException("Missing consumer secret");
-            }
-
-            if (string.IsNullOrEmpty(tokens.ConsumerKey))
-            {
-                throw new ArgumentException("Missing consumer key");
-            }
-
-            if (string.IsNullOrEmpty(tokens.CallbackUri))
-            {
-                throw new ArgumentException("Missing callback uri");
-            }
-
-            _tokens = tokens;
-            _authenticationBroker = new UwpAuthenticationBroker();
-            _passwordManager = new UwpPasswordManager();
-            _storageManager = new UwpStorageManager();
-            _signatureManager = new UwpSignatureManager();
-            if (_client == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-                _client = new HttpClient(handler);
-            }
         }
 #endif
 
@@ -144,33 +120,8 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// </summary>
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
+            : this(tokens, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager(), new NetFrameworkSignatureManager())
         {
-            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
-            {
-                throw new ArgumentException("Missing consumer secret");
-            }
-
-            if (string.IsNullOrEmpty(tokens.ConsumerKey))
-            {
-                throw new ArgumentException("Missing consumer key");
-            }
-
-            if (string.IsNullOrEmpty(tokens.CallbackUri))
-            {
-                throw new ArgumentException("Missing callback uri");
-            }
-
-            _tokens = tokens;
-            _authenticationBroker = new NetFrameworkAuthenticationBroker();
-            _passwordManager = new NetFrameworkPasswordManager();
-            _storageManager = new NetFrameworkStorageManager();
-            _signatureManager = new NetFrameworkSignatureManager();
-            if (_client == null)
-            {
-                HttpClientHandler handler = new HttpClientHandler();
-                handler.AutomaticDecompression = DecompressionMethods.GZip;
-                _client = new HttpClient(handler);
-            }
         }
 #endif
 
