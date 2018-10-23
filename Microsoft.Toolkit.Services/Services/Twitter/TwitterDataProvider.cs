@@ -278,22 +278,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Log user out of Twitter.
-        /// </summary>
-        public void Logout()
-        {
-            var credential = _passwordManager.Get("TwitterAccessToken");
-
-            if (credential != null)
-            {
-                _passwordManager.Remove("TwitterAccessToken");
-                _storageManager.SetAsync("TwitterScreenName", null);
-                UserScreenName = null;
-                LoggedIn = false;
-            }
-        }
-
-        /// <summary>
         /// Tweets a status update.
         /// </summary>
         /// <param name="tweet">Tweet text.</param>

@@ -401,14 +401,6 @@ namespace Microsoft.Toolkit.Services.Twitter
         }
 
         /// <summary>
-        /// Log user out of Twitter.
-        /// </summary>
-        public void Logout()
-        {
-           Provider.Logout();
-        }
-
-        /// <summary>
         /// Open a connection to user's stream service
         /// </summary>
         /// <param name="callback">Method called each time a tweet arrives</param>
