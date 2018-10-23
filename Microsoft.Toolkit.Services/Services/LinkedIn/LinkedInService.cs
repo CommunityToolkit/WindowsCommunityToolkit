@@ -95,10 +95,11 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
-        public void Logout()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task<bool> LogoutAsync()
         {
-            Provider.Logout();
             _isInitialized = false;
+            return Provider.LogoutAsync();
         }
 
 #if WINRT

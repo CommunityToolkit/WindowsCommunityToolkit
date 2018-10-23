@@ -145,16 +145,17 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
-        public void Logout()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task<bool> LogoutAsync()
         {
             var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
             if (crendential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
-                _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
+                 await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
             }
 
-            LoggedIn = false;
+            return LoggedIn = false;
         }
 
         /// <summary>
