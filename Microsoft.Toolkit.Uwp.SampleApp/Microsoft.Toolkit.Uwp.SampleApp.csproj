@@ -126,7 +126,7 @@
       <Version>2.0.180916002-prerelease</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
-      <Version>0.6.0-alpha</Version>
+      <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
