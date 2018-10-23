@@ -135,8 +135,16 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Log user out of Weibo.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
+        public void Logout()
+        {
+            LogoutAsync();
+        }
+
+        /// <summary>
+        /// Log user out of Weibo.
+        /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// 
         public async Task<bool> LogoutAsync()
         {
             var credential = _passwordManager.Get(PasswordKey);
