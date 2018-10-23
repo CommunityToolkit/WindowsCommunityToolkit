@@ -185,7 +185,7 @@
         </Grid>
     </ControlTemplate>
 
-    <!--  Modified ListViewItemExpanded Template - https://msdn.microsoft.com/en-us/library/windows/apps/mt299136.aspx  -->
+    <!--  Based on Style for ListViewItemExpanded Template - https://msdn.microsoft.com/en-us/library/windows/apps/mt299136.aspx  -->
     <ControlTemplate x:Key="TabViewItemHeaderTemplate"
                      TargetType="local:TabViewItem">
         <Grid x:Name="ContentBorder"
@@ -853,7 +853,7 @@
         </Grid>
     </ControlTemplate>
 
-    <!--  Style for Windows.UI.Xaml.Controls.ListViewItem  -->
+    <!--  Based on Style for Windows.UI.Xaml.Controls.ListViewItem  -->
     <Style x:Key="DefaultTabViewItemStyle"
            TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
