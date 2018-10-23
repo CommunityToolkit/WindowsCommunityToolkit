@@ -86,9 +86,9 @@ namespace Microsoft.Toolkit.Services.Weibo
             }
 
             _tokens = tokens;
-            _authenticationBroker = authenticationBroker;
-            _passwordManager = passwordManager;
-            _storageManager = storageManager;
+            _authenticationBroker = authenticationBroker ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _passwordManager = passwordManager ?? throw new ArgumentException("Invalid PasswordManager");
+            _storageManager = storageManager ?? throw new ArgumentException("Invalid StorageManager");
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
