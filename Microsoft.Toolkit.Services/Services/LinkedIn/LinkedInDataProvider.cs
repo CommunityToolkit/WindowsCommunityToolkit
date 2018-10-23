@@ -100,32 +100,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        : this(tokens, requiredPermissions, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager())
         {
-            if (string.IsNullOrEmpty(tokens.ClientSecret))
-            {
-                throw new ArgumentException("Missing client secret key");
-            }
-
-            if (string.IsNullOrEmpty(tokens.ClientId))
-            {
-                throw new ArgumentException("Missing client ID");
-            }
-
-            if (string.IsNullOrEmpty(tokens.CallbackUri))
-            {
-                throw new ArgumentException("Missing callback uri");
-            }
-
-            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
-            {
-                throw new ArgumentException("Error retrieving required permissions");
-            }
-
-            Tokens = tokens;
-            RequiredPermissions = requiredPermissions;
-            _authentication = new UwpAuthenticationBroker();
-            _storageManager = new UwpStorageManager();
-            _passwordManager = new UwpPasswordManager();
         }
 #endif
 
@@ -137,27 +113,8 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        : this(tokens, requiredPermissions, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager())
         {
-            if (string.IsNullOrEmpty(tokens.ClientSecret))
-            {
-                    throw new ArgumentException("Missing client secret key");
-            }
-
-            if (string.IsNullOrEmpty(tokens.ClientId))
-            {
-                    throw new ArgumentException("Missing client ID");
-            }
-
-            if (string.IsNullOrEmpty(tokens.CallbackUri))
-            {
-                    throw new ArgumentException("Missing callback uri");
-            }
-
-            Tokens = tokens;
-            RequiredPermissions = requiredPermissions;
-            _authentication = new NetFrameworkAuthenticationBroker();
-            _storageManager = new NetFrameworkStorageManager();
-            _passwordManager = new NetFrameworkPasswordManager();
         }
 #endif
 
