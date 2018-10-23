@@ -21,6 +21,10 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
+#if NET462
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.Weibo
 {
     /// <summary>
@@ -66,6 +70,21 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="storageManager">Platform storage provider</param>
         public WeiboDataProvider(WeiboOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
+            if (string.IsNullOrEmpty(tokens.AppSecret))
+            {
+                throw new ArgumentException("Missing app secret");
+            }
+
+            if (string.IsNullOrEmpty(tokens.AppKey))
+            {
+                throw new ArgumentException("Missing app key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.RedirectUri))
+            {
+                throw new ArgumentException("Missing redirect uri");
+            }
+
             _tokens = tokens;
             _authenticationBroker = authenticationBroker;
             _passwordManager = passwordManager;
@@ -85,6 +104,18 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="tokens">OAuth tokens for request.</param>
         public WeiboDataProvider(WeiboOAuthTokens tokens)
             : this(tokens, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager())
+        {
+        }
+#endif
+
+#if NET462
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public WeiboDataProvider(WeiboOAuthTokens tokens)
+            : this(tokens, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager())
         {
         }
 #endif
