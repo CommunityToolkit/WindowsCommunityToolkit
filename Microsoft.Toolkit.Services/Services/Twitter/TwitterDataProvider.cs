@@ -72,6 +72,21 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="signatureManager">Platform signature manager</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager, ISignatureManager signatureManager)
         {
+            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
+            {
+                throw new ArgumentException("Missing consumer secret");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ConsumerKey))
+            {
+                throw new ArgumentException("Missing consumer key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
             _tokens = tokens;
             _authenticationBroker = authenticationBroker;
             _passwordManager = passwordManager;
@@ -93,6 +108,21 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
         {
+            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
+            {
+                throw new ArgumentException("Missing consumer secret");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ConsumerKey))
+            {
+                throw new ArgumentException("Missing consumer key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
             _tokens = tokens;
             _authenticationBroker = new UwpAuthenticationBroker();
             _passwordManager = new UwpPasswordManager();
@@ -115,6 +145,21 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// <param name="tokens">OAuth tokens for request.</param>
         public TwitterDataProvider(TwitterOAuthTokens tokens)
         {
+            if (string.IsNullOrEmpty(tokens.ConsumerSecret))
+            {
+                throw new ArgumentException("Missing consumer secret");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ConsumerKey))
+            {
+                throw new ArgumentException("Missing consumer key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
             _tokens = tokens;
             _authenticationBroker = new NetFrameworkAuthenticationBroker();
             _passwordManager = new NetFrameworkPasswordManager();
