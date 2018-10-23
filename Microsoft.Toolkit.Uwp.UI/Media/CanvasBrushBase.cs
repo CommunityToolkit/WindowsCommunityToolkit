@@ -51,6 +51,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             device.DeviceLost -= CanvasDevice_DeviceLost;
             device.DeviceLost += CanvasDevice_DeviceLost;
 
+            graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+            graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
+
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
             {
@@ -79,10 +82,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
         }
 
+        private void CanvasDevice_RenderingDeviceReplaced(CompositionGraphicsDevice sender, object args)
+        {
+            OnDisconnected();
+            OnConnected();
+        }
+
         private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
         {
-            OnConnected();
             OnDisconnected();
+            OnConnected();
         }
 
         /// <summary>
