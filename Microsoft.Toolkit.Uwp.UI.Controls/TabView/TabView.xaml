@@ -69,7 +69,6 @@
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
-                    <AddDeleteThemeTransition />
                     <ContentThemeTransition />
                     <EntranceThemeTransition IsStaggeringEnabled="False" />
                 </TransitionCollection>
