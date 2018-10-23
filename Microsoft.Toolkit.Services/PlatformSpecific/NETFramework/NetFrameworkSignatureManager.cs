@@ -28,7 +28,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             var baseStringByte = Encoding.UTF8.GetBytes(baseString);
             var keyByte = Encoding.UTF8.GetBytes(key);
 
-            var enc = Encoding.ASCII;
             using (HMACSHA1 hmac = new HMACSHA1(keyByte))
             {
                 hmac.Initialize();
