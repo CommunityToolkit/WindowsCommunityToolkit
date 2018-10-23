@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         /// Log user out of Twitter.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<bool> LogoutAsync()
+        public async Task LogoutAsync()
         {
             var credential = _passwordManager.Get("TwitterAccessToken");
 
@@ -296,11 +296,10 @@ namespace Microsoft.Toolkit.Services.Twitter
             {
                 _passwordManager.Remove("TwitterAccessToken");
                 await _storageManager.SetAsync("TwitterScreenName", null);
-                UserScreenName = null;
-                LoggedIn = false;
             }
 
-            return LoggedIn;
+            UserScreenName = null;
+            LoggedIn = false;
         }
 
         /// <summary>

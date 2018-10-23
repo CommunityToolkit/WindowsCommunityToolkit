@@ -178,17 +178,18 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Log user out of Weibo.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public async Task<bool> LogoutAsync()
+        public async Task LogoutAsync()
         {
             var credential = _passwordManager.Get(PasswordKey);
+
             if (credential != null)
             {
                 _passwordManager.Remove(PasswordKey);
                await _storageManager.SetAsync(StorageKey, null);
-               Uid = null;
             }
 
-            return LoggedIn = false;
+            Uid = null;
+            LoggedIn = false;
         }
 
         /// <summary>

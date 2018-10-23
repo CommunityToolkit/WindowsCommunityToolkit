@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// Log user out of Weibo.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        public Task<bool> LogoutAsync()
+        public Task LogoutAsync()
         {
             return Provider.LogoutAsync();
         }
