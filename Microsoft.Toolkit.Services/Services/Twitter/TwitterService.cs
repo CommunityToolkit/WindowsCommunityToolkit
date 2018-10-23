@@ -406,9 +406,7 @@ namespace Microsoft.Toolkit.Services.Twitter
         [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
         public void Logout()
         {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            Provider.LogoutAsync();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            Provider.Logout();
         }
 
         /// <summary>
