@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TABSCROLLVIEWER_NAME, Type = typeof(ScrollViewer))]
     [TemplatePart(Name = TABSCROLLBACKBUTTON_NAME, Type = typeof(ButtonBase))]
     [TemplatePart(Name = TABSCROLLFORWARDBUTTON_NAME, Type = typeof(ButtonBase))]
-    public partial class TabView : ListViewBase
+    public partial class TabView : ListView
     {
         private const int SCROLL_AMOUNT = 50; // TODO: Should this come from TabWidthProvider?
 
@@ -120,12 +120,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override bool IsItemItsOwnContainerOverride(object item)
         {
             return item is TabViewItem;
-        }
-
-        /// <inheritdoc/>
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            return base.MeasureOverride(availableSize);
         }
 
         /// <inheritdoc/>
@@ -230,13 +224,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                     var width = widthIterator.Current;
                                     if (width > 0)
                                     {
-                                        tab.Width = Math.Max(width, 0);
+                                        tab.Width = width;
+                                        required += width;
                                     }
                                     else
                                     {
                                         tab.Width = double.NaN;
+                                        required += tab.ActualWidth;
                                     }
-                                    required += width;
                                 }
                             }
                         }
