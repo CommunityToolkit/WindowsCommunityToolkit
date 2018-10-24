@@ -15,11 +15,11 @@
         },
         {
           "title": "GitHub Issues",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/issues"
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/issues"
         },
         {
           "title": "Roadmap",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/milestones"
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones"
         },
         {
           "title": "UserVoice",
@@ -27,7 +27,7 @@
         },
         {
           "title": "Contributors",
-          "url": "https://github.com/Microsoft/WindowsCommunityToolkit/graphs/contributors"
+          "url": "https://github.com/windows-toolkit/WindowsCommunityToolkit/graphs/contributors"
         }
       ]
     },
@@ -53,6 +53,14 @@
         {
           "title": "UWP app samples",
           "url": "https://github.com/Microsoft/Windows-universal-samples"
+        },
+        {
+          "title": "XAML Controls Gallery",
+          "url": "https://www.microsoft.com/p/xaml-controls-gallery/9msvh128x2zt"
+        },
+        {
+          "title": "Windows UI Library",
+          "url": "https://docs.microsoft.com/uwp/toolkits/winui/"
         },
         {
           "title": "Windows Template Studio",
@@ -85,8 +93,8 @@
           "url": "https://github.com/hawkerm/monaco-editor-uwp"
         },
         {
-          "title": "Background photo by Christoffer Engström",
-          "url": "https://unsplash.com/@christoffere"
+          "title": "Background photo: Nordic sunset by Maarten Verstraete",
+          "url": "https://unsplash.com/photos/yJiPvuyhO4s"
         }
       ]
     }

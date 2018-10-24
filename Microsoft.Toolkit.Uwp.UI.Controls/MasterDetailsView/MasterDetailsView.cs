@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
@@ -28,6 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
+        private const string PartBackButton = "MasterDetailsBackButton";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
         private const string NarrowState = "NarrowState";
         private const string WideState = "WideState";
@@ -38,9 +40,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
 
-        private AppViewBackButtonVisibility _previousBackButtonVisibility;
+        private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
+        private bool _previousNavigationViewBackEnabled;
+
+        // Int used because the underlying type is an enum, but we don't have access to the enum
+        private int _previousNavigationViewBackVisibilty;
         private ContentPresenter _detailsPresenter;
         private VisualStateGroup _selectionStateGroup;
+        private Button _inlineBackButton;
+        private object _navigationView;
         private Frame _frame;
 
         /// <summary>
@@ -62,6 +70,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
+            if (_inlineBackButton != null)
+            {
+                _inlineBackButton.Click -= OnInlineBackButtonClicked;
+            }
+
+            _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
+            if (_inlineBackButton != null)
+            {
+                _inlineBackButton.Click += OnInlineBackButtonClicked;
+            }
 
             _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
             SetDetailsContent();
@@ -131,6 +150,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ((MasterDetailsView)d).HandleStateChanges();
         }
 
+        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var view = (MasterDetailsView)d;
+            view.SetBackButtonVisibility();
+        }
+
         /// <summary>
         /// Fired when the MasterCommandBar changes.
         /// </summary>
@@ -152,6 +177,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
+                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
                 _frame = this.FindAscendant<Frame>();
                 if (_frame != null)
                 {
@@ -195,6 +221,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 HandleStateChanges();
             }
+        }
+
+        private void OnInlineBackButtonClicked(object sender, RoutedEventArgs e)
+        {
+            SelectedItem = null;
         }
 
         private void HandleStateChanges()
@@ -255,8 +286,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
         /// </summary>
-        private void SetBackButtonVisibility(MasterDetailsViewState previousState)
+        private void SetBackButtonVisibility(MasterDetailsViewState? previousState = null)
         {
+            const int backButtonVisible = 1;
+
             if (DesignMode.DesignModeEnabled)
             {
                 return;
@@ -264,15 +297,65 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ViewState == MasterDetailsViewState.Details)
             {
-                var navigationManager = SystemNavigationManager.GetForCurrentView();
-                _previousBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
+                {
+                    _inlineBackButton.Visibility = Visibility.Visible;
+                }
+                else if (BackButtonBehavior == BackButtonBehavior.Automatic)
+                {
+                    // Continue to support the system back button if it is being used
+                    var navigationManager = SystemNavigationManager.GetForCurrentView();
+                    if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
+                    {
+                        // Setting this indicates that the system back button is being used
+                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                    }
+                    else if ((_navigationView == null) || (_frame == null))
+                    {
+                        // We can only use the new NavigationView if we also have a Frame
+                        // If there is no frame we have to use the inline button
+                        _inlineBackButton.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        SetNavigationViewBackButtonState(backButtonVisible, true);
+                    }
+                }
+                else if (BackButtonBehavior != BackButtonBehavior.Manual)
+                {
+                    var navigationManager = SystemNavigationManager.GetForCurrentView();
+                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
-                navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                    navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+                }
             }
             else if (previousState == MasterDetailsViewState.Details)
             {
-                // Make sure we show the back button if the stack can navigate back
-                SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousBackButtonVisibility;
+                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
+                {
+                    _inlineBackButton.Visibility = Visibility.Collapsed;
+                }
+                else if (BackButtonBehavior == BackButtonBehavior.Automatic)
+                {
+                    if (_previousSystemBackButtonVisibility.HasValue == false)
+                    {
+                        if ((_navigationView == null) || (_frame == null))
+                        {
+                            _inlineBackButton.Visibility = Visibility.Collapsed;
+                        }
+                        else
+                        {
+                            SetNavigationViewBackButtonState(_previousNavigationViewBackVisibilty, _previousNavigationViewBackEnabled);
+                        }
+                    }
+                }
+
+                if (_previousSystemBackButtonVisibility.HasValue)
+                {
+                    // Make sure we show the back button if the stack can navigate back
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                    _previousSystemBackButtonVisibility = null;
+                }
             }
         }
 
@@ -316,6 +399,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, state, animate);
+        }
+
+        private void SetNavigationViewBackButtonState(int visible, bool enabled)
+        {
+            var navType = _navigationView.GetType();
+            var visibleProperty = navType.GetProperty("IsBackButtonVisible");
+            if (visibleProperty != null)
+            {
+                _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
+                visibleProperty.SetValue(_navigationView, visible);
+            }
+
+            var enabledProperty = navType.GetProperty("IsBackEnabled");
+            if (enabledProperty != null)
+            {
+                _previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(_navigationView);
+                enabledProperty.SetValue(_navigationView, enabled);
+            }
         }
 
         private void SetDetailsContent()

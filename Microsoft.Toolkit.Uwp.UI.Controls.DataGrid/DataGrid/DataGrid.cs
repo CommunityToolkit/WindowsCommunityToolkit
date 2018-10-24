@@ -136,6 +136,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // 2 seconds delay used to hide the scroll bars for example when OS animations are turned off.
         private const int DATAGRID_noScrollBarCountdownMs = 2000;
 
+        // Used to work around double arithmetic rounding.
+        private const double DATAGRID_roundingDelta = 0.0001;
+
         // DataGrid Template Parts
 #if FEATURE_VALIDATION_SUMMARY
         private ValidationSummary _validationSummary;
@@ -1266,60 +1269,87 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Field used for accessing the ItemsSource though the interface ISupportIncrementalLoading
         private ISupportIncrementalLoading _incrementalItemsSource;
 
-        private bool _canLoadIncrementalData;
-
-        private bool _itemsSourceIsIncremental;
+        private bool _loadingItems;
 
         // Method that loads additional data once the user has scrolled to a certain threashold
         private async void LoadMoreDataFromIncrementalItemsSource()
         {
-            if (_itemsSourceIsIncremental && _incrementalItemsSource.HasMoreItems && _canLoadIncrementalData)
+            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && _incrementalItemsSource != null && _incrementalItemsSource.HasMoreItems && !_loadingItems)
             {
-                DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
-                if (peer != null)
+                var bottomScrollOffHeight = Math.Max(0, EdgedRowsHeightCalculated - CellsHeight - VerticalOffset);
+
+                var rowsPresenterAvailableHeight = this._rowsPresenterAvailableSize.HasValue
+                    ? _rowsPresenterAvailableSize.Value.Height
+                    : _vScrollBar.ViewportSize;
+
+                if ((IncrementalLoadingThreshold * rowsPresenterAvailableHeight) >= bottomScrollOffHeight)
                 {
-                    IScrollProvider isp = (IScrollProvider)peer;
-                    if (isp.VerticalScrollPercent >= IncrementalThreshold)
-                    {
-                        _canLoadIncrementalData = false;
+                    _loadingItems = true;
 
-                        await _incrementalItemsSource.LoadMoreItemsAsync(0);
+                    var numberOfRowsToLoad = (uint)(DataFetchSize * rowsPresenterAvailableHeight / this.RowHeightEstimate);
 
-                        _canLoadIncrementalData = true;
-                    }
+                    await _incrementalItemsSource.LoadMoreItemsAsync(numberOfRowsToLoad);
+
+                    _loadingItems = false;
                 }
             }
         }
 
         /// <summary>
-        /// Identifies the IncrementalThreshold dependency property.
+        /// Identifies the IncrementalLoadingThreshold dependency property
         /// </summary>
-        public static readonly DependencyProperty IncrementalThresholdProperty = DependencyProperty.Register(
-            "IncrementalThreshold", typeof(double), typeof(DataGrid), new PropertyMetadata(85.0, OnIncrementalThresholdChanged));
+        public static readonly DependencyProperty IncrementalLoadingThresholdProperty =
+            DependencyProperty.Register(
+                "IncrementalLoadingThreshold",
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(3.0));
 
-        private static void OnIncrementalThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <summary>
+        /// Gets or sets the IncrementalLoadingThreshold
+        /// </summary>
+        public double IncrementalLoadingThreshold
         {
-            DataGrid dataGrid = d as DataGrid;
-            var newThreshold = (double)e.NewValue;
-
-            if (newThreshold < 50.0)
-            {
-                dataGrid.IncrementalThreshold = 50.0;
-            }
-
-            if (newThreshold > 100.0)
-            {
-                dataGrid.IncrementalThreshold = 100.0;
-            }
+            get { return (double)GetValue(IncrementalLoadingThresholdProperty); }
+            set { SetValue(IncrementalLoadingThresholdProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the scroll threshold for loading more data from collections implementing ISupportIncrementalLoading. The value should be in the range between 50 - 100 and defaults to 85 if not provided.
+        /// Identifies the IncrementalLoadingTrigger dependency property
         /// </summary>
-        public double IncrementalThreshold
+        public static readonly DependencyProperty IncrementalLoadingTriggerProperty =
+            DependencyProperty.Register(
+                "IncrementalLoadingTrigger",
+                typeof(IncrementalLoadingTrigger),
+                typeof(DataGrid),
+                new PropertyMetadata(IncrementalLoadingTrigger.Edge));
+
+        /// <summary>
+        /// Gets or sets the IncrementalLoadingTrigger
+        /// </summary>
+        public IncrementalLoadingTrigger IncrementalLoadingTrigger
         {
-            get { return (double)GetValue(IncrementalThresholdProperty); }
-            set { SetValue(IncrementalThresholdProperty, value); }
+            get { return (IncrementalLoadingTrigger)GetValue(IncrementalLoadingTriggerProperty); }
+            set { SetValue(IncrementalLoadingTriggerProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the DataFetchSize dependency property
+        /// </summary>
+        public static readonly DependencyProperty DataFetchSizeProperty =
+            DependencyProperty.Register(
+                "DataFetchSize",
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(3.0));
+
+        /// <summary>
+        /// Gets or sets the DataFetchSize
+        /// </summary>
+        public double DataFetchSize
+        {
+            get { return (double)GetValue(DataFetchSizeProperty); }
+            set { SetValue(DataFetchSizeProperty, value); }
         }
 
         /// <summary>
@@ -1431,14 +1461,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (dataGrid.ItemsSource is ISupportIncrementalLoading incrementalItemsSource)
                 {
                     dataGrid._incrementalItemsSource = incrementalItemsSource;
-                    dataGrid._itemsSourceIsIncremental = true;
-                    dataGrid._canLoadIncrementalData = true;
+                    dataGrid._loadingItems = false;
                 }
                 else
                 {
                     dataGrid._incrementalItemsSource = default(ISupportIncrementalLoading);
-                    dataGrid._itemsSourceIsIncremental = false;
-                    dataGrid._canLoadIncrementalData = false;
+                    dataGrid._loadingItems = false;
                 }
             }
         }
@@ -3652,8 +3680,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 e.Handled = ProcessScrollOffsetDelta(offsetDelta, isForHorizontalScroll);
             }
-
-            LoadMoreDataFromIncrementalItemsSource();
         }
 
         /// <summary>
@@ -6385,6 +6411,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll += new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered += new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited += new PointerEventHandler(VerticalScrollBar_PointerExited);
+                _vScrollBar.ValueChanged += new RangeBaseValueChangedEventHandler(VerticalScrollBar_ValueChanged);
             }
         }
 
@@ -8239,6 +8266,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll -= new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered -= new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited -= new PointerEventHandler(VerticalScrollBar_PointerExited);
+                _vScrollBar.ValueChanged -= new RangeBaseValueChangedEventHandler(VerticalScrollBar_ValueChanged);
             }
         }
 
@@ -9073,6 +9101,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void VerticalScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             ProcessVerticalScroll(e.ScrollEventType);
+        }
+
+        private void VerticalScrollBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
             LoadMoreDataFromIncrementalItemsSource();
         }
     }
