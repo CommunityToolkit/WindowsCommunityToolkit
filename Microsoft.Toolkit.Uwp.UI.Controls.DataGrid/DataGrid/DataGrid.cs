@@ -136,6 +136,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // 2 seconds delay used to hide the scroll bars for example when OS animations are turned off.
         private const int DATAGRID_noScrollBarCountdownMs = 2000;
 
+        // Used to work around double arithmetic rounding.
+        private const double DATAGRID_roundingDelta = 0.0001;
+
         // DataGrid Template Parts
 #if FEATURE_VALIDATION_SUMMARY
         private ValidationSummary _validationSummary;
