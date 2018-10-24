@@ -161,11 +161,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty TabWidthProviderProperty =
             DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new ActualTabWidthProvider()));
 
+        /// <summary>
+        /// Gets the attached property value to indicate if this grid column should be ignored when calculating header sizes.
+        /// </summary>
+        /// <param name="obj">Grid Column.</param>
+        /// <returns>Boolean indicating if this column is ignored by TabViewHeader logic.</returns>
         public static bool GetIgnoreColumn(ColumnDefinition obj)
         {
             return (bool)obj.GetValue(IgnoreColumnProperty);
         }
 
+        /// <summary>
+        /// Sets the attached property value for <see cref="IgnoreColumnProperty"/>
+        /// </summary>
+        /// <param name="obj">Grid Column.</param>
+        /// <param name="value">Boolean value</param>
         public static void SetIgnoreColumn(ColumnDefinition obj, bool value)
         {
             obj.SetValue(IgnoreColumnProperty, value);
@@ -174,15 +184,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="IgnoreColumnProperty"/> attached property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
+        /// <returns>The identifier for the IgnoreColumn attached property.</returns>
         public static readonly DependencyProperty IgnoreColumnProperty =
             DependencyProperty.RegisterAttached("IgnoreColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Gets the attached value indicating this column should be restricted for the <see cref="TabViewItem"/> headers.
+        /// </summary>
+        /// <param name="obj">Grid Column.</param>
+        /// <returns>True if this column should be constrained.</returns>
         public static bool GetConstrainColumn(ColumnDefinition obj)
         {
             return (bool)obj.GetValue(ConstrainColumnProperty);
         }
 
+        /// <summary>
+        /// Sets the attached property value for the <see cref="ConstrainColumnProperty"/>
+        /// </summary>
+        /// <param name="obj">Grid Column.</param>
+        /// <param name="value">Boolean value.</param>
         public static void SetConstrainColumn(ColumnDefinition obj, bool value)
         {
             obj.SetValue(ConstrainColumnProperty, value);
@@ -191,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="ConstrainColumnProperty"/> attached property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
+        /// <returns>The identifier for the ConstrainColumn attached property.</returns>
         public static readonly DependencyProperty ConstrainColumnProperty =
             DependencyProperty.RegisterAttached("ConstrainColumn", typeof(bool), typeof(TabView), new PropertyMetadata(false));
     }
