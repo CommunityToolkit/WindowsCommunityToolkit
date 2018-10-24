@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -45,6 +46,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Update Sizing (in case there are less items now)
             TabView_SizeChanged(this, null);
+        }
+
+        private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
+        {
+            var action = (CollectionChange)e.Action;
+            if (action == CollectionChange.Reset
+                && Items.Count > 0
+                && SelectedItems.Count == 0
+                && ItemsSource != null)
+            {
+                // Need to also set initial selection here for Data Source cases here.
+                SetInitialSelection();
+            }
         }
 
         private void SetInitialSelection()

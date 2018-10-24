@@ -62,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
 
             Loaded += TabView_Loaded;
+            ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
         }
 
         private async void TabView_Loaded(object sender, RoutedEventArgs e)
