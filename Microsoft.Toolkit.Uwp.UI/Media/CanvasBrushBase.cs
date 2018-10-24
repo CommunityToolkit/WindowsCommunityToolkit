@@ -30,6 +30,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected float SurfaceHeight { get; set; }
 
+        private CanvasDevice Device { get; set; }
+
+        private CompositionGraphicsDevice Graphics { get; set; }
+
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
         /// </summary>
@@ -45,14 +49,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected override void OnConnected()
         {
             base.OnConnected();
-            CanvasDevice device = CanvasDevice.GetSharedDevice();
-            CompositionGraphicsDevice graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, device);
+            Device = CanvasDevice.GetSharedDevice();
+            Graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, Device);
 
-            device.DeviceLost -= CanvasDevice_DeviceLost;
-            device.DeviceLost += CanvasDevice_DeviceLost;
+            Device.DeviceLost -= CanvasDevice_DeviceLost;
+            Device.DeviceLost += CanvasDevice_DeviceLost;
 
-            graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
-            graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
+            Graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+            Graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
 
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
@@ -64,12 +68,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 }
 
                 var size = new Vector2(SurfaceWidth, SurfaceHeight);
-                var surface = graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
+                var surface = Graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
 
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
                 {
                     // Call Implementor to draw on session.
-                    if (!OnDraw(device, session, size))
+                    if (!OnDraw(Device, session, size))
                     {
                         return;
                     }
@@ -100,6 +104,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected override void OnDisconnected()
         {
             base.OnDisconnected();
+
+            if (Device != null)
+            {
+                Device.DeviceLost -= CanvasDevice_DeviceLost;
+            }
+
+            if (Graphics != null)
+            {
+                Graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+            }
 
             // Dispose of composition resources when no longer in use.
             if (CompositionBrush != null)
