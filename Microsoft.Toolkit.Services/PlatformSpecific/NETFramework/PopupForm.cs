@@ -44,8 +44,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             if (initialHost != topLevelDomain && topLevelDomain == callbackHost)
             {
                 ActualUrl = uri;
-                webView1.Dispose();
-                webView1.Refresh();
                 this.Close();
             }
         }
