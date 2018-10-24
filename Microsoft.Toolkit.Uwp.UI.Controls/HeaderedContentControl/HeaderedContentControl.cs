@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Orientation),
             typeof(Orientation),
             typeof(HeaderedContentControl),
-            new PropertyMetadata(Orientation.Vertical));
+            new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
 
         /// <summary>
         /// Gets or sets the <see cref="Orientation"/> used for the header.
@@ -85,6 +85,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="newValue">The new value of the <see cref="Header"/> property.</param>
         protected virtual void OnHeaderChanged(object oldValue, object newValue)
         {
+        }
+
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (HeaderedContentControl)d;
+
+            var orientation = control.Orientation == Orientation.Vertical
+                ? nameof(Orientation.Vertical)
+                : nameof(Orientation.Horizontal);
+
+            VisualStateManager.GoToState(control, orientation, true);
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
