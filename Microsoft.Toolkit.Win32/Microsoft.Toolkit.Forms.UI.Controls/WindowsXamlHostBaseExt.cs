@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         internal virtual void InitializeElement()
         {
             XamlElement = UWPTypeFactory.CreateXamlContentByType(initialTypeName);
-            _xamlSource.Content = XamlElement;
+            ChildInternal = XamlElement;
             XamlElement.SetWrapper(this);
         }
 
