@@ -16,7 +16,7 @@
       {
         "Name": "TabView",
         "Type": "TabViewPage",
-        "About": "A TabView control...",
+        "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
         "Icon": "/SamplePages/TabView/TabView.png",
