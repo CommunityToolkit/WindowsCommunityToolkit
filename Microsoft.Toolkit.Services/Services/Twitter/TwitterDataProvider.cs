@@ -267,20 +267,6 @@ namespace Microsoft.Toolkit.Services.Twitter
             LoggedIn = false;
         }
 
-#if WINRT
-        /// <summary>
-        /// Tweets a status update.
-        /// </summary>
-        /// <param name="tweet">Tweet text.</param>
-        /// <param name="pictures">Pictures to attach to the tweet (up to 4).</param>
-        /// <returns>Success or failure.</returns>
-        [Obsolete("This method is deprecated in favour of TweetStatusAsync(string tweet, params Stream[] pictures). It will be removed in future version")]
-        public async Task<bool> TweetStatusAsync(string tweet, params IRandomAccessStream[] pictures)
-        {
-            return await TweetStatusAsync(new TwitterStatus { Message = tweet }, pictures.Select(x => x.AsStream()).ToArray());
-        }
-#endif
-
         /// <summary>
         /// Tweets a status update.
         /// </summary>
@@ -320,19 +306,6 @@ namespace Microsoft.Toolkit.Services.Twitter
 
             return true;
         }
-
-#if WINRT
-        /// <summary>
-        /// Publish a picture to Twitter user's medias.
-        /// </summary>
-        /// <param name="stream">Picture stream.</param>
-        /// <returns>Media ID</returns>
-        [Obsolete("This method is deprecated in favour of UploadPictureAsync(Stream stream). It will be removed in future version")]
-        public Task<string> UploadPictureAsync(IRandomAccessStream stream)
-        {
-            return UploadPictureAsync(stream.AsStream());
-        }
-#endif
 
         /// <summary>
         /// Publish a picture to Twitter user's medias.
