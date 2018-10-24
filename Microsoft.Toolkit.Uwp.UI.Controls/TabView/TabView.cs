@@ -17,22 +17,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// TabView is a control for displaying a set of tabs and their content.
     /// </summary>
-    [TemplatePart(Name = TABCONTENTPRESENTER_NAME, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = TABVIEWCONTAINER_NAME, Type = typeof(Grid))]
-    [TemplatePart(Name = TABITEMSPRESENTER_NAME, Type = typeof(ItemsPresenter))]
-    [TemplatePart(Name = TABSCROLLVIEWER_NAME, Type = typeof(ScrollViewer))]
-    [TemplatePart(Name = TABSCROLLBACKBUTTON_NAME, Type = typeof(ButtonBase))]
-    [TemplatePart(Name = TABSCROLLFORWARDBUTTON_NAME, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = TabContentPresenterName, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = TabViewContainerName, Type = typeof(Grid))]
+    [TemplatePart(Name = TabsItemsPresenterName, Type = typeof(ItemsPresenter))]
+    [TemplatePart(Name = TabsScrollViewerName, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = TabsScrollBackButtonName, Type = typeof(ButtonBase))]
+    [TemplatePart(Name = TabsScrollForwardButtonName, Type = typeof(ButtonBase))]
     public partial class TabView : ListView
     {
         private const int SCROLL_AMOUNT = 50; // TODO: Should this come from TabWidthProvider?
 
-        private const string TABCONTENTPRESENTER_NAME = "TabContentPresenter";
-        private const string TABVIEWCONTAINER_NAME = "TabViewContainer";
-        private const string TABITEMSPRESENTER_NAME = "TabsItemsPresenter";
-        private const string TABSCROLLVIEWER_NAME = "TabsScrollViewer";
-        private const string TABSCROLLBACKBUTTON_NAME = "ScrollBackButton";
-        private const string TABSCROLLFORWARDBUTTON_NAME = "ScrollForwardButton";
+        private const string TabContentPresenterName = "TabContentPresenter";
+        private const string TabViewContainerName = "TabViewContainer";
+        private const string TabsItemsPresenterName = "TabsItemsPresenter";
+        private const string TabsScrollViewerName = "TabsScrollViewer";
+        private const string TabsScrollBackButtonName = "ScrollBackButton";
+        private const string TabsScrollForwardButtonName = "ScrollForwardButton";
 
         private ContentPresenter _tabContentPresenter;
         private Grid _tabViewContainer;
@@ -93,10 +93,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            _tabContentPresenter = GetTemplateChild(TABCONTENTPRESENTER_NAME) as ContentPresenter;
-            _tabViewContainer = GetTemplateChild(TABVIEWCONTAINER_NAME) as Grid;
-            _tabItemsPresenter = GetTemplateChild(TABITEMSPRESENTER_NAME) as ItemsPresenter;
-            _tabScroller = GetTemplateChild(TABSCROLLVIEWER_NAME) as ScrollViewer;
+            _tabContentPresenter = GetTemplateChild(TabContentPresenterName) as ContentPresenter;
+            _tabViewContainer = GetTemplateChild(TabViewContainerName) as Grid;
+            _tabItemsPresenter = GetTemplateChild(TabsItemsPresenterName) as ItemsPresenter;
+            _tabScroller = GetTemplateChild(TabsScrollViewerName) as ScrollViewer;
 
             DragItemsCompleted += TabPresenter_DragItemsCompleted;
             SizeChanged += TabView_SizeChanged;
@@ -124,8 +124,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _tabScroller.Loaded -= ScrollViewer_Loaded;
 
-            _tabScrollBackButton = _tabScroller.FindDescendantByName(TABSCROLLBACKBUTTON_NAME) as ButtonBase;
-            _tabScrollForwardButton = _tabScroller.FindDescendantByName(TABSCROLLFORWARDBUTTON_NAME) as ButtonBase;
+            _tabScrollBackButton = _tabScroller.FindDescendantByName(TabsScrollBackButtonName) as ButtonBase;
+            _tabScrollForwardButton = _tabScroller.FindDescendantByName(TabsScrollForwardButtonName) as ButtonBase;
 
             if (_tabScrollBackButton != null)
             {
