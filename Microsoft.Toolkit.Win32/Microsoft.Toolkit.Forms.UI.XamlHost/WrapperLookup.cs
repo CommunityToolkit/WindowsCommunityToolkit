@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return;
             }
 
-            _controlCollection.Add(control, new WeakReference<WindowsXamlHostBase>(wrapper));
+            _controlCollection[control] = new WeakReference<WindowsXamlHostBase>(wrapper);
         }
 
         public static void ClearWrapper(this UIElement control)

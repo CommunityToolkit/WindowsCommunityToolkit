@@ -19,17 +19,18 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         private const string WinRtType = "Windows.Web.UI.Interop.WebViewControl";
         private readonly IWebViewCompatibleAdapter _implementation;
-        private bool _isWinRtTypePresent;
 
         public WebViewCompatible()
             : base()
         {
-            // REVIEW: Why not use WebView.IsSupported?
-            ApiInformationExtensions.ExecuteIfTypePresent(WinRtType, () => _isWinRtTypePresent = true);
-
-            _implementation = _isWinRtTypePresent
-                ? (IWebViewCompatibleAdapter)new WebViewCompatibilityAdapter()
-                : new WebBrowserCompatibilityAdapter();
+            if (WebViewControlHost.IsSupported)
+            {
+                _implementation = new WebViewCompatibilityAdapter();
+            }
+            else
+            {
+                _implementation = new WebBrowserCompatibilityAdapter();
+            }
 
             _implementation.View.Dock = DockStyle.Fill;
             Controls.Add(_implementation.View);
@@ -45,7 +46,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         public bool CanGoForward => _implementation.CanGoForward;
 
-        public bool IsLegacy => !_isWinRtTypePresent;
+        public bool IsLegacy => !WebViewControlHost.IsSupported;
 
         [Category("Web")]
         [Bindable(true)]
