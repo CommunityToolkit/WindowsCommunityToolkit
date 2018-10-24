@@ -15,45 +15,18 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
     internal class NetFrameworkPasswordManager : IPasswordManager
     {
-        static byte[] Compress(byte[] data)
-        {
-            using (var compressedStream = new MemoryStream())
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Compress))
-            {
-                zipStream.Write(data, 0, data.Length);
-                zipStream.Close();
-                return compressedStream.ToArray();
-            }
-        }
-
-        static byte[] Decompress(byte[] data)
-        {
-            using (var compressedStream = new MemoryStream(data))
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-            using (var resultStream = new MemoryStream())
-            {
-                zipStream.CopyTo(resultStream);
-                return resultStream.ToArray();
-            }
-        }
-
         public void Store(string resource, PasswordCredential credential)
         {
             // Validations.
             byte[] byteArray = Encoding.Unicode.GetBytes(credential.Password);
-            var compressedArray = Compress(byteArray);
-            if (compressedArray.Length > 512)
-            {
-                throw new ArgumentOutOfRangeException("The secret message has exceeded 512 bytes.");
-            }
 
             // Go ahead with what we have are stuff it into the CredMan structures.
             Credential cred = new Credential
             {
                 TargetName = resource,
                 UserName = credential.UserName,
-                CredentialBlob = Encoding.Unicode.GetString(compressedArray),
-                CredentialBlobSize = (uint)compressedArray.Length,
+                CredentialBlob = credential.Password,
+                CredentialBlobSize = (uint)byteArray.Length,
                 AttributeCount = 0,
                 Attributes = IntPtr.Zero,
                 Comment = null,
@@ -87,16 +60,7 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             Credential credential = critCred.GetCredential();
             PasswordCredential passCred = new PasswordCredential();
             passCred.UserName = credential.UserName;
-            try
-            {
-                passCred.Password = Encoding.Unicode.GetString(Decompress(Encoding.Unicode.GetBytes(credential.CredentialBlob)));
-
-            }
-            catch (Exception e)
-            {
-
-                throw;
-            }
+            passCred.Password = credential.CredentialBlob;
 
             return passCred;
         }
