@@ -53,11 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<TabClosingEventArgs> TabClosing;
 
         /// <summary>
-        /// Occurs when a the Add button is clicked (visible when <see cref="IsAddTabButtonVisible"/> is true).
-        /// </summary>
-        public event EventHandler AddTabButtonClick;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="TabView"/> class.
         /// </summary>
         public TabView()
@@ -250,11 +245,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-        }
-
-        private void AddTabButton_Click(object sender, RoutedEventArgs e)
-        {
-            AddTabButtonClick?.Invoke(this, new EventArgs());
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
