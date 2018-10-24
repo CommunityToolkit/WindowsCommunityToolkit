@@ -52,6 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event EventHandler<TabClosingEventArgs> TabClosing;
 
+        private bool hasLoaded;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TabView"/> class.
         /// </summary>
@@ -61,28 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
 
-            Loaded += TabView_Loaded;
             ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
-        }
-
-        private async void TabView_Loaded(object sender, RoutedEventArgs e)
-        {
-            Loaded -= TabView_Loaded;
-
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-            {
-                // Need to set a tab's selection on load, otherwise ListView resets to null.
-                SetInitialSelection();
-
-                // Need to set the contentpresenter's content here for embedded XAML TabViewItems, otherwise never loads, platform issue?
-                if (_tabContentPresenter.Content == null)
-                {
-                    _tabContentPresenter.Content = (ContainerFromItem(SelectedItem) as TabViewItem)?.Content;
-                }
-
-                // Need to 'refresh' the ContentPresenter for ItemsSource Databound scenarios for it to render... :(
-                _tabContentPresenter.UpdateLayout();
-            });
         }
 
         /// <inheritdoc/>
@@ -305,6 +286,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (btn != null)
             {
                 btn.Click += CloseButton_Clicked;
+            }
+
+            // Only need to do this once.
+            if (!hasLoaded)
+            {
+                // Need to set a tab's selection on load, otherwise ListView resets to null.
+                SetInitialSelection();
+
+                // Need to make sure ContentPresenter is set to content based on selection.
+                TabView_SelectionChanged(this, null);
+
+                hasLoaded = true;
             }
         }
 

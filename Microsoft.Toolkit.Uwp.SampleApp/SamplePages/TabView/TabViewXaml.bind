@@ -26,8 +26,8 @@
       </controls:TabView.Header>
       <controls:TabView.TabStartHeader>
         <Button x:Name="AddTabButtonUpper"
-                Width="44"
-                Height="44"
+                Width="48"
+                Height="40"
                 Background="Transparent"
                 Style="{StaticResource ButtonRevealStyle}">
             <Viewbox MaxWidth="16"

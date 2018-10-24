@@ -51,13 +51,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void ItemContainerGenerator_ItemsChanged(object sender, ItemsChangedEventArgs e)
         {
             var action = (CollectionChange)e.Action;
-            if (action == CollectionChange.Reset
-                && Items.Count > 0
-                && SelectedItems.Count == 0
-                && ItemsSource != null)
+            if (action == CollectionChange.Reset)
             {
-                // Need to also set initial selection here for Data Source cases here.
-                SetInitialSelection();
+                // Reset collection to reload later.
+                hasLoaded = false;
             }
         }
 
