@@ -163,7 +163,7 @@
         <Setter Property="CanDragItems" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="CanCloseTabs" Value="True" />
-        <Setter Property="IsCloseButtonCollapsed" Value="True" />
+        <Setter Property="IsCloseButtonOverlay" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
     </Style>
 
@@ -306,7 +306,7 @@
                     <!--  Use grid to toggle visibility based on IsClosable property and inner border for hover animations.  -->
                     <Border x:Name="CloseButtonContainer"
                             Grid.Column="2"
-                            Width="{Binding (ex:FrameworkElementExtensions.Ancestor).IsCloseButtonCollapsed, Converter={StaticResource CloseCollapsingSizeConverter}, ElementName=LayoutRoot}"
+                            Width="{Binding (ex:FrameworkElementExtensions.Ancestor).IsCloseButtonOverlay, Converter={StaticResource CloseCollapsingSizeConverter}, ElementName=LayoutRoot}"
                             HorizontalAlignment="Right"
                             Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                         <Border x:Name="CloseButtonBorder"

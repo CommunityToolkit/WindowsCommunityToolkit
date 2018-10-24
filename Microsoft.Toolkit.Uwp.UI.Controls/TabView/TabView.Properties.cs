@@ -164,18 +164,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether a <see cref="TabViewItem"/> Close Button should be included in layout calculations.
         /// </summary>
-        public bool IsCloseButtonCollapsed
+        public bool IsCloseButtonOverlay
         {
             get { return (bool)GetValue(IsCloseButtonCollapsedProperty); }
             set { SetValue(IsCloseButtonCollapsedProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="IsCloseButtonCollapsed"/> dependency property.
+        /// Identifies the <see cref="IsCloseButtonOverlay"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="IsCloseButtonCollapsed"/> dependency property.</returns>
+        /// <returns>The identifier for the <see cref="IsCloseButtonOverlay"/> dependency property.</returns>
         public static readonly DependencyProperty IsCloseButtonCollapsedProperty =
-            DependencyProperty.Register(nameof(IsCloseButtonCollapsed), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsCloseButtonOverlay), typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
         /// <summary>
         /// Gets the attached property value to indicate if this grid column should be ignored when calculating header sizes.
