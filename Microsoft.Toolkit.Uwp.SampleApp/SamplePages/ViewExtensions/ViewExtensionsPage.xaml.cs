@@ -6,21 +6,24 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// Sample page demonstrating view extensions
     /// </summary>
-    public sealed partial class ViewExtensionsPage : Page, ISampleNavigation
+    public sealed partial class ViewExtensionsPage : Page
     {
         public ViewExtensionsPage()
         {
             InitializeComponent();
         }
 
-        public void NavigatingAway()
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            base.OnNavigatedFrom(e);
+
             // Reset app back to normal.
             StatusBarExtensions.SetIsVisible(this, false);
 
