@@ -37,5 +37,14 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
         [ResourceExposure(ResourceScope.None)]
         internal static extern IntPtr SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, int flags);
+
+        /// <summary>
+        /// Retrieves the dpi value of a window.
+        /// </summary>
+        /// <param name="hWnd">Handle to target window</param>
+        /// <returns>The dpi value or 0 for an invalid window.</returns>
+        [DllImport(ExternDll.User32, ExactSpelling = true, CharSet = CharSet.Auto)]
+        [ResourceExposure(ResourceScope.None)]
+        public static extern uint GetDpiForWindow(IntPtr hWnd);
     }
 }

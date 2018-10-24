@@ -114,6 +114,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
                     break;
 
+                case NativeDefines.WM_DPICHANGED_AFTERPARENT:
+                    if (_xamlIslandWindowHandle != null)
+                    {
+                        UpdateDpiScalingFactor();
+                        PerformLayout();
+                    }
+
+                    break;
+
                 default:
                     base.WndProc(ref m);
                     break;
