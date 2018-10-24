@@ -110,6 +110,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             var result = new YamlHeaderBlock();
             var keys = new List<string>();
             var values = new List<string>();
+            result.Children = new Dictionary<string, string>();
             foreach (var item in elements)
             {
                 string[] splits = item.Split(new string[] { ": " }, StringSplitOptions.None);
@@ -126,6 +127,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         continue;
                     }
 
+                    value = string.IsNullOrEmpty(value.Trim()) ? string.Empty : value;
                     result.Children.Add(key, value);
                 }
             }
