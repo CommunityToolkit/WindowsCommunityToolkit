@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Windows.UI.Xaml.UIElement Child
         {
-            get => _xamlSource.Content;
+            get => (_xamlSource.Content as DpiScalingPanel).Child;
 
             set => ChildInternal = value;
         }
