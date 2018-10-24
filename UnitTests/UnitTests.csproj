@@ -164,7 +164,6 @@
     <Compile Include="Markdown\TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
-    <Compile Include="Services\Test_BingService.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />
@@ -214,10 +213,6 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj">
       <Project>{b1e850ff-dde6-44d5-a830-34250e97a687}</Project>
       <Name>Microsoft.Toolkit.Uwp.Connectivity</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Services\Microsoft.Toolkit.Uwp.Services.csproj">
-      <Project>{7189a42d-6f1a-4fa3-8e00-e2c14fdf167a}</Project>
-      <Name>Microsoft.Toolkit.Uwp.Services</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
