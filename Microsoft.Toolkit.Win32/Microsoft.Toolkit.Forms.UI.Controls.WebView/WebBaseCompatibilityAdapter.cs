@@ -43,6 +43,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         public abstract void Navigate(string url);
 
+        public abstract void NavigateToString(string text);
+
         public abstract void Refresh();
 
         public abstract void Stop();

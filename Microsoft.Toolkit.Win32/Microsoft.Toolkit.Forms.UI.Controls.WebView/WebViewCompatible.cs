@@ -66,6 +66,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         public void Navigate(string url) => _implementation.Navigate(url);
 
+        public void NavigateToString(string text) => _implementation.NavigateToString(text);
+
         public override void Refresh() => _implementation.Refresh();
 
         public void Stop() => _implementation.Stop();

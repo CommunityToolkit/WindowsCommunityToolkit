@@ -62,6 +62,14 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             _browser.Navigate(url);
         }
 
+        public override void NavigateToString(string text)
+        {
+            _browser.DocumentText = string.Empty;
+            _browser.Document?.OpenNew(false);
+            _browser.Document?.Write(text);
+            _browser.Refresh();
+        }
+
         public override void Refresh()
         {
             _browser.Refresh();
@@ -69,6 +77,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         public override void Stop()
         {
+            _browser.Stop();
         }
 
         protected override void Initialize()

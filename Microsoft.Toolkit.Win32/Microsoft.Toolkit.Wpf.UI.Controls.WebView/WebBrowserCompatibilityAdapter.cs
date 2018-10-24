@@ -103,6 +103,11 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             _browser?.Navigate(url);
         }
 
+        public override void NavigateToString(string text)
+        {
+            _browser?.NavigateToString(text);
+        }
+
         public override void Refresh()
         {
             _browser?.Refresh();
