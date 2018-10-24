@@ -50,17 +50,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/UniformGrid.md"
       },
       {
-        "Name": "HamburgerMenu",
-        "Type": "HamburgerMenuPage",
-        "About": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HamburgerMenu",
-        "XamlCodeFile": "HamburgerMenuCode.bind",
-        "Icon": "/SamplePages/HamburgerMenu/HamburgerMenu.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The HamburgerMenu is deprecated and will be removed in a future major release. Please use the NavigationView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/HamburgerMenu.md"
-      },
-      {
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
@@ -124,29 +113,6 @@
         "XamlCodeFile": "RadialProgressBarCode.bind",
         "Icon": "/SamplePages/RadialProgressBar/RadialProgressBar.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/RadialProgressBar.md"
-      },
-      {
-        "Name": "SlidableListItem",
-        "Type": "SlidableListItemPage",
-        "About": "The SlidableListItem is deprecated and will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem",
-        "XamlCodeFile": "SlidableListItemCode.bind",
-        "Icon": "/SamplePages/SlidableListItem/SlidableListItem.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The SlidableListItem is deprecated and will be removed in a future major release. Please use the SwipeControl available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/SlidableListItem.md"
-      },
-      {
-        "Name": "PullToRefreshListView",
-        "Type": "PullToRefreshListViewPage",
-        "About": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/PullToRefreshListView",
-        "CodeFile": "PullToRefreshListViewCode.bind",
-        "XamlCodeFile": "PullToRefreshListViewXaml.bind",
-        "Icon": "/SamplePages/PullToRefreshListView/PullToRefreshListView.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The PullToRefreshListView will be removed in a future major release. Please use the RefreshContainer control available in the 1803 version of Windows.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/PullToRefreshListview.md"
       },
       {
         "Name": "RotatorTile",
@@ -397,12 +363,13 @@
       {
         "Name": "Light",
         "Type": "LightBehaviorPage",
-        "About": "Light XAML elements using composition",
+        "About": "The Light effect will be removed in a future major release",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The Light effect will be removed in a future major release",
         "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "LightBehaviorCode.bind",
         "XamlCodeFile": "LightBehaviorXaml.bind",
         "Icon": "/SamplePages/Light/LightBehavior.png",
-        "BadgeUpdateVersionRequired": "Anniversary Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/Light.md"
       },
       {
@@ -414,17 +381,6 @@
         "XamlCodeFile": "FadeHeaderBehaviorXaml.bind",
         "Icon": "/SamplePages/FadeHeader/FadeHeaderBehavior.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/FadeHeader.md"
-      },
-      {
-        "Name": "ParallaxService",
-        "Type": "ParallaxPage",
-        "About": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
-        "XamlCodeFile": "ParallaxPage.bind",
-        "Icon": "/SamplePages/ParallaxService/Parallax.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The ParallaxService is deprecated and will be removed in a future major release. Please use the ParallaxView available in the Fall Creators Update.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ParallaxService.md"
       },
       {
         "Name": "ReorderGridAnimation",
@@ -456,6 +412,53 @@
         "Icon": "/SamplePages/Connected Animations/ConnectedAnimations.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/animations/ConnectedAnimations.md"
+      }
+    ]
+  },
+  {
+    "Name": "Win32 Controls",
+    "Samples": [
+      {
+        "Name": "WindowsXamlHost",
+        "About": "This guide helps you add UWP XAML controls to your WPF",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/WindowsXamlHost.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+      },
+      {
+        "Name": "WebView",
+        "About": "The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/WebView.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+      },
+      {
+        "Name": "WebViewCompatible",
+        "About": "The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content in one of two ways. For client environments that support the WebViewControl (Windows 10), that implementation is used. For legacy systems, System.Windows.Controls.WebBrowser implements the view",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/WebViewCompatible.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+      },
+      {
+        "Name": "InkCanvas",
+        "About": "This control is a wrapper to enable use of the UWP InkCanvas control in Windows Forms or WPF",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/InkCanvas.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+      },
+      {
+        "Name": "InkToolbar",
+        "About": "This control is a wrapper to enable use of the UWP InkToolbar control in Windows Forms or WPF",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/InkToolbar.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+      },
+      {
+        "Name": "MediaPlayerElement",
+        "About": "This control is a wrapper to enable use of the UWP MediaPlayerElement control in Windows Forms or WPF",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/wpf-winforms/MediaPlayerElement.md",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
       }
     ]
   },
@@ -525,17 +528,6 @@
     "Icon": "Icons/Services.png",
     "Samples": [
       {
-        "Name": "Bing Service",
-        "Type": "BingPage",
-        "About": "The Bing Service will be removed in a future major release. Please use the Cognitive services SDKs found at https://aka.ms/AA209h0.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Bing",
-        "CodeFile": "BingCode.bind",
-        "Icon": "/SamplePages/Bing Service/icon.png",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The Bing Service will be removed in a future major release. Please use the Cognitive Services SDKs found at https://aka.ms/AA209h0.",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Bing.md"
-      },
-      {
         "Name": "Facebook Service",
         "Type": "FacebookPage",
         "About": "The Facebook Service allows you to retrieve or publish data to Facebook graph.",
@@ -552,6 +544,15 @@
         "CodeFile": "TwitterCode.bind",
         "Icon": "/SamplePages/Twitter Service/TwitterLogo.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Twitter.md"
+      },
+      {
+        "Name": "Weibo Service",
+        "Type": "WeiboPage",
+        "About": "The Weibo Service allows you to retrieve or publish data to Weibo.",
+        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Weibo",
+        "CodeFile": "WeiboCode.bind",
+        "Icon": "/SamplePages/Weibo Service/WeiboLogo.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/services/Weibo.md"
       },
       {
         "Name": "Microsoft Graph Service",
@@ -913,18 +914,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/StringExtensions.md"
       },
       {
-        "Name": "NavigationViewStyles",
-        "Type": "NavigationViewStylesPage",
-        "XamlCodeFile": "NavigationViewStylesXaml.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/extensions/NavigationView.md",
-        "Icon": "/SamplePages/NavigationViewStyles/NavigationViewStyles.png",
-        "About": "The NavigationView extension will be removed in a future major release.",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "The NavigationView extension will be removed in a future major release.",
-        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunitToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Extensions/NavigationView"
-      },
-      {
         "Name": "ScrollViewerExtensions",
         "Type": "ScrollViewerExtensionsPage",
         "About": "Extensions for all controls that contain a ScrollViewer like ListView.",
@@ -976,6 +965,13 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/developer-tools/FocusTracker.md"
+      },
+      {
+        "Name": "PlatformSpecificAnalyzer",
+        "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
       }
     ]
   },

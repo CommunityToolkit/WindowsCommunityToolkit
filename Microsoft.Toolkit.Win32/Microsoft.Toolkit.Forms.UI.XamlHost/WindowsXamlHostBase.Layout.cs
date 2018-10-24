@@ -4,6 +4,7 @@
 
 using System;
 using System.Drawing;
+using Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return Size;
             }
 
-            if (_xamlSource.Content != null)
+            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
@@ -45,12 +46,33 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             }
 
             var preferredSize = Size.Empty;
-            if (_xamlSource.Content != null)
+            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
             {
                 preferredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
             }
 
             return preferredSize;
+        }
+
+        /// <summary>
+        ///     Sets a scaling factor based on the current dpi value on the scaling panel
+        /// </summary>
+        protected void UpdateDpiScalingFactor()
+        {
+            DpiScalingPanel panel = _xamlSource.Content as DpiScalingPanel;
+            double dpi = 96.0f;
+            if (_xamlIslandWindowHandle != IntPtr.Zero)
+            {
+                uint windowDpi = SafeNativeMethods.GetDpiForWindow(_xamlIslandWindowHandle);
+                if (windowDpi > 0)
+                {
+                    dpi = windowDpi;
+                }
+            }
+
+            double newScalingFactor = _dpiScalingRenderTransformEnabled ? (dpi / 96.0f) : 1.0f;
+
+            panel.SetScalingFactor(newScalingFactor);
         }
 
         /// <summary>
@@ -119,7 +141,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (AutoSize)
             {
-                if (_xamlSource.Content != null)
+                if ((_xamlSource.Content as DpiScalingPanel).Child != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
