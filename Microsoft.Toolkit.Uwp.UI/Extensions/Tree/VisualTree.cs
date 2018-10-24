@@ -156,5 +156,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             return parent.FindAscendant<T>();
         }
+
+        /// <summary>
+        /// Find all visual ascendants for the element.
+        /// </summary>
+        /// <param name="element">Child element.</param>
+        /// <returns>A collection of parent elements or null if none found.</returns>
+        public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
+        {
+            var parent = VisualTreeHelper.GetParent(element);
+
+            while (parent != null)
+            {
+                yield return parent;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+        }
     }
 }

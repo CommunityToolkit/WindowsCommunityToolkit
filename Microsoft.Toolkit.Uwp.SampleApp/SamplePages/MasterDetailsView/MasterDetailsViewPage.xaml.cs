@@ -4,18 +4,16 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener, ISampleNavigation
+    public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener
     {
         private double _previousWidth = Window.Current.Bounds.Width;
 
@@ -54,36 +52,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             };
 
             InitializeComponent();
-            Load();
-        }
-
-        public void NavigatingAway()
-        {
-            Window.Current.SizeChanged -= Current_SizeChanged;
-        }
-
-        private void Load()
-        {
-            Window.Current.SizeChanged += Current_SizeChanged;
-        }
-
-        // workaround for loaded unloaded getting called in wrong order when shell template gets swapped
-        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
-        {
-            if ((e.Size.Width < 700 && _previousWidth >= 700) ||
-                   (e.Size.Width >= 700 && _previousWidth < 700))
-            {
-                _previousWidth = e.Size.Width;
-                var t = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, async () =>
-                {
-                    await Task.Delay(500);
-                    await SampleController.Current.RefreshXamlRenderAsync();
-                });
-            }
-            else
-            {
-                _previousWidth = e.Size.Width;
-            }
         }
 
         public ICollection<Email> Emails { get; set; }
