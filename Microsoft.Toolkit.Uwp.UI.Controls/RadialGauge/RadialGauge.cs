@@ -179,9 +179,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
 
+        private double _oldValue = double.NaN;
+        private double _oldValueAngle = double.NaN;
+
         private Compositor _compositor;
         private ContainerVisual _root;
         private SpriteVisual _needle;
+
+        /// <summary>
+        /// Event that fires when Value changes
+        /// </summary>
+        public event EventHandler<GaugeValueChangedEventArgs> ValueChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialGauge"/> class.
@@ -197,6 +205,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var step = 1;
+            var value = Value;
+
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
@@ -205,16 +215,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (e.Key == VirtualKey.Left)
             {
-                Value = Math.Max(Minimum, Value - step);
+                value = Math.Max(Minimum, value - step);
                 e.Handled = true;
                 return;
             }
 
             if (e.Key == VirtualKey.Right)
             {
-                Value = Math.Min(Maximum, Value + step);
+                value = Math.Min(Maximum, value + step);
                 e.Handled = true;
             }
+
+            Value = value;
         }
 
         /// <summary>
@@ -457,16 +469,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnValueChanged(DependencyObject d)
         {
             RadialGauge radialGauge = (RadialGauge)d;
-            if (!double.IsNaN(radialGauge.Value))
+            var value = radialGauge.Value;
+
+            if (!double.IsNaN(value))
             {
                 if (radialGauge.StepSize != 0)
                 {
-                    radialGauge.Value = radialGauge.RoundToMultiple(radialGauge.Value, radialGauge.StepSize);
+                    value = radialGauge.RoundToMultiple(value, radialGauge.StepSize);
                 }
 
                 var middleOfScale = 100 - radialGauge.ScalePadding - (radialGauge.ScaleWidth / 2);
                 var valueText = radialGauge.GetTemplateChild(ValueTextPartName) as TextBlock;
-                radialGauge.ValueAngle = radialGauge.ValueToAngle(radialGauge.Value);
+                radialGauge.ValueAngle = radialGauge.ValueToAngle(value);
 
                 // Needle
                 if (radialGauge._needle != null)
@@ -518,6 +532,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (valueText != null)
                 {
                     valueText.Text = radialGauge.Value.ToString(radialGauge.ValueStringFormat);
+                }
+
+                // set this once to avoid strange behavior if reading the control's value
+                radialGauge.Value = value;
+
+                if (radialGauge._oldValue != radialGauge.Value)
+                {
+                    radialGauge.ValueChanged?.Invoke(
+                        radialGauge,
+                        new GaugeValueChangedEventArgs(
+                                   radialGauge._oldValue,
+                                   radialGauge.Value,
+                                   radialGauge._oldValueAngle,
+                                   radialGauge.ValueAngle));
+
+                    radialGauge._oldValue = radialGauge.Value;
+                    radialGauge._oldValueAngle = radialGauge.ValueAngle;
                 }
             }
         }

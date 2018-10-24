@@ -20,6 +20,36 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Update="HamburgerMenu\HamburgerMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="HamburgerMenu\HamburgerMenuNavViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="HamburgerMenu\HamburgerMenuTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ImageEx\RoundImageEx.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="PullToRefreshListView\PullToRefreshListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="PullToRefreshListView\PullToRefreshListViewRefreshContainerTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="PullToRefreshListView\PullToRefreshListViewTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="SlidableListItem\SlidableListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="SlidableListItem\SlidableListItemSwipeControlTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
