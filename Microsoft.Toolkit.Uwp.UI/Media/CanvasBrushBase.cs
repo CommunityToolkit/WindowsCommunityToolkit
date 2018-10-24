@@ -30,8 +30,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected float SurfaceHeight { get; set; }
 
+        /// <summary>
+        /// Gets or sets the shared device
+        /// </summary>
         private CanvasDevice Device { get; set; }
 
+        /// <summary>
+        /// Gets or sets the composition graphics device
+        /// </summary>
         private CompositionGraphicsDevice Graphics { get; set; }
 
         /// <summary>
