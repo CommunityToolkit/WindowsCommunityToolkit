@@ -3,12 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.IO;
-using System.IO.Compression;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Toolkit.Services.Core;
-using Microsoft.Win32.SafeHandles;
 using static Microsoft.Toolkit.Services.PlatformSpecific.NetFramework.PasswordManagerNativeMethods;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
