@@ -5,7 +5,6 @@
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.InkToolbar" />
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MapControl" />
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MediaPlayerElement" />
-      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.SwapChainPanel" />
     </ToolboxItems>
   </File>
 </FileList>

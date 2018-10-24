@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// <summary>
     /// Forms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.SwapChainPanel"/>
     /// </summary>
-    public class SwapChainPanel : WindowsXamlHostBase
+    internal class SwapChainPanel : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.SwapChainPanel UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.SwapChainPanel;
 
