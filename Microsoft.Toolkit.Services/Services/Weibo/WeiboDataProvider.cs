@@ -21,6 +21,10 @@ using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 using Windows.Storage.Streams;
 #endif
 
+#if NET462
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.Weibo
 {
     /// <summary>
@@ -66,10 +70,25 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <param name="storageManager">Platform storage provider</param>
         public WeiboDataProvider(WeiboOAuthTokens tokens, IAuthenticationBroker authenticationBroker, IPasswordManager passwordManager, IStorageManager storageManager)
         {
+            if (string.IsNullOrEmpty(tokens.AppSecret))
+            {
+                throw new ArgumentException("Missing app secret");
+            }
+
+            if (string.IsNullOrEmpty(tokens.AppKey))
+            {
+                throw new ArgumentException("Missing app key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.RedirectUri))
+            {
+                throw new ArgumentException("Missing redirect uri");
+            }
+
             _tokens = tokens;
-            _authenticationBroker = authenticationBroker;
-            _passwordManager = passwordManager;
-            _storageManager = storageManager;
+            _authenticationBroker = authenticationBroker ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _passwordManager = passwordManager ?? throw new ArgumentException("Invalid PasswordManager");
+            _storageManager = storageManager ?? throw new ArgumentException("Invalid StorageManager");
             if (_client == null)
             {
                 HttpClientHandler handler = new HttpClientHandler { AutomaticDecompression = DecompressionMethods.GZip };
@@ -89,6 +108,18 @@ namespace Microsoft.Toolkit.Services.Weibo
         }
 #endif
 
+#if NET462
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WeiboDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        public WeiboDataProvider(WeiboOAuthTokens tokens)
+            : this(tokens, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager())
+        {
+        }
+#endif
+
         /// <summary>
         /// Log user in to Weibo.
         /// </summary>
@@ -96,7 +127,7 @@ namespace Microsoft.Toolkit.Services.Weibo
         public async Task<bool> LoginAsync()
         {
             var credentials = _passwordManager.Get(PasswordKey);
-            var uidString = _storageManager.Get(StorageKey);
+            string uidString = await _storageManager.GetAsync(StorageKey);
             if (long.TryParse(uidString, out var uid) && credentials != null)
             {
                 _tokens.AccessToken = credentials.Password;
@@ -135,16 +166,29 @@ namespace Microsoft.Toolkit.Services.Weibo
         /// <summary>
         /// Log user out of Weibo.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
         public void Logout()
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            LogoutAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        /// <summary>
+        /// Log user out of Weibo.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task LogoutAsync()
+        {
             var credential = _passwordManager.Get(PasswordKey);
+
             if (credential != null)
             {
                 _passwordManager.Remove(PasswordKey);
-                _storageManager.Set(StorageKey, null);
-                Uid = null;
+               await _storageManager.SetAsync(StorageKey, null);
             }
 
+            Uid = null;
             LoggedIn = false;
         }
 
@@ -205,7 +249,7 @@ namespace Microsoft.Toolkit.Services.Weibo
             _tokens.AccessToken = accessToken;
 
             _passwordManager.Store(PasswordKey, new PasswordCredential { UserName = "AccessToken", Password = accessToken });
-            _storageManager.Set(StorageKey, uid.ToString());
+            await _storageManager.SetAsync(StorageKey, uid.ToString());
 
             return true;
         }
