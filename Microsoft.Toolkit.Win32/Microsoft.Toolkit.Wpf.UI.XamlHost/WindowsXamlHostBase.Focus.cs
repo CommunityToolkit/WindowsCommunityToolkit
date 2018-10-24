@@ -111,13 +111,20 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
 
             if (sibling1 != null)
             {
-                var transform = sibling1.TransformToVisual(sibling2);
-                var systemWindowsRect = transform.TransformBounds(
-                    new Rect(0, 0, sibling1.ActualWidth, sibling1.ActualHeight));
-                origin.X = systemWindowsRect.X;
-                origin.Y = systemWindowsRect.Y;
-                origin.Width = systemWindowsRect.Width;
-                origin.Height = systemWindowsRect.Height;
+                // TransformToVisual can throw an exception if two elements don't have a common ancestor
+                try
+                {
+                    var transform = sibling1.TransformToVisual(sibling2);
+                    var systemWindowsRect = transform.TransformBounds(
+                        new Rect(0, 0, sibling1.ActualWidth, sibling1.ActualHeight));
+                    origin.X = systemWindowsRect.X;
+                    origin.Y = systemWindowsRect.Y;
+                    origin.Width = systemWindowsRect.Width;
+                    origin.Height = systemWindowsRect.Height;
+                }
+                catch (System.InvalidOperationException)
+                {
+                }
             }
 
             return origin;

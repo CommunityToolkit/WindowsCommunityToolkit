@@ -34,6 +34,15 @@ namespace Microsoft.Toolkit.Sample.Wpf.App
             // Handle ink toolbar active tool changed events here.
         }
 
+        private async void myMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Specify a known location.
+            BasicGeoposition cityPosition = new BasicGeoposition() { Latitude = 47.604, Longitude = -122.329 };
+            var cityCenter = new Geopoint(cityPosition);
+
+            // Set the map location.
+            await myMap.TrySetViewAsync(cityCenter, 12);
+        }
     }
 
 }

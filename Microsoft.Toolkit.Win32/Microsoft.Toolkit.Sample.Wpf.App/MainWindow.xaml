@@ -44,6 +44,10 @@
                 <!--WebBrowser Source="http://www.bing.com"/-->
 
             </TabItem>
+            <TabItem>
+                <TabItem.Header>MapControl</TabItem.Header>
+                <controls:MapControl x:Name="myMap" Loaded="myMap_Loaded"/>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>
