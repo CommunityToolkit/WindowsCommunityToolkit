@@ -39,7 +39,7 @@
       </controls:TabView.TabStartHeader>      
     
       <!-- Tabs -->
-      <controls:TabViewItem Header="Home" HeaderIcon="Home">
+      <controls:TabViewItem Header="Home" Icon="Home">
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Ignored">
@@ -48,7 +48,7 @@
         </controls:TabViewItem.HeaderTemplate>
         <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Tab 3" HeaderIcon="Video"
+      <controls:TabViewItem Header="Tab 3" Icon="Video"
                             IsClosable="{ex:NullableBool Value=True}">
         <TextBlock Padding="16">Try closing and re-ordering the tabs in the 2nd sample below.</TextBlock>
       </controls:TabViewItem>

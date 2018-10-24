@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tabs.Items.Add(new TabViewItem()
             {
                 Header = "Untitled " + _counter++,
-                HeaderIcon = new SymbolIcon(Symbol.Document),
+                Icon = new SymbolIcon(Symbol.Document),
                 Content = "This is a new tab."
             });
         }

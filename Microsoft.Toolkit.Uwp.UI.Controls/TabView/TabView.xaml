@@ -289,9 +289,9 @@
                              Width="{ThemeResource TabViewItemHeaderIconSize}"
                              Height="{ThemeResource TabViewItemHeaderIconSize}"
                              Margin="{ThemeResource TabViewItemHeaderIconMargin}"
-                             Visibility="{Binding HeaderIcon, Converter={StaticResource NullVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                             Visibility="{Binding Icon, Converter={StaticResource NullVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                         <ContentPresenter x:Name="Icon"
-                                          Content="{TemplateBinding HeaderIcon}"
+                                          Content="{TemplateBinding Icon}"
                                           Foreground="{TemplateBinding Foreground}" />
                     </Viewbox>
                     <ContentPresenter x:Name="ContentPresenter"

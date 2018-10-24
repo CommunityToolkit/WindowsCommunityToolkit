@@ -31,18 +31,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the icon to appear in the tab header.
         /// </summary>
-        public IconElement HeaderIcon
+        public IconElement Icon
         {
-            get { return (IconElement)GetValue(HeaderIconProperty); }
-            set { SetValue(HeaderIconProperty, value); }
+            get { return (IconElement)GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="HeaderIcon"/> dependency property.
+        /// Identifies the <see cref="Icon"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="HeaderIcon"/> dependency property.</returns>
-        public static readonly DependencyProperty HeaderIconProperty =
-            DependencyProperty.Register(nameof(HeaderIcon), typeof(IconElement), typeof(TabViewItem), new PropertyMetadata(null));
+        /// <returns>The identifier for the <see cref="Icon"/> dependency property.</returns>
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register(nameof(Icon), typeof(IconElement), typeof(TabViewItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets the template to override for the tab header.
