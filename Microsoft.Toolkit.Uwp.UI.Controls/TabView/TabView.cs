@@ -98,7 +98,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabItemsPresenter = GetTemplateChild(TABITEMSPRESENTER_NAME) as ItemsPresenter;
             _tabScroller = GetTemplateChild(TABSCROLLVIEWER_NAME) as ScrollViewer;
 
-            DragLeave += TabPresenter_DragLeave;
             DragItemsCompleted += TabPresenter_DragItemsCompleted;
             SizeChanged += TabView_SizeChanged;
 
@@ -328,13 +327,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TabPresenter_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
         {
-            // args.DropResult == None when outside of area (i.e. create new window), otherwise move
-            // how behave across windows?
-            ////Debug.WriteLine("[TabView][DragItemsCompleted] " + (args.Items.FirstOrDefault() as TabViewItem)?.Content?.ToString());
-
+            // args.DropResult == None when outside of area (e.g. create new window)
             if (args.DropResult == DataPackageOperation.None)
             {
-                TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(args.Items.FirstOrDefault()));
+                var item = args.Items.FirstOrDefault();
+                TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(item, ContainerFromItem(item) as TabViewItem));
             }
             else
             {
@@ -353,11 +350,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 });
                 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
-        }
-
-        private void TabPresenter_DragLeave(object sender, DragEventArgs e)
-        {
-            ////Debug.WriteLine("[TabView][DragLeave] " + e.ToString());
         }
     }
 }

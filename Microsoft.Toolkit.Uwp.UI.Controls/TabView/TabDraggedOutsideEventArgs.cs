@@ -14,15 +14,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Initializes a new instance of the <see cref="TabDraggedOutsideEventArgs"/> class.
         /// </summary>
-        /// <param name="item">data context of element clicked</param>
-        public TabDraggedOutsideEventArgs(object item)
+        /// <param name="item">data context of element dragged</param>
+        /// <param name="tab"><see cref="TabViewItem"/> container being dragged.</param>
+        public TabDraggedOutsideEventArgs(object item, TabViewItem tab)
         {
             Item = item;
+            Tab = tab;
         }
 
         /// <summary>
-        /// Gets or sets the Item/Data Context of the clicked item
+        /// Gets or sets the Item/Data Context of the item being dragged outside of the <see cref="TabView"/>.
         /// </summary>
         public object Item { get; set; }
+
+        /// <summary>
+        /// Gets the Tab being dragged outside of the <see cref="TabView"/>.
+        /// </summary>
+        public TabViewItem Tab { get; private set; }
     }
 }

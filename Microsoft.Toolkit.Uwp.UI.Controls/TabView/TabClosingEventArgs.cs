@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Initializes a new instance of the <see cref="TabClosingEventArgs"/> class.
         /// </summary>
         /// <param name="item">Item being closed.</param>
-        /// <param name="tab">TabViewItem container being closed.</param>
+        /// <param name="tab"><see cref="TabViewItem"/> container being closed.</param>
         public TabClosingEventArgs(object item, TabViewItem tab)
         {
             Item = item;
