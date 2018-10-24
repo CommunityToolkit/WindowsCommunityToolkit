@@ -84,7 +84,6 @@
                       ItemsSource="{Binding TabItemCollection}"
                       Style="{StaticResource TabViewDocumentStyle}">
       <controls:TabView.Resources>
-        <!--  Known ListView Overrides  -->
         <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
       </controls:TabView.Resources>
       <controls:TabView.ItemHeaderTemplate>

@@ -162,6 +162,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new ActualTabWidthProvider()));
 
         /// <summary>
+        /// Gets or sets a value indicating whether a <see cref="TabViewItem"/> Close Button should be included in layout calculations.
+        /// </summary>
+        public bool IsCloseButtonCollapsed
+        {
+            get { return (bool)GetValue(IsCloseButtonCollapsedProperty); }
+            set { SetValue(IsCloseButtonCollapsedProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IsCloseButtonCollapsed"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="IsCloseButtonCollapsed"/> dependency property.</returns>
+        public static readonly DependencyProperty IsCloseButtonCollapsedProperty =
+            DependencyProperty.Register(nameof(IsCloseButtonCollapsed), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+
+        /// <summary>
         /// Gets the attached property value to indicate if this grid column should be ignored when calculating header sizes.
         /// </summary>
         /// <param name="obj">Grid Column.</param>

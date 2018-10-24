@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -18,22 +19,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         public int MinimumWidth => 0;
 
-        /// <summary>
-        /// Gets or sets the amount of space to leave for the close button of the selected tab.
-        /// </summary>
-        public int TabCloseMargin { get; set; } = 36;
-
         /// <inheritdoc/>
         public IEnumerable<double> ProvideWidth(IEnumerable<TabViewItem> tabs, object items, double availableWidth, TabView parent)
         {
             double minwidth = 0;
-            if (parent.Resources != null && parent.Resources.TryGetValue("ListViewItemMinWidth", out object value) && value is double dbl)
+            if (parent.Resources != null && parent.Resources.TryGetValue("TabViewItemHeaderMinWidth", out object value) && value is double dbl)
             {
                 minwidth = dbl;
             }
 
             foreach (var tab in tabs)
             {
+                var tabclosesize = tab.FindDescendantByName("CloseButtonContainer")?.Width;
+
                 var size = GetInitialActualWidth(tab);
 
                 if (size <= double.Epsilon && tab.ActualWidth > minwidth)
@@ -43,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 // If it's selected leave extra room for close button and add right-margin.
-                yield return (tab.IsSelected && tab.IsClosable == true ? TabCloseMargin : 0) + size;
+                yield return (tab.IsClosable == true ? (tabclosesize.HasValue ? tabclosesize.Value : 0) : 0) + size;
             }
         }
 

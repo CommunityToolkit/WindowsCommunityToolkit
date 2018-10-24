@@ -94,15 +94,20 @@
     <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
     <x:Double x:Key="TabViewItemHeaderMinWidth">48</x:Double>
     <x:Double x:Key="TabViewItemHeaderMinHeight">40</x:Double>
+    <x:Double x:Key="TabViewItemHeaderCloseWidth">32</x:Double>
 
     <converters:EmptyObjectToObjectConverter x:Key="NullVisibilityConverter"
                                              EmptyValue="Collapsed"
                                              NotEmptyValue="Visible" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-    <converters:DoubleToVisibilityConverter x:Key="GreaterThanZeroVisibilityConverter"
-                                            GreaterThan="12.0" />
     <!--  TODO: Think we have a timing issue with TabWidthsAdjusting after this converter calculates...  -->
+    <converters:DoubleToVisibilityConverter x:Key="GreaterThanToleranceVisibilityConverter"
+                                            GreaterThan="12.0" />
+
+    <converters:BoolToObjectConverter x:Key="CloseCollapsingSizeConverter"
+                                      FalseValue="{StaticResource TabViewItemHeaderCloseWidth}"
+                                      TrueValue="NaN" />
 
     <local:EdgeTabWidthProvider x:Key="EdgeTabWidthProvider" />
 
@@ -128,7 +133,7 @@
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemHeaderStyle}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
@@ -158,6 +163,7 @@
         <Setter Property="CanDragItems" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="CanCloseTabs" Value="True" />
+        <Setter Property="IsCloseButtonCollapsed" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
     </Style>
 
@@ -251,6 +257,7 @@
     <ControlTemplate x:Key="TabViewItemHeaderTemplate"
                      TargetType="local:TabViewItem">
         <Grid x:Name="LayoutRoot"
+              ex:FrameworkElementExtensions.AncestorType="local:TabView"
               Background="{TemplateBinding Background}"
               BorderBrush="{TemplateBinding BorderBrush}"
               BorderThickness="{TemplateBinding BorderThickness}"
@@ -297,20 +304,22 @@
                                       FontWeight="{TemplateBinding FontWeight}"
                                       OpticalMarginAlignment="TrimSideBearings" />
                     <!--  Use grid to toggle visibility based on IsClosable property and inner border for hover animations.  -->
-                    <Grid Grid.Column="2"
-                          HorizontalAlignment="Right"
-                          Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
-                        <Border x:Name="ButtonBorder"
-                                Width="36"
+                    <Border x:Name="CloseButtonContainer"
+                            Grid.Column="2"
+                            Width="{Binding (ex:FrameworkElementExtensions.Ancestor).IsCloseButtonCollapsed, Converter={StaticResource CloseCollapsingSizeConverter}, ElementName=LayoutRoot}"
+                            HorizontalAlignment="Right"
+                            Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border x:Name="CloseButtonBorder"
+                                Width="{StaticResource TabViewItemHeaderCloseWidth}"
                                 Margin="{ThemeResource TabViewItemHeaderCloseMargin}"
                                 Background="{TemplateBinding Background}"
                                 Visibility="Collapsed">
                             <Button x:Name="CloseButton"
-                                    Style="{StaticResource MSEdgeCloseButtonStyle}">
+                                    Style="{StaticResource TabViewItemCloseButtonStyle}">
                                 &#xE711;
                             </Button>
                         </Border>
-                    </Grid>
+                    </Border>
                 </Grid>
             </Grid>
 
@@ -327,12 +336,12 @@
 
                         <Storyboard>
                             <!--  Close Button  -->
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Background">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
@@ -364,12 +373,12 @@
                                              Duration="0" />
 
                             <!--  Close Button  -->
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Background">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
@@ -392,12 +401,12 @@
                                              Duration="0" />
 
                             <!--  Close Button  -->
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Background">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
@@ -420,12 +429,12 @@
                                              Duration="0" />
 
                             <!--  Close Button  -->
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Background">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
                             </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ButtonBorder"
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="CloseButtonBorder"
                                                            Storyboard.TargetProperty="Visibility">
                                 <DiscreteObjectKeyFrame KeyTime="0"
                                                         Value="Visible" />
@@ -586,7 +595,7 @@
     </ControlTemplate>
 
     <!--  Based on Style for Windows.UI.Xaml.Controls.ListViewItem  -->
-    <Style x:Key="DefaultTabViewItemStyle"
+    <Style x:Key="DefaultTabViewItemHeaderStyle"
            TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
@@ -610,7 +619,7 @@
         <!--  todo: may need to change the name to Header to keep it consistent  -->
     </Style>
 
-    <Style x:Key="MSEdgeCloseButtonStyle"
+    <Style x:Key="TabViewItemCloseButtonStyle"
            TargetType="Button">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
@@ -738,7 +747,7 @@
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
                                           Style="{StaticResource RepeatButtonRevealStyle}"
-                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76B;
                             </RepeatButton>
 
@@ -756,7 +765,7 @@
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
                                           Style="{StaticResource RepeatButtonRevealStyle}"
-                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanZeroVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
+                                          Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76C;
                             </RepeatButton>
                         </Grid>
