@@ -11,7 +11,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 
 namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
 {
@@ -35,7 +34,6 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
         public PopupForm(Uri callbackUrl)
         {
             InitializeComponent();
-
             webView1.NavigationStarting += (s, e) => WebViewNavigationStartingHandler(e.Uri);
             callbackHost = GetTopLevelDomain(callbackUrl);
         }
@@ -46,6 +44,8 @@ namespace Microsoft.Toolkit.Services.PlatformSpecific.NetFramework
             if (initialHost != topLevelDomain && topLevelDomain == callbackHost)
             {
                 ActualUrl = uri;
+                webView1.Dispose();
+                webView1.Refresh();
                 this.Close();
             }
         }
