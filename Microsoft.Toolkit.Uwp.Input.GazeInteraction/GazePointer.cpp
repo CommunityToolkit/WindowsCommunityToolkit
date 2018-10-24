@@ -184,7 +184,7 @@ void GazePointer::LoadSettings(ValueSet^ settings)
 
     if (settings->HasKey("GazePointer.DwellRepeatDelay"))
     {
-        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
+        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellRepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.RepeatDelay"))
