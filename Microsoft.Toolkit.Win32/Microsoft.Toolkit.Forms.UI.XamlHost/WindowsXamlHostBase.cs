@@ -22,6 +22,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// DesktopWindowXamlSource instance
         /// </summary>
         protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
+
+        /// <summary>
+        ///    A render transform to scale the UWP XAML content should be applied
+        /// </summary>
+        protected internal bool _dpiScalingRenderTransformEnabled = false;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -99,6 +104,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             // Hook up method for DesktopWindowXamlSource Focus handling
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
+
+            // Add scaling panel as the root XAML element
+            _xamlSource.Content = new DpiScalingPanel();
         }
 
         protected WindowsXamlHostBase(string typeName)
@@ -107,6 +115,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (!DesignMode)
             {
                 ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+                ChildInternal.SetWrapper(this);
             }
         }
 
@@ -124,16 +133,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => _xamlSource.Content;
+            get => (_xamlSource.Content as DpiScalingPanel).Child;
 
             set
             {
                 if (!DesignMode)
                 {
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = (_xamlSource.Content as DpiScalingPanel).Child as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
@@ -147,7 +156,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    _xamlSource.Content = value;
+                    (_xamlSource.Content as DpiScalingPanel).Child = value;
 
                     PerformLayout();
 
@@ -164,7 +173,28 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         {
             if (_xamlSource != null)
             {
-                _xamlSource.Content = newValue;
+                (_xamlSource.Content as DpiScalingPanel).Child = newValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a render transform is added to the UWP control corresponding to the current dpi scaling factor
+        /// </summary>
+        /// <value>The dpi scaling mode.</value>
+        /// <remarks>A custom render transform added to the root UWP control will be overwritten.</remarks>
+        [ReadOnly(false)]
+        [Browsable(true)]
+        [Category("Layout")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool DpiScalingRenderTransform
+        {
+            get => _dpiScalingRenderTransformEnabled;
+
+            set
+            {
+                _dpiScalingRenderTransformEnabled = value;
+                UpdateDpiScalingFactor();
+                PerformLayout();
             }
         }
 
@@ -198,6 +228,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <param name="e">EventArgs</param>
         protected override void OnHandleCreated(EventArgs e)
         {
+            base.OnHandleCreated(e);
+
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
@@ -216,9 +248,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                     SetContent(ChildInternal);
                     ChildInternal.SetWrapper(this);
                 }
-            }
 
-            base.OnHandleCreated(e);
+                UpdateDpiScalingFactor();
+            }
         }
     }
 }
