@@ -796,7 +796,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            Value = value;
+            Value = RoundToMultiple(value, StepSize);
         }
 
         private Point ScalePoint(double angle, double middleOfScale)
