@@ -123,7 +123,7 @@
       <Version>10.1711.28001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.180916002-prerelease</Version>
+      <Version>2.0.181011001</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
@@ -530,17 +530,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ISampleNavigation.cs" />
     <Compile Include="Common\DoubleTopThicknessConverter.cs" />
     <Compile Include="Common\ThicknessConverter.cs" />
-    <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\TimeSpanConverter.cs" />
     <Compile Include="Common\EnumConverter.cs" />
-    <Compile Include="Common\ListViewHoverScroll.cs" />
     <Compile Include="Common\SampleCommand.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
