@@ -31,7 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string TABVIEWCONTAINER_NAME = "TabViewContainer";
         private const string TABITEMSPRESENTER_NAME = "TabsItemsPresenter";
         private const string TABSCROLLVIEWER_NAME = "TabsScrollViewer";
-        private const string TABADDBUTTON_NAME = "AddTabButton";
         private const string TABSCROLLBACKBUTTON_NAME = "ScrollBackButton";
         private const string TABSCROLLFORWARDBUTTON_NAME = "ScrollForwardButton";
 
@@ -39,7 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Grid _tabViewContainer;
         private ItemsPresenter _tabItemsPresenter;
         private ScrollViewer _tabScroller;
-        private ButtonBase _tabAddButton;
         private ButtonBase _tabScrollBackButton;
         private ButtonBase _tabScrollForwardButton;
 
@@ -74,15 +72,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void TabView_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= TabView_Loaded;
-
-            // The Add button is part of our default TabActionHeader, which isn't part of our control template.
-            _tabAddButton = this.FindDescendantByName(TABADDBUTTON_NAME) as ButtonBase;
-
-            if (_tabAddButton != null)
-            {
-                _tabAddButton.Click -= AddTabButton_Click;
-                _tabAddButton.Click += AddTabButton_Click;
-            }
 
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
             {

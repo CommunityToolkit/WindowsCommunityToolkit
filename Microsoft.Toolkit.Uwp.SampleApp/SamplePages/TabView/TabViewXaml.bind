@@ -25,7 +25,17 @@
         <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
       </controls:TabView.Header>
       <controls:TabView.TabStartHeader>
-        <TextBlock Padding="16,0,12,0" VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Text="Tabs"/>
+        <Button x:Name="AddTabButtonUpper"
+                Width="44"
+                Height="44"
+                Background="Transparent"
+                Style="{StaticResource ButtonRevealStyle}">
+            <Viewbox MaxWidth="16"
+                      MaxHeight="16">
+                <FontIcon FontFamily="Segoe MDL2 Assets"
+                          Glyph="&#xE710;" />
+            </Viewbox>
+        </Button>
       </controls:TabView.TabStartHeader>      
     
       <!-- Tabs -->
@@ -97,6 +107,19 @@
           </StackPanel>
         </DataTemplate>
       </controls:TabView.ItemTemplate>
+      <controls:TabView.TabActionHeader>
+        <Button x:Name="AddTabButtonLower"
+                Width="32"
+                Height="32"
+                Background="Transparent"
+                Style="{StaticResource ButtonRevealStyle}">
+            <Viewbox MaxWidth="16"
+                      MaxHeight="16">
+                <FontIcon FontFamily="Segoe MDL2 Assets"
+                          Glyph="&#xE710;" />
+            </Viewbox>
+        </Button>
+      </controls:TabView.TabActionHeader>
     </controls:TabView>
   </Grid>
 </Page>

@@ -130,22 +130,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(ItemHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
 
         /// <summary>
-        /// Gets or sets a value indicating whether an 'Add' button appears for the user to add tabs themselves.
-        /// </summary>
-        public bool IsAddTabButtonVisible
-        {
-            get { return (bool)GetValue(IsAddTabButtonVisibleProperty); }
-            set { SetValue(IsAddTabButtonVisibleProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="IsAddTabButtonVisible"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="IsAddTabButtonVisible"/> dependency property.</returns>
-        public static readonly DependencyProperty IsAddTabButtonVisibleProperty =
-            DependencyProperty.Register(nameof(IsAddTabButtonVisible), typeof(bool), typeof(TabView), new PropertyMetadata(false));
-
-        /// <summary>
         /// Gets or sets a value indicating whether by default a Tab can be closed or not if no value to <see cref="TabViewItem.IsClosable"/> is provided.
         /// </summary>
         public bool CanCloseTabs

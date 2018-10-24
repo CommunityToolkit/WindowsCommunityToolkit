@@ -29,8 +29,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             TabItemCollection.Add(new DataItem() { MyText = "Tab 2", Value = 200 });
             TabItemCollection.Add(new DataItem() { MyText = "Third Tab", Value = 300 });
             TabItemCollection.Add(new DataItem() { MyText = "Tab Plus", Value = 400 });
-
-            SampleController.Current.RegisterNewCommand("Add Upper Tab", AddUpperTabClick);
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -47,8 +45,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tabItems = control.FindChildByName("TabItems") as TabView;
             if (_tabItems != null)
             {
-                _tabItems.AddTabButtonClick += AddTabButtonClicked_Lower;
                 _tabItems.ItemClick += TabItems_ItemClick;
+            }
+
+            var btn = control.FindDescendantByName("AddTabButtonUpper") as Button;
+            if (btn != null)
+            {
+                btn.Click += AddUpperTabClick;
+            }
+
+            btn = control.FindDescendantByName("AddTabButtonLower") as Button;
+            if (btn != null)
+            {
+                btn.Click += AddTabButtonClicked_Lower;
             }
         }
 
@@ -67,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
-        private void AddTabButtonClicked_Lower(object sender, EventArgs e)
+        private void AddTabButtonClicked_Lower(object sender, RoutedEventArgs e)
         {
             TabItemCollection.Add(new DataItem() { MyText = "New Tab", Value = 500 });
         }

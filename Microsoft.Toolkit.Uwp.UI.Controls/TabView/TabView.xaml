@@ -112,28 +112,6 @@
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate x:Key="DefaultTabActionHeaderTemplate">
-        <StackPanel x:Name="TabActionHeaderContainer"
-                    ex:FrameworkElementExtensions.AncestorType="local:TabView"
-                    Orientation="Horizontal">
-            <Grid Visibility="{Binding (ex:FrameworkElementExtensions.Ancestor).IsAddTabButtonVisible, ElementName=TabActionHeaderContainer, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Button x:Name="AddTabButton"
-                        Width="{ThemeResource TabViewItemHeaderMinHeight}"
-                        Height="{ThemeResource TabViewItemHeaderMinHeight}"
-                        Background="Transparent"
-                        BorderThickness="1"
-                        Style="{StaticResource ButtonRevealStyle}">
-                    <Viewbox MaxWidth="16"
-                             MaxHeight="16">
-                        <FontIcon FontFamily="Segoe MDL2 Assets"
-                                  Glyph="&#xE710;" />
-                    </Viewbox>
-                </Button>
-            </Grid>
-            <ContentControl Content="{Binding (ex:FrameworkElementExtensions.Ancestor).TabActionHeader, ElementName=TabActionHeaderContainer}" />
-        </StackPanel>
-    </DataTemplate>
-
     <Style x:Key="BaseTabViewStyle"
            TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
@@ -149,7 +127,6 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-        <Setter Property="TabActionHeaderTemplate" Value="{StaticResource DefaultTabActionHeaderTemplate}" />
         <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemStyle}" />
         <Setter Property="ItemContainerTransitions">
@@ -181,7 +158,6 @@
         <Setter Property="CanDragItems" Value="True" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="CanCloseTabs" Value="True" />
-        <Setter Property="IsAddTabButtonVisible" Value="True" />
         <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
     </Style>
 
