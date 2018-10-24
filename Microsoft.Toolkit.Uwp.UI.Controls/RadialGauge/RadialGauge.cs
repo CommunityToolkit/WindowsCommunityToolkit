@@ -188,9 +188,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
 
+        private double _oldValue = double.NaN;
+        private double _oldValueAngle = double.NaN;
+
         private Compositor _compositor;
         private ContainerVisual _root;
         private SpriteVisual _needle;
+
+        /// <summary>
+        /// Event is raised when the Value of the control changes AND it is different
+        /// than it was the last time the event was raised.
+        /// </summary>
+        public event EventHandler<GaugeValueChangedEventArgs> ValueChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RadialGauge"/> class.
@@ -560,6 +569,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (valueText != null)
                 {
                     valueText.Text = radialGauge.Value.ToString(radialGauge.ValueStringFormat);
+                }
+
+                // Raise the ValueChanged event if the Value is different than before
+                // (this is done to prevent "noise" since the RadialGauge code sets
+                // Value in several places)
+                if (radialGauge._oldValue != radialGauge.Value)
+                {
+                    radialGauge.ValueChanged?.Invoke(
+                        radialGauge,
+                        new GaugeValueChangedEventArgs(
+                                   radialGauge._oldValue,
+                                   radialGauge.Value,
+                                   radialGauge._oldValueAngle,
+                                   radialGauge._needle.RotationAngleInDegrees));
+
+                    radialGauge._oldValue = radialGauge.Value;
+                    radialGauge._oldValueAngle = radialGauge.ValueAngle;
                 }
             }
         }
