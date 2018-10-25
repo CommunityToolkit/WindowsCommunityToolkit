@@ -56,6 +56,11 @@
     </windowsSettings>
   </application>
 
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">PerMonitorV2, PerMonitor</dpiAwareness>
+    </windowsSettings>
+  </application>
 
   <!-- Enable themes for Windows common controls and dialogs (Windows XP and later) -->
 
