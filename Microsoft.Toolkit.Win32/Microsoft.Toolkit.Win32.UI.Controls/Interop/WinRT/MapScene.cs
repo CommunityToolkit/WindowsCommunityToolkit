@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class MapScene
     {
-        private Windows.UI.Xaml.Controls.Maps.MapScene UwpInstance { get; }
+        internal Windows.UI.Xaml.Controls.Maps.MapScene UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapScene"/> class, a

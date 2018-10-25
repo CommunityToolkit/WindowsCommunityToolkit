@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class AnimationPropertyInfo
     {
-        private Windows.UI.Composition.AnimationPropertyInfo UwpInstance { get; }
+        private Windows.UI.Composition.AnimationPropertyInfo uwpInstance;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AnimationPropertyInfo"/> class, a
@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public AnimationPropertyInfo(Windows.UI.Composition.AnimationPropertyInfo instance)
         {
-            this.UwpInstance = instance;
+            this.uwpInstance = instance;
         }
 
         /// <summary>
@@ -25,8 +25,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
         /// </summary>
         public Windows.UI.Composition.AnimationPropertyAccessMode AccessMode
         {
-            get => UwpInstance.AccessMode;
-            set => UwpInstance.AccessMode = value;
+            get => uwpInstance.AccessMode;
+            set => uwpInstance.AccessMode = value;
         }
 
         /// <summary>
