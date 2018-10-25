@@ -23,8 +23,6 @@
 
         <Grid x:Name="XamlRoot"/>
 
-        <Button Width="100" Height="100" Content="Calibrate" Margin="10" VerticalAlignment="Top" Click="Calibrate_Click"/>
-
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" ></RowDefinition>

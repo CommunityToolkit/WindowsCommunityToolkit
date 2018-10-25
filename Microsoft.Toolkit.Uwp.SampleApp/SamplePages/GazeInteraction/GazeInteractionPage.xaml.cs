@@ -140,10 +140,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             ClickCount.Text = $"Number of clicks = {++_targetButtonClickCount}";
         }
-
-        private async void Calibrate_Click(object sender, RoutedEventArgs e)
-        {
-            await GazeInput.GetGazePointer(this).RequestCalibrationAsync();
-        }
     }
 }
