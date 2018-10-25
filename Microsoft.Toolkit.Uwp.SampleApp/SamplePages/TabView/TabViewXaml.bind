@@ -20,7 +20,10 @@
       <RowDefinition/>
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
-    <controls:TabView x:Name="Tabs">
+    <controls:TabView x:Name="Tabs"
+                      CanDragItems="True"
+                      CanReorderItems="True"
+                      AllowDrop="True">
       <controls:TabView.Header>
         <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
       </controls:TabView.Header>
@@ -43,12 +46,7 @@
       <controls:TabViewItem Header="Home" Icon="Home">
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Ignored">
-        <controls:TabViewItem.HeaderTemplate>
-          <DataTemplate>
-            <TextBlock>Custom</TextBlock>
-          </DataTemplate>
-        </controls:TabViewItem.HeaderTemplate>
+      <controls:TabViewItem Header="Tab 2 Has Longer Text" Icon="Audio">
         <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 3" Icon="Video"
@@ -61,7 +59,9 @@
 
       <controls:TabView.TabActionHeader>
         <Button Width="48" Height="40" Margin="-1,0,0,0" BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Padding="2,2,0,0">
-          <SymbolIcon Symbol="AddFriend"/>
+          <Viewbox MaxWidth="16" MaxHeight="16">
+            <SymbolIcon Symbol="AddFriend"/>
+          </Viewbox>
         </Button>
       </controls:TabView.TabActionHeader>
 
@@ -87,7 +87,10 @@
                       ItemsSource="{Binding TabItemCollection}"
                       TabWidthBehavior="Equal"
                       CanCloseTabs="True"
-                      SelectedTabWidth="200">
+                      SelectedTabWidth="200"
+                      CanDragItems="True"
+                      CanReorderItems="True"
+                      AllowDrop="True">
       <controls:TabView.Resources>
         <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
         <x:Double x:Key="TabViewItemHeaderMinWidth">90</x:Double>

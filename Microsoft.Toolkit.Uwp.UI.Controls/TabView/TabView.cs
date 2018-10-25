@@ -54,6 +54,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool hasLoaded;
 
+        private bool isDragging;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TabView"/> class.
         /// </summary>
@@ -61,9 +63,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             this.DefaultStyleKey = typeof(TabView);
 
+            // Container Generation Hooks
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
-
             ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+
+            // Drag and Layout Hooks
+            DragItemsStarting += TabView_DragItemsStarting;
+            DragItemsCompleted += TabView_DragItemsCompleted;
+            SizeChanged += TabView_SizeChanged;
         }
 
         /// <inheritdoc/>
@@ -97,9 +104,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _tabViewContainer = GetTemplateChild(TabViewContainerName) as Grid;
             _tabItemsPresenter = GetTemplateChild(TabsItemsPresenterName) as ItemsPresenter;
             _tabScroller = GetTemplateChild(TabsScrollViewerName) as ScrollViewer;
-
-            DragItemsCompleted += TabPresenter_DragItemsCompleted;
-            SizeChanged += TabView_SizeChanged;
 
             if (_tabItemsPresenter != null)
             {
@@ -158,6 +162,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (isDragging)
+            {
+                // Skip if we're dragging, we'll reset when we're done.
+                return;
+            }
+
             if (SelectedItem == null)
             {
                 _tabContentPresenter.Content = null;
@@ -257,8 +267,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void TabPresenter_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        private void TabView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
+            // Keep track of drag so we don't modify content until done.
+            isDragging = true;
+        }
+
+        private void TabView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
+        {
+            isDragging = false;
+
             // args.DropResult == None when outside of area (e.g. create new window)
             if (args.DropResult == DataPackageOperation.None)
             {
@@ -268,19 +286,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
                 // If dragging the active tab, there's an issue with the CP blanking.
-                #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-                {
-                    // Need to set the contentpresenter's content here for embedded XAML TabViewItems, otherwise never loads, platform issue?
-                    if (_tabContentPresenter.Content == null)
-                    {
-                        _tabContentPresenter.Content = (ContainerFromItem(SelectedItem) as TabViewItem)?.Content;
-                    }
-
-                    // Need to 'refresh' the ContentPresenter for ItemsSource Databound scenarios for it to render... :(
-                    _tabContentPresenter.UpdateLayout();
-                });
-                #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                TabView_SelectionChanged(this, null);
             }
         }
     }
