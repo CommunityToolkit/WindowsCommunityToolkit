@@ -207,6 +207,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (disposing)
             {
                 SizeChanged -= OnWindowXamlHostSizeChanged;
+                ChildInternal?.ClearWrapper();
 
                 // Required by CA2213: _xamlSource?.Dispose() is insufficient.
                 if (_xamlSource != null)
@@ -216,7 +217,6 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 }
 
                 _windowsXamlManager?.Dispose();
-                ChildInternal?.ClearWrapper();
             }
 
             base.Dispose(disposing);
