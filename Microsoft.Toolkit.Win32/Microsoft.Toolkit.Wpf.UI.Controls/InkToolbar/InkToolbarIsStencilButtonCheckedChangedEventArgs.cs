@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {

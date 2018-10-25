@@ -59,6 +59,8 @@ namespace UnitTests.Markdown.Parse
                 AddChild(() => ((StrikethroughTextInline)(object)parent).Inlines, (value) => ((StrikethroughTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is SuperscriptTextInline)
                 AddChild(() => ((SuperscriptTextInline)(object)parent).Inlines, (value) => ((SuperscriptTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
+            else if (parent is SubscriptTextInline)
+                AddChild(() => ((SubscriptTextInline)(object)parent).Inlines, (value) => ((SubscriptTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
             else
                 throw new NotSupportedException(string.Format("Unsupported type {0}", typeof(T).Name));
         }

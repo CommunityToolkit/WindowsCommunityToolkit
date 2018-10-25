@@ -1446,7 +1446,7 @@
   </PropertyGroup>
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
@@ -1456,7 +1456,7 @@
   </Target>
   <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*.md" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
