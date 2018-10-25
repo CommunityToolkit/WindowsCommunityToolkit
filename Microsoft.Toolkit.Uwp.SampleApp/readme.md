@@ -20,6 +20,7 @@ This makes it easy for a developer to test out values for a control and then cop
 
 In order to provide a property UI and associated code, you have to define a the .bind XAML file associated with your page.
 Here is an example:
+
 ```xaml
 <Grid>
     <Grid.ColumnDefinitions>
