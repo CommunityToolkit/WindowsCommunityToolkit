@@ -296,6 +296,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GithubButton.Visibility = Visibility.Collapsed;
                 }
+                else
+                {
+                    GithubButton.Visibility = Visibility.Visible;
+                }
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {
