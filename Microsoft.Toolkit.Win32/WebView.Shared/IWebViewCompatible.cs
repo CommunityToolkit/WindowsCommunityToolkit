@@ -31,6 +31,8 @@ namespace Microsoft.Toolkit.UI.Controls
 
         void Navigate(string url);
 
+        void NavigateToString(string text);
+
         void Refresh();
 
         void Stop();
