@@ -21,11 +21,14 @@
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
     <controls:TabView x:Name="Tabs"
-                      CanDragItems="True"
-                      CanReorderItems="True"
-                      AllowDrop="True">
+                      TabWidthBehavior="@[Tab Width Behavior:Enum:TabWidthMode.Actual]"
+                      CanCloseTabs="@[Can Close Tabs:Bool:False]"
+                      CanDragItems="@[Drag and Drop Enabled:Bool:False]"
+                      CanReorderItems="@[Drag and Drop Enabled]"
+                      AllowDrop="@[Drag and Drop Enabled]">
       <controls:TabView.Header>
-        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
+        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="{Binding TabWidthBehavior, ElementName=Tabs}"/>
+        <!-- TEST Text="TabView Control Header"/>-->
       </controls:TabView.Header>
       <controls:TabView.TabStartHeader>
         <Button x:Name="AddTabButtonUpper"
@@ -49,12 +52,11 @@
       <controls:TabViewItem Header="Tab 2 Has Longer Text" Icon="Audio">
         <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Tab 3" Icon="Video"
-                            IsClosable="{ex:NullableBool Value=True}">
+      <controls:TabViewItem Header="Tab 3" Icon="Video">
         <TextBlock Padding="16">Try closing and re-ordering the tabs in the 2nd sample below.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Not Closable" IsClosable="{ex:NullableBool Value=True}">
-        <TextBlock Padding="16">This tab isn't closable because it is being intercepted in the TabClosing event in the Sample App.</TextBlock>
+      <controls:TabViewItem Header="Not Closable" Icon="Calendar" IsClosable="{ex:NullableBool Value=False}">
+        <TextBlock Padding="16">This tab isn't closable because its IsClosable property is set to False.</TextBlock>
       </controls:TabViewItem>
 
       <controls:TabView.TabActionHeader>
@@ -81,7 +83,7 @@
       </controls:TabView.Footer>
     </controls:TabView>
     
-    <controls:TabView x:Name="TabItems"
+    <!--<controls:TabView x:Name="TabItems"
                       Grid.Row="1"
                       IsItemClickEnabled="True"
                       ItemsSource="{Binding TabItemCollection}"
@@ -129,6 +131,6 @@
             </Viewbox>
         </Button>
       </controls:TabView.TabActionHeader>
-    </controls:TabView>
+    </controls:TabView>-->
   </Grid>
 </Page>

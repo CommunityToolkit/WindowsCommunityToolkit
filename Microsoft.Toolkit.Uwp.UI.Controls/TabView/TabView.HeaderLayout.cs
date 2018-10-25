@@ -27,11 +27,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static readonly DependencyProperty InitialActualWidthProperty =
             DependencyProperty.RegisterAttached("InitialActualWidth", typeof(double), typeof(TabView), new PropertyMetadata(0.0));
 
+        private static void OnLayoutEffectingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var tabview = sender as TabView;
+            if (tabview != null && tabview.hasLoaded)
+            {
+                tabview.TabView_SizeChanged(tabview, null);
+            }
+        }
+
         private void TabView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // We need to do this calculation here in Size Changed as the
             // Columns don't have their Actual Size calculated in Measure or Arrange.
-            if (_tabViewContainer != null)
+            if (hasLoaded && _tabViewContainer != null)
             {
                 // Look for our special columns to calculate size of other 'stuff'
                 var taken = _tabViewContainer.ColumnDefinitions.Sum(cd => GetIgnoreColumn(cd) ? 0 : cd.ActualWidth);

@@ -11,6 +11,7 @@ using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -100,6 +101,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
+            if (_tabItemsPresenter != null)
+            {
+                _tabItemsPresenter.SizeChanged -= TabView_SizeChanged;
+            }
+
+            if (_tabContentPresenter != null)
+            {
+                SelectionChanged -= TabView_SelectionChanged;
+            }
+
+            if (_tabScroller != null)
+            {
+                _tabScroller.Loaded -= ScrollViewer_Loaded;
+            }
+
             _tabContentPresenter = GetTemplateChild(TabContentPresenterName) as ContentPresenter;
             _tabViewContainer = GetTemplateChild(TabViewContainerName) as Grid;
             _tabItemsPresenter = GetTemplateChild(TabsItemsPresenterName) as ItemsPresenter;
@@ -107,19 +123,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_tabItemsPresenter != null)
             {
-                _tabItemsPresenter.SizeChanged -= TabView_SizeChanged;
                 _tabItemsPresenter.SizeChanged += TabView_SizeChanged;
             }
 
             if (_tabContentPresenter != null)
             {
-                SelectionChanged -= TabView_SelectionChanged;
                 SelectionChanged += TabView_SelectionChanged;
             }
 
             if (_tabScroller != null)
             {
-                _tabScroller.Loaded -= ScrollViewer_Loaded;
                 _tabScroller.Loaded += ScrollViewer_Loaded;
             }
         }
@@ -128,36 +141,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _tabScroller.Loaded -= ScrollViewer_Loaded;
 
-            _tabScrollBackButton = _tabScroller.FindDescendantByName(TabsScrollBackButtonName) as ButtonBase;
-            _tabScrollForwardButton = _tabScroller.FindDescendantByName(TabsScrollForwardButtonName) as ButtonBase;
-
             if (_tabScrollBackButton != null)
             {
                 _tabScrollBackButton.Click -= ScrollTabBackButton_Click;
-                _tabScrollBackButton.Click += ScrollTabBackButton_Click;
             }
 
             if (_tabScrollForwardButton != null)
             {
                 _tabScrollForwardButton.Click -= ScrollTabForwardButton_Click;
+            }
+
+            _tabScrollBackButton = _tabScroller.FindDescendantByName(TabsScrollBackButtonName) as ButtonBase;
+            _tabScrollForwardButton = _tabScroller.FindDescendantByName(TabsScrollForwardButtonName) as ButtonBase;
+
+            if (_tabScrollBackButton != null)
+            {
+                _tabScrollBackButton.Click += ScrollTabBackButton_Click;
+            }
+
+            if (_tabScrollForwardButton != null)
+            {
                 _tabScrollForwardButton.Click += ScrollTabForwardButton_Click;
             }
         }
 
         private void ScrollTabBackButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_tabScroller != null)
-            {
-                _tabScroller.ChangeView(Math.Max(0, _tabScroller.HorizontalOffset - SCROLL_AMOUNT), null, null);
-            }
+            _tabScroller.ChangeView(Math.Max(0, _tabScroller.HorizontalOffset - SCROLL_AMOUNT), null, null);
         }
 
         private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
         {
-            if (_tabScroller != null)
-            {
-                _tabScroller.ChangeView(Math.Min(_tabScroller.ScrollableWidth, _tabScroller.HorizontalOffset + SCROLL_AMOUNT), null, null);
-            }
+            _tabScroller.ChangeView(Math.Min(_tabScroller.ScrollableWidth, _tabScroller.HorizontalOffset + SCROLL_AMOUNT), null, null);
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -219,10 +234,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var tvi = sender as TabViewItem;
 
+            tvi.Loaded -= TabViewItem_Loaded;
+
             // TODO: Move this to OnApplyTemplate in TabViewItem?  See BladeItem
             var btn = tvi.FindDescendantByName("CloseButton") as Button;
             if (btn != null)
             {
+                btn.Click -= CloseButton_Clicked;
                 btn.Click += CloseButton_Clicked;
             }
 
@@ -237,6 +255,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Need to make sure we've registered our removal method.
                 ItemsSource_PropertyChanged(this, null);
+
+                // Make sure we complete layout now.
+                TabView_SizeChanged(this, null);
 
                 hasLoaded = true;
             }

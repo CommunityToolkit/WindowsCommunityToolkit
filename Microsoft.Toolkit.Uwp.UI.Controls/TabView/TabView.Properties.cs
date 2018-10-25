@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabStartHeader"/> dependency property.</returns>
         public static readonly DependencyProperty TabStartHeaderProperty =
-            DependencyProperty.Register(nameof(TabStartHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabStartHeader), typeof(object), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabStartHeader"/>.
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabStartHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty TabStartHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(TabStartHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabStartHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the content to appear next to the tab strip.
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabActionHeader"/> dependency property.</returns>
         public static readonly DependencyProperty TabActionHeaderProperty =
-            DependencyProperty.Register(nameof(TabActionHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabActionHeader), typeof(object), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabActionHeader"/>.
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabActionHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty TabActionHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(TabActionHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabActionHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the content to appear to the right or below the tab strip.
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabEndHeader"/> dependency property.</returns>
         public static readonly DependencyProperty TabEndHeaderProperty =
-            DependencyProperty.Register(nameof(TabEndHeader), typeof(object), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabEndHeader), typeof(object), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the <see cref="DataTemplate"/> for the <see cref="TabEndHeader"/>.
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabEndHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty TabEndHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(TabEndHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(TabEndHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the default <see cref="DataTemplate"/> for the <see cref="TabViewItem.HeaderTemplate"/>.
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabStartHeaderTemplate"/> dependency property.</returns>
         public static readonly DependencyProperty ItemHeaderTemplateProperty =
-            DependencyProperty.Register(nameof(ItemHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(ItemHeaderTemplate), typeof(DataTemplate), typeof(TabView), new PropertyMetadata(null, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether by default a Tab can be closed or not if no value to <see cref="TabViewItem.IsClosable"/> is provided.
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="CanCloseTabs"/> dependency property.</returns>
         public static readonly DependencyProperty CanCloseTabsProperty =
-            DependencyProperty.Register(nameof(CanCloseTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(CanCloseTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating whether a <see cref="TabViewItem"/> Close Button should be included in layout calculations.
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="IsCloseButtonOverlay"/> dependency property.</returns>
         public static readonly DependencyProperty IsCloseButtonOverlayProperty =
-            DependencyProperty.Register(nameof(IsCloseButtonOverlay), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+            DependencyProperty.Register(nameof(IsCloseButtonOverlay), typeof(bool), typeof(TabView), new PropertyMetadata(false, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets a value indicating the size of the selected tab.  By default this is set to Auto and the selected tab size doesn't change.
@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="SelectedTabWidth"/> dependency property.</returns>
         public static readonly DependencyProperty SelectedTabWidthProperty =
-            DependencyProperty.Register(nameof(SelectedTabWidth), typeof(double), typeof(TabView), new PropertyMetadata(double.NaN));
+            DependencyProperty.Register(nameof(SelectedTabWidth), typeof(double), typeof(TabView), new PropertyMetadata(double.NaN, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets or sets the current <see cref="TabWidthMode"/> which determins how tab headers' width behave.
@@ -191,7 +191,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="TabWidthBehavior"/> dependency property.</returns>
         public static readonly DependencyProperty TabWidthBehaviorProperty =
-            DependencyProperty.Register(nameof(TabWidthBehavior), typeof(TabWidthMode), typeof(TabView), new PropertyMetadata(TabWidthMode.Actual));
+            DependencyProperty.Register(nameof(TabWidthBehavior), typeof(TabWidthMode), typeof(TabView), new PropertyMetadata(TabWidthMode.Actual, OnLayoutEffectingPropertyChanged));
 
         /// <summary>
         /// Gets the attached property value to indicate if this grid column should be ignored when calculating header sizes.
