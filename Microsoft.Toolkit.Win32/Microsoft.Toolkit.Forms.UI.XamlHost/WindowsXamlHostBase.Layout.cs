@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
                 // DockStyles will result in a constraint of 1 on the Docked axis. GetPreferredSize
                 // must convert this into an unconstrained value.
-                // Convert the proposed size form pixels to effective pixels if XAML island scales the content
+                // Convert the proposed size from pixels to effective pixels if the XAML island scales the content
                 if (proposedSize.Height == int.MaxValue || proposedSize.Height == 1)
                 {
                     proposedHeight = double.PositiveInfinity;
