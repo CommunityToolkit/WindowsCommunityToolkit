@@ -55,6 +55,14 @@
           "url": "https://github.com/Microsoft/Windows-universal-samples"
         },
         {
+          "title": "XAML Controls Gallery",
+          "url": "https://www.microsoft.com/p/xaml-controls-gallery/9msvh128x2zt"
+        },
+        {
+          "title": "Windows UI Library",
+          "url": "https://docs.microsoft.com/uwp/toolkits/winui/"
+        },
+        {
           "title": "Windows Template Studio",
           "url": "https://github.com/microsoft/windowsTemplateStudio"
         },
@@ -85,8 +93,8 @@
           "url": "https://github.com/hawkerm/monaco-editor-uwp"
         },
         {
-          "title": "Background photo by Christoffer Engstr�m",
-          "url": "https://unsplash.com/@christoffere"
+          "title": "Background photo: Nordic sunset by Maarten Verstraete",
+          "url": "https://unsplash.com/photos/yJiPvuyhO4s"
         }
       ]
     }

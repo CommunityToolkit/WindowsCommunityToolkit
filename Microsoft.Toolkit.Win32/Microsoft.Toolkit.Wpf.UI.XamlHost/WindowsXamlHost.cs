@@ -86,5 +86,22 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
                 base.Dispose(disposing);
             }
         }
+
+        protected override System.IntPtr WndProc(System.IntPtr hwnd, int msg, System.IntPtr wParam, System.IntPtr lParam, ref bool handled)
+        {
+            const int WM_GETOBJECT = 0x003D;
+            switch (msg)
+            {
+                // We don't want HwndHost to handle the WM_GETOBJECT.
+                // Instead we want to let the HwndIslandSite's WndProc get it
+                // So return handled = false and don't let the base class do
+                // anything on that message.
+                case WM_GETOBJECT:
+                    handled = false;
+                    return System.IntPtr.Zero;
+            }
+
+            return base.WndProc(hwnd, msg, wParam, lParam, ref handled);
+        }
     }
 }

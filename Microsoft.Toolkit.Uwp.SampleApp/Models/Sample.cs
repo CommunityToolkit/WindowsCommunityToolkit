@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
                     {
-                        var result = await localDocsStream.ReadTextAsync();
+                        var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
                         _cachedDocumentation = ProcessDocs(result);
                         _cachedPath = localPath;
                     }
