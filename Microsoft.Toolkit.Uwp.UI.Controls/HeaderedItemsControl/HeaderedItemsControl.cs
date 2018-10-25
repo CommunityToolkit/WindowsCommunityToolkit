@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(Orientation),
             typeof(Orientation),
             typeof(HeaderedItemsControl),
-            new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
+            new PropertyMetadata(Orientation.Vertical));
 
         /// <summary>
         /// Gets or sets the data used for the header of each control.
@@ -92,11 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = (HeaderedItemsControl)d;
             control.OnHeaderChanged(e.OldValue, e.NewValue);
-        }
-
-        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-
         }
     }
 }
