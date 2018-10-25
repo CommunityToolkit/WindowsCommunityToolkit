@@ -29,6 +29,7 @@
                 Width="48"
                 Height="40"
                 Background="Transparent"
+                BorderThickness="1"
                 Style="{StaticResource ButtonRevealStyle}">
           <Viewbox MaxWidth="16"
                     MaxHeight="16">
@@ -116,6 +117,7 @@
                 Width="32"
                 Height="32"
                 Background="Transparent"
+                BorderThickness="1"
                 Style="{StaticResource ButtonRevealStyle}">
             <Viewbox MaxWidth="16"
                       MaxHeight="16">

@@ -89,7 +89,7 @@
 
     <Thickness x:Key="TabViewItemHeaderMargin">0,0,-1,0</Thickness>
     <Thickness x:Key="TabViewItemHeaderIconMargin">0,0,8,0</Thickness>
-    <Thickness x:Key="TabViewItemHeaderCloseMargin">0,0,-12,0</Thickness>
+    <Thickness x:Key="TabViewItemHeaderCloseMargin">8,0,-8,0</Thickness>
     <Thickness x:Key="TabViewItemHeaderBorderThickness">1,1,1,0</Thickness>
     <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
     <x:Double x:Key="TabViewItemHeaderMinWidth">48</x:Double>
@@ -115,7 +115,7 @@
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
-    <!-- Default style for compatibility with WPF migrators. -->
+    <!--  Default style for compatibility with WPF migrators.  -->
     <Style TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
         <Setter Property="IsTabStop" Value="False" />

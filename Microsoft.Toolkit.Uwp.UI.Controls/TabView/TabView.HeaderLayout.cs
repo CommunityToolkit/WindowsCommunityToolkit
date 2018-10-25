@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         private static readonly DependencyProperty InitialActualWidthProperty =
-            DependencyProperty.RegisterAttached("InitialActualWidth", typeof(double), typeof(ActualTabWidthProvider), new PropertyMetadata(0.0));
+            DependencyProperty.RegisterAttached("InitialActualWidth", typeof(double), typeof(TabView), new PropertyMetadata(0.0));
 
         private void TabView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
