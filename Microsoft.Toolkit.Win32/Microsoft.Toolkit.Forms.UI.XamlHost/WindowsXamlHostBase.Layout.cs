@@ -25,30 +25,47 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 return Size;
             }
 
-            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
+            if (ChildInternal != null)
             {
                 double proposedWidth = proposedSize.Width;
                 double proposedHeight = proposedSize.Height;
 
                 // DockStyles will result in a constraint of 1 on the Docked axis. GetPreferredSize
                 // must convert this into an unconstrained value.
+                // Convert the proposed size from pixels to effective pixels if the XAML island scales the content
                 if (proposedSize.Height == int.MaxValue || proposedSize.Height == 1)
                 {
                     proposedHeight = double.PositiveInfinity;
+                }
+                else if (_xamlIslandHandlesDpiScaling)
+                {
+                    proposedHeight /= _lastDpi / 96.0f;
                 }
 
                 if (proposedSize.Width == int.MaxValue || proposedSize.Width == 1)
                 {
                     proposedWidth = double.PositiveInfinity;
                 }
+                else if (_xamlIslandHandlesDpiScaling)
+                {
+                    proposedWidth /= _lastDpi / 96.0f;
+                }
 
                 _xamlSource.Content.Measure(new Windows.Foundation.Size(proposedWidth, proposedHeight));
             }
 
             var preferredSize = Size.Empty;
-            if ((_xamlSource.Content as DpiScalingPanel).Child != null)
+            if (ChildInternal != null)
             {
-                preferredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
+                // Convert effective pixels to pixels if necessary
+                if (_xamlIslandHandlesDpiScaling)
+                {
+                    preferredSize = new Size((int)(_xamlSource.Content.DesiredSize.Width * _lastDpi / 96.0f), (int)(_xamlSource.Content.DesiredSize.Height * _lastDpi / 96.0f));
+                }
+                else
+                {
+                    preferredSize = new Size((int)_xamlSource.Content.DesiredSize.Width, (int)_xamlSource.Content.DesiredSize.Height);
+                }
             }
 
             return preferredSize;
@@ -70,7 +87,9 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 }
             }
 
-            double newScalingFactor = _dpiScalingRenderTransformEnabled ? (dpi / 96.0f) : 1.0f;
+            _lastDpi = dpi;
+
+            double newScalingFactor = (_dpiScalingRenderTransformEnabled == true && _xamlIslandHandlesDpiScaling == false) ? (dpi / 96.0f) : 1.0f;
 
             panel.SetScalingFactor(newScalingFactor);
         }
@@ -141,13 +160,19 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (AutoSize)
             {
-                if ((_xamlSource.Content as DpiScalingPanel).Child != null)
+                if (ChildInternal != null)
                 {
                     // XamlContenHost Control.Size has changed. XAML must perform an Arrange pass.
                     // The XAML Arrange pass will expand XAML content with 'HorizontalStretch' and
                     // 'VerticalStretch' properties to the bounds of the XamlContentHost Control.
                     var rect = new Windows.Foundation.Rect(0, 0, Width, Height);
-                    _xamlSource.Content.Measure(new Windows.Foundation.Size(Width, Height));
+                    if (_xamlIslandHandlesDpiScaling)
+                    {
+                        rect.Width /= _lastDpi / 96.0f;
+                        rect.Height /= _lastDpi / 96.0f;
+                    }
+
+                    _xamlSource.Content.Measure(new Windows.Foundation.Size(rect.Width, rect.Height));
                     _xamlSource.Content.Arrange(rect);
                     PerformLayout();
                 }

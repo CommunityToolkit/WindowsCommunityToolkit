@@ -72,6 +72,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         public void Navigate(string url) => _implementation.Navigate(url);
 
+        public void NavigateToString(string text) => _implementation.NavigateToString(text);
+
         public void Refresh() => _implementation.Refresh();
 
         public void Stop() => _implementation.Stop();
