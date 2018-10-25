@@ -13,6 +13,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class TabView
     {
+        private static double GetInitialActualWidth(TabViewItem obj)
+        {
+            return (double)obj.GetValue(InitialActualWidthProperty);
+        }
+
+        private static void SetInitialActualWidth(TabViewItem obj, double value)
+        {
+            obj.SetValue(InitialActualWidthProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        private static readonly DependencyProperty InitialActualWidthProperty =
+            DependencyProperty.RegisterAttached("InitialActualWidth", typeof(double), typeof(ActualTabWidthProvider), new PropertyMetadata(0.0));
+
         private void TabView_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             // We need to do this calculation here in Size Changed as the
@@ -24,42 +38,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Get the column we want to work on for available space
                 var tabc = _tabViewContainer.ColumnDefinitions.FirstOrDefault(cd => GetConstrainColumn(cd));
-                var tabs = GetTabSource();
-
-                if (tabc != null && tabs != null)
+                if (tabc != null)
                 {
                     var available = ActualWidth - taken;
                     var required = 0.0;
+                    var mintabwidth = double.MaxValue;
 
                     if (available > 0)
                     {
                         // Calculate the width for each tab from the provider and determine how much space they take.
-                        var tvis = _tabItemsPresenter?.FindDescendants<TabViewItem>();
-                        if (tvis != null)
+                        foreach (var item in Items)
                         {
-                            var widthIterator = TabWidthProvider.ProvideWidth(tvis, tabs, available, this).GetEnumerator();
-
-                            foreach (var tab in tvis)
+                            var tab = ContainerFromItem(item) as TabViewItem;
+                            if (tab == null)
                             {
-                                if (widthIterator.MoveNext())
-                                {
-                                    var width = widthIterator.Current;
-                                    if (width > 0)
-                                    {
-                                        tab.Width = width;
-                                        required += width;
-                                    }
-                                    else
-                                    {
-                                        tab.Width = double.NaN;
-                                        required += tab.ActualWidth;
-                                    }
-                                }
+                                continue; // container not generated yet
+                            }
+
+                            mintabwidth = Math.Min(mintabwidth, tab.MinWidth);
+
+                            double width = double.NaN;
+
+                            switch (TabWidthBehavior)
+                            {
+                                case TabWidthMode.Actual:
+                                    width = ProvideActualWidth(tab, item, available);
+                                    break;
+                                case TabWidthMode.Equal:
+                                    width = ProvideEqualWidth(tab, item, available);
+                                    break;
+                                case TabWidthMode.Compact:
+                                    width = ProvideCompactWidth(tab, item, available);
+                                    break;
+                            }
+
+                            if (width > 0)
+                            {
+                                tab.Width = width;
+                                required += width;
+                            }
+                            else
+                            {
+                                tab.Width = double.NaN;
+                                required += tab.ActualWidth;
                             }
                         }
                     }
 
-                    if (available > TabWidthProvider.MinimumWidth)
+                    if (available > mintabwidth)
                     {
                         // Constrain the column based on our required and available space
                         tabc.MaxWidth = available;
@@ -67,9 +93,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     //// TODO: If it's less, should we move the selected tab to only be the one shown by default?
 
-                    if (available <= TabWidthProvider.MinimumWidth)
+                    if (available <= mintabwidth && mintabwidth < double.MaxValue)
                     {
-                        tabc.Width = new GridLength(TabWidthProvider.MinimumWidth);
+                        tabc.Width = new GridLength(mintabwidth);
                     }
                     else if (required >= available)
                     {
@@ -83,6 +109,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
+        }
+
+        private double ProvideActualWidth(TabViewItem tab, object item, double availableWidth)
+        {
+            var tabclosesize = tab.FindDescendantByName("CloseButtonContainer")?.Width;
+
+            var size = GetInitialActualWidth(tab);
+
+            if (size <= double.Epsilon && tab.ActualWidth > tab.MinWidth)
+            {
+                SetInitialActualWidth(tab, tab.ActualWidth);
+                size = tab.ActualWidth;
+            }
+
+            // If it's selected leave extra room for close button and add right-margin.
+            return (tab.IsClosable == true ? (tabclosesize.HasValue ? tabclosesize.Value : 0) : 0) + size;
+        }
+
+        private double ProvideEqualWidth(TabViewItem tab, object item, double availableWidth)
+        {
+            if (double.IsNaN(SelectedTabWidth))
+            {
+                if (Items.Count() <= 1)
+                {
+                    return availableWidth;
+                }
+
+                return Math.Max(tab.MinWidth, availableWidth / Items.Count());
+            }
+            else if (Items.Count() <= 1)
+            {
+                // Default case of a single tab, make it full size.
+                return Math.Min(SelectedTabWidth, availableWidth);
+            }
+            else
+            {
+                var width = (availableWidth - SelectedTabWidth) / (Items.Count() - 1);
+
+                // Constrain between 90 and 200
+                if (width < tab.MinWidth)
+                {
+                    width = tab.MinWidth;
+                }
+                else if (width > SelectedTabWidth)
+                {
+                    width = SelectedTabWidth;
+                }
+
+                // If it's selected make it full size, otherwise whatever the size should be.
+                return tab.IsSelected
+                    ? Math.Min(SelectedTabWidth, availableWidth)
+                    : width;
+            }
+        }
+
+        private double ProvideCompactWidth(TabViewItem tab, object item, double availableWidth)
+        {
+            // If we're selected and have a value for that, then just return that.
+            if (tab.IsSelected && !double.IsNaN(SelectedTabWidth))
+            {
+                return SelectedTabWidth;
+            }
+
+            // Otherwise use min size.
+            return tab.MinWidth;
         }
     }
 }

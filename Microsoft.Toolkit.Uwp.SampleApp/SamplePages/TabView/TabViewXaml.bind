@@ -30,21 +30,23 @@
                 Height="40"
                 Background="Transparent"
                 Style="{StaticResource ButtonRevealStyle}">
-            <Viewbox MaxWidth="16"
-                      MaxHeight="16">
-                <FontIcon FontFamily="Segoe MDL2 Assets"
-                          Glyph="&#xE710;" />
-            </Viewbox>
+          <Viewbox MaxWidth="16"
+                    MaxHeight="16">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xE710;" />
+          </Viewbox>
         </Button>
-      </controls:TabView.TabStartHeader>      
-    
+      </controls:TabView.TabStartHeader>
+
       <!-- Tabs -->
       <controls:TabViewItem Header="Home" Icon="Home">
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Ignored">
         <controls:TabViewItem.HeaderTemplate>
-          <DataTemplate><TextBlock>Custom</TextBlock></DataTemplate>
+          <DataTemplate>
+            <TextBlock>Custom</TextBlock>
+          </DataTemplate>
         </controls:TabViewItem.HeaderTemplate>
         <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
       </controls:TabViewItem>
@@ -61,7 +63,7 @@
           <SymbolIcon Symbol="AddFriend"/>
         </Button>
       </controls:TabView.TabActionHeader>
-    
+
       <controls:TabView.TabEndHeader>
         <Button Width="48" Height="40" BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
           <Viewbox MaxWidth="16" MaxHeight="16">
@@ -69,12 +71,12 @@
           </Viewbox>
         </Button>
       </controls:TabView.TabEndHeader>
-    
+
       <controls:TabView.Footer>
-          <TextBlock Padding="16,8,16,8" 
-                     HorizontalAlignment="Right"
-                     FontSize="16" FontWeight="Bold" 
-                     Text="TabView Control Footer" />
+        <TextBlock Padding="16,8,16,8"
+                   HorizontalAlignment="Right"
+                   FontSize="16" FontWeight="Bold"
+                   Text="TabView Control Footer" />
       </controls:TabView.Footer>
     </controls:TabView>
     
@@ -82,9 +84,12 @@
                       Grid.Row="1"
                       IsItemClickEnabled="True"
                       ItemsSource="{Binding TabItemCollection}"
-                      Style="{StaticResource TabViewDocumentStyle}">
+                      TabWidthBehavior="Equal"
+                      CanCloseTabs="True"
+                      SelectedTabWidth="200">
       <controls:TabView.Resources>
         <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
+        <x:Double x:Key="TabViewItemHeaderMinWidth">90</x:Double>
       </controls:TabView.Resources>
       <controls:TabView.ItemHeaderTemplate>
         <DataTemplate>

@@ -109,16 +109,14 @@
                                       FalseValue="{StaticResource TabViewItemHeaderCloseWidth}"
                                       TrueValue="NaN" />
 
-    <local:EdgeTabWidthProvider x:Key="EdgeTabWidthProvider" />
-
     <DataTemplate x:Key="DefaultItemHeaderTemplate">
         <TextBlock Text="{Binding}"
                    TextTrimming="Clip"
                    ToolTipService.ToolTip="{Binding}" />
     </DataTemplate>
 
-    <Style x:Key="BaseTabViewStyle"
-           TargetType="local:TabView">
+    <!-- Default style for compatibility with WPF migrators. -->
+    <Style TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="TabNavigation" Value="Once" />
@@ -150,21 +148,6 @@
             </Setter.Value>
         </Setter>
         <Setter Property="Template" Value="{StaticResource TabViewTemplate}" />
-    </Style>
-
-    <!--  Default Compact/WPF Style  -->
-    <Style BasedOn="{StaticResource BaseTabViewStyle}"
-           TargetType="local:TabView" />
-
-    <Style x:Key="TabViewDocumentStyle"
-           BasedOn="{StaticResource BaseTabViewStyle}"
-           TargetType="local:TabView">
-        <Setter Property="CanReorderItems" Value="True" />
-        <Setter Property="CanDragItems" Value="True" />
-        <Setter Property="AllowDrop" Value="True" />
-        <Setter Property="CanCloseTabs" Value="True" />
-        <Setter Property="IsCloseButtonOverlay" Value="True" />
-        <Setter Property="TabWidthProvider" Value="{StaticResource EdgeTabWidthProvider}" />
     </Style>
 
     <ControlTemplate x:Key="TabViewTemplate"

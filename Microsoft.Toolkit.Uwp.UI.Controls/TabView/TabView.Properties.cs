@@ -146,36 +146,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(CanCloseTabs), typeof(bool), typeof(TabView), new PropertyMetadata(false));
 
         /// <summary>
-        /// Gets or sets the implementer of <see cref="ITabWidthProvider"/> interface to provide widths of tabs for <see cref="TabView"/>.
-        /// </summary>
-        public ITabWidthProvider TabWidthProvider
-        {
-            get { return (ITabWidthProvider)GetValue(TabWidthProviderProperty); }
-            set { SetValue(TabWidthProviderProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="TabWidthProvider"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="TabWidthProvider"/> dependency property.</returns>
-        public static readonly DependencyProperty TabWidthProviderProperty =
-            DependencyProperty.Register(nameof(TabWidthProvider), typeof(ITabWidthProvider), typeof(TabView), new PropertyMetadata(new ActualTabWidthProvider()));
-
-        /// <summary>
         /// Gets or sets a value indicating whether a <see cref="TabViewItem"/> Close Button should be included in layout calculations.
         /// </summary>
         public bool IsCloseButtonOverlay
         {
-            get { return (bool)GetValue(IsCloseButtonCollapsedProperty); }
-            set { SetValue(IsCloseButtonCollapsedProperty, value); }
+            get { return (bool)GetValue(IsCloseButtonOverlayProperty); }
+            set { SetValue(IsCloseButtonOverlayProperty, value); }
         }
 
         /// <summary>
         /// Identifies the <see cref="IsCloseButtonOverlay"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="IsCloseButtonOverlay"/> dependency property.</returns>
-        public static readonly DependencyProperty IsCloseButtonCollapsedProperty =
+        public static readonly DependencyProperty IsCloseButtonOverlayProperty =
             DependencyProperty.Register(nameof(IsCloseButtonOverlay), typeof(bool), typeof(TabView), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets or sets a value indicating the size of the selected tab.  By default this is set to Auto and the selected tab size doesn't change.
+        /// </summary>
+        public double SelectedTabWidth
+        {
+            get { return (double)GetValue(SelectedTabWidthProperty); }
+            set { SetValue(SelectedTabWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="SelectedTabWidth"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="SelectedTabWidth"/> dependency property.</returns>
+        public static readonly DependencyProperty SelectedTabWidthProperty =
+            DependencyProperty.Register(nameof(SelectedTabWidth), typeof(double), typeof(TabView), new PropertyMetadata(double.NaN));
+
+        /// <summary>
+        /// Gets or sets the current <see cref="TabWidthMode"/> which determins how tab headers' width behave.
+        /// </summary>
+        public TabWidthMode TabWidthBehavior
+        {
+            get { return (TabWidthMode)GetValue(TabWidthBehaviorProperty); }
+            set { SetValue(TabWidthBehaviorProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="TabWidthBehavior"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="TabWidthBehavior"/> dependency property.</returns>
+        public static readonly DependencyProperty TabWidthBehaviorProperty =
+            DependencyProperty.Register(nameof(TabWidthBehavior), typeof(TabWidthMode), typeof(TabView), new PropertyMetadata(TabWidthMode.Actual));
 
         /// <summary>
         /// Gets the attached property value to indicate if this grid column should be ignored when calculating header sizes.

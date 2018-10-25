@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TabsScrollForwardButtonName, Type = typeof(ButtonBase))]
     public partial class TabView : ListView
     {
-        private const int SCROLL_AMOUNT = 50; // TODO: Should this come from TabWidthProvider?
+        private const int SCROLL_AMOUNT = 50; // TODO: Should this be based on TabWidthMode
 
         private const string TabContentPresenterName = "TabContentPresenter";
         private const string TabViewContainerName = "TabViewContainer";
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // If our width can be effected by the selection, need to run algorithm.
-            if (TabWidthProvider != null && TabWidthProvider.IsSelectedTabWidthDifferent)
+            if (SelectedTabWidth != double.NaN)
             {
                 TabView_SizeChanged(sender, null);
             }
@@ -209,6 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var tvi = sender as TabViewItem;
 
+            // TODO: Move this to OnApplyTemplate in TabViewItem?  See BladeItem
             var btn = tvi.FindDescendantByName("CloseButton") as Button;
             if (btn != null)
             {
@@ -223,6 +224,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Need to make sure ContentPresenter is set to content based on selection.
                 TabView_SelectionChanged(this, null);
+
+                // Need to make sure we've registered our removal method.
+                ItemsSource_PropertyChanged(this, null);
 
                 hasLoaded = true;
             }
