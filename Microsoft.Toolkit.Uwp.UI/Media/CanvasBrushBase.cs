@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
@@ -30,15 +29,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         protected float SurfaceHeight { get; set; }
 
-        /// <summary>
-        /// Gets or sets the shared device
-        /// </summary>
-        private CanvasDevice Device { get; set; }
+        private CanvasDevice _device;
 
-        /// <summary>
-        /// Gets or sets the composition graphics device
-        /// </summary>
-        private CompositionGraphicsDevice Graphics { get; set; }
+        private CompositionGraphicsDevice _graphics;
 
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
@@ -55,14 +48,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         protected override void OnConnected()
         {
             base.OnConnected();
-            Device = CanvasDevice.GetSharedDevice();
-            Graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, Device);
 
-            Device.DeviceLost -= CanvasDevice_DeviceLost;
-            Device.DeviceLost += CanvasDevice_DeviceLost;
+            if (_device != null)
+            {
+                _device.DeviceLost -= CanvasDevice_DeviceLost;
+            }
 
-            Graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
-            Graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
+            _device = CanvasDevice.GetSharedDevice();
+            _device.DeviceLost += CanvasDevice_DeviceLost;
+
+            if (_graphics != null)
+            {
+                _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+            }
+
+            _graphics = CanvasComposition.CreateCompositionGraphicsDevice(Window.Current.Compositor, _device);
+            _graphics.RenderingDeviceReplaced += CanvasDevice_RenderingDeviceReplaced;
 
             // Delay creating composition resources until they're required.
             if (CompositionBrush == null)
@@ -74,12 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 }
 
                 var size = new Vector2(SurfaceWidth, SurfaceHeight);
-                var surface = Graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
+                var surface = _graphics.CreateDrawingSurface(size.ToSize(), DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
 
                 using (var session = CanvasComposition.CreateDrawingSession(surface))
                 {
                     // Call Implementor to draw on session.
-                    if (!OnDraw(Device, session, size))
+                    if (!OnDraw(_device, session, size))
                     {
                         return;
                     }
@@ -111,14 +112,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             base.OnDisconnected();
 
-            if (Device != null)
+            if (_device != null)
             {
-                Device.DeviceLost -= CanvasDevice_DeviceLost;
+                _device.DeviceLost -= CanvasDevice_DeviceLost;
+                _device = null;
             }
 
-            if (Graphics != null)
+            if (_graphics != null)
             {
-                Graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+                _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
+                _graphics = null;
             }
 
             // Dispose of composition resources when no longer in use.
