@@ -101,6 +101,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         public override void Navigate(string url) => _webView?.Navigate(url);
 
+        public override void NavigateToString(string text) => _webView.NavigateToString(text);
+
         public override void Refresh() => _webView?.Refresh();
 
         public override void Stop() => _webView?.Stop();

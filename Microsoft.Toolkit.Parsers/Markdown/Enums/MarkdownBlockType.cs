@@ -57,6 +57,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// A link block
         /// </summary>
-        LinkReference
+        LinkReference,
+
+        /// <summary>
+        /// A Yaml header block
+        /// </summary>
+        YamlHeader
     }
 }

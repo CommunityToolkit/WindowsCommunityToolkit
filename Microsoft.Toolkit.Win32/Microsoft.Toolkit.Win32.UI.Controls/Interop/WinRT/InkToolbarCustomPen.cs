@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class InkToolbarCustomPen
     {
-        private Windows.UI.Xaml.Controls.InkToolbarCustomPen UwpInstance { get; }
+        internal Windows.UI.Xaml.Controls.InkToolbarCustomPen UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomPen"/> class, a
