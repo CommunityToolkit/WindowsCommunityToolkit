@@ -5,13 +5,14 @@
 using System;
 using System.Windows;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton"/>
     /// </summary>
-    public class InkToolbarPenButton : WindowsXamlHostBaseExt
+    public class InkToolbarPenButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarPenButton;
 
