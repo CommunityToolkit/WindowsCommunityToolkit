@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
+    <controls:MasterDetailViewWidthSectionConverter x:Key="MasterDetailViewWidthSectionConverter"/>
+
     <Style TargetType="controls:MasterDetailsView">
         <Setter Property="Background" Value="{ThemeResource ApplicationPageBackgroundThemeBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource ApplicationForegroundThemeBrush}" />
@@ -16,12 +18,11 @@
                         <Grid x:Name="RootPanel">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition x:Name="MasterColumn"
-                                                  Width="Auto" />
+                                                  Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MasterDetailViewWidthSectionConverter}, ConverterParameter='MasterColumn'}" />
                                 <ColumnDefinition x:Name="DetailsColumn"
-                                                  Width="*" />
+                                                  Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Converter={StaticResource MasterDetailViewWidthSectionConverter}, ConverterParameter='DetailsColumn'}" />
                             </Grid.ColumnDefinitions>
                             <Grid x:Name="MasterPanel"
-                                  Width="{TemplateBinding MasterPaneWidth}"
                                   Background="{TemplateBinding MasterPaneBackground}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="0,0,1,0">
@@ -44,6 +45,8 @@
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
+                                          GroupStyle="{TemplateBinding GroupStyle}"
+                                          ItemsPanel="{TemplateBinding ItemsPanel}"
                                           SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
                                 <Grid x:Name="MasterCommandBarPanel" Grid.Row="2"></Grid>
                             </Grid>

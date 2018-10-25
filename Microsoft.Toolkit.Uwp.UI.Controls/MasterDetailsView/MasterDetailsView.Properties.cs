@@ -134,6 +134,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MasterDetailsView),
             new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
 
+
+        /// <summary>
+        /// Identifies the <see cref="HighlightedSectionProperty"/> dependancy property
+        /// </summary>
+        public static readonly DependencyProperty HighlightedSectionProperty = DependencyProperty.Register(
+            nameof(HighlightedSection),
+            typeof(MasterDetailsViewHighlightedSection),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(MasterDetailsViewHighlightedSection.Details));
+
+
         /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
@@ -256,6 +267,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(CompactModeThresholdWidthProperty); }
             set { SetValue(CompactModeThresholdWidthProperty, value); }
+        }
+
+
+        /// <summary>
+        /// Gets or sets the sectionto be highlighted
+        /// </summary>
+        public MasterDetailsViewHighlightedSection HighlightedSection
+        {
+            get { return (MasterDetailsViewHighlightedSection)GetValue(HighlightedSectionProperty); }
+            set { SetValue(HighlightedSectionProperty, value); }
         }
 
         /// <summary>
