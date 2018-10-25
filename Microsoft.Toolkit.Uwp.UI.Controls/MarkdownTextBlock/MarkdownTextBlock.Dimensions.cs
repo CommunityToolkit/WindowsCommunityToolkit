@@ -23,6 +23,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="InlineCodeMargin"/>.
+        /// </summary>
+        public static readonly DependencyProperty InlineCodeMarginProperty =
+            DependencyProperty.Register(
+                nameof(InlineCodeMargin),
+                typeof(Thickness),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="InlineCodeBorderThickness"/>.
         /// </summary>
         public static readonly DependencyProperty InlineCodeBorderThicknessProperty =
@@ -231,6 +241,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="ParagraphLineHeight"/>.
+        /// </summary>
+        public static readonly DependencyProperty ParagraphLineHeightProperty = DependencyProperty.Register(
+            nameof(ParagraphLineHeight),
+            typeof(int),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="QuoteBorderThickness"/>.
         /// </summary>
         public static readonly DependencyProperty QuoteBorderThicknessProperty = DependencyProperty.Register(
@@ -254,6 +273,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty QuotePaddingProperty = DependencyProperty.Register(
             nameof(QuotePadding),
             typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="YamlBorderThickness"/>.
+        /// </summary>
+        public static readonly DependencyProperty YamlBorderThicknessProperty = DependencyProperty.Register(
+            nameof(YamlBorderThickness),
+            typeof(double),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -357,12 +385,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the foreground brush for inline code.
+        /// Gets or sets the space between the code border and the text.
         /// </summary>
         public Thickness InlineCodePadding
         {
             get { return (Thickness)GetValue(InlineCodePaddingProperty); }
             set { SetValue(InlineCodePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the margin for inline code.
+        /// </summary>
+        public Thickness InlineCodeMargin
+        {
+            get { return (Thickness)GetValue(InlineCodeMarginProperty); }
+            set { SetValue(InlineCodeMarginProperty, value); }
         }
 
         /// <summary>
@@ -546,6 +583,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the line hegiht used for paragraphs.
+        /// </summary>
+        public int ParagraphLineHeight
+        {
+            get { return (int)GetValue(ParagraphLineHeightProperty); }
+            set { SetValue(ParagraphLineHeightProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the thickness of quote borders.
         /// </summary>
         public Thickness QuoteBorderThickness
@@ -570,6 +616,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Thickness)GetValue(QuotePaddingProperty); }
             set { SetValue(QuotePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thickness of any yaml header borders.
+        /// </summary>
+        public double YamlBorderThickness
+        {
+            get { return (double)GetValue(YamlBorderThicknessProperty); }
+            set { SetValue(YamlBorderThicknessProperty, value); }
         }
 
         /// <summary>

@@ -78,6 +78,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="InlineCodeForeground"/>.
+        /// </summary>
+        public static readonly DependencyProperty InlineCodeForegroundProperty =
+            DependencyProperty.Register(
+                nameof(InlineCodeForeground),
+                typeof(Brush),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="InlineCodeBorderBrush"/>.
         /// </summary>
         public static readonly DependencyProperty InlineCodeBorderBrushProperty =
@@ -313,6 +323,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="YamlBorderBrush"/>.
+        /// </summary>
+        public static readonly DependencyProperty YamlBorderBrushProperty = DependencyProperty.Register(
+            nameof(YamlBorderBrush),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
         public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
@@ -434,12 +453,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the foreground brush for inline code.
+        /// Gets or sets the background brush for inline code.
         /// </summary>
         public Brush InlineCodeBackground
         {
             get { return (Brush)GetValue(InlineCodeBackgroundProperty); }
             set { SetValue(InlineCodeBackgroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for inline code.
+        /// </summary>
+        public Brush InlineCodeForeground
+        {
+            get { return (Brush)GetValue(InlineCodeForegroundProperty); }
+            set { SetValue(InlineCodeForegroundProperty, value); }
         }
 
         /// <summary>
@@ -613,6 +641,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <see cref="TableBorderBrush"/> is used.
         /// </summary>
         public Brush TableBorderBrush
+        {
+            get { return (Brush)GetValue(TableBorderBrushProperty); }
+            set { SetValue(TableBorderBrushProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the brush used to render yaml borders.  If this is <c>null</c>, then
+        /// <see cref="TableBorderBrush"/> is used.
+        /// </summary>
+        public Brush YamlBorderBrush
         {
             get { return (Brush)GetValue(TableBorderBrushProperty); }
             set { SetValue(TableBorderBrushProperty, value); }

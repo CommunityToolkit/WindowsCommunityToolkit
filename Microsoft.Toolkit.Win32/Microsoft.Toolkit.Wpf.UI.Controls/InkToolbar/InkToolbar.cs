@@ -6,10 +6,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Markup;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
     /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
     /// </summary>
     [ContentProperty(nameof(Children))]
-    public class InkToolbar : WindowsXamlHostBaseExt
+    public class InkToolbar : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbar UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbar;
 
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             Bind(nameof(IsStencilButtonChecked), IsStencilButtonCheckedProperty, Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonCheckedProperty);
             Bind(nameof(ButtonFlyoutPlacement), ButtonFlyoutPlacementProperty, Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacementProperty, new WindowsXamlHostWrapperConverter());
 
-            Children.OfType<WindowsXamlHostBaseExt>().ToList().ForEach(RelocateChildToUwpControl);
+            Children.OfType<WindowsXamlHostBase>().ToList().ForEach(RelocateChildToUwpControl);
 
             UwpControl.ActiveToolChanged += OnActiveToolChanged;
             UwpControl.EraseAllClicked += OnEraseAllClicked;
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             UwpControl.Loaded -= OnUwpControlLoaded;
         }
 
-        private void RelocateChildToUwpControl(WindowsXamlHostBaseExt obj)
+        private void RelocateChildToUwpControl(WindowsXamlHostBase obj)
         {
             if (obj.GetUwpInternalObject() is Windows.UI.Xaml.UIElement child)
             {
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveToolProperty"/>
         /// </summary>
-        public static DependencyProperty ActiveToolProperty { get; } = DependencyProperty.Register(nameof(ActiveTool), typeof(WindowsXamlHostBaseExt), typeof(InkToolbar));
+        public static DependencyProperty ActiveToolProperty { get; } = DependencyProperty.Register(nameof(ActiveTool), typeof(WindowsXamlHostBase), typeof(InkToolbar));
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControlsProperty"/>
@@ -145,8 +145,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToolButton"/>
         /// </summary>
-        /// <returns>WindowsXamlHostBaseExt</returns>
-        public WindowsXamlHostBaseExt GetToolButton(InkToolbarTool tool) => UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
+        /// <returns>WindowsXamlHostBase</returns>
+        public WindowsXamlHostBase GetToolButton(InkToolbarTool tool) => UwpControl.GetToolButton((Windows.UI.Xaml.Controls.InkToolbarTool)(int)tool).GetWrapper();
 
         /// <summary>
         /// <see cref="Windows.UI.Xaml.Controls.InkToolbar.GetToggleButton"/>
@@ -190,9 +190,9 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
         /// </summary>
-        public WindowsXamlHostBaseExt ActiveTool
+        public WindowsXamlHostBase ActiveTool
         {
-            get => (WindowsXamlHostBaseExt)GetValue(ActiveToolProperty);
+            get => (WindowsXamlHostBase)GetValue(ActiveToolProperty);
             set => SetValue(ActiveToolProperty, value);
         }
 

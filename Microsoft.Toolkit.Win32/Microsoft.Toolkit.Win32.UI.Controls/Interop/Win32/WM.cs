@@ -123,6 +123,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         TABLET_FLICK = TABLET_DEFBASE + 11,
         TABLET_QUERYSYSTEMGESTURESTATUS = TABLET_DEFBASE + 12,
 
+        DPICHANGED_AFTERPARENT = 0x02E3,
+
         CUT = 0x0300,
         COPY = 0x0301,
         PASTE = 0x0302,
