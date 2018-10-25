@@ -21,10 +21,12 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost.Interop.Win32
         public const int WM_KILLFOCUS = (int)WM.KILLFOCUS;
         public const int WM_KEYDOWN = (int)WM.KEYDOWN;
         public const int WM_KEYUP = (int)WM.KEYUP;
+        public const int WM_DPICHANGED_AFTERPARENT = (int)WM.DPICHANGED_AFTERPARENT;
 
         // Window Styles
         public const uint WS_EX_CONTROLPARENT = 0x00010000;
         public const int GWL_STYLE = -16;
+        public const int GWL_EXSTYLE = -20;
 
         public static IntPtr HWND_TOP { get; } = IntPtr.Zero;
 

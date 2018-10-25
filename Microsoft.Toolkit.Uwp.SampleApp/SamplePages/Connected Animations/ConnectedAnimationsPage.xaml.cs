@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -37,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            RootFrame.GoBack();
+            RootFrame.GoBack(new SuppressNavigationTransitionInfo());
         }
     }
 }

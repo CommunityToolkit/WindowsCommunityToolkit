@@ -4,13 +4,14 @@
 
 using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToggleButton"/>
     /// </summary>
-    public class InkToolbarToggleButton : WindowsXamlHostBaseExt
+    public class InkToolbarToggleButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 

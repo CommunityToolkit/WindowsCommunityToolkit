@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0;netstandard1.4;net461</TargetFrameworks>
+    <TargetFrameworks>uap10.0.16299;netstandard2.0;NET462</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
@@ -10,8 +10,8 @@
     <DebugType>Full</DebugType>
     <NoWarn>CS8002</NoWarn>
   </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0'">
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
@@ -27,24 +27,46 @@
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0'">
+  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
 
-  <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
+  <ItemGroup Condition="!('$(TargetFramework)'=='net462')">
     <Compile Remove="Services\MicrosoftGraph\WinForms\**\*" />
+    <Compile Remove="PlatformSpecific\NetFramework\**\*" />
+    <None Remove="PlatformSpecific\NetFramework\**\*" />
+    <Page Remove="PlatformSpecific\NetFramework\**\*" />
   </ItemGroup>
 
-  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0')">
+  <ItemGroup Condition="'$(TargetFramework)'=='net462'">
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <PackageReference Include="Microsoft.Toolkit.Wpf.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
+    <PackageReference Include="Microsoft.Toolkit.Forms.UI.Controls.WebView" Version="[5.0.0-preview.gb86cb1c4cb,)" />
+    <Page Update="PlatformSpecific\NetFramework\PopupWPF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Update="PlatformSpecific\NetFramework\PopupWPF.xaml.cs">
+      <DependentUpon>PlatformSpecific\NetFramework\PopupWPF.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0.16299')">
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
     <Compile Remove="PlatformSpecific\Uwp\**\*" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\Internal\" />
-  </ItemGroup>
-
-
 </Project>

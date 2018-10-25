@@ -18,10 +18,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public abstract partial class WindowsXamlHostBase : ContainerControl
     {
 #pragma warning disable SA1401 // Fields must be private
-                              /// <summary>
-                              /// DesktopWindowXamlSource instance
-                              /// </summary>
+        /// <summary>
+        /// DesktopWindowXamlSource instance
+        /// </summary>
         protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
+
+        /// <summary>
+        ///    A render transform to scale the UWP XAML content should be applied
+        /// </summary>
+        protected internal bool _dpiScalingRenderTransformEnabled = false;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -62,6 +67,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         public WindowsXamlHostBase()
         {
+            if (DesignMode)
+            {
+                return;
+            }
+
             SetStyle(ControlStyles.ContainerControl, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -94,6 +104,28 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             // Hook up method for DesktopWindowXamlSource Focus handling
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
+
+            // Add scaling panel as the root XAML element
+            _xamlSource.Content = new DpiScalingPanel();
+        }
+
+        protected WindowsXamlHostBase(string typeName)
+            : this()
+        {
+            if (!DesignMode)
+            {
+                ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+                ChildInternal.SetWrapper(this);
+            }
+        }
+
+        /// <summary>
+        /// Exposes ChildInternal without exposing its actual Type.
+        /// </summary>
+        /// <returns>the underlying UWP child object</returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
         }
 
         /// <summary>
@@ -101,16 +133,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => _xamlSource.Content;
+            get => (_xamlSource.Content as DpiScalingPanel).Child;
 
             set
             {
                 if (!DesignMode)
                 {
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = (_xamlSource.Content as DpiScalingPanel).Child as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
@@ -124,7 +156,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    _xamlSource.Content = value;
+                    (_xamlSource.Content as DpiScalingPanel).Child = value;
 
                     PerformLayout();
 
@@ -137,11 +169,32 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// Sets the root UWP XAML element on DesktopWindowXamlSource
         /// </summary>
         /// <param name="newValue">A UWP XAML Framework element</param>
-        protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
+        protected virtual void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
             if (_xamlSource != null)
             {
-                _xamlSource.Content = newValue;
+                (_xamlSource.Content as DpiScalingPanel).Child = newValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a render transform is added to the UWP control corresponding to the current dpi scaling factor
+        /// </summary>
+        /// <value>The dpi scaling mode.</value>
+        /// <remarks>A custom render transform added to the root UWP control will be overwritten.</remarks>
+        [ReadOnly(false)]
+        [Browsable(true)]
+        [Category("Layout")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool DpiScalingRenderTransform
+        {
+            get => _dpiScalingRenderTransformEnabled;
+
+            set
+            {
+                _dpiScalingRenderTransformEnabled = value;
+                UpdateDpiScalingFactor();
+                PerformLayout();
             }
         }
 
@@ -163,6 +216,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 }
 
                 _windowsXamlManager?.Dispose();
+                ChildInternal?.ClearWrapper();
             }
 
             base.Dispose(disposing);
@@ -174,6 +228,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <param name="e">EventArgs</param>
         protected override void OnHandleCreated(EventArgs e)
         {
+            base.OnHandleCreated(e);
+
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
@@ -182,13 +238,19 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 _xamlIslandWindowHandle = desktopWindowXamlSourceNative.WindowHandle;
 
                 // Set window style required by container control to support Focus
-                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_STYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
+                if (Interop.Win32.UnsafeNativeMethods.SetWindowLong(Handle, Interop.Win32.NativeDefines.GWL_EXSTYLE, Interop.Win32.NativeDefines.WS_EX_CONTROLPARENT) == 0)
                 {
                     throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
                 }
-            }
 
-            base.OnHandleCreated(e);
+                if (ChildInternal != null)
+                {
+                    SetContent(ChildInternal);
+                    ChildInternal.SetWrapper(this);
+                }
+
+                UpdateDpiScalingFactor();
+            }
         }
     }
 }
