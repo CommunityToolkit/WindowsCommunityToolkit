@@ -109,12 +109,6 @@
                                       FalseValue="{StaticResource TabViewItemHeaderCloseWidth}"
                                       TrueValue="NaN" />
 
-    <DataTemplate x:Key="DefaultItemHeaderTemplate">
-        <TextBlock Text="{Binding}"
-                   TextTrimming="Clip"
-                   ToolTipService.ToolTip="{Binding}" />
-    </DataTemplate>
-
     <!--  Default style for compatibility with WPF migrators.  -->
     <Style TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
@@ -130,12 +124,13 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-        <Setter Property="ItemHeaderTemplate" Value="{StaticResource DefaultItemHeaderTemplate}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemHeaderStyle}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
+                    <AddDeleteThemeTransition />
                     <ContentThemeTransition />
+                    <ReorderThemeTransition />
                     <EntranceThemeTransition IsStaggeringEnabled="False" />
                 </TransitionCollection>
             </Setter.Value>
