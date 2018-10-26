@@ -63,9 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the tab can be closed by the user with the close button.
         /// </summary>
-        public bool? IsClosable
+        public bool IsClosable
         {
-            get { return (bool?)GetValue(IsClosableProperty); }
+            get { return (bool)GetValue(IsClosableProperty); }
             set { SetValue(IsClosableProperty, value); }
         }
 
@@ -74,6 +74,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <returns>The identifier for the <see cref="IsClosable"/> dependency property.</returns>
         public static readonly DependencyProperty IsClosableProperty =
-            DependencyProperty.Register(nameof(IsClosable), typeof(bool?), typeof(TabViewItem), new PropertyMetadata(null));
+            DependencyProperty.Register(nameof(IsClosable), typeof(bool), typeof(TabViewItem), new PropertyMetadata(null));
     }
 }

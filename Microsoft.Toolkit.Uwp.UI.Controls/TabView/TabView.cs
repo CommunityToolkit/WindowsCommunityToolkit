@@ -6,8 +6,6 @@ using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -219,12 +217,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (tvi.HeaderTemplate == null)
             {
-                tvi.HeaderTemplate = ItemHeaderTemplate;
+                var headertemplatebinding = new Binding()
+                {
+                    Source = this,
+                    Path = new PropertyPath(nameof(ItemHeaderTemplate)),
+                    Mode = BindingMode.OneWay
+                };
+                tvi.SetBinding(TabViewItem.HeaderTemplateProperty, headertemplatebinding);
             }
 
-            if (tvi.IsClosable == null)
+            if (tvi.ReadLocalValue(TabViewItem.IsClosableProperty) == DependencyProperty.UnsetValue)
             {
-                tvi.IsClosable = CanCloseTabs;
+                var iscloseablebinding = new Binding()
+                {
+                    Source = this,
+                    Path = new PropertyPath(nameof(CanCloseTabs)),
+                    Mode = BindingMode.OneWay,
+                };
+                tvi.SetBinding(TabViewItem.IsClosableProperty, iscloseablebinding);
             }
 
             base.PrepareContainerForItemOverride(element, item);
