@@ -6,22 +6,27 @@
     xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)">
 
     <ResourceDictionary.ThemeDictionaries>
-        <!-- Default is a fallback if a more precise theme isn't called
-            out below -->
-        <ResourceDictionary x:Key="Default">
-            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{ThemeResource SystemChromeHighColor}" />
-            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{ThemeResource SystemBaseLowColor}" />
-            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{ThemeResource SystemBaseHighColor}" />
-            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="{ThemeResource SystemControlTransparentBrush}" />
-            <contract5NotPresent:SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{ThemeResource SystemChromeMediumLowColor}" />
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{StaticResource SystemBaseLowColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
+            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
+            <contract5NotPresent:SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
             <contract5Present:AcrylicBrush x:Key="SystemControlFlyoutBackgroundBrush"
                                            BackgroundSource="Backdrop" 
-                                           TintColor="{ThemeResource SystemChromeMediumLowColor}" 
+                                           TintColor="{StaticResource SystemChromeMediumLowColor}" 
                                            TintOpacity="0.8" 
-                                           FallbackColor="{ThemeResource SystemChromeMediumLowColor}" />
-
+                                           FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
         </ResourceDictionary>
 
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{StaticResource SystemBaseLowColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
+            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
+        </ResourceDictionary>
+        
         <!-- HighContrast is used in all high contrast themes -->
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}" />
