@@ -5,6 +5,7 @@
 using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     [Designer(typeof(InkToolbarToolButtonDesigner))]
     public class InkToolbarMenuButton : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl { get; set; }
+        internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
@@ -33,10 +34,15 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
             UwpControl.Checked += UwpControl_Checked;
             UwpControl.Indeterminate += UwpControl_Indeterminate;
             UwpControl.Unchecked += UwpControl_Unchecked;
+        }
+
+        /// <inheritdoc />
+        protected override void SetContent(UIElement newValue)
+        {
+            // intentionally empty
         }
 
         /// <summary>
