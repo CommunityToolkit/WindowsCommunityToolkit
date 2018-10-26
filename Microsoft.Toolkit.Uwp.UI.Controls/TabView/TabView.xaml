@@ -101,9 +101,9 @@
                                              NotEmptyValue="Visible" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-    <!--  TODO: Think we have a timing issue with TabWidthsAdjusting after this converter calculates...  -->
+    <!-- 65 is the size of both scroll buttons + 1 for layout rounding. -->
     <converters:DoubleToVisibilityConverter x:Key="GreaterThanToleranceVisibilityConverter"
-                                            GreaterThan="64.0" />
+                                            GreaterThan="65.0" />
 
     <converters:BoolToObjectConverter x:Key="CloseCollapsingSizeConverter"
                                       FalseValue="{StaticResource TabViewItemHeaderCloseWidth}"
@@ -579,7 +579,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseMediumHighBrush}" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="6,0,6,0" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />

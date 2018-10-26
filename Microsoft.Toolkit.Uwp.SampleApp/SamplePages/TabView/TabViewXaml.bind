@@ -30,7 +30,11 @@
       <controls:TabView.TabStartHeader>
         <Button Width="48"
                 Height="{StaticResource TabViewItemHeaderMinHeight}"
-                BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Padding="2,2,0,0">
+                Margin="0,0,-1,0"
+                BorderThickness="1"
+                Background="Transparent" 
+                Style="{StaticResource ButtonRevealStyle}" 
+                Padding="2,2,0,0">
           <Viewbox MaxWidth="16" MaxHeight="16">
             <SymbolIcon Symbol="AddFriend"/>
           </Viewbox>
@@ -56,8 +60,8 @@
                 Width="48"
                 Height="{StaticResource TabViewItemHeaderMinHeight}"
                 Margin="-1,0,0,0"
-                Background="Transparent"
                 BorderThickness="1"
+                Background="Transparent"
                 Style="{StaticResource ButtonRevealStyle}">
           <Viewbox MaxWidth="16"
                     MaxHeight="16">
@@ -71,7 +75,10 @@
       <controls:TabView.TabEndHeader>
         <Button Width="48"
                 Height="{StaticResource TabViewItemHeaderMinHeight}"
-                BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
+                Margin="-1,0,0,0"
+                BorderThickness="1" 
+                Background="Transparent" 
+                Style="{StaticResource ButtonRevealStyle}">
           <Viewbox MaxWidth="16" MaxHeight="16">
             <SymbolIcon Symbol="Setting"/>
           </Viewbox>
@@ -85,55 +92,5 @@
                    Text="TabView Control Footer" />
       </controls:TabView.Footer>
     </controls:TabView>
-    
-    <!--<controls:TabView x:Name="TabItems"
-                      Grid.Row="1"
-                      IsItemClickEnabled="True"
-                      ItemsSource="{Binding TabItemCollection}"
-                      TabWidthBehavior="Equal"
-                      CanCloseTabs="True"
-                      SelectedTabWidth="200"
-                      CanDragItems="True"
-                      CanReorderItems="True"
-                      AllowDrop="True">
-      <controls:TabView.Resources>
-        <x:Double x:Key="TabViewItemHeaderMinHeight">32</x:Double>
-        <x:Double x:Key="TabViewItemHeaderMinWidth">90</x:Double>
-      </controls:TabView.Resources>
-      <controls:TabView.ItemHeaderTemplate>
-        <DataTemplate>
-          <TextBlock>
-            <Run Text="{Binding Value}"/>
-            <Run Text=": "/>
-            <Run Text="{Binding MyText}"/>
-          </TextBlock>
-        </DataTemplate>
-      </controls:TabView.ItemHeaderTemplate>
-      <controls:TabView.ItemTemplate>
-        <DataTemplate>
-          <StackPanel>
-            <TextBlock Margin="8">
-              <Run Text="Tab Value: "/>
-              <Run Text="{Binding Value}" />
-            </TextBlock>
-            <TextBlock Margin="8,0,0,0" Text="Some other content..." />
-          </StackPanel>
-        </DataTemplate>
-      </controls:TabView.ItemTemplate>
-      <controls:TabView.TabActionHeader>
-        <Button x:Name="AddTabButtonLower"
-                Width="32"
-                Height="32"
-                Background="Transparent"
-                BorderThickness="1"
-                Style="{StaticResource ButtonRevealStyle}">
-            <Viewbox MaxWidth="16"
-                      MaxHeight="16">
-                <FontIcon FontFamily="Segoe MDL2 Assets"
-                          Glyph="&#xE710;" />
-            </Viewbox>
-        </Button>
-      </controls:TabView.TabActionHeader>
-    </controls:TabView>-->
   </Grid>
 </Page>
