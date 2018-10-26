@@ -6,15 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
-  
-  <Page.Resources>
-    <ResourceDictionary>
-      <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabView/TabView.xaml" />
-      </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
-  </Page.Resources>
-
+ 
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition/>
@@ -27,8 +19,7 @@
                       CanReorderItems="@[Drag and Drop Enabled]"
                       AllowDrop="@[Drag and Drop Enabled]">
       <controls:TabView.Header>
-        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="{Binding TabWidthBehavior, ElementName=Tabs}"/>
-        <!-- TEST Text="TabView Control Header"/>-->
+        <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
       </controls:TabView.Header>
       <controls:TabView.TabStartHeader>
         <Button x:Name="AddTabButtonUpper"

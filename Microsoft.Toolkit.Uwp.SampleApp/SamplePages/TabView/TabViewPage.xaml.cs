@@ -33,8 +33,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            control.DataContext = this;
-
             _tabs = control.FindChildByName("Tabs") as TabView;
             if (_tabs != null)
             {
@@ -46,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_tabItems != null)
             {
                 _tabItems.ItemClick += TabItems_ItemClick;
+                _tabItems.ItemsSource = TabItemCollection;
             }
 
             var btn = control.FindDescendantByName("AddTabButtonUpper") as Button;
