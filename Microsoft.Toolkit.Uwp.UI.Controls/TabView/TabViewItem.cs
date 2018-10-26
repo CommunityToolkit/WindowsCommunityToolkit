@@ -3,10 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
+using Windows.Devices.Input;
+using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -25,12 +27,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event EventHandler<TabClosingEventArgs> Closing;
 
+        private bool isMiddleClick;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TabViewItem"/> class.
         /// </summary>
         public TabViewItem()
         {
             DefaultStyleKey = typeof(TabViewItem);
+
+            PointerPressed += TabViewItem_PointerPressed;
+            PointerReleased += TabViewItem_PointerReleased;
         }
 
         /// <inheritdoc/>
@@ -53,7 +60,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TabCloseButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing?.Invoke(this, new TabClosingEventArgs(Content, this));
+            if (IsClosable)
+            {
+                Closing?.Invoke(this, new TabClosingEventArgs(Content, this));
+            }
+        }
+
+        private void TabViewItem_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            isMiddleClick = false;
+
+            if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
+            {
+                PointerPoint pointerPoint = e.GetCurrentPoint(this);
+
+                // Record if middle button is pressed
+                if (pointerPoint.Properties.IsMiddleButtonPressed)
+                {
+                    isMiddleClick = true;
+                }
+            }
+        }
+
+        private void TabViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            // Close on Middle-Click
+            if (isMiddleClick)
+            {
+                TabCloseButton_Click(this, null);
+            }
+
+            isMiddleClick = false;
         }
     }
 }
