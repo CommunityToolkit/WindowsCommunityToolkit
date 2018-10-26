@@ -138,7 +138,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <!-- Note: We have to use StackPanel here due to other issues using ItemsStackPanel or VirtualizingStackPanel -->
+                    <!--  Note: We have to use StackPanel here due to other issues using ItemsStackPanel or VirtualizingStackPanel  -->
                     <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </Setter.Value>
@@ -436,28 +436,13 @@
                 <VisualStateGroup x:Name="DataVirtualizationStates">
                     <VisualState x:Name="DataAvailable" />
 
-                    <VisualState x:Name="DataPlaceholder">
-
-                        <Storyboard>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderTextBlock"
-                                                           Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="Visible" />
-                            </ObjectAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PlaceholderRect"
-                                                           Storyboard.TargetProperty="Visibility">
-                                <DiscreteObjectKeyFrame KeyTime="0"
-                                                        Value="Visible" />
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
-                    </VisualState>
+                    <VisualState x:Name="DataPlaceholder" />
                 </VisualStateGroup>
 
                 <VisualStateGroup x:Name="ReorderHintStates">
                     <VisualState x:Name="NoReorderHint" />
 
                     <VisualState x:Name="BottomReorderHint">
-
                         <Storyboard>
                             <DragOverThemeAnimation Direction="Bottom"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -466,7 +451,6 @@
                     </VisualState>
 
                     <VisualState x:Name="TopReorderHint">
-
                         <Storyboard>
                             <DragOverThemeAnimation Direction="Top"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -475,7 +459,6 @@
                     </VisualState>
 
                     <VisualState x:Name="RightReorderHint">
-
                         <Storyboard>
                             <DragOverThemeAnimation Direction="Right"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -484,7 +467,6 @@
                     </VisualState>
 
                     <VisualState x:Name="LeftReorderHint">
-
                         <Storyboard>
                             <DragOverThemeAnimation Direction="Left"
                                                     ToOffset="{ThemeResource ListViewItemReorderHintThemeOffset}"
@@ -502,7 +484,6 @@
                     <VisualState x:Name="NotDragging" />
 
                     <VisualState x:Name="Dragging">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="LayoutRoot"
                                              Storyboard.TargetProperty="Opacity"
@@ -521,7 +502,6 @@
                     <VisualState x:Name="DraggedPlaceholder" />
 
                     <VisualState x:Name="Reordering">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="LayoutRoot"
                                              Storyboard.TargetProperty="Opacity"
@@ -531,7 +511,6 @@
                     </VisualState>
 
                     <VisualState x:Name="ReorderingTarget">
-
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="LayoutRoot"
                                              Storyboard.TargetProperty="Opacity"
@@ -551,14 +530,12 @@
                     <VisualState x:Name="MultipleReorderingPrimary" />
 
                     <VisualState x:Name="ReorderedPlaceholder">
-
                         <Storyboard>
                             <FadeOutThemeAnimation TargetName="LayoutRoot" />
                         </Storyboard>
                     </VisualState>
 
                     <VisualState x:Name="DragOver">
-
                         <Storyboard>
                             <DropTargetItemThemeAnimation TargetName="LayoutRoot" />
                         </Storyboard>
@@ -593,9 +570,7 @@
         <Setter Property="MinHeight" Value="{ThemeResource TabViewItemHeaderMinHeight}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="FocusVisualMargin" Value="0" />
-        <!--  todo: may need to change this too  -->
         <Setter Property="Template" Value="{StaticResource TabViewItemHeaderTemplate}" />
-        <!--  todo: may need to change the name to Header to keep it consistent  -->
     </Style>
 
     <Style x:Key="TabViewItemCloseButtonStyle"
