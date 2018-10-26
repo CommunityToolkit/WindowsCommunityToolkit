@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       mc:Ignorable="d">
- 
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition/>
@@ -18,21 +18,21 @@
                       IsCloseButtonOverlay="@[Overlay Close Button:Bool:False]"
                       CanDragItems="@[Drag and Drop Enabled:Bool:False]"
                       CanReorderItems="@[Drag and Drop Enabled]"
-                      AllowDrop="@[Drag and Drop Enabled]">
+                      AllowDrop="@[Drag and Drop Enabled]"
+                      SelectedTabWidth="200">
+      <controls:TabView.Resources>
+        <x:Double x:Key="TabViewItemHeaderMinHeight">40</x:Double>
+        <x:Double x:Key="TabViewItemHeaderMinWidth">48</x:Double>
+      </controls:TabView.Resources>
       <controls:TabView.Header>
         <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>
       </controls:TabView.Header>
       <controls:TabView.TabStartHeader>
-        <Button x:Name="AddTabButtonUpper"
-                Width="48"
-                Height="40"
-                Background="Transparent"
-                BorderThickness="1"
-                Style="{StaticResource ButtonRevealStyle}">
-          <Viewbox MaxWidth="16"
-                    MaxHeight="16">
-            <FontIcon FontFamily="Segoe MDL2 Assets"
-                      Glyph="&#xE710;" />
+        <Button Width="48"
+                Height="{StaticResource TabViewItemHeaderMinHeight}"
+                BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Padding="2,2,0,0">
+          <Viewbox MaxWidth="16" MaxHeight="16">
+            <SymbolIcon Symbol="AddFriend"/>
           </Viewbox>
         </Button>
       </controls:TabView.TabStartHeader>
@@ -52,15 +52,26 @@
       </controls:TabViewItem>
 
       <controls:TabView.TabActionHeader>
-        <Button Width="48" Height="40" Margin="-1,0,0,0" BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}" Padding="2,2,0,0">
-          <Viewbox MaxWidth="16" MaxHeight="16">
-            <SymbolIcon Symbol="AddFriend"/>
+        <Button x:Name="AddTabButtonUpper"
+                Width="48"
+                Height="{StaticResource TabViewItemHeaderMinHeight}"
+                Margin="-1,0,0,0"
+                Background="Transparent"
+                BorderThickness="1"
+                Style="{StaticResource ButtonRevealStyle}">
+          <Viewbox MaxWidth="16"
+                    MaxHeight="16">
+            <FontIcon FontFamily="Segoe MDL2 Assets"
+                      Glyph="&#xE710;" />
           </Viewbox>
         </Button>
+
       </controls:TabView.TabActionHeader>
 
       <controls:TabView.TabEndHeader>
-        <Button Width="48" Height="40" BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
+        <Button Width="48"
+                Height="{StaticResource TabViewItemHeaderMinHeight}"
+                BorderThickness="1" Background="Transparent" Style="{StaticResource ButtonRevealStyle}">
           <Viewbox MaxWidth="16" MaxHeight="16">
             <SymbolIcon Symbol="Setting"/>
           </Viewbox>

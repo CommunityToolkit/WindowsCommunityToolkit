@@ -103,7 +103,7 @@
 
     <!--  TODO: Think we have a timing issue with TabWidthsAdjusting after this converter calculates...  -->
     <converters:DoubleToVisibilityConverter x:Key="GreaterThanToleranceVisibilityConverter"
-                                            GreaterThan="12.0" />
+                                            GreaterThan="64.0" />
 
     <converters:BoolToObjectConverter x:Key="CloseCollapsingSizeConverter"
                                       FalseValue="{StaticResource TabViewItemHeaderCloseWidth}"
