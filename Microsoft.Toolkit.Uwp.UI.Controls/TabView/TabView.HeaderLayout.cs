@@ -61,6 +61,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             // If we have a scroll container, get its size.
                             required = _tabScroller.ExtentWidth;
                         }
+
+                        // Restore original widths
+                        foreach (var item in Items)
+                        {
+                            var tab = ContainerFromItem(item) as TabViewItem;
+                            if (tab == null)
+                            {
+                                continue; // container not generated yet
+                            }
+
+                            if (tab.ReadLocalValue(OriginalWidthProperty) != DependencyProperty.UnsetValue)
+                            {
+                                tab.Width = GetOriginalWidth(tab);
+                            }
+                        }
                     }
                     else if (available > 0)
                     {
