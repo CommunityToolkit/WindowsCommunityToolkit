@@ -206,6 +206,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
+            base.PrepareContainerForItemOverride(element, item);
+
             var tvi = element as TabViewItem;
 
             tvi.Loaded += TabViewItem_Loaded;
@@ -237,8 +239,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
                 tvi.SetBinding(TabViewItem.IsClosableProperty, iscloseablebinding);
             }
-
-            base.PrepareContainerForItemOverride(element, item);
         }
 
         private void TabViewItem_Loaded(object sender, RoutedEventArgs e)

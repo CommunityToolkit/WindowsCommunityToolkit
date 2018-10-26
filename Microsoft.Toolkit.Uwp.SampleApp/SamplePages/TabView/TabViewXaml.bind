@@ -23,6 +23,7 @@
       <controls:TabView.Resources>
         <x:Double x:Key="TabViewItemHeaderMinHeight">40</x:Double>
         <x:Double x:Key="TabViewItemHeaderMinWidth">48</x:Double>
+        <x:Double x:Key="TabViewItemHeaderMaxWidth">200</x:Double>
       </controls:TabView.Resources>
       <controls:TabView.Header>
         <TextBlock Padding="16,8,0,8" FontSize="16" FontWeight="Bold" Text="TabView Control Header"/>

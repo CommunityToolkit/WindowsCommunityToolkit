@@ -94,6 +94,7 @@
     <x:Double x:Key="TabViewItemHeaderIconSize">16</x:Double>
     <x:Double x:Key="TabViewItemHeaderMinWidth">48</x:Double>
     <x:Double x:Key="TabViewItemHeaderMinHeight">40</x:Double>
+    <x:Double x:Key="TabViewItemHeaderMaxWidth">NaN</x:Double>
     <x:Double x:Key="TabViewItemHeaderCloseWidth">32</x:Double>
 
     <converters:EmptyObjectToObjectConverter x:Key="NullVisibilityConverter"
@@ -569,6 +570,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="MinWidth" Value="{ThemeResource TabViewItemHeaderMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource TabViewItemHeaderMinHeight}" />
+        <Setter Property="MaxWidth" Value="{ThemeResource TabViewItemHeaderMaxWidth}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="FocusVisualMargin" Value="0" />
         <Setter Property="Template" Value="{StaticResource TabViewItemHeaderTemplate}" />

@@ -2,12 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -114,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             if (width > double.Epsilon)
                             {
                                 tab.Width = width;
-                                required += width;
+                                required += Math.Max(Math.Min(width, tab.MaxWidth), tab.MinWidth);
                             }
                             else
                             {
