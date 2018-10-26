@@ -24,14 +24,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TabsScrollViewerName, Type = typeof(ScrollViewer))]
     [TemplatePart(Name = TabsScrollBackButtonName, Type = typeof(ButtonBase))]
     [TemplatePart(Name = TabsScrollForwardButtonName, Type = typeof(ButtonBase))]
-    public partial class TabView : ListView
+    public partial class TabView : ListViewBase
     {
         private const int SCROLL_AMOUNT = 50; // TODO: Should this be based on TabWidthMode
 
         private const string TabContentPresenterName = "TabContentPresenter";
         private const string TabViewContainerName = "TabViewContainer";
         private const string TabsItemsPresenterName = "TabsItemsPresenter";
-        private const string TabsScrollViewerName = "TabsScrollViewer";
+        private const string TabsScrollViewerName = "ScrollViewer";
         private const string TabsScrollBackButtonName = "ScrollBackButton";
         private const string TabsScrollForwardButtonName = "ScrollForwardButton";
 

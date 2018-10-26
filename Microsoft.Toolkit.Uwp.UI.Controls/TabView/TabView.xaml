@@ -138,7 +138,8 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <ItemsStackPanel Orientation="Horizontal" />
+                    <!-- Note: We have to use StackPanel here due to other issues using ItemsStackPanel or VirtualizingStackPanel -->
+                    <StackPanel Orientation="Horizontal" />
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -185,7 +186,7 @@
                               Content="{TemplateBinding TabStartHeader}"
                               ContentTemplate="{TemplateBinding TabStartHeaderTemplate}" />
 
-            <ScrollViewer x:Name="TabsScrollViewer"
+            <ScrollViewer x:Name="ScrollViewer"
                           Grid.Row="1"
                           Grid.Column="1"
                           AutomationProperties.AccessibilityView="Raw"
