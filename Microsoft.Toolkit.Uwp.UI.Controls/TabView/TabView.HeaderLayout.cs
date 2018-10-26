@@ -107,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                 SetOriginalWidth(tab, tab.Width);
                             }
 
-                            if (width > 0)
+                            if (width > double.Epsilon)
                             {
                                 tab.Width = width;
                                 required += width;

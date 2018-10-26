@@ -124,6 +124,7 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="False" /> <!-- Need this as Width being dynamically changed in same cases to fill up an entire space, otherwise gap. -->
         <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemHeaderStyle}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
@@ -220,7 +221,10 @@
 
             <ContentPresenter x:Name="TabContentPresenter"
                               Grid.Row="2"
-                              Grid.ColumnSpan="6" />
+                              Grid.ColumnSpan="6"
+                              Background="{TemplateBinding Background}"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}" />
 
             <ContentPresenter Grid.Row="3"
                               Grid.ColumnSpan="6"
