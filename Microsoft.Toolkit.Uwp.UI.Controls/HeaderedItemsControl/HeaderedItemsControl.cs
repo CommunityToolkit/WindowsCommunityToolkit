@@ -38,7 +38,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(HeaderedItemsControl),
             new PropertyMetadata(null));
 
-
         /// <summary>
         /// Identifies the <see cref="Orientation"/> dependency property.
         /// </summary>
