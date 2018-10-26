@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Tabs_TabDraggedOutside(object sender, TabDraggedOutsideEventArgs e)
         {
-            await new MessageDialog("Tore Tab Outside of TabView.").ShowAsync();
+            await new MessageDialog("Tore Tab '" + e.Tab.Header + "' Outside of TabView.").ShowAsync();
         }
     }
 }

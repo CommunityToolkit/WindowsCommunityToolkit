@@ -209,6 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var tvi = element as TabViewItem;
 
             tvi.Loaded += TabViewItem_Loaded;
+            tvi.Closing += TabViewItem_Closing;
 
             if (tvi.Header == null)
             {
@@ -246,14 +247,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             tvi.Loaded -= TabViewItem_Loaded;
 
-            // TODO: Move this to OnApplyTemplate in TabViewItem?  See BladeItem
-            var btn = tvi.FindDescendantByName("CloseButton") as Button;
-            if (btn != null)
-            {
-                btn.Click -= CloseButton_Clicked;
-                btn.Click += CloseButton_Clicked;
-            }
-
             // Only need to do this once.
             if (!hasLoaded)
             {
@@ -273,27 +266,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CloseButton_Clicked(object sender, RoutedEventArgs e)
+        private void TabViewItem_Closing(object sender, TabClosingEventArgs e)
         {
-            var tvi = (sender as FrameworkElement).FindAscendant<TabViewItem>();
+            var item = ItemFromContainer(e.Tab);
 
-            if (tvi != null)
+            var args = new TabClosingEventArgs(item, e.Tab);
+            TabClosing?.Invoke(this, args);
+
+            if (!args.Cancel)
             {
-                var item = ItemFromContainer(tvi);
-
-                var args = new TabClosingEventArgs(item, tvi);
-                TabClosing?.Invoke(this, args);
-
-                if (!args.Cancel)
+                if (ItemsSource != null)
                 {
-                    if (ItemsSource != null)
-                    {
-                        _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
-                    }
-                    else
-                    {
-                        Items.Remove(item);
-                    }
+                    _removeItemsSourceMethod?.Invoke(ItemsSource, new object[] { item });
+                }
+                else
+                {
+                    Items.Remove(item);
                 }
             }
         }
