@@ -257,6 +257,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Only need to do this once.
             if (!hasLoaded)
             {
+                hasLoaded = true;
+
                 // Need to set a tab's selection on load, otherwise ListView resets to null.
                 SetInitialSelection();
 
@@ -268,8 +270,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // Make sure we complete layout now.
                 TabView_SizeChanged(this, null);
-
-                hasLoaded = true;
             }
         }
 

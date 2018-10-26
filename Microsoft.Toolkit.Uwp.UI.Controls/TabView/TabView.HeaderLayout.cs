@@ -104,6 +104,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             }
                         }
                     }
+                    else
+                    {
+                        // Fix negative bounds.
+                        available = 0.0;
+
+                        // Still need to determine a 'minimum' width (if available)
+                        // TODO: Consolidate this logic with above better?
+                        foreach (var item in Items)
+                        {
+                            var tab = ContainerFromItem(item) as TabViewItem;
+                            if (tab == null)
+                            {
+                                continue; // container not generated yet
+                            }
+
+                            mintabwidth = Math.Min(mintabwidth, tab.MinWidth);
+                        }
+                    }
+
+                    if (!(mintabwidth < double.MaxValue))
+                    {
+                        mintabwidth = 0.0; // No Containers, no visual, 0 size.
+                    }
 
                     if (available > mintabwidth)
                     {
@@ -113,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     //// TODO: If it's less, should we move the selected tab to only be the one shown by default?
 
-                    if (available <= mintabwidth && mintabwidth < double.MaxValue)
+                    if (available <= mintabwidth || Math.Abs(available - mintabwidth) < double.Epsilon)
                     {
                         tabc.Width = new GridLength(mintabwidth);
                     }
