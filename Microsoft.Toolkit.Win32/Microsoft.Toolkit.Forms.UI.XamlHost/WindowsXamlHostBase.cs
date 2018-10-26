@@ -189,6 +189,10 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
                     ChildChanged?.Invoke(this, new EventArgs());
                 }
+                else
+                {
+                    _childInternal = value;
+                }
             }
         }
 
@@ -221,8 +225,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             set
             {
                 _dpiScalingRenderTransformEnabled = value;
-                UpdateDpiScalingFactor();
-                PerformLayout();
+                if (!DesignMode)
+                {
+                    UpdateDpiScalingFactor();
+                    PerformLayout();
+                }
             }
         }
 
