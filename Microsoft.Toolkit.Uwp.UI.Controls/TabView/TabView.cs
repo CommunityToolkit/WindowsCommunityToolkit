@@ -188,8 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                var container = ContainerFromItem(SelectedItem) as TabViewItem;
-                if (container != null)
+                if (ContainerFromItem(SelectedItem) is TabViewItem container)
                 {
                     _tabContentPresenter.Content = container.Content;
                     _tabContentPresenter.ContentTemplate = container.ContentTemplate;
