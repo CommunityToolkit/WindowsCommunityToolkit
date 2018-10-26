@@ -41,6 +41,10 @@ DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
 
 GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
 {
+    static int lastId = 0;
+    lastId++;
+    _uniqueId = lastId;
+
     _isLoaded = IsLoadedHeuristic(element);
 
     // Start watching for the element to enter and leave the visual tree.
@@ -77,12 +81,12 @@ void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
             if (value)
             {
                 // ...count the element in...
-                GazePointer::Instance->AddRoot(sender);
+                GazePointer::Instance->AddRoot(_uniqueId);
             }
             else
             {
                 // ...otherwise count the element out.
-                GazePointer::Instance->RemoveRoot(sender);
+                GazePointer::Instance->RemoveRoot(_uniqueId);
             }
         }
     }
@@ -101,7 +105,7 @@ void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
         if (_isEnabled)
         {
             // ...we can now be counted as actively enabled.
-            GazePointer::Instance->AddRoot(sender);
+            GazePointer::Instance->AddRoot(_uniqueId);
         }
     }
     else
@@ -123,7 +127,7 @@ void GazePointerProxy::OnUnloaded(Object^ sender, RoutedEventArgs^ args)
         if (_isEnabled)
         {
             // ...we no longer count as being actively enabled (because we have fallen out the visual tree).
-            GazePointer::Instance->RemoveRoot(sender);
+            GazePointer::Instance->RemoveRoot(_uniqueId);
         }
     }
     else
