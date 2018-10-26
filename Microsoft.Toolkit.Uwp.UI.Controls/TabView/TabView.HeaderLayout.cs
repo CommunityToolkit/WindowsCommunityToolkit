@@ -13,19 +13,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class TabView
     {
-        private static double GetInitialActualWidth(TabViewItem obj)
+        // Attached property for storing widths of tabs if set by other means during layout.
+        private static double GetOriginalWidth(TabViewItem obj)
         {
-            return (double)obj.GetValue(InitialActualWidthProperty);
+            return (double)obj.GetValue(OriginalWidthProperty);
         }
 
-        private static void SetInitialActualWidth(TabViewItem obj, double value)
+        private static void SetOriginalWidth(TabViewItem obj, double value)
         {
-            obj.SetValue(InitialActualWidthProperty, value);
+            obj.SetValue(OriginalWidthProperty, value);
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        private static readonly DependencyProperty InitialActualWidthProperty =
-            DependencyProperty.RegisterAttached("InitialActualWidth", typeof(double), typeof(TabView), new PropertyMetadata(0.0));
+        private static readonly DependencyProperty OriginalWidthProperty =
+            DependencyProperty.RegisterAttached("OriginalWidth", typeof(double), typeof(TabView), new PropertyMetadata(null));
 
         private static void OnLayoutEffectingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
@@ -53,7 +54,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     var required = 0.0;
                     var mintabwidth = double.MaxValue;
 
-                    if (available > 0)
+                    if (TabWidthBehavior == TabWidthMode.Actual)
+                    {
+                        if (_tabScroller != null)
+                        {
+                            // If we have a scroll container, get its size.
+                            required = _tabScroller.ExtentWidth;
+                        }
+                    }
+                    else if (available > 0)
                     {
                         // Calculate the width for each tab from the provider and determine how much space they take.
                         foreach (var item in Items)
@@ -70,15 +79,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                             switch (TabWidthBehavior)
                             {
-                                case TabWidthMode.Actual:
-                                    width = ProvideActualWidth(tab, item, available);
-                                    break;
                                 case TabWidthMode.Equal:
                                     width = ProvideEqualWidth(tab, item, available);
                                     break;
                                 case TabWidthMode.Compact:
                                     width = ProvideCompactWidth(tab, item, available);
                                     break;
+                            }
+
+                            if (tab.ReadLocalValue(OriginalWidthProperty) == DependencyProperty.UnsetValue)
+                            {
+                                SetOriginalWidth(tab, tab.Width);
                             }
 
                             if (width > 0)
@@ -88,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             }
                             else
                             {
-                                tab.Width = double.NaN;
+                                tab.Width = GetOriginalWidth(tab);
                                 required += tab.ActualWidth;
                             }
                         }
@@ -109,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (required >= available)
                     {
                         // Fix size as we don't have enough space for all the tabs.
-                        tabc.Width = new GridLength(tabc.MaxWidth);
+                        tabc.Width = new GridLength(available);
                     }
                     else
                     {
@@ -118,22 +129,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                 }
             }
-        }
-
-        private double ProvideActualWidth(TabViewItem tab, object item, double availableWidth)
-        {
-            var tabclosesize = tab.FindDescendantByName("CloseButtonContainer")?.Width;
-
-            var size = GetInitialActualWidth(tab);
-
-            if (size <= double.Epsilon && tab.ActualWidth > tab.MinWidth)
-            {
-                SetInitialActualWidth(tab, tab.ActualWidth);
-                size = tab.ActualWidth;
-            }
-
-            // If it's selected leave extra room for close button and add right-margin.
-            return (tab.IsClosable == true ? (tabclosesize.HasValue ? tabclosesize.Value : 0) : 0) + size;
         }
 
         private double ProvideEqualWidth(TabViewItem tab, object item, double availableWidth)
@@ -156,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var width = (availableWidth - SelectedTabWidth) / (Items.Count() - 1);
 
-                // Constrain between 90 and 200
+                // Constrain between Min and Selected (Max)
                 if (width < tab.MinWidth)
                 {
                     width = tab.MinWidth;

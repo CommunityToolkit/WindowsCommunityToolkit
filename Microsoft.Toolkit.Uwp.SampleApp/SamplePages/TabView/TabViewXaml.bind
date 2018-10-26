@@ -15,6 +15,7 @@
     <controls:TabView x:Name="Tabs"
                       TabWidthBehavior="@[Tab Width Behavior:Enum:TabWidthMode.Actual]"
                       CanCloseTabs="@[Can Close Tabs:Bool:False]"
+                      IsCloseButtonOverlay="@[Overlay Close Button:Bool:False]"
                       CanDragItems="@[Drag and Drop Enabled:Bool:False]"
                       CanReorderItems="@[Drag and Drop Enabled]"
                       AllowDrop="@[Drag and Drop Enabled]">
