@@ -9,6 +9,7 @@ using System.Linq;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
 using Microsoft.Toolkit.Win32.UI.Interop;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -18,7 +19,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     [Designer(typeof(InkToolbarToolButtonDesigner))]
     public class InkToolbarCustomPenButton : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarCustomPenButton UwpControl { get; set; }
+        internal Windows.UI.Xaml.Controls.InkToolbarCustomPenButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarCustomPenButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomPenButton"/> class, a
@@ -37,7 +38,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarCustomPenButton;
+        }
+
+        /// <inheritdoc />
+        protected override void SetContent(UIElement newValue)
+        {
+            // intentionally empty
         }
 
         /// <summary>
