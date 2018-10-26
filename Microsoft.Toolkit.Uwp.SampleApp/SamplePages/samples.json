@@ -83,7 +83,9 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
         "Icon": "/SamplePages/HeaderedTextBlock/HeaderedTextBlock.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedTextBlock.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/HeaderedTextBlock.md",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The HeaderedTextBlock has been replaced with the HeaderedContentControl and will be removed in a future major release."
       },
       {
         "Name": "MasterDetailsView",
