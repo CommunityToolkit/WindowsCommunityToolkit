@@ -300,7 +300,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (args.DropResult == DataPackageOperation.None)
             {
                 var item = args.Items.FirstOrDefault();
-                TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(item, ContainerFromItem(item) as TabViewItem));
+                var tab = ContainerFromItem(item) as TabViewItem;
+
+                if (tab == null && item is FrameworkElement fe)
+                {
+                    tab = fe.FindParent<TabViewItem>();
+                }
+
+                TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(item, tab));
             }
             else
             {
