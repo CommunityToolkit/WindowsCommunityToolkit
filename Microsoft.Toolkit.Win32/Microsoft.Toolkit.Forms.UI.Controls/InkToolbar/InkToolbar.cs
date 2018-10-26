@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkToolbar(string name)
             : base(name)
         {
-            if (!DesignMode)
+            if (UwpControl != null)
             {
                 ControlAdded += InkToolbar_ControlAdded;
                 ControlRemoved += InkToolbar_ControlRemoved;
@@ -277,11 +277,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             base.Dispose(disposing);
             if (disposing)
             {
-                if (!DesignMode)
-                {
-                    ControlAdded -= InkToolbar_ControlAdded;
-                    ControlRemoved -= InkToolbar_ControlRemoved;
-                }
+                ControlAdded -= InkToolbar_ControlAdded;
+                ControlRemoved -= InkToolbar_ControlRemoved;
             }
         }
     }
