@@ -37,13 +37,29 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkToolbar(string name)
             : base(name)
         {
+            if (UwpControl != null)
+            {
+                ControlAdded += InkToolbar_ControlAdded;
+                ControlRemoved += InkToolbar_ControlRemoved;
+                UwpControl.Visibility = Windows.UI.Xaml.Visibility.Collapsed; // supports a workaround for a bug:  InkToolbar won't initialize if it's not initially collapsed.
+                UwpControl.Loaded += OnUwpControlLoaded;
+            }
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            ControlAdded += InkToolbar_ControlAdded;
-            ControlRemoved += InkToolbar_ControlRemoved;
+        }
+
+        /// <summary>
+        /// supports a workaround for a bug:  InkToolbar won't initialize if it's not initially collapsed, so we update visibility on it's loaded event.
+        /// </summary>
+        /// <param name="sender">event sender</param>
+        /// <param name="e">event parameters</param>
+        private void OnUwpControlLoaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            UwpControl.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            UwpControl.Loaded -= OnUwpControlLoaded;
         }
 
         private void InkToolbar_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
@@ -140,6 +156,35 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
                 UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
             }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the control dynamically sizes to its content
+        /// </summary>
+        [ReadOnly(false)]
+        [Browsable(true)]
+        [Category("Layout")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public override bool AutoSize
+        {
+            get => base.AutoSize;
+
+            set => base.AutoSize = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the automatic size mode.
+        /// </summary>
+        /// <value>The automatic size mode.</value>
+        [ReadOnly(false)]
+        [Browsable(true)]
+        [Category("Layout")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public System.Windows.Forms.AutoSizeMode AutoSizeMode
+        {
+            get => GetAutoSizeMode();
+
+            set => SetAutoSizeMode(value);
         }
 
         /// <summary>
