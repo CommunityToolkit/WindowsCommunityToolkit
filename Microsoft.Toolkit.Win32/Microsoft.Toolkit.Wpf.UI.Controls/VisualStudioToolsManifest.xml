@@ -3,8 +3,8 @@
     <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.InkCanvas" />
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.InkToolbar" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MapControl" />
       <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MediaPlayerElement" />
-      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.WebView" />
     </ToolboxItems>
   </File>
 </FileList>
