@@ -2,11 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
 using Windows.System;
 using Windows.UI.Text;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 {
@@ -24,6 +27,90 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
         {
             CommonButtons = new CommonButtons(model);
             ButtonActions = new RichTextButtonActions(this);
+        }
+
+        /// <summary>
+        /// Invoked the flyout to change the font size
+        /// </summary>
+        /// <param name="button">The button pressed</param>
+        public void FormatFontSize(ToolbarButton button)
+        {
+            FontSizeButton.IsToggled = true;
+
+            if (fontSizeList == null)
+            {
+                fontSizeList = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0), SelectionMode = SelectionMode.Single };
+
+                var flyoutPresenterStyle = new Style(typeof(FlyoutPresenter));
+                flyoutPresenterStyle.Setters.Add(new Setter(FrameworkElement.MaxHeightProperty, 300));
+                fontSizeFlyout = new Flyout { Content = fontSizeList, FlyoutPresenterStyle = flyoutPresenterStyle };
+
+                var fontSizes = new double[] { 8, 9, 10, 10.5, 11, 12, 14, 16, 18, 20, 24, 26, 28, 36, 48, 72 };
+
+                foreach (double i in fontSizes)
+                {
+                    var item = new ListBoxItem
+                    {
+                        Content = new MarkdownTextBlock
+                        {
+                            Text = i.ToString(),
+                            IsTextSelectionEnabled = false
+                        },
+                        Tag = i,
+                        Padding = new Thickness(5, 2, 5, 2),
+                        Margin = new Thickness(0)
+                    };
+
+                    item.Tapped += FontSizeSelected;
+                    fontSizeList.Items.Add(item);
+                }
+            }
+
+            // Matching most common text editor behavior
+            // Nothing is selected means no font sizes selected
+            // Same font size across the selection means the current font size selected
+            // Different font sizes across the selection mean no font sizes selected
+            if (Selected.Length == 0)
+            {
+                fontSizeList.SelectedIndex = -1;
+            }
+            else
+            {
+                var fontMatching = false;
+                foreach (var listBoxItem in fontSizeList.Items)
+                {
+                    var item = listBoxItem as FrameworkElement;
+                    if (SelectionFormat.Size == Convert.ToSingle(item.Tag))
+                    {
+                        selectedFontSize = item;
+                        fontSizeList.SelectedItem = selectedFontSize;
+                        fontMatching = true;
+                    }
+                    else if (!fontMatching)
+                    {
+                        fontSizeList.SelectedIndex = -1;
+                    }
+                }
+            }
+
+            fontSizeFlyout.ShowAt(button);
+            fontSizeFlyout.Closed += FontSizeFlyout_Closed;
+        }
+
+        private void FontSizeSelected(object sender, TappedRoutedEventArgs e)
+        {
+            var item = sender as FrameworkElement;
+
+            var format = SelectionFormat;
+            format.Size = Convert.ToSingle(item.Tag);
+            SelectionFormat = format;
+
+            fontSizeFlyout?.Hide();
+        }
+
+        private void FontSizeFlyout_Closed(object sender, object e)
+        {
+            FontSizeButton.IsToggled = false;
         }
 
         /// <inheritdoc/>
@@ -58,11 +145,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
             if (Selected.CharacterFormat.Underline != UnderlineType.None)
             {
-                Underline.IsToggled = true;
+                UnderlineButton.IsToggled = true;
             }
             else
             {
-                Underline.IsToggled = false;
+                UnderlineButton.IsToggled = false;
             }
 
             switch (Selected.ParagraphFormat.ListType)
@@ -104,9 +191,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         internal ToolbarButton ItalicButton { get; set; }
 
+        internal ToolbarButton FontSizeButton { get; set; }
+
         internal ToolbarButton StrikeButton { get; set; }
 
-        internal ToolbarButton Underline { get; set; }
+        internal ToolbarButton UnderlineButton { get; set; }
 
         internal ToolbarButton ListButton { get; set; }
 
@@ -120,12 +209,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 BoldButton = CommonButtons.Bold;
                 ItalicButton = CommonButtons.Italics;
                 StrikeButton = CommonButtons.Strikethrough;
-                Underline = new ToolbarButton
+                UnderlineButton = new ToolbarButton
                 {
                     ToolTip = Model.Labels.UnderlineLabel,
                     Icon = new SymbolIcon { Symbol = Symbol.Underline },
                     ShortcutKey = VirtualKey.U,
                     Activation = ((RichTextButtonActions)ButtonActions).FormatUnderline
+                };
+                FontSizeButton = new ToolbarButton
+                {
+                    ToolTip = Model.Labels.FontSizeLabel,
+                    Icon = new SymbolIcon { Symbol = Symbol.FontSize },
+                    ShortcutKey = VirtualKey.F,
+                    Activation = FormatFontSize
                 };
                 ListButton = CommonButtons.List;
                 OrderedListButton = CommonButtons.OrderedList;
@@ -134,7 +230,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
                 {
                     BoldButton,
                     ItalicButton,
-                    Underline,
+                    UnderlineButton,
+                    FontSizeButton,
 
                     new ToolbarSeparator(),
 
@@ -160,5 +257,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.RichText
 
         /// <inheritdoc/>
         public override string NewLineChars => "\r\n";
+
+        private FrameworkElement selectedFontSize;
+
+        private ListBox fontSizeList;
+
+        private Flyout fontSizeFlyout;
     }
 }

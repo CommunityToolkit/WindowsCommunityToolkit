@@ -61,7 +61,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
         {
-            XamlCodeRenderer.Options.Folding = true;
+            if (XamlCodeRenderer.Options != null)
+            {
+                XamlCodeRenderer.Options.Folding = true;
+            }
         }
 
         private void XamlCodeRenderer_InternalException(CodeEditor sender, Exception args)

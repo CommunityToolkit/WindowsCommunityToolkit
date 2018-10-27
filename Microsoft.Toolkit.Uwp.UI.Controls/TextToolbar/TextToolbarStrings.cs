@@ -96,6 +96,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(UnderlineLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Underline"));
 
         /// <summary>
+        /// Identifies the <see cref="FontSizeLabel"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty FontSizeLabelProperty =
+            DependencyProperty.Register(nameof(FontSizeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("FontSize"));
+
+        /// <summary>
         /// Identifies the <see cref="HeaderLabel"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty HeaderLabelProperty =
@@ -249,6 +255,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (string)GetValue(UnderlineLabelProperty); }
             set { SetValue(UnderlineLabelProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the label for FontSize
+        /// </summary>
+        public string FontSizeLabel
+        {
+            get { return (string)GetValue(FontSizeLabelProperty); }
+            set { SetValue(FontSizeLabelProperty, value); }
         }
 
         /// <summary>
