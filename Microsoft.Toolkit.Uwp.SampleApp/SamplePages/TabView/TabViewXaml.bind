@@ -47,13 +47,13 @@
         <TextBlock Padding="16">The TabView control has multiple uses.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 2 Has Longer Text" Icon="Audio">
-        <TextBlock Padding="16">This tab has a custom header template and doesn't use an icon.</TextBlock>
+        <TextBlock Padding="16">It has a lot of versitility out of the box for different scenarios.</TextBlock>
       </controls:TabViewItem>
       <controls:TabViewItem Header="Tab 3" Icon="Video">
-        <TextBlock Padding="16">Try closing and re-ordering the tabs in the 2nd sample below.</TextBlock>
+        <TextBlock Padding="16">You can enable drag-and-drop and reorder the tabs too.</TextBlock>
       </controls:TabViewItem>
-      <controls:TabViewItem Header="Not Closable" Icon="Calendar" IsClosable="{ex:NullableBool Value=False}">
-        <TextBlock Padding="16">This tab isn't closable because its IsClosable property is set to False.</TextBlock>
+      <controls:TabViewItem Header="Not Closable" Icon="Calendar" IsClosable="False">
+        <TextBlock Padding="16">This tab isn't closable because its IsClosable property is set to False, even when CanCloseTabs is True.</TextBlock>
       </controls:TabViewItem>
 
       <controls:TabView.TabActionHeader>
