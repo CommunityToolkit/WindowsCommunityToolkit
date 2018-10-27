@@ -306,6 +306,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     tab = fe.FindParent<TabViewItem>();
                 }
 
+                if (tab == null)
+                {
+                    // We still don't have a TVI, most likely is a static TVI in the template being dragged and not selected.
+                    // This is a fallback scenario for static tabs.
+                    // Note: This can be wrong if two TabViewItems share the exact same Content (i.e. a string), this should be unlikely in any practical scenario.
+                    for (int i = 0; i < Items.Count; i++)
+                    {
+                        var tabItem = ContainerFromIndex(i) as TabViewItem;
+                        if (ReferenceEquals(tabItem.Content, item))
+                        {
+                            tab = tabItem;
+                            break;
+                        }
+                    }
+                }
+
                 TabDraggedOutside?.Invoke(this, new TabDraggedOutsideEventArgs(item, tab));
             }
             else

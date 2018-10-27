@@ -7,4 +7,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
+    <Grid>
+        <Grid x:Name="XamlRoot"/>
+        <controls:InAppNotification x:Name="TabViewNotification"
+                                    ShowDismissButton="True"
+                                    AnimationDuration="00:00:00.1000000"
+                                    VerticalOffset="100"
+                                    HorizontalOffset="0"
+                                    StackMode="Replace" />
+    </Grid>
 </Page>
