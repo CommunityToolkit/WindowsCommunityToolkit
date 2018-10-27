@@ -115,6 +115,7 @@
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Padding" Value="12, 0" />
         <Setter Property="Height" Value="40" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MenuItem">
@@ -131,7 +132,7 @@
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
                             IsTabStop="False"
-                            Height="{TemplateBinding Height}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                             Padding="{TemplateBinding Padding}"
                             Style="{StaticResource MenuButtonBase}">
                         <VisualStateManager.VisualStateGroups>
