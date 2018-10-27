@@ -17,10 +17,10 @@
         "Name": "TabView",
         "Type": "TabViewPage",
         "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
         "Icon": "/SamplePages/TabView/TabView.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/TabView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TabView.md"
       },
       {
         "Name": "DataGrid",
