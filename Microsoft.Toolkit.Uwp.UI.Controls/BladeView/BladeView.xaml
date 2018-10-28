@@ -23,7 +23,8 @@
             <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPressed" Color="{StaticResource SystemBaseMediumLowColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPressed" Color="Transparent"/>
-            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{StaticResource SystemBaseHighColor}"/>        </ResourceDictionary>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{StaticResource SystemBaseHighColor}"/>
+        </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{ThemeResource SystemColorButtonTextColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="{ThemeResource SystemColorButtonFaceColor}"/>
@@ -33,7 +34,8 @@
             <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPointerOver" Color="{ThemeResource SystemColorHighlightTextColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPressed" Color="{ThemeResource SystemColorHighlightColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPressed" Color="{ThemeResource SystemColorHighlightColor}"/>
-            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{ThemeResource SystemColorHighlightTextColor}"/>        </ResourceDictionary>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{ThemeResource SystemColorHighlightTextColor}"/>        
+        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <Style x:Key="HorizontalGridView"
