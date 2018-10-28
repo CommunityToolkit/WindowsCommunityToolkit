@@ -6,15 +6,34 @@
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{StaticResource SystemBaseHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPressed" Color="{StaticResource SystemBaseMediumLowColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPressed" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{StaticResource SystemBaseHighColor}"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{StaticResource SystemBaseHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="Transparent"/>
-        </ResourceDictionary>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPressed" Color="{StaticResource SystemBaseMediumLowColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPressed" Color="Transparent"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{StaticResource SystemBaseHighColor}"/>        </ResourceDictionary>
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{ThemeResource SystemColorButtonTextColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="{ThemeResource SystemColorButtonFaceColor}"/>
-        </ResourceDictionary>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="{ThemeResource SystemColorHighlightColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPointerOver" Color="{ThemeResource SystemColorHighlightTextColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPressed" Color="{ThemeResource SystemColorHighlightColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPressed" Color="{ThemeResource SystemColorHighlightColor}"/>
+            <SolidColorBrush x:Key="SystemControlBladeViewButtonForegroundPressed" Color="{ThemeResource SystemColorHighlightTextColor}"/>        </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
     <Style x:Key="HorizontalGridView"
@@ -28,7 +47,7 @@
     <Style x:Key="CloseButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBladeViewButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
         <Setter Property="Padding" Value="8,4,8,4"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -38,6 +57,7 @@
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
         <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="HighContrastAdjustment" Value="None"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -52,13 +72,13 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBackgroundPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBorderPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonForegroundPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
                                     </Storyboard>
@@ -66,13 +86,13 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBackgroundPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBorderPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonForegroundPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
                                     </Storyboard>
@@ -102,8 +122,8 @@
     <Style x:Key="EnlargeButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="{ThemeResource ButtonBackground}"/>
         <Setter Property="Foreground" Value="{ThemeResource ButtonForeground}"/>
-        <Setter Property="BorderBrush" Value="{ThemeResource ButtonBorderBrush}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource ButtonBorderThemeThickness}"/>
+        <Setter Property="BorderBrush" Value="{ThemeResource SystemControlBladeViewButtonBorderBrush}"/>
         <Setter Property="Padding" Value="8,4,8,4"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -112,6 +132,7 @@
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}"/>
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}"/>
         <Setter Property="FocusVisualMargin" Value="-3"/>
+        <Setter Property="HighContrastAdjustment" Value="None"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -126,13 +147,13 @@
                                 <VisualState x:Name="PointerOver">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBackgroundPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBorderPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPointerOver}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonForegroundPointerOver}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
                                     </Storyboard>
@@ -140,13 +161,13 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBackgroundPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonBorderPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
-                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBladeViewButtonForegroundPressed}"/>
                                         </ObjectAnimationUsingKeyFrames>
                                         <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
                                     </Storyboard>
@@ -318,7 +339,7 @@
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="0"
+                                    BorderThickness="1"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE73F;"
@@ -332,7 +353,7 @@
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="0"
+                                    BorderThickness="1"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE711;"
