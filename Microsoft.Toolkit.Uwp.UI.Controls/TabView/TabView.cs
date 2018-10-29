@@ -72,14 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler<TabClosingEventArgs> TabClosing;
 
         /// <inheritdoc/>
-        protected override DependencyObject GetContainerForItemOverride()
-        {
-            return new TabViewItem()
-            {
-                HeaderTemplate = ItemHeaderTemplate,
-                IsClosable = CanCloseTabs
-            };
-        }
+        protected override DependencyObject GetContainerForItemOverride() => new TabViewItem();
 
         /// <inheritdoc/>
         protected override bool IsItemItsOwnContainerOverride(object item)
@@ -221,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 tabitem.SetBinding(TabViewItem.HeaderTemplateProperty, headertemplatebinding);
             }
 
-            if (tabitem.ReadLocalValue(TabViewItem.IsClosableProperty) == DependencyProperty.UnsetValue)
+            if (tabitem.IsClosable != true && tabitem.ReadLocalValue(TabViewItem.IsClosableProperty) == DependencyProperty.UnsetValue)
             {
                 var iscloseablebinding = new Binding()
                 {

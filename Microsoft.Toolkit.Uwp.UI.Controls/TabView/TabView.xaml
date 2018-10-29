@@ -102,7 +102,7 @@
                                              NotEmptyValue="Visible" />
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
-    <!-- 65 is the size of both scroll buttons + 1 for layout rounding. -->
+    <!--  65 is the size of both scroll buttons + 1 for layout rounding.  -->
     <converters:DoubleToVisibilityConverter x:Key="GreaterThanToleranceVisibilityConverter"
                                             GreaterThan="65.0" />
 
@@ -125,8 +125,8 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
-        <Setter Property="UseLayoutRounding" Value="False" /> <!-- Need this as Width being dynamically changed in same cases to fill up an entire space, otherwise gap. -->
-        <Setter Property="ItemContainerStyle" Value="{StaticResource DefaultTabViewItemHeaderStyle}" />
+        <!--  Need UseLayoutRounding as Width being dynamically changed in same cases to fill up an entire space, otherwise gap.  -->
+        <Setter Property="UseLayoutRounding" Value="False" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
@@ -553,8 +553,7 @@
     </ControlTemplate>
 
     <!--  Based on Style for Windows.UI.Xaml.Controls.ListViewItem  -->
-    <Style x:Key="DefaultTabViewItemHeaderStyle"
-           TargetType="local:TabViewItem">
+    <Style TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="FontWeight" Value="SemiBold" />
@@ -573,6 +572,7 @@
         <Setter Property="MaxWidth" Value="{ThemeResource TabViewItemHeaderMaxWidth}" />
         <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
         <Setter Property="FocusVisualMargin" Value="0" />
+        <Setter Property="IsClosable" Value="False" />
         <Setter Property="Template" Value="{StaticResource TabViewItemHeaderTemplate}" />
     </Style>
 
