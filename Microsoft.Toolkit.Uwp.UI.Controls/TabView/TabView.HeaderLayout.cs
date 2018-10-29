@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnLayoutEffectingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             var tabview = sender as TabView;
-            if (tabview != null && tabview.hasLoaded)
+            if (tabview != null && tabview._hasLoaded)
             {
                 tabview.TabView_SizeChanged(tabview, null);
             }
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // We need to do this calculation here in Size Changed as the
             // Columns don't have their Actual Size calculated in Measure or Arrange.
-            if (hasLoaded && _tabViewContainer != null)
+            if (_hasLoaded && _tabViewContainer != null)
             {
                 // Look for our special columns to calculate size of other 'stuff'
                 var taken = _tabViewContainer.ColumnDefinitions.Sum(cd => GetIgnoreColumn(cd) ? 0 : cd.ActualWidth);
@@ -173,12 +173,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (double.IsNaN(SelectedTabWidth))
             {
-                if (Items.Count() <= 1)
+                if (Items.Count <= 1)
                 {
                     return availableWidth;
                 }
 
-                return Math.Max(tab.MinWidth, availableWidth / Items.Count());
+                return Math.Max(tab.MinWidth, availableWidth / Items.Count);
             }
             else if (Items.Count() <= 1)
             {
@@ -187,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                var width = (availableWidth - SelectedTabWidth) / (Items.Count() - 1);
+                var width = (availableWidth - SelectedTabWidth) / (Items.Count - 1);
 
                 // Constrain between Min and Selected (Max)
                 if (width < tab.MinWidth)

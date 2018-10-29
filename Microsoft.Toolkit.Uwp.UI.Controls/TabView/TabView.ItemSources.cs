@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Linq;
 using System.Reflection;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -47,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (action == CollectionChange.Reset)
             {
                 // Reset collection to reload later.
-                hasLoaded = false;
+                _hasLoaded = false;
             }
         }
 
@@ -56,13 +55,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (SelectedItem == null)
             {
                 // If we have an index, but didn't get the selection, make the selection
-                if (SelectedIndex >= 0 && SelectedIndex < Items.Count())
+                if (SelectedIndex >= 0 && SelectedIndex < Items.Count)
                 {
                     SelectedItem = Items[SelectedIndex];
                 }
 
                 // Otherwise, select the first item by default
-                else if (Items.Count() >= 1)
+                else if (Items.Count >= 1)
                 {
                     SelectedItem = Items[0];
                 }
@@ -111,20 +110,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _removeItemsSourceMethod = null;
             }
-        }
-
-        private object GetTabSource()
-        {
-            if (ItemsSource != null)
-            {
-                return ItemsSource;
-            }
-            else if (Items != null)
-            {
-                return Items;
-            }
-
-            return null;
         }
     }
 }

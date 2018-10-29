@@ -22,12 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private ButtonBase _tabCloseButton;
 
-        /// <summary>
-        /// Fired when the Tab's close button is clicked.
-        /// </summary>
-        public event EventHandler<TabClosingEventArgs> Closing;
-
-        private bool isMiddleClick;
+        private bool _isMiddleClick;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabViewItem"/> class.
@@ -35,10 +30,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TabViewItem()
         {
             DefaultStyleKey = typeof(TabViewItem);
-
-            PointerPressed += TabViewItem_PointerPressed;
-            PointerReleased += TabViewItem_PointerReleased;
         }
+
+        /// <summary>
+        /// Fired when the Tab's close button is clicked.
+        /// </summary>
+        public event EventHandler<TabClosingEventArgs> Closing;
 
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
@@ -58,17 +55,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void TabCloseButton_Click(object sender, RoutedEventArgs e)
+        /// <inheritdoc/>
+        protected override void OnPointerPressed(PointerRoutedEventArgs e)
         {
-            if (IsClosable)
-            {
-                Closing?.Invoke(this, new TabClosingEventArgs(Content, this));
-            }
-        }
+            base.OnPointerPressed(e);
 
-        private void TabViewItem_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            isMiddleClick = false;
+            _isMiddleClick = false;
 
             if (e.Pointer.PointerDeviceType == PointerDeviceType.Mouse)
             {
@@ -77,20 +69,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Record if middle button is pressed
                 if (pointerPoint.Properties.IsMiddleButtonPressed)
                 {
-                    isMiddleClick = true;
+                    _isMiddleClick = true;
                 }
             }
         }
 
-        private void TabViewItem_PointerReleased(object sender, PointerRoutedEventArgs e)
+        /// <inheritdoc/>
+        protected override void OnPointerReleased(PointerRoutedEventArgs e)
         {
+            base.OnPointerReleased(e);
+
             // Close on Middle-Click
-            if (isMiddleClick)
+            if (_isMiddleClick)
             {
                 TabCloseButton_Click(this, null);
             }
 
-            isMiddleClick = false;
+            _isMiddleClick = false;
+        }
+
+        private void TabCloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsClosable)
+            {
+                Closing?.Invoke(this, new TabClosingEventArgs(Content, this));
+            }
         }
     }
 }

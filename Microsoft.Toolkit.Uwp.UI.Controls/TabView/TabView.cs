@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = TabsScrollForwardButtonName, Type = typeof(ButtonBase))]
     public partial class TabView : ListViewBase
     {
-        private const int SCROLL_AMOUNT = 50; // TODO: Should this be based on TabWidthMode
+        private const int ScrollAmount = 50; // TODO: Should this be based on TabWidthMode
 
         private const string TabContentPresenterName = "TabContentPresenter";
         private const string TabViewContainerName = "TabViewContainer";
@@ -40,27 +40,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ButtonBase _tabScrollBackButton;
         private ButtonBase _tabScrollForwardButton;
 
-        /// <summary>
-        /// Occurs when a tab is dragged by the user outside of the <see cref="TabView"/>.  Generally, this paradigm is used to create a new-window with the torn-off tab.
-        /// The creation and handling of the new-window is left to the app's developer.
-        /// </summary>
-        public event EventHandler<TabDraggedOutsideEventArgs> TabDraggedOutside;
-
-        /// <summary>
-        /// Occurs when a tab's Close button is clicked.  Set <see cref="TabClosingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
-        /// </summary>
-        public event EventHandler<TabClosingEventArgs> TabClosing;
-
-        private bool hasLoaded;
-
-        private bool isDragging;
+        private bool _hasLoaded;
+        private bool _isDragging;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TabView"/> class.
         /// </summary>
         public TabView()
         {
-            this.DefaultStyleKey = typeof(TabView);
+            DefaultStyleKey = typeof(TabView);
 
             // Container Generation Hooks
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
@@ -72,11 +60,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged += TabView_SizeChanged;
         }
 
-        /// <inheritdoc/>
-        protected override void ClearContainerForItemOverride(DependencyObject element, object item)
-        {
-            base.ClearContainerForItemOverride(element, item);
-        }
+        /// <summary>
+        /// Occurs when a tab is dragged by the user outside of the <see cref="TabView"/>.  Generally, this paradigm is used to create a new-window with the torn-off tab.
+        /// The creation and handling of the new-window is left to the app's developer.
+        /// </summary>
+        public event EventHandler<TabDraggedOutsideEventArgs> TabDraggedOutside;
+
+        /// <summary>
+        /// Occurs when a tab's Close button is clicked.  Set <see cref="TabClosingEventArgs.Cancel"/> to true to prevent automatic Tab Closure.
+        /// </summary>
+        public event EventHandler<TabClosingEventArgs> TabClosing;
 
         /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride()
@@ -165,17 +158,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ScrollTabBackButton_Click(object sender, RoutedEventArgs e)
         {
-            _tabScroller.ChangeView(Math.Max(0, _tabScroller.HorizontalOffset - SCROLL_AMOUNT), null, null);
+            _tabScroller.ChangeView(Math.Max(0, _tabScroller.HorizontalOffset - ScrollAmount), null, null);
         }
 
         private void ScrollTabForwardButton_Click(object sender, RoutedEventArgs e)
         {
-            _tabScroller.ChangeView(Math.Min(_tabScroller.ScrollableWidth, _tabScroller.HorizontalOffset + SCROLL_AMOUNT), null, null);
+            _tabScroller.ChangeView(Math.Min(_tabScroller.ScrollableWidth, _tabScroller.HorizontalOffset + ScrollAmount), null, null);
         }
 
         private void TabView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (isDragging)
+            if (_isDragging)
             {
                 // Skip if we're dragging, we'll reset when we're done.
                 return;
@@ -196,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // If our width can be effected by the selection, need to run algorithm.
-            if (SelectedTabWidth != double.NaN)
+            if (!double.IsNaN(SelectedTabWidth))
             {
                 TabView_SizeChanged(sender, null);
             }
@@ -207,17 +200,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.PrepareContainerForItemOverride(element, item);
 
-            var tvi = element as TabViewItem;
+            var tabitem = element as TabViewItem;
 
-            tvi.Loaded += TabViewItem_Loaded;
-            tvi.Closing += TabViewItem_Closing;
+            tabitem.Loaded += TabViewItem_Loaded;
+            tabitem.Closing += TabViewItem_Closing;
 
-            if (tvi.Header == null)
+            if (tabitem.Header == null)
             {
-                tvi.Header = item;
+                tabitem.Header = item;
             }
 
-            if (tvi.HeaderTemplate == null)
+            if (tabitem.HeaderTemplate == null)
             {
                 var headertemplatebinding = new Binding()
                 {
@@ -225,10 +218,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Path = new PropertyPath(nameof(ItemHeaderTemplate)),
                     Mode = BindingMode.OneWay
                 };
-                tvi.SetBinding(TabViewItem.HeaderTemplateProperty, headertemplatebinding);
+                tabitem.SetBinding(TabViewItem.HeaderTemplateProperty, headertemplatebinding);
             }
 
-            if (tvi.ReadLocalValue(TabViewItem.IsClosableProperty) == DependencyProperty.UnsetValue)
+            if (tabitem.ReadLocalValue(TabViewItem.IsClosableProperty) == DependencyProperty.UnsetValue)
             {
                 var iscloseablebinding = new Binding()
                 {
@@ -236,20 +229,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     Path = new PropertyPath(nameof(CanCloseTabs)),
                     Mode = BindingMode.OneWay,
                 };
-                tvi.SetBinding(TabViewItem.IsClosableProperty, iscloseablebinding);
+                tabitem.SetBinding(TabViewItem.IsClosableProperty, iscloseablebinding);
             }
         }
 
         private void TabViewItem_Loaded(object sender, RoutedEventArgs e)
         {
-            var tvi = sender as TabViewItem;
+            var tabitem = sender as TabViewItem;
 
-            tvi.Loaded -= TabViewItem_Loaded;
+            tabitem.Loaded -= TabViewItem_Loaded;
 
             // Only need to do this once.
-            if (!hasLoaded)
+            if (!_hasLoaded)
             {
-                hasLoaded = true;
+                _hasLoaded = true;
 
                 // Need to set a tab's selection on load, otherwise ListView resets to null.
                 SetInitialSelection();
@@ -288,12 +281,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TabView_DragItemsStarting(object sender, DragItemsStartingEventArgs e)
         {
             // Keep track of drag so we don't modify content until done.
-            isDragging = true;
+            _isDragging = true;
         }
 
         private void TabView_DragItemsCompleted(ListViewBase sender, DragItemsCompletedEventArgs args)
         {
-            isDragging = false;
+            _isDragging = false;
 
             // args.DropResult == None when outside of area (e.g. create new window)
             if (args.DropResult == DataPackageOperation.None)
@@ -308,7 +301,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (tab == null)
                 {
-                    // We still don't have a TVI, most likely is a static TVI in the template being dragged and not selected.
+                    // We still don't have a TabViewItem, most likely is a static TabViewItem in the template being dragged and not selected.
                     // This is a fallback scenario for static tabs.
                     // Note: This can be wrong if two TabViewItems share the exact same Content (i.e. a string), this should be unlikely in any practical scenario.
                     for (int i = 0; i < Items.Count; i++)
