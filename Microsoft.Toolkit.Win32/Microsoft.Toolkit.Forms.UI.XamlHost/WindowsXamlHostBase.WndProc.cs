@@ -121,6 +121,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         PerformLayout();
                     }
 
+                    base.WndProc(ref m);
                     break;
 
                 default:
