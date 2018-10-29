@@ -77,6 +77,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         Superscript,
 
         /// <summary>
+        /// Sub script element.
+        /// </summary>
+        Subscript,
+
+        /// <summary>
         /// Image element.
         /// </summary>
         Image,
