@@ -58,6 +58,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DragItemsStarting += TabView_DragItemsStarting;
             DragItemsCompleted += TabView_DragItemsCompleted;
             SizeChanged += TabView_SizeChanged;
+
+            // Selection Hook
+            SelectionChanged += TabView_SelectionChanged;
         }
 
         /// <summary>
@@ -90,11 +93,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _tabItemsPresenter.SizeChanged -= TabView_SizeChanged;
             }
 
-            if (_tabContentPresenter != null)
-            {
-                SelectionChanged -= TabView_SelectionChanged;
-            }
-
             if (_tabScroller != null)
             {
                 _tabScroller.Loaded -= ScrollViewer_Loaded;
@@ -108,11 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_tabItemsPresenter != null)
             {
                 _tabItemsPresenter.SizeChanged += TabView_SizeChanged;
-            }
-
-            if (_tabContentPresenter != null)
-            {
-                SelectionChanged += TabView_SelectionChanged;
             }
 
             if (_tabScroller != null)
@@ -167,17 +160,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (SelectedItem == null)
+            if (_tabContentPresenter != null)
             {
-                _tabContentPresenter.Content = null;
-                _tabContentPresenter.ContentTemplate = null;
-            }
-            else
-            {
-                if (ContainerFromItem(SelectedItem) is TabViewItem container)
+                if (SelectedItem == null)
                 {
-                    _tabContentPresenter.Content = container.Content;
-                    _tabContentPresenter.ContentTemplate = container.ContentTemplate;
+                    _tabContentPresenter.Content = null;
+                    _tabContentPresenter.ContentTemplate = null;
+                }
+                else
+                {
+                    if (ContainerFromItem(SelectedItem) is TabViewItem container)
+                    {
+                        _tabContentPresenter.Content = container.Content;
+                        _tabContentPresenter.ContentTemplate = container.ContentTemplate;
+                    }
                 }
             }
 
