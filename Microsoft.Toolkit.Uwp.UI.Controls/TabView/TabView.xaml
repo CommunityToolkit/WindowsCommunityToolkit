@@ -179,7 +179,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <ContentPresenter Grid.Row="0"
-                              Grid.ColumnSpan="7"
+                              Grid.ColumnSpan="6"
                               Content="{TemplateBinding Header}"
                               ContentTemplate="{TemplateBinding HeaderTemplate}" />
 
