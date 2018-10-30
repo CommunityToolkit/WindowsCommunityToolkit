@@ -6382,7 +6382,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll += new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered += new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited += new PointerEventHandler(VerticalScrollBar_PointerExited);
-                _vScrollBar.ValueChanged += new RangeBaseValueChangedEventHandler(VerticalScrollBar_ValueChanged);
             }
         }
 
@@ -8237,7 +8236,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _vScrollBar.Scroll -= new ScrollEventHandler(VerticalScrollBar_Scroll);
                 _vScrollBar.PointerEntered -= new PointerEventHandler(VerticalScrollBar_PointerEntered);
                 _vScrollBar.PointerExited -= new PointerEventHandler(VerticalScrollBar_PointerExited);
-                _vScrollBar.ValueChanged -= new RangeBaseValueChangedEventHandler(VerticalScrollBar_ValueChanged);
             }
         }
 
@@ -9072,11 +9070,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void VerticalScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             ProcessVerticalScroll(e.ScrollEventType);
-        }
-
-        private void VerticalScrollBar_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            LoadMoreDataFromIncrementalItemsSourceAsync();
         }
 
         private bool _loadingItems;

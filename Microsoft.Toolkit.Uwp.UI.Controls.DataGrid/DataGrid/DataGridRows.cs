@@ -2784,6 +2784,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double newVerticalOffset = _verticalOffset + height;
                 if (height > 0)
                 {
+                    // Fire operation for loading more data from incremental data source
+                    LoadMoreDataFromIncrementalItemsSourceAsync();
+
                     // Scrolling Down
                     int lastVisibleSlot = GetPreviousVisibleSlot(this.SlotCount);
                     if (_vScrollBar != null && DoubleUtil.AreClose(_vScrollBar.Maximum, newVerticalOffset))
