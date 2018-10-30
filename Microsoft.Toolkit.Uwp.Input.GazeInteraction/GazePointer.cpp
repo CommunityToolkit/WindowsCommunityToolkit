@@ -765,7 +765,9 @@ void GazePointer::Click()
 /// </summary>
 IAsyncOperation<bool>^ GazePointer::RequestCalibrationAsync()
 {
-    return _devices->GetAt(0)->RequestCalibrationAsync();
+    return _devices->Size == 1 ?
+        _devices->GetAt(0)->RequestCalibrationAsync() :
+        concurrency::create_async([] { return false; });
 }
 
 

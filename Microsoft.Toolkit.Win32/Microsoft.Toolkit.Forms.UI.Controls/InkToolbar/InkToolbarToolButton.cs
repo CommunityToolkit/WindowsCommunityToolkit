@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -15,7 +16,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     [Designer(typeof(InkToolbarToolButtonDesigner))]
     public class InkToolbarToolButton : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl { get; set; }
+        internal Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarToolButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
@@ -34,7 +35,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+        }
+
+        /// <inheritdoc />
+        protected override void SetContent(UIElement newValue)
+        {
+            // intentionally empty
         }
 
         /// <summary>

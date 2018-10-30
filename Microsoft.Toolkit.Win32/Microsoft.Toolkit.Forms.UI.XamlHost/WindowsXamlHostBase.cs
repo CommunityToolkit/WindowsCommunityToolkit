@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.XamlHost;
 using Windows.Foundation.Metadata;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -44,6 +45,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// creating any DesktopWindowXamlSource instances if custom UWP XAML types are required.
         /// </summary>
         private readonly Windows.UI.Xaml.Application _application;
+
+        /// <summary>
+        /// Private field that backs ChildInternal property.
+        /// </summary>
+        private UIElement _childInternal;
 
         /// <summary>
         ///    Last preferredSize returned by UWP XAML during WinForms layout pass
@@ -150,19 +156,27 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         protected Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => (_xamlSource.Content as DpiScalingPanel).Child;
+            get => _childInternal;
 
             set
             {
                 if (!DesignMode)
                 {
+                    if (value == ChildInternal)
+                    {
+                        return;
+                    }
+
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = (_xamlSource.Content as DpiScalingPanel).Child as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = ChildInternal as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
                         oldFrameworkElement.SizeChanged -= OnChildSizeChanged;
                     }
+
+                    _childInternal = value;
+                    SetContent(value);
 
                     if (newFrameworkElement != null)
                     {
@@ -171,11 +185,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    (_xamlSource.Content as DpiScalingPanel).Child = value;
-
                     PerformLayout();
 
                     ChildChanged?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    _childInternal = value;
                 }
             }
         }
@@ -209,8 +225,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             set
             {
                 _dpiScalingRenderTransformEnabled = value;
-                UpdateDpiScalingFactor();
-                PerformLayout();
+                if (!DesignMode)
+                {
+                    UpdateDpiScalingFactor();
+                    PerformLayout();
+                }
             }
         }
 
