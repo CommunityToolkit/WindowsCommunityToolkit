@@ -1010,7 +1010,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             {
                 _incrementalItemsSource = incrementalDataSource;
             }
-            else if (_dataSource is ISupportIncrementalLoading incrementalItemsSource)
+            else if (_owner.ItemsSource is ISupportIncrementalLoading incrementalItemsSource)
             {
                 _incrementalItemsSource = incrementalItemsSource;
             }
