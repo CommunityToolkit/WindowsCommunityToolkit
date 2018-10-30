@@ -6,6 +6,7 @@
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{StaticResource SystemBaseHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="Transparent"/>
+            <Thickness x:Key="SystemControlBladeViewBorderThickness">0</Thickness>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="Transparent"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="Transparent"/>
@@ -17,6 +18,7 @@
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{StaticResource SystemBaseHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="Transparent"/>
+            <Thickness x:Key="SystemControlBladeViewBorderThickness">0</Thickness>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="Transparent"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="Transparent"/>
@@ -28,6 +30,7 @@
         <ResourceDictionary x:Key="HighContrast">
             <SolidColorBrush x:Key="SystemControlBladeViewForground" Color="{ThemeResource SystemColorButtonTextColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewBackground" Color="{ThemeResource SystemColorButtonFaceColor}"/>
+            <Thickness x:Key="SystemControlBladeViewBorderThickness">1</Thickness>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderBrush" Color="{ThemeResource SystemColorButtonTextColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}"/>
             <SolidColorBrush x:Key="SystemControlBladeViewButtonBorderPointerOver" Color="{ThemeResource SystemColorHighlightColor}"/>
@@ -287,7 +290,7 @@
         <Setter Property="MinWidth" Value="{ThemeResource GridViewItemMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource GridViewItemMinHeight}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
-        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderThickness" Value="{ThemeResource SystemControlBladeViewBorderThickness}" />
         <Setter Property="IsTabStop" Value="False" />
         <Setter Property="IsExpanded" Value="True"/>
         <Setter Property="Width" Value="320" />
@@ -341,7 +344,7 @@
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="1"
+                                    BorderThickness="{ThemeResource SystemControlBladeViewBorderThickness}"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE73F;"
@@ -355,7 +358,7 @@
                                     HorizontalAlignment="Right"
                                     AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="1"
+                                    BorderThickness="{ThemeResource SystemControlBladeViewBorderThickness}"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE711;"
