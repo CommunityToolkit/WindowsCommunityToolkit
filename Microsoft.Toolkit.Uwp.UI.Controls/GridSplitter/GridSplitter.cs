@@ -162,6 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public GridSplitter()
         {
             DefaultStyleKey = typeof(GridSplitter);
+            Loaded += GridSplitter_Loaded;
         }
 
         /// <inheritdoc />
