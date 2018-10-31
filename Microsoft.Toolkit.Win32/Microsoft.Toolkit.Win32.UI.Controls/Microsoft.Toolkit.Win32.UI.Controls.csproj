@@ -8,7 +8,8 @@
     <RunCodeAnalysis>true</RunCodeAnalysis>
 
     <Title>Windows Community Toolkit Win32 Controls</Title>
-    <Description>This library provides XAML user controls for Win32. It is part of the Windows Community Toolkit.</Description>
+    <Description>This package is now obsolete. Please use Microsoft.Toolkit.Wpf.UI.Controls.WebView and Microsoft.Toolkit.Forms.UI.Controls.WebView packages instead. For more information, go to https://github.com/Microsoft/WindowsCommunityToolkit/releases/tag/v5.0.0</Description>
+    <PackageReleaseNotes>This package is now obsolete.  Please use Microsoft.Toolkit.Wpf.UI.Controls.WebView and Microsoft.Toolkit.Forms.UI.Controls.WebView packages instead. For more information, go to https://github.com/Microsoft/WindowsCommunityToolkit/releases/tag/v5.0.0</PackageReleaseNotes>
     <PackageTags>WebView Win32 WPF WindowsForms</PackageTags>
 
     <!-- Need Metadata contract 6.0 or later -->
