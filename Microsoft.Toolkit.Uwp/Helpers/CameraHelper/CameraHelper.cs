@@ -15,7 +15,7 @@ using Windows.Media.MediaProperties;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Camera Helper class to capture frames from available camera sources.
+    /// Helper class for capturing frames from available camera sources.
     /// Make sure you have the capability webcam enabled for your app to access the device's camera.
     /// </summary>
     public class CameraHelper : IDisposable
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private bool _initialized;
 
         /// <summary>
-        /// Gets a list of MediaFrameSourceGroups available for video preview or video record.
+        /// Gets a list of <see cref="MediaFrameSourceGroups"/> available for video preview or video record.
         /// </summary>
         /// <returns>A <see cref="MediaFrameSourceGroup"/> list.</returns>
         public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetFrameSourceGroupsAsync()
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Gets the available MediaFrameFormats on the source.
+        /// Gets the available <see cref="MediaFrameFormats"/> on the source.
         /// </summary>
         public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
 
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public MediaFrameSource PreviewFrameSource { get => _previewFrameSource; }
 
         /// <summary>
-        /// Event raised when a new frame arrives.
+        /// Occurs when a new frame arrives.
         /// </summary>
         public event EventHandler<FrameEventArgs> FrameArrived;
 
@@ -118,11 +118,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
                 else
                 {
-                    // verify selected group is part of existing FrameSourceGroups
+                    // Verify selected group is part of existing FrameSourceGroups
                     _group = _frameSourceGroups.FirstOrDefault(g => g.Id == _group.Id);
                 }
 
-                // if there is no camera source available, we can't proceed.
+                // If there is no camera source available, we can't proceed
                 if (_group == null)
                 {
                     return CameraHelperResult.NoFrameSourceGroupAvailable;
@@ -171,7 +171,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Clean up the Camera Helper resources
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CleanUpAsync()
         {
             await semaphoreSlim.WaitAsync();
@@ -224,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return CameraHelperResult.NoFrameSourceAvailable;
                 }
 
-                // get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
+                // Get only formats of a certain framerate and compatible subtype for previewing, order them by resolution
                 _frameFormatsAvailable = _previewFrameSource.SupportedFormats.Where(format =>
                     format.FrameRate.Numerator / format.FrameRate.Denominator >= 15 // fps
                     && (string.Compare(format.Subtype, MediaEncodingSubtypes.Nv12, true) == 0
@@ -237,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return CameraHelperResult.NoCompatibleFrameFormatAvailable;
                 }
 
-                // set the format with the higest resolution available by default
+                // Set the format with the higest resolution available by default
                 var defaultFormat = _frameFormatsAvailable.Last();
                 await _previewFrameSource.SetFormatAsync(defaultFormat);
             }
@@ -270,9 +269,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Stops reading from the frame reader, disposes of the reader.
+        /// Stops reading from the frame reader and disposes of the reader.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task StopReaderAsync()
         {
             if (_frameReader != null)
@@ -283,7 +281,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 _frameReader = null;
             }
         }
-
         /// <summary>
         /// Handles the frame arrived event by converting the frame to a displayable
         /// format and rendering it to the screen.
