@@ -12,7 +12,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 <!-- - Feature request (UserVoice request: ) --> 
 <!-- - Sample app request -->
 <!-- - Documentation issue or request -->
-<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question -->
+<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md#question -->
 
 
 ## Current behavior
@@ -37,15 +37,15 @@ Nuget Package(s):
 Package Version(s): 
 
 Windows 10 Build Number:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (build number: )
 
 App min and target version:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:

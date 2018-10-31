@@ -10,7 +10,7 @@
       <DataTemplate x:Key="RowDetailsTemplate">
         <StackPanel>
           <TextBlock Margin="20" Text="Here are the details for the selected mountain:" />
-          <Grid Margin="20,10" Padding="5" RowSpacing="3" ColumnSpacing="5">
+          <Grid Margin="20,10" Padding="5">
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
@@ -79,7 +79,7 @@
         RowGroupHeaderPropertyNameAlternative="Range">
       <controls:DataGrid.Columns>
         <controls:DataGridTextColumn Header="Rank" Binding="{Binding Rank}" Tag="Rank" />
-        <controls:DataGridTextColumn Header="Mountain" Binding="{Binding Mountain}" Tag="Mountain" />
+        <controls:DataGridComboBoxColumn Header="Mountain" Binding="{Binding Mountain}" Tag="Mountain" />
         <controls:DataGridTextColumn Header="Height (m)" Binding="{Binding Height_m}" Tag="Height_m" />
         <controls:DataGridTextColumn Header="Range" Binding="{Binding Range}" Tag="Range" />
         <controls:DataGridTextColumn Header="Parent Mountain" Binding="{Binding Parent_mountain}" Tag="Parent_mountain" />

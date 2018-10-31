@@ -1,11 +1,38 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)"
+                    xmlns:contract5Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:contract5Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
-    xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)">
+                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
-    <Style TargetType="MenuFlyoutPresenter" x:Key="BaseMenuFlyoutStyle">
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Default">
+            <contract5Present:AcrylicBrush x:Key="MenuFlyoutAcrylicBackgroundBrush"
+                                           BackgroundSource="Backdrop"
+                                           FallbackColor="{ThemeResource SystemChromeMediumLowColor}"
+                                           TintColor="{ThemeResource SystemChromeMediumLowColor}"
+                                           TintOpacity="0.8" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="HighContrast">
+            <contract5Present:AcrylicBrush x:Key="MenuFlyoutAcrylicBackgroundBrush"
+                                           BackgroundSource="Backdrop"
+                                           FallbackColor="{ThemeResource SystemColorButtonFaceColor}"
+                                           TintColor="{ThemeResource SystemColorButtonFaceColor}"
+                                           TintOpacity="0.8" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Light">
+            <contract5Present:AcrylicBrush x:Key="MenuFlyoutAcrylicBackgroundBrush"
+                                           BackgroundSource="Backdrop"
+                                           FallbackColor="{ThemeResource SystemChromeMediumLowColor}"
+                                           TintColor="{ThemeResource SystemChromeMediumLowColor}"
+                                           TintOpacity="0.8" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+    <Style x:Key="BaseMenuFlyoutStyle"
+           TargetType="MenuFlyoutPresenter">
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="{ThemeResource MenuFlyoutPresenterThemePadding}" />
@@ -18,47 +45,44 @@
         <Setter Property="ScrollViewer.ZoomMode" Value="Disabled" />
         <Setter Property="MinWidth" Value="136" />
         <Setter Property="MaxWidth" Value="465" />
-        <Setter Property="MinHeight" Value="{ThemeResource MenuFlyoutThemeMinHeight}"/>
+        <Setter Property="MinHeight" Value="{ThemeResource MenuFlyoutThemeMinHeight}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuFlyoutPresenter">
                     <Grid Background="{TemplateBinding Background}">
                         <ScrollViewer x:Name="MenuFlyoutPresenterScrollViewer"
-                            Padding="{TemplateBinding Padding}"
-                            Margin="{TemplateBinding BorderThickness}"
-                            MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.FlyoutContentMinWidth}"
-                            HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
-                            HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
-                            VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
-                            VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
-                            IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
-                            IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
-                            ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}"
-                            AutomationProperties.AccessibilityView="Raw">
+                                      MinWidth="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.FlyoutContentMinWidth}"
+                                      Margin="{TemplateBinding BorderThickness}"
+                                      Padding="{TemplateBinding Padding}"
+                                      AutomationProperties.AccessibilityView="Raw"
+                                      HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
+                                      HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
+                                      IsHorizontalRailEnabled="{TemplateBinding ScrollViewer.IsHorizontalRailEnabled}"
+                                      IsVerticalRailEnabled="{TemplateBinding ScrollViewer.IsVerticalRailEnabled}"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
+                                      VerticalScrollMode="{TemplateBinding ScrollViewer.VerticalScrollMode}"
+                                      ZoomMode="{TemplateBinding ScrollViewer.ZoomMode}">
                             <ItemsPresenter Margin="0" />
                         </ScrollViewer>
                         <Border x:Name="MenuFlyoutPresenterBorder"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"/>
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <contract5NotPresent:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
-        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" />
+    <contract5NotPresent:Style x:Key="MenuFlyoutStyle"
+                               BasedOn="{StaticResource BaseMenuFlyoutStyle}"
+                               TargetType="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
     </contract5NotPresent:Style>
 
-    <contract5Present:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
-        <Setter Property="Background">
-            <Setter.Value>
-                <AcrylicBrush BackgroundSource="Backdrop" 
-                              TintColor="{StaticResource SystemChromeMediumLowColor}" 
-                              TintOpacity="0.8" 
-                              FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
-            </Setter.Value>
-        </Setter>
+    <contract5Present:Style x:Key="MenuFlyoutStyle"
+                            BasedOn="{StaticResource BaseMenuFlyoutStyle}"
+                            TargetType="MenuFlyoutPresenter">
+        <Setter Property="Background" Value="{ThemeResource MenuFlyoutAcrylicBackgroundBrush}" />
     </contract5Present:Style>
 
     <Style TargetType="local:Menu">
@@ -90,12 +114,14 @@
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="Padding" Value="12, 0" />
+        <Setter Property="Padding" Value="12,0" />
         <Setter Property="Height" Value="40" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MenuItem">
                     <Button x:Name="FlyoutButton"
+                            Height="{TemplateBinding Height}"
+                            Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
@@ -107,9 +133,7 @@
                             FontStyle="{TemplateBinding FontStyle}"
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
-                            IsTabStop="False"
-                            Height="{TemplateBinding Height}"
-                            Padding="{TemplateBinding Padding}">
+                            IsTabStop="False">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">

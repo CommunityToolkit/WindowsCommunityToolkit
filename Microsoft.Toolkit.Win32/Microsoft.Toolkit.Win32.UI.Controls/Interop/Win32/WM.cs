@@ -68,6 +68,10 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         NCMBUTTONUP = 0x00A8,
         NCMBUTTONDBLCLK = 0x00A9,
 
+        KEYDOWN = 0x0100,
+        KEYUP = 0x0101,
+        CHAR = 0x0102,
+
         SYSKEYDOWN = 0x0104,
         SYSKEYUP = 0x0105,
         SYSCHAR = 0x0106,
@@ -118,6 +122,8 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32
         TABLET_DELETED = TABLET_DEFBASE + 9,
         TABLET_FLICK = TABLET_DEFBASE + 11,
         TABLET_QUERYSYSTEMGESTURESTATUS = TABLET_DEFBASE + 12,
+
+        DPICHANGED_AFTERPARENT = 0x02E3,
 
         CUT = 0x0300,
         COPY = 0x0301,

@@ -1,10 +1,10 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit UI</Title>
-    <Description>This library provides UI services. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows UI Converters</PackageTags>
+    <Description>This library provides UI components, such as XAML extensions, helpers, brushes, converters and more. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers brushes blur</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>

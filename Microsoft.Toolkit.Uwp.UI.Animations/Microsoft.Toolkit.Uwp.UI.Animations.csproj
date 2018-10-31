@@ -1,14 +1,10 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Animations</Title>
-    <Description>This library provides helpers and services on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Animations Composition</PackageTags>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <NoWarn>CS8002</NoWarn>
+    <Description>This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.</Description>
+    <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

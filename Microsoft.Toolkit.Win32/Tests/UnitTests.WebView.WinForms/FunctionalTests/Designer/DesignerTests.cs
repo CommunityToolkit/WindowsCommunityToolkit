@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
     {
         protected override void CreateWebView()
         {
-            WebView = new UI.Controls.WinForms.WebView()
+            WebView = new Forms.UI.Controls.WebView()
             {
                 IsScriptNotifyAllowed = true
             };
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Test.WinForms.WebView.FunctionalTe
     {
         protected override void CreateWebView()
         {
-            WebView = new UI.Controls.WinForms.WebView();
+            WebView = new Forms.UI.Controls.WebView();
         }
 
         protected override void When()

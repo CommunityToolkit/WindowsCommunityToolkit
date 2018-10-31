@@ -5,8 +5,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.Twitter;
+using Microsoft.Toolkit.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -77,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if ((ex.Errors?.Errors?.Length > 0) && (ex.Errors.Errors[0].Code == 89))
                 {
                     await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
-                    TwitterService.Instance.Logout();
+                    await TwitterService.Instance.LogoutAsync();
                     return;
                 }
                 else
@@ -167,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var stream = await picture.OpenReadAsync())
                 {
-                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
+                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
                 }
             }
         }

@@ -97,6 +97,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public Brush InlineCodeBackground { get; set; }
 
         /// <summary>
+        /// Gets or sets the brush used to fill the foreground of inline code.
+        /// </summary>
+        public Brush InlineCodeForeground { get; set; }
+
+        /// <summary>
         /// Gets or sets the brush used to fill the border of inline code.
         /// </summary>
         public Brush InlineCodeBorderBrush { get; set; }
@@ -218,6 +223,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// <see cref="Foreground"/> is used.
         /// </summary>
         public Brush TableBorderBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the brush used to render table borders.  If this is <c>null</c>, then
+        /// <see cref="Foreground"/> is used.
+        /// </summary>
+        public Brush YamlBorderBrush { get; set; }
 
         /// <summary>
         /// Gets or sets the brush used to render links.  If this is <c>null</c>, then

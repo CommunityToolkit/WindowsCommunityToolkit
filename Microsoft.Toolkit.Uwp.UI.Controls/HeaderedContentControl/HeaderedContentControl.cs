@@ -39,11 +39,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(HeaderedContentControl),
+            new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
+
+        /// <summary>
+        /// Gets or sets the <see cref="Orientation"/> used for the header.
+        /// </summary>
+        /// <remarks>
+        /// If set to <see cref="Orientation.Vertical"/> the header will be above the content.
+        /// If set to <see cref="Orientation.Horizontal"/> the header will be to the left of the content.
+        /// </remarks>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the data used for the header of each control.
         /// </summary>
         public object Header
         {
-            get { return (object)GetValue(HeaderProperty); }
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
@@ -63,6 +85,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="newValue">The new value of the <see cref="Header"/> property.</param>
         protected virtual void OnHeaderChanged(object oldValue, object newValue)
         {
+        }
+
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (HeaderedContentControl)d;
+
+            var orientation = control.Orientation == Orientation.Vertical
+                ? nameof(Orientation.Vertical)
+                : nameof(Orientation.Horizontal);
+
+            VisualStateManager.GoToState(control, orientation, true);
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

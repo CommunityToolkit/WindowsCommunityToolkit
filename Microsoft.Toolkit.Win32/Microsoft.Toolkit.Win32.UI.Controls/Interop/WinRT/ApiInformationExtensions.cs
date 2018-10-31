@@ -18,9 +18,9 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     // used to build the app.
     public static class ApiInformationExtensions
     {
-        public static void ExecuteIfPropertyPresent(string typeName, string propertyName, Action action)
+        public static void ExecuteIfEventPresent(string typeName, string eventName, Action action)
         {
-            if (ApiInformation.IsPropertyPresent(typeName, propertyName))
+            if (ApiInformation.IsEventPresent(typeName, eventName))
             {
                 try
                 {
@@ -30,22 +30,6 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
                 {
                 }
             }
-        }
-
-        public static T ExecuteIfPropertyPresent<T>(string typeName, string propertyName, Func<T> action)
-        {
-            if (ApiInformation.IsPropertyPresent(typeName, propertyName))
-            {
-                try
-                {
-                    return action();
-                }
-                catch (MissingMethodException)
-                {
-                }
-            }
-
-            return default(T);
         }
 
         public static void ExecuteIfMethodPresent(string typeName, string methodName, Action action)
@@ -76,9 +60,39 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
             }
         }
 
-        public static void ExecuteIfEventPresent(string typeName, string eventName, Action action)
+        public static void ExecuteIfPropertyPresent(string typeName, string propertyName, Action action)
         {
-            if (ApiInformation.IsEventPresent(typeName, eventName))
+            if (ApiInformation.IsPropertyPresent(typeName, propertyName))
+            {
+                try
+                {
+                    action();
+                }
+                catch (MissingMethodException)
+                {
+                }
+            }
+        }
+
+        public static T ExecuteIfPropertyPresent<T>(string typeName, string propertyName, Func<T> action)
+        {
+            if (ApiInformation.IsPropertyPresent(typeName, propertyName))
+            {
+                try
+                {
+                    return action();
+                }
+                catch (MissingMethodException)
+                {
+                }
+            }
+
+            return default(T);
+        }
+
+        public static void ExecuteIfTypePresent(string typeName, Action action)
+        {
+            if (ApiInformation.IsTypePresent(typeName))
             {
                 try
                 {

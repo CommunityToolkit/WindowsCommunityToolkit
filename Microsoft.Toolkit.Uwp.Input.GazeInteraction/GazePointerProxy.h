@@ -1,3 +1,6 @@
+//Copyright (c) Microsoft. All rights reserved. Licensed under the MIT license.
+//See LICENSE in the project root for license information.
+
 #pragma once
 
 #include "Interaction.h"
@@ -27,8 +30,8 @@ internal:
     /// <summary>
     /// Method called when the GazeInput.Interaction attached property is set to a new value.
     /// </summary>
-    /// <param name="element">The element being set. May be null to indicate whole user interface.</params>
-    /// <param name="value">The interaction enablement value being set.</params>
+    /// <param name="element">The element being set. May be null to indicate whole user interface.</param>
+    /// <param name="value">The interaction enablement value being set.</param>
     static void SetInteraction(FrameworkElement^ element, Interaction value);
 
 private:
@@ -36,7 +39,7 @@ private:
     /// <summary>
     /// Constructor.
     /// </summary>
-    /// <param name="element">The element proxy is attaching to.</params>
+    /// <param name="element">The element proxy is attaching to.</param>
     GazePointerProxy(FrameworkElement^ element);
 
     /// <summary>
@@ -57,6 +60,11 @@ private:
     void OnUnloaded(Object^ sender, RoutedEventArgs^ args);
 
 private:
+
+    /// <summary>
+    /// Non-zero ID associated with this instance.
+    /// </summary>
+    int _uniqueId;
 
     /// <summary>
     /// Indicator that the corresponding element is part of the visual tree.
