@@ -7,7 +7,7 @@
     <PackageIconUrl>https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png</PackageIconUrl>
     <PackageProjectUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit</PackageProjectUrl>
     <PackageLicenseUrl>https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/license.md</PackageLicenseUrl>
-    <PackageReleaseNotes>v3.0 release https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
+    <PackageReleaseNotes>v5.0.0 release https://github.com/windows-toolkit/WindowsCommunityToolkit/releases</PackageReleaseNotes>
     <Copyright>(c) .NET Foundation and Contributors.  All rights reserved.</Copyright>
     <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)Toolkit.ruleset</CodeAnalysisRuleSet>
     <DefaultLanguage>en-US</DefaultLanguage>
