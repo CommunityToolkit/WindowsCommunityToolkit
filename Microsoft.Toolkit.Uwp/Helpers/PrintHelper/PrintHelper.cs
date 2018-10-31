@@ -16,28 +16,28 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
     /// Helper class used to simplify document printing.
-    /// Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs />
     /// It allows you to render a framework element per page.
     /// </summary>
+    /// <remarks>Based on https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/Printing/cs/PrintHelper.cs</remarks>
     public class PrintHelper : IDisposable
     {
         /// <summary>
-        /// Event raised when print was successful
+        /// Occurs when a print was successful.
         /// </summary>
         public event Action OnPrintSucceeded;
 
         /// <summary>
-        /// Event raised when print failed
+        /// Occurs when a print fails.
         /// </summary>
         public event Action OnPrintFailed;
 
         /// <summary>
-        /// Event raised when print is cancelled by the user
+        /// Occurs when a print is canceled by the user.
         /// </summary>
         public event Action OnPrintCanceled;
 
         /// <summary>
-        /// Event which is called after print preview pages are generated.
+        /// Occurs after print preview pages are generated.
         /// </summary>
         /// <remarks>
         /// You can use this event to tweak the final rendering by adding/moving controls in the page.
@@ -45,12 +45,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public event Action<List<FrameworkElement>> OnPreviewPagesCreated;
 
         /// <summary>
-        /// Gets or sets the percent of app's margin width
+        /// Gets or sets the percentage of the app's margin width.
         /// </summary>
         public double ApplicationContentMarginLeft { get; set; } = 0.03;
 
         /// <summary>
-        /// Gets or sets the percent of app's margin height
+        /// Gets or sets the percentage of the app's margin height.
         /// </summary>
         public double ApplicationContentMarginTop { get; set; } = 0.03;
 
@@ -61,18 +61,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private PrintDocument _printDocument;
 
         /// <summary>
-        /// Marker interface for document source
+        /// Marker interface for document source.
         /// </summary>
         private IPrintDocumentSource _printDocumentSource;
 
         /// <summary>
-        /// A list of UIElements used to store the print preview pages.  This gives easy access
-        /// to any desired preview page.
+        /// The list of elements used to store the print preview pages.
+        /// This gives easy access to any desired preview page.
         /// </summary>
         private List<FrameworkElement> _printPreviewPages;
 
         /// <summary>
-        ///  A hidden canvas used to hold pages we wish to print
+        /// A hidden canvas used to hold pages we wish to print.
         /// </summary>
         private Canvas _printCanvas;
         private Panel _canvasContainer;
@@ -81,17 +81,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private bool _directPrint = false;
 
         /// <summary>
-        /// Gets the list of Framework element to print
+        /// The list of elements to print.
         /// </summary>
         private List<FrameworkElement> _elementsToPrint;
 
         /// <summary>
-        /// Gets the options for the print dialog
+        /// The options for the print dialog.
         /// </summary>
         private PrintHelperOptions _printHelperOptions;
 
         /// <summary>
-        /// Gets the default options for the print dialog
+        /// The default options for the print dialog.
         /// </summary>
         private PrintHelperOptions _defaultPrintHelperOptions;
 
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="PrintHelper"/> class.
         /// </summary>
         /// <param name="canvasContainer">XAML panel used to attach printing canvas. Can be hidden in your UI with Opacity = 0 for instance</param>
-        /// /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
+        /// <param name="defaultPrintHelperOptions">Default settings for the print tasks</param>
         public PrintHelper(Panel canvasContainer, PrintHelperOptions defaultPrintHelperOptions = null)
         {
             if (canvasContainer == null)
@@ -121,10 +121,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Add an element to the list of printable elements.
+        /// Adds an element to the list of elements to print.
         /// </summary>
-        /// <param name="element">Framework element to print</param>
-        /// <remarks>The element cannot have a parent. He must not be included in any visual tree.</remarks>
+        /// <param name="element">Framework element to print.</param>
+        /// <remarks>The element cannot have a parent; It must not be included in any visual tree.</remarks>
         public void AddFrameworkElementToPrint(FrameworkElement element)
         {
             if (element.Parent != null)
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Remove an element from the list of printable elements
+        /// Removes an element from the list of elements to print.
         /// </summary>
         /// <param name="element">Framework element to remove</param>
         public void RemoveFrameworkElementToPrint(FrameworkElement element)
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Empties the list of printable elements
+        /// Removes all elements from the list of elements to print.
         /// </summary>
         public void ClearListOfPrintableFrameworkElements()
         {
@@ -153,10 +153,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Start the print task.
+        /// Starts the print task.
         /// </summary>
         /// <param name="printTaskName">Name of the print task to use</param>
-        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with AddFrameworkElementToPrint method</param>
+        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
         public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
@@ -171,11 +171,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Start the print task.
+        /// Starts the print task.
         /// </summary>
         /// <param name="printTaskName">Name of the print task to use</param>
         /// <param name="printHelperOptions">Settings for the print task</param>
-        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with AddFrameworkElementToPrint method</param>
+        /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
         public Task ShowPrintUIAsync(string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
         {
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// This is the event handler for PrintManager.PrintTaskRequested.
         /// </summary>
         /// <param name="sender">PrintManager</param>
-        /// <param name="e">PrintTaskRequestedEventArgs </param>
+        /// <param name="e">PrintTaskRequestedEventArgs</param>
         private void PrintTaskRequested(PrintManager sender, PrintTaskRequestedEventArgs e)
         {
             PrintTask printTask = null;
@@ -265,20 +265,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
-                                {
-                                    OnPrintFailed?.Invoke();
-                                    break;
-                                }
+                            {
+                                OnPrintFailed?.Invoke();
+                                break;
+                            }
                             case PrintTaskCompletion.Canceled:
-                                {
-                                    OnPrintCanceled?.Invoke();
-                                    break;
-                                }
+                            {
+                                OnPrintCanceled?.Invoke();
+                                break;
+                            }
                             case PrintTaskCompletion.Submitted:
-                                {
-                                    OnPrintSucceeded?.Invoke();
-                                    break;
-                                }
+                            {
+                                OnPrintSucceeded?.Invoke();
+                                break;
+                            }
                         }
                     });
                 };
@@ -365,7 +365,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This is the event handler for PrintDocument.Paginate. It creates print preview pages for the app.
+        /// This is the event handler for <see cref="PrintDocument.Paginate"/>.
+        /// It creates print preview pages for the app.
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Paginate Event Arguments</param>
@@ -413,9 +414,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This is the event handler for PrintDocument.GetPrintPreviewPage. It provides a specific print preview page,
-        /// in the form of an UIElement, to an instance of PrintDocument. PrintDocument subsequently converts the UIElement
-        /// into a page that the Windows print system can deal with.
+        /// This is the event handler for <see cref="PrintDocument.GetPrintPreviewPage"/>.
+        /// It provides a specific print preview page, in the form of an UIElement, to an instance of PrintDocument.
+        /// PrintDocument subsequently converts the UIElement into a page that the Windows print system can deal with.
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Arguments containing the preview requested page</param>
@@ -426,15 +427,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This is the event handler for PrintDocument.AddPages. It provides all pages to be printed, in the form of
-        /// UIElements, to an instance of PrintDocument. PrintDocument subsequently converts the UIElements
-        /// into a pages that the Windows print system can deal with.
+        /// This is the event handler for <see cref="PrintDocument.AddPages"/>.
+        /// It provides all pages to be printed, in the form of UIElements, to an instance of PrintDocument.
+        /// PrintDocument subsequently converts the UIElements into a pages that the Windows print system can deal with.
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Add page event arguments containing a print task options reference</param>
         private void AddPrintPages(object sender, AddPagesEventArgs e)
         {
-            // Loop over all of the preview pages and add each one to  add each page to be printied
+            // Loop over all of the preview pages and add each one to add each page to be printed
             for (int i = 0; i < _printPreviewPages.Count; i++)
             {
                 // We should have all pages ready at this point...
@@ -448,10 +449,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This function creates and adds one print preview page to the internal cache of print preview
-        /// pages stored in printPreviewPages.
+        /// Creates and adds one print preview page to the internal cache of print preview pages stored in <see cref="_printPreviewPages"/>.
         /// </summary>
-        /// <param name="element">FrameworkElement that is used to represent the "printing page"</param>
+        /// <param name="element">FrameworkElement used to represent the "printing page"</param>
         /// <param name="printPageDescription">Printer's page description</param>
         private void AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
@@ -473,7 +473,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
 
-            // Set-up "printable area" on the "paper"
+            // Set up the "printable area" on the "paper"
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
 
@@ -517,7 +517,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     }
                 }
 
-            _printPreviewPages.Clear();
+                _printPreviewPages.Clear();
             });
         }
     }
