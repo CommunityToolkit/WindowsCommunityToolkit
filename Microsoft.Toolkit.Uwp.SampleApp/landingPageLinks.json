@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "DataGrid", "PlannerTaskList", "PowerBIEmbedded", "Twitter Service", "LinkedIn Service" ],
+  "new-samples": [ "WindowsXamlHost", "TabView", "Weibo Service", "InkCanvas", "WebViewCompatible" ],
   "resources": [
     {
       "title": "Toolkit",
