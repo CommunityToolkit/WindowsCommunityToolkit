@@ -33,6 +33,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkToolbarPenButton(string name)
             : base(name)
         {
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (System.ComponentModel.LicenseManager.UsageMode == System.ComponentModel.LicenseUsageMode.Designtime)
+            {
+                return;
+            }
         }
 
         protected override void OnHandleCreated(EventArgs e)

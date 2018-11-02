@@ -33,9 +33,11 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         public SwapChainPanel(string typeName)
             : base(typeName)
         {
-            if (UwpControl != null)
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
             {
-                UwpControl.CompositionScaleChanged += OnCompositionScaleChanged;
+                return;
             }
         }
 

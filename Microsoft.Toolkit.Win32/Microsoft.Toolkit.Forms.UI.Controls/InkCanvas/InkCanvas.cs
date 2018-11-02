@@ -20,6 +20,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkCanvas(string name)
             : base(name)
         {
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                return;
+            }
         }
 
         /// <summary>
