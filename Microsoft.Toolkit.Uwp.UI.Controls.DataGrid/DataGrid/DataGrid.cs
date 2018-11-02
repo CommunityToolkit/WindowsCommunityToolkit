@@ -10,8 +10,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Security;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
@@ -29,7 +27,6 @@ using Windows.System;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -869,6 +866,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the amount of data to fetch for virtualizing/prefetch operations.
+        /// </summary>
+        /// <returns>
+        /// The amount of data to fetch per interval, in pages.
+        /// </returns>
+        public double DataFetchSize
+        {
+            get { return (double)GetValue(DataFetchSizeProperty); }
+            set { SetValue(DataFetchSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DataFetchSize"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DataFetchSizeProperty =
+            DependencyProperty.Register(
+                "DataFetchSize",
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(DATAGRID_defaultDataFetchSize));
+
+        /// <summary>
         /// Gets or sets the style that is used when rendering the drag indicator
         /// that is displayed while dragging column headers.
         /// </summary>
@@ -1312,28 +1331,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(IncrementalLoadingTrigger),
                 typeof(DataGrid),
                 new PropertyMetadata(IncrementalLoadingTrigger.Edge));
-
-        /// <summary>
-        /// Gets or sets the amount of data to fetch for virtualizing/prefetch operations.
-        /// </summary>
-        /// <returns>
-        /// The amount of data to fetch per interval, in pages.
-        /// </returns>
-        public double DataFetchSize
-        {
-            get { return (double)GetValue(DataFetchSizeProperty); }
-            set { SetValue(DataFetchSizeProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the <see cref="DataFetchSize"/> dependency property
-        /// </summary>
-        public static readonly DependencyProperty DataFetchSizeProperty =
-            DependencyProperty.Register(
-                "DataFetchSize",
-                typeof(double),
-                typeof(DataGrid),
-                new PropertyMetadata(DATAGRID_defaultDataFetchSize));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the control.
@@ -9072,27 +9069,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ProcessVerticalScroll(e.ScrollEventType);
         }
 
-        private bool _loadingItems;
-
-        private async void LoadMoreDataFromIncrementalItemsSourceAsync()
+        private void LoadMoreDataFromIncrementalItemsSourceAsync()
         {
-            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !_loadingItems)
+            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !DataConnection.IsLoadingMoreItems)
             {
                 var bottomScrollOffHeight = Math.Max(0, EdgedRowsHeightCalculated - CellsHeight - VerticalOffset);
 
                 if ((IncrementalLoadingThreshold * CellsHeight) >= bottomScrollOffHeight)
                 {
-                    _loadingItems = true;
+                    var numberOfRowsToLoad = Math.Max(1, (int)(DataFetchSize * CellsHeight / RowHeightEstimate));
 
-                    var numberOfRowsToLoad = (int)(DataFetchSize * CellsHeight / RowHeightEstimate);
-
-                    DataConnection.LoadingOperation = numberOfRowsToLoad > 1
-                        ? DataConnection.LoadMoreItemsAsync((uint)numberOfRowsToLoad)
-                        : DataConnection.LoadMoreItemsAsync(1);
-
-                    await DataConnection.LoadingOperation;
-
-                    _loadingItems = false;
+                    DataConnection.LoadMoreItems((uint)numberOfRowsToLoad);
                 }
             }
         }

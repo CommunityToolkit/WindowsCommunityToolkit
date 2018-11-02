@@ -16,7 +16,6 @@ using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
@@ -29,11 +28,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         private IEnumerable _dataSource;
         private Type _dataType;
         private bool _expectingCurrentChanged;
+        private ISupportIncrementalLoading _incrementalItemsSource;
         private object _itemToSelectOnCurrentChanged;
+        private IAsyncOperation<LoadMoreItemsResult> _loadingOperation;
         private DataGrid _owner;
         private bool _scrollForCurrentChanged;
-        private IAsyncOperation<LoadMoreItemsResult> _loadingOperation;
-        private ISupportIncrementalLoading _incrementalItemsSource;
         private DataGridSelectionAction _selectionActionForCurrentChanged;
         private WeakEventListener<DataGridDataConnection, object, NotifyCollectionChangedEventArgs> _weakCollectionChangedListener;
         private WeakEventListener<DataGridDataConnection, object, IVectorChangedEventArgs> _weakVectorChangedListener;
@@ -202,20 +201,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             }
         }
 
+        public bool HasMoreItems
+        {
+            get { return IsDataSourceIncremental && _incrementalItemsSource.HasMoreItems; }
+        }
+
         public bool IsDataSourceIncremental
         {
             get { return _incrementalItemsSource != null; }
         }
 
-        public bool HasMoreItems
+        public bool IsLoadingMoreItems
         {
-            get { return _incrementalItemsSource.HasMoreItems; }
-        }
-
-        public IAsyncOperation<LoadMoreItemsResult> LoadingOperation
-        {
-            get { return _loadingOperation; }
-            set { _loadingOperation = value; }
+            get { return _loadingOperation != null; }
         }
 
 #if FEATURE_IEDITABLECOLLECTIONVIEW
@@ -606,6 +604,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             return -1;
         }
 
+        public void LoadMoreItems(uint count)
+        {
+            Debug.Assert(_loadingOperation == null, "Expected _loadingOperation == null.");
+            _loadingOperation = _incrementalItemsSource.LoadMoreItemsAsync(count);
+            _loadingOperation.Completed = OnLoadingOperationCompleted;
+        }
+
 #if FEATURE_PAGEDCOLLECTIONVIEW
         /// <summary>
         /// Creates a collection view around the DataGrid's source. ICollectionViewFactory is
@@ -988,6 +993,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             }
         }
 
+        private void OnLoadingOperationCompleted(object info, AsyncStatus status)
+        {
+            if (status == AsyncStatus.Completed)
+            {
+                _loadingOperation = null;
+            }
+        }
+
         private void UpdateDataProperties()
         {
             Type dataType = this.DataType;
@@ -1019,12 +1032,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 _incrementalItemsSource = default(ISupportIncrementalLoading);
             }
 
-            _loadingOperation?.Cancel();
-        }
-
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-        {
-            return _incrementalItemsSource.LoadMoreItemsAsync(count);
+            if (_loadingOperation != null)
+            {
+                _loadingOperation.Cancel();
+                _loadingOperation = null;
+            }
         }
     }
 }
