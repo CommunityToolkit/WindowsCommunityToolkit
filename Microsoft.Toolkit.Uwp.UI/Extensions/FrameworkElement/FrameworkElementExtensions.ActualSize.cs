@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for enabling actual size binding on any  <see cref="Windows.UI.Xaml.FrameworkElement"/>.
         /// </summary>
-        public static readonly DependencyProperty EnableActualSizeBindingProperty = DependencyProperty.RegisterAttached("EnableActualSizeBinding", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnEnableActualSizeBindingtPropertyChanged));
+        public static readonly DependencyProperty EnableActualSizeBindingProperty = DependencyProperty.RegisterAttached("EnableActualSizeBinding", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnEnableActualSizeBindingPropertyChanged));
 
         /// <summary>
         /// Attached <see cref="DependencyProperty"/> for binding a <see cref="double"/> for the <see cref="FrameworkElement.ActualHeight"/>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             obj.SetValue(ActualWidthProperty, value);
         }
 
-        private static void OnEnableActualSizeBindingtPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        private static void OnEnableActualSizeBindingPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
             var baseElement = sender as FrameworkElement;
             if (baseElement == null)
