@@ -11,6 +11,16 @@
     <Grid >
         <TabControl>
             <TabItem>
+                <TabItem.Header>TextBox.HandWritingView</TabItem.Header>
+                <StackPanel>
+                    <Label>Tap in the below TextBox or RichEditBox with the pen to use the HandWritingView</Label>
+                    <Label>TextBox:</Label>
+                    <xamlhost:WrappedTextBox PlaceholderText="This is an UWP TextBox Control"/>
+                    <Label>RichEditBox:</Label>
+                    <xamlhost:WrappedRichEditBox PlaceholderText="This is an UWP RichEditBox Control"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem>
                 <TabItem.Header>Ink Controls (Canvas / Toolbar)</TabItem.Header>
                 <DockPanel LastChildFill="True" >
                     <controls:InkToolbar  DockPanel.Dock="Top" x:Name="inkToolbar" Grid.Row="0" TargetInkCanvas="{x:Reference Name=inkCanvas}" Initialized="inkToolbar_Initialized" ActiveToolChanged="inkToolbar_ActiveToolChanged"                                  >
