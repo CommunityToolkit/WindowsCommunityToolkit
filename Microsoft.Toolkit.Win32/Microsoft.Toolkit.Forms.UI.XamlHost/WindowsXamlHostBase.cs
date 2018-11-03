@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         public WindowsXamlHostBase()
         {
-            if (DesignMode)
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
             {
                 return;
             }
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         protected WindowsXamlHostBase(string typeName)
             : this()
         {
-            if (!DesignMode)
+            if (LicenseManager.UsageMode == LicenseUsageMode.Runtime)
             {
                 ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
                 ChildInternal.SetWrapper(this);

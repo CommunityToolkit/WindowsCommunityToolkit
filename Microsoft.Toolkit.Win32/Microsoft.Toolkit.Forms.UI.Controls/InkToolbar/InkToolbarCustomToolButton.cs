@@ -18,6 +18,13 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
+#pragma warning disable SA1306 // Field names must begin with lower-case letter
+#pragma warning disable CS0414 // Value is never used
+        private bool _IsExtensionGlyphShown = false;
+        private Windows.UI.Xaml.UIElement _ConfigurationContent = null;
+#pragma warning restore SA1306 // Field names must begin with lower-case letter
+#pragma warning restore CS0414 // Value is never used
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
         /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton"/>
@@ -48,18 +55,24 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public bool IsExtensionGlyphShown
         {
-            get => UwpControl.IsExtensionGlyphShown;
-            set => UwpControl.IsExtensionGlyphShown = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets the underlying Uwp control's Toolkind property <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl?.ToolKind; }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's ConfigurationContent property <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
         /// </summary>
-        public object ConfigurationContent { get => UwpControl.ConfigurationContent; set => UwpControl.ConfigurationContent = value as Windows.UI.Xaml.UIElement; }
+        public object ConfigurationContent
+        {
+            get => this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value as Windows.UI.Xaml.UIElement);
+        }
     }
 }

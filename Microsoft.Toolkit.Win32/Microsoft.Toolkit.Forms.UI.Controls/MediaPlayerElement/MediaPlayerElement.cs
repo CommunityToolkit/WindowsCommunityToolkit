@@ -14,6 +14,19 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.MediaPlayerElement UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.MediaPlayerElement;
 
+        private string _source;
+
+#pragma warning disable SA1306 // Field names must begin with lower-case letter
+#pragma warning disable CS0414 // Value is never used
+        private MediaTransportControls _TransportControls = null;
+        private Windows.UI.Xaml.Media.Stretch _Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
+        private Windows.UI.Xaml.Media.ImageSource _PosterSource = null;
+        private bool _IsFullWindow = false;
+        private bool _AutoPlay = true;
+        private bool _AreTransportControlsEnabled = false;
+#pragma warning restore SA1306 // Field names must begin with lower-case letter
+#pragma warning restore CS0414 // Value is never used
+
         public MediaPlayerElement()
             : this(typeof(Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)
         {
@@ -27,7 +40,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            TransportControls.IsFullWindowButtonVisible = false;
+            if (UwpControl != null && TransportControls != null)
+            {
+                TransportControls.IsFullWindowButtonVisible = false;
+            }
         }
 
         /// <summary>
@@ -39,6 +55,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.TransportControls"/>
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MediaTransportControls TransportControls
         {
             get => UwpControl.TransportControls;
@@ -52,8 +69,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [Category("Appearance")]
         public Stretch Stretch
         {
-            get => (Stretch)UwpControl.Stretch;
-            set => UwpControl.Stretch = (Windows.UI.Xaml.Media.Stretch)value;
+            get => (Stretch)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Media.Stretch)value);
         }
 
         /// <summary>
@@ -62,9 +79,24 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DisplayName("Source")]
         public string Source
         {
-            get => ((Windows.Media.Core.MediaSource)UwpControl.Source)?.Uri?.ToString();
+            get
+            {
+                if (DesignMode)
+                {
+                    return _source;
+                }
+
+                return ((Windows.Media.Core.MediaSource)UwpControl.Source).Uri?.ToString();
+            }
+
             set
             {
+                if (DesignMode)
+                {
+                    _source = value;
+                    return;
+                }
+
                 if (value == null)
                 {
                     UwpControl.Source = null;
@@ -81,8 +113,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public ImageSource PosterSource
         {
-            get => UwpControl.PosterSource;
-            set => UwpControl.PosterSource = value.UwpInstance;
+            get => (Windows.UI.Xaml.Media.ImageSource)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
@@ -90,8 +122,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public bool IsFullWindow
         {
-            get => UwpControl.IsFullWindow;
-            set => UwpControl.IsFullWindow = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
@@ -99,8 +131,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public bool AutoPlay
         {
-            get => UwpControl.AutoPlay;
-            set => UwpControl.AutoPlay = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
@@ -108,13 +140,14 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public bool AreTransportControlsEnabled
         {
-            get => UwpControl.AreTransportControlsEnabled;
-            set => UwpControl.AreTransportControlsEnabled = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.MediaPlayer"/>
         /// </summary>
+        [Browsable(false)]
         public MediaPlayer MediaPlayer
         {
             get => UwpControl.MediaPlayer;
