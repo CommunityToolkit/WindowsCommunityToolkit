@@ -11,7 +11,7 @@
     <Grid >
         <TabControl>
             <TabItem>
-                <TabItem.Header>TextBox.HandWritingView</TabItem.Header>
+                <TabItem.Header>TextBox.HandwritingView</TabItem.Header>
                 <StackPanel>
                     <Label>Tap in the below TextBox or RichEditBox with the pen to use the HandWritingView</Label>
                     <Label>TextBox:</Label>

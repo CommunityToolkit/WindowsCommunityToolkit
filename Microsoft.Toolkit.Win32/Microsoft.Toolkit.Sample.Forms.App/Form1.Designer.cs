@@ -41,12 +41,14 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.webViewCompatible1 = new Microsoft.Toolkit.Forms.UI.Controls.WebViewCompatible();
             this.mediaTab = new System.Windows.Forms.TabPage();
             this.mediaPlayerElement1 = new Microsoft.Toolkit.Forms.UI.Controls.MediaPlayerElement();
+            this.handWritingViewTab = new System.Windows.Forms.TabPage();
             this.testTab = new System.Windows.Forms.TabPage();
             this.tabControl1.SuspendLayout();
             this.inkingTab.SuspendLayout();
             this.inkToolbar1.SuspendLayout();
             this.webTab.SuspendLayout();
             this.mediaTab.SuspendLayout();
+            this.handWritingViewTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -54,6 +56,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.tabControl1.Controls.Add(this.inkingTab);
             this.tabControl1.Controls.Add(this.webTab);
             this.tabControl1.Controls.Add(this.mediaTab);
+            this.tabControl1.Controls.Add(this.handWritingViewTab);
             this.tabControl1.Controls.Add(this.testTab);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -180,6 +183,17 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.testTab.TabIndex = 3;
             this.testTab.Text = "Test";
             this.testTab.UseVisualStyleBackColor = true;
+            //
+            // HandwritingViewTab
+            //
+            this.handWritingViewTab.Location = new System.Drawing.Point(4, 22);
+            this.handWritingViewTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.handWritingViewTab.Name = "textBoxHandwritingView";
+            this.handWritingViewTab.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.handWritingViewTab.Size = new System.Drawing.Size(1051, 681);
+            this.handWritingViewTab.TabIndex = 4;
+            this.handWritingViewTab.Text = "TextBox.HandwritingView";
+            this.handWritingViewTab.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
@@ -205,6 +219,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage webTab;
         private System.Windows.Forms.TabPage inkingTab;
+        private System.Windows.Forms.TabPage handWritingViewTab;
         private Forms.UI.Controls.WebViewCompatible webViewCompatible1;
         private Forms.UI.Controls.InkCanvas inkCanvas1;
         private System.Windows.Forms.TabPage mediaTab;

@@ -45,4 +45,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Forms.UI.XamlHost\Microsoft.Toolkit.Forms.UI.XamlHost.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TextBox\" />
+  </ItemGroup>
 </Project>
