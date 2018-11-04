@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         private bool _isFullWindow = false;
         private bool _autoPlay = true;
         private bool _areTransportControlsEnabled = false;
-#pragma warning restore CS0414 // Value is never userd
+#pragma warning restore CS0414 // Value is never used
 
         public MediaPlayerElement()
             : this(typeof(Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)
