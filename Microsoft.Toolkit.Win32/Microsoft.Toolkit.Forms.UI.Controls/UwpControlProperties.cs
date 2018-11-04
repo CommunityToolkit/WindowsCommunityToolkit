@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// <summary>
     /// Extension class for WindowsXamlHostBase to access properties of the associated UWP control or use an internal field during design time
     /// </summary>
-    internal static class DesignerProperties
+    internal static class UwpControlProperties
     {
         internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, [CallerMemberName]string propName = null)
         {
