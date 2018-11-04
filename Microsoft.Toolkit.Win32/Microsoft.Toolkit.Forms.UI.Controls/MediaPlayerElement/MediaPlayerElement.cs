@@ -16,16 +16,14 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         private string _source;
 
-#pragma warning disable SA1306 // Field names must begin with lower-case letter
 #pragma warning disable CS0414 // Value is never used
-        private MediaTransportControls _TransportControls = null;
-        private Windows.UI.Xaml.Media.Stretch _Stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
-        private Windows.UI.Xaml.Media.ImageSource _PosterSource = null;
-        private bool _IsFullWindow = false;
-        private bool _AutoPlay = true;
-        private bool _AreTransportControlsEnabled = false;
-#pragma warning restore SA1306 // Field names must begin with lower-case letter
-#pragma warning restore CS0414 // Value is never used
+        private MediaTransportControls _transportControls = null;
+        private Windows.UI.Xaml.Media.Stretch _stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
+        private Windows.UI.Xaml.Media.ImageSource _posterSource = null;
+        private bool _isFullWindow = false;
+        private bool _autoPlay = true;
+        private bool _areTransportControlsEnabled = false;
+#pragma warning restore CS0414 // Value is never userd
 
         public MediaPlayerElement()
             : this(typeof(Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)

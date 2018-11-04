@@ -18,11 +18,9 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
-#pragma warning disable SA1306 // Field names must begin with lower-case letter
 #pragma warning disable CS0414 // Value is never used
-        private bool _IsExtensionGlyphShown = false;
-        private Windows.UI.Xaml.UIElement _ConfigurationContent = null;
-#pragma warning restore SA1306 // Field names must begin with lower-case letter
+        private bool _isExtensionGlyphShown = false;
+        private Windows.UI.Xaml.UIElement _configurationContent = null;
 #pragma warning restore CS0414 // Value is never used
 
         /// <summary>

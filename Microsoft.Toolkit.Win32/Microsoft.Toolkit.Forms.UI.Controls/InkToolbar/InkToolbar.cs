@@ -21,15 +21,13 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         private InkCanvas _targetInkCanvas;
         private WindowsXamlHostBase _activeTool;
 
-#pragma warning disable SA1306 // Field names must begin with lower-case letter
-#pragma warning disable CS0414 // Value is never used
-        private bool _IsRulerButtonChecked = false;
-        private Windows.UI.Xaml.Controls.InkToolbarInitialControls _InitialControls = Windows.UI.Xaml.Controls.InkToolbarInitialControls.All;
-        private Windows.UI.Xaml.Controls.Orientation _Orientation = Windows.UI.Xaml.Controls.Orientation.Horizontal;
-        private bool _IsStencilButtonChecked = false;
-        private Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement _ButtonFlyoutPlacement = Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement.Auto;
-#pragma warning restore SA1306 // Field names must begin with lower-case letter
-#pragma warning restore CS0414 // Value is never used
+#pragma warning disable CS0414 // Value is never userd
+        private bool _isRulerButtonChecked = false;
+        private Windows.UI.Xaml.Controls.InkToolbarInitialControls _initialControls = Windows.UI.Xaml.Controls.InkToolbarInitialControls.All;
+        private Windows.UI.Xaml.Controls.Orientation _orientation = Windows.UI.Xaml.Controls.Orientation.Horizontal;
+        private bool _isStencilButtonChecked = false;
+        private Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement _buttonFlyoutPlacement = Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement.Auto;
+#pragma warning restore CS0414 // Value is never userd
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a

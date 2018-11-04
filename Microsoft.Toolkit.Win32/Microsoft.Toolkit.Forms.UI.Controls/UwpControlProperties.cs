@@ -12,6 +12,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     /// </summary>
     internal static class UwpControlProperties
     {
+        private static string ConvertPropertyName(string propertyName)
+        {
+            // Converts public property name to name for private field ( "Property" -> "_property")
+            return new string('_', 1) + char.ToLower(propertyName[0]) + propertyName.Substring(1);
+        }
+
         internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, [CallerMemberName]string propName = null)
         {
             Windows.UI.Xaml.UIElement control = wrapper.GetUwpInternalObject() as Windows.UI.Xaml.UIElement;
@@ -21,7 +27,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             }
             else
             {
-                return wrapper.GetType().GetField(new string('_', 1) + propName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(wrapper);
+                return wrapper.GetType().GetField(ConvertPropertyName(propName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(wrapper);
             }
         }
 
@@ -34,7 +40,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             }
             else
             {
-                wrapper.GetType().GetField(new string('_', 1) + propName, System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(wrapper, value);
+                wrapper.GetType().GetField(ConvertPropertyName(propName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(wrapper, value);
             }
         }
     }
