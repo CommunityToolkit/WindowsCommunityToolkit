@@ -15,9 +15,9 @@
                 <StackPanel>
                     <Label>Tap in the below TextBox or RichEditBox with the pen to use the HandWritingView</Label>
                     <Label>TextBox:</Label>
-                    <controls:TextBox PlaceholderText="This is an UWP TextBox Control" />
+                    <controls:TextBox PlaceholderText="This is an UWP TextBox Control" Width="400" Height="50" HorizontalAlignment="Left"/>
                     <Label>RichEditBox:</Label>
-                    <controls:RichEditBox PlaceholderText="This is an UWP RichEditBox Control" />
+                    <controls:RichEditBox PlaceholderText="This is an UWP RichEditBox Control" Width="400" Height="50" HorizontalAlignment="Left"/>
                 </StackPanel>
             </TabItem>
             <TabItem>

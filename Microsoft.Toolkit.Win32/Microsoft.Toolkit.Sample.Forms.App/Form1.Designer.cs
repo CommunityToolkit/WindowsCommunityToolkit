@@ -49,6 +49,11 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.webTab.SuspendLayout();
             this.mediaTab.SuspendLayout();
             this.handWritingViewTab.SuspendLayout();
+            this.handWritingTabTitleLabel = new System.Windows.Forms.Label();
+            this.handWritingTabTextBoxLabel = new System.Windows.Forms.Label();
+            this.handWritingTabTextBox = new Microsoft.Toolkit.Forms.UI.Controls.TextBox();
+            this.handWritingTabRichEditBoxLabel = new System.Windows.Forms.Label();
+            this.handWritingTabRichEditBox = new Microsoft.Toolkit.Forms.UI.Controls.RichEditBox();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -184,7 +189,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.testTab.Text = "Test";
             this.testTab.UseVisualStyleBackColor = true;
             //
-            // HandwritingViewTab
+            // handwritingViewTab
             //
             this.handWritingViewTab.Location = new System.Drawing.Point(4, 22);
             this.handWritingViewTab.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
@@ -194,6 +199,54 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.handWritingViewTab.TabIndex = 4;
             this.handWritingViewTab.Text = "TextBox.HandwritingView";
             this.handWritingViewTab.UseVisualStyleBackColor = true;
+            this.handWritingViewTab.Controls.Add(this.handWritingTabRichEditBox);
+            this.handWritingViewTab.Controls.Add(this.handWritingTabRichEditBoxLabel);
+            this.handWritingViewTab.Controls.Add(this.handWritingTabTextBox);
+            this.handWritingViewTab.Controls.Add(this.handWritingTabTextBoxLabel);
+            this.handWritingViewTab.Controls.Add(this.handWritingTabTitleLabel);
+            //
+            // handWritingTabTitleLabel
+            // 
+            this.handWritingTabTitleLabel.AutoSize = true;
+            this.handWritingTabTitleLabel.Location = new System.Drawing.Point(5, 4);
+            this.handWritingTabTitleLabel.Name = "handWritingTabTitleLabel";
+            this.handWritingTabTitleLabel.Size = new System.Drawing.Size(400, 13);
+            this.handWritingTabTitleLabel.TabIndex = 0;
+            this.handWritingTabTitleLabel.Text = "Tap in the below TextBox or RichEditBox with the pen to use the HandWritingView.";
+            // 
+            // handWritingTabTextBoxLabel
+            // 
+            this.handWritingTabTextBoxLabel.AutoSize = true;
+            this.handWritingTabTextBoxLabel.Location = new System.Drawing.Point(5, 31);
+            this.handWritingTabTextBoxLabel.Name = "handWritingTabTextBoxLabel";
+            this.handWritingTabTextBoxLabel.Size = new System.Drawing.Size(49, 13);
+            this.handWritingTabTextBoxLabel.TabIndex = 1;
+            this.handWritingTabTextBoxLabel.Text = "TextBox:";
+            // 
+            // handWritingTabTextBox
+            // 
+            this.handWritingTabTextBox.Location = new System.Drawing.Point(8, 47);
+            this.handWritingTabTextBox.Name = "handWritingTabTextBox";
+            this.handWritingTabTextBox.Size = new System.Drawing.Size(400, 50);
+            this.handWritingTabTextBox.TabIndex = 2;
+            this.handWritingTabTextBox.PlaceholderText = "This is an UWP TextBox Control";
+            // 
+            // handWritingTabRichEditBoxLabel
+            // 
+            this.handWritingTabRichEditBoxLabel.AutoSize = true;
+            this.handWritingTabRichEditBoxLabel.Location = new System.Drawing.Point(5, 189);
+            this.handWritingTabRichEditBoxLabel.Name = "handWritingTabRichEditBoxLabel";
+            this.handWritingTabRichEditBoxLabel.Size = new System.Drawing.Size(65, 13);
+            this.handWritingTabRichEditBoxLabel.TabIndex = 3;
+            this.handWritingTabRichEditBoxLabel.Text = "RichEditBox";
+            // 
+            // handWritingTabRichEditBox
+            // 
+            this.handWritingTabRichEditBox.Location = new System.Drawing.Point(8, 205);
+            this.handWritingTabRichEditBox.Name = "handWritingTabRichEditBox";
+            this.handWritingTabRichEditBox.Size = new System.Drawing.Size(400, 50);
+            this.handWritingTabRichEditBox.TabIndex = 4;
+            this.handWritingTabRichEditBox.PlaceholderText = "This is an UWP RichEditBox Control";
             // 
             // Form1
             // 
@@ -211,7 +264,6 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             this.webTab.ResumeLayout(false);
             this.mediaTab.ResumeLayout(false);
             this.ResumeLayout(false);
-
         }
 
         #endregion
@@ -227,6 +279,11 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
         private System.Windows.Forms.TabPage testTab;
         private Forms.UI.Controls.InkToolbar inkToolbar1;
         private Forms.UI.Controls.InkToolbarCustomToolButton inkToolbarCustomToolButton1;
+        private System.Windows.Forms.Label handWritingTabTitleLabel;
+        private System.Windows.Forms.Label handWritingTabTextBoxLabel;
+        private Forms.UI.Controls.TextBox handWritingTabTextBox;
+        private System.Windows.Forms.Label handWritingTabRichEditBoxLabel;
+        private Forms.UI.Controls.RichEditBox handWritingTabRichEditBox;
     }
 }
 
