@@ -57,6 +57,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
 
         /// <summary>
+        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
+        /// </summary>
+        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Windows.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
+
+        /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
         /// </summary>
         /// <returns><see cref="CompositionBrush"/></returns>
@@ -154,10 +159,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get { return (bool)GetValue(EnableLazyLoadingProperty); }
             set { SetValue(EnableLazyLoadingProperty, value); }
         }
-
-        /// <summary>
-        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
-        /// </summary>
-        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Windows.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
     }
 }
