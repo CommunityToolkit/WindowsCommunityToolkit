@@ -1,6 +1,8 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
@@ -8,17 +10,31 @@ using Microsoft.Toolkit.Forms.UI.XamlHost;
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
     /// <summary>
-    /// Extension class for WindowsXamlHostBase to access properties of the associated UWP control or use an internal field during design time
+    /// Extension class for WindowsXamlHostBase to access properties of the associated UWP control or use an internal dictionary during design time
     /// </summary>
     internal static class UwpControlProperties
     {
-        private static string ConvertPropertyName(string propertyName)
+        private const string DesignerPropertiesName = "DesignerProperties";
+
+        private static Dictionary<string, object> GetDesignerProperties(WindowsXamlHostBase wrapper)
         {
-            // Converts public property name to name for private field ( "Property" -> "_property")
-            return new string('_', 1) + char.ToLower(propertyName[0]) + propertyName.Substring(1);
+            PropertyInfo designerProperty = wrapper.GetType().GetProperty(DesignerPropertiesName, BindingFlags.NonPublic | BindingFlags.Instance);
+            if (designerProperty == null)
+            {
+                throw new MissingMethodException("Wrapper class does not contain the required DesignerProperties dictionary");
+            }
+
+            Dictionary<string, object> propertiesDictionary = designerProperty.GetValue(wrapper) as Dictionary<string, object>;
+            if (propertiesDictionary == null)
+            {
+                propertiesDictionary = new Dictionary<string, object>();
+                designerProperty.SetValue(wrapper, propertiesDictionary);
+            }
+
+            return propertiesDictionary;
         }
 
-        internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, [CallerMemberName]string propName = null)
+        internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, object defaultValue, [CallerMemberName]string propName = null)
         {
             Windows.UI.Xaml.UIElement control = wrapper.GetUwpInternalObject() as Windows.UI.Xaml.UIElement;
             if (control != null)
@@ -27,7 +43,13 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             }
             else
             {
-                return wrapper.GetType().GetField(ConvertPropertyName(propName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(wrapper);
+                Dictionary<string, object> properties = GetDesignerProperties(wrapper);
+                if (properties.ContainsKey(propName))
+                {
+                    return properties[propName];
+                }
+
+                return defaultValue;
             }
         }
 
@@ -40,7 +62,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             }
             else
             {
-                wrapper.GetType().GetField(ConvertPropertyName(propName), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).SetValue(wrapper, value);
+                Dictionary<string, object> properties = GetDesignerProperties(wrapper);
+                properties[propName] = value;
             }
         }
     }

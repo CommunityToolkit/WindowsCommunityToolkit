@@ -18,10 +18,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.InkToolbarCustomToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarCustomToolButton;
 
-#pragma warning disable CS0414 // Value is never used
-        private bool _isExtensionGlyphShown = false;
-        private Windows.UI.Xaml.UIElement _configurationContent = null;
-#pragma warning restore CS0414 // Value is never used
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarCustomToolButton"/> class, a
@@ -51,9 +48,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsExtensionGlyphShown property is set <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShown"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool IsExtensionGlyphShown
         {
-            get => (bool)this.GetUwpControlValue();
+            get => (bool)this.GetUwpControlValue(false);
             set => this.SetUwpControlValue(value);
         }
 
@@ -69,7 +67,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public object ConfigurationContent
         {
-            get => this.GetUwpControlValue();
+            get => this.GetUwpControlValue(null);
             set => this.SetUwpControlValue(value as Windows.UI.Xaml.UIElement);
         }
     }

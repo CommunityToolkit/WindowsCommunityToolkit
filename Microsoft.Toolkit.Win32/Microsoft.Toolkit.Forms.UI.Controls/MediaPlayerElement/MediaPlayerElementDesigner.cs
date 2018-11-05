@@ -20,7 +20,6 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                 // Set MinimumSize in the designer, so that the control doesn't go to 0-height
                 control.MinimumSize = new System.Drawing.Size(100, 100);
                 control.Dock = System.Windows.Forms.DockStyle.Fill;
-                control.AutoPlay = false;
             }
         }
     }
