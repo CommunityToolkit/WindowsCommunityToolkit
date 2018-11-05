@@ -19,8 +19,8 @@
       <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
       <converters:EmptyStringToObjectConverter x:Key="EmptyStringToObject"
-                                           EmptyValue="Collapsed"
-                                           NotEmptyValue="Visible" />
+                                               EmptyValue="Collapsed"
+                                               NotEmptyValue="Visible" />
 
       <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </ResourceDictionary>

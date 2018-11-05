@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Specifies in wich order to sort the file or folder
+        /// Specifies in which order to sort the file or folder
         /// </summary>
         public enum OrderBy
         {

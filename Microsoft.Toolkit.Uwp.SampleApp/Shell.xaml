@@ -50,7 +50,7 @@
                 <winui:ParallaxView x:Name="Parallax"
                                     VerticalShift="50">
                     <Image Stretch="UniformToFill"
-                           Source="Assets/Photos/Backgrounds/HERO.jpg"/>
+                           Source="Assets/Photos/Backgrounds/hero.jpg"/>
                 </winui:ParallaxView>
                 <Frame x:Name="NavigationFrame" />
                 <Grid>
