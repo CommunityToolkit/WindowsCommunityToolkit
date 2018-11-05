@@ -18,15 +18,6 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
 
         private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
 
-#pragma warning disable CS0414 // Value is never used
-        private MediaTransportControls _transportControls = null;
-        private Windows.UI.Xaml.Media.Stretch _stretch = Windows.UI.Xaml.Media.Stretch.Uniform;
-        private Windows.UI.Xaml.Media.ImageSource _posterSource = null;
-        private bool _isFullWindow = false;
-        private bool _autoPlay = true;
-        private bool _areTransportControlsEnabled = false;
-#pragma warning restore CS0414 // Value is never used
-
         public MediaPlayerElement()
             : this(typeof(Windows.UI.Xaml.Controls.MediaPlayerElement).FullName)
         {
