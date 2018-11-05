@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>b3db16ee-a821-4474-a188-e64926529bbd</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LottieData_source</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Animatable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\AnimatableVector3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\AnimatableXYZ.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Asset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\AssetCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\BezierSegment.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\BlendMode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Char.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Color.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\CubicBezierEasing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Easing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Ellipse.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Font.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\GradientStop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\HoldEasing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\IAnimatableValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\IAnimatableVector3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ImageAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ImageLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\KeyFrame.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Layer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LayerCollection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LayerCollectionAsset.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LinearEasing.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LinearGradientFill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LinearGradientStroke.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LottieComposition.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LottieCompositionValidator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LottieObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\LottieObjectType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Marker.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Mask.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\MergePaths.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\NullLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Optimization\Optimizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Polystar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\PreCompLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\RadialGradientFill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\RadialGradientStroke.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Rectangle.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Repeater.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\RepeaterTransform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\RoundedCorner.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Sequence.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Serialization\LottieCompositionXmlSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Shape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ShapeContentType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ShapeGroup.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ShapeLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ShapeLayerContent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\SolidColorFill.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\SolidColorStroke.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\SolidLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\TextLayer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Tools\Stats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Transform.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\TrimPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\ValidationIssues.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Vector2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Vector3.cs" />
+  </ItemGroup>
+</Project>

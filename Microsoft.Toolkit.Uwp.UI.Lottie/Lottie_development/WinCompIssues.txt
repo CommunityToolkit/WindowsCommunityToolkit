@@ -1,0 +1,5 @@
+﻿How WinComp APIs are an imperfect match for Lottie requirements:
+
+* ViewBox is only available on ShapeVisual, but we need similar functionality on ContainerVisual.
+* ShapeVisual clips to its size. We would like that to be optional.
+* No group opacity for shapes (except on ShapeVisual).

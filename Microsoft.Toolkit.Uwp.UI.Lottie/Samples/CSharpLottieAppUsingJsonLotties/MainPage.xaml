@@ -1,0 +1,31 @@
+﻿<Page
+    x:Class="CSharpLottieAppUsingJsonLotties.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CSharpLottieAppUsingJsonLotties"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel>
+        <winui:AnimatedVisualPlayer x:Name="Player1" AutomationProperties.Name="Birthday Cake"
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+            <lottie:LottieVisualSource UriSource="ms-appx:///LottieJson/birthdayCake.json"/>
+        </winui:AnimatedVisualPlayer>
+        <winui:AnimatedVisualPlayer x:Name="Player2"  AutomationProperties.Name="Paint"
+                                    RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignTopWithPanel="True">
+            <lottie:LottieVisualSource UriSource="ms-appx:///LottieJson/paint.json"/>
+        </winui:AnimatedVisualPlayer>
+        <winui:AnimatedVisualPlayer x:Name="Player3"  AutomationProperties.Name="Lottie logo"
+                                    RelativePanel.AlignLeftWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+            <lottie:LottieVisualSource UriSource="ms-appx:///LottieJson/LottieLogo2.json"/>
+        </winui:AnimatedVisualPlayer>
+        <winui:AnimatedVisualPlayer x:Name="Player4"  AutomationProperties.Name="Gift popup"
+                                    RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True">
+            <lottie:LottieVisualSource UriSource="ms-appx:///LottieJson/2416.gift_popup.json"/>
+        </winui:AnimatedVisualPlayer>
+    </RelativePanel>
+</Page>

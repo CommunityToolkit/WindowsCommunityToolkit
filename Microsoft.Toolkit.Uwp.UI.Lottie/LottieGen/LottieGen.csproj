@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>Net472</TargetFramework>
+    <PackageId>LottieGen</PackageId>
+    <Authors>Microsoft</Authors>
+    <Company>Microsoft</Company>
+    <Product>Lottie for Windows</Product>
+    <Description>Command line tool for generating code from a Lottie file.</Description>
+    <Copyright>Microsoft</Copyright>
+    <RootNamespace>LottieGen</RootNamespace>
+    <AssemblyName>LottieGen</AssemblyName>
+    <!-- Turn off automatic assembly info generation so we can specify version number attributes in code. -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="temp\**" />
+    <EmbeddedResource Remove="temp\**" />
+    <None Remove="temp\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MotionCorpse-Jrcanest.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="log.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="System.Memory" Version="4.5.1" />
+    <PackageReference Include="System.Numerics.Vectors" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Windows.Foundation.FoundationContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.17134.0\Windows.Foundation.FoundationContract\3.0.0.0\Windows.Foundation.FoundationContract.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AssemblyInfo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AssemblyInfo.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AssemblyInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>AssemblyInfo.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <Import Project="..\LottieData_source\LottieData_source.projitems" Label="Shared" />
+
+  <Import Project="..\LottieToWinComp_source\LottieToWinComp_source.projitems" Label="Shared" />
+
+  <Import Project="..\WinCompData_source\WinCompData_source.projitems" Label="Shared" />
+
+  <Import Project="..\LottieReader_source\LottieReader_source.projitems" Label="Shared" />
+
+  <!-- Ensure AssemblyInfo.cs is updated for each build. This causes the version numbers
+       to be auto-incremented. -->
+  <Target Name="BeforeTarget" BeforeTargets="Build">
+    <Message Text="Generating AssemblyInfo.cs" />
+    <Exec Command="&quot;$(DevEnvDir)TextTransform.exe&quot; -out $(ProjectDir)AssemblyInfo.cs $(ProjectDir)AssemblyInfo.tt" />
+  </Target>
+</Project>

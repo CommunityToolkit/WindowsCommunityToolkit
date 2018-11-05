@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>4e7d8957-3f5f-46e1-99a8-2012b806c9b0</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LottieReader_source</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Serialization\LottieCompositionReader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Serialization\LottieCompositionReaderException.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)LottieData\Serialization\ParsingIssues.cs" />
+  </ItemGroup>
+</Project>

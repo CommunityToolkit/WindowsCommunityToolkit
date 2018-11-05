@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Lottie issues help</title>
+    <style>
+        .rTable {
+            display: table;
+            width: 100%;
+        }
+
+        .rTableRow {
+            display: table-row;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+        }
+
+        .rTableCell, .rTableHead {
+            display: table-cell;
+            padding: 3px 10px;
+            border: 1px solid #999999;
+        }
+
+        .rTableHeading {
+            display: table-header-group;
+            background-color: #ddd;
+            font-weight: bold;
+        }
+
+        .rTableFoot {
+            display: table-footer-group;
+            font-weight: bold;
+            background-color: #ddd;
+        }
+
+        .rTableBody {
+            display: table-row-group;
+        }
+    </style>
+</head>
+<body>
+    <div class="rTable">
+        <div><a href="#LP0001">LP0001</a></div>
+        <div><a href="#LP0002">LP0002</a></div>
+        <div><a href="#LP0003">LP0003</a></div>
+        <div><a href="#LP0004">LP0004</a></div>
+        <div><a href="#LP0005">LP0005</a></div>
+        <div><a href="#LP0006">LP0006</a></div>
+        <div><a href="#LP0007">LP0007</a></div>
+        <div><a href="#LP0008">LP0008</a></div>
+        <div><a href="#LP0009">LP0009</a></div>
+        <div><a href="#LP0010">LP0010</a></div>
+        <div><a href="#LP0011">LP0011</a></div>
+        <div><a href="#LP0012">LP0012</a></div>
+        <div><a href="#LP0013">LP0013</a></div>
+        <div><a href="#LP0014">LP0014</a></div>
+        <div><a href="#LP0015">LP0015</a></div>
+        <div><a href="#LP0016">LP0016</a></div>
+
+        <div><a href="#LT0001">LT0001</a></div>
+        <div><a href="#LT0002">LT0002</a></div>
+        <div><a href="#LT0003">LT0003</a></div>
+        <div><a href="#LT0004">LT0004</a></div>
+        <div><a href="#LT0005">LT0005</a></div>
+        <div><a href="#LT0006">LT0006</a></div>
+        <div><a href="#LT0007">LT0007</a></div>
+        <div><a href="#LT0008">LT0008</a></div>
+        <div><a href="#LT0009">LT0009</a></div>
+        <div><a href="#LT0010">LT0010</a></div>
+        <div><a href="#LT0011">LT0011</a></div>
+        <div><a href="#LT0012">LT0012</a></div>
+        <div><a href="#LT0013">LT0013</a></div>
+        <div><a href="#LT0014">LT0014</a></div>
+        <div><a href="#LT0015">LT0015</a></div>
+        <div><a href="#LT0016">LT0016</a></div>
+        <div><a href="#LT0017">LT0017</a></div>
+        <div><a href="#LT0018">LT0018</a></div>
+        <div><a href="#LT0019">LT0019</a></div>
+        <div><a href="#LT0020">LT0020</a></div>
+        <div><a href="#LT0021">LT0021</a></div>
+        <div><a href="#LT0022">LT0022</a></div>
+
+        <div><a href="#LV0001">LV0001</a></div>
+        <div><a href="#LV0002">LV0002</a></div>
+        <div><a href="#LV0003">LV0003</a></div>
+    </div>
+
+    <h2>Issues that may be reported by the Lottie Viewer</h2>
+    <div class="rTable">
+        <div class="rTableRow">
+            <div class="rTableHead"><strong>Code</strong></div>
+            <div class="rTableHead"><span style="font-weight: bold;">Description</span></div>
+            <div class="rTableHead"><span style="font-weight: bold;">Details</span></div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0001">LP0001</div>
+            <div class="rTableCell">Failed to parse JSON</div>
+            <div class="rTableCell">The file was not recognized as valid JSON.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0002">LP0002</div>
+            <div class="rTableCell">Fatal error: Unexpected field: <span style="font-style:italic">fieldName</span></div>
+            <div class="rTableCell">The parser encountered a field that it was not expecting. Parsing was halted.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0003">LP0003</div><div class="rTableCell">Chars field</div>
+            <div class="rTableCell">The composition contains a "chars" section. This is currently an unsupported feature.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0004">LP0004</div><div class="rTableCell">Fonts field</div>
+            <div class="rTableCell">The composition contains a "fonts" section. This is currently an unsupported feature.</div>
+        </div>
+
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0005">LP0005</div>
+            <div class="rTableCell">Unsupported asset type: <span style="font-style:italic">assetType</span></div>
+            <div class="rTableCell">The composition contains an asset type that is not recognized by the parser. The asset will be ignored.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0006">LP0006</div><div class="rTableCell">Layer with render = false</div>
+            <div class="rTableCell">A layer had its render flag set to false. This is currently an unsupported feature.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0007">LP0007</div><div class="rTableCell">Illustrator layers</div>
+            <div class="rTableCell">The composition contains Illustrator layers. These layers are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0008">LP0008</div><div class="rTableCell">Layer effects</div>
+            <div class="rTableCell">The composition contains layer effects. These effects are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0009">LP0009</div><div class="rTableCell">Mattes</div>
+            <div class="rTableCell">The composition contains mattes. Mattes are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0010">LP0010</div><div class="rTableCell">Masks</div>
+            <div class="rTableCell">The composition contains masks. Masks are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0011">LP0011</div><div class="rTableCell">Time remapping of precomp layers</div>
+            <div class="rTableCell">The composition has precomp layers that have their times remapped. Time remapping is not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0012">LP0012</div>
+            <div class="rTableCell">Unexpected shape content type: <span style="font-style:italic">type</span></div>
+            <div class="rTableCell">The parser encounted an unexpected shape content type. The shape content will be ignored.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0013">LP0013</div><div class="rTableCell">Gradient strokes</div>
+            <div class="rTableCell">The composition uses gradient strokes. Gradient strokes are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0014">LP0014</div>
+            <div class="rTableCell">Polystar <span style="font-style:italic">property</span> animation</div>
+            <div class="rTableCell">A polystar has an animated property. Animation of some polystar properties is not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0015">LP0015</div><div class="rTableCell">Expressions</div>
+            <div class="rTableCell">The composition uses expression. Expressions are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LP0016">LP0016</div>
+            <div class="rTableCell">Ignored field: <span style="font-style:italic">parsingPhase.fieldName</span></div>
+            <div class="rTableCell">The parser encountered a field that it does not know how to handle.</div>
+        </div>
+
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0001">LT0001</div><div class="rTableCell">Rectangle with animated size and trim path</div>
+            <div class="rTableCell">A rectangle shape has both its size and trim path animated. This is currently not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0002">LT0002</div><div class="rTableCell">Animated trim offset with static trim offset</div>
+            <div class="rTableCell">A trim path has an animated offset and a non animated offset. This is currently not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0003">LT0003</div><div class="rTableCell">Multiplication of two or more animated values</div>
+            <div class="rTableCell">2 or more values needed to be multiplied, e.g. opacity and color, but they are both animated. This is currently not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0004">LT0004</div><div class="rTableCell">Blend mode <span style="font-style:italic">mode</span></div>
+            <div class="rTableCell">Not all blend modes are yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0005">LT0005</div><div class="rTableCell">Combining animated shapes</div>
+            <div class="rTableCell">Combining of 2 more shapes is not currently supported if they are animated.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0006">LT0006</div><div class="rTableCell">Gradient fill</div>
+            <div class="rTableCell">Gradient fills are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0007">LT0007</div><div class="rTableCell">Gradient stroke</div>
+            <div class="rTableCell">Gradient strokes are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0008">LT0008</div><div class="rTableCell">Image assets</div>
+            <div class="rTableCell">Image assets are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0009">LT0009</div><div class="rTableCell">Image layers</div>
+            <div class="rTableCell">Image layers are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0010">LT0010</div><div class="rTableCell">Merging a large number of shapes</div>
+            <div class="rTableCell">There is a limit to how many shapes can be merged.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0011">LT0011</div><div class="rTableCell">Multiple animated rounded corners</div>
+            <div class="rTableCell">A shape layer can have at most 1 animated rounded corner.</div>
+        </div>
+
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0012">LT0012</div><div class="rTableCell">Multiple fills</div>
+            <div class="rTableCell">A shape layer can have at most 1 fill.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0013">LT0013</div><div class="rTableCell">Multiple strokes</div>
+            <div class="rTableCell">A shape layer can have at most 1 stroke.</div>
+
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0014">LT0014</div><div class="rTableCell">Multiple trim paths</div>
+            <div class="rTableCell">A shape layer can have at most 1 trim path.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0015">LT0015</div><div class="rTableCell">Opacity and color animated at the same time</div>
+            <div class="rTableCell">Either opacity or color can be animated, but not both. This limitation exists because opacity animation is implemented as animation of the alpha channel of a color.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0016">LT0016</div><div class="rTableCell">Path with rounded corners</div>
+            <div class="rTableCell">Rounded corners on paths are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0017">LT0017</div><div class="rTableCell">Polystar</div>
+            <div class="rTableCell">Polystars are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0018">LT0018</div><div class="rTableCell">Repeater</div>
+            <div class="rTableCell">Repeaters are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0019">LT0019</div><div class="rTableCell">Text layer</div>
+            <div class="rTableCell">Text layers are not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0020">LT0020</div><div class="rTableCell">3d composition</div>
+            <div class="rTableCell">3d composition is not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0021">LT0021</div><div class="rTableCell">3d layer</div>
+            <div class="rTableCell">3d layers are not supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LT0022">LT0022</div><div class="rTableCell">Time stretch</div>
+            <div class="rTableCell">Time stretch is not yet supported.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LV0001">LV0001</div>
+            <div class="rTableCell">Layer <span style="font-style:italic">name</span> has in-point after out-point</div>
+            <div class="rTableCell">In-points must be before out-points.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LV0002">LV0002</div>
+            <div class="rTableCell">Layer <span style="font-style:italic">name</span> is in a cycle</div>
+            <div class="rTableCell">A chain of layer references forms a cycle.</div>
+        </div>
+        <div class="rTableRow">
+            <div class="rTableCell" id="LV0003">LV0003</div>
+            <div class="rTableCell">Invalid layer parent <span style="font-style:italic">id</span></div>
+            <div class="rTableCell">A layer has a parent that does not exist.</div>
+        </div>
+
+    </div>
+
+</body>
+</html>

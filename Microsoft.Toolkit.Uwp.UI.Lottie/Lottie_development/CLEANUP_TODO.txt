@@ -1,0 +1,36 @@
+﻿Notes are now being kept on OneNote: https://microsoft.sharepoint.com/teams/osg_core_dep/comp/_layouts/OneNote.aspx?id=%2Fteams%2Fosg_core_dep%2Fcomp%2FShared%20Documents%2FTeam%20notes%20and%20decks%2FOSG%20Composition%20Dev&wd=target%28Lottie-Windows.one%7C456C78B9-BAF7-4546-BE85-4BF0A50BAAC8%2F%29
+
+
+0.2 TODO:
+Root-cause and fix the precomps that have missing content (e.g. Camera_debug.json)
+Implement IsHidden on everything - find out what it means.
+Support transforms in Lottie XML.
+Display color in SolidColorFill in Lottie XML.
+Support markers in Lottie XML.
+Add markup extension support for LottieComposition.
+Use an ExpressionAnimation on a PropertySet to support multiplication of opacity when color and opacity are both animated.
+Inherit opacity through a precomp.
+Draw gradient fills and strokes.
+Optimize layer visibility animations.
+Support transforms on solid layers.
+Parse repeaters.
+Spatial beziers.
+Validation: precomp refid only refers to an asset that contains Layers.
+Validation: any refid refers to an asset that exist.
+Validation: supported features of the translator.
+
+Other:
+Unloading/disposing needs to stop the player and release all asyncs.
+
+- Add the markup extension, so Source will be specified as:
+  {lottie:LottieFile Path="Assets\foobar.json"}, and eliminate the attribute that makes this work
+  automatically.
+* Make sure we can specify a simple file path for the Source property - it should
+  imply the ms://appx thing.
+* Remove the Progress property. Add position parameters to Play(), and Pause().
+  -- Can we do a markup extension so that <Source> can be set with URIs that refer
+     to pre-translated code sometimes, and Json at other times?
+	  YES!: https://stackoverflow.com/questions/47156782/how-does-one-use-the-uwp-markupextension-class
+	  {lottie:JsonAsset Path="Assets\Foo"}
+	  {lottie:AnimatedVisualFactory Name="Foobar"}
+

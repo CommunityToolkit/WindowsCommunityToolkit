@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d02870de-7ded-4916-85d4-3175ceedef74</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>WinCompData_source</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\AnimationController.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\CodeBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\CppStringifier.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\CSharpInstantiatorGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\CxInstantiatorGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\InstantiatorGeneratorBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\NodeNamer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\Optimizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\TreeReducer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Tools\Stats.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\ColorKeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionBrush.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionClip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionColorBrush.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionContainerShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionEasingFunction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionEllipseGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionGeometricClip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionObjectType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionPath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionPathGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionPropertySet.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionRectangleGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionRoundedRectangleGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionSpriteShape.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionStrokeCap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionStrokeLineJoin.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CompositionViewBox.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Compositor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\ContainerVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CubicBezierEasingFunction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\ExpressionAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\BinaryExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Boolean.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Cubed.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\CubicBezierFunction2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Divide.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Expression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\ExpressionType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\LessThan.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Matrix3x2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Max.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Min.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Multiply.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Name.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Number.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Squared.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Subtract.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Sum.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Ternary.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\TypeAssert.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\TypeConstraint.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\UntypedExpression.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Vector2.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Expressions\Vector3.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\IContainShapes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\IDescribable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\InsetClip.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\KeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\LinearEasingFunction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgcg\CanvasFigureLoop.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgcg\CanvasFilledRegionDetermination.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgcg\CanvasGeometry.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgcg\CanvasGeometryCombine.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgcg\CanvasPathBuilder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Mgc\CanvasDevice.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\PathKeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\ScalarKeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Serialization\CompositionObjectDgmlSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Serialization\CompositionObjectXmlSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\ShapeVisual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\StepEasingFunction.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\CanonicalizedNode.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\CodeGen\Canonicalizer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Tools\ListOfNeverNull.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Tools\ObjectGraph.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Tools\ApiCompatibility.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Vector2KeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Vector3KeyFrameAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Visual.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Wg\IGeometrySource2D.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)WinCompData\Wui\Color.cs" />
+  </ItemGroup>
+</Project>

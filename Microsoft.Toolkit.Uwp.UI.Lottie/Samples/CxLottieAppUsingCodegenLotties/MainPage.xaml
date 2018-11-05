@@ -1,0 +1,25 @@
+﻿<Page
+    x:Class="CxLottieAppUsingCodegenLotties.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CxLottieAppUsingCodegenLotties"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:animatedVisuals="using:AnimatedVisuals"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid Background="Violet">
+        <winui:AnimatedVisualPlayer x:Name="Player1"  AutomationProperties.Name="Birthday Cake">
+            <!--<animatedVisuals:BirthdayCake/>-->
+            <winui:AnimatedVisualPlayer.FallbackContent>
+                <DataTemplate>
+                    <Border Background="Yellow">
+                        <TextBlock FontSize="20">Lottie is not supported on this version of Windows.</TextBlock>
+                    </Border>
+                </DataTemplate>
+            </winui:AnimatedVisualPlayer.FallbackContent>
+        </winui:AnimatedVisualPlayer>
+    </Grid>
+</Page>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>Lottie for Windows</title>
+    <authors>Microsoft</authors>
+    <owners>$author$</owners>
+    <licenseUrl>http://www.microsoft.com/TODO_LICENSE_FOR_LOTTIE</licenseUrl>
+    <projectUrl>http://www.microsoft.com/TODO_GITHUB_FOR_LOTTIE</projectUrl>
+    <iconUrl>http://www.microsoft.com/TODO_ICON_FOR_LOTTIE</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Loads Lottie .json files for use by AnimatedVisualPlayer and for codegen.</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>Lottie UWP</tags>
+  </metadata>
+</package>

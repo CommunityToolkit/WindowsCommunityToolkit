@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DefineConstants>TRACE;PUBLIC</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG;PUBLIC</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Lottie\LottieToWinComp\ExpressionFactory.cs" Link="LottieToWinComp\ExpressionFactory.cs" />
+    <Compile Include="..\Lottie\LottieToWinComp\LottieToWinCompTranslator.cs" Link="LottieToWinComp\LottieToWinCompTranslator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LottieData\LottieData.csproj">
+      <Project>{624d8bbc-00e7-4bc8-8c9c-306ec058cb2b}</Project>
+      <Name>LottieData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WinCompData\WinCompData.csproj">
+      <Project>{b1dd2d0c-f280-4e5a-a14d-e1856cbb648a}</Project>
+      <Name>WinCompData</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

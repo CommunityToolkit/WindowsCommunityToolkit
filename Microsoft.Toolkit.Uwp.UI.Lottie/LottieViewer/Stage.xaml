@@ -1,0 +1,62 @@
+﻿<UserControl
+    x:Class="LottieViewer.Stage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LottieViewer"
+    xmlns:lottie="using:Microsoft.Toolkit.Uwp.UI.Lottie"
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.4*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.4*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.4*"/>
+            </Grid.ColumnDefinitions>
+            <local:FeedbackLottie Grid.Row="1" Grid.Column="1" x:Name="_feedbackLottie"/>
+        </Grid>
+
+        <Grid>
+            <!-- Define a ninegrid with the composition in the middle -->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="0.1*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="0.1*"/>
+            </Grid.ColumnDefinitions>
+            <!-- Viewbox is necessary for stretching because we want to keep the Lottie unstretched so that
+                 the background has the same aspect ratio as the Lottie. This allows the user to see the
+                 shape of the Lottie's bounding rectangle. -->
+            <Viewbox Grid.Row="1" Grid.Column="1" Stretch="Uniform">
+                <Border>
+                    <Border.Background>
+                        <SolidColorBrush Color="{x:Bind Path=ArtboardColor, Mode=OneWay}"/>
+                    </Border.Background>
+                    <!-- Stretch="None" so that the Border will have the same shape as the Lottie. -->
+                    <winui:AnimatedVisualPlayer x:Name="_player" Stretch="None" AutoPlay="False" >
+                        <lottie:LottieVisualSource x:Name="_playerSource" Options="All" />
+                    </winui:AnimatedVisualPlayer>
+                </Border>
+            </Viewbox>
+        </Grid>
+
+        <StackPanel VerticalAlignment="Bottom" Margin="24">
+            <TextBlock x:Name="_txtFileName"/>
+            <TextBlock x:Name="_txtSize"/>
+            <TextBlock x:Name="_txtDuration"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
