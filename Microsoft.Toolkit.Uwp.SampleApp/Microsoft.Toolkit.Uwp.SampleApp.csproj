@@ -282,6 +282,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
@@ -518,6 +519,9 @@
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\TabView\TabViewXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
@@ -557,6 +561,9 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
+    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
+      <DependentUpon>TabViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedPage.xaml.cs">
       <DependentUpon>PowerBIEmbeddedPage.xaml</DependentUpon>
     </Compile>
@@ -926,6 +933,10 @@
     <Page Include="Pages\SampleController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\TabView\TabViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
