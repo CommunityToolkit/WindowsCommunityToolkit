@@ -9,7 +9,6 @@ using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -22,10 +21,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private int imageIndex;
         private StackPanel container;
         private ResourceDictionary resources;
-        private Grid lazyLoadingGrid;
-        private ScrollViewer lazyLoadingScrollViewer;
-        private ImageEx lazyLoadingImage;
-        private AppBarButton closeLazyLoadingGridButton;
+        private Border lazyLoadingControlHost;
 
         public ImageExPage()
         {
@@ -38,12 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // Need to use logical tree here as scrollviewer hasn't initialized yet even with dispatch.
             container = control.FindChildByName("Container") as StackPanel;
             resources = control.Resources;
-            lazyLoadingGrid = control.FindChildByName("LazyLoadingGrid") as Grid;
-            lazyLoadingScrollViewer = control.FindChildByName("LazyLoadingScrollViewer") as ScrollViewer;
-            lazyLoadingImage = control.FindChildByName("LazyLoadingImage") as ImageEx;
-            lazyLoadingImage.ImageExOpened += LazyLoadingImage_ImageExOpened;
-            closeLazyLoadingGridButton = control.FindChildByName("CloseLazyLoadingGridButton") as AppBarButton;
-            closeLazyLoadingGridButton.Click += CloseLazyLoadingGridButton_Click;
+            lazyLoadingControlHost = control.FindChildByName("LazyLoadingControlHost") as Border;
         }
 
         private async void Load()
@@ -80,8 +71,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.RegisterNewCommand("Lazy loading sample", (sender, args) =>
             {
-                lazyLoadingImage.Source = "/Assets/Photos/LunchBreak.jpg";
-                lazyLoadingGrid.Visibility = Visibility.Visible;
+                var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
+                imageExLazyLoadingControl.CloseButtonClick += (_, __) =>
+                {
+                    lazyLoadingControlHost.Child = null;
+                };
+
+                lazyLoadingControlHost.Child = imageExLazyLoadingControl;
             });
 
             SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
@@ -124,30 +120,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 imageIndex = 0;
             }
-        }
-
-        private async void LazyLoadingImage_ImageExOpened(object sender, ImageExOpenedEventArgs e)
-        {
-            await new MessageDialog("Image Opened").ShowAsync();
-        }
-
-        private void CloseLazyLoadingGridButton_Click(object sender, RoutedEventArgs e)
-        {
-            EventHandler<ScrollViewerViewChangedEventArgs> handler = null;
-            handler = async (obj, args) =>
-            {
-                if (lazyLoadingScrollViewer.VerticalOffset <= 0)
-                {
-                    lazyLoadingScrollViewer.ViewChanged -= handler;
-
-                    await Task.Yield(); // wait for image out of the viewport
-
-                    lazyLoadingImage.Source = null;
-                    lazyLoadingGrid.Visibility = Visibility.Collapsed;
-                }
-            };
-            lazyLoadingScrollViewer.ViewChanged += handler;
-            lazyLoadingScrollViewer.ChangeView(null, 0, null);
         }
     }
 }

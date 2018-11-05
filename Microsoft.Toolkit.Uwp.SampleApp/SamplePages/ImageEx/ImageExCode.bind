@@ -46,31 +46,6 @@
                                   Style="{StaticResource BaseStyle}"/>
            </StackPanel>    
         </ScrollViewer>
-        <Grid x:Name="LazyLoadingGrid"
-              Background="White" 
-              Visibility="Collapsed">
-            <ScrollViewer x:Name="LazyLoadingScrollViewer"
-                          VerticalScrollBarVisibility="Auto">
-                <Grid Height="3000">
-                    <Border Width="200" 
-                            Height="200"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            BorderBrush="Black"
-                            BorderThickness="1">
-                        <controls:ImageEx x:Name="LazyLoadingImage"
-                                          EnableLazyLoading="True"
-                                          IsCacheEnabled="False"
-                                          Source="/Assets/Photos/LunchBreak.jpg" />
-                    </Border>
-                </Grid>
-            </ScrollViewer>
-            <AppBarButton x:Name="CloseLazyLoadingGridButton"
-                          Icon="Cancel"
-                          Width="48"
-                          Height="48"
-                          HorizontalAlignment="Right" 
-                          VerticalAlignment="Top" />
-        </Grid>
+        <Border x:Name="LazyLoadingControlHost" />
     </Grid>
 </Page>
