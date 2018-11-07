@@ -24,7 +24,7 @@ function Download-File
     $downloadDest = Join-Path $outDir $downloadName
     $downloadDestTemp = Join-Path $outDir "$downloadName.tmp"
 
-    Write-Host -NoNewline "Downloading $downloadName ..."
+    Write-Host -NoNewline "Downloading $downloadName..."
 
     try
     {
@@ -56,7 +56,7 @@ function Download-File
     }
 
     Move-Item -Force $downloadDestTemp $downloadDest
-    Write-Host "Updated $downloadName"
+    Write-Host "Done"
 
     return $downloadDest
 }
