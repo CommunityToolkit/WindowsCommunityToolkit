@@ -29,10 +29,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         protected StorageFolder Folder { get; set; }
 
         /// <summary>
-        /// Determines whether if a setting already exists
+        /// Determines whether a setting already exists.
         /// </summary>
         /// <param name="key">Key of the setting (that contains object)</param>
-        /// <returns>True if a value exists</returns>
+        /// <returns><c>true</c> if the setting exists; otherwise, <c>false</c>.</returns>
         public bool KeyExists(string key)
         {
             return Settings.Values.ContainsKey(key);
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
         /// <param name="key">Key of the setting (that contains object)</param>
-        /// <returns>True if a value exists</returns>
+        /// <returns><c>true</c> if the setting exists; otherwise, <c>false</c>.</returns>
         public bool KeyExists(string compositeKey, string key)
         {
             if (KeyExists(compositeKey))
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Determines whether a file already exists.
         /// </summary>
         /// <param name="filePath">Key of the file (that contains object)</param>
-        /// <returns>true if the file exists; otherwise false.</returns>
+        /// <returns><c>true</c> if the file exists; otherwise, <c>false</c>.</returns>
         public Task<bool> FileExistsAsync(string filePath)
         {
             return Folder.FileExistsAsync(filePath);
