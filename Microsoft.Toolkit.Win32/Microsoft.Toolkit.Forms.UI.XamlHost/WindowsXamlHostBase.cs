@@ -7,7 +7,10 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Security.Permissions;
 using System.Windows.Forms;
+using Microsoft.Toolkit.Win32.UI.Controls.Interop.Win32;
 using Microsoft.Toolkit.Win32.UI.XamlHost;
+using Windows.Foundation.Metadata;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -18,10 +21,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
     public abstract partial class WindowsXamlHostBase : ContainerControl
     {
 #pragma warning disable SA1401 // Fields must be private
-                              /// <summary>
-                              /// DesktopWindowXamlSource instance
-                              /// </summary>
+        /// <summary>
+        /// DesktopWindowXamlSource instance
+        /// </summary>
         protected internal readonly Windows.UI.Xaml.Hosting.DesktopWindowXamlSource _xamlSource;
+
+        /// <summary>
+        ///    A render transform to scale the UWP XAML content should be applied
+        /// </summary>
+        protected internal bool _dpiScalingRenderTransformEnabled = false;
 #pragma warning restore SA1401 // Fields must be private
 
         /// <summary>
@@ -39,6 +47,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         private readonly Windows.UI.Xaml.Application _application;
 
         /// <summary>
+        /// Private field that backs ChildInternal property.
+        /// </summary>
+        private UIElement _childInternal;
+
+        /// <summary>
         ///    Last preferredSize returned by UWP XAML during WinForms layout pass
         /// </summary>
         private Size _lastXamlContentPreferredSize;
@@ -47,6 +60,16 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         ///    UWP XAML island window handle associated with this Control instance
         /// </summary>
         private IntPtr _xamlIslandWindowHandle = IntPtr.Zero;
+
+        /// <summary>
+        ///    Set if the UWP XAML island handles scaling of the content
+        /// </summary>
+        private bool _xamlIslandHandlesDpiScaling = false;
+
+        /// <summary>
+        ///    The last dpi value retrieved from the system
+        /// </summary>
+        private double _lastDpi = 96.0f;
 
         /// <summary>
         ///     Fired when XAML content has been updated
@@ -62,6 +85,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         public WindowsXamlHostBase()
         {
+            if (DesignMode)
+            {
+                return;
+            }
+
             SetStyle(ControlStyles.ContainerControl, true);
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             SetStyle(ControlStyles.UserPaint, true);
@@ -94,6 +122,31 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             // Hook up method for DesktopWindowXamlSource Focus handling
             _xamlSource.TakeFocusRequested += this.OnTakeFocusRequested;
+
+            // Check if the XAML island scales the content according to the current dpi value
+            _xamlIslandHandlesDpiScaling = ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 8);
+
+            // Add scaling panel as the root XAML element
+            _xamlSource.Content = new DpiScalingPanel();
+        }
+
+        protected WindowsXamlHostBase(string typeName)
+            : this()
+        {
+            if (!DesignMode)
+            {
+                ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+                ChildInternal.SetWrapper(this);
+            }
+        }
+
+        /// <summary>
+        /// Exposes ChildInternal without exposing its actual Type.
+        /// </summary>
+        /// <returns>the underlying UWP child object</returns>
+        public object GetUwpInternalObject()
+        {
+            return ChildInternal;
         }
 
         /// <summary>
@@ -101,21 +154,29 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        internal Windows.UI.Xaml.UIElement ChildInternal
+        protected Windows.UI.Xaml.UIElement ChildInternal
         {
-            get => _xamlSource.Content;
+            get => _childInternal;
 
             set
             {
                 if (!DesignMode)
                 {
+                    if (value == ChildInternal)
+                    {
+                        return;
+                    }
+
                     var newFrameworkElement = value as Windows.UI.Xaml.FrameworkElement;
-                    var oldFrameworkElement = _xamlSource.Content as Windows.UI.Xaml.FrameworkElement;
+                    var oldFrameworkElement = ChildInternal as Windows.UI.Xaml.FrameworkElement;
 
                     if (oldFrameworkElement != null)
                     {
                         oldFrameworkElement.SizeChanged -= OnChildSizeChanged;
                     }
+
+                    _childInternal = value;
+                    SetContent(value);
 
                     if (newFrameworkElement != null)
                     {
@@ -124,11 +185,13 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                         newFrameworkElement.SizeChanged += OnChildSizeChanged;
                     }
 
-                    _xamlSource.Content = value;
-
                     PerformLayout();
 
                     ChildChanged?.Invoke(this, new EventArgs());
+                }
+                else
+                {
+                    _childInternal = value;
                 }
             }
         }
@@ -137,11 +200,36 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// Sets the root UWP XAML element on DesktopWindowXamlSource
         /// </summary>
         /// <param name="newValue">A UWP XAML Framework element</param>
-        protected virtual void SetContent(Windows.UI.Xaml.FrameworkElement newValue)
+        protected virtual void SetContent(Windows.UI.Xaml.UIElement newValue)
         {
             if (_xamlSource != null)
             {
-                _xamlSource.Content = newValue;
+                (_xamlSource.Content as DpiScalingPanel).Child = newValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a render transform is added to the UWP control corresponding to the current dpi scaling factor
+        /// if scaling is not supported natively by the XAML island
+        /// </summary>
+        /// <value>The dpi scaling mode.</value>
+        /// <remarks>A custom render transform added to the root UWP control will be overwritten.</remarks>
+        [ReadOnly(false)]
+        [Browsable(true)]
+        [Category("Layout")]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
+        public bool DpiScalingRenderTransform
+        {
+            get => _dpiScalingRenderTransformEnabled;
+
+            set
+            {
+                _dpiScalingRenderTransformEnabled = value;
+                if (!DesignMode)
+                {
+                    UpdateDpiScalingFactor();
+                    PerformLayout();
+                }
             }
         }
 
@@ -154,6 +242,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
             if (disposing)
             {
                 SizeChanged -= OnWindowXamlHostSizeChanged;
+                ChildInternal?.ClearWrapper();
 
                 // Required by CA2213: _xamlSource?.Dispose() is insufficient.
                 if (_xamlSource != null)
@@ -174,6 +263,8 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <param name="e">EventArgs</param>
         protected override void OnHandleCreated(EventArgs e)
         {
+            base.OnHandleCreated(e);
+
             if (!DesignMode)
             {
                 // Attach window to DesktopWindowXamSource as a render target
@@ -186,9 +277,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
                 {
                     throw new InvalidOperationException("WindowsXamlHostBase::OnHandleCreated: Failed to set WS_EX_CONTROLPARENT on control window.");
                 }
-            }
 
-            base.OnHandleCreated(e);
+                if (ChildInternal != null)
+                {
+                    SetContent(ChildInternal);
+                    ChildInternal.SetWrapper(this);
+                }
+
+                UpdateDpiScalingFactor();
+            }
         }
     }
 }

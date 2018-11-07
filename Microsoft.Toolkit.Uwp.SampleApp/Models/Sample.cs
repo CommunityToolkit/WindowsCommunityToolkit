@@ -31,8 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
-        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/";
-        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/";
         private const string _cacheSHAKey = "docs-cache-sha";
 
         private static HttpClient client = new HttpClient();
@@ -209,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var filename = string.Empty;
             var localPath = string.Empty;
 
-            var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
             if (docMatch.Success)
             {
