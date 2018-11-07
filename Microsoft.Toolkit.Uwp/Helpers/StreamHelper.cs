@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="uri">Uri to request.</param>
         /// <param name="cancellationToken">A <see cref="CancellationToken"/> used to cancel the operation.</param>
-        /// <returns>Response stream</returns>
+        /// <returns>The response stream</returns>
         public static async Task<IRandomAccessStream> GetHttpStreamAsync(this Uri uri, CancellationToken cancellationToken = default(CancellationToken))
         {
             var outputStream = new InMemoryRandomAccessStream();
@@ -71,11 +71,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a stream to a specified file from the installation folder.
+        /// Gets a stream to a specified file from the installation folder.
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
-        /// <returns>File stream</returns>
+        /// <returns>The file stream</returns>
         public static Task<IRandomAccessStream> GetPackagedFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -85,11 +85,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a stream to a specified file from the application local folder.
+        /// Gets a stream to a specified file from the application local folder.
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
-        /// <returns>File stream</returns>
+        /// <returns>The file stream</returns>
         public static Task<IRandomAccessStream> GetLocalFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -99,11 +99,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a stream to a specified file from the application local cache folder.
+        /// Gets a stream to a specified file from the application local cache folder.
         /// </summary>
         /// <param name="fileName">Relative name of the file to open. Can contain subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
-        /// <returns>File stream</returns>
+        /// <returns>The file stream</returns>
         public static Task<IRandomAccessStream> GetLocalCacheFileStreamAsync(
             string fileName,
             FileAccessMode accessMode = FileAccessMode.Read)
@@ -113,12 +113,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a stream to a specified file from the application local cache folder.
+        /// Gets a stream to a specified file from the application local cache folder.
         /// </summary>
         /// <param name="knownFolderId">The well known folder ID to use</param>
         /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
         /// <param name="accessMode">File access mode. Default is read.</param>
-        /// <returns>File stream</returns>
+        /// <returns>The file stream</returns>
         public static Task<IRandomAccessStream> GetKnowFoldersFileStreamAsync(
             KnownFolderId knownFolderId,
             string fileName,
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="stream">Stream to read from.</param>
         /// <param name="encoding">Encoding to use. If set to null, ASCII will be used.</param>
-        /// <returns>Stream content</returns>
+        /// <returns>The stream content</returns>
         public static async Task<string> ReadTextAsync(
             this IRandomAccessStream stream,
             Encoding encoding = null)
