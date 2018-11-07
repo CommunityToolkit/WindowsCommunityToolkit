@@ -595,7 +595,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="bool"/>, indicating if the subfolders should also be searched through.
         /// </param>
         /// <returns>
-        /// true if the file exists; otherwise false.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         public static Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
             => isRecursive
@@ -606,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets a value indicating whether a filename is correct or not using the Storage feature.
         /// </summary>
         /// <param name="fileName">The filename to test. Must include the file extension and is not case-sensitive.</param>
-        /// <returns>true if the filename is valid; otherwise false.</returns>
+        /// <returns><c>true</c> if the filename is valid; otherwise, <c>false</c>.</returns>
         public static bool IsFileNameValid(string fileName)
         {
             var illegalChars = Path.GetInvalidFileNameChars();
@@ -617,7 +617,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets a value indicating whether a file path is correct or not using the Storage feature.
         /// </summary>
         /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
-        /// <returns>true if the file path is valid; otherwise false.</returns>
+        /// <returns><c>true</c> if the file path is valid; otherwise, <c>false</c>.</returns>
         public static bool IsFilePathValid(string filePath)
         {
             var illegalChars = Path.GetInvalidPathChars();
@@ -634,7 +634,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
         /// </param>
         /// <returns>
-        /// true if the file exists; otherwise false.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
@@ -652,7 +652,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
         /// </param>
         /// <returns>
-        /// true if the file exists; otherwise false.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentException">
         /// Exception thrown if the <paramref name="fileName"/> contains a quotation mark.
@@ -678,7 +678,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
         /// </summary>
         /// <param name="knownFolderId">Folder Id</param>
-        /// <returns><see cref="StorageFolder"/></returns>
+        /// <returns>The <see cref="StorageFolder"/></returns>
         internal static StorageFolder GetFolderFromKnownFolderId(KnownFolderId knownFolderId)
         {
             StorageFolder workingFolder;
