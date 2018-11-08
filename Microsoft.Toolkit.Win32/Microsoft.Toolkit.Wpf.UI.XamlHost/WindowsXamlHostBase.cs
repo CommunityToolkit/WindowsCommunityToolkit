@@ -76,6 +76,63 @@ namespace Microsoft.Toolkit.Wpf.UI.XamlHost
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="WindowsXamlHostBase"/> class.
+        /// </summary>
+        /// <remarks>
+        /// Constructor is required for use in WPF markup. When the default constructor is called,
+        /// object properties have not been set. Put WPF logic in OnInitialized.
+        /// </remarks>
+        /// <param name="typeName">UWP XAML Type name</param>
+        public WindowsXamlHostBase(string typeName)
+            : this()
+        {
+            ChildInternal = UWPTypeFactory.CreateXamlContentByType(typeName);
+            ChildInternal.SetWrapper(this);
+        }
+
+        /// <summary>
+        /// Binds this wrapper object's exposed WPF DependencyProperty with the wrapped UWP object's DependencyProperty
+        /// for what effectively works as a regular one- or two-way binding.
+        /// </summary>
+        /// <param name="propertyName">the registered name of the dependency property</param>
+        /// <param name="wpfProperty">the DependencyProperty of the wrapper</param>
+        /// <param name="uwpProperty">the related DependencyProperty of the UWP control</param>
+        /// <param name="converter">a converter, if one's needed</param>
+        /// <param name="direction">indicates that the binding should be one or two directional.  If one way, the Uwp control is only updated from the wrapper.</param>
+        public void Bind(string propertyName, System.Windows.DependencyProperty wpfProperty, Windows.UI.Xaml.DependencyProperty uwpProperty, object converter = null, System.ComponentModel.BindingDirection direction = System.ComponentModel.BindingDirection.TwoWay)
+        {
+            if (direction == System.ComponentModel.BindingDirection.TwoWay)
+            {
+                var binder = new Windows.UI.Xaml.Data.Binding()
+                {
+                    Source = this,
+                    Path = new Windows.UI.Xaml.PropertyPath(propertyName),
+                    Converter = (Windows.UI.Xaml.Data.IValueConverter)converter
+                };
+                Windows.UI.Xaml.Data.BindingOperations.SetBinding(ChildInternal, uwpProperty, binder);
+            }
+
+            var rebinder = new System.Windows.Data.Binding()
+            {
+                Source = ChildInternal,
+                Path = new System.Windows.PropertyPath(propertyName),
+                Converter = (System.Windows.Data.IValueConverter)converter
+            };
+            System.Windows.Data.BindingOperations.SetBinding(this, wpfProperty, rebinder);
+        }
+
+        /// <inheritdoc />
+        protected override void OnInitialized(EventArgs e)
+        {
+            base.OnInitialized(e);
+
+            if (_childInternal != null)
+            {
+                SetContent();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the root UWP XAML element displayed in the WPF control instance.
         /// </summary>
         /// <value>The <see cref="Windows.UI.Xaml.UIElement"/> child.</value>

@@ -78,6 +78,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
                     case MarkdownBlockType.Table:
                         RenderTable((TableBlock)element, context);
                         break;
+
+                    case MarkdownBlockType.YamlHeader:
+                        RenderYamlHeader((YamlHeaderBlock)element, context);
+                        break;
                 }
             }
         }
@@ -139,6 +143,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
 
                 case MarkdownInlineType.Superscript:
                     RenderSuperscriptRun((SuperscriptTextInline)element, context);
+                    break;
+
+                case MarkdownInlineType.Subscript:
+                    RenderSubscriptRun((SubscriptTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Code:

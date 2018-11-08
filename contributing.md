@@ -36,16 +36,25 @@ For every contribution, you must:
 * target master branch (or an appropriate release branch if appropriate for a bug fix)
 
 * If adding a new feature
-    * Before starting coding, **you should open an uservoice entry** under "Windows Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough. 
-    * Add or update a documentation page in the [documentation folder](https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/docs) which should follow the [documentation template](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/docs/.template.md). Once validated, your documentation will be visible [here](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/)
+    * Before starting coding, **you should open an uservoice entry** under "Windows Community Toolkit" on [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit) and start discussing with the community to see if your idea/feature is interesting enough.
     * Add or update a sample for the [Sample app](https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.SampleApp)
-        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
+        * If creating a new sample, create a new icon by following the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
     * Add or update unit tests (if applicable)
 
 
 PR has to be validated by at least two core members before being merged.
 
 Once merged, you can get a pre-release package of the toolkit by adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio.
+
+### <a name="docs"></a> Adding Documentation
+
+Documentation is **required** when adding, removing, or updating a control or an API. To update the documentation, you must submit a seperate Pull Request in the [documentation repository](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs) (use the *master* branch). **Both Pull Requests (code and docs) must be approved by the core team before either one is merged.**
+
+Make sure to update both Pull Requests with a link to each other.
+
+If adding a new documentation page:
+* Copy the [documentation template](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/.template.md) and follow the same format.
+* Update the [Table of Contents](https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/blob/master/docs/toc.md) to point to the new page
 
 ## <a name="xaml"></a> Quality assurance for pull requests for XAML controls
 We encourage developers to follow the following guidances when submitting pull requests for controls:

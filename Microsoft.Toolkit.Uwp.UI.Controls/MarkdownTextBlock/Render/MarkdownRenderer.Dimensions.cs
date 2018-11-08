@@ -49,6 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public Thickness InlineCodePadding { get; set; }
 
         /// <summary>
+        /// Gets or sets the margin of inline code.
+        /// </summary>
+        public Thickness InlineCodeMargin { get; set; }
+
+        /// <summary>
         /// Gets or sets the font size for level 1 headers.
         /// </summary>
         public double Header1FontSize { get; set; }
@@ -139,6 +144,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public Thickness ParagraphMargin { get; set; }
 
         /// <summary>
+        /// Gets or sets the line height used for paragraphs.
+        /// </summary>
+        public int ParagraphLineHeight { get; set; }
+
+        /// <summary>
         /// Gets or sets the thickness of quote borders.
         /// </summary>
         public Thickness QuoteBorderThickness { get; set; }
@@ -157,6 +167,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         /// Gets or sets the thickness of any table borders.
         /// </summary>
         public double TableBorderThickness { get; set; }
+
+        /// <summary>
+        /// Gets or sets the thickness of any yaml header borders.
+        /// </summary>
+        public double YamlBorderThickness { get; set; }
 
         /// <summary>
         /// Gets or sets the padding inside each cell.

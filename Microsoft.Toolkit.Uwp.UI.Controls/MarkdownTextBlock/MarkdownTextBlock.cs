@@ -11,9 +11,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// An efficient and extensible control that can parse and render markdown.
     /// </summary>
-    public sealed partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
+    public partial class MarkdownTextBlock : Control, ILinkRegister, IImageResolver, ICodeBlockResolver
     {
         private long _fontSizePropertyToken;
+        private long _flowDirectionPropertyToken;
         private long _backgroundPropertyToken;
         private long _borderBrushPropertyToken;
         private long _borderThicknessPropertyToken;
@@ -49,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Register for property callbacks that are owned by our parent class.
             _fontSizePropertyToken = RegisterPropertyChangedCallback(FontSizeProperty, OnPropertyChanged);
+            _flowDirectionPropertyToken = RegisterPropertyChangedCallback(FlowDirectionProperty, OnPropertyChanged);
             _backgroundPropertyToken = RegisterPropertyChangedCallback(BackgroundProperty, OnPropertyChanged);
             _borderBrushPropertyToken = RegisterPropertyChangedCallback(BorderBrushProperty, OnPropertyChanged);
             _borderThicknessPropertyToken = RegisterPropertyChangedCallback(BorderThicknessProperty, OnPropertyChanged);
@@ -74,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Register for property callbacks that are owned by our parent class.
             UnregisterPropertyChangedCallback(FontSizeProperty, _fontSizePropertyToken);
+            UnregisterPropertyChangedCallback(FlowDirectionProperty, _flowDirectionPropertyToken);
             UnregisterPropertyChangedCallback(BackgroundProperty, _backgroundPropertyToken);
             UnregisterPropertyChangedCallback(BorderBrushProperty, _borderBrushPropertyToken);
             UnregisterPropertyChangedCallback(BorderThicknessProperty, _borderThicknessPropertyToken);
