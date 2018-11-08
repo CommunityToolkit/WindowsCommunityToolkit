@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
@@ -17,6 +18,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     public class InkToolbarPenButton : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.InkToolbarPenButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarPenButton;
+
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarPenButton"/> class, a
@@ -46,41 +49,55 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsExtensionGlyphShown property is set <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShown"/>
         /// </summary>
-        public bool IsExtensionGlyphShown { get => UwpControl.IsExtensionGlyphShown; set => UwpControl.IsExtensionGlyphShown = value; }
+        [DefaultValue(false)]
+        public bool IsExtensionGlyphShown { get => (bool)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets the underlying Uwp control's Toolkind property <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
         /// </summary>
-        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl.ToolKind; }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl?.ToolKind; }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's SelectedStrokeWidth property <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedStrokeWidth"/>
         /// </summary>
-        public double SelectedStrokeWidth { get => UwpControl.SelectedStrokeWidth; set => UwpControl.SelectedStrokeWidth = value; }
+        [DefaultValue((double)0)]
+        public double SelectedStrokeWidth { get => (double)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's SelectedBrushIndex property <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrushIndex"/>
         /// </summary>
-        public int SelectedBrushIndex { get => UwpControl.SelectedBrushIndex; set => UwpControl.SelectedBrushIndex = value; }
+        [DefaultValue((int)0)]
+        public int SelectedBrushIndex { get => (int)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's Palette <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.Palette"/>
         /// </summary>
-        public IList<Brush> Palette { get => UwpControl.Palette?.Cast<Brush>().ToList(); set => UwpControl.Palette = value?.Select(x => x.UwpInstance).ToList(); }
+        [DefaultValue(null)]
+        public IList<Brush> Palette
+        {
+            get => (this.GetUwpControlValue() as IList<Windows.UI.Xaml.Media.Brush>)?.Cast<Brush>().ToList();
+            set => this.SetUwpControlValue(value?.Select(x => x.UwpInstance).ToList());
+        }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's MinStrokeWidth <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidth"/>
         /// </summary>
-        public double MinStrokeWidth { get => UwpControl.MinStrokeWidth; set => UwpControl.MinStrokeWidth = value; }
+        [DefaultValue((double)00)]
+        public double MinStrokeWidth { get => (double)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's MaxStrokeWidth <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidth"/>
         /// </summary>
-        public double MaxStrokeWidth { get => UwpControl.MaxStrokeWidth; set => UwpControl.MaxStrokeWidth = value; }
+        [DefaultValue((double)00)]
+        public double MaxStrokeWidth { get => (double)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets the underlying Uwp control's SesectedBrush <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.SelectedBrush"/>
         /// </summary>
-        public Brush SelectedBrush { get => UwpControl.SelectedBrush; }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Brush SelectedBrush { get => UwpControl?.SelectedBrush; }
     }
 }

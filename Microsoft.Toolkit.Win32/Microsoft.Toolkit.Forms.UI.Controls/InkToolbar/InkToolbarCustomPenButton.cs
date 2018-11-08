@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl.ToolKind; }
+        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl?.ToolKind; }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's CustomPen property <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomPenButton.CustomPen"/>
