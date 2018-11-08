@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
@@ -35,7 +36,24 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             return propertiesDictionary;
         }
 
-        internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, object defaultValue, [CallerMemberName]string propName = null)
+        private static object GetDefaultValueForProperty(WindowsXamlHostBase wrapper, string propName)
+        {
+            PropertyDescriptor descriptor = TypeDescriptor.GetProperties(wrapper).Find(propName, false);
+            if (descriptor == null)
+            {
+                throw new MissingMethodException("Wrapper class does not contain property " + propName.ToString());
+            }
+
+            DefaultValueAttribute attribute = descriptor.Attributes[typeof(DefaultValueAttribute)] as DefaultValueAttribute;
+            if (attribute == null)
+            {
+                throw new ArgumentException("Wrapper class does not a DefaultValue attribute for property " + propName.ToString());
+            }
+
+            return attribute.Value;
+        }
+
+        internal static object GetUwpControlValue(this WindowsXamlHostBase wrapper, [CallerMemberName]string propName = null)
         {
             Windows.UI.Xaml.UIElement control = wrapper.GetUwpInternalObject() as Windows.UI.Xaml.UIElement;
             if (control != null)
@@ -50,7 +68,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                     return properties[propName];
                 }
 
-                return defaultValue;
+                return GetDefaultValueForProperty(wrapper, propName);
             }
         }
 

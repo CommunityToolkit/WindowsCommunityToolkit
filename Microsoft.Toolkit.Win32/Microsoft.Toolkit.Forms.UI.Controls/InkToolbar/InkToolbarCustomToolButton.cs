@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(false)]
         public bool IsExtensionGlyphShown
         {
-            get => (bool)this.GetUwpControlValue(false);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
@@ -65,9 +65,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets the underlying Uwp control's ConfigurationContent property <see cref="Windows.UI.Xaml.Controls.InkToolbarCustomToolButton.ConfigurationContent"/>
         /// </summary>
+        [DefaultValue(null)]
         public object ConfigurationContent
         {
-            get => this.GetUwpControlValue(null);
+            get => this.GetUwpControlValue();
             set => this.SetUwpControlValue(value as Windows.UI.Xaml.UIElement);
         }
     }

@@ -17,6 +17,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.InkToolbarMenuButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarMenuButton;
 
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarMenuButton"/> class, a
         /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton"/>
@@ -34,9 +36,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl.Checked += UwpControl_Checked;
-            UwpControl.Indeterminate += UwpControl_Indeterminate;
-            UwpControl.Unchecked += UwpControl_Unchecked;
+            if (UwpControl != null)
+            {
+                UwpControl.Checked += UwpControl_Checked;
+                UwpControl.Indeterminate += UwpControl_Indeterminate;
+                UwpControl.Unchecked += UwpControl_Unchecked;
+            }
         }
 
         /// <inheritdoc />
@@ -78,17 +83,20 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsExtensionGlyphShown is set. <see cref="Windows.UI.Xaml.Controls.InkToolbarMenuButton.IsExtensionGlyphShown"/>
         /// </summary>
-        public bool IsExtensionGlyphShown { get => UwpControl.IsExtensionGlyphShown; set => UwpControl.IsExtensionGlyphShown = value; }
+        [DefaultValue(false)]
+        public bool IsExtensionGlyphShown { get => (bool)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsThreeState is set. <see cref="Windows.UI.Xaml.Controls.Primitives.ToggleButton.IsThreeState"/>
         /// </summary>
-        public bool IsThreeState { get => UwpControl.IsThreeState; set => UwpControl.IsThreeState = value; }
+        [DefaultValue(false)]
+        public bool IsThreeState { get => (bool)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsChecked is set. <see cref="Windows.UI.Xaml.Controls.Primitives.ToggleButton.IsChecked"/>
         /// </summary>
-        public bool? IsChecked { get => UwpControl.IsChecked; set => UwpControl.IsChecked = value; }
+        [DefaultValue(false)]
+        public bool? IsChecked { get => (bool?)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         protected override void Dispose(bool disposing)
         {

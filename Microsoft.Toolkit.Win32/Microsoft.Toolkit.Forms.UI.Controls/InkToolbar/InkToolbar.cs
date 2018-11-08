@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(false)]
         public bool IsRulerButtonChecked
         {
-            get => (bool)this.GetUwpControlValue(false);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(InkToolbarInitialControls.All)]
         public InkToolbarInitialControls InitialControls
         {
-            get => (InkToolbarInitialControls)this.GetUwpControlValue(Windows.UI.Xaml.Controls.InkToolbarInitialControls.All);
+            get => (InkToolbarInitialControls)this.GetUwpControlValue();
             set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.InkToolbarInitialControls)value);
         }
 
@@ -212,7 +212,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(Orientation.Horizontal)]
         public Orientation Orientation
         {
-            get => (Orientation)this.GetUwpControlValue(Windows.UI.Xaml.Controls.Orientation.Horizontal);
+            get => (Orientation)this.GetUwpControlValue();
             set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Orientation)value);
         }
 
@@ -222,7 +222,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(false)]
         public bool IsStencilButtonChecked
         {
-            get => (bool)this.GetUwpControlValue(false);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(InkToolbarButtonFlyoutPlacement.Auto)]
         public InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
         {
-            get => (InkToolbarButtonFlyoutPlacement)this.GetUwpControlValue(Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement.Auto);
+            get => (InkToolbarButtonFlyoutPlacement)this.GetUwpControlValue();
             set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement)value);
         }
 

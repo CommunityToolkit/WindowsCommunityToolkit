@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [Category("Appearance")]
         public Stretch Stretch
         {
-            get => (Stretch)this.GetUwpControlValue(Windows.UI.Xaml.Media.Stretch.Uniform);
+            get => (Stretch)this.GetUwpControlValue();
             set => this.SetUwpControlValue((Windows.UI.Xaml.Media.Stretch)value);
         }
 
@@ -102,9 +102,10 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.MediaPlayerElement.PosterSource"/>
         /// </summary>
+        [DefaultValue(null)]
         public ImageSource PosterSource
         {
-            get => (Windows.UI.Xaml.Media.ImageSource)this.GetUwpControlValue(null);
+            get => (Windows.UI.Xaml.Media.ImageSource)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value.UwpInstance);
         }
 
@@ -114,7 +115,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(false)]
         public bool IsFullWindow
         {
-            get => (bool)this.GetUwpControlValue(false);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(true)]
         public bool AutoPlay
         {
-            get => (bool)this.GetUwpControlValue(true);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
@@ -134,7 +135,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         [DefaultValue(false)]
         public bool AreTransportControlsEnabled
         {
-            get => (bool)this.GetUwpControlValue(false);
+            get => (bool)this.GetUwpControlValue();
             set => this.SetUwpControlValue(value);
         }
 
