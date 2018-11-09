@@ -18,6 +18,7 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <ContentPresenter x:Name="HeaderPresenter" 
+                                          x:DeferLoadStrategy="Lazy"
                                           Content="{TemplateBinding Header}" 
                                           ContentTemplate="{TemplateBinding HeaderTemplate}" 
                                           Grid.ColumnSpan="2"/>
