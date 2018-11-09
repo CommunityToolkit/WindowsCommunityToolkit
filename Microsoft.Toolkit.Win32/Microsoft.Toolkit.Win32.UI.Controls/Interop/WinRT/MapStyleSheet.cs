@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT
     /// </summary>
     public class MapStyleSheet
     {
-        private Windows.UI.Xaml.Controls.Maps.MapStyleSheet UwpInstance { get; }
+        internal Windows.UI.Xaml.Controls.Maps.MapStyleSheet UwpInstance { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapStyleSheet"/> class, a

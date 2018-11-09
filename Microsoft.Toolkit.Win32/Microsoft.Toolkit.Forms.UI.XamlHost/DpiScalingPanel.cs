@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 
 namespace Microsoft.Toolkit.Forms.UI.XamlHost
 {
@@ -28,7 +29,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (element != null)
             {
-                element.Measure(new Windows.Foundation.Size(availableSize.Width / _scalingFactor, availableSize.Height / _scalingFactor));
+                try
+                {
+                    element.Measure(new Windows.Foundation.Size(availableSize.Width / _scalingFactor, availableSize.Height / _scalingFactor));
+                }
+                catch (Exception)
+                {
+                    Debugger.Break();
+                }
+
                 desiredSize.Width = element.DesiredSize.Width * _scalingFactor;
                 desiredSize.Height = element.DesiredSize.Height * _scalingFactor;
             }
@@ -50,8 +59,15 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
 
             if (element != null)
             {
-                Windows.Foundation.Rect finalRect = new Windows.Foundation.Rect(0, 0, finalSize.Width / _scalingFactor, finalSize.Height / _scalingFactor);
-                element.Arrange(finalRect);
+                try
+                {
+                    Windows.Foundation.Rect finalRect = new Windows.Foundation.Rect(0, 0, finalSize.Width / _scalingFactor, finalSize.Height / _scalingFactor);
+                    element.Arrange(finalRect);
+                }
+                catch (Exception)
+                {
+                    Debugger.Break();
+                }
             }
 
             return base.ArrangeOverride(finalSize);

@@ -296,6 +296,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     GithubButton.Visibility = Visibility.Collapsed;
                 }
+                else
+                {
+                    GithubButton.Visibility = Visibility.Visible;
+                }
 
                 if (InfoAreaPivot.Items.Count == 0)
                 {
@@ -529,16 +533,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
 
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                if (element is FrameworkElement fe)
                 {
-                    (SamplePage as IXamlRenderListener)?.OnXamlRendered(element as FrameworkElement);
-                });
+                    fe.Loaded += XamlFrameworkElement_Loaded;
+                }
             }
             else if (_xamlRenderer.Errors.Count > 0)
             {
                 var error = _xamlRenderer.Errors.First();
 
                 XamlCodeEditor.ReportError(error);
+            }
+        }
+
+        private async void XamlFrameworkElement_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is FrameworkElement fe)
+            {
+                fe.Loaded -= XamlFrameworkElement_Loaded;
+
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
+                {
+                    (SamplePage as IXamlRenderListener)?.OnXamlRendered(fe);
+                });
             }
         }
 
