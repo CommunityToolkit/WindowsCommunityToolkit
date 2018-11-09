@@ -79,6 +79,7 @@ namespace Microsoft.Toolkit.Win32.Samples.WinForms.App
             // inkToolbar1
             // 
             this.inkToolbar1.ActiveTool = this.inkToolbarCustomToolButton1;
+            this.inkToolbar1.AutoSize = true;
             this.inkToolbar1.ButtonFlyoutPlacement = Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT.InkToolbarButtonFlyoutPlacement.Bottom;
             this.inkToolbar1.Controls.Add(this.inkToolbarCustomToolButton1);
             this.inkToolbar1.Dock = System.Windows.Forms.DockStyle.Top;
