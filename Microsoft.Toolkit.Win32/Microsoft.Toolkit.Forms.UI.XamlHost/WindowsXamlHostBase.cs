@@ -216,6 +216,7 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <remarks>A custom render transform added to the root UWP control will be overwritten.</remarks>
         [ReadOnly(false)]
         [Browsable(true)]
+        [DefaultValue(false)]
         [Category("Layout")]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public bool DpiScalingRenderTransform

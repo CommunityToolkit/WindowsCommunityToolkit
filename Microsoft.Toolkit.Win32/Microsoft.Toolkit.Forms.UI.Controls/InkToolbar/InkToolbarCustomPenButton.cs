@@ -98,13 +98,13 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets the underlying Uwp control's MinStrokeWidth <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MinStrokeWidth"/>
         /// </summary>
-        [DefaultValue((double)00)]
+        [DefaultValue((double)0)]
         public double MinStrokeWidth { get => (double)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets or sets the underlying Uwp control's MaxStrokeWidth <see cref="Windows.UI.Xaml.Controls.InkToolbarPenButton.MaxStrokeWidth"/>
         /// </summary>
-        [DefaultValue((double)00)]
+        [DefaultValue((double)0)]
         public double MaxStrokeWidth { get => (double)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>

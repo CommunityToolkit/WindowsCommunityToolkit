@@ -88,6 +88,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets the underlying Uwp control's TargetInkCanvas property <see cref="Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvas"/>
         /// </summary>
+        [DefaultValue(null)]
         public InkCanvas TargetInkCanvas
         {
             get
@@ -143,6 +144,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
         /// </summary>
+        [DefaultValue(null)]
         public WindowsXamlHostBase ActiveTool
         {
             get
@@ -163,7 +165,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                     return;
                 }
 
-                UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+                UwpControl.ActiveTool = value?.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
             }
         }
 
