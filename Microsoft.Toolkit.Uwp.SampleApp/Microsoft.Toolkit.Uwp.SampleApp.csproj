@@ -123,10 +123,10 @@
       <Version>10.1711.28001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.180916002-prerelease</Version>
+      <Version>2.0.181011001</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
-      <Version>0.6.0-alpha</Version>
+      <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
@@ -283,6 +283,7 @@
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\DirectWriteTextBlock\DirectWriteTextBlock.png" />
+    <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
@@ -520,6 +521,9 @@
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\DirectWriteTextBlock\DirectWriteTextBlockCode.bind" />
+    <Content Include="SamplePages\TabView\TabViewXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
@@ -528,17 +532,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ISampleNavigation.cs" />
     <Compile Include="Common\DoubleTopThicknessConverter.cs" />
     <Compile Include="Common\ThicknessConverter.cs" />
-    <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\TimeSpanConverter.cs" />
     <Compile Include="Common\EnumConverter.cs" />
-    <Compile Include="Common\ListViewHoverScroll.cs" />
     <Compile Include="Common\SampleCommand.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
@@ -564,6 +565,9 @@
     <Compile Include="Models\PaneState.cs" />
     <Compile Include="SamplePages\DirectWriteTextBlock\DirectWriteTextBlockPage.xaml.cs">
       <DependentUpon>DirectWriteTextBlockPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
+      <DependentUpon>TabViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedPage.xaml.cs">
       <DependentUpon>PowerBIEmbeddedPage.xaml</DependentUpon>
@@ -938,6 +942,10 @@
     <Page Include="SamplePages\DirectWriteTextBlock\DirectWriteTextBlockPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\TabView\TabViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1451,7 +1459,7 @@
   </PropertyGroup>
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
@@ -1461,7 +1469,7 @@
   </Target>
   <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*.md" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
