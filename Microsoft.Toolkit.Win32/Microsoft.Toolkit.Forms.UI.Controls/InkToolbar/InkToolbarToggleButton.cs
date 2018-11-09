@@ -6,6 +6,7 @@ using System;
 using System.ComponentModel;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Forms.UI.Controls
 {
@@ -15,7 +16,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     [Designer(typeof(InkToolbarToolButtonDesigner))]
     public class InkToolbarToggleButton : WindowsXamlHostBase
     {
-        internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl { get; set; }
+        internal Windows.UI.Xaml.Controls.InkToolbarToggleButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToggleButton"/> class, a
@@ -34,10 +35,15 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            UwpControl = GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToggleButton;
             UwpControl.Checked += UwpControl_Checked;
             UwpControl.Indeterminate += UwpControl_Indeterminate;
             UwpControl.Unchecked += UwpControl_Unchecked;
+        }
+
+        /// <inheritdoc />
+        protected override void SetContent(UIElement newValue)
+        {
+            // intentionally empty
         }
 
         /// <summary>

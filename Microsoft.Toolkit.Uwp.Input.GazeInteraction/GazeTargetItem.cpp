@@ -259,7 +259,7 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
             auto transform = control->TransformToVisual(_feedbackPopup);
             auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0),
                 *ref new Size(safe_cast<float>(control->ActualWidth), safe_cast<float>(control->ActualHeight))));
-            auto rectangle = safe_cast<Rectangle^>(_feedbackPopup->Child);
+            auto rectangle = safe_cast<::Windows::UI::Xaml::Shapes::Rectangle^>(_feedbackPopup->Child);
 
             if (state == DwellProgressState::Progressing)
             {
