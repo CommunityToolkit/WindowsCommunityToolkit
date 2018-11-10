@@ -224,7 +224,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     // Or a quote if the line starts with a greater than character (optionally preceded by whitespace).
                     // Or a horizontal rule if the line contains nothing but 3 '*', '-' or '_' characters (with optional whitespace).
                     MarkdownBlock newBlockElement = null;
-                    if (nonSpaceChar == '#' && nonSpacePos == startOfLine)
+                    if (nonSpaceChar == '-' && nonSpacePos == startOfLine)
+                    {
+                        // Yaml Header
+                        newBlockElement = YamlHeaderBlock.Parse(markdown, startOfLine, markdown.Length, out startOfLine);
+                        if (newBlockElement != null)
+                        {
+                            realStartOfLine = startOfLine;
+                            endOfLine = startOfLine + 3;
+                            startOfNextLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
+                        }
+
+                        paragraphText.Clear();
+                    }
+
+                    if (newBlockElement == null && nonSpaceChar == '#' && nonSpacePos == startOfLine)
                     {
                         // Hash-prefixed header.
                         newBlockElement = HeaderBlock.ParseHashPrefixedHeader(markdown, startOfLine, endOfLine);

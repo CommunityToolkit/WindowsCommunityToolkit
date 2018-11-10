@@ -4,15 +4,16 @@
 
 using System;
 using Microsoft.Toolkit.Win32.UI.Controls.Interop.WinRT;
+using Microsoft.Toolkit.Wpf.UI.XamlHost;
 
 namespace Microsoft.Toolkit.Wpf.UI.Controls
 {
     /// <summary>
     /// Wpf-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkCanvas"/>
     /// </summary>
-    public class InkCanvas : WindowsXamlHostBaseExt
+    public class InkCanvas : WindowsXamlHostBase
     {
-        protected Windows.UI.Xaml.Controls.InkCanvas UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkCanvas;
+        internal Windows.UI.Xaml.Controls.InkCanvas UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkCanvas;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InkCanvas"/> class, a

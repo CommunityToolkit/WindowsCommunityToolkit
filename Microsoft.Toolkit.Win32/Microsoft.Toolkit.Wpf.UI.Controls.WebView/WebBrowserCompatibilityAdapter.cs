@@ -68,12 +68,22 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
 
         public override bool GoBack()
         {
+            if (_browser == null)
+            {
+                return false;
+            }
+
             _browser?.GoBack();
             return true;
         }
 
         public override bool GoForward()
         {
+            if (_browser == null)
+            {
+                return false;
+            }
+
             _browser?.GoForward();
             return true;
         }
@@ -91,6 +101,11 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
         public override void Navigate(string url)
         {
             _browser?.Navigate(url);
+        }
+
+        public override void NavigateToString(string text)
+        {
+            _browser?.NavigateToString(text);
         }
 
         public override void Refresh()
@@ -116,6 +131,8 @@ namespace Microsoft.Toolkit.Wpf.UI.Controls
             {
                 if (_browser != null)
                 {
+                    _browser.Navigating -= OnBrowserNavigating;
+                    _browser.LoadCompleted -= OnBrowserNavigated;
                     _browser.Dispose();
                 }
 
