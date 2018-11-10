@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="uri">Uri to request.</param>
         /// <param name="targetFile">StorageFile to save the stream to.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task GetHttpStreamToStorageFileAsync(
             this Uri uri,
             StorageFile targetFile)

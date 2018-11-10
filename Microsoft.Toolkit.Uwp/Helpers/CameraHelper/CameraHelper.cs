@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private bool _initialized;
 
         /// <summary>
-        /// Gets a list of <see cref="MediaFrameSourceGroups"/> available for video preview or video record.
+        /// Gets a list of <see cref="MediaFrameSourceGroup"/> available for video preview or video record.
         /// </summary>
         /// <returns>A <see cref="MediaFrameSourceGroup"/> list.</returns>
         public static async Task<IReadOnlyList<MediaFrameSourceGroup>> GetFrameSourceGroupsAsync()
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Gets the available <see cref="MediaFrameFormats"/> on the source.
+        /// Gets a list of <see cref="MediaFrameFormat"/> available on the source.
         /// </summary>
         public List<MediaFrameFormat> FrameFormatsAvailable { get => _frameFormatsAvailable; }
 
@@ -171,6 +171,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Clean up the Camera Helper resources
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task CleanUpAsync()
         {
             await semaphoreSlim.WaitAsync();
@@ -271,6 +272,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Stops reading from the frame reader and disposes of the reader.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         private async Task StopReaderAsync()
         {
             if (_frameReader != null)
@@ -281,6 +283,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 _frameReader = null;
             }
         }
+
         /// <summary>
         /// Handles the frame arrived event by converting the frame to a displayable
         /// format and rendering it to the screen.

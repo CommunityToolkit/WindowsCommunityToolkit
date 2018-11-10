@@ -75,6 +75,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// A hidden canvas used to hold pages we wish to print.
         /// </summary>
         private Canvas _printCanvas;
+
         private Panel _canvasContainer;
         private string _printTaskName;
         private Dictionary<FrameworkElement, PrintHelperStateBag> _stateBags = new Dictionary<FrameworkElement, PrintHelperStateBag>();
@@ -157,7 +158,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="printTaskName">Name of the print task to use</param>
         /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public async Task ShowPrintUIAsync(string printTaskName, bool directPrint = false)
         {
             this._directPrint = directPrint;
@@ -176,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="printTaskName">Name of the print task to use</param>
         /// <param name="printHelperOptions">Settings for the print task</param>
         /// <param name="directPrint">Directly print the content of the container instead of relying on list built with <see cref="AddFrameworkElementToPrint(FrameworkElement)"/> method</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public Task ShowPrintUIAsync(string printTaskName, PrintHelperOptions printHelperOptions, bool directPrint = false)
         {
             _printHelperOptions = printHelperOptions;
@@ -414,7 +415,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// This is the event handler for <see cref="PrintDocument.GetPrintPreviewPage"/>.
+        /// This is the event handler for <see cref="PrintDocument.GetPreviewPage"/>.
         /// It provides a specific print preview page, in the form of an UIElement, to an instance of PrintDocument.
         /// PrintDocument subsequently converts the UIElement into a page that the Windows print system can deal with.
         /// </summary>
