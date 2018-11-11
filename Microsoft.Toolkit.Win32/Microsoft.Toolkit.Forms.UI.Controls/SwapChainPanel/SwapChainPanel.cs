@@ -39,6 +39,11 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             {
                 return;
             }
+
+            if (UwpControl != null)
+            {
+                UwpControl.CompositionScaleChanged += OnCompositionScaleChanged;
+            }
         }
 
         /// <summary>
