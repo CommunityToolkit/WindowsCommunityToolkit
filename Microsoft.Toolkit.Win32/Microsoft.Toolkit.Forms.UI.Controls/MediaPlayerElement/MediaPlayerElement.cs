@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                     return _source;
                 }
 
-                return ((Windows.Media.Core.MediaSource)UwpControl.Source).Uri?.ToString();
+                return ((Windows.Media.Core.MediaSource)UwpControl.Source)?.Uri?.ToString();
             }
 
             set
