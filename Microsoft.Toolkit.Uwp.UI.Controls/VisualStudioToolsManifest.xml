@@ -33,6 +33,8 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabViewItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.UniformGrid" />

@@ -159,6 +159,7 @@
     <Compile Include="Markdown\Parse\ParseTestExtensionMethods.cs" />
     <Compile Include="Markdown\Parse\QuoteTests.cs" />
     <Compile Include="Markdown\Parse\StrikethroughTests.cs" />
+    <Compile Include="Markdown\Parse\SubscriptTests.cs" />
     <Compile Include="Markdown\Parse\SuperscriptTests.cs" />
     <Compile Include="Markdown\Parse\TableTests.cs" />
     <Compile Include="Markdown\TestBase.cs" />
