@@ -8,10 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="ToolkitTextBox\ToolkitTextBox.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
 
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
@@ -23,13 +19,6 @@
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
-  </ItemGroup>
- 
-  <ItemGroup>
-    <None Update="ToolkitTextBox\ToolkitTextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </None>
   </ItemGroup>
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
