@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Forms.UI.XamlHost;
@@ -17,6 +18,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     public class MapControl : WindowsXamlHostBase
     {
         internal Windows.UI.Xaml.Controls.Maps.MapControl UwpControl => GetUwpInternalObject() as Windows.UI.Xaml.Controls.Maps.MapControl;
+
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MapControl"/> class, a
@@ -35,40 +38,44 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         internal MapControl(string typeName)
             : base(typeName)
         {
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                return;
+            }
         }
 
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
 
-            if (DesignMode)
+            if (UwpControl != null)
             {
-                return;
+                UwpControl.CenterChanged += OnCenterChanged;
+                UwpControl.HeadingChanged += OnHeadingChanged;
+                UwpControl.LoadingStatusChanged += OnLoadingStatusChanged;
+                UwpControl.MapDoubleTapped += OnMapDoubleTapped;
+                UwpControl.MapHolding += OnMapHolding;
+                UwpControl.MapTapped += OnMapTapped;
+                UwpControl.PitchChanged += OnPitchChanged;
+                UwpControl.TransformOriginChanged += OnTransformOriginChanged;
+                UwpControl.ZoomLevelChanged += OnZoomLevelChanged;
+                UwpControl.ActualCameraChanged += OnActualCameraChanged;
+                UwpControl.ActualCameraChanging += OnActualCameraChanging;
+                UwpControl.CustomExperienceChanged += OnCustomExperienceChanged;
+                UwpControl.MapElementClick += OnMapElementClick;
+                UwpControl.MapElementPointerEntered += OnMapElementPointerEntered;
+                UwpControl.MapElementPointerExited += OnMapElementPointerExited;
+                UwpControl.TargetCameraChanged += OnTargetCameraChanged;
+                UwpControl.MapRightTapped += OnMapRightTapped;
+                UwpControl.MapContextRequested += OnMapContextRequested;
+                ControlAdded += MapControl_ControlAdded;
+                ControlRemoved += MapControl_ControlRemoved;
             }
-
-            UwpControl.CenterChanged += OnCenterChanged;
-            UwpControl.HeadingChanged += OnHeadingChanged;
-            UwpControl.LoadingStatusChanged += OnLoadingStatusChanged;
-            UwpControl.MapDoubleTapped += OnMapDoubleTapped;
-            UwpControl.MapHolding += OnMapHolding;
-            UwpControl.MapTapped += OnMapTapped;
-            UwpControl.PitchChanged += OnPitchChanged;
-            UwpControl.TransformOriginChanged += OnTransformOriginChanged;
-            UwpControl.ZoomLevelChanged += OnZoomLevelChanged;
-            UwpControl.ActualCameraChanged += OnActualCameraChanged;
-            UwpControl.ActualCameraChanging += OnActualCameraChanging;
-            UwpControl.CustomExperienceChanged += OnCustomExperienceChanged;
-            UwpControl.MapElementClick += OnMapElementClick;
-            UwpControl.MapElementPointerEntered += OnMapElementPointerEntered;
-            UwpControl.MapElementPointerExited += OnMapElementPointerExited;
-            UwpControl.TargetCameraChanged += OnTargetCameraChanged;
-            UwpControl.MapRightTapped += OnMapRightTapped;
-            UwpControl.MapContextRequested += OnMapContextRequested;
-            ControlAdded += InkToolbar_ControlAdded;
-            ControlRemoved += InkToolbar_ControlRemoved;
         }
 
-        private void InkToolbar_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
+        private void MapControl_ControlRemoved(object sender, System.Windows.Forms.ControlEventArgs e)
         {
             if (e.Control is WindowsXamlHostBase control)
             {
@@ -76,7 +83,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             }
         }
 
-        private void InkToolbar_ControlAdded(object sender, System.Windows.Forms.ControlEventArgs e)
+        private void MapControl_ControlAdded(object sender, System.Windows.Forms.ControlEventArgs e)
         {
             if (e.Control is WindowsXamlHostBase control)
             {
@@ -279,28 +286,41 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.WatermarkMode"/>
         /// </summary>
+        [DefaultValue(MapWatermarkMode.Automatic)]
         public MapWatermarkMode WatermarkMode
         {
-            get => (MapWatermarkMode)UwpControl.WatermarkMode;
-            set => UwpControl.WatermarkMode = (Windows.UI.Xaml.Controls.Maps.MapWatermarkMode)value;
+            get => (MapWatermarkMode)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapWatermarkMode)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Style"/>
         /// </summary>
+        [DefaultValue(MapStyle.Road)]
         public MapStyle Style
         {
-            get => (MapStyle)UwpControl.Style;
-            set => UwpControl.Style = (Windows.UI.Xaml.Controls.Maps.MapStyle)value;
+            get => UwpControl != null ? (MapStyle)UwpControl.Style : (MapStyle)this.GetUwpControlValue(); // Style property is ambiguous
+            set
+            {
+                if (UwpControl != null)
+                {
+                    UwpControl.Style = (Windows.UI.Xaml.Controls.Maps.MapStyle)value;
+                }
+                else
+                {
+                    this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapStyle)value);
+                }
+            }
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.MapServiceToken"/>
         /// </summary>
+        [DefaultValue("")]
         public string MapServiceToken
         {
-            get => UwpControl.MapServiceToken;
-            set => UwpControl.MapServiceToken = value;
+            get => (string)this.GetUwpControlValue(string.Empty);
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
@@ -308,71 +328,78 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public Point TransformOrigin
         {
-            get => UwpControl.TransformOrigin;
-            set => UwpControl.TransformOrigin = value.UwpInstance;
+            get => (Point)this.GetUwpControlValue(new Point(0.5f, 0.5f));
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TrafficFlowVisible"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool TrafficFlowVisible
         {
-            get => UwpControl.TrafficFlowVisible;
-            set => UwpControl.TrafficFlowVisible = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.LandmarksVisible"/>
         /// </summary>
+        [DefaultValue(true)]
         public bool LandmarksVisible
         {
-            get => UwpControl.LandmarksVisible;
-            set => UwpControl.LandmarksVisible = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Heading"/>
         /// </summary>
+        [DefaultValue((double)0)]
         public double Heading
         {
-            get => UwpControl.Heading;
-            set => UwpControl.Heading = value;
+            get => (double)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.DesiredPitch"/>
         /// </summary>
+        [DefaultValue((double)0)]
         public double DesiredPitch
         {
-            get => UwpControl.DesiredPitch;
-            set => UwpControl.DesiredPitch = value;
+            get => (double)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.ColorScheme"/>
         /// </summary>
+        [DefaultValue(MapColorScheme.Light)]
         public MapColorScheme ColorScheme
         {
-            get => (MapColorScheme)UwpControl.ColorScheme;
-            set => UwpControl.ColorScheme = (Windows.UI.Xaml.Controls.Maps.MapColorScheme)value;
+            get => (MapColorScheme)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapColorScheme)value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.PedestrianFeaturesVisible"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool PedestrianFeaturesVisible
         {
-            get => UwpControl.PedestrianFeaturesVisible;
-            set => UwpControl.PedestrianFeaturesVisible = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.ZoomLevel"/>
         /// </summary>
+        [DefaultValue((double)2)]
         public double ZoomLevel
         {
-            get => UwpControl.ZoomLevel;
-            set => UwpControl.ZoomLevel = value;
+            get => (double)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
@@ -380,13 +407,15 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// </summary>
         public Geopoint Center
         {
-            get => UwpControl.Center;
-            set => UwpControl.Center = value.UwpInstance;
+            get => (Geopoint)this.GetUwpControlValue(new Geopoint(new Windows.Devices.Geolocation.Geopoint(new Windows.Devices.Geolocation.BasicGeoposition() { Latitude = 0, Longitude = 23.383333 })));
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.LoadingStatus"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MapLoadingStatus LoadingStatus
         {
             get => (MapLoadingStatus)UwpControl.LoadingStatus;
@@ -395,6 +424,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.MapElements"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Collections.Generic.IList<MapElement> MapElements
         {
             get => UwpControl.MapElements.Cast<MapElement>().ToList();
@@ -403,6 +434,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.MaxZoomLevel"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public double MaxZoomLevel
         {
             get => UwpControl.MaxZoomLevel;
@@ -411,6 +444,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.MinZoomLevel"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public double MinZoomLevel
         {
             get => UwpControl.MinZoomLevel;
@@ -419,6 +454,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Pitch"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public double Pitch
         {
             get => UwpControl.Pitch;
@@ -427,6 +464,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Routes"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Collections.Generic.IList<Windows.UI.Xaml.Controls.Maps.MapRouteView> Routes
         {
             get => UwpControl.Routes;
@@ -435,6 +474,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TileSources"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public System.Collections.Generic.IList<Windows.UI.Xaml.Controls.Maps.MapTileSource> TileSources
         {
             get => UwpControl.TileSources;
@@ -443,78 +484,88 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.ZoomInteractionMode"/>
         /// </summary>
+        [DefaultValue(MapInteractionMode.Auto)]
         public MapInteractionMode ZoomInteractionMode
         {
-            get => (MapInteractionMode)UwpControl.ZoomInteractionMode;
-            set => UwpControl.ZoomInteractionMode = (Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value;
+            get => (MapInteractionMode)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TransitFeaturesVisible"/>
         /// </summary>
+        [DefaultValue(true)]
         public bool TransitFeaturesVisible
         {
-            get => UwpControl.TransitFeaturesVisible;
-            set => UwpControl.TransitFeaturesVisible = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TiltInteractionMode"/>
         /// </summary>
+        [DefaultValue(MapInteractionMode.Auto)]
         public MapInteractionMode TiltInteractionMode
         {
-            get => (MapInteractionMode)UwpControl.TiltInteractionMode;
-            set => UwpControl.TiltInteractionMode = (Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value;
+            get => (MapInteractionMode)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Scene"/>
         /// </summary>
+        [DefaultValue(null)]
         public MapScene Scene
         {
-            get => UwpControl.Scene;
-            set => UwpControl.Scene = value.UwpInstance;
+            get => (MapScene)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.RotateInteractionMode"/>
         /// </summary>
+        [DefaultValue(MapInteractionMode.Auto)]
         public MapInteractionMode RotateInteractionMode
         {
-            get => (MapInteractionMode)UwpControl.RotateInteractionMode;
-            set => UwpControl.RotateInteractionMode = (Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value;
+            get => (MapInteractionMode)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapInteractionMode)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.PanInteractionMode"/>
         /// </summary>
+        [DefaultValue(MapPanInteractionMode.Auto)]
         public MapPanInteractionMode PanInteractionMode
         {
-            get => (MapPanInteractionMode)UwpControl.PanInteractionMode;
-            set => UwpControl.PanInteractionMode = (Windows.UI.Xaml.Controls.Maps.MapPanInteractionMode)value;
+            get => (MapPanInteractionMode)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapPanInteractionMode)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.CustomExperience"/>
         /// </summary>
+        [DefaultValue(null)]
         public MapCustomExperience CustomExperience
         {
-            get => UwpControl.CustomExperience;
-            set => UwpControl.CustomExperience = value.UwpInstance;
+            get => (MapCustomExperience)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.BusinessLandmarksVisible"/>
         /// </summary>
+        [DefaultValue(true)]
         public bool BusinessLandmarksVisible
         {
-            get => UwpControl.BusinessLandmarksVisible;
-            set => UwpControl.BusinessLandmarksVisible = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.ActualCamera"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MapCamera ActualCamera
         {
             get => UwpControl.ActualCamera;
@@ -523,6 +574,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Is3DSupported"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool Is3DSupported
         {
             get => UwpControl.Is3DSupported;
@@ -531,6 +584,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.IsStreetsideSupported"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsStreetsideSupported
         {
             get => UwpControl.IsStreetsideSupported;
@@ -539,6 +594,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TargetCamera"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MapCamera TargetCamera
         {
             get => UwpControl.TargetCamera;
@@ -547,19 +604,21 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.TransitFeaturesEnabled"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool TransitFeaturesEnabled
         {
-            get => UwpControl.TransitFeaturesEnabled;
-            set => UwpControl.TransitFeaturesEnabled = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.BusinessLandmarksEnabled"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool BusinessLandmarksEnabled
         {
-            get => UwpControl.BusinessLandmarksEnabled;
-            set => UwpControl.BusinessLandmarksEnabled = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /*
@@ -576,37 +635,42 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.StyleSheet"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MapStyleSheet StyleSheet
         {
-            get => UwpControl.StyleSheet;
-            set => UwpControl.StyleSheet = value.UwpInstance;
+            get => (MapStyleSheet)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value.UwpInstance);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.MapProjection"/>
         /// </summary>
+        [DefaultValue(MapProjection.WebMercator)]
         public MapProjection MapProjection
         {
-            get => (MapProjection)UwpControl.MapProjection;
-            set => UwpControl.MapProjection = (Windows.UI.Xaml.Controls.Maps.MapProjection)value;
+            get => (MapProjection)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Maps.MapProjection)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Layers"/>
         /// </summary>
+        [DefaultValue(null)]
         public System.Collections.Generic.IList<Windows.UI.Xaml.Controls.Maps.MapLayer> Layers
         {
-            get => UwpControl.Layers;
-            set => UwpControl.Layers = value;
+            get => (System.Collections.Generic.IList<Windows.UI.Xaml.Controls.Maps.MapLayer>)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.Maps.MapControl.Region"/>
         /// </summary>
+        [DefaultValue("")]
         public new string Region
         {
-            get => UwpControl.Region;
-            set => UwpControl.Region = value;
+            get => (string)this.GetUwpControlValue(string.Empty);
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
@@ -794,8 +858,26 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
             base.Dispose(disposing);
             if (disposing)
             {
-                ControlAdded -= InkToolbar_ControlAdded;
-                ControlRemoved -= InkToolbar_ControlRemoved;
+                UwpControl.CenterChanged -= OnCenterChanged;
+                UwpControl.HeadingChanged -= OnHeadingChanged;
+                UwpControl.LoadingStatusChanged -= OnLoadingStatusChanged;
+                UwpControl.MapDoubleTapped -= OnMapDoubleTapped;
+                UwpControl.MapHolding -= OnMapHolding;
+                UwpControl.MapTapped -= OnMapTapped;
+                UwpControl.PitchChanged -= OnPitchChanged;
+                UwpControl.TransformOriginChanged -= OnTransformOriginChanged;
+                UwpControl.ZoomLevelChanged -= OnZoomLevelChanged;
+                UwpControl.ActualCameraChanged -= OnActualCameraChanged;
+                UwpControl.ActualCameraChanging -= OnActualCameraChanging;
+                UwpControl.CustomExperienceChanged -= OnCustomExperienceChanged;
+                UwpControl.MapElementClick -= OnMapElementClick;
+                UwpControl.MapElementPointerEntered -= OnMapElementPointerEntered;
+                UwpControl.MapElementPointerExited -= OnMapElementPointerExited;
+                UwpControl.TargetCameraChanged -= OnTargetCameraChanged;
+                UwpControl.MapRightTapped -= OnMapRightTapped;
+                UwpControl.MapContextRequested -= OnMapContextRequested;
+                ControlAdded -= MapControl_ControlAdded;
+                ControlRemoved -= MapControl_ControlRemoved;
             }
         }
     }

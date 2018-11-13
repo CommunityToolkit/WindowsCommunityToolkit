@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         private InkCanvas _targetInkCanvas;
         private WindowsXamlHostBase _activeTool;
 
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set;  }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbar"/> class, a
         /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbar"/>
@@ -37,10 +39,22 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkToolbar(string name)
             : base(name)
         {
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                return;
+            }
+
             if (UwpControl != null)
             {
                 ControlAdded += InkToolbar_ControlAdded;
                 ControlRemoved += InkToolbar_ControlRemoved;
+                UwpControl.ActiveToolChanged += OnActiveToolChanged;
+                UwpControl.EraseAllClicked += OnEraseAllClicked;
+                UwpControl.InkDrawingAttributesChanged += OnInkDrawingAttributesChanged;
+                UwpControl.IsRulerButtonCheckedChanged += OnIsRulerButtonCheckedChanged;
+                UwpControl.IsStencilButtonCheckedChanged += OnIsStencilButtonCheckedChanged;
                 UwpControl.Visibility = Windows.UI.Xaml.Visibility.Collapsed; // supports a workaround for a bug:  InkToolbar won't initialize if it's not initially collapsed.
                 UwpControl.Loaded += OnUwpControlLoaded;
             }
@@ -81,6 +95,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets the underlying Uwp control's TargetInkCanvas property <see cref="Windows.UI.Xaml.Controls.InkToolbar.TargetInkCanvas"/>
         /// </summary>
+        [DefaultValue(null)]
         public InkCanvas TargetInkCanvas
         {
             get
@@ -116,24 +131,27 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsRulerButtonChecked"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool IsRulerButtonChecked
         {
-            get => UwpControl.IsRulerButtonChecked;
-            set => UwpControl.IsRulerButtonChecked = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InitialControls"/>
         /// </summary>
+        [DefaultValue(InkToolbarInitialControls.All)]
         public InkToolbarInitialControls InitialControls
         {
-            get => (InkToolbarInitialControls)UwpControl.InitialControls;
-            set => UwpControl.InitialControls = (Windows.UI.Xaml.Controls.InkToolbarInitialControls)value;
+            get => (InkToolbarInitialControls)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.InkToolbarInitialControls)value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ActiveTool"/>
         /// </summary>
+        [DefaultValue(null)]
         public WindowsXamlHostBase ActiveTool
         {
             get
@@ -154,7 +172,7 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
                     return;
                 }
 
-                UwpControl.ActiveTool = value.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
+                UwpControl.ActiveTool = value?.GetUwpInternalObject() as Windows.UI.Xaml.Controls.InkToolbarToolButton;
             }
         }
 
@@ -190,6 +208,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets <see cref="Windows.UI.Xaml.Controls.InkToolbar.InkDrawingAttributes"/>
         /// </summary>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public InkDrawingAttributes InkDrawingAttributes
         {
             get => (InkDrawingAttributes)UwpControl.InkDrawingAttributes;
@@ -198,28 +218,31 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.Orientation"/>
         /// </summary>
+        [DefaultValue(Orientation.Horizontal)]
         public Orientation Orientation
         {
-            get => (Orientation)UwpControl.Orientation;
-            set => UwpControl.Orientation = (Windows.UI.Xaml.Controls.Orientation)value;
+            get => (Orientation)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.Orientation)value);
         }
 
         /// <summary>
         /// Gets or sets a value indicating whether <see cref="Windows.UI.Xaml.Controls.InkToolbar.IsStencilButtonChecked"/>
         /// </summary>
+        [DefaultValue(false)]
         public bool IsStencilButtonChecked
         {
-            get => UwpControl.IsStencilButtonChecked;
-            set => UwpControl.IsStencilButtonChecked = value;
+            get => (bool)this.GetUwpControlValue();
+            set => this.SetUwpControlValue(value);
         }
 
         /// <summary>
         /// Gets or sets <see cref="Windows.UI.Xaml.Controls.InkToolbar.ButtonFlyoutPlacement"/>
         /// </summary>
+        [DefaultValue(InkToolbarButtonFlyoutPlacement.Auto)]
         public InkToolbarButtonFlyoutPlacement ButtonFlyoutPlacement
         {
-            get => (InkToolbarButtonFlyoutPlacement)UwpControl.ButtonFlyoutPlacement;
-            set => UwpControl.ButtonFlyoutPlacement = (Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement)value;
+            get => (InkToolbarButtonFlyoutPlacement)this.GetUwpControlValue();
+            set => this.SetUwpControlValue((Windows.UI.Xaml.Controls.InkToolbarButtonFlyoutPlacement)value);
         }
 
         /// <summary>
@@ -275,10 +298,20 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
+
             if (disposing)
             {
                 ControlAdded -= InkToolbar_ControlAdded;
                 ControlRemoved -= InkToolbar_ControlRemoved;
+
+                if (UwpControl != null)
+                {
+                    UwpControl.ActiveToolChanged -= OnActiveToolChanged;
+                    UwpControl.EraseAllClicked -= OnEraseAllClicked;
+                    UwpControl.InkDrawingAttributesChanged -= OnInkDrawingAttributesChanged;
+                    UwpControl.IsRulerButtonCheckedChanged -= OnIsRulerButtonCheckedChanged;
+                    UwpControl.IsStencilButtonCheckedChanged -= OnIsStencilButtonCheckedChanged;
+                }
             }
         }
     }

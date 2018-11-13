@@ -18,6 +18,8 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
     {
         internal Windows.UI.Xaml.Controls.InkToolbarToolButton UwpControl => ChildInternal as Windows.UI.Xaml.Controls.InkToolbarToolButton;
 
+        private System.Collections.Generic.Dictionary<string, object> DesignerProperties { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="InkToolbarToolButton"/> class, a
         /// WinForms-enabled wrapper for <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton"/>
@@ -30,6 +32,12 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         protected InkToolbarToolButton(string name)
             : base(name)
         {
+            // Return immediately if control is instantiated by the Visual Studio Designer
+            // https://stackoverflow.com/questions/1166226/detecting-design-mode-from-a-controls-constructor
+            if (LicenseManager.UsageMode == LicenseUsageMode.Designtime)
+            {
+                return;
+            }
         }
 
         protected override void OnHandleCreated(EventArgs e)
@@ -46,11 +54,14 @@ namespace Microsoft.Toolkit.Forms.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the underlying Uwp control's IsExtensionGlyphShown property is set <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.IsExtensionGlyphShown"/>
         /// </summary>
-        public bool IsExtensionGlyphShown { get => UwpControl.IsExtensionGlyphShown; set => UwpControl.IsExtensionGlyphShown = value; }
+        [DefaultValue(false)]
+        public bool IsExtensionGlyphShown { get => (bool)this.GetUwpControlValue(); set => this.SetUwpControlValue(value); }
 
         /// <summary>
         /// Gets the underlying Uwp control's Toolkind property <see cref="Windows.UI.Xaml.Controls.InkToolbarToolButton.ToolKind"/>
         /// </summary>
-        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl.ToolKind; }
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public InkToolbarTool ToolKind { get => (InkToolbarTool)UwpControl?.ToolKind; }
     }
 }

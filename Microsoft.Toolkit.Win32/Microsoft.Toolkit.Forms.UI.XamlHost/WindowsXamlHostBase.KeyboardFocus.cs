@@ -57,6 +57,11 @@ namespace Microsoft.Toolkit.Forms.UI.XamlHost
         /// <returns>true if the command was processed</returns>
         protected override bool ProcessTabKey(bool forward)
         {
+            if (DesignMode)
+            {
+                return false;
+            }
+
             // Determine if the currently focused element is the last element for the requested
             // navigation direction.  If the currently focused element is not the last element
             // for the requested navigation direction, navigate focus to the next focusable
