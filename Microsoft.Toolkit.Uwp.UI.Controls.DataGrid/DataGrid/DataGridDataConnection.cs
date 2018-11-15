@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+    // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -607,8 +607,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         public void LoadMoreItems(uint count)
         {
             Debug.Assert(_loadingOperation == null, "Expected _loadingOperation == null.");
+
             _loadingOperation = _incrementalItemsSource.LoadMoreItemsAsync(count);
-            _loadingOperation.Completed = OnLoadingOperationCompleted;
+
+            if (_loadingOperation != null)
+            {
+                _loadingOperation.Completed = OnLoadingOperationCompleted;
+            }
         }
 
 #if FEATURE_PAGEDCOLLECTIONVIEW
@@ -995,7 +1000,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         private void OnLoadingOperationCompleted(object info, AsyncStatus status)
         {
-            if (status == AsyncStatus.Completed)
+            if (status != AsyncStatus.Started)
             {
                 _loadingOperation = null;
             }

@@ -73,6 +73,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // If we're not displaying any rows or if we have infinite space the, relative height of our rows is 0
                 if (this.DisplayData.LastScrollingSlot == -1 || double.IsPositiveInfinity(this.AvailableSlotElementRoom))
                 {
+                    if (_oldEdgedRowsHeightCalculated > 0)
+                    {
+                        _oldEdgedRowsHeightCalculated = 0;
+                        LoadMoreDataFromIncrementalItemsSource(0);
+                    }
+
                     return 0;
                 }
 
@@ -125,8 +131,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // TODO: Update the DetailsHeightEstimate
                 double totalDetailsHeight = detailsCount * this.RowDetailsHeightEstimate;
+                double newEdgedRowsHeightCalculated = totalRowsHeight + totalDetailsHeight;
+                bool loadMoreDataFromIncrementalItemsSource = newEdgedRowsHeightCalculated < _oldEdgedRowsHeightCalculated;
 
-                return totalRowsHeight + totalDetailsHeight;
+                _oldEdgedRowsHeightCalculated = newEdgedRowsHeightCalculated;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource(newEdgedRowsHeightCalculated);
+                }
+
+                return newEdgedRowsHeightCalculated;
             }
         }
 
@@ -535,7 +550,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     verticalOffset = this.DisplayData.PendingVerticalScrollHeight;
                 }
 
-                _verticalOffset = 0;
+                VerticalOffset = 0;
                 this.NegVerticalOffset = 0;
 
                 if (clearRows)
@@ -721,11 +736,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            _verticalOffset += deltaY;
+            VerticalOffset += deltaY;
             if (_verticalOffset < 0 || this.DisplayData.FirstScrollingSlot == 0)
             {
                 // We scrolled too far because a row's height was larger than its approximation.
-                _verticalOffset = this.NegVerticalOffset;
+                VerticalOffset = this.NegVerticalOffset;
             }
 
             // TODO: in certain cases (eg, variable row height), this may not be true
@@ -2784,9 +2799,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 double newVerticalOffset = _verticalOffset + height;
                 if (height > 0)
                 {
-                    // Fire operation for loading more data from incremental data source
-                    LoadMoreDataFromIncrementalItemsSourceAsync();
-
                     // Scrolling Down
                     int lastVisibleSlot = GetPreviousVisibleSlot(this.SlotCount);
                     if (_vScrollBar != null && DoubleUtil.AreClose(_vScrollBar.Maximum, newVerticalOffset))
@@ -2971,12 +2983,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (previousSlot == -1)
                         {
                             this.NegVerticalOffset = 0;
-                            _verticalOffset = 0;
+                            VerticalOffset = 0;
                         }
                         else
                         {
                             this.NegVerticalOffset -= firstElementHeight;
-                            _verticalOffset = Math.Max(0, _verticalOffset - firstElementHeight);
+                            VerticalOffset = Math.Max(0, _verticalOffset - firstElementHeight);
                             firstElementSlot = previousSlot;
                             firstElementHeight = GetExactSlotElementHeight(firstElementSlot);
                         }
@@ -2994,18 +3006,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (this.DisplayData.FirstScrollingSlot == 0)
                 {
-                    _verticalOffset = this.NegVerticalOffset;
+                    VerticalOffset = this.NegVerticalOffset;
                 }
                 else if (DoubleUtil.GreaterThan(this.NegVerticalOffset, newVerticalOffset))
                 {
                     // The scrolled-in row was larger than anticipated. Adjust the DataGrid so the ScrollBar thumb
                     // can stay in the same place
                     this.NegVerticalOffset = newVerticalOffset;
-                    _verticalOffset = newVerticalOffset;
+                    VerticalOffset = newVerticalOffset;
                 }
                 else
                 {
-                    _verticalOffset = newVerticalOffset;
+                    VerticalOffset = newVerticalOffset;
                 }
 
                 Debug.Assert(

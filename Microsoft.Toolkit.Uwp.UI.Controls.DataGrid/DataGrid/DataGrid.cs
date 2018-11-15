@@ -206,6 +206,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int _noFocusedColumnChangeCount;
         private int _noSelectionChangeCount;
 
+        private double _oldEdgedRowsHeightCalculated = 0.0;
+
         // Set to True to favor mouse indicators over panning indicators for the scroll bars.
         private bool _preferMouseIndicators;
 
@@ -885,7 +887,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 "DataFetchSize",
                 typeof(double),
                 typeof(DataGrid),
-                new PropertyMetadata(DATAGRID_defaultDataFetchSize));
+                new PropertyMetadata(DATAGRID_defaultDataFetchSize, OnDataFetchSizePropertyChanged));
+
+        /// <summary>
+        /// DataFetchSizeProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its DataFetchSize.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
+        private static void OnDataFetchSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
+            {
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
+
+                if (double.IsNaN(newValue))
+                {
+                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.DataFetchSize));
+                }
+
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.DataFetchSize), 0);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets the style that is used when rendering the drag indicator
@@ -1308,7 +1337,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 "IncrementalLoadingThreshold",
                 typeof(double),
                 typeof(DataGrid),
-                new PropertyMetadata(DATAGRID_defaultIncrementalLoadingThreshold));
+                new PropertyMetadata(DATAGRID_defaultIncrementalLoadingThreshold, OnIncrementalLoadingThresholdPropertyChanged));
+
+        /// <summary>
+        /// IncrementalLoadingThresholdProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its IncrementalLoadingThreshold.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
+        private static void OnIncrementalLoadingThresholdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
+            {
+                double oldValue = (double) e.OldValue;
+                double newValue = (double) e.NewValue;
+
+                if (double.IsNaN(newValue))
+                {
+                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.IncrementalLoadingThreshold));
+                }
+
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.IncrementalLoadingThreshold), 0);
+                }
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value that indicates the conditions for prefetch operations by the ListViewBase class.
@@ -2753,7 +2809,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.HorizontalAdjustment = 0;
                 }
 
+                bool loadMoreDataFromIncrementalItemsSource = _rowsPresenterAvailableSize.HasValue && value.HasValue && value.Value.Height > _rowsPresenterAvailableSize.Value.Height;
+
                 _rowsPresenterAvailableSize = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -2801,6 +2864,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get
             {
                 return _verticalOffset;
+            }
+
+            set
+            {
+                if (_verticalOffset == value)
+                {
+                    return;
+                }
+
+                bool loadMoreDataFromIncrementalItemsSource = _verticalOffset < value;
+
+                _verticalOffset = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -6475,6 +6555,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void LoadMoreDataFromIncrementalItemsSource()
+        {
+            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
+        }
+
+        private void LoadMoreDataFromIncrementalItemsSource(double totalVisibleHeight)
+        {
+            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !DataConnection.IsLoadingMoreItems)
+            {
+                var bottomScrolledOffHeight = Math.Max(0, totalVisibleHeight - CellsHeight - VerticalOffset);
+
+                if ((IncrementalLoadingThreshold * CellsHeight) >= bottomScrolledOffHeight)
+                {
+                    var numberOfRowsToLoad = Math.Max(1, (int)(DataFetchSize * CellsHeight / RowHeightEstimate));
+
+                    DataConnection.LoadMoreItems((uint)numberOfRowsToLoad);
+                }
+            }
+        }
+
         private void MakeFirstDisplayedCellCurrentCell()
         {
             if (this.CurrentColumnIndex != -1)
@@ -8045,7 +8145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetVerticalOffset(double newVerticalOffset)
         {
-            _verticalOffset = newVerticalOffset;
+            VerticalOffset = newVerticalOffset;
 
             if (_vScrollBar != null && !DoubleUtil.AreClose(newVerticalOffset, _vScrollBar.Value))
             {
@@ -9067,21 +9167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void VerticalScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             ProcessVerticalScroll(e.ScrollEventType);
-        }
-
-        private void LoadMoreDataFromIncrementalItemsSourceAsync()
-        {
-            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !DataConnection.IsLoadingMoreItems)
-            {
-                var bottomScrollOffHeight = Math.Max(0, EdgedRowsHeightCalculated - CellsHeight - VerticalOffset);
-
-                if ((IncrementalLoadingThreshold * CellsHeight) >= bottomScrollOffHeight)
-                {
-                    var numberOfRowsToLoad = Math.Max(1, (int)(DataFetchSize * CellsHeight / RowHeightEstimate));
-
-                    DataConnection.LoadMoreItems((uint)numberOfRowsToLoad);
-                }
-            }
         }
     }
 }
