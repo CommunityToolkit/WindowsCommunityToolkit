@@ -1343,14 +1343,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// IncrementalLoadingThresholdProperty property changed handler.
         /// </summary>
         /// <param name="d">DataGrid that changed its IncrementalLoadingThreshold.</param>
-        /// <param name="e">DependencyPropertyChangedEventArgs.</param> 
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
         private static void OnIncrementalLoadingThresholdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DataGrid dataGrid = d as DataGrid;
             if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                double oldValue = (double) e.OldValue;
-                double newValue = (double) e.NewValue;
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
 
                 if (double.IsNaN(newValue))
                 {
