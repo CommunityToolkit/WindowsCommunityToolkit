@@ -162,7 +162,10 @@ void DirectWriteTextBlock::UpdateTextBrushesForHighContrast()
 
 void DirectWriteTextBlock::UpdateElementsForHighContrast()
 {
-    m_textBackground->Background = m_textBackgroundBrush;
+    if (m_textBackground)
+    {
+        m_textBackground->Background = m_textBackgroundBrush;
+    }
 }
 
 void DirectWriteTextBlock::Close()
@@ -200,7 +203,7 @@ void DirectWriteTextBlock::Close()
 
 Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
 {
-    if (args.text->IsEmpty())
+    if ((m_image == nullptr) || args.text->IsEmpty())
     {
         return Size(0.0f, 0.0f);
     }
