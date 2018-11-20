@@ -159,7 +159,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             try
             {
-                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, _identityClient.Users.FirstOrDefault());
+                IAccount account = (await _identityClient.GetAccountsAsync()).FirstOrDefault();
+                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, account);
             }
             catch (MsalUiRequiredException)
             {
@@ -180,20 +181,21 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
-        public bool Logout()
+        public async Task<bool> Logout()
         {
-            return LogoutV2();
+            return await LogoutV2();
         }
 
         /// <summary>
         /// Logout the user using the V2 endpoint
         /// </summary>
         /// <returns>Success or failure</returns>
-        public bool LogoutV2()
+        public async Task<bool> LogoutV2()
         {
             try
             {
-                _identityClient.Remove(_identityClient.Users.FirstOrDefault());
+                IAccount account = (await _identityClient.GetAccountsAsync()).FirstOrDefault();
+                await _identityClient.RemoveAsync(account);
             }
             catch (MsalException)
             {
@@ -254,7 +256,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (authenticationModel.Equals("V2"))
             {
-                return Logout();
+                return await Logout();
             }
 
             return true;

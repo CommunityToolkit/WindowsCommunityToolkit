@@ -14,7 +14,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
     <!-- TODO: Update to later version -->
-    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.2-preview0008" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="2.4.1-preview" />
 
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 

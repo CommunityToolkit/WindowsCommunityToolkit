@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             var authenticationModel = AuthenticationModel.ToString();
             result = await Authentication.LogoutAsync(authenticationModel);
 #else
-            result = Authentication.Logout();
+            result = await Authentication.Logout();
 #endif
 
             if (result)
@@ -332,13 +332,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 var publicClientApplication = new PublicClientApplication(AppClientId);
                 AuthenticationResult result = await publicClientApplication.AcquireTokenAsync(DelegatedPermissionScopes);
 
-                var signedUser = result.User;
+                var signedAccount = result.Account;
 
-                foreach (var user in publicClientApplication.Users)
+                foreach (var account in await publicClientApplication.GetAccountsAsync())
                 {
-                    if (user.Identifier != signedUser.Identifier)
+                    if (account.HomeAccountId.Identifier != signedAccount.HomeAccountId.Identifier)
                     {
-                        publicClientApplication.Remove(user);
+                        await publicClientApplication.RemoveAsync(account);
                     }
                 }
 
