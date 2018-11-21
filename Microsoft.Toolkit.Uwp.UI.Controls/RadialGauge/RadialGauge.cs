@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the optional StepSize property.
         /// </summary>
         public static readonly DependencyProperty StepSizeProperty =
-            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0));
+            DependencyProperty.Register(nameof(StepSize), typeof(double), typeof(RadialGauge), new PropertyMetadata(1.0));
 
         /// <summary>
         /// Identifies the <see cref="IsInteractive"/> property.
