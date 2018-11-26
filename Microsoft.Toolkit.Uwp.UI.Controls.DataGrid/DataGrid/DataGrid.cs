@@ -904,14 +904,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (double.IsNaN(newValue))
                 {
-                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
                     throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.DataFetchSize));
                 }
 
                 if (newValue < 0)
                 {
-                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
                     throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.DataFetchSize), 0);
+                }
+
+                if (newValue > oldValue)
+                {
+                    dataGrid.LoadMoreDataFromIncrementalItemsSource();
                 }
             }
         }
@@ -1354,14 +1359,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (double.IsNaN(newValue))
                 {
-                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
                     throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.IncrementalLoadingThreshold));
                 }
 
                 if (newValue < 0)
                 {
-                    dataGrid.SetValueNoCallback(e.Property, e.OldValue);
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
                     throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.IncrementalLoadingThreshold), 0);
+                }
+
+                if (newValue > oldValue)
+                {
+                    dataGrid.LoadMoreDataFromIncrementalItemsSource();
                 }
             }
         }
@@ -2691,6 +2701,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             private set;
         }
 
+        internal void LoadMoreDataFromIncrementalItemsSource()
+        {
+            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
+        }
+
         internal bool InDisplayIndexAdjustments
         {
             get;
@@ -2868,11 +2883,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             set
             {
-                if (_verticalOffset == value)
-                {
-                    return;
-                }
-
                 bool loadMoreDataFromIncrementalItemsSource = _verticalOffset < value;
 
                 _verticalOffset = value;
@@ -6553,11 +6563,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 int rowIndex = RowIndexFromSlot(slot);
                 return rowIndex < 0 || rowIndex >= this.DataConnection.Count;
             }
-        }
-
-        private void LoadMoreDataFromIncrementalItemsSource()
-        {
-            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
         }
 
         private void LoadMoreDataFromIncrementalItemsSource(double totalVisibleHeight)

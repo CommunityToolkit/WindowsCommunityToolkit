@@ -1,4 +1,4 @@
-    // Licensed to the .NET Foundation under one or more agreements.
+// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -38,6 +38,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
         private WeakEventListener<DataGridDataConnection, object, IVectorChangedEventArgs> _weakVectorChangedListener;
         private WeakEventListener<DataGridDataConnection, object, CurrentChangingEventArgs> _weakCurrentChangingListener;
         private WeakEventListener<DataGridDataConnection, object, object> _weakCurrentChangedListener;
+        private WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs> _weakIncrementalItemsSourcePropertyChangedListener;
+
 #if FEATURE_ICOLLECTIONVIEW_SORT
         private WeakEventListener<DataGridDataConnection, object, NotifyCollectionChangedEventArgs> _weakSortDescriptionsCollectionChangedListener;
 #endif
@@ -998,6 +1000,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             }
         }
 
+        private void NotifyingIncrementalItemsSource(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "HasMoreItems")
+            {
+                _owner.LoadMoreDataFromIncrementalItemsSource();
+            }
+        }
+
         private void OnLoadingOperationCompleted(object info, AsyncStatus status)
         {
             if (status != AsyncStatus.Started)
@@ -1023,6 +1033,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         private void UpdateIncrementalItemsSource()
         {
+            if (_weakIncrementalItemsSourcePropertyChangedListener != null)
+            {
+                _weakIncrementalItemsSourcePropertyChangedListener.Detach();
+                _weakIncrementalItemsSourcePropertyChangedListener = null;
+            }
+
             // Determine if incremental loading should be used
             if (_dataSource is ISupportIncrementalLoading incrementalDataSource)
             {
@@ -1035,6 +1051,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             else
             {
                 _incrementalItemsSource = default(ISupportIncrementalLoading);
+            }
+
+            if (_incrementalItemsSource != null && _incrementalItemsSource is INotifyPropertyChanged inpc)
+            {
+                    _weakIncrementalItemsSourcePropertyChangedListener = new WeakEventListener<DataGridDataConnection, object, PropertyChangedEventArgs>(this);
+                    _weakIncrementalItemsSourcePropertyChangedListener.OnEventAction = (instance, source, eventArgs) => instance.NotifyingIncrementalItemsSource(source, eventArgs);
+                    _weakIncrementalItemsSourcePropertyChangedListener.OnDetachAction = (weakEventListener) => inpc.PropertyChanged -= weakEventListener.OnEvent;
+                    inpc.PropertyChanged += _weakIncrementalItemsSourcePropertyChangedListener.OnEvent;
             }
 
             if (_loadingOperation != null)
