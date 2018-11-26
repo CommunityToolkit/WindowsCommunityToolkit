@@ -153,7 +153,7 @@ void GazeInput::SetThresholdDuration(UIElement^ element, TimeSpan span) { elemen
 void GazeInput::SetMaxDwellRepeatCount(UIElement^ element, int value) { element->SetValue(s_maxRepeatCountProperty, value); }
 void GazeInput::SetIsSwitchEnabled(UIElement^ element, bool value) { element->SetValue(s_isSwitchEnabledProperty, value); }
 
-GazePointer^ GazeInput::GetGazePointer(Page^ page)
+GazePointer^ GazeInput::GetGazePointer()
 {
     return GazePointer::Instance;
 }

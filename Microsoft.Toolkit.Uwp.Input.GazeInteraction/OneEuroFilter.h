@@ -39,7 +39,7 @@ public:
     }
 };
 
-private ref class OneEuroFilter sealed : public IGazeFilter
+public ref class OneEuroFilter sealed : public IGazeFilter
 {
 public:
     OneEuroFilter();

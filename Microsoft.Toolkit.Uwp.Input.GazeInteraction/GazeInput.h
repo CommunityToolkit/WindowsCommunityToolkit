@@ -215,7 +215,12 @@ public:
     /// <summary>
     /// Gets the GazePointer object.
     /// </summary>
-    static GazePointer^ GetGazePointer(Page^ page);
+    static _declspec(deprecated("Page parameter is unused and should be omitted")) GazePointer^ GetGazePointer(Page^ page) { return GetGazePointer(); }
+
+    /// <summary>
+    /// Gets the GazePointer object.
+    /// </summary>
+    static GazePointer^ GetGazePointer();
 
     /// <summary>
     /// Invoke the default action of the specified UIElement.

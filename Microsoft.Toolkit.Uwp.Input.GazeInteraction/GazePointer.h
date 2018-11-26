@@ -105,9 +105,13 @@ internal:
         }
     }
 
+public:
+
     // Pluggable filter for eye tracking sample data. This defaults to being set to the
     // NullFilter which performs no filtering of input samples.
     property IGazeFilter^ Filter;
+
+internal:
 
     property bool IsCursorVisible
     {
