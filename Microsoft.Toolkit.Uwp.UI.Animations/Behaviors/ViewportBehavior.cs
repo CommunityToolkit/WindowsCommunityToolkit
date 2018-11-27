@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -165,33 +166,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 
         private void Init()
         {
-            _hostScrollViewer = GetScrollViewer();
+            _hostScrollViewer = AssociatedObject.FindAscendant<ScrollViewer>();
             if (_hostScrollViewer == null)
             {
                 throw new InvalidOperationException("This behavior can only attach the element which is under a ScrollViewer.");
             }
 
             _hostScrollViewer.ViewChanged += ParentScrollViewer_ViewChanged;
-        }
-
-        private ScrollViewer GetScrollViewer()
-        {
-            DependencyObject hostElement = AssociatedObject;
-            while (true)
-            {
-                var parent = VisualTreeHelper.GetParent(hostElement);
-                if (parent == null)
-                {
-                    return null;
-                }
-
-                if (parent is ScrollViewer scrollViewer)
-                {
-                    return scrollViewer;
-                }
-
-                hostElement = parent;
-            }
         }
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
