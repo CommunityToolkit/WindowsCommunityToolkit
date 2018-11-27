@@ -759,6 +759,14 @@
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
+      },
+      {
+        "Name": "OnDevice",
+        "Type": "OnDevicePage",
+        "About": "todo",
+        "Icon": "/SamplePages/OnDevice/OnDevice.png",
+        "XamlCodeFile": "OnDeviceXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/OnDevice.md"
       }
     ]
   },
