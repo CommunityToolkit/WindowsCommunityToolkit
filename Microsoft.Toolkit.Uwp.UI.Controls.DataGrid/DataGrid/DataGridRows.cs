@@ -77,10 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         _oldEdgedRowsHeightCalculated = 0;
 
-                        if (DataConnection.DataSource != null && DataConnection.DataSource.GetEnumerator().MoveNext())
-                        {
-                            LoadMoreDataFromIncrementalItemsSource(0);
-                        }
+                        LoadMoreDataFromIncrementalItemsSource(0);
                     }
 
                     return 0;

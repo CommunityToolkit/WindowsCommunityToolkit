@@ -913,11 +913,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     dataGrid.SetValueNoCallback(e.Property, oldValue);
                     throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.DataFetchSize), 0);
                 }
-
-                if (newValue > oldValue)
-                {
-                    dataGrid.LoadMoreDataFromIncrementalItemsSource();
-                }
             }
         }
 
@@ -2701,11 +2696,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             private set;
         }
 
-        internal void LoadMoreDataFromIncrementalItemsSource()
-        {
-            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
-        }
-
         internal bool InDisplayIndexAdjustments
         {
             get;
@@ -4019,6 +4009,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return null;
+        }
+
+        internal void LoadMoreDataFromIncrementalItemsSource()
+        {
+            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
         }
 
         internal void OnRowDetailsChanged()
