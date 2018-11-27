@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,6 +12,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class HeaderedContentControl : ContentControl
     {
+        private const string PartHeaderPresenter = "HeaderPresenter";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderedContentControl"/> class.
         /// </summary>
@@ -47,11 +41,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(HeaderedContentControl),
+            new PropertyMetadata(Orientation.Vertical, OnOrientationChanged));
+
+        /// <summary>
+        /// Gets or sets the <see cref="Orientation"/> used for the header.
+        /// </summary>
+        /// <remarks>
+        /// If set to <see cref="Orientation.Vertical"/> the header will be above the content.
+        /// If set to <see cref="Orientation.Horizontal"/> the header will be to the left of the content.
+        /// </remarks>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the data used for the header of each control.
         /// </summary>
         public object Header
         {
-            get { return (object)GetValue(HeaderProperty); }
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
@@ -64,6 +80,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            SetHeaderVisibility();
+        }
+
         /// <summary>
         /// Called when the <see cref="Header"/> property changes.
         /// </summary>
@@ -73,10 +97,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
         }
 
+        private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var control = (HeaderedContentControl)d;
+
+            var orientation = control.Orientation == Orientation.Vertical
+                ? nameof(Orientation.Vertical)
+                : nameof(Orientation.Horizontal);
+
+            VisualStateManager.GoToState(control, orientation, true);
+        }
+
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (HeaderedContentControl)d;
+            control.SetHeaderVisibility();
             control.OnHeaderChanged(e.OldValue, e.NewValue);
+        }
+
+        private void SetHeaderVisibility()
+        {
+            if (GetTemplateChild(PartHeaderPresenter) is FrameworkElement headerPresenter)
+            {
+                headerPresenter.Visibility = Header != null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
         }
     }
 }

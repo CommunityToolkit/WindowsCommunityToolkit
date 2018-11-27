@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -29,20 +21,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class MarkdownTextBlockPage : Page, IXamlRenderListener
     {
         private TextBox unformattedText;
+        private MarkdownTextBlock markdownText;
 
         public MarkdownTextBlockPage()
         {
             InitializeComponent();
+            SampleController.Current.ThemeChanged += Current_ThemeChanged;
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
             unformattedText = control.FindChildByName("UnformattedText") as TextBox;
 
-            var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
+            markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
 
             if (markdownText != null)
             {
+                markdownText.RequestedTheme = SampleController.Current.GetCurrentTheme();
                 markdownText.LinkClicked += MarkdownText_LinkClicked;
                 markdownText.ImageClicked += MarkdownText_ImageClicked;
                 markdownText.CodeBlockResolving += MarkdownText_CodeBlockResolving;
@@ -50,6 +45,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SetInitalText("Loading text...");
             LoadData();
+        }
+
+        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
+        {
+            if (e.CustomSet)
+            {
+                markdownText.RequestedTheme = e.Theme;
+            }
         }
 
         private async void MarkdownText_ImageClicked(object sender, LinkClickedEventArgs e)

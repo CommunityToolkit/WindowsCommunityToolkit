@@ -1,20 +1,9 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.MicrosoftTranslator;
+using Microsoft.Toolkit.Services.MicrosoftTranslator;
 using Windows.System;
 using Windows.UI.Xaml;
 
@@ -54,17 +43,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             Languages.ItemsSource = null;
 
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var languages = await _translatorClient.GetLanguageNamesAsync();
+            var languages = await _translatorClient.GetLanguageNamesAsync("en");
 
-            Languages.ItemsSource = languages.OrderBy(d => d.Name);
+            Languages.ItemsSource = languages;
             Languages.SelectedIndex = 0;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void Translate_OnClick(object sender, RoutedEventArgs e)
@@ -79,17 +68,19 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
+            DetectedLanguage.Text = string.Empty;
             Translation.Text = string.Empty;
 
             // Translates the text to the selected language.
             _translatorClient.SubscriptionKey = TranslatorServiceKey.Text;
-            var translatedText = await _translatorClient.TranslateAsync(Sentence.Text, Languages.SelectedValue.ToString());
+            var translationResult = await _translatorClient.TranslateWithResponseAsync(Sentence.Text, Languages.SelectedValue.ToString());
 
-            Translation.Text = translatedText;
+            DetectedLanguage.Text = $"Detected source language: {translationResult.DetectedLanguage.Language} ({translationResult.DetectedLanguage.Score:P0})";
+            Translation.Text = translationResult.Translation?.Text;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
     }
 }

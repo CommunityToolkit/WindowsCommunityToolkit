@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -26,6 +18,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty InlineCodePaddingProperty =
             DependencyProperty.Register(
                 nameof(InlineCodePadding),
+                typeof(Thickness),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="InlineCodeMargin"/>.
+        /// </summary>
+        public static readonly DependencyProperty InlineCodeMarginProperty =
+            DependencyProperty.Register(
+                nameof(InlineCodeMargin),
                 typeof(Thickness),
                 typeof(MarkdownTextBlock),
                 new PropertyMetadata(null, OnPropertyChangedStatic));
@@ -239,6 +241,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="ParagraphLineHeight"/>.
+        /// </summary>
+        public static readonly DependencyProperty ParagraphLineHeightProperty = DependencyProperty.Register(
+            nameof(ParagraphLineHeight),
+            typeof(int),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="QuoteBorderThickness"/>.
         /// </summary>
         public static readonly DependencyProperty QuoteBorderThicknessProperty = DependencyProperty.Register(
@@ -262,6 +273,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty QuotePaddingProperty = DependencyProperty.Register(
             nameof(QuotePadding),
             typeof(Thickness),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="YamlBorderThickness"/>.
+        /// </summary>
+        public static readonly DependencyProperty YamlBorderThicknessProperty = DependencyProperty.Register(
+            nameof(YamlBorderThickness),
+            typeof(double),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
@@ -302,6 +322,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxHeight"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxHeightProperty = DependencyProperty.Register(
+            nameof(ImageMaxHeight),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="ImageMaxWidth"/>
+        /// </summary>
+        public static readonly DependencyProperty ImageMaxWidthProperty = DependencyProperty.Register(
+            nameof(ImageMaxWidth),
+            typeof(double),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(0.0, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets or sets the MaxWidth for images.
+        /// </summary>
+        public double ImageMaxWidth
+        {
+            get { return (double)GetValue(ImageMaxWidthProperty); }
+            set { SetValue(ImageMaxWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the MaxHeight for images.
+        /// </summary>
+        public double ImageMaxHeight
+        {
+            get { return (double)GetValue(ImageMaxHeightProperty); }
+            set { SetValue(ImageMaxHeightProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the stretch used for images.
         /// </summary>
         public Stretch ImageStretch
@@ -329,12 +385,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the foreground brush for inline code.
+        /// Gets or sets the space between the code border and the text.
         /// </summary>
         public Thickness InlineCodePadding
         {
             get { return (Thickness)GetValue(InlineCodePaddingProperty); }
             set { SetValue(InlineCodePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the margin for inline code.
+        /// </summary>
+        public Thickness InlineCodeMargin
+        {
+            get { return (Thickness)GetValue(InlineCodeMarginProperty); }
+            set { SetValue(InlineCodeMarginProperty, value); }
         }
 
         /// <summary>
@@ -518,6 +583,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the line hegiht used for paragraphs.
+        /// </summary>
+        public int ParagraphLineHeight
+        {
+            get { return (int)GetValue(ParagraphLineHeightProperty); }
+            set { SetValue(ParagraphLineHeightProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the thickness of quote borders.
         /// </summary>
         public Thickness QuoteBorderThickness
@@ -542,6 +616,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Thickness)GetValue(QuotePaddingProperty); }
             set { SetValue(QuotePaddingProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the thickness of any yaml header borders.
+        /// </summary>
+        public double YamlBorderThickness
+        {
+            get { return (double)GetValue(YamlBorderThicknessProperty); }
+            set { SetValue(YamlBorderThicknessProperty, value); }
         }
 
         /// <summary>

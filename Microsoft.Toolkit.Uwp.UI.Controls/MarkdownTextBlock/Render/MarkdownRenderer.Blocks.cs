@@ -1,19 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
@@ -87,7 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         {
             var paragraph = new Paragraph
             {
-                Margin = ParagraphMargin
+                Margin = ParagraphMargin,
+                LineHeight = ParagraphLineHeight
             };
 
             var childContext = new InlineRenderContext(paragraph.Inlines, context)
@@ -99,6 +92,62 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var textBlock = CreateOrReuseRichTextBlock(context);
             textBlock.Blocks.Add(paragraph);
+        }
+
+        /// <summary>
+        /// Renders a yaml header element.
+        /// </summary>
+        protected override void RenderYamlHeader(YamlHeaderBlock element, IRenderContext context)
+        {
+            var localContext = context as UIElementCollectionRenderContext;
+            if (localContext == null)
+            {
+                throw new RenderContextIncorrectException();
+            }
+
+            var blockUIElementCollection = localContext.BlockUIElementCollection;
+
+            var table = new MarkdownTable(element.Children.Count, 2, YamlBorderThickness, YamlBorderBrush)
+            {
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = TableMargin
+            };
+
+            // Split key and value
+            string[] childrenKeys = new string[element.Children.Count];
+            string[] childrenValues = new string[element.Children.Count];
+            element.Children.Keys.CopyTo(childrenKeys, 0);
+            element.Children.Values.CopyTo(childrenValues, 0);
+
+            // Add each column
+            for (int i = 0; i < element.Children.Count; i++)
+            {
+                // Add each cell
+                var keyCell = new TextBlock
+                {
+                    Text = childrenKeys[i],
+                    Foreground = Foreground,
+                    TextAlignment = TextAlignment.Center,
+                    FontWeight = FontWeights.Bold,
+                    Margin = TableCellPadding
+                };
+                var valueCell = new TextBlock
+                {
+                    Text = childrenValues[i],
+                    Foreground = Foreground,
+                    TextAlignment = TextAlignment.Left,
+                    Margin = TableCellPadding,
+                    TextWrapping = TextWrapping.Wrap
+                };
+                Grid.SetRow(keyCell, 0);
+                Grid.SetColumn(keyCell, i);
+                Grid.SetRow(valueCell, 1);
+                Grid.SetColumn(valueCell, i);
+                table.Children.Add(keyCell);
+                table.Children.Add(valueCell);
+            }
+
+            blockUIElementCollection.Add(table);
         }
 
         /// <summary>
@@ -325,8 +374,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             {
                 FontFamily = CodeFontFamily ?? FontFamily,
                 Foreground = brush,
-                LineHeight = FontSize * 1.4
+                LineHeight = FontSize * 1.4,
+                FlowDirection = FlowDirection
             };
+
+            textBlock.PointerWheelChanged += Preventative_PointerWheelChanged;
 
             var paragraph = new Paragraph();
             textBlock.Blocks.Add(paragraph);

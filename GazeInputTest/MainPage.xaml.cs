@@ -1,17 +1,12 @@
-// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -78,6 +73,39 @@ namespace GazeInputTest
             }
             ProgressShow.IsIndeterminate = e.State == DwellProgressState.Complete;
             e.Handled = true;
+        }
+
+        private async void SpawnClicked(object sender, RoutedEventArgs e)
+        {
+
+            var newView = CoreApplication.CreateNewView();
+            var newViewId = 0;
+
+            await newView.Dispatcher.RunAsync(CoreDispatcherPriority.High, () =>
+            {
+                var frame = new Frame();
+                frame.Navigate(typeof(MainPage), newViewId);
+                Window.Current.Content = frame;
+
+                // In Windows 10 UWP we need to activate our view first.
+                // Let's do it now so that we can use TryShow...() and SwitchAsync().
+                Window.Current.Activate();
+
+                newViewId = ApplicationView.GetForCurrentView().Id;
+            });
+
+            bool viewShown = await ApplicationViewSwitcher.TryShowAsStandaloneAsync(newViewId);
+        }
+
+        private async void DialogClicked(object sender, RoutedEventArgs e)
+        {
+            var dialog = new ContentDialog
+            {
+                Title = "Sample Dialog",
+                Content = "This is an example content dialog",
+                CloseButtonText = "Close"
+            };
+            await dialog.ShowAsync();
         }
     }
 }

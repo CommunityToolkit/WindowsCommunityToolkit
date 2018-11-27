@@ -16,8 +16,6 @@ BEGIN_NAMESPACE_GAZE_INPUT
 private ref class GazeTargetItem abstract
 {
 internal:
-    static property GazeTargetItem^ NonInvokable{ GazeTargetItem^ get(); }
-
     property TimeSpan DetailedTime;
     property TimeSpan OverflowTime;
     property TimeSpan ElapsedTime { TimeSpan get() { return DetailedTime + OverflowTime; } }
@@ -61,6 +59,10 @@ internal:
         {
             switch (ElementState)
             {
+            case PointerState::Enter:
+                RaiseProgressEvent(DwellProgressState::Fixating);
+                break;
+
             case PointerState::Dwell:
             case PointerState::Fixation:
                 RaiseProgressEvent(DwellProgressState::Progressing);

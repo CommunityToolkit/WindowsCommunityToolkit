@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Linq;
 using System.Text;
@@ -30,7 +22,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string CtrlValue = "CTRL";
         private const string ShiftValue = "SHIFT";
         private const string AltValue = "ALT";
-        private FlyoutPlacementMode? _currentFlyoutPlacement;
+
+        /// <summary>
+        /// Gets or sets the current flyout placement, internal because the child menu item needs it to respect the menu direction of submenus
+        /// </summary>
+        internal FlyoutPlacementMode? CurrentFlyoutPlacement { get; set; }
 
         private static bool NavigateUsingKeyboard(KeyEventArgs args, Menu menu, Orientation orientation)
         {
@@ -52,10 +48,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 menu.UpdateMenuItemsFlyoutPlacement();
 
                 if (args.VirtualKey == VirtualKey.Enter ||
-                    ((args.VirtualKey == VirtualKey.Down) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Bottom) ||
-                    ((args.VirtualKey == VirtualKey.Up) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Top) ||
-                    ((args.VirtualKey == VirtualKey.Left) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Left) ||
-                    ((args.VirtualKey == VirtualKey.Right) && menu._currentFlyoutPlacement == FlyoutPlacementMode.Right))
+                    ((args.VirtualKey == VirtualKey.Down) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Bottom) ||
+                    ((args.VirtualKey == VirtualKey.Up) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Top) ||
+                    ((args.VirtualKey == VirtualKey.Left) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left) ||
+                    ((args.VirtualKey == VirtualKey.Right) && menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Right))
                 {
                     menu.SelectedMenuItem.ShowMenu();
                     return true;
@@ -76,10 +72,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            if ((menu._currentFlyoutPlacement == FlyoutPlacementMode.Left &&
+            if ((menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left &&
                  args.VirtualKey == VirtualKey.Right) ||
                  (args.VirtualKey == VirtualKey.Left &&
-                 menu._currentFlyoutPlacement != FlyoutPlacementMode.Left))
+                 menu.CurrentFlyoutPlacement != FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
                 {
@@ -102,9 +98,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             if ((args.VirtualKey == VirtualKey.Right &&
-                menu._currentFlyoutPlacement != FlyoutPlacementMode.Left) ||
+                menu.CurrentFlyoutPlacement != FlyoutPlacementMode.Left) ||
                 (args.VirtualKey == VirtualKey.Left &&
-                menu._currentFlyoutPlacement == FlyoutPlacementMode.Left))
+                menu.CurrentFlyoutPlacement == FlyoutPlacementMode.Left))
             {
                 if (element is MenuFlyoutItem)
                 {
@@ -174,18 +170,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var placementMode = GetMenuFlyoutPlacementMode();
 
-            if (placementMode == _currentFlyoutPlacement)
+            if (placementMode == CurrentFlyoutPlacement)
             {
                 return false;
             }
 
-            _currentFlyoutPlacement = placementMode;
+            CurrentFlyoutPlacement = placementMode;
 
             foreach (MenuItem menuItem in Items)
             {
                 if (menuItem.MenuFlyout != null)
                 {
-                    menuItem.MenuFlyout.Placement = _currentFlyoutPlacement.Value;
+                    menuItem.MenuFlyout.Placement = CurrentFlyoutPlacement.Value;
                 }
             }
 

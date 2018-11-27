@@ -7,10 +7,11 @@
     xmlns:models="using:Microsoft.Toolkit.Uwp.SampleApp.Models"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <controls:MasterDetailsView ItemsSource="{Binding Emails}"
+    <Grid>
+        <controls:MasterDetailsView BackButtonBehavior="Automatic" 
+                                    ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
-                                    Foreground="Black">
+                                    CompactModeThresholdWidth="720">
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="0,8">
@@ -30,7 +31,7 @@
             <controls:MasterDetailsView.DetailsTemplate>
                 <DataTemplate>
                     <RelativePanel Margin="24">
-                        <controls:RoundImageEx x:Name="FromEllipse"
+                        <controls:ImageEx x:Name="FromEllipse"
                                                Source="{Binding Thumbnail}"
                                                Width="50"
                                                Height="50"
@@ -76,21 +77,21 @@
                     <AppBarButton Icon="Back" Label="Back"/>
                     <AppBarButton Icon="Forward" Label="Forward"/>
 
-                    <CommandBar.Content>
-                        <TextBlock Margin="12,14">
-                            <Run Text="{Binding Emails.Count}"/>
-                            <Run Text="Items"/>
-                        </TextBlock>
-                    </CommandBar.Content>
-                </CommandBar>
-            </controls:MasterDetailsView.MasterCommandBar>
-            <controls:MasterDetailsView.DetailsCommandBar>
-                <CommandBar>
-                    <AppBarButton Icon="MailReply" Label="Reply"/>
-                    <AppBarButton Icon="MailReplyAll" Label="Reply All"/>
-                    <AppBarButton Icon="MailForward" Label="Forward"/>
-                </CommandBar>
-            </controls:MasterDetailsView.DetailsCommandBar>
-        </controls:MasterDetailsView>
-    </Grid>
+          <CommandBar.Content>
+            <TextBlock Margin="12,14">
+              <Run Text="{Binding Emails.Count}" />
+              <Run Text="Items" />
+            </TextBlock>
+          </CommandBar.Content>
+        </CommandBar>
+      </controls:MasterDetailsView.MasterCommandBar>
+      <controls:MasterDetailsView.DetailsCommandBar>
+        <CommandBar>
+          <AppBarButton Icon="MailReply" Label="Reply" />
+          <AppBarButton Icon="MailReplyAll" Label="Reply All" />
+          <AppBarButton Icon="MailForward" Label="Forward" />
+        </CommandBar>
+      </controls:MasterDetailsView.DetailsCommandBar>
+    </controls:MasterDetailsView>
+  </Grid>
 </Page>

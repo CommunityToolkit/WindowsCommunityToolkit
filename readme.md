@@ -1,27 +1,26 @@
-UWP Community Toolkit
-===========
+# Windows Community Toolkit
+The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
-The UWP Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer tasks building UWP apps for Windows 10.
-
-## Build status
-| Target | Branch | Status | Recommended Nuget packages version |
+## Build Status
+| Target | Branch | Status | Recommended NuGet packages version |
 | ------ | ------ | ------ | ------ |
-| Production | rel/2.2.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/2.2.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/2.2.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) |
-| Pre-release beta testing | master | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/master?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/master) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
+| Pre-release beta testing | master | [![Build Status](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_apis/build/status/Toolkit-CI?branchName=master)](https://dev.azure.com/dotnet/WindowsCommunityToolkit/_build/latest?definitionId=10) | [![MyGet](https://img.shields.io/dotnet.myget/uwpcommunitytoolkit/vpre/Microsoft.Toolkit.Uwp.svg)](https://dotnet.myget.org/gallery/uwpcommunitytoolkit) |
 
-## Getting started
-Please read the [getting Started with the UWP Toolkit](https://docs.microsoft.com/windows/uwpcommunitytoolkit/getting-started) page for more detailed information about using the toolkit.
+<!-- | Production | rel/3.0.0 | [![Build status](https://ci.appveyor.com/api/projects/status/o60lv2tt1nbtklw8/branch/rel/3.0.0?svg=true)](https://ci.appveyor.com/project/dotnetfoundation/uwpcommunitytoolkit/branch/rel/3.0.0) | [![NuGet](https://img.shields.io/nuget/v/Microsoft.Toolkit.Uwp.svg)](https://www.nuget.org/packages/Microsoft.Toolkit.Uwp/) | -->
+
+## Getting Started
+Please read the [getting Started with the Windows Community Toolkit](https://docs.microsoft.com/windows/communitytoolkit/getting-started) page for more detailed information about using the toolkit.
 
 ## Documentation
-All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/en-us/windows/uwpcommunitytoolkit/). All API documentation can be found at the [.NET API Browser.](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit)
+All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.microsoft.com/windows/communitytoolkit/). All API documentation can be found at the [.NET API Browser](https://docs.microsoft.com/en-us/dotnet/api/?term=microsoft.toolkit).
 
-## UWP Community Toolkit Sample App
-Want to see the toolkit in action before jumping into the code?  Download and play with the [UWP Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
+## Windows Community Toolkit Sample App
+Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
-## Nuget Packages
-NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI.  Enter one of the package names below to search for it online.
+## NuGet Packages
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* . Enter one of the package names below to search for it online.
 
-Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
+Once you do a search, you should see a list similar to the one below (versions may be different, but names should be the same).
 
 ![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
 
@@ -36,14 +35,15 @@ Once you search you should see a list similar to the one below (versions may be 
 | Microsoft.Toolkit.Uwp.Services | Services Package - This NuGet package includes the service helpers for Facebook, LinkedIn, Microsoft Graph, Twitter and more |
 | Microsoft.Toolkit.Uwp.UI | UI Packages - Brushes, XAML converters, Visual tree extensions, and other extensions and helpers for your XAML UI. |
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
-| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. | 
-| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking | 
-| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app | 
+| Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. |
+| Microsoft.Toolkit.Uwp.UI.Controls.DataGrid | XAML DataGrid control |
+| Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
+| Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
 ## <a name="supported"></a> Supported SDKs
-* Anniversary Update (14393)
-* Creators Update (15063)
 * Fall Creators Update (16299)
+* April 2018 Update (17134)
+* October 2018 Update (17763)
 
 ## Features
 
@@ -58,48 +58,47 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Implicit Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ImplicitAnimations/)
 * [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Light/)
 * [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Offset/)
-* [ParallaxService](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ParallaxService/)
 * [ReorderGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ReorderGrid/)
 * [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate/)
 * [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Saturation/)
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale/)
 
 ### Brushes
-* [BackdropBlurBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropBlurBrush/)
-* [BackdropGammaTransferBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropGammaTransferBrush/)
-* [BackdropInvertBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropInvertBrush/)
-* [BackdropSaturationBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSaturationBrush/)
-* [BackdropSepiaBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/BackdropSepiaBrush/)
-* [ImageBlendBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/ImageBlendBrush/)
-* [RadialGradientBrush](http://docs.uwpcommunitytoolkit.com/en/master/brushes/RadialGradientBrush/)
+* [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush/)
+* [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush/)
+* [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush/)
+* [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush/)
+* [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush/)
+* [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush/)
+* [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush/)
 
 ### Controls
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView/)
 * [BladeView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/BladeView/)
 * [Carousel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Carousel/)
+* [DataGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DataGrid/)
 * [DockPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DockPanel/)
 * [DropShadowPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DropShadowPanel/)
 * [Expander](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Expander/)
 * [GridSplitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/GridSplitter/)
-* [HamburgerMenu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HamburgerMenu/)
 * [HeaderedContentControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedContentControl/)
 * [HeaderedItemsControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedItemsControl/)
 * [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock/)
 * [ImageEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageEx/)
 * [InAppNotification](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InAppNotification/)
+* [InfiniteCanvas](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InfiniteCanvas/)
 * [Loading](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Loading/)
 * [MarkdownTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MarkdownTextBlock/)
 * [MasterDetailsView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MasterDetailsView/)
 * [Menu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Menu/)
 * [OrbitView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/OrbitView/)
-* [PullToRefreshListView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/PullToRefreshListview/)
 * [RadialGauge](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialGauge/)
 * [RadialProgressBar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialProgressBar/)
 * [RangeSelector](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RangeSelector/)
 * [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile/)
 * [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader/)
-* [SlideableListItem](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/SlidableListItem/)
 * [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel/)
+* [TabView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TabView/)
 * [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar/)
 * [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl/)
 * [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel/)
@@ -114,7 +113,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
-* [NavigationView Styles](https://docs.uwpcommunitytoolkit.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
 * [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions/)
 * [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)
@@ -146,7 +144,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WeakEventListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/WeakEventListener/)
 
 ### Services
-* [Bing](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Bing/)
 * [Facebook](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Facebook/)
 * [LinkedIn](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/)
 * [Microsoft Graph](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/)
@@ -159,30 +156,30 @@ Once you search you should see a list similar to the one below (versions may be 
 * [RSS Parser](https://docs.microsoft.com/windows/uwpcommunitytoolkit/parsers/RSSParser/)
 
 ### Notifications
-- [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
-- [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
+* [Tiles](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/06/30/adaptive-tile-templates-schema-and-documentation/)
+* [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
 
 ## Feedback and Requests
-Please use [GitHub issues](https://github.com/Microsoft/UWPCommunityToolkit/issues) for bug reports and feature requests.
-For feature requests, please also create en entry in our [Uservoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
-For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/uwp-community-toolkit) where questions should be tagged with the tag `uwp-community-toolkit`
+Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
+For feature requests, please also create an entry in our [UserVoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
+For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
 ## Contributing
-Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
 
 ## Principles
- - Principle #1: The toolkit will be kept simple.
- - Principle #2: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
- - Principle #3: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
+* Principle **#1**: The toolkit will be kept simple.
+* Principle **#2**: As soon as a comparable feature is available in the Windows SDK for Windows 10, it will be marked as deprecated.
+* Principle **#3**: All features will be supported for two Windows SDK for Windows 10 release cycles or until another principle supersedes it.
 
 This project has adopted the code of conduct defined by the [Contributor Covenant](http://contributor-covenant.org/)
 to clarify expected behavior in our community.
-For more information see the [.NET Foundation Code of Conduct](http://www.dotnetfoundation.org/code-of-conduct). 
+For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
 
 ## Roadmap
-Read what we [plan for next iterations](https://github.com/Microsoft/UWPCommunityToolkit/milestones), and feel free to ask questions.
+Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
-By adding this ([Nuget repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your Visual Studio, you can also get pre-release packages of upcoming version.
+By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
 
 ## .NET Foundation
-This project is supported by the [.NET Foundation](http://www.dotnetfoundation.org).
+This project is supported by the [.NET Foundation](http://dotnetfoundation.org).

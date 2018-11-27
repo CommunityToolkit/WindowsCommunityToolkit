@@ -1,0 +1,10 @@
+<FileList>
+  <File Reference="Microsoft.Toolkit.Wpf.UI.Controls.dll">
+    <ToolboxItems VSCategory="Windows Community Toolkit" BlendCategory="Windows Community Toolkit">
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.InkCanvas" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.InkToolbar" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MapControl" />
+      <Item Type="Microsoft.Toolkit.Wpf.UI.Controls.MediaPlayerElement" />
+    </ToolboxItems>
+  </File>
+</FileList>

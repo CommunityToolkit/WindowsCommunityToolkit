@@ -1,19 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
-using Microsoft.Toolkit.Parsers.Markdown.Enums;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Render
@@ -87,6 +78,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
                     case MarkdownBlockType.Table:
                         RenderTable((TableBlock)element, context);
                         break;
+
+                    case MarkdownBlockType.YamlHeader:
+                        RenderYamlHeader((YamlHeaderBlock)element, context);
+                        break;
                 }
             }
         }
@@ -148,6 +143,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
 
                 case MarkdownInlineType.Superscript:
                     RenderSuperscriptRun((SuperscriptTextInline)element, context);
+                    break;
+
+                case MarkdownInlineType.Subscript:
+                    RenderSubscriptRun((SubscriptTextInline)element, context);
                     break;
 
                 case MarkdownInlineType.Code:
@@ -222,12 +221,26 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
             {
                 // The element couldn't be resolved, just render it as text.
                 RenderInlineChildren(element.Inlines, context);
+                return;
             }
-            else
+
+            foreach (MarkdownInline inline in element.Inlines)
             {
-                // Url is valid, create Link.
-                RenderMarkdownLink(element, context);
+                if (inline is ImageInline imageInline)
+                {
+                    // this is an image, create Image.
+                    if (!string.IsNullOrEmpty(imageInline.ReferenceId))
+                    {
+                        imageInline.ResolveReference(Document);
+                    }
+
+                    imageInline.Url = element.Url;
+                    RenderImage(imageInline, context);
+                    return;
+                }
             }
+
+            RenderMarkdownLink(element, context);
         }
 
         /// <summary>

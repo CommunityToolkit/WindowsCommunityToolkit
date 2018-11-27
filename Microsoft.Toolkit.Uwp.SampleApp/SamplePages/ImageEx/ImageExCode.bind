@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Key="BaseStyle" TargetType="controls:ImageExBase">
+        <Style x:Key="BaseStyle" TargetType="controls:ImageEx">
             <Setter Property="IsCacheEnabled" Value="True" />
             <Setter Property="Stretch" Value="UniformToFill" />
             <Setter Property="PlaceholderStretch" Value="UniformToFill" />
@@ -15,20 +15,12 @@
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="Foreground" Value="White" />
-        </Style>
-        <!--Create a Style based on BaseStyle-->
-        <Style x:Key="RectangleStyle" TargetType="controls:ImageEx" BasedOn="{StaticResource BaseStyle}">
-            <Setter Property="Width" Value="400" />
+            <Setter Property="Width" Value="300" />
             <Setter Property="Height" Value="300" />
-        </Style>
-        <Style x:Key="RoundStyle" TargetType="controls:RoundImageEx" BasedOn="{StaticResource BaseStyle}">
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Height" Value="200" />
-            <Setter Property="CornerRadius" Value="999" />
         </Style>
     </Page.Resources>
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto"
                       VerticalScrollMode="Auto">
             <StackPanel x:Name="Container"
@@ -37,22 +29,21 @@
                                   IsCacheEnabled="@[Enable Cache:Bool:True]"
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-                                  Style="{StaticResource RectangleStyle}"/>
+                                  Style="{StaticResource BaseStyle}"/>
               
                 <controls:ImageEx x:Name="ImageExControl2"
                                   IsCacheEnabled="@[Enable Cache:Bool:True]"
                                   Source="/Assets/Photos/LunchBreak.jpg"
                                   PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
                                   CornerRadius="30,60,30,60"
-                                  Style="{StaticResource RectangleStyle}"/>
+                                  Style="{StaticResource BaseStyle}"/>
               
-                <TextBlock Text="Above ImageEx will have rounded corners on the Fall Creators Update." Margin="4" HorizontalAlignment="Center"/>
-
-                <controls:RoundImageEx x:Name="RoundImageExControl1"
-                                       IsCacheEnabled="@[Enable Cache]"
-                                       Source="/Assets/Photos/Owl.jpg"
-                                       PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
-                                       Style="{StaticResource RoundStyle}"/>
+                <controls:ImageEx x:Name="ImageExControl3"
+                                  CornerRadius="999"
+                                  IsCacheEnabled="@[Enable Cache]"
+                                  Source="/Assets/Photos/Owl.jpg"
+                                  PlaceholderSource="/Assets/Photos/ImageExPlaceholder.jpg"
+                                  Style="{StaticResource BaseStyle}"/>
            </StackPanel>    
         </ScrollViewer>
     </Grid>

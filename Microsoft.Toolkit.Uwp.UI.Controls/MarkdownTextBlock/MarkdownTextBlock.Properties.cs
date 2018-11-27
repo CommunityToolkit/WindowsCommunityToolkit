@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +27,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // Used to attach the URL to hyperlinks.
         private static readonly DependencyProperty HyperlinkUrlProperty =
             DependencyProperty.RegisterAttached("HyperlinkUrl", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
+
+        // Checkes if clicked image is a hyperlink or not.
+        private static readonly DependencyProperty IsHyperlinkProperty =
+            DependencyProperty.RegisterAttached("IsHyperLink", typeof(string), typeof(MarkdownTextBlock), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets the dependency property for <see cref="CodeStyling"/>.
@@ -77,6 +73,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty InlineCodeBackgroundProperty =
             DependencyProperty.Register(
                 nameof(InlineCodeBackground),
+                typeof(Brush),
+                typeof(MarkdownTextBlock),
+                new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="InlineCodeForeground"/>.
+        /// </summary>
+        public static readonly DependencyProperty InlineCodeForegroundProperty =
+            DependencyProperty.Register(
+                nameof(InlineCodeForeground),
                 typeof(Brush),
                 typeof(MarkdownTextBlock),
                 new PropertyMetadata(null, OnPropertyChangedStatic));
@@ -317,10 +323,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnPropertyChangedStatic));
 
         /// <summary>
+        /// Gets the dependency property for <see cref="YamlBorderBrush"/>.
+        /// </summary>
+        public static readonly DependencyProperty YamlBorderBrushProperty = DependencyProperty.Register(
+            nameof(YamlBorderBrush),
+            typeof(Brush),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(null, OnPropertyChangedStatic));
+
+        /// <summary>
         /// Gets the dependency property for <see cref="UriPrefix"/>.
         /// </summary>
         public static readonly DependencyProperty UriPrefixProperty = DependencyProperty.Register(
             nameof(UriPrefix),
+            typeof(string),
+            typeof(MarkdownTextBlock),
+            new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
+
+        /// <summary>
+        /// Gets the dependency property for <see cref="UriPrefix"/>.
+        /// </summary>
+        public static readonly DependencyProperty SchemeListProperty = DependencyProperty.Register(
+            nameof(SchemeList),
             typeof(string),
             typeof(MarkdownTextBlock),
             new PropertyMetadata(string.Empty, OnPropertyChangedStatic));
@@ -429,12 +453,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the foreground brush for inline code.
+        /// Gets or sets the background brush for inline code.
         /// </summary>
         public Brush InlineCodeBackground
         {
             get { return (Brush)GetValue(InlineCodeBackgroundProperty); }
             set { SetValue(InlineCodeBackgroundProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the foreground brush for inline code.
+        /// </summary>
+        public Brush InlineCodeForeground
+        {
+            get { return (Brush)GetValue(InlineCodeForegroundProperty); }
+            set { SetValue(InlineCodeForegroundProperty, value); }
         }
 
         /// <summary>
@@ -614,12 +647,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the brush used to render yaml borders.  If this is <c>null</c>, then
+        /// <see cref="TableBorderBrush"/> is used.
+        /// </summary>
+        public Brush YamlBorderBrush
+        {
+            get { return (Brush)GetValue(TableBorderBrushProperty); }
+            set { SetValue(TableBorderBrushProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the Prefix of Uri.
         /// </summary>
         public string UriPrefix
         {
             get { return (string)GetValue(UriPrefixProperty); }
             set { SetValue(UriPrefixProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the SchemeList.
+        /// </summary>
+        public string SchemeList
+        {
+            get { return (string)GetValue(SchemeListProperty); }
+            set { SetValue(SchemeListProperty, value); }
         }
 
         /// <summary>

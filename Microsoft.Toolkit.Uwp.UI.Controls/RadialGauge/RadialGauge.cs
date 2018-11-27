@@ -1,24 +1,16 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Numerics;
-using Windows.ApplicationModel;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
@@ -71,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the NeedleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty NeedleBrushProperty =
-            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Red), OnFaceChanged));
+            DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the Value dependency property.
@@ -89,25 +81,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the TrailBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TrailBrushProperty =
-            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Orange)));
+            DependencyProperty.Register(nameof(TrailBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the ScaleBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleBrushProperty =
-            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.DarkGray)));
+            DependencyProperty.Register(nameof(ScaleBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null));
 
         /// <summary>
         /// Identifies the ScaleTickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty ScaleTickBrushProperty =
-            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.Black), OnFaceChanged));
+            DependencyProperty.Register(nameof(ScaleTickBrush), typeof(Brush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the TickBrush dependency property.
         /// </summary>
         public static readonly DependencyProperty TickBrushProperty =
-            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(new SolidColorBrush(Colors.White), OnFaceChanged));
+            DependencyProperty.Register(nameof(TickBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
 
         /// <summary>
         /// Identifies the ValueStringFormat dependency property.
@@ -184,6 +176,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         // For convenience.
         private const double Degrees2Radians = Math.PI / 180;
 
+        // High-contrast accessibility
+        private static readonly ThemeListener ThemeListener = new ThemeListener();
+        private SolidColorBrush _needleBrush;
+        private Brush _trailBrush;
+        private Brush _scaleBrush;
+        private SolidColorBrush _scaleTickBrush;
+        private SolidColorBrush _tickBrush;
+        private Brush _foreground;
+
         private double _normalizedMinAngle;
         private double _normalizedMaxAngle;
 
@@ -199,18 +200,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialGauge);
 
-            KeyDown += RadialGauge_KeyDown;
+            Unloaded += RadialGauge_Unloaded;
+        }
+
+        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            OnColorsChanged();
         }
 
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var step = 1;
+            double step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = 5;
             }
 
+            step = Math.Max(StepSize, step);
             if (e.Key == VirtualKey.Left)
             {
                 Value = Math.Max(Minimum, Value - step);
@@ -223,6 +230,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Value = Math.Min(Maximum, Value + step);
                 e.Handled = true;
             }
+        }
+
+        private void RadialGauge_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Unregister event handlers.
+            KeyDown -= RadialGauge_KeyDown;
+            ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
+            PointerReleased -= RadialGauge_PointerReleased;
+            Unloaded -= RadialGauge_Unloaded;
         }
 
         /// <summary>
@@ -343,7 +359,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the tick spacing, in units.
+        /// Gets or sets the tick spacing, in units. Values of zero or less will be ignored when drawing.
         /// </summary>
         public int TickSpacing
         {
@@ -446,13 +462,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <value>The maximum angle, in the range from -180 to 540.</value>
         protected double NormalizedMaxAngle => _normalizedMaxAngle;
 
+        /// <inheritdoc/>
+        protected override AutomationPeer OnCreateAutomationPeer()
+        {
+            return new RadialGaugeAutomationPeer(this);
+        }
+
         /// <summary>
         /// Update the visual state of the control when its template is changed.
         /// </summary>
         protected override void OnApplyTemplate()
         {
+            // Remember local brushes.
+            _needleBrush = ReadLocalValue(NeedleBrushProperty) as SolidColorBrush;
+            _trailBrush = ReadLocalValue(TrailBrushProperty) as SolidColorBrush;
+            _scaleBrush = ReadLocalValue(ScaleBrushProperty) as SolidColorBrush;
+            _scaleTickBrush = ReadLocalValue(ScaleTickBrushProperty) as SolidColorBrush;
+            _tickBrush = ReadLocalValue(TickBrushProperty) as SolidColorBrush;
+            _foreground = ReadLocalValue(ForegroundProperty) as SolidColorBrush;
+
+            // Register event handlers.
             PointerReleased += RadialGauge_PointerReleased;
-            OnScaleChanged(this);
+            ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            KeyDown += RadialGauge_KeyDown;
+
+            // Apply color scheme.
+            OnColorsChanged();
 
             base.OnApplyTemplate();
         }
@@ -619,29 +654,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             radialGauge._root.Children.RemoveAll();
             radialGauge._compositor = radialGauge._root.Compositor;
 
-            // Ticks.
-            SpriteVisual tick;
-            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+            if (radialGauge.TickSpacing > 0)
             {
-                tick = radialGauge._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
-                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
-                tick.Offset = new Vector3(100 - ((float)radialGauge.TickWidth / 2), 0.0f, 0);
-                tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 100.0f, 0);
-                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
-                radialGauge._root.Children.InsertAtTop(tick);
-            }
+                // Ticks.
+                SpriteVisual tick;
+                for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+                {
+                    tick = radialGauge._compositor.CreateSpriteVisual();
+                    tick.Size = new Vector2((float)radialGauge.TickWidth, (float)radialGauge.TickLength);
+                    tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.TickBrush.Color);
+                    tick.Offset = new Vector3(100 - ((float)radialGauge.TickWidth / 2), 0.0f, 0);
+                    tick.CenterPoint = new Vector3((float)radialGauge.TickWidth / 2, 100.0f, 0);
+                    tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                    radialGauge._root.Children.InsertAtTop(tick);
+                }
 
-            // Scale Ticks.
-            for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
-            {
-                tick = radialGauge._compositor.CreateSpriteVisual();
-                tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
-                tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
-                tick.Offset = new Vector3(100 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
-                tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 100 - (float)radialGauge.ScalePadding, 0);
-                tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
-                radialGauge._root.Children.InsertAtTop(tick);
+                // Scale Ticks.
+                for (double i = radialGauge.Minimum; i <= radialGauge.Maximum; i += radialGauge.TickSpacing)
+                {
+                    tick = radialGauge._compositor.CreateSpriteVisual();
+                    tick.Size = new Vector2((float)radialGauge.ScaleTickWidth, (float)radialGauge.ScaleWidth);
+                    tick.Brush = radialGauge._compositor.CreateColorBrush(radialGauge.ScaleTickBrush.Color);
+                    tick.Offset = new Vector3(100 - ((float)radialGauge.ScaleTickWidth / 2), (float)radialGauge.ScalePadding, 0);
+                    tick.CenterPoint = new Vector3((float)radialGauge.ScaleTickWidth / 2, 100 - (float)radialGauge.ScalePadding, 0);
+                    tick.RotationAngleInDegrees = (float)radialGauge.ValueToAngle(i);
+                    radialGauge._root.Children.InsertAtTop(tick);
+                }
             }
 
             // Needle.
@@ -653,6 +691,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             radialGauge._root.Children.InsertAtTop(radialGauge._needle);
 
             OnValueChanged(radialGauge);
+        }
+
+        private void OnColorsChanged()
+        {
+            if (ThemeListener.IsHighContrast)
+            {
+                // Apply High Contrast Theme.
+                ClearBrush(_needleBrush, NeedleBrushProperty);
+                ClearBrush(_trailBrush, TrailBrushProperty);
+                ClearBrush(_scaleBrush, ScaleBrushProperty);
+                ClearBrush(_scaleBrush, ScaleTickBrushProperty);
+                ClearBrush(_tickBrush, TickBrushProperty);
+                ClearBrush(_foreground, ForegroundProperty);
+            }
+            else
+            {
+                // Apply User Defined or Default Theme.
+                RestoreBrush(_needleBrush, NeedleBrushProperty);
+                RestoreBrush(_trailBrush, TrailBrushProperty);
+                RestoreBrush(_scaleBrush, ScaleBrushProperty);
+                RestoreBrush(_scaleBrush, ScaleTickBrushProperty);
+                RestoreBrush(_tickBrush, TickBrushProperty);
+                RestoreBrush(_foreground, ForegroundProperty);
+            }
+
+            OnScaleChanged(this);
+        }
+
+        private void ClearBrush(Brush brush, DependencyProperty prop)
+        {
+            if (brush != null)
+            {
+                ClearValue(prop);
+            }
+        }
+
+        private void RestoreBrush(Brush source, DependencyProperty prop)
+        {
+            if (source != null)
+            {
+                SetValue(prop, source);
+            }
         }
 
         private void RadialGauge_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -717,7 +797,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            Value = value;
+            Value = RoundToMultiple(value, StepSize);
         }
 
         private Point ScalePoint(double angle, double middleOfScale)
