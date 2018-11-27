@@ -74,10 +74,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
                 imageExLazyLoadingControl.CloseButtonClick += (_, __) =>
                 {
-                    lazyLoadingControlHost.Child = null;
+                    if (lazyLoadingControlHost != null)
+                    {
+                        lazyLoadingControlHost.Child = null;
+                    }
                 };
 
-                lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                if (lazyLoadingControlHost != null)
+                {
+                    lazyLoadingControlHost.Child = imageExLazyLoadingControl;
+                }
             });
 
             SampleController.Current.RegisterNewCommand("Clear image cache", async (sender, args) =>
