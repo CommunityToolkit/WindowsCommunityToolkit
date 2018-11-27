@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 AddImage(false, false, true);
             });
 
-            SampleController.Current.RegisterNewCommand("Lazy loading sample", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Lazy loading sample (17763 or higher supported)", (sender, args) =>
             {
                 var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
                 imageExLazyLoadingControl.CloseButtonClick += (_, __) =>

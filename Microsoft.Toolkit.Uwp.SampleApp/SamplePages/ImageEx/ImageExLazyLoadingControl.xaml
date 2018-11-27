@@ -25,6 +25,11 @@
                     </Border>
                 </Grid>
             </ScrollViewer>
+            <TextBlock HorizontalAlignment="Left"
+                       VerticalAlignment="Top"
+                       Foreground="OrangeRed"
+                       IsHitTestVisible="False"
+                       Text="Please scroll down to see the effect." />
             <AppBarButton Width="48"
                           Height="48"
                           HorizontalAlignment="Right"
