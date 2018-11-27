@@ -15,18 +15,24 @@
     <StackPanel Spacing="8"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
-        
+
+        <TextBlock Text="The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis."
+                   TextWrapping="Wrap"
+                   Style="{StaticResource BodyTextBlockStyle}"/>
+
         <TextBlock Text="{markup:OnDevice Desktop=Desktop, Xbox=Xbox, Default=Default}" />
 
-        <TextBlock Text="{markup:OnDevice Team=Text1, IoT=Text2, Holographic=Text3, Default=Text4}"
+        <TextBlock Text="{markup:OnDevice Team=Text 1, IoT=Text 2, Holographic=Text 3, Default=Text 4}"
                    FontSize="{markup:OnDevice Team=50, IoT=16, Holographic=20, Default=30}"/>
 
         <Rectangle Fill="{markup:OnDevice Desktop={StaticResource BrushRed}, Default={StaticResource BrushBlue}}"
                    Width="200"
-                   Height="100" />
+                   Height="100"
+                   HorizontalAlignment="Left" />
 
         <Rectangle Width="200"
-                   Height="100">
+                   Height="100"
+                   HorizontalAlignment="Left">
             <Rectangle.Fill>
                 <markup:OnDevice Default="{StaticResource BrushRed}"
                                  Desktop="{StaticResource BrushBlue}"/>

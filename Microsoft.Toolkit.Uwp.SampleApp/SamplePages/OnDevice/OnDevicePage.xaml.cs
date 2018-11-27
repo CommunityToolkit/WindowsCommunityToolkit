@@ -17,25 +17,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OffsetBehaviorPage"/> class.
+        /// Initializes a new instance of the <see cref="OnDevicePage"/> class.
         /// </summary>
         public OnDevicePage()
         {
             InitializeComponent();
-
-            //SampleController.Current.RegisterNewCommand("Apply", (s, e) =>
-            //{
-            //    _offsetBehavior?.StartAnimation();
-            //});
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            //if (control.FindChildByName("EffectElement") is FrameworkElement element)
-            //{
-            //    var behaviors = Interaction.GetBehaviors(element);
-            //    _offsetBehavior = behaviors.FirstOrDefault(item => item is Offset) as Offset;
-            //}
         }
     }
 }
