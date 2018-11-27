@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
                 // deviceFamily = ???
             } else
             {
-                deviceFamily = Windows.System.Profile.AnalyticsInfo.VersionInfo.DeviceFamily;
+                deviceFamily = Uwp.Helpers.SystemInformation.DeviceFamily;
             }
 
             switch (deviceFamily)
