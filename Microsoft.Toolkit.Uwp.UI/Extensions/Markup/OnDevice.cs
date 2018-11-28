@@ -61,7 +61,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions.Markup
             {
                 // TODO: detect DeviceFamily in XAML Designer (device dropdown)
                 // deviceFamily = ???
-            } else
+            }
+            else
             {
                 deviceFamily = Uwp.Helpers.SystemInformation.DeviceFamily;
             }
