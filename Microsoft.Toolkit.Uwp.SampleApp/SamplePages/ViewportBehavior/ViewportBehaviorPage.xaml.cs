@@ -4,9 +4,14 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Animations;
+using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Xaml.Interactivity;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -14,9 +19,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// <summary>
     /// A page that shows how to use the viewport behavior.
     /// </summary>
-    public sealed partial class ViewportBehaviorPage
+    public sealed partial class ViewportBehaviorPage : Page, IXamlRenderListener
     {
         private readonly ObservableCollection<string> _logs = new ObservableCollection<string>();
+        private Image _effectElement;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewportBehaviorPage"/> class.
@@ -26,7 +32,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
 
             LogsItemsControl.ItemsSource = _logs;
-            EffectElement.Blur(value: 10, duration: 0).Start();
+        }
+
+        public void OnXamlRendered(FrameworkElement control)
+        {
+            if (control.FindChildByName("EffectElement") is Image effectElement)
+            {
+                _effectElement = effectElement;
+                _effectElement.Blur(value: 10, duration: 0).Start();
+            }
+
+            if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)
+            {
+                var behaviors = Interaction.GetBehaviors(effectElementHost);
+                var viewportBehavior = behaviors.OfType<ViewportBehavior>().FirstOrDefault();
+                if (viewportBehavior != null)
+                {
+                    viewportBehavior.EnteredViewport += EffectElementHost_EnteredViewport;
+                    viewportBehavior.EnteringViewport += EffectElementHost_EnteringViewport;
+                    viewportBehavior.ExitedViewport += EffectElementHost_ExitedViewport;
+                    viewportBehavior.ExitingViewport += EffectElementHost_ExitingViewport;
+                }
+            }
         }
 
         private async void AddLog(string log)
@@ -41,29 +68,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _logs.Clear();
         }
 
-        private async void EffectHost_EnteredViewport(object sender, EventArgs e)
+        private async void EffectElementHost_EnteredViewport(object sender, EventArgs e)
         {
             AddLog("Entered viewport");
 
-            await EffectElement.Blur(value: 0, duration: 1500).StartAsync();
+            await _effectElement.Blur(value: 0, duration: 1500).StartAsync();
         }
 
-        private async void EffectHost_ExitedViewport(object sender, EventArgs e)
-        {
-            AddLog("Exited viewport");
-
-            EffectElement.Source = null;
-            await EffectElement.Blur(value: 8, duration: 0).StartAsync();
-        }
-
-        private void EffectHost_EnteringViewport(object sender, EventArgs e)
+        private void EffectElementHost_EnteringViewport(object sender, EventArgs e)
         {
             AddLog("Entering viewport");
 
-            EffectElement.Source = new BitmapImage(new Uri("ms-appx:///Assets/ToolkitLogo.png"));
+            _effectElement.Source = new BitmapImage(new Uri("ms-appx:///Assets/ToolkitLogo.png"));
         }
 
-        private void EffectHost_ExitingViewport(object sender, EventArgs e)
+        private async void EffectElementHost_ExitedViewport(object sender, EventArgs e)
+        {
+            AddLog("Exited viewport");
+
+            _effectElement.Source = null;
+            await _effectElement.Blur(value: 8, duration: 0).StartAsync();
+        }
+
+        private void EffectElementHost_ExitingViewport(object sender, EventArgs e)
         {
             AddLog("Exiting viewport");
         }

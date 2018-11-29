@@ -526,6 +526,7 @@
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

@@ -428,7 +428,8 @@
         "Name": "ViewportBehavior",
         "Type": "ViewportBehaviorPage",
         "About": "Behavior for listening element enter or exit viewport",
-        "CodeFile": "ViewportBehaviorCode.bind"
+        "CodeFile": "ViewportBehaviorCode.bind",
+        "XamlCodeFile": "ViewportBehaviorXaml.bind"
       }
     ]
   },
