@@ -15,7 +15,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class OnDevicePage : IXamlRenderListener
     {
-
         /// <summary>
         /// Initializes a new instance of the <see cref="OnDevicePage"/> class.
         /// </summary>
