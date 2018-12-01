@@ -126,15 +126,19 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             ReadValueAsync();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
 
-            characteristic.ValueChanged += Characteristic_ValueChanged;
+            Characteristic.ValueChanged += Characteristic_ValueChanged;
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="ObservableGattCharacteristics"/> class.
         /// Destruct this object by unsetting notification/indication.
         /// </summary>
         ~ObservableGattCharacteristics()
         {
-            characteristic.ValueChanged -= Characteristic_ValueChanged;
+            if (Characteristic != null)
+            {
+                Characteristic.ValueChanged -= Characteristic_ValueChanged;
+            }
         }
 
         /// <summary>
