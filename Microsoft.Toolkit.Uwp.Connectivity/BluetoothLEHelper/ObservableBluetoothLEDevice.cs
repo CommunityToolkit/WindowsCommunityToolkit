@@ -147,7 +147,15 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
 
             LoadGlyph();
 
-            this.PropertyChanged += ObservableBluetoothLEDevice_PropertyChanged;
+            PropertyChanged += ObservableBluetoothLEDevice_PropertyChanged;
+        }
+
+        /// <summary>
+        /// Destruct this object by unregistering from property changed callbacks.
+        /// </summary>
+        ~ObservableBluetoothLEDevice()
+        {
+            PropertyChanged -= ObservableBluetoothLEDevice_PropertyChanged;
         }
 
         /// <summary>
