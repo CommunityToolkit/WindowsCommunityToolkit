@@ -130,6 +130,14 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         }
 
         /// <summary>
+        /// Destruct this object by unsetting notification/indication.
+        /// </summary>
+        ~ObservableGattCharacteristics()
+        {
+            characteristic.ValueChanged -= Characteristic_ValueChanged;
+        }
+
+        /// <summary>
         /// Gets or sets the characteristic this class wraps
         /// </summary>
         public GattCharacteristic Characteristic
