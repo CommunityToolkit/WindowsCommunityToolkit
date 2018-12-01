@@ -151,6 +151,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         }
 
         /// <summary>
+        /// Finalizes an instance of the <see cref="ObservableBluetoothLEDevice"/> class.
         /// Destruct this object by unregistering from property changed callbacks.
         /// </summary>
         ~ObservableBluetoothLEDevice()
