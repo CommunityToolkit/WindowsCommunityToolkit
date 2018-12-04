@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    <Style x:Key="DefaultControlButtonStyle"
+           TargetType="Button">
+        <Setter Property="Width" Value="20" />
+        <Setter Property="Height" Value="20" />
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <CompositeTransform TranslateX="-10"
+                                    TranslateY="-10" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Ellipse Fill="{ThemeResource SystemControlBackgroundChromeWhiteBrush}"
+                             Stroke="{ThemeResource SystemControlForegroundChromeHighBrush}"
+                             StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="controls:ImageCropper">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundAltHighBrush}" />
+        <Setter Property="Mask" Value="{ThemeResource SystemControlBackgroundAltMediumHighBrush}" />
+        <Setter Property="Padding" Value="80" />
+        <Setter Property="PrimaryControlButtonStyle" Value="{ThemeResource DefaultControlButtonStyle}" />
+        <Setter Property="SecondaryControlButtonStyle" Value="{ThemeResource DefaultControlButtonStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="controls:ImageCropper">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid x:Name="PART_LayoutGrid"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Canvas x:Name="PART_ImageCanvas">
+                                <Image x:Name="PART_SourceImage"
+                                       Source="{TemplateBinding SourceImage}" />
+                                <Path x:Name="PART_MaskAreaPath"
+                                      Fill="{TemplateBinding Mask}" />
+                                <Button x:Name="PART_TopButton"
+                                        Style="{TemplateBinding SecondaryControlButtonStyle}" />
+                                <Button x:Name="PART_BottomButton"
+                                        Style="{TemplateBinding SecondaryControlButtonStyle}" />
+                                <Button x:Name="PART_LeftButton"
+                                        Style="{TemplateBinding SecondaryControlButtonStyle}" />
+                                <Button x:Name="PART_RightButton"
+                                        Style="{TemplateBinding SecondaryControlButtonStyle}" />
+                                <Button x:Name="PART_UpperLeftButton"
+                                        Style="{TemplateBinding PrimaryControlButtonStyle}" />
+                                <Button x:Name="PART_UpperRightButton"
+                                        Style="{TemplateBinding PrimaryControlButtonStyle}" />
+                                <Button x:Name="PART_LowerLeftButton"
+                                        Style="{TemplateBinding PrimaryControlButtonStyle}" />
+                                <Button x:Name="PART_LowerRightButton"
+                                        Style="{TemplateBinding PrimaryControlButtonStyle}" />
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
