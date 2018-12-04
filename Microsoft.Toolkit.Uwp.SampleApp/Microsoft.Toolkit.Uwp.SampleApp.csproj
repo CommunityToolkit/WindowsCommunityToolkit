@@ -282,6 +282,7 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
@@ -523,8 +524,12 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
+      <DependentUpon>ImageCropperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -931,6 +936,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SampleController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageCropper\ImageCropperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
