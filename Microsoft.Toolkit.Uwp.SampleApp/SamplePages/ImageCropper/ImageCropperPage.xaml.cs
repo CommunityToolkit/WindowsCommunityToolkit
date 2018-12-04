@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 await PickImage();
             });
 
-            SampleController.Current.RegisterNewCommand("Image without aspect ratio", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Crop image without aspect ratio", (sender, args) =>
             {
                 if (imageCropper != null)
                 {
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Image with aspect ratio = 1:1", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 1:1", (sender, args) =>
             {
                 if (imageCropper != null)
                 {
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Image with aspect ratio = 16:9", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 16:9", (sender, args) =>
             {
                 if (imageCropper != null)
                 {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Image with aspect ratio = 4:3", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 4:3", (sender, args) =>
             {
                 if (imageCropper != null)
                 {
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             });
 
-            SampleController.Current.RegisterNewCommand("Image with aspect ratio = 9:16", (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 9:16", (sender, args) =>
             {
                 if (imageCropper != null)
                 {

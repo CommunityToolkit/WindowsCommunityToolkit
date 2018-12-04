@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether secondary control buttons is displayed
+        /// Gets or sets a value indicating whether secondary control buttons is displayed.
         /// </summary>
         public bool IsSecondaryControlButtonVisible
         {

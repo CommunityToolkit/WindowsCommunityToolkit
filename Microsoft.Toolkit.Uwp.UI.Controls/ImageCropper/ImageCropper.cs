@@ -338,7 +338,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the cropped image.
         /// </summary>
-        /// <returns>WriteableBitmap</returns>
+        /// <returns>The cropped image.</returns>
         public async Task<WriteableBitmap> GetCroppedBitmapAsync()
         {
             if (SourceImage == null)
@@ -353,7 +353,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Save the cropped image to a file.
         /// </summary>
         /// <param name="imageFile">The target file.</param>
-        /// <param name="encoderId">The encoderId of BitmapEncoder</param>
+        /// <param name="encoderId">The encoderId of BitmapEncoder.</param>
         /// <returns>Task</returns>
         public async Task SaveCroppedBitmapAsync(StorageFile imageFile, Guid encoderId)
         {
