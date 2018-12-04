@@ -1,12 +1,14 @@
-﻿using ImageCropper.UWP.Extensions;
-using System;
+﻿using System;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace ImageCropper.UWP
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The <see cref="ImageCropper"/> control allows user to crop image freely.
+    /// </summary>
     public partial class ImageCropper
     {
         /// <summary>
@@ -16,7 +18,7 @@ namespace ImageCropper.UWP
         {
             _restrictedCropRect = new Rect(0, 0, SourceImage.PixelWidth, SourceImage.PixelHeight);
             var maxSelectedRect = _restrictedCropRect;
-            _currentCroppedRect = KeepAspectRatio ? maxSelectedRect.GetUniformRect(UsedAspectRatio) : maxSelectedRect;
+            _currentCroppedRect = KeepAspectRatio ? GetUniformRect(maxSelectedRect, UsedAspectRatio) : maxSelectedRect;
             UpdateImageLayout();
             UpdateControlButtonVisibility();
         }
@@ -26,7 +28,7 @@ namespace ImageCropper.UWP
         /// </summary>
         private void UpdateImageLayout()
         {
-            var uniformSelectedRect = CanvasRect.GetUniformRect(_currentCroppedRect.Width / _currentCroppedRect.Height);
+            var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
             UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect);
         }
 
@@ -39,12 +41,13 @@ namespace ImageCropper.UWP
         {
             var imageScale = viewport.Width / viewportImageRect.Width;
             _imageTransform.ScaleX = _imageTransform.ScaleY = imageScale;
-            _imageTransform.TranslateX = viewport.X - viewportImageRect.X * imageScale;
-            _imageTransform.TranslateY = viewport.Y - viewportImageRect.Y * imageScale;
+            _imageTransform.TranslateX = viewport.X - (viewportImageRect.X * imageScale);
+            _imageTransform.TranslateY = viewport.Y - (viewportImageRect.Y * imageScale);
             var selectedRect = _imageTransform.TransformBounds(_currentCroppedRect);
             _restrictedSelectRect = _imageTransform.TransformBounds(_restrictedCropRect);
-            var startPoint = _restrictedSelectRect.GetSafePoint(new Point(selectedRect.X, selectedRect.Y));
-            var endPoint = _restrictedSelectRect.GetSafePoint(new Point(selectedRect.X + selectedRect.Width,
+            var startPoint = GetSafePoint(_restrictedSelectRect, new Point(selectedRect.X, selectedRect.Y));
+            var endPoint = GetSafePoint(_restrictedSelectRect, new Point(
+                selectedRect.X + selectedRect.Width,
                 selectedRect.Y + selectedRect.Height));
             UpdateSelectedRect(startPoint, endPoint);
         }
@@ -155,7 +158,7 @@ namespace ImageCropper.UWP
                     break;
             }
 
-            if (!RectExtensions.IsSafeRect(startPoint, endPoint, MinSelectSize))
+            if (!IsSafeRect(startPoint, endPoint, MinSelectSize))
             {
                 if (KeepAspectRatio)
                 {
@@ -164,31 +167,38 @@ namespace ImageCropper.UWP
                     {
                         return;
                     }
-
                 }
                 else
                 {
-                    var safeRect = RectExtensions.GetSafeRect(startPoint, endPoint, MinSelectSize, dragPosition);
+                    var safeRect = GetSafeRect(startPoint, endPoint, MinSelectSize, dragPosition);
                     safeRect.Intersect(_restrictedSelectRect);
                     startPoint = new Point(safeRect.X, safeRect.Y);
                     endPoint = new Point(safeRect.X + safeRect.Width, safeRect.Y + safeRect.Height);
                 }
             }
 
-            var isEffectiveRegion = _restrictedSelectRect.IsSafePoint(startPoint) &&
-                                    _restrictedSelectRect.IsSafePoint(endPoint);
-            if (!isEffectiveRegion) return;
+            var isEffectiveRegion = IsSafePoint(_restrictedSelectRect, startPoint) &&
+                                    IsSafePoint(_restrictedSelectRect, endPoint);
+            if (!isEffectiveRegion)
+            {
+                return;
+            }
+
             var selectedRect = new Rect(startPoint, endPoint);
             selectedRect.Union(CanvasRect);
             if (selectedRect != CanvasRect)
             {
                 var inverseImageTransform = _imageTransform.Inverse;
-                if (inverseImageTransform == null) return;
+                if (inverseImageTransform == null)
+                {
+                    return;
+                }
+
                 var croppedRect = inverseImageTransform.TransformBounds(
                     new Rect(startPoint, endPoint));
                 croppedRect.Intersect(_restrictedCropRect);
                 _currentCroppedRect = croppedRect;
-                var viewportRect = CanvasRect.GetUniformRect(selectedRect.Width / selectedRect.Height);
+                var viewportRect = GetUniformRect(CanvasRect, selectedRect.Width / selectedRect.Height);
                 var viewportImgRect = inverseImageTransform.TransformBounds(selectedRect);
                 UpdateImageLayoutWithViewport(viewportRect, viewportImgRect);
             }
@@ -209,8 +219,8 @@ namespace ImageCropper.UWP
             _startY = startPoint.Y;
             _endX = endPoint.X;
             _endY = endPoint.Y;
-            var centerX = (_endX - _startX) / 2 + _startX;
-            var centerY = (_endY - _startY) / 2 + _startY;
+            var centerX = ((_endX - _startX) / 2) + _startX;
+            var centerY = ((_endY - _startY) / 2) + _startY;
             if (_topButton != null)
             {
                 Canvas.SetLeft(_topButton, centerX);
@@ -270,13 +280,12 @@ namespace ImageCropper.UWP
             _maskAreaGeometryGroup.Children.Clear();
             _maskAreaGeometryGroup.Children.Add(new RectangleGeometry
             {
-                Rect = new Rect(-_layoutGrid.Padding.Left, -_layoutGrid.Padding.Top, _layoutGrid.ActualWidth,
-                    _layoutGrid.ActualHeight)
+                Rect = new Rect(-_layoutGrid.Padding.Left, -_layoutGrid.Padding.Top, _layoutGrid.ActualWidth, _layoutGrid.ActualHeight)
             });
             if (CircularCrop)
             {
-                var centerX = (_endX - _startX) / 2 + _startX;
-                var centerY = (_endY - _startY) / 2 + _startY;
+                var centerX = ((_endX - _startX) / 2) + _startX;
+                var centerY = ((_endY - _startY) / 2) + _startY;
                 _maskAreaGeometryGroup.Children.Add(new EllipseGeometry
                 {
                     Center = new Point(centerX, centerY),
@@ -294,8 +303,7 @@ namespace ImageCropper.UWP
 
             _layoutGrid.Clip = new RectangleGeometry
             {
-                Rect = new Rect(0, 0, _layoutGrid.ActualWidth,
-                    _layoutGrid.ActualHeight)
+                Rect = new Rect(0, 0, _layoutGrid.ActualWidth, _layoutGrid.ActualHeight)
             };
         }
 
@@ -309,16 +317,17 @@ namespace ImageCropper.UWP
                 var inverseImageTransform = _imageTransform.Inverse;
                 if (inverseImageTransform != null)
                 {
-                    var centerX = (_endX - _startX) / 2 + _startX;
-                    var centerY = (_endY - _startY) / 2 + _startY;
+                    var centerX = ((_endX - _startX) / 2) + _startX;
+                    var centerY = ((_endY - _startY) / 2) + _startY;
                     var restrictedMinLength = MinCroppedPixelLength * _imageTransform.ScaleX;
                     var maxSelectedLength = Math.Max(_endX - _startX, _endY - _startY);
-                    var viewRect = new Rect(centerX - maxSelectedLength / 2, centerY - maxSelectedLength / 2, maxSelectedLength, maxSelectedLength);
-                    var uniformSelectedRect = viewRect.GetUniformRect(UsedAspectRatio);
+                    var viewRect = new Rect(centerX - (maxSelectedLength / 2), centerY - (maxSelectedLength / 2), maxSelectedLength, maxSelectedLength);
+                    var uniformSelectedRect = GetUniformRect(viewRect, UsedAspectRatio);
                     if (uniformSelectedRect.Width > _restrictedSelectRect.Width || uniformSelectedRect.Height > _restrictedSelectRect.Height)
                     {
-                        uniformSelectedRect = _restrictedSelectRect.GetUniformRect(UsedAspectRatio);
+                        uniformSelectedRect = GetUniformRect(_restrictedSelectRect, UsedAspectRatio);
                     }
+
                     if (uniformSelectedRect.Width < restrictedMinLength || uniformSelectedRect.Height < restrictedMinLength)
                     {
                         var scale = restrictedMinLength / Math.Min(uniformSelectedRect.Width, uniformSelectedRect.Height);
@@ -330,22 +339,27 @@ namespace ImageCropper.UWP
                             return;
                         }
                     }
+
                     if (_restrictedSelectRect.X > uniformSelectedRect.X)
                     {
                         uniformSelectedRect.X += _restrictedSelectRect.X - uniformSelectedRect.X;
                     }
+
                     if (_restrictedSelectRect.Y > uniformSelectedRect.Y)
                     {
                         uniformSelectedRect.Y += _restrictedSelectRect.Y - uniformSelectedRect.Y;
                     }
+
                     if ((_restrictedSelectRect.X + _restrictedSelectRect.Width) < (uniformSelectedRect.X + uniformSelectedRect.Width))
                     {
                         uniformSelectedRect.X += (_restrictedSelectRect.X + _restrictedSelectRect.Width) - (uniformSelectedRect.X + uniformSelectedRect.Width);
                     }
+
                     if ((_restrictedSelectRect.Y + _restrictedSelectRect.Height) < (uniformSelectedRect.Y + uniformSelectedRect.Height))
                     {
                         uniformSelectedRect.Y += (_restrictedSelectRect.Y + _restrictedSelectRect.Height) - (uniformSelectedRect.Y + uniformSelectedRect.Height);
                     }
+
                     _currentCroppedRect = inverseImageTransform.TransformBounds(uniformSelectedRect);
                     UpdateImageLayout();
                 }
@@ -362,24 +376,49 @@ namespace ImageCropper.UWP
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (SourceImage == null)
+            {
                 cornerBtnVisibility = otherBtnVisibility = Visibility.Collapsed;
+            }
 
             if (_topButton != null)
+            {
                 _topButton.Visibility = otherBtnVisibility;
+            }
+
             if (_bottomButton != null)
+            {
                 _bottomButton.Visibility = otherBtnVisibility;
+            }
+
             if (_leftButton != null)
+            {
                 _leftButton.Visibility = otherBtnVisibility;
+            }
+
             if (_rigthButton != null)
+            {
                 _rigthButton.Visibility = otherBtnVisibility;
+            }
+
             if (_upperLeftButton != null)
+            {
                 _upperLeftButton.Visibility = cornerBtnVisibility;
+            }
+
             if (_upperRightButton != null)
+            {
                 _upperRightButton.Visibility = cornerBtnVisibility;
+            }
+
             if (_lowerLeftButton != null)
+            {
                 _lowerLeftButton.Visibility = cornerBtnVisibility;
+            }
+
             if (_lowerRigthButton != null)
+            {
                 _lowerRigthButton.Visibility = cornerBtnVisibility;
+            }
         }
     }
 }

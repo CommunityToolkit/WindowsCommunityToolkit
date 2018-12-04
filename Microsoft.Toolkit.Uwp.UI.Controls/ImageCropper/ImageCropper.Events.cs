@@ -1,19 +1,21 @@
-﻿using ImageCropper.UWP.Extensions;
-using System;
+﻿using System;
 using Windows.Foundation;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
-namespace ImageCropper.UWP
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// The <see cref="ImageCropper"/> control allows user to crop image freely.
+    /// </summary>
     public partial class ImageCropper
     {
         private void ControlButton_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var handled = false;
-            var diffPos = new Point();
+            var diffPos = default(Point);
             if (e.Key == VirtualKey.Left)
             {
                 diffPos.X--;
@@ -37,10 +39,13 @@ namespace ImageCropper.UWP
 
             if (handled)
             {
-                var controlButton = (FrameworkElement) sender;
+                var controlButton = (FrameworkElement)sender;
                 var tag = controlButton.Tag;
                 if (tag != null && Enum.TryParse(tag.ToString(), false, out DragPosition dragPosition))
+                {
                     UpdateCroppedRectWithAspectRatio(dragPosition, diffPos);
+                }
+
                 e.Handled = true;
             }
         }
@@ -81,16 +86,18 @@ namespace ImageCropper.UWP
 
         private void ControlButton_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var controlButton = (FrameworkElement) sender;
+            var controlButton = (FrameworkElement)sender;
             var dragButtomPosition = new Point(Canvas.GetLeft(controlButton), Canvas.GetTop(controlButton));
             var currentPointerPosition = new Point(
-                dragButtomPosition.X + e.Position.X + e.Delta.Translation.X - controlButton.ActualWidth / 2,
-                dragButtomPosition.Y + e.Position.Y + e.Delta.Translation.Y - controlButton.ActualHeight / 2);
-            var safePosition = _restrictedSelectRect.GetSafePoint(currentPointerPosition);
+                dragButtomPosition.X + e.Position.X + e.Delta.Translation.X - (controlButton.ActualWidth / 2),
+                dragButtomPosition.Y + e.Position.Y + e.Delta.Translation.Y - (controlButton.ActualHeight / 2));
+            var safePosition = GetSafePoint(_restrictedSelectRect, currentPointerPosition);
             var safeDiffPoint = new Point(safePosition.X - dragButtomPosition.X, safePosition.Y - dragButtomPosition.Y);
             var tag = controlButton.Tag;
             if (tag != null && Enum.TryParse(tag.ToString(), false, out DragPosition dragPosition))
+            {
                 UpdateCroppedRectWithAspectRatio(dragPosition, safeDiffPoint);
+            }
         }
 
         private void SourceImage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -101,11 +108,14 @@ namespace ImageCropper.UWP
             {
                 var startPoint = new Point(_startX - diffPos.X, _startY - diffPos.Y);
                 var endPoint = new Point(_endX - diffPos.X, _endY - diffPos.Y);
-                if (_restrictedSelectRect.IsSafePoint(startPoint) && _restrictedSelectRect.IsSafePoint(endPoint))
+                if (IsSafePoint(_restrictedSelectRect, startPoint) && IsSafePoint(_restrictedSelectRect, endPoint))
                 {
                     var selectedRect = new Rect(startPoint, endPoint);
                     if ((selectedRect.Width - MinSelectSize.Width) < -0.001 || (selectedRect.Height - MinSelectSize.Height) < -0.001)
+                    {
                         return;
+                    }
+
                     var movedRect = inverseImageTransform.TransformBounds(selectedRect);
                     movedRect.Intersect(_restrictedCropRect);
                     _currentCroppedRect = movedRect;
@@ -117,7 +127,10 @@ namespace ImageCropper.UWP
         private void ImageCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (SourceImage == null)
+            {
                 return;
+            }
+
             UpdateImageLayout();
             UpdateMaskArea();
         }

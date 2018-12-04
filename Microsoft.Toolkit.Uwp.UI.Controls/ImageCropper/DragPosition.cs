@@ -1,4 +1,4 @@
-﻿namespace ImageCropper.UWP
+﻿namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Control point enumeration.

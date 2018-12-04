@@ -1,5 +1,4 @@
-﻿using ImageCropper.UWP.Extensions;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
@@ -10,8 +9,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Shapes;
 
-
-namespace ImageCropper.UWP
+namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// The <see cref="ImageCropper"/> control allows user to crop image freely.
@@ -30,6 +28,9 @@ namespace ImageCropper.UWP
     [TemplatePart(Name = LowerRightButtonPartName, Type = typeof(Button))]
     public partial class ImageCropper : Control
     {
+        private readonly CompositeTransform _imageTransform = new CompositeTransform();
+        private readonly GeometryGroup _maskAreaGeometryGroup = new GeometryGroup { FillRule = FillRule.EvenOdd };
+
         private Grid _layoutGrid;
         private Canvas _imageCanvas;
         private Image _sourceImage;
@@ -46,8 +47,6 @@ namespace ImageCropper.UWP
         private double _startY;
         private double _endX;
         private double _endY;
-        private readonly CompositeTransform _imageTransform = new CompositeTransform();
-        private readonly GeometryGroup _maskAreaGeometryGroup = new GeometryGroup {FillRule = FillRule.EvenOdd};
         private Rect _currentCroppedRect = Rect.Empty;
         private Rect _restrictedCropRect = Rect.Empty;
         private Rect _restrictedSelectRect = Rect.Empty;
@@ -61,7 +60,9 @@ namespace ImageCropper.UWP
         }
 
         private Rect CanvasRect => new Rect(0, 0, _imageCanvas.ActualWidth, _imageCanvas.ActualHeight);
+
         private bool KeepAspectRatio => UsedAspectRatio > 0;
+
         private double UsedAspectRatio => CircularCrop ? 1 : AspectRatio;
 
         /// <summary>
@@ -74,9 +75,14 @@ namespace ImageCropper.UWP
                 var aspectRatio = KeepAspectRatio ? UsedAspectRatio : 1;
                 var size = new Size(MinCroppedPixelLength, MinCroppedPixelLength);
                 if (aspectRatio >= 1)
+                {
                     size.Width = size.Height * aspectRatio;
+                }
                 else
+                {
                     size.Height = size.Width / aspectRatio;
+                }
+
                 return size;
             }
         }
@@ -88,16 +94,21 @@ namespace ImageCropper.UWP
         {
             get
             {
-                var realMinSelectSize = _imageTransform.TransformBounds(new Rect(new Point(), MinCropSize));
+                var realMinSelectSize = _imageTransform.TransformBounds(new Rect(default(Point), MinCropSize));
                 var minLength = Math.Min(realMinSelectSize.Width, realMinSelectSize.Height);
                 if (minLength < MinSelectedLength)
                 {
                     var aspectRatio = KeepAspectRatio ? UsedAspectRatio : 1;
                     var minSelectSize = new Size(MinSelectedLength, MinSelectedLength);
                     if (aspectRatio >= 1)
+                    {
                         minSelectSize.Width = minSelectSize.Height * aspectRatio;
+                    }
                     else
+                    {
                         minSelectSize.Height = minSelectSize.Width / aspectRatio;
+                    }
+
                     return minSelectSize;
                 }
 
@@ -128,7 +139,10 @@ namespace ImageCropper.UWP
         private void HookUpEvents()
         {
             if (_imageCanvas != null)
+            {
                 _imageCanvas.SizeChanged += ImageCanvas_SizeChanged;
+            }
+
             if (_sourceImage != null)
             {
                 _sourceImage.RenderTransform = _imageTransform;
@@ -136,7 +150,10 @@ namespace ImageCropper.UWP
                 _sourceImage.ManipulationDelta += SourceImage_ManipulationDelta;
             }
 
-            if (_maskAreaPath != null) _maskAreaPath.Data = _maskAreaGeometryGroup;
+            if (_maskAreaPath != null)
+            {
+                _maskAreaPath.Data = _maskAreaGeometryGroup;
+            }
 
             if (_topButton != null)
             {
@@ -222,14 +239,20 @@ namespace ImageCropper.UWP
         private void UnhookEvents()
         {
             if (_imageCanvas != null)
+            {
                 _imageCanvas.SizeChanged -= ImageCanvas_SizeChanged;
+            }
+
             if (_sourceImage != null)
             {
                 _sourceImage.RenderTransform = null;
                 _sourceImage.ManipulationDelta -= SourceImage_ManipulationDelta;
             }
 
-            if (_maskAreaPath != null) _maskAreaPath.Data = null;
+            if (_maskAreaPath != null)
+            {
+                _maskAreaPath.Data = null;
+            }
 
             if (_topButton != null)
             {
@@ -299,8 +322,8 @@ namespace ImageCropper.UWP
         /// <summary>
         /// Load an image from a file.
         /// </summary>
-        /// <param name="imageFile"></param>
-        /// <returns></returns>
+        /// <param name="imageFile">The image file.</param>
+        /// <returns>Task</returns>
         public async Task LoadImageFromFile(StorageFile imageFile)
         {
             var writeableBitmap = new WriteableBitmap(1, 1);
@@ -319,8 +342,11 @@ namespace ImageCropper.UWP
         public async Task<WriteableBitmap> GetCroppedBitmapAsync()
         {
             if (SourceImage == null)
+            {
                 return null;
-            return await SourceImage.GetCroppedBitmapAsync(_currentCroppedRect);
+            }
+
+            return await GetCroppedBitmapAsync(SourceImage, _currentCroppedRect);
         }
 
         /// <summary>
@@ -328,13 +354,16 @@ namespace ImageCropper.UWP
         /// </summary>
         /// <param name="imageFile">The target file.</param>
         /// <param name="encoderId">The encoderId of BitmapEncoder</param>
-        /// <returns></returns>
+        /// <returns>Task</returns>
         public async Task SaveCroppedBitmapAsync(StorageFile imageFile, Guid encoderId)
         {
             if (SourceImage == null)
+            {
                 return;
-            var croppedBitmap = await SourceImage.GetCroppedBitmapAsync(_currentCroppedRect);
-            await croppedBitmap.RenderToFile(imageFile, encoderId);
+            }
+
+            var croppedBitmap = await GetCroppedBitmapAsync(SourceImage, _currentCroppedRect);
+            await RenderToFile(croppedBitmap, imageFile, encoderId);
         }
     }
 }
