@@ -5,6 +5,7 @@
 using System;
 using System.Reflection;
 using Windows.UI;
+using Color = Windows.UI.Color;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
