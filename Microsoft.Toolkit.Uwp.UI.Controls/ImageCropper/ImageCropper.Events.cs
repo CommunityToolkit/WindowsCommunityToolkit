@@ -5,6 +5,7 @@
 using System;
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -18,30 +19,78 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private void ControlButton_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var handled = false;
+            var changed = false;
             var diffPos = default(Point);
             if (e.Key == VirtualKey.Left)
             {
                 diffPos.X--;
-                handled = true;
+                var upKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up);
+                var downKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down);
+                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up) == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.Y--;
+                }
+
+                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down) == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.Y++;
+                }
+
+                changed = true;
             }
             else if (e.Key == VirtualKey.Right)
             {
                 diffPos.X++;
-                handled = true;
+                var upKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up);
+                var downKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down);
+                if (upKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.Y--;
+                }
+
+                if (downKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.Y++;
+                }
+
+                changed = true;
             }
             else if (e.Key == VirtualKey.Up)
             {
                 diffPos.Y--;
-                handled = true;
+                var leftKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Left);
+                var rightKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Right);
+                if (leftKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.X--;
+                }
+
+                if (rightKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.X++;
+                }
+
+                changed = true;
             }
             else if (e.Key == VirtualKey.Down)
             {
                 diffPos.Y++;
-                handled = true;
+                var leftKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Left);
+                var rightKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Right);
+                if (leftKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.X--;
+                }
+
+                if (rightKeyState == CoreVirtualKeyStates.Down)
+                {
+                    diffPos.X++;
+                }
+
+                changed = true;
             }
 
-            if (handled)
+            if (changed)
             {
                 var controlButton = (FrameworkElement)sender;
                 var tag = controlButton.Tag;
@@ -49,8 +98,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     UpdateCroppedRectWithAspectRatio(dragPosition, diffPos);
                 }
-
-                e.Handled = true;
             }
         }
 
