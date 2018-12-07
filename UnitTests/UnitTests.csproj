@@ -159,12 +159,12 @@
     <Compile Include="Markdown\Parse\ParseTestExtensionMethods.cs" />
     <Compile Include="Markdown\Parse\QuoteTests.cs" />
     <Compile Include="Markdown\Parse\StrikethroughTests.cs" />
+    <Compile Include="Markdown\Parse\SubscriptTests.cs" />
     <Compile Include="Markdown\Parse\SuperscriptTests.cs" />
     <Compile Include="Markdown\Parse\TableTests.cs" />
     <Compile Include="Markdown\TestBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\Test_WeakEventListener.cs" />
-    <Compile Include="Services\Test_BingService.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_AutoLayout.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_RowColDefinitions.cs" />
     <Compile Include="UI\Controls\Test_UniformGrid_FreeSpots.cs" />

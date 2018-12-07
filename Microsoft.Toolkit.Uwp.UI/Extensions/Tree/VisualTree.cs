@@ -79,6 +79,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         }
 
         /// <summary>
+        /// Find first descendant control of a specified type.
+        /// </summary>
+        /// <param name="element">Parent element.</param>
+        /// <param name="type">Type of descendant.</param>
+        /// <returns>Descendant control or null if not found.</returns>
+        public static object FindDescendant(this DependencyObject element, Type type)
+        {
+            object retValue = null;
+            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+
+            for (var i = 0; i < childrenCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(element, i);
+                if (child.GetType() == type)
+                {
+                    retValue = child;
+                    break;
+                }
+
+                retValue = FindDescendant(child, type);
+
+                if (retValue != null)
+                {
+                    break;
+                }
+            }
+
+            return retValue;
+        }
+
+        /// <summary>
         /// Find all descendant controls of the specified type.
         /// </summary>
         /// <typeparam name="T">Type to search for.</typeparam>
@@ -155,6 +186,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             return parent.FindAscendant<T>();
+        }
+
+        /// <summary>
+        /// Find first visual ascendant control of a specified type.
+        /// </summary>
+        /// <param name="element">Child element.</param>
+        /// <param name="type">Type of ascendant to look for.</param>
+        /// <returns>Ascendant control or null if not found.</returns>
+        public static object FindAscendant(this DependencyObject element, Type type)
+        {
+            var parent = VisualTreeHelper.GetParent(element);
+
+            if (parent == null)
+            {
+                return null;
+            }
+
+            if (parent.GetType() == type)
+            {
+                return parent;
+            }
+
+            return parent.FindAscendant(type);
+        }
+
+        /// <summary>
+        /// Find all visual ascendants for the element.
+        /// </summary>
+        /// <param name="element">Child element.</param>
+        /// <returns>A collection of parent elements or null if none found.</returns>
+        public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
+        {
+            var parent = VisualTreeHelper.GetParent(element);
+
+            while (parent != null)
+            {
+                yield return parent;
+                parent = VisualTreeHelper.GetParent(parent);
+            }
         }
     }
 }

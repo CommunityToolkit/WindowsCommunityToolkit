@@ -123,10 +123,10 @@
       <Version>10.1711.28001</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.180916002-prerelease</Version>
+      <Version>2.0.181011001</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
-      <Version>0.6.0-alpha</Version>
+      <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
@@ -282,6 +282,8 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\OnDevice\OnDevice.png" />
+    <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
@@ -294,7 +296,6 @@
     <Content Include="SamplePages\BackdropSaturationBrush\BackdropSaturationBrush.png" />
     <Content Include="SamplePages\BackdropSepiaBrush\BackdropSepiaBrush.png" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelper.png" />
-    <Content Include="SamplePages\Bing Service\icon.png" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelper.png" />
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrush.png" />
     <Content Include="SamplePages\Blur\BlurBehavior.png" />
@@ -309,7 +310,6 @@
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
-    <Content Include="SamplePages\Bing Service\BingCode.bind" />
     <Content Include="SamplePages\BladeView\BladeView.png" />
     <Content Include="SamplePages\Carousel\Carousel.png" />
     <Content Include="SamplePages\DropShadowPanel\DropShadowPanel.png" />
@@ -343,12 +343,10 @@
     <Content Include="SamplePages\Microsoft Graph Service\mslogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
-    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStyles.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
     <Content Include="SamplePages\Mouse\MouseCursor.png" />
     <Content Include="SamplePages\OneDrive Service\OneDriveLogo.png" />
-    <Content Include="SamplePages\ParallaxService\Parallax.png" />
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
@@ -366,11 +364,9 @@
     <Content Include="SamplePages\TileControl\Animations.png" />
     <Content Include="SamplePages\TileControl\TileControl.png" />
     <Content Include="SamplePages\PrintHelper\PrintHelper.png" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListView.png" />
     <Content Include="SamplePages\ScrollHeader\ScrollHeader.png" />
     <Content Include="SamplePages\RangeSelector\RangeSelector.png" />
     <Content Include="SamplePages\RotatorTile\RotatorTile.png" />
-    <Content Include="SamplePages\SlidableListItem\SlidableListItem.png" />
     <Content Include="SamplePages\Object Storage\ObjectStorage.png" />
     <Content Include="SamplePages\SurfaceDialTextbox\SurfaceDialTextbox.png" />
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.png" />
@@ -394,11 +390,9 @@
     <Content Include="SamplePages\ImageEx\ImageExCode.bind" />
     <Content Include="SamplePages\Offset\OffsetBehaviorCode.bind" />
     <Content Include="SamplePages\Fade\FadeBehaviorCode.bind" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewCode.bind" />
     <Content Include="SamplePages\RadialGauge\RadialGaugeCode.bind" />
     <Content Include="SamplePages\Rotate\RotateBehaviorCode.bind" />
     <Content Include="SamplePages\Scale\ScaleBehaviorCode.bind" />
-    <Content Include="SamplePages\SlidableListItem\SlidableListItemCode.bind" />
     <Content Include="Assets\Photos\Photos.json" />
     <Content Include="Assets\Photos\OnlinePhotos.json" />
     <Content Include="SamplePages\RangeSelector\RangeSelectorCode.bind" />
@@ -438,7 +432,6 @@
     <Content Include="SamplePages\PrintHelper\PrintHelperCode.bind" />
     <Content Include="SamplePages\SystemInformation\SystemInformationCode.bind" />
     <Content Include="SamplePages\Connected Animations\ConnectedAnimationsCode.bind" />
-    <Content Include="SamplePages\ParallaxService\ParallaxPage.bind" />
     <Content Include="SamplePages\Loading\LoadingCode.bind" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.bind" />
     <Content Include="SamplePages\Light\LightBehaviorCode.bind" />
@@ -476,7 +469,6 @@
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
-    <Content Include="SamplePages\PullToRefreshListView\PullToRefreshListViewXaml.bind" />
     <Content Include="SamplePages\Implicit Animations\ImplicitAnimationsCode.bind" />
     <Content Include="SamplePages\DispatcherHelper\DispatcherHelperCode.bind" />
     <Content Include="SamplePages\TextToolbar\TextToolbar.bind" />
@@ -491,9 +483,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.bind" />
-    <Content Include="SamplePages\NavigationViewStyles\NavigationViewStylesXaml.bind">
-      <SubType>Designer</SubType>
-    </Content>
     <Content Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushXaml.bind" />
     <Content Include="SamplePages\BackdropInvertBrush\BackdropInvertBrushXaml.bind" />
     <Content Include="SamplePages\BackdropGammaTransferBrush\BackdropGammaTransferBrushXaml.bind">
@@ -531,25 +520,29 @@
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\TabView\TabViewXaml.bind">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
+      <DependentUpon>OnDevicePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\ISampleNavigation.cs" />
     <Compile Include="Common\DoubleTopThicknessConverter.cs" />
     <Compile Include="Common\ThicknessConverter.cs" />
-    <Compile Include="Common\XAMLHelper.cs" />
     <Compile Include="Common\AnalyticsVersionInfoExtensions.cs" />
     <Compile Include="Common\BoolStringConverter.cs" />
     <Compile Include="Common\Constants.cs" />
     <Compile Include="Common\DelegateCommand{T}.cs" />
     <Compile Include="Common\TimeSpanConverter.cs" />
     <Compile Include="Common\EnumConverter.cs" />
-    <Compile Include="Common\ListViewHoverScroll.cs" />
     <Compile Include="Common\SampleCommand.cs" />
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
@@ -573,6 +566,9 @@
     <Compile Include="Models\LandingPageResource.cs" />
     <Compile Include="Models\LandingPageLink.cs" />
     <Compile Include="Models\PaneState.cs" />
+    <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
+      <DependentUpon>TabViewPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedPage.xaml.cs">
       <DependentUpon>PowerBIEmbeddedPage.xaml</DependentUpon>
     </Compile>
@@ -683,9 +679,6 @@
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml.cs">
-      <DependentUpon>NavigationViewStylesPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\NetworkHelper\NetworkHelperPage.xaml.cs">
       <DependentUpon>NetworkHelperPage.xaml</DependentUpon>
     </Compile>
@@ -753,9 +746,6 @@
     <Compile Include="Models\PropertyDescriptor\PropertyKind.cs" />
     <Compile Include="Models\PropertyDescriptor\PropertyDescriptor.cs" />
     <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="SamplePages\Bing Service\BingPage.xaml.cs">
-      <DependentUpon>BingPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\BladeView\BladePage.xaml.cs">
       <DependentUpon>BladePage.xaml</DependentUpon>
     </Compile>
@@ -825,9 +815,6 @@
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ParallaxService\ParallaxPage.xaml.cs">
-      <DependentUpon>ParallaxPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\PrintHelper\PrintHelperPage.xaml.cs">
       <DependentUpon>PrintHelperPage.xaml</DependentUpon>
     </Compile>
@@ -883,17 +870,11 @@
     <Compile Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastPage.xaml.cs">
       <DependentUpon>WeatherLiveTileAndToastPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml.cs">
-      <DependentUpon>PullToRefreshListViewPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\Rotate\RotateBehaviorPage.xaml.cs">
       <DependentUpon>RotateBehaviorPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Scale\ScaleBehaviorPage.xaml.cs">
       <DependentUpon>ScaleBehaviorPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml.cs">
-      <DependentUpon>SlidableListItemPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\RadialGauge\RadialGaugePage.xaml.cs">
       <DependentUpon>RadialGaugePage.xaml</DependentUpon>
@@ -957,6 +938,14 @@
     <Page Include="Pages\SampleController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\TabView\TabViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1098,10 +1087,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\NavigationViewStyles\NavigationViewStylesPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1161,10 +1146,6 @@
     <Page Include="SamplePages\DispatcherHelper\DispatcherHelperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Bing Service\BingPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\BladeView\BladePage.xaml">
       <SubType>Designer</SubType>
@@ -1258,10 +1239,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\ParallaxService\ParallaxPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\PrintHelper\PrintHelperPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1334,10 +1311,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\PullToRefreshListView\PullToRefreshListViewPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SamplePages\RadialGauge\RadialGaugePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1351,10 +1324,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Scale\ScaleBehaviorPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\SlidableListItem\SlidableListItemPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1468,6 +1437,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
@@ -1486,7 +1456,7 @@
   </PropertyGroup>
   <Target Name="ModifyAppXPackageDebug" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
@@ -1496,7 +1466,7 @@
   </Target>
   <Target Name="ModifyAppXPackageRelease" Condition="'$(BuildingProject)' == 'true'">
     <ItemGroup>
-      <toolkit_docs Include="$(SolutionDir)docs\**\*.md" />
+      <toolkit_docs Include="$(SolutionDir)..\WindowsCommunityToolkitDocs\docs\**\*.md" />
     </ItemGroup>
     <ItemGroup>
       <AppxPackagePayload Include="@(toolkit_docs)">
