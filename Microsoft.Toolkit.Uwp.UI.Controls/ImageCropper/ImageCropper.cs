@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Button _topButton;
         private Button _bottomButton;
         private Button _leftButton;
-        private Button _rigthButton;
+        private Button _rightButton;
         private Button _upperLeftButton;
         private Button _upperRightButton;
         private Button _lowerLeftButton;
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _topButton = GetTemplateChild(TopButtonPartName) as Button;
             _bottomButton = GetTemplateChild(BottomButtonPartName) as Button;
             _leftButton = GetTemplateChild(LeftButtonPartName) as Button;
-            _rigthButton = GetTemplateChild(RightButtonPartName) as Button;
+            _rightButton = GetTemplateChild(RightButtonPartName) as Button;
             _upperLeftButton = GetTemplateChild(UpperLeftButtonPartName) as Button;
             _upperRightButton = GetTemplateChild(UpperRightButtonPartName) as Button;
             _lowerLeftButton = GetTemplateChild(LowerLeftButtonPartName) as Button;
@@ -189,14 +189,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _leftButton.KeyUp += ControlButton_KeyUp;
             }
 
-            if (_rigthButton != null)
+            if (_rightButton != null)
             {
-                _rigthButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _rigthButton.Tag = DragPosition.Right;
-                _rigthButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _rigthButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _rigthButton.KeyDown += ControlButton_KeyDown;
-                _rigthButton.KeyUp += ControlButton_KeyUp;
+                _rightButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+                _rightButton.Tag = DragPosition.Right;
+                _rightButton.ManipulationDelta += ControlButton_ManipulationDelta;
+                _rightButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
+                _rightButton.KeyDown += ControlButton_KeyDown;
+                _rightButton.KeyUp += ControlButton_KeyUp;
             }
 
             if (_upperLeftButton != null)
@@ -282,12 +282,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _leftButton.KeyUp -= ControlButton_KeyUp;
             }
 
-            if (_rigthButton != null)
+            if (_rightButton != null)
             {
-                _rigthButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _rigthButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _rigthButton.KeyDown -= ControlButton_KeyDown;
-                _rigthButton.KeyUp -= ControlButton_KeyUp;
+                _rightButton.ManipulationDelta -= ControlButton_ManipulationDelta;
+                _rightButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
+                _rightButton.KeyDown -= ControlButton_KeyDown;
+                _rightButton.KeyUp -= ControlButton_KeyUp;
             }
 
             if (_upperLeftButton != null)
@@ -336,7 +336,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 await writeableBitmap.SetSourceAsync(stream);
             }
 
-            SourceImage = writeableBitmap;
+            Source = writeableBitmap;
         }
 
         /// <summary>
@@ -345,12 +345,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The cropped image.</returns>
         public async Task<WriteableBitmap> GetCroppedBitmapAsync()
         {
-            if (SourceImage == null)
+            if (Source == null)
             {
                 return null;
             }
 
-            return await GetCroppedBitmapAsync(SourceImage, _currentCroppedRect);
+            return await GetCroppedBitmapAsync(Source, _currentCroppedRect);
         }
 
         /// <summary>
@@ -361,12 +361,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Task</returns>
         public async Task SaveCroppedBitmapAsync(StorageFile imageFile, Guid encoderId)
         {
-            if (SourceImage == null)
+            if (Source == null)
             {
                 return;
             }
 
-            var croppedBitmap = await GetCroppedBitmapAsync(SourceImage, _currentCroppedRect);
+            var croppedBitmap = await GetCroppedBitmapAsync(Source, _currentCroppedRect);
             await RenderToFile(croppedBitmap, imageFile, encoderId);
         }
     }

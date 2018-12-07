@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ImageCanvas_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (SourceImage == null)
+            if (Source == null)
             {
                 return;
             }

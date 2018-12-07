@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void InitImageLayout()
         {
-            _restrictedCropRect = new Rect(0, 0, SourceImage.PixelWidth, SourceImage.PixelHeight);
+            _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
             var maxSelectedRect = _restrictedCropRect;
             _currentCroppedRect = KeepAspectRatio ? GetUniformRect(maxSelectedRect, UsedAspectRatio) : maxSelectedRect;
             UpdateImageLayout();
@@ -243,10 +243,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Canvas.SetTop(_leftButton, centerY);
             }
 
-            if (_rigthButton != null)
+            if (_rightButton != null)
             {
-                Canvas.SetLeft(_rigthButton, _endX);
-                Canvas.SetTop(_rigthButton, centerY);
+                Canvas.SetLeft(_rightButton, _endX);
+                Canvas.SetTop(_rightButton, centerY);
             }
 
             if (_upperLeftButton != null)
@@ -321,7 +321,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdateAspectRatio()
         {
-            if (KeepAspectRatio && SourceImage != null)
+            if (KeepAspectRatio && Source != null)
             {
                 var inverseImageTransform = _imageTransform.Inverse;
                 if (inverseImageTransform != null)
@@ -384,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var otherBtnVisibility = (CircularCrop || IsSecondaryControlButtonVisible)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
-            if (SourceImage == null)
+            if (Source == null)
             {
                 cornerBtnVisibility = otherBtnVisibility = Visibility.Collapsed;
             }
@@ -404,9 +404,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _leftButton.Visibility = otherBtnVisibility;
             }
 
-            if (_rigthButton != null)
+            if (_rightButton != null)
             {
-                _rigthButton.Visibility = otherBtnVisibility;
+                _rightButton.Visibility = otherBtnVisibility;
             }
 
             if (_upperLeftButton != null)

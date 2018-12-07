@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public double MinSelectedLength { get; set; } = 40;
 
-        private static void OnSourceImageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
             if (e.NewValue is WriteableBitmap bitmap)
@@ -66,10 +66,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         ///  Gets or sets the source of the cropped image.
         /// </summary>
-        public WriteableBitmap SourceImage
+        public WriteableBitmap Source
         {
-            get { return (WriteableBitmap)GetValue(SourceImageProperty); }
-            set { SetValue(SourceImageProperty, value); }
+            get { return (WriteableBitmap)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
         }
 
         /// <summary>
@@ -133,10 +133,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(ImageCropper), new PropertyMetadata(-1d, OnAspectRatioChanged));
 
         /// <summary>
-        /// Identifies the <see cref="SourceImage"/> dependency property.
+        /// Identifies the <see cref="Source"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SourceImageProperty =
-            DependencyProperty.Register(nameof(SourceImage), typeof(WriteableBitmap), typeof(ImageCropper), new PropertyMetadata(null, OnSourceImageChanged));
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register(nameof(Source), typeof(WriteableBitmap), typeof(ImageCropper), new PropertyMetadata(null, OnSourceChanged));
 
         /// <summary>
         /// Identifies the <see cref="CircularCrop"/> dependency property.

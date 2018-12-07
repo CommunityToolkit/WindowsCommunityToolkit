@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class ImageCropperPage : Page, IXamlRenderListener
     {
-        private ImageCropper imageCropper;
+        private ImageCropper _imageCropper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCropperPage"/> class.
@@ -33,11 +33,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
-            imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
-            if (imageCropper != null)
+            _imageCropper = control.FindChildByName("ImageCropper") as ImageCropper;
+            if (_imageCropper != null)
             {
                 var file = await StorageFile.GetFileFromApplicationUriAsync(new Uri("ms-appx:///Assets/Photos/Owl.jpg"));
-                await imageCropper.LoadImageFromFile(file);
+                await _imageCropper.LoadImageFromFile(file);
             }
         }
 
@@ -50,41 +50,41 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.RegisterNewCommand("Crop image without aspect ratio", (sender, args) =>
             {
-                if (imageCropper != null)
+                if (_imageCropper != null)
                 {
-                    imageCropper.AspectRatio = -1;
+                    _imageCropper.AspectRatio = -1;
                 }
             });
 
             SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 1:1", (sender, args) =>
             {
-                if (imageCropper != null)
+                if (_imageCropper != null)
                 {
-                    imageCropper.AspectRatio = 1;
+                    _imageCropper.AspectRatio = 1;
                 }
             });
 
             SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 16:9", (sender, args) =>
             {
-                if (imageCropper != null)
+                if (_imageCropper != null)
                 {
-                    imageCropper.AspectRatio = 16d / 9d;
+                    _imageCropper.AspectRatio = 16d / 9d;
                 }
             });
 
             SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 4:3", (sender, args) =>
             {
-                if (imageCropper != null)
+                if (_imageCropper != null)
                 {
-                    imageCropper.AspectRatio = 4d / 3d;
+                    _imageCropper.AspectRatio = 4d / 3d;
                 }
             });
 
             SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 9:16", (sender, args) =>
             {
-                if (imageCropper != null)
+                if (_imageCropper != null)
                 {
-                    imageCropper.AspectRatio = 9d / 16d;
+                    _imageCropper.AspectRatio = 9d / 16d;
                 }
             });
 
@@ -99,15 +99,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var filePicker = new FileOpenPicker
             {
                 ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                FileTypeFilter =
+                {
+                    ".png", ".jpg", ".jpeg"
+                }
             };
-            filePicker.FileTypeFilter.Add(".png");
-            filePicker.FileTypeFilter.Add(".jpg");
-            filePicker.FileTypeFilter.Add(".jpeg");
             var file = await filePicker.PickSingleFileAsync();
-            if (file != null && imageCropper != null)
+            if (file != null && _imageCropper != null)
             {
-                await imageCropper.LoadImageFromFile(file);
+                await _imageCropper.LoadImageFromFile(file);
             }
         }
 
@@ -116,20 +117,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var savePicker = new FileSavePicker
             {
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                SuggestedFileName = "Cropped_Image"
+                SuggestedFileName = "Cropped_Image",
+                FileTypeChoices =
+                {
+                    { "PNG Picture", new List<string> { ".png" } },
+                    { "JPG Picture", new List<string> { ".jpg" } }
+                }
             };
-            savePicker.FileTypeChoices.Add("PNG Picture", new List<string> { ".png" });
-            savePicker.FileTypeChoices.Add("JPG Picture", new List<string> { ".jpg" });
             var file = await savePicker.PickSaveFileAsync();
-            if (file != null && imageCropper != null)
+            if (file != null && _imageCropper != null)
             {
                 if (file.Name.ToLower().Contains(".png"))
                 {
-                    await imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.PngEncoderId);
+                    await _imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.PngEncoderId);
                 }
                 else
                 {
-                    await imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.JpegEncoderId);
+                    await _imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.JpegEncoderId);
                 }
             }
         }
