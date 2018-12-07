@@ -44,7 +44,7 @@
                               VerticalAlignment="{TemplateBinding VerticalAlignment}">
                             <Canvas x:Name="PART_ImageCanvas">
                                 <Image x:Name="PART_SourceImage"
-                                       Source="{TemplateBinding SourceImage}" />
+                                       Source="{TemplateBinding Source}" />
                                 <Path x:Name="PART_MaskAreaPath"
                                       Fill="{TemplateBinding Mask}" />
                                 <Button x:Name="PART_TopButton"
