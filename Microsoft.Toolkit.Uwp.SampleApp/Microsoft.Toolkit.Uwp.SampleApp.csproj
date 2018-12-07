@@ -524,6 +524,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\ImageCropper\AspectRatioConfig.cs" />
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>

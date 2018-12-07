@@ -47,51 +47,57 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 await PickImage();
             });
-
-            SampleController.Current.RegisterNewCommand("Crop image without aspect ratio", (sender, args) =>
-            {
-                if (_imageCropper != null)
-                {
-                    _imageCropper.AspectRatio = -1;
-                }
-            });
-
-            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 1:1", (sender, args) =>
-            {
-                if (_imageCropper != null)
-                {
-                    _imageCropper.AspectRatio = 1;
-                }
-            });
-
-            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 16:9", (sender, args) =>
-            {
-                if (_imageCropper != null)
-                {
-                    _imageCropper.AspectRatio = 16d / 9d;
-                }
-            });
-
-            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 4:3", (sender, args) =>
-            {
-                if (_imageCropper != null)
-                {
-                    _imageCropper.AspectRatio = 4d / 3d;
-                }
-            });
-
-            SampleController.Current.RegisterNewCommand("Crop image with aspect ratio = 9:16", (sender, args) =>
-            {
-                if (_imageCropper != null)
-                {
-                    _imageCropper.AspectRatio = 9d / 16d;
-                }
-            });
-
             SampleController.Current.RegisterNewCommand("Save", async (sender, args) =>
-             {
+            {
                  await SaveCroppedImage();
-             });
+            });
+            var itemsSource = new List<AspectRatioConfig>
+                {
+                    new AspectRatioConfig
+                    {
+                        Name = "Custom",
+                        AspectRatio = -1
+                    },
+                    new AspectRatioConfig
+                    {
+                        Name = "Square",
+                        AspectRatio = 1
+                    },
+                    new AspectRatioConfig
+                    {
+                        Name = "Landscape(16:9)",
+                        AspectRatio = 16d / 9d
+                    },
+                    new AspectRatioConfig
+                    {
+                        Name = "Portrait(9:16)",
+                        AspectRatio = 9d / 16d
+                    },
+                    new AspectRatioConfig
+                    {
+                        Name = "4:3",
+                        AspectRatio = 4d / 3d
+                    },
+                    new AspectRatioConfig
+                    {
+                        Name = "3:2",
+                        AspectRatio = 3d / 2d
+                    }
+                };
+            AspectRatioComboBox.ItemsSource = itemsSource;
+            AspectRatioComboBox.DisplayMemberPath = "Name";
+            AspectRatioComboBox.SelectedValuePath = "AspectRatio";
+            AspectRatioComboBox.SelectedIndex = 0;
+            AspectRatioComboBox.SelectionChanged += this.AspectRatioComboBox_SelectionChanged;
+        }
+
+        private void AspectRatioComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var aspectRatio = (double)AspectRatioComboBox.SelectedValue;
+            if (_imageCropper != null)
+            {
+                _imageCropper.AspectRatio = aspectRatio;
+            }
         }
 
         private async Task PickImage()
