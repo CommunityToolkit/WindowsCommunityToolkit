@@ -3,9 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Threading.Tasks;
+using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
-using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
@@ -48,8 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the width of the canvas, default value is the max value 2097152
         /// </summary>
-        public double CanvasWidth
-        {
+        public double CanvasWidth {
             get { return (double)GetValue(CanvasWidthProperty); }
             set { SetValue(CanvasWidthProperty, value); }
         }
@@ -67,8 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the height of the canvas, default value is the max value 2097152
         /// </summary>
-        public double CanvasHeight
-        {
+        public double CanvasHeight {
             get { return (double)GetValue(CanvasHeightProperty); }
             set { SetValue(CanvasHeightProperty, value); }
         }
@@ -86,8 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether the toolbar is visible or not.
         /// </summary>
-        public bool IsToolbarVisible
-        {
+        public bool IsToolbarVisible {
             get { return (bool)GetValue(IsToolbarVisibleProperty); }
             set { SetValue(IsToolbarVisibleProperty, value); }
         }
@@ -105,8 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the MaxZoomFactor for the canvas, range between 1 to 10 and the default value is 4
         /// </summary>
-        public double MaxZoomFactor
-        {
+        public double MaxZoomFactor {
             get { return (double)GetValue(MaxZoomFactorProperty); }
             set { SetValue(MaxZoomFactorProperty, value); }
         }
@@ -124,8 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the MinZoomFactor for the canvas, range between .1 to 1 the default value is .25
         /// </summary>
-        public double MinZoomFactor
-        {
+        public double MinZoomFactor {
             get { return (double)GetValue(MinZoomFactorProperty); }
             set { SetValue(MinZoomFactorProperty, value); }
         }
@@ -349,13 +343,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json);
         }
 
-        public async Task ImportImage(InMemoryRandomAccessStream stream)
+        /// <summary>
+        /// This method exports the max possible view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
+        /// Max is calculated using CanvasDevice.MaximumBitmapSizeInPixels
+        /// </summary>
+        /// <param name="dpi">Dpi that is used in the export process</param>
+        /// <returns>Returns offScreen drawings as <see cref="CanvasRenderTarget"/> that can get converted to image</returns>
+        public CanvasRenderTarget ExportMaxOffScreenDrawings(float dpi = 96)
         {
-            await _drawingSurfaceRenderer.ExportToImage(stream);
+            return _drawingSurfaceRenderer.ExportMaxOffScreenDrawings(dpi);
         }
 
         /// <summary>
-        /// This event triggered after each render happended because of any change in the canvas elements.
+        /// This method exports the current view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
+        /// </summary>
+        /// <param name="dpi">Dpi that is used in the export process</param>
+        /// <returns>Returns offScreen drawings as <see cref="CanvasRenderTarget"/> that can get converted to image</returns>
+        public CanvasRenderTarget ExportCurrentViewOffScreenDrawings(float dpi = 96)
+        {
+            return _drawingSurfaceRenderer.ExportOffScreenDrawings(ViewPort, dpi);
+        }
+
+        /// <summary>
+        /// This event triggered after each render happened because of any change in the canvas elements.
         /// </summary>
         public event EventHandler ReRenderCompleted;
     }
