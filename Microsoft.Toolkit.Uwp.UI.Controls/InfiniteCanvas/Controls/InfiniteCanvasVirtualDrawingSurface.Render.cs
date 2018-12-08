@@ -2,15 +2,18 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Graphics;
+using Windows.Storage.Streams;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -74,6 +77,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     drawable.Draw(drawingSession, toDraw);
                 }
             }
+        }
+
+        internal async Task ExportToImage(InMemoryRandomAccessStream stream)
+        {
+            var offscreen = new CanvasRenderTarget(_win2DDevice, 10000, 1000, 96);
+            using (CanvasDrawingSession drawingSession = offscreen.CreateDrawingSession())
+            {
+                drawingSession.Clear(Colors.White);
+                foreach (var drawable in _visibleList)
+                {
+                    drawable.Draw(drawingSession, new Rect(0, 0, 10000, 10000));
+                }
+            }
+            await offscreen.SaveAsync(stream, CanvasBitmapFileFormat.Png);
         }
 
         internal void ClearAll(Rect viewPort)

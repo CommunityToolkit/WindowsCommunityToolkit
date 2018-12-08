@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
@@ -345,6 +347,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public void ImportFromJson(string json)
         {
             _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json);
+        }
+
+        public async Task ImportImage(InMemoryRandomAccessStream stream)
+        {
+            await _drawingSurfaceRenderer.ExportToImage(stream);
         }
 
         /// <summary>
