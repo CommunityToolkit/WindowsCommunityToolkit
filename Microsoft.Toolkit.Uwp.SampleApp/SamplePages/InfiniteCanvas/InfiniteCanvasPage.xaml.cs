@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
                     };
                     savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
-                    savePicker.SuggestedFileName = "Infinite Canvas Export";
+                    savePicker.SuggestedFileName = "Infinite Canvas Max View";
 
                     var file = await savePicker.PickSaveFileAsync();
 
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
                     };
                     savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
-                    savePicker.SuggestedFileName = "Infinite Canvas Export";
+                    savePicker.SuggestedFileName = "Infinite Canvas Current View";
 
                     var file = await savePicker.PickSaveFileAsync();
 
