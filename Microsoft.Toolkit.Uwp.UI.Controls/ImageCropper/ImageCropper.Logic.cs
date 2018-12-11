@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var maxSelectedRect = _restrictedCropRect;
             _currentCroppedRect = KeepAspectRatio ? GetUniformRect(maxSelectedRect, UsedAspectRatio) : maxSelectedRect;
             UpdateImageLayout();
-            UpdateControlButtonVisibility();
+            UpdateThumbsVisibility();
         }
 
         /// <summary>
@@ -59,9 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update cropped area.
         /// </summary>
-        /// <param name="dragPosition">The control point</param>
+        /// <param name="positionTag">The control point</param>
         /// <param name="diffPos">Position offset</param>
-        private void UpdateCroppedRectWithAspectRatio(DragPosition dragPosition, Point diffPos)
+        private void UpdateCroppedRectWithAspectRatio(PositionTag positionTag, Point diffPos)
         {
             double radian = 0d, diffPointRadian = 0d, effectiveLength = 0d;
             if (KeepAspectRatio)
@@ -72,9 +72,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var startPoint = new Point(_startX, _startY);
             var endPoint = new Point(_endX, _endY);
-            switch (dragPosition)
+            switch (positionTag)
             {
-                case DragPosition.Top:
+                case PositionTag.Top:
                     startPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.Bottom:
+                case PositionTag.Bottom:
                     endPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.Left:
+                case PositionTag.Left:
                     startPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.Right:
+                case PositionTag.Right:
                     endPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.UpperLeft:
+                case PositionTag.UpperLeft:
                     if (KeepAspectRatio)
                     {
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     startPoint.X += diffPos.X;
                     startPoint.Y += diffPos.Y;
                     break;
-                case DragPosition.UpperRight:
+                case PositionTag.UpperRight:
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     endPoint.X += diffPos.X;
                     startPoint.Y += diffPos.Y;
                     break;
-                case DragPosition.LowerLeft:
+                case PositionTag.LowerLeft:
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     startPoint.X += diffPos.X;
                     endPoint.Y += diffPos.Y;
                     break;
-                case DragPosition.LowerRight:
+                case PositionTag.LowerRight:
                     if (KeepAspectRatio)
                     {
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var safeRect = GetSafeRect(startPoint, endPoint, MinSelectSize, dragPosition);
+                    var safeRect = GetSafeRect(startPoint, endPoint, MinSelectSize, positionTag);
                     safeRect.Intersect(_restrictedSelectRect);
                     startPoint = new Point(safeRect.X, safeRect.Y);
                     endPoint = new Point(safeRect.X + safeRect.Width, safeRect.Y + safeRect.Height);
@@ -225,52 +225,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _endY = endPoint.Y;
             var centerX = ((_endX - _startX) / 2) + _startX;
             var centerY = ((_endY - _startY) / 2) + _startY;
-            if (_topButton != null)
+            if (_topThumb != null)
             {
-                Canvas.SetLeft(_topButton, centerX);
-                Canvas.SetTop(_topButton, _startY);
+                _topThumb.X = centerX;
+                _topThumb.Y = _startY;
             }
 
-            if (_bottomButton != null)
+            if (_bottomThumb != null)
             {
-                Canvas.SetLeft(_bottomButton, centerX);
-                Canvas.SetTop(_bottomButton, _endY);
+                _bottomThumb.X = centerX;
+                _bottomThumb.Y = _endY;
             }
 
-            if (_leftButton != null)
+            if (_leftThumb != null)
             {
-                Canvas.SetLeft(_leftButton, _startX);
-                Canvas.SetTop(_leftButton, centerY);
+                _leftThumb.X = _startX;
+                _leftThumb.Y = centerY;
             }
 
-            if (_rightButton != null)
+            if (_rightThumb != null)
             {
-                Canvas.SetLeft(_rightButton, _endX);
-                Canvas.SetTop(_rightButton, centerY);
+                _rightThumb.X = _endX;
+                _rightThumb.Y = centerY;
             }
 
-            if (_upperLeftButton != null)
+            if (_upperLeftThumb != null)
             {
-                Canvas.SetLeft(_upperLeftButton, _startX);
-                Canvas.SetTop(_upperLeftButton, _startY);
+                _upperLeftThumb.X = _startX;
+                _upperLeftThumb.Y = _startY;
             }
 
-            if (_upperRightButton != null)
+            if (_upperRightThumb != null)
             {
-                Canvas.SetLeft(_upperRightButton, _endX);
-                Canvas.SetTop(_upperRightButton, _startY);
+                _upperRightThumb.X = _endX;
+                _upperRightThumb.Y = _startY;
             }
 
-            if (_lowerLeftButton != null)
+            if (_lowerLeftThumb != null)
             {
-                Canvas.SetLeft(_lowerLeftButton, _startX);
-                Canvas.SetTop(_lowerLeftButton, _endY);
+                _lowerLeftThumb.X = _startX;
+                _lowerLeftThumb.Y = _endY;
             }
 
-            if (_lowerRigthButton != null)
+            if (_lowerRigthThumb != null)
             {
-                Canvas.SetLeft(_lowerRigthButton, _endX);
-                Canvas.SetTop(_lowerRigthButton, _endY);
+                _lowerRigthThumb.X = _endX;
+                _lowerRigthThumb.Y = _endY;
             }
 
             UpdateMaskArea();
@@ -378,12 +378,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Update the visibility of the control button.
+        /// Update the visibility of the thumbs.
         /// </summary>
-        private void UpdateControlButtonVisibility()
+        private void UpdateThumbsVisibility()
         {
             var cornerBtnVisibility = CircularCrop ? Visibility.Collapsed : Visibility.Visible;
-            var otherBtnVisibility = (CircularCrop || IsSecondaryControlButtonVisible)
+            var otherBtnVisibility = (CircularCrop || IsSecondaryThumbVisible)
                 ? Visibility.Visible
                 : Visibility.Collapsed;
             if (Source == null)
@@ -391,44 +391,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 cornerBtnVisibility = otherBtnVisibility = Visibility.Collapsed;
             }
 
-            if (_topButton != null)
+            if (_topThumb != null)
             {
-                _topButton.Visibility = otherBtnVisibility;
+                _topThumb.Visibility = otherBtnVisibility;
             }
 
-            if (_bottomButton != null)
+            if (_bottomThumb != null)
             {
-                _bottomButton.Visibility = otherBtnVisibility;
+                _bottomThumb.Visibility = otherBtnVisibility;
             }
 
-            if (_leftButton != null)
+            if (_leftThumb != null)
             {
-                _leftButton.Visibility = otherBtnVisibility;
+                _leftThumb.Visibility = otherBtnVisibility;
             }
 
-            if (_rightButton != null)
+            if (_rightThumb != null)
             {
-                _rightButton.Visibility = otherBtnVisibility;
+                _rightThumb.Visibility = otherBtnVisibility;
             }
 
-            if (_upperLeftButton != null)
+            if (_upperLeftThumb != null)
             {
-                _upperLeftButton.Visibility = cornerBtnVisibility;
+                _upperLeftThumb.Visibility = cornerBtnVisibility;
             }
 
-            if (_upperRightButton != null)
+            if (_upperRightThumb != null)
             {
-                _upperRightButton.Visibility = cornerBtnVisibility;
+                _upperRightThumb.Visibility = cornerBtnVisibility;
             }
 
-            if (_lowerLeftButton != null)
+            if (_lowerLeftThumb != null)
             {
-                _lowerLeftButton.Visibility = cornerBtnVisibility;
+                _lowerLeftThumb.Visibility = cornerBtnVisibility;
             }
 
-            if (_lowerRigthButton != null)
+            if (_lowerRigthThumb != null)
             {
-                _lowerRigthButton.Visibility = cornerBtnVisibility;
+                _lowerRigthThumb.Visibility = cornerBtnVisibility;
             }
         }
     }

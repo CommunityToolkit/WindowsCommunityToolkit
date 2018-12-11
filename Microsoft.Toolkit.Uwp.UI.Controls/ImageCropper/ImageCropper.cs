@@ -22,14 +22,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = ImageCanvasPartName, Type = typeof(Canvas))]
     [TemplatePart(Name = SourceImagePartName, Type = typeof(Image))]
     [TemplatePart(Name = MaskAreaPathPartName, Type = typeof(Path))]
-    [TemplatePart(Name = TopButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = BottomButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = LeftButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = RightButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = UpperLeftButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = UpperRightButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = LowerLeftButtonPartName, Type = typeof(Button))]
-    [TemplatePart(Name = LowerRightButtonPartName, Type = typeof(Button))]
+    [TemplatePart(Name = TopThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = BottomThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = LeftThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = RightThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = UpperLeftThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = UpperRightThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = LowerLeftThumbPartName, Type = typeof(ImageCropperThumb))]
+    [TemplatePart(Name = LowerRightThumbPartName, Type = typeof(ImageCropperThumb))]
     public partial class ImageCropper : Control
     {
         private readonly CompositeTransform _imageTransform = new CompositeTransform();
@@ -39,14 +39,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Canvas _imageCanvas;
         private Image _sourceImage;
         private Path _maskAreaPath;
-        private Button _topButton;
-        private Button _bottomButton;
-        private Button _leftButton;
-        private Button _rightButton;
-        private Button _upperLeftButton;
-        private Button _upperRightButton;
-        private Button _lowerLeftButton;
-        private Button _lowerRigthButton;
+        private ImageCropperThumb _topThumb;
+        private ImageCropperThumb _bottomThumb;
+        private ImageCropperThumb _leftThumb;
+        private ImageCropperThumb _rightThumb;
+        private ImageCropperThumb _upperLeftThumb;
+        private ImageCropperThumb _upperRightThumb;
+        private ImageCropperThumb _lowerLeftThumb;
+        private ImageCropperThumb _lowerRigthThumb;
         private double _startX;
         private double _startY;
         private double _endX;
@@ -128,16 +128,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _imageCanvas = GetTemplateChild(ImageCanvasPartName) as Canvas;
             _sourceImage = GetTemplateChild(SourceImagePartName) as Image;
             _maskAreaPath = GetTemplateChild(MaskAreaPathPartName) as Path;
-            _topButton = GetTemplateChild(TopButtonPartName) as Button;
-            _bottomButton = GetTemplateChild(BottomButtonPartName) as Button;
-            _leftButton = GetTemplateChild(LeftButtonPartName) as Button;
-            _rightButton = GetTemplateChild(RightButtonPartName) as Button;
-            _upperLeftButton = GetTemplateChild(UpperLeftButtonPartName) as Button;
-            _upperRightButton = GetTemplateChild(UpperRightButtonPartName) as Button;
-            _lowerLeftButton = GetTemplateChild(LowerLeftButtonPartName) as Button;
-            _lowerRigthButton = GetTemplateChild(LowerRightButtonPartName) as Button;
+            _topThumb = GetTemplateChild(TopThumbPartName) as ImageCropperThumb;
+            _bottomThumb = GetTemplateChild(BottomThumbPartName) as ImageCropperThumb;
+            _leftThumb = GetTemplateChild(LeftThumbPartName) as ImageCropperThumb;
+            _rightThumb = GetTemplateChild(RightThumbPartName) as ImageCropperThumb;
+            _upperLeftThumb = GetTemplateChild(UpperLeftThumbPartName) as ImageCropperThumb;
+            _upperRightThumb = GetTemplateChild(UpperRightThumbPartName) as ImageCropperThumb;
+            _lowerLeftThumb = GetTemplateChild(LowerLeftThumbPartName) as ImageCropperThumb;
+            _lowerRigthThumb = GetTemplateChild(LowerRightThumbPartName) as ImageCropperThumb;
             HookUpEvents();
-            UpdateControlButtonVisibility();
+            UpdateThumbsVisibility();
         }
 
         private void HookUpEvents()
@@ -159,84 +159,76 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maskAreaPath.Data = _maskAreaGeometryGroup;
             }
 
-            if (_topButton != null)
+            if (_topThumb != null)
             {
-                _topButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _topButton.Tag = DragPosition.Top;
-                _topButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _topButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _topButton.KeyDown += ControlButton_KeyDown;
-                _topButton.KeyUp += ControlButton_KeyUp;
+                _topThumb.PositionTag = PositionTag.Top;
+                _topThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _topThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _topThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _topThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_bottomButton != null)
+            if (_bottomThumb != null)
             {
-                _bottomButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _bottomButton.Tag = DragPosition.Bottom;
-                _bottomButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _bottomButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _bottomButton.KeyDown += ControlButton_KeyDown;
-                _bottomButton.KeyUp += ControlButton_KeyUp;
+                _bottomThumb.PositionTag = PositionTag.Bottom;
+                _bottomThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _bottomThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _bottomThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _bottomThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_leftButton != null)
+            if (_leftThumb != null)
             {
-                _leftButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _leftButton.Tag = DragPosition.Left;
-                _leftButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _leftButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _leftButton.KeyDown += ControlButton_KeyDown;
-                _leftButton.KeyUp += ControlButton_KeyUp;
+                _leftThumb.PositionTag = PositionTag.Left;
+                _leftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _leftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _leftThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _leftThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_rightButton != null)
+            if (_rightThumb != null)
             {
-                _rightButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _rightButton.Tag = DragPosition.Right;
-                _rightButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _rightButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _rightButton.KeyDown += ControlButton_KeyDown;
-                _rightButton.KeyUp += ControlButton_KeyUp;
+                _rightThumb.PositionTag = PositionTag.Right;
+                _rightThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _rightThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _rightThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _rightThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_upperLeftButton != null)
+            if (_upperLeftThumb != null)
             {
-                _upperLeftButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _upperLeftButton.Tag = DragPosition.UpperLeft;
-                _upperLeftButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _upperLeftButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _upperLeftButton.KeyDown += ControlButton_KeyDown;
-                _upperLeftButton.KeyUp += ControlButton_KeyUp;
+                _upperLeftThumb.PositionTag = PositionTag.UpperLeft;
+                _upperLeftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _upperLeftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _upperLeftThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _upperLeftThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_upperRightButton != null)
+            if (_upperRightThumb != null)
             {
-                _upperRightButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _upperRightButton.Tag = DragPosition.UpperRight;
-                _upperRightButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _upperRightButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _upperRightButton.KeyDown += ControlButton_KeyDown;
-                _upperRightButton.KeyUp += ControlButton_KeyUp;
+                _upperRightThumb.PositionTag = PositionTag.UpperRight;
+                _upperRightThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _upperRightThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _upperRightThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _upperRightThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_lowerLeftButton != null)
+            if (_lowerLeftThumb != null)
             {
-                _lowerLeftButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _lowerLeftButton.Tag = DragPosition.LowerLeft;
-                _lowerLeftButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _lowerLeftButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _lowerLeftButton.KeyDown += ControlButton_KeyDown;
-                _lowerLeftButton.KeyUp += ControlButton_KeyUp;
+                _lowerLeftThumb.PositionTag = PositionTag.LowerLeft;
+                _lowerLeftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _lowerLeftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _lowerLeftThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _lowerLeftThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
 
-            if (_lowerRigthButton != null)
+            if (_lowerRigthThumb != null)
             {
-                _lowerRigthButton.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                _lowerRigthButton.Tag = DragPosition.LowerRight;
-                _lowerRigthButton.ManipulationDelta += ControlButton_ManipulationDelta;
-                _lowerRigthButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _lowerRigthButton.KeyDown += ControlButton_KeyDown;
-                _lowerRigthButton.KeyUp += ControlButton_KeyUp;
+                _lowerRigthThumb.PositionTag = PositionTag.LowerRight;
+                _lowerRigthThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
+                _lowerRigthThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _lowerRigthThumb.KeyDown += ImageCropperThumb_KeyDown;
+                _lowerRigthThumb.KeyUp += ImageCropperThumb_KeyUp;
             }
         }
 
@@ -258,68 +250,68 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maskAreaPath.Data = null;
             }
 
-            if (_topButton != null)
+            if (_topThumb != null)
             {
-                _topButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _topButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _topButton.KeyDown -= ControlButton_KeyDown;
-                _topButton.KeyUp -= ControlButton_KeyUp;
+                _topThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _topThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _topThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _topThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_bottomButton != null)
+            if (_bottomThumb != null)
             {
-                _bottomButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _bottomButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _bottomButton.KeyDown -= ControlButton_KeyDown;
-                _bottomButton.KeyUp -= ControlButton_KeyUp;
+                _bottomThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _bottomThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _bottomThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _bottomThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_leftButton != null)
+            if (_leftThumb != null)
             {
-                _leftButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _leftButton.ManipulationCompleted += ControlButton_ManipulationCompleted;
-                _leftButton.KeyDown -= ControlButton_KeyDown;
-                _leftButton.KeyUp -= ControlButton_KeyUp;
+                _leftThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _leftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
+                _leftThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _leftThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_rightButton != null)
+            if (_rightThumb != null)
             {
-                _rightButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _rightButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _rightButton.KeyDown -= ControlButton_KeyDown;
-                _rightButton.KeyUp -= ControlButton_KeyUp;
+                _rightThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _rightThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _rightThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _rightThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_upperLeftButton != null)
+            if (_upperLeftThumb != null)
             {
-                _upperLeftButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _upperLeftButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _upperLeftButton.KeyDown -= ControlButton_KeyDown;
-                _upperLeftButton.KeyUp -= ControlButton_KeyUp;
+                _upperLeftThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _upperLeftThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _upperLeftThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _upperLeftThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_upperRightButton != null)
+            if (_upperRightThumb != null)
             {
-                _upperRightButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _upperRightButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _upperRightButton.KeyDown -= ControlButton_KeyDown;
-                _upperRightButton.KeyUp -= ControlButton_KeyUp;
+                _upperRightThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _upperRightThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _upperRightThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _upperRightThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_lowerLeftButton != null)
+            if (_lowerLeftThumb != null)
             {
-                _lowerLeftButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _lowerLeftButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _lowerLeftButton.KeyDown -= ControlButton_KeyDown;
-                _lowerLeftButton.KeyUp -= ControlButton_KeyUp;
+                _lowerLeftThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _lowerLeftThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _lowerLeftThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _lowerLeftThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
 
-            if (_lowerRigthButton != null)
+            if (_lowerRigthThumb != null)
             {
-                _lowerRigthButton.ManipulationDelta -= ControlButton_ManipulationDelta;
-                _lowerRigthButton.ManipulationCompleted -= ControlButton_ManipulationCompleted;
-                _lowerRigthButton.KeyDown -= ControlButton_KeyDown;
-                _lowerRigthButton.KeyUp -= ControlButton_KeyUp;
+                _lowerRigthThumb.ManipulationDelta -= ImageCropperThumb_ManipulationDelta;
+                _lowerRigthThumb.ManipulationCompleted -= ImageCropperThumb_ManipulationCompleted;
+                _lowerRigthThumb.KeyDown -= ImageCropperThumb_KeyDown;
+                _lowerRigthThumb.KeyUp -= ImageCropperThumb_KeyUp;
             }
         }
 

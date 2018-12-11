@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ImageCropper
     {
-        private void ControlButton_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void ImageCropperThumb_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             var changed = false;
             var diffPos = default(Point);
@@ -92,16 +92,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (changed)
             {
-                var controlButton = (FrameworkElement)sender;
-                var tag = controlButton.Tag;
-                if (tag != null && Enum.TryParse(tag.ToString(), false, out DragPosition dragPosition))
-                {
-                    UpdateCroppedRectWithAspectRatio(dragPosition, diffPos);
-                }
+                var imageCropperThumb = (ImageCropperThumb)sender;
+                UpdateCroppedRectWithAspectRatio(imageCropperThumb.PositionTag, diffPos);
             }
         }
 
-        private void ControlButton_KeyUp(object sender, KeyRoutedEventArgs e)
+        private void ImageCropperThumb_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             var inverseImageTransform = _imageTransform.Inverse;
             if (inverseImageTransform != null)
@@ -118,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ControlButton_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        private void ImageCropperThumb_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             var inverseImageTransform = _imageTransform.Inverse;
             if (inverseImageTransform != null)
@@ -135,20 +131,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void ControlButton_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void ImageCropperThumb_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var controlButton = (FrameworkElement)sender;
-            var dragButtomPosition = new Point(Canvas.GetLeft(controlButton), Canvas.GetTop(controlButton));
+            var imageCropperThumb = (ImageCropperThumb)sender;
             var currentPointerPosition = new Point(
-                dragButtomPosition.X + e.Position.X + e.Delta.Translation.X - (controlButton.ActualWidth / 2),
-                dragButtomPosition.Y + e.Position.Y + e.Delta.Translation.Y - (controlButton.ActualHeight / 2));
+                imageCropperThumb.X + e.Position.X + e.Delta.Translation.X - (imageCropperThumb.ActualWidth / 2),
+                imageCropperThumb.Y + e.Position.Y + e.Delta.Translation.Y - (imageCropperThumb.ActualHeight / 2));
             var safePosition = GetSafePoint(_restrictedSelectRect, currentPointerPosition);
-            var safeDiffPoint = new Point(safePosition.X - dragButtomPosition.X, safePosition.Y - dragButtomPosition.Y);
-            var tag = controlButton.Tag;
-            if (tag != null && Enum.TryParse(tag.ToString(), false, out DragPosition dragPosition))
-            {
-                UpdateCroppedRectWithAspectRatio(dragPosition, safeDiffPoint);
-            }
+            var safeDiffPoint = new Point(safePosition.X - imageCropperThumb.X, safePosition.Y - imageCropperThumb.Y);
+            UpdateCroppedRectWithAspectRatio(imageCropperThumb.PositionTag, safeDiffPoint);
         }
 
         private void SourceImage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)

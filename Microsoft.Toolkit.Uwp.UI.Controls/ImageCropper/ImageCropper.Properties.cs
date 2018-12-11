@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var target = (ImageCropper)d;
             target.UpdateAspectRatio();
-            target.UpdateControlButtonVisibility();
+            target.UpdateThumbsVisibility();
             target.UpdateMaskArea();
         }
 
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
-            target.UpdateControlButtonVisibility();
+            target.UpdateThumbsVisibility();
         }
 
         /// <summary>
@@ -100,30 +100,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value for the style to use for the primary control buttons of the ImageCropper.
+        /// Gets or sets a value for the style to use for the primary thumbs of the ImageCropper.
         /// </summary>
-        public Style PrimaryControlButtonStyle
+        public Style PrimaryThumbStyle
         {
-            get { return (Style)GetValue(PrimaryControlButtonStyleProperty); }
-            set { SetValue(PrimaryControlButtonStyleProperty, value); }
+            get { return (Style)GetValue(PrimaryThumbStyleProperty); }
+            set { SetValue(PrimaryThumbStyleProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value for the style to use for the secondary control buttons of the ImageCropper.
+        /// Gets or sets a value for the style to use for the secondary thumbs of the ImageCropper.
         /// </summary>
-        public Style SecondaryControlButtonStyle
+        public Style SecondaryThumbStyle
         {
-            get { return (Style)GetValue(SecondaryControlButtonStyleProperty); }
-            set { SetValue(SecondaryControlButtonStyleProperty, value); }
+            get { return (Style)GetValue(SecondaryThumbStyleProperty); }
+            set { SetValue(SecondaryThumbStyleProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether secondary control buttons is displayed.
+        /// Gets or sets a value indicating whether secondary thumbs is displayed.
         /// </summary>
-        public bool IsSecondaryControlButtonVisible
+        public bool IsSecondaryThumbVisible
         {
-            get { return (bool)GetValue(IsSecondaryControlButtonVisibleProperty); }
-            set { SetValue(IsSecondaryControlButtonVisibleProperty, value); }
+            get { return (bool)GetValue(IsSecondaryThumbVisibleProperty); }
+            set { SetValue(IsSecondaryThumbVisibleProperty, value); }
         }
 
         /// <summary>
@@ -151,21 +151,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Mask), typeof(Brush), typeof(ImageCropper), new PropertyMetadata(default(Brush)));
 
         /// <summary>
-        /// Identifies the <see cref="PrimaryControlButtonStyle"/> dependency property.
+        /// Identifies the <see cref="PrimaryThumbStyle"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty PrimaryControlButtonStyleProperty =
-            DependencyProperty.Register(nameof(PrimaryControlButtonStyle), typeof(Style), typeof(ImageCropper), new PropertyMetadata(default(Style)));
+        public static readonly DependencyProperty PrimaryThumbStyleProperty =
+            DependencyProperty.Register(nameof(PrimaryThumbStyle), typeof(Style), typeof(ImageCropper), new PropertyMetadata(default(Style)));
 
         /// <summary>
-        /// Identifies the <see cref="SecondaryControlButtonStyle"/> dependency property.
+        /// Identifies the <see cref="SecondaryThumbStyle"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty SecondaryControlButtonStyleProperty =
-            DependencyProperty.Register(nameof(SecondaryControlButtonStyle), typeof(Style), typeof(ImageCropper), new PropertyMetadata(default(Style)));
+        public static readonly DependencyProperty SecondaryThumbStyleProperty =
+            DependencyProperty.Register(nameof(SecondaryThumbStyle), typeof(Style), typeof(ImageCropper), new PropertyMetadata(default(Style)));
 
         /// <summary>
-        /// Identifies the <see cref="IsSecondaryControlButtonVisible"/> dependency property.
+        /// Identifies the <see cref="IsSecondaryThumbVisible"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsSecondaryControlButtonVisibleProperty =
-            DependencyProperty.Register(nameof(IsSecondaryControlButtonVisible), typeof(bool), typeof(ImageCropper), new PropertyMetadata(true, OnIsSecondaryControlButtonVisibleChanged));
+        public static readonly DependencyProperty IsSecondaryThumbVisibleProperty =
+            DependencyProperty.Register(nameof(IsSecondaryThumbVisible), typeof(bool), typeof(ImageCropper), new PropertyMetadata(true, OnIsSecondaryControlButtonVisibleChanged));
     }
 }

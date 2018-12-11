@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string LayoutGridName = "PART_LayoutGrid";
 
         /// <summary>
-        /// Key of the Canvas that contains the image and control buttons.
+        /// Key of the Canvas that contains the image and ImageCropperThumbs.
         /// </summary>
         private const string ImageCanvasPartName = "PART_ImageCanvas";
 
@@ -30,43 +30,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string MaskAreaPathPartName = "PART_MaskAreaPath";
 
         /// <summary>
-        /// Key of the button that on the top.
+        /// Key of the ImageCropperThumb that on the top.
         /// </summary>
-        private const string TopButtonPartName = "PART_TopButton";
+        private const string TopThumbPartName = "PART_TopThumb";
 
         /// <summary>
-        /// Key of the button on the bottom.
+        /// Key of the ImageCropperThumb on the bottom.
         /// </summary>
-        private const string BottomButtonPartName = "PART_BottomButton";
+        private const string BottomThumbPartName = "PART_BottomThumb";
 
         /// <summary>
-        /// Key of the button on the left.
+        /// Key of the ImageCropperThumb on the left.
         /// </summary>
-        private const string LeftButtonPartName = "PART_LeftButton";
+        private const string LeftThumbPartName = "PART_LeftThumb";
 
         /// <summary>
-        /// Key of the button on the right.
+        /// Key of the ImageCropperThumb on the right.
         /// </summary>
-        private const string RightButtonPartName = "PART_RightButton";
+        private const string RightThumbPartName = "PART_RightThumb";
 
         /// <summary>
-        /// Key of the button that on the upper left.
+        /// Key of the ImageCropperThumb that on the upper left.
         /// </summary>
-        private const string UpperLeftButtonPartName = "PART_UpperLeftButton";
+        private const string UpperLeftThumbPartName = "PART_UpperLeftThumb";
 
         /// <summary>
-        /// Key of the button that on the upper right.
+        /// Key of the ImageCropperThumb that on the upper right.
         /// </summary>
-        private const string UpperRightButtonPartName = "PART_UpperRightButton";
+        private const string UpperRightThumbPartName = "PART_UpperRightThumb";
 
         /// <summary>
-        /// Key of the button that on the lower left.
+        /// Key of the ImageCropperThumb that on the lower left.
         /// </summary>
-        private const string LowerLeftButtonPartName = "PART_LowerLeftButton";
+        private const string LowerLeftThumbPartName = "PART_LowerLeftThumb";
 
         /// <summary>
-        /// Key of the button that on the lower right.
+        /// Key of the ImageCropperThumb that on the lower right.
         /// </summary>
-        private const string LowerRightButtonPartName = "PART_LowerRightButton";
+        private const string LowerRightThumbPartName = "PART_LowerRightThumb";
     }
 }

@@ -171,42 +171,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="startPoint">The point on the upper left corner.</param>
         /// <param name="endPoint">The point on the lower right corner.</param>
         /// <param name="minSize">The minimum size.</param>
-        /// <param name="dragPosition">The control point.</param>
+        /// <param name="positionTag">The control point.</param>
         /// <returns>The right rectangle.</returns>
-        internal static Rect GetSafeRect(Point startPoint, Point endPoint, Size minSize, DragPosition dragPosition)
+        internal static Rect GetSafeRect(Point startPoint, Point endPoint, Size minSize, PositionTag positionTag)
         {
             var checkPoint = new Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
-            switch (dragPosition)
+            switch (positionTag)
             {
-                case DragPosition.Top:
+                case PositionTag.Top:
                     if (checkPoint.Y > endPoint.Y)
                     {
                         startPoint.Y = endPoint.Y - minSize.Height;
                     }
 
                     break;
-                case DragPosition.Bottom:
+                case PositionTag.Bottom:
                     if (checkPoint.Y > endPoint.Y)
                     {
                         endPoint.Y = startPoint.Y + minSize.Height;
                     }
 
                     break;
-                case DragPosition.Left:
+                case PositionTag.Left:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
                     }
 
                     break;
-                case DragPosition.Right:
+                case PositionTag.Right:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;
                     }
 
                     break;
-                case DragPosition.UpperLeft:
+                case PositionTag.UpperLeft:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.UpperRight:
+                case PositionTag.UpperRight:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;
@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.LowerLeft:
+                case PositionTag.LowerLeft:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
@@ -242,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case DragPosition.LowerRight:
+                case PositionTag.LowerRight:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;

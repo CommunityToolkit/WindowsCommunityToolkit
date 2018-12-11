@@ -10,7 +10,7 @@
   <Grid>
     <controls:ImageCropper x:Name="ImageCropper" 
                            CircularCrop="@[CircularCrop:Bool:False]" 
-                           IsSecondaryControlButtonVisible="@[IsSecondaryControlButtonVisible:Bool:True]"
+                           IsSecondaryThumbVisible="@[IsSecondaryThumbVisible:Bool:True]"
                            Padding="@[Padding:Thickness:80]"/>
   </Grid>
 </Page>
