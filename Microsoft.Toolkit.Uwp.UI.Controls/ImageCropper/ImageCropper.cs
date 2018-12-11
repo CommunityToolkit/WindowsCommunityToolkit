@@ -344,22 +344,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return await GetCroppedBitmapAsync(Source, _currentCroppedRect);
         }
-
-        /// <summary>
-        /// Save the cropped image to a file.
-        /// </summary>
-        /// <param name="imageFile">The target file.</param>
-        /// <param name="encoderId">The encoderId of BitmapEncoder.</param>
-        /// <returns>Task</returns>
-        public async Task SaveCroppedBitmapAsync(StorageFile imageFile, Guid encoderId)
-        {
-            if (Source == null)
-            {
-                return;
-            }
-
-            var croppedBitmap = await GetCroppedBitmapAsync(Source, _currentCroppedRect);
-            await RenderToFile(croppedBitmap, imageFile, encoderId);
-        }
     }
 }

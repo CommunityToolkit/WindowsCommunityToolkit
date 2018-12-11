@@ -61,33 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Save the cropped image to a file.
-        /// </summary>
-        /// <param name="writeableBitmap">The source image.</param>
-        /// <param name="imageFile">The target file.</param>
-        /// <param name="encoderId">The encoderId of BitmapEncoder</param>
-        /// <returns>Task</returns>
-        internal static async Task RenderToFile(WriteableBitmap writeableBitmap, StorageFile imageFile, Guid encoderId)
-        {
-            using (var stream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
-            {
-                var encoder = await BitmapEncoder.CreateAsync(encoderId, stream);
-                var pixelStream = writeableBitmap.PixelBuffer.AsStream();
-                var pixels = new byte[pixelStream.Length];
-                await pixelStream.ReadAsync(pixels, 0, pixels.Length);
-                encoder.SetPixelData(
-                    BitmapPixelFormat.Bgra8,
-                    BitmapAlphaMode.Premultiplied,
-                    (uint)writeableBitmap.PixelWidth,
-                    (uint)writeableBitmap.PixelHeight,
-                    96.0,
-                    96.0,
-                    pixels);
-                await encoder.FlushAsync();
-            }
-        }
-
-        /// <summary>
         /// Gets the closest point in the rectangle to a given point.
         /// </summary>
         /// <param name="targetRect">The rectangle.</param>

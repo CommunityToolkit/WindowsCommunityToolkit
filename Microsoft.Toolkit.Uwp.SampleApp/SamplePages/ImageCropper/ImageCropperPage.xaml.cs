@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -126,20 +127,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 SuggestedFileName = "Cropped_Image",
                 FileTypeChoices =
                 {
-                    { "PNG Picture", new List<string> { ".png" } },
-                    { "JPG Picture", new List<string> { ".jpg" } }
+                    { "PNG Picture", new List<string> { ".png" } }
                 }
             };
-            var file = await savePicker.PickSaveFileAsync();
-            if (file != null && _imageCropper != null)
+            var imageFile = await savePicker.PickSaveFileAsync();
+            var writeableBitmap = await _imageCropper?.GetCroppedBitmapAsync();
+            if (imageFile != null && writeableBitmap != null)
             {
-                if (file.Name.ToLower().Contains(".png"))
+                using (var stream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
                 {
-                    await _imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.PngEncoderId);
-                }
-                else
-                {
-                    await _imageCropper.SaveCroppedBitmapAsync(file, BitmapEncoder.JpegEncoderId);
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                    var pixelStream = writeableBitmap.PixelBuffer.AsStream();
+                    var pixels = new byte[pixelStream.Length];
+                    await pixelStream.ReadAsync(pixels, 0, pixels.Length);
+                    encoder.SetPixelData(
+                        BitmapPixelFormat.Bgra8,
+                        BitmapAlphaMode.Premultiplied,
+                        (uint)writeableBitmap.PixelWidth,
+                        (uint)writeableBitmap.PixelHeight,
+                        96.0,
+                        96.0,
+                        pixels);
+                    await encoder.FlushAsync();
                 }
             }
         }
