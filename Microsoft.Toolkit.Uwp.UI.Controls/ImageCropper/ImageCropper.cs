@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_topThumb != null)
             {
-                _topThumb.PositionTag = PositionTag.Top;
+                _topThumb.Position = ThumbPosition.Top;
                 _topThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _topThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _topThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_bottomThumb != null)
             {
-                _bottomThumb.PositionTag = PositionTag.Bottom;
+                _bottomThumb.Position = ThumbPosition.Bottom;
                 _bottomThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _bottomThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _bottomThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_leftThumb != null)
             {
-                _leftThumb.PositionTag = PositionTag.Left;
+                _leftThumb.Position = ThumbPosition.Left;
                 _leftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _leftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _leftThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_rightThumb != null)
             {
-                _rightThumb.PositionTag = PositionTag.Right;
+                _rightThumb.Position = ThumbPosition.Right;
                 _rightThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _rightThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _rightThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -197,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_upperLeftThumb != null)
             {
-                _upperLeftThumb.PositionTag = PositionTag.UpperLeft;
+                _upperLeftThumb.Position = ThumbPosition.UpperLeft;
                 _upperLeftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _upperLeftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _upperLeftThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_upperRightThumb != null)
             {
-                _upperRightThumb.PositionTag = PositionTag.UpperRight;
+                _upperRightThumb.Position = ThumbPosition.UpperRight;
                 _upperRightThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _upperRightThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _upperRightThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -215,7 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_lowerLeftThumb != null)
             {
-                _lowerLeftThumb.PositionTag = PositionTag.LowerLeft;
+                _lowerLeftThumb.Position = ThumbPosition.LowerLeft;
                 _lowerLeftThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _lowerLeftThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _lowerLeftThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -224,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_lowerRigthThumb != null)
             {
-                _lowerRigthThumb.PositionTag = PositionTag.LowerRight;
+                _lowerRigthThumb.Position = ThumbPosition.LowerRight;
                 _lowerRigthThumb.ManipulationDelta += ImageCropperThumb_ManipulationDelta;
                 _lowerRigthThumb.ManipulationCompleted += ImageCropperThumb_ManipulationCompleted;
                 _lowerRigthThumb.KeyDown += ImageCropperThumb_KeyDown;
@@ -337,11 +337,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>The cropped image.</returns>
         public async Task<WriteableBitmap> GetCroppedBitmapAsync()
         {
-            if (Source == null)
-            {
-                return null;
-            }
-
             return await GetCroppedBitmapAsync(Source, _currentCroppedRect);
         }
     }

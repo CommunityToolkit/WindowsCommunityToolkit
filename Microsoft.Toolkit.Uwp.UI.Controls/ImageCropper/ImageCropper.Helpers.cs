@@ -27,34 +27,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="writeableBitmap">The source image.</param>
         /// <param name="croppedRect">The cropped area.</param>
         /// <returns>CroppedBitmap</returns>
-        internal static async Task<WriteableBitmap> GetCroppedBitmapAsync(
+        private static async Task<WriteableBitmap> GetCroppedBitmapAsync(
             WriteableBitmap writeableBitmap,
             Rect croppedRect)
         {
+            if (writeableBitmap == null)
+            {
+                return null;
+            }
+
             var x = (uint)Math.Floor(croppedRect.X);
             var y = (uint)Math.Floor(croppedRect.Y);
             var width = (uint)Math.Floor(croppedRect.Width);
             var height = (uint)Math.Floor(croppedRect.Height);
             WriteableBitmap croppedBitmap;
-            var sourceStream = writeableBitmap.PixelBuffer.AsStream();
-            var buffer = new byte[sourceStream.Length];
-            await sourceStream.ReadAsync(buffer, 0, buffer.Length);
-            using (var memoryRandom = new InMemoryRandomAccessStream())
+            using (var sourceStream = writeableBitmap.PixelBuffer.AsStream())
             {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryRandom);
-                encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)writeableBitmap.PixelWidth, (uint)writeableBitmap.PixelHeight, 96.0, 96.0, buffer);
-                encoder.BitmapTransform.Bounds = new BitmapBounds
+                var buffer = new byte[sourceStream.Length];
+                await sourceStream.ReadAsync(buffer, 0, buffer.Length);
+                using (var memoryRandom = new InMemoryRandomAccessStream())
                 {
-                    X = x,
-                    Y = y,
-                    Height = height,
-                    Width = width
-                };
-                await encoder.FlushAsync();
-                croppedBitmap = new WriteableBitmap(
-                    (int)encoder.BitmapTransform.Bounds.Width,
-                    (int)encoder.BitmapTransform.Bounds.Height);
-                croppedBitmap.SetSource(memoryRandom);
+                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, memoryRandom);
+                    encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)writeableBitmap.PixelWidth, (uint)writeableBitmap.PixelHeight, 96.0, 96.0, buffer);
+                    encoder.BitmapTransform.Bounds = new BitmapBounds
+                    {
+                        X = x,
+                        Y = y,
+                        Height = height,
+                        Width = width
+                    };
+                    await encoder.FlushAsync();
+                    croppedBitmap = new WriteableBitmap(
+                        (int)encoder.BitmapTransform.Bounds.Width,
+                        (int)encoder.BitmapTransform.Bounds.Height);
+                    croppedBitmap.SetSource(memoryRandom);
+                }
             }
 
             return croppedBitmap;
@@ -66,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="targetRect">The rectangle.</param>
         /// <param name="point">The test point.</param>
         /// <returns>A point within a rectangle.</returns>
-        internal static Point GetSafePoint(Rect targetRect, Point point)
+        private static Point GetSafePoint(Rect targetRect, Point point)
         {
             var safePoint = new Point(point.X, point.Y);
             if (safePoint.X < targetRect.X)
@@ -99,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="targetRect">the rectangle.</param>
         /// <param name="point">The test point.</param>
         /// <returns>bool</returns>
-        internal static bool IsSafePoint(Rect targetRect, Point point)
+        private static bool IsSafePoint(Rect targetRect, Point point)
         {
             if (point.X - targetRect.X < -0.001)
             {
@@ -131,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="endPoint">The point on the lower right corner.</param>
         /// <param name="minSize">The minimum size.</param>
         /// <returns>bool</returns>
-        internal static bool IsSafeRect(Point startPoint, Point endPoint, Size minSize)
+        private static bool IsSafeRect(Point startPoint, Point endPoint, Size minSize)
         {
             var checkPoint = new Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
             return checkPoint.X - endPoint.X < 0.001
@@ -144,42 +151,42 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="startPoint">The point on the upper left corner.</param>
         /// <param name="endPoint">The point on the lower right corner.</param>
         /// <param name="minSize">The minimum size.</param>
-        /// <param name="positionTag">The control point.</param>
+        /// <param name="position">The control point.</param>
         /// <returns>The right rectangle.</returns>
-        internal static Rect GetSafeRect(Point startPoint, Point endPoint, Size minSize, PositionTag positionTag)
+        private static Rect GetSafeRect(Point startPoint, Point endPoint, Size minSize, ThumbPosition position)
         {
             var checkPoint = new Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
-            switch (positionTag)
+            switch (position)
             {
-                case PositionTag.Top:
+                case ThumbPosition.Top:
                     if (checkPoint.Y > endPoint.Y)
                     {
                         startPoint.Y = endPoint.Y - minSize.Height;
                     }
 
                     break;
-                case PositionTag.Bottom:
+                case ThumbPosition.Bottom:
                     if (checkPoint.Y > endPoint.Y)
                     {
                         endPoint.Y = startPoint.Y + minSize.Height;
                     }
 
                     break;
-                case PositionTag.Left:
+                case ThumbPosition.Left:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
                     }
 
                     break;
-                case PositionTag.Right:
+                case ThumbPosition.Right:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;
                     }
 
                     break;
-                case PositionTag.UpperLeft:
+                case ThumbPosition.UpperLeft:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
@@ -191,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.UpperRight:
+                case ThumbPosition.UpperRight:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;
@@ -203,7 +210,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.LowerLeft:
+                case ThumbPosition.LowerLeft:
                     if (checkPoint.X > endPoint.X)
                     {
                         startPoint.X = endPoint.X - minSize.Width;
@@ -215,7 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.LowerRight:
+                case ThumbPosition.LowerRight:
                     if (checkPoint.X > endPoint.X)
                     {
                         endPoint.X = startPoint.X + minSize.Width;
@@ -238,7 +245,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="targetRect">The rectangle.</param>
         /// <param name="aspectRatio">The aspect ratio.</param>
         /// <returns>The right rectangle.</returns>
-        internal static Rect GetUniformRect(Rect targetRect, double aspectRatio)
+        private static Rect GetUniformRect(Rect targetRect, double aspectRatio)
         {
             var ratio = targetRect.Width / targetRect.Height;
             var cx = targetRect.X + (targetRect.Width / 2);

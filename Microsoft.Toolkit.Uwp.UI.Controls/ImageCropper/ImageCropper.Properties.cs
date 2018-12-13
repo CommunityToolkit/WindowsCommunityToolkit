@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether secondary thumbs is displayed.
+        /// Gets or sets a value indicating whether secondary thumbs are displayed.
         /// </summary>
         public bool IsSecondaryThumbVisible
         {

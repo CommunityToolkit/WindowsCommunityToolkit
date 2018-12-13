@@ -59,9 +59,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Update cropped area.
         /// </summary>
-        /// <param name="positionTag">The control point</param>
+        /// <param name="position">The control point</param>
         /// <param name="diffPos">Position offset</param>
-        private void UpdateCroppedRectWithAspectRatio(PositionTag positionTag, Point diffPos)
+        private void UpdateCroppedRectWithAspectRatio(ThumbPosition position, Point diffPos)
         {
             double radian = 0d, diffPointRadian = 0d, effectiveLength = 0d;
             if (KeepAspectRatio)
@@ -72,9 +72,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var startPoint = new Point(_startX, _startY);
             var endPoint = new Point(_endX, _endY);
-            switch (positionTag)
+            switch (position)
             {
-                case PositionTag.Top:
+                case ThumbPosition.Top:
                     startPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.Bottom:
+                case ThumbPosition.Bottom:
                     endPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.Left:
+                case ThumbPosition.Left:
                     startPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.Right:
+                case ThumbPosition.Right:
                     endPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
 
                     break;
-                case PositionTag.UpperLeft:
+                case ThumbPosition.UpperLeft:
                     if (KeepAspectRatio)
                     {
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     startPoint.X += diffPos.X;
                     startPoint.Y += diffPos.Y;
                     break;
-                case PositionTag.UpperRight:
+                case ThumbPosition.UpperRight:
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     endPoint.X += diffPos.X;
                     startPoint.Y += diffPos.Y;
                     break;
-                case PositionTag.LowerLeft:
+                case ThumbPosition.LowerLeft:
                     if (KeepAspectRatio)
                     {
                         diffPointRadian = -diffPointRadian;
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     startPoint.X += diffPos.X;
                     endPoint.Y += diffPos.Y;
                     break;
-                case PositionTag.LowerRight:
+                case ThumbPosition.LowerRight:
                     if (KeepAspectRatio)
                     {
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var safeRect = GetSafeRect(startPoint, endPoint, MinSelectSize, positionTag);
+                    var safeRect = GetSafeRect(startPoint, endPoint, MinSelectSize, position);
                     safeRect.Intersect(_restrictedSelectRect);
                     startPoint = new Point(safeRect.X, safeRect.Y);
                     endPoint = new Point(safeRect.X + safeRect.Width, safeRect.Y + safeRect.Height);

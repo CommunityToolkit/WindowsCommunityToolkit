@@ -7,7 +7,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Control point enumeration.
     /// </summary>
-    internal enum PositionTag
+    internal enum ThumbPosition
     {
         Top,
         Bottom,

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// The <see cref="ImageCropperThumb"/> control is used for <see cref="ImageCropper"/>.
     /// </summary>
-    public sealed class ImageCropperThumb : Control
+    public class ImageCropperThumb : Control
     {
         private readonly CompositeTransform _layoutTransform = new CompositeTransform();
 
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdatePosition();
         }
 
-        internal PositionTag PositionTag { get; set; }
+        internal ThumbPosition Position { get; set; }
 
         private void UpdatePosition()
         {
