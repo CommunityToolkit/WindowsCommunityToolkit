@@ -67,7 +67,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private bool KeepAspectRatio => UsedAspectRatio > 0;
 
-        private double UsedAspectRatio => CircularCrop ? 1 : AspectRatio;
+        private double UsedAspectRatio
+        {
+            get
+            {
+                if (CircularCrop)
+                {
+                    return 1;
+                }
+                else
+                {
+                    if (AspectRatio != null && AspectRatio > 0)
+                    {
+                        return AspectRatio.Value;
+                    }
+                    else
+                    {
+                        return -1;
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the minimum cropped size.

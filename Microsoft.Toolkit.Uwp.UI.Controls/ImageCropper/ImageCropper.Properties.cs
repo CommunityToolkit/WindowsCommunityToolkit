@@ -73,16 +73,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the aspect ratio of the cropped image，the default value is -1.
+        /// Gets or sets the aspect ratio of the cropped image，the default value is null.
         /// </summary>
-        public double AspectRatio
+        public double? AspectRatio
         {
-            get { return (double)GetValue(AspectRatioProperty); }
+            get { return (double?)GetValue(AspectRatioProperty); }
             set { SetValue(AspectRatioProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether gets or sets whether to use a circular ImageCropper.
+        /// Gets or sets a value indicating whether the circular ImageCropper is used.
         /// </summary>
         public bool CircularCrop
         {
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="AspectRatio"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AspectRatioProperty =
-            DependencyProperty.Register(nameof(AspectRatio), typeof(double), typeof(ImageCropper), new PropertyMetadata(-1d, OnAspectRatioChanged));
+            DependencyProperty.Register(nameof(AspectRatio), typeof(double?), typeof(ImageCropper), new PropertyMetadata(null, OnAspectRatioChanged));
 
         /// <summary>
         /// Identifies the <see cref="Source"/> dependency property.

@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     new AspectRatioConfig
                     {
                         Name = "Custom",
-                        AspectRatio = -1
+                        AspectRatio = null
                     },
                     new AspectRatioConfig
                     {
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void AspectRatioComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var aspectRatio = (double)AspectRatioComboBox.SelectedValue;
+            var aspectRatio = AspectRatioComboBox.SelectedValue as double?;
             if (_imageCropper != null)
             {
                 _imageCropper.AspectRatio = aspectRatio;
