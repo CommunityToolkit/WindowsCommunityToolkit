@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Control point enumeration.
+    /// Thumb position enumeration.
     /// </summary>
     internal enum ThumbPosition
     {
