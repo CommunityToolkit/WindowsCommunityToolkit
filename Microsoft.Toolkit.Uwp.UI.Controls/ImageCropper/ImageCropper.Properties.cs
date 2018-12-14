@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             target.UpdateAspectRatio();
         }
 
-        private static void OnCircularCropChanged(
+        private static void OnCropShapeChanged(
             DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
@@ -74,6 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets the aspect ratio of the cropped image，the default value is null.
+        /// Only works when <see cref="CropShape"/> = <see cref="CropShape.Rectangular"/>.
         /// </summary>
         public double? AspectRatio
         {
@@ -82,12 +83,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the circular ImageCropper is used.
+        /// Gets or sets the shape to use when cropping.
         /// </summary>
-        public bool CircularCrop
+        public CropShape CropShape
         {
-            get { return (bool)GetValue(CircularCropProperty); }
-            set { SetValue(CircularCropProperty, value); }
+            get { return (CropShape)GetValue(CropShapeProperty); }
+            set { SetValue(CropShapeProperty, value); }
         }
 
         /// <summary>
@@ -139,10 +140,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(Source), typeof(WriteableBitmap), typeof(ImageCropper), new PropertyMetadata(null, OnSourceChanged));
 
         /// <summary>
-        /// Identifies the <see cref="CircularCrop"/> dependency property.
+        /// Identifies the <see cref="CropShape"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty CircularCropProperty =
-            DependencyProperty.Register(nameof(CircularCrop), typeof(bool), typeof(ImageCropper), new PropertyMetadata(false, OnCircularCropChanged));
+        public static readonly DependencyProperty CropShapeProperty =
+            DependencyProperty.Register(nameof(CropShape), typeof(CropShape), typeof(ImageCropper), new PropertyMetadata(default(CropShape), OnCropShapeChanged));
 
         /// <summary>
         /// Identifies the <see cref="Mask"/> dependency property.

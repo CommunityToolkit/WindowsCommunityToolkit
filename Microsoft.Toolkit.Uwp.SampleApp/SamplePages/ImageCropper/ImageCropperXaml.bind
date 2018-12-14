@@ -8,8 +8,8 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
   <Grid>
-    <controls:ImageCropper x:Name="ImageCropper" 
-                           CircularCrop="@[CircularCrop:Bool:False]" 
+    <controls:ImageCropper x:Name="ImageCropper"
+                           CropShape="@[Crop Shape:Enum:CropShape.Rectangular]" 
                            IsSecondaryThumbVisible="@[IsSecondaryThumbVisible:Bool:True]"
                            Padding="@[Padding:Thickness:80]"/>
   </Grid>

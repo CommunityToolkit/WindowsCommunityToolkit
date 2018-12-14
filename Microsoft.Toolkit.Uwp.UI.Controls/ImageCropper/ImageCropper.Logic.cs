@@ -291,23 +291,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Rect = new Rect(-_layoutGrid.Padding.Left, -_layoutGrid.Padding.Top, _layoutGrid.ActualWidth, _layoutGrid.ActualHeight)
             });
-            if (CircularCrop)
+
+            switch (CropShape)
             {
-                var centerX = ((_endX - _startX) / 2) + _startX;
-                var centerY = ((_endY - _startY) / 2) + _startY;
-                _maskAreaGeometryGroup.Children.Add(new EllipseGeometry
-                {
-                    Center = new Point(centerX, centerY),
-                    RadiusX = (_endX - _startX) / 2,
-                    RadiusY = (_endY - _startY) / 2
-                });
-            }
-            else
-            {
-                _maskAreaGeometryGroup.Children.Add(new RectangleGeometry
-                {
-                    Rect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY))
-                });
+                case CropShape.Rectangular:
+                    _maskAreaGeometryGroup.Children.Add(new RectangleGeometry
+                    {
+                        Rect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY))
+                    });
+                    break;
+                case CropShape.Circular:
+                    var centerX = ((_endX - _startX) / 2) + _startX;
+                    var centerY = ((_endY - _startY) / 2) + _startY;
+                    _maskAreaGeometryGroup.Children.Add(new EllipseGeometry
+                    {
+                        Center = new Point(centerX, centerY),
+                        RadiusX = (_endX - _startX) / 2,
+                        RadiusY = (_endY - _startY) / 2
+                    });
+                    break;
             }
 
             _layoutGrid.Clip = new RectangleGeometry
@@ -382,53 +384,62 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdateThumbsVisibility()
         {
-            var cornerBtnVisibility = CircularCrop ? Visibility.Collapsed : Visibility.Visible;
-            var otherBtnVisibility = (CircularCrop || IsSecondaryThumbVisible)
-                ? Visibility.Visible
-                : Visibility.Collapsed;
+            var cornerThumbsVisibility = Visibility.Visible;
+            var otherThumbsVisibility = IsSecondaryThumbVisible ? Visibility.Visible : Visibility.Collapsed;
+
+            switch (CropShape)
+            {
+                case CropShape.Rectangular:
+                    break;
+                case CropShape.Circular:
+                    cornerThumbsVisibility = Visibility.Collapsed;
+                    otherThumbsVisibility = Visibility.Visible;
+                    break;
+            }
+
             if (Source == null)
             {
-                cornerBtnVisibility = otherBtnVisibility = Visibility.Collapsed;
+                cornerThumbsVisibility = otherThumbsVisibility = Visibility.Collapsed;
             }
 
             if (_topThumb != null)
             {
-                _topThumb.Visibility = otherBtnVisibility;
+                _topThumb.Visibility = otherThumbsVisibility;
             }
 
             if (_bottomThumb != null)
             {
-                _bottomThumb.Visibility = otherBtnVisibility;
+                _bottomThumb.Visibility = otherThumbsVisibility;
             }
 
             if (_leftThumb != null)
             {
-                _leftThumb.Visibility = otherBtnVisibility;
+                _leftThumb.Visibility = otherThumbsVisibility;
             }
 
             if (_rightThumb != null)
             {
-                _rightThumb.Visibility = otherBtnVisibility;
+                _rightThumb.Visibility = otherThumbsVisibility;
             }
 
             if (_upperLeftThumb != null)
             {
-                _upperLeftThumb.Visibility = cornerBtnVisibility;
+                _upperLeftThumb.Visibility = cornerThumbsVisibility;
             }
 
             if (_upperRightThumb != null)
             {
-                _upperRightThumb.Visibility = cornerBtnVisibility;
+                _upperRightThumb.Visibility = cornerThumbsVisibility;
             }
 
             if (_lowerLeftThumb != null)
             {
-                _lowerLeftThumb.Visibility = cornerBtnVisibility;
+                _lowerLeftThumb.Visibility = cornerThumbsVisibility;
             }
 
             if (_lowerRigthThumb != null)
             {
-                _lowerRigthThumb.Visibility = cornerBtnVisibility;
+                _lowerRigthThumb.Visibility = cornerThumbsVisibility;
             }
         }
     }

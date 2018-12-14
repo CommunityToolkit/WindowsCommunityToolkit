@@ -71,21 +71,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                if (CircularCrop)
+                var aspectRatio = AspectRatio;
+                switch (CropShape)
                 {
-                    return 1;
+                    case CropShape.Rectangular:
+                        break;
+                    case CropShape.Circular:
+                        aspectRatio = 1;
+                        break;
                 }
-                else
-                {
-                    if (AspectRatio != null && AspectRatio > 0)
-                    {
-                        return AspectRatio.Value;
-                    }
-                    else
-                    {
-                        return -1;
-                    }
-                }
+
+                return aspectRatio != null && aspectRatio > 0 ? aspectRatio.Value : -1;
             }
         }
 
