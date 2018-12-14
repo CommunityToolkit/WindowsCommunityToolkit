@@ -9,8 +9,8 @@
     mc:Ignorable="d">
   <Grid>
     <controls:ImageCropper x:Name="ImageCropper"
-                           CropShape="@[Crop Shape:Enum:CropShape.Rectangular]" 
-                           IsSecondaryThumbVisible="@[IsSecondaryThumbVisible:Bool:True]"
+                           CropShape="@[Crop Shape:Enum:CropShape.Rectangular]"
+                           ThumbPlacement="@[Thumb Placement:Enum:ThumbPlacement.All]"
                            Padding="@[Padding:Thickness:80]"/>
   </Grid>
 </Page>

@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             target.UpdateMaskArea();
         }
 
-        private static void OnIsSecondaryControlButtonVisibleChanged(
+        private static void OnThumbPlacementChanged(
             DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
@@ -119,12 +119,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether secondary thumbs are displayed.
+        /// Gets or sets a value for thumb placement.
         /// </summary>
-        public bool IsSecondaryThumbVisible
+        public ThumbPlacement ThumbPlacement
         {
-            get { return (bool)GetValue(IsSecondaryThumbVisibleProperty); }
-            set { SetValue(IsSecondaryThumbVisibleProperty, value); }
+            get { return (ThumbPlacement)GetValue(ThumbPlacementProperty); }
+            set { SetValue(ThumbPlacementProperty, value); }
         }
 
         /// <summary>
@@ -164,9 +164,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(SecondaryThumbStyle), typeof(Style), typeof(ImageCropper), new PropertyMetadata(default(Style)));
 
         /// <summary>
-        /// Identifies the <see cref="IsSecondaryThumbVisible"/> dependency property.
+        /// Identifies the <see cref="ThumbPlacement"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IsSecondaryThumbVisibleProperty =
-            DependencyProperty.Register(nameof(IsSecondaryThumbVisible), typeof(bool), typeof(ImageCropper), new PropertyMetadata(true, OnIsSecondaryControlButtonVisibleChanged));
+        public static readonly DependencyProperty ThumbPlacementProperty =
+            DependencyProperty.Register(nameof(ThumbPlacement), typeof(ThumbPlacement), typeof(ImageCropper), new PropertyMetadata(default(ThumbPlacement), OnThumbPlacementChanged));
     }
 }

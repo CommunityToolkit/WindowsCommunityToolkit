@@ -385,7 +385,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateThumbsVisibility()
         {
             var cornerThumbsVisibility = Visibility.Visible;
-            var otherThumbsVisibility = IsSecondaryThumbVisible ? Visibility.Visible : Visibility.Collapsed;
+            var otherThumbsVisibility = Visibility.Visible;
+            switch (ThumbPlacement)
+            {
+                case ThumbPlacement.All:
+                    break;
+                case ThumbPlacement.Corners:
+                    otherThumbsVisibility = Visibility.Collapsed;
+                    break;
+            }
 
             switch (CropShape)
             {
