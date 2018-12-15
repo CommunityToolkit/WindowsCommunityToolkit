@@ -11,12 +11,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public enum CropShape
     {
         /// <summary>
-        /// Rectangular
+        /// Use rectangular shape to crop image.
         /// </summary>
         Rectangular,
 
         /// <summary>
-        /// Circular
+        /// Use circular shape to crop image.
         /// </summary>
         Circular
     }

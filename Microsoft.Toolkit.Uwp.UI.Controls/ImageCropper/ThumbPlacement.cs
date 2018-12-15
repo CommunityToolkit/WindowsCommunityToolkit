@@ -11,12 +11,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public enum ThumbPlacement
     {
         /// <summary>
-        /// All
+        /// Shows the thumbs in all four corners, top, bottom, left and right.
         /// </summary>
         All,
 
         /// <summary>
-        /// Corners
+        /// Shows the thumbs in all four corners.
         /// </summary>
         Corners
     }
