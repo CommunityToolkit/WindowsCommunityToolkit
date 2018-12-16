@@ -355,5 +355,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return await GetCroppedBitmapAsync(Source, _currentCroppedRect);
         }
+
+        /// <summary>
+        /// Reset the cropped area.
+        /// </summary>
+        public void Reset()
+        {
+            InitImageLayout();
+        }
     }
 }

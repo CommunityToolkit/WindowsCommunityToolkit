@@ -29,15 +29,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var target = (ImageCropper)d;
             if (e.NewValue is WriteableBitmap bitmap)
             {
-                if (bitmap.PixelWidth > target.MinCropSize.Width && bitmap.PixelHeight > target.MinCropSize.Height)
+                if (bitmap.PixelWidth < target.MinCropSize.Width || bitmap.PixelHeight < target.MinCropSize.Height)
                 {
-                    target.InitImageLayout();
-                }
-                else
-                {
+                    target.Source = null;
                     throw new ArgumentException("The resolution of the image is too small!");
                 }
             }
+
+            target.InitImageLayout();
         }
 
         private static void OnAspectRatioChanged(

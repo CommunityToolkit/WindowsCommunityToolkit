@@ -20,10 +20,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void InitImageLayout()
         {
-            _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
-            var maxSelectedRect = _restrictedCropRect;
-            _currentCroppedRect = KeepAspectRatio ? GetUniformRect(maxSelectedRect, UsedAspectRatio) : maxSelectedRect;
-            UpdateImageLayout();
+            if (Source != null)
+            {
+                _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
+                _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
+                UpdateImageLayout();
+            }
+            else
+            {
+                _currentCroppedRect = Rect.Empty;
+                _restrictedCropRect = Rect.Empty;
+                _restrictedSelectRect = Rect.Empty;
+            }
+
             UpdateThumbsVisibility();
         }
 
@@ -32,8 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdateImageLayout()
         {
-            var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
-            UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect);
+            if (Source != null)
+            {
+                var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
+                UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect);
+            }
         }
 
         /// <summary>
@@ -61,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="position">The control point</param>
         /// <param name="diffPos">Position offset</param>
-        private void UpdateCroppedRectWithAspectRatio(ThumbPosition position, Point diffPos)
+        private void UpdateCroppedRect(ThumbPosition position, Point diffPos)
         {
             double radian = 0d, diffPointRadian = 0d, effectiveLength = 0d;
             if (KeepAspectRatio)

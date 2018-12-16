@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (changed)
             {
                 var imageCropperThumb = (ImageCropperThumb)sender;
-                UpdateCroppedRectWithAspectRatio(imageCropperThumb.Position, diffPos);
+                UpdateCroppedRect(imageCropperThumb.Position, diffPos);
             }
         }
 
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 imageCropperThumb.Y + e.Position.Y + e.Delta.Translation.Y - (imageCropperThumb.ActualHeight / 2));
             var safePosition = GetSafePoint(_restrictedSelectRect, currentPointerPosition);
             var safeDiffPoint = new Point(safePosition.X - imageCropperThumb.X, safePosition.Y - imageCropperThumb.Y);
-            UpdateCroppedRectWithAspectRatio(imageCropperThumb.Position, safeDiffPoint);
+            UpdateCroppedRect(imageCropperThumb.Position, safeDiffPoint);
         }
 
         private void SourceImage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)

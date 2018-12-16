@@ -52,6 +52,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                  await SaveCroppedImage();
             });
+            SampleController.Current.RegisterNewCommand("Reset", (sender, args) =>
+            {
+                _imageCropper?.Reset();
+            });
             var itemsSource = new List<AspectRatioConfig>
                 {
                     new AspectRatioConfig
