@@ -54,6 +54,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Rect _currentCroppedRect = Rect.Empty;
         private Rect _restrictedCropRect = Rect.Empty;
         private Rect _restrictedSelectRect = Rect.Empty;
+        private RectangleGeometry _outerGeometry;
+        private Geometry _innerGeometry;
+        private TimeSpan _animationDuration = TimeSpan.FromSeconds(0.3);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCropper"/> class.
@@ -165,7 +168,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_sourceImage != null)
             {
-                _sourceImage.RenderTransform = _imageTransform;
                 _sourceImage.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
                 _sourceImage.ManipulationDelta += SourceImage_ManipulationDelta;
             }
@@ -257,7 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_sourceImage != null)
             {
-                _sourceImage.RenderTransform = null;
                 _sourceImage.ManipulationDelta -= SourceImage_ManipulationDelta;
             }
 
@@ -361,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Reset()
         {
-            InitImageLayout();
+            InitImageLayout(true);
         }
     }
 }

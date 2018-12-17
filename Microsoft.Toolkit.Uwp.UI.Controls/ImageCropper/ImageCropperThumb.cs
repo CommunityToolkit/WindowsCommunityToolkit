@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class ImageCropperThumb : Control
     {
-        private readonly CompositeTransform _layoutTransform = new CompositeTransform();
+        private readonly TranslateTransform _layoutTransform = new TranslateTransform();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageCropperThumb"/> class.
@@ -38,8 +38,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_layoutTransform != null)
             {
-                _layoutTransform.TranslateX = X - (this.ActualWidth / 2);
-                _layoutTransform.TranslateY = Y - (this.ActualHeight / 2);
+                _layoutTransform.X = X - (this.ActualWidth / 2);
+                _layoutTransform.Y = Y - (this.ActualHeight / 2);
             }
         }
 

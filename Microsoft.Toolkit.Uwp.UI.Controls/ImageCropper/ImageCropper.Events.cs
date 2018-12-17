@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _currentCroppedRect = croppedRect;
                 }
 
-                UpdateImageLayout();
+                UpdateImageLayout(true);
             }
         }
 
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _currentCroppedRect = croppedRect;
                 }
 
-                UpdateImageLayout();
+                UpdateImageLayout(true);
             }
         }
 
