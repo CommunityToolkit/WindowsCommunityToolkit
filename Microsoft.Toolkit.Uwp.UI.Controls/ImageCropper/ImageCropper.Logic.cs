@@ -26,12 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
                 UpdateImageLayout();
             }
-            else
-            {
-                _currentCroppedRect = Rect.Empty;
-                _restrictedCropRect = Rect.Empty;
-                _restrictedSelectRect = Rect.Empty;
-            }
 
             UpdateThumbsVisibility();
         }

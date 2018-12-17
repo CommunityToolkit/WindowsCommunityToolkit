@@ -50,45 +50,45 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
             SampleController.Current.RegisterNewCommand("Save", async (sender, args) =>
             {
-                 await SaveCroppedImage();
+                await SaveCroppedImage();
             });
             SampleController.Current.RegisterNewCommand("Reset", (sender, args) =>
             {
                 _imageCropper?.Reset();
             });
             var itemsSource = new List<AspectRatioConfig>
+            {
+                new AspectRatioConfig
                 {
-                    new AspectRatioConfig
-                    {
-                        Name = "Custom",
-                        AspectRatio = null
-                    },
-                    new AspectRatioConfig
-                    {
-                        Name = "Square",
-                        AspectRatio = 1
-                    },
-                    new AspectRatioConfig
-                    {
-                        Name = "Landscape(16:9)",
-                        AspectRatio = 16d / 9d
-                    },
-                    new AspectRatioConfig
-                    {
-                        Name = "Portrait(9:16)",
-                        AspectRatio = 9d / 16d
-                    },
-                    new AspectRatioConfig
-                    {
-                        Name = "4:3",
-                        AspectRatio = 4d / 3d
-                    },
-                    new AspectRatioConfig
-                    {
-                        Name = "3:2",
-                        AspectRatio = 3d / 2d
-                    }
-                };
+                    Name = "Custom",
+                    AspectRatio = null
+                },
+                new AspectRatioConfig
+                {
+                    Name = "Square",
+                    AspectRatio = 1
+                },
+                new AspectRatioConfig
+                {
+                    Name = "Landscape(16:9)",
+                    AspectRatio = 16d / 9d
+                },
+                new AspectRatioConfig
+                {
+                    Name = "Portrait(9:16)",
+                    AspectRatio = 9d / 16d
+                },
+                new AspectRatioConfig
+                {
+                    Name = "4:3",
+                    AspectRatio = 4d / 3d
+                },
+                new AspectRatioConfig
+                {
+                    Name = "3:2",
+                    AspectRatio = 3d / 2d
+                }
+            };
             AspectRatioComboBox.ItemsSource = itemsSource;
             AspectRatioComboBox.DisplayMemberPath = "Name";
             AspectRatioComboBox.SelectedValuePath = "AspectRatio";
