@@ -28,7 +28,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
                 _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
-                UpdateCropShape();
                 UpdateImageLayout(animate);
             }
 
