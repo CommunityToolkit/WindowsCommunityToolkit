@@ -28,6 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
                 _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
+                UpdateCropShape();
                 UpdateImageLayout(animate);
             }
 
@@ -395,7 +396,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _maskAreaGeometryGroup.Children.Add(_outerGeometry);
             _maskAreaGeometryGroup.Children.Add(_innerGeometry);
-            UpdateMaskArea();
         }
 
         /// <summary>

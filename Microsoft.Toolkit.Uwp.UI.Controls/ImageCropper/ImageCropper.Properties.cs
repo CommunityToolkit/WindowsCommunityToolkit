@@ -50,9 +50,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var target = (ImageCropper)d;
-            target.UpdateAspectRatio();
-            target.UpdateThumbsVisibility();
             target.UpdateCropShape();
+            target.UpdateThumbsVisibility();
+            target.UpdateAspectRatio();
         }
 
         private static void OnThumbPlacementChanged(
