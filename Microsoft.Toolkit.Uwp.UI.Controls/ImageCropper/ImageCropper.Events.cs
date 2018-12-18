@@ -144,25 +144,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SourceImage_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            var diffPos = e.Delta.Translation;
+            var offsetX = -e.Delta.Translation.X;
+            var offsetY = -e.Delta.Translation.Y;
             var inverseImageTransform = _imageTransform.Inverse;
             if (inverseImageTransform != null)
             {
-                var startPoint = new Point(_startX - diffPos.X, _startY - diffPos.Y);
-                var endPoint = new Point(_endX - diffPos.X, _endY - diffPos.Y);
-                if (IsSafePoint(_restrictedSelectRect, startPoint) && IsSafePoint(_restrictedSelectRect, endPoint))
+                if (offsetX > 0)
                 {
-                    var selectedRect = new Rect(startPoint, endPoint);
-                    if ((selectedRect.Width - MinSelectSize.Width) < -0.001 || (selectedRect.Height - MinSelectSize.Height) < -0.001)
-                    {
-                        return;
-                    }
-
-                    var movedRect = inverseImageTransform.TransformBounds(selectedRect);
-                    movedRect.Intersect(_restrictedCropRect);
-                    _currentCroppedRect = movedRect;
-                    UpdateImageLayout();
+                    offsetX = Math.Min(offsetX, _restrictedSelectRect.X + _restrictedSelectRect.Width - _endX);
                 }
+                else
+                {
+                    offsetX = Math.Max(offsetX, _restrictedSelectRect.X - _startX);
+                }
+
+                if (offsetY > 0)
+                {
+                    offsetY = Math.Min(offsetY, _restrictedSelectRect.Y + _restrictedSelectRect.Height - _endY);
+                }
+                else
+                {
+                    offsetY = Math.Max(offsetY, _restrictedSelectRect.Y - _startY);
+                }
+
+                var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+                selectedRect.X += offsetX;
+                selectedRect.Y += offsetY;
+                var croppedRect = inverseImageTransform.TransformBounds(selectedRect);
+                croppedRect.Intersect(_restrictedCropRect);
+                _currentCroppedRect = croppedRect;
+                UpdateImageLayout();
             }
         }
 
