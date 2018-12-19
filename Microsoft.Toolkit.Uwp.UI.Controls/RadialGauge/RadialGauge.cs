@@ -183,6 +183,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialGauge);
 
+            SmallChange = 1;
+            LargeChange = 10;
             Unloaded += RadialGauge_Unloaded;
         }
 
