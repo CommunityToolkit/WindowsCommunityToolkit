@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             target.UpdateCropShape();
             target.UpdateThumbsVisibility();
             target.UpdateAspectRatio();
+            target.UpdateMaskArea();
         }
 
         private static void OnThumbPlacementChanged(
