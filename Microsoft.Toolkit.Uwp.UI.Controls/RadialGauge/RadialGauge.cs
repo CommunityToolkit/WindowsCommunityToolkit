@@ -203,14 +203,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             step = Math.Max(StepSize, step);
-            if (e.Key == VirtualKey.Left)
+            if ((e.Key == VirtualKey.Left) || (e.Key == VirtualKey.Down))
             {
                 Value = Math.Max(Minimum, Value - step);
                 e.Handled = true;
                 return;
             }
 
-            if (e.Key == VirtualKey.Right)
+            if ((e.Key == VirtualKey.Right) || (e.Key == VirtualKey.Up))
             {
                 Value = Math.Min(Maximum, Value + step);
                 e.Handled = true;
