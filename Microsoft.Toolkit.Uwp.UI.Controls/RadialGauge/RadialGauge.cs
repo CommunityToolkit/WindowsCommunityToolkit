@@ -195,11 +195,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            double step = 1;
+            double step = SmallChange;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
-                step = 5;
+                step = LargeChange;
             }
 
             step = Math.Max(StepSize, step);
