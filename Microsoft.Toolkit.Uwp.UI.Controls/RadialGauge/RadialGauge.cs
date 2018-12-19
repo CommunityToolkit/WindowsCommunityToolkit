@@ -806,6 +806,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double RoundToMultiple(double number, double multiple)
         {
             double modulo = number % multiple;
+            if (double.IsNaN(modulo))
+            {
+                return number;
+            }
+
             if ((multiple - modulo) <= modulo)
             {
                 modulo = multiple - modulo;
