@@ -135,25 +135,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             };
             var imageFile = await savePicker.PickSaveFileAsync();
-            var writeableBitmap = await _imageCropper?.GetCroppedBitmapAsync();
-            if (imageFile != null && writeableBitmap != null)
+            if (imageFile != null)
             {
-                using (var stream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
-                {
-                    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-                    var pixelStream = writeableBitmap.PixelBuffer.AsStream();
-                    var pixels = new byte[pixelStream.Length];
-                    await pixelStream.ReadAsync(pixels, 0, pixels.Length);
-                    encoder.SetPixelData(
-                        BitmapPixelFormat.Bgra8,
-                        BitmapAlphaMode.Premultiplied,
-                        (uint)writeableBitmap.PixelWidth,
-                        (uint)writeableBitmap.PixelHeight,
-                        96.0,
-                        96.0,
-                        pixels);
-                    await encoder.FlushAsync();
-                }
+                await _imageCropper.SaveAsync(imageFile, BitmapFileFormat.Png);
             }
         }
     }

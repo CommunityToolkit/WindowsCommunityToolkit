@@ -5,7 +5,9 @@
 using System;
 using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -352,9 +354,53 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the cropped image.
         /// </summary>
         /// <returns>The cropped image.</returns>
-        public async Task<WriteableBitmap> GetCroppedBitmapAsync()
+        public async Task<WriteableBitmap> GetCroppedImageAsync()
         {
-            return await GetCroppedBitmapAsync(Source, _currentCroppedRect);
+            if (Source == null)
+            {
+                return null;
+            }
+
+            var writeableBitmap = new WriteableBitmap((int)Math.Floor(_currentCroppedRect.Width), (int)Math.Floor(_currentCroppedRect.Height));
+            using (var randomAccessStream = new InMemoryRandomAccessStream())
+            {
+                var bitmapEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, randomAccessStream);
+                await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
+                writeableBitmap.SetSource(randomAccessStream);
+            }
+
+            return writeableBitmap;
+        }
+
+        /// <summary>
+        /// Saves the cropped image to a file with the specified format.
+        /// </summary>
+        /// <param name="file">The target file.</param>
+        /// <param name="bitmapFileFormat">the specified format.</param>
+        /// <returns>Task</returns>
+        public async Task SaveAsync(StorageFile file, BitmapFileFormat bitmapFileFormat)
+        {
+            using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
+            {
+                await SaveAsync(fileStream, bitmapFileFormat);
+            }
+        }
+
+        /// <summary>
+        /// Saves the cropped image to a stream with the specified format.
+        /// </summary>
+        /// <param name="stream">The target stream.</param>
+        /// <param name="bitmapFileFormat">the specified format.</param>
+        /// <returns>Task</returns>
+        public async Task SaveAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
+        {
+            if (Source == null)
+            {
+                return;
+            }
+
+            var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+            await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
         }
 
         /// <summary>
