@@ -73,12 +73,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         markDrawingSession.FillGeometry(clipGeometry, Colors.Black);
                     }
 
-                    var effect = new AlphaMaskEffect
+                    var alphaMaskEffect = new AlphaMaskEffect
                     {
                         Source = sourceBitmap,
                         AlphaMask = markCommandList
                     };
-                    drawingSession.DrawImage(effect);
+                    drawingSession.DrawImage(alphaMaskEffect);
+                    alphaMaskEffect.Dispose();
                 }
 
                 clipGeometry.Dispose();
