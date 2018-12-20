@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -131,15 +132,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 SuggestedFileName = "Cropped_Image",
                 FileTypeChoices =
                 {
-                    { "PNG Picture", new List<string> { ".png" } }
+                    { "PNG Picture", new List<string> { ".png" } },
+                    { "JPEG Picture", new List<string> { ".jpg" } }
                 }
             };
             var imageFile = await savePicker.PickSaveFileAsync();
             if (imageFile != null)
             {
+                var bitmapFileFormat = imageFile.FileType.ToLower().Contains("png") ? BitmapFileFormat.Png : BitmapFileFormat.Jpeg;
                 using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
                 {
-                    await _imageCropper.SaveAsync(fileStream, BitmapFileFormat.Png);
+                    await _imageCropper.SaveAsync(fileStream, bitmapFileFormat, false);
                 }
             }
         }

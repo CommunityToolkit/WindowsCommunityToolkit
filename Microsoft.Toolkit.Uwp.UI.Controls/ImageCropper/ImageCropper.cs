@@ -356,16 +356,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="stream">The target stream.</param>
         /// <param name="bitmapFileFormat">the specified format.</param>
+        /// <param name="keepRectangularOutput">Whether to always keep rectangular output.</param>
         /// <returns>Task</returns>
-        public async Task SaveAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
+        public async Task SaveAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
         {
             if (Source == null)
             {
                 return;
             }
 
-            var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-            await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
+            if (keepRectangularOutput || CropShape == CropShape.Rectangular)
+            {
+                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+                await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
+                return;
+            }
+
+            await CropImageWithShapeAsync(Source, stream, _currentCroppedRect, CropShape, bitmapFileFormat);
         }
 
         /// <summary>
