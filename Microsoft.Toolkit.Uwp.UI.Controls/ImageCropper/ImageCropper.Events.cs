@@ -99,36 +99,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ImageCropperThumb_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            var inverseImageTransform = _imageTransform.Inverse;
-            if (inverseImageTransform != null)
+            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
+            if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
-                var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
-                var croppedRect = inverseImageTransform.TransformBounds(selectedRect);
-                if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
-                {
-                    croppedRect.Intersect(_restrictedCropRect);
-                    _currentCroppedRect = croppedRect;
-                }
-
-                UpdateImageLayout(true);
+                croppedRect.Intersect(_restrictedCropRect);
+                _currentCroppedRect = croppedRect;
             }
+
+            UpdateImageLayout(true);
         }
 
         private void ImageCropperThumb_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
-            var inverseImageTransform = _imageTransform.Inverse;
-            if (inverseImageTransform != null)
+            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
+            if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
             {
-                var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
-                var croppedRect = inverseImageTransform.TransformBounds(selectedRect);
-                if (croppedRect.Width > MinCropSize.Width && croppedRect.Height > MinCropSize.Height)
-                {
-                    croppedRect.Intersect(_restrictedCropRect);
-                    _currentCroppedRect = croppedRect;
-                }
-
-                UpdateImageLayout(true);
+                croppedRect.Intersect(_restrictedCropRect);
+                _currentCroppedRect = croppedRect;
             }
+
+            UpdateImageLayout(true);
         }
 
         private void ImageCropperThumb_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -146,35 +138,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var offsetX = -e.Delta.Translation.X;
             var offsetY = -e.Delta.Translation.Y;
-            var inverseImageTransform = _imageTransform.Inverse;
-            if (inverseImageTransform != null)
+            if (offsetX > 0)
             {
-                if (offsetX > 0)
-                {
-                    offsetX = Math.Min(offsetX, _restrictedSelectRect.X + _restrictedSelectRect.Width - _endX);
-                }
-                else
-                {
-                    offsetX = Math.Max(offsetX, _restrictedSelectRect.X - _startX);
-                }
-
-                if (offsetY > 0)
-                {
-                    offsetY = Math.Min(offsetY, _restrictedSelectRect.Y + _restrictedSelectRect.Height - _endY);
-                }
-                else
-                {
-                    offsetY = Math.Max(offsetY, _restrictedSelectRect.Y - _startY);
-                }
-
-                var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
-                selectedRect.X += offsetX;
-                selectedRect.Y += offsetY;
-                var croppedRect = inverseImageTransform.TransformBounds(selectedRect);
-                croppedRect.Intersect(_restrictedCropRect);
-                _currentCroppedRect = croppedRect;
-                UpdateImageLayout();
+                offsetX = Math.Min(offsetX, _restrictedSelectRect.X + _restrictedSelectRect.Width - _endX);
             }
+            else
+            {
+                offsetX = Math.Max(offsetX, _restrictedSelectRect.X - _startX);
+            }
+
+            if (offsetY > 0)
+            {
+                offsetY = Math.Min(offsetY, _restrictedSelectRect.Y + _restrictedSelectRect.Height - _endY);
+            }
+            else
+            {
+                offsetY = Math.Max(offsetY, _restrictedSelectRect.Y - _startY);
+            }
+
+            var selectedRect = new Rect(new Point(_startX, _startY), new Point(_endX, _endY));
+            selectedRect.X += offsetX;
+            selectedRect.Y += offsetY;
+            var croppedRect = _inverseImageTransform.TransformBounds(selectedRect);
+            croppedRect.Intersect(_restrictedCropRect);
+            _currentCroppedRect = croppedRect;
+            UpdateImageLayout();
         }
 
         private void ImageCanvas_SizeChanged(object sender, SizeChangedEventArgs e)

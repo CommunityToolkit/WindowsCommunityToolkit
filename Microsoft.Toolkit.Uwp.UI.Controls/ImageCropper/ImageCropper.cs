@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class ImageCropper : Control
     {
         private readonly CompositeTransform _imageTransform = new CompositeTransform();
+        private readonly CompositeTransform _inverseImageTransform = new CompositeTransform();
         private readonly GeometryGroup _maskAreaGeometryGroup = new GeometryGroup { FillRule = FillRule.EvenOdd };
 
         private Grid _layoutGrid;
