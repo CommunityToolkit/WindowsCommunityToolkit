@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -23,6 +24,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the minimum selectable length.
         /// </summary>
         public double MinSelectedLength { get; set; } = 40;
+
+        /// <summary>
+        /// Gets the current cropped region.
+        /// </summary>
+        public Rect CroppedRegion => _currentCroppedRect;
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

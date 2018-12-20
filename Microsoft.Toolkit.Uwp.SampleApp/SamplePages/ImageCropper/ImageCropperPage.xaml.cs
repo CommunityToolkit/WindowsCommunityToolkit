@@ -137,7 +137,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var imageFile = await savePicker.PickSaveFileAsync();
             if (imageFile != null)
             {
-                await _imageCropper.SaveAsync(imageFile, BitmapFileFormat.Png);
+                using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
+                {
+                    await _imageCropper.SaveAsync(fileStream, BitmapFileFormat.Png);
+                }
             }
         }
     }

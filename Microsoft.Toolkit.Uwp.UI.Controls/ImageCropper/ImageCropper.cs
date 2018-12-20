@@ -351,42 +351,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the cropped image.
-        /// </summary>
-        /// <returns>The cropped image.</returns>
-        public async Task<WriteableBitmap> GetCroppedImageAsync()
-        {
-            if (Source == null)
-            {
-                return null;
-            }
-
-            var writeableBitmap = new WriteableBitmap((int)Math.Floor(_currentCroppedRect.Width), (int)Math.Floor(_currentCroppedRect.Height));
-            using (var randomAccessStream = new InMemoryRandomAccessStream())
-            {
-                var bitmapEncoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, randomAccessStream);
-                await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
-                writeableBitmap.SetSource(randomAccessStream);
-            }
-
-            return writeableBitmap;
-        }
-
-        /// <summary>
-        /// Saves the cropped image to a file with the specified format.
-        /// </summary>
-        /// <param name="file">The target file.</param>
-        /// <param name="bitmapFileFormat">the specified format.</param>
-        /// <returns>Task</returns>
-        public async Task SaveAsync(StorageFile file, BitmapFileFormat bitmapFileFormat)
-        {
-            using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
-            {
-                await SaveAsync(fileStream, bitmapFileFormat);
-            }
-        }
-
-        /// <summary>
         /// Saves the cropped image to a stream with the specified format.
         /// </summary>
         /// <param name="stream">The target stream.</param>
