@@ -16,7 +16,7 @@ using Windows.System.UserProfile;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Defines class providing information of OS and application
+    /// This class provides info about the app and the system.
     /// </summary>
     public static class SystemInformation
     {
@@ -24,43 +24,31 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private static DateTime _sessionStart;
 
         /// <summary>
-        /// Gets Application's name
+        /// Gets the application's name.
         /// </summary>
         public static string ApplicationName { get; }
 
         /// <summary>
-        /// Gets Application's version
+        /// Gets the application's version.
         /// </summary>
         public static PackageVersion ApplicationVersion { get; }
 
         /// <summary>
-        /// Gets the most preferred culture by the user
+        /// Gets the user's most preferred culture.
         /// </summary>
         public static CultureInfo Culture { get; }
 
         /// <summary>
-        /// Gets device's family
+        /// Gets the device's family.
         /// <para></para>
         /// Common values include:
         /// <list type="bullet">
-        /// <item>
-        /// <term>"Windows.Desktop"</term>
-        /// </item>
-        /// <item>
-        /// <term>"Windows.Mobile"</term>
-        /// </item>
-        /// <item>
-        /// <term>"Windows.Xbox"</term>
-        /// </item>
-        /// <item>
-        /// <term>"Windows.Holographic"</term>
-        /// </item>
-        /// <item>
-        /// <term>"Windows.Team"</term>
-        /// </item>
-        /// <item>
-        /// <term>"Windows.IoT"</term>
-        /// </item>
+        /// <item><term>"Windows.Desktop"</term></item>
+        /// <item><term>"Windows.Mobile"</term></item>
+        /// <item><term>"Windows.Xbox"</term></item>
+        /// <item><term>"Windows.Holographic"</term></item>
+        /// <item><term>"Windows.Team"</term></item>
+        /// <item><term>"Windows.IoT"</term></item>
         /// </list>
         /// <para></para>
         /// Prepare your code for other values.
@@ -68,34 +56,34 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static string DeviceFamily { get; }
 
         /// <summary>
-        /// Gets operating system
+        /// Gets the operating system's name.
         /// </summary>
         public static string OperatingSystem { get; }
 
         /// <summary>
-        /// Gets operating system version
+        /// Gets the operating system's version.
         /// </summary>
         public static OSVersion OperatingSystemVersion { get; }
 
         /// <summary>
-        /// Gets used processor architecture
+        /// Gets the processor architecture.
         /// </summary>
         public static ProcessorArchitecture OperatingSystemArchitecture { get; }
 
         /// <summary>
-        /// Gets available memory
+        /// Gets the available memory.
         /// </summary>
         public static float AvailableMemory => (float)MemoryManager.AppMemoryUsageLimit / 1024 / 1024;
 
         /// <summary>
-        /// Gets device model.
-        /// Will be empty if the device model couldn't be determined (ex: when running in a virtual machine).
+        /// Gets the device's model.
+        /// Will be empty if the model couldn't be determined (For example: when running in a virtual machine).
         /// </summary>
         public static string DeviceModel { get; }
 
         /// <summary>
-        /// Gets device's manufacturer.
-        /// Will be empty if the device manufacturer couldn't be determined (ex: when running in a virtual machine).
+        /// Gets the device's manufacturer.
+        /// Will be empty if the manufacturer couldn't be determined (For example: when running in a virtual machine).
         /// </summary>
         public static string DeviceManufacturer { get; }
 
@@ -118,43 +106,43 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public static PackageVersion FirstVersionInstalled { get; }
 
         /// <summary>
-        /// Gets the DateTime (in UTC) when the app was launched for the first time
+        /// Gets the DateTime (in UTC) when the app was launched for the first time.
         /// </summary>
         public static DateTime FirstUseTime { get; }
 
         /// <summary>
-        /// Gets the DateTime (in UTC) when the app was previously launched, not including this instance.
-        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// Gets the DateTime (in UTC) when the app was last launched, not including this instance.
+        /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static DateTime LastLaunchTime { get; private set; }
 
         /// <summary>
-        /// Gets the number of times the app has been launched since the last reset.
-        /// Will be zero if `TrackAppUse` has not been called.
+        /// Gets the number of times the app has been launched.
+        /// Will be <c>0</c> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static long LaunchCount { get; private set; }
 
         /// <summary>
         /// Gets the number of times the app has been launched.
-        /// Will be zero if `TrackAppUse` has not been called.
+        /// Will be <c>0</c> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static long TotalLaunchCount { get; private set; }
 
         /// <summary>
         /// Gets the DateTime (in UTC) that this instance of the app was launched.
-        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static DateTime LaunchTime { get; private set; }
 
         /// <summary>
-        /// Gets the DateTime (in UTC) when the launch count was previously reset, not including this instance.
-        /// Will be DateTime.MinValue if `TrackAppUse` has not been called.
+        /// Gets the DateTime (in UTC) when the launch count was last reset.
+        /// Will be <see cref="DateTime.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static DateTime LastResetTime { get; private set; }
 
         /// <summary>
         /// Gets the length of time this instance of the app has been running.
-        /// Will be TimeSpan.MinValue if `TrackAppUse` has not been called.
+        /// Will be <see cref="TimeSpan.MinValue"/> if <see cref="TrackAppUse"/> has not been called yet.
         /// </summary>
         public static TimeSpan AppUptime
         {
@@ -176,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Track app launch information
+        /// Tracks information about the app's launch.
         /// </summary>
         /// <param name="args">Details about the launch request and process.</param>
         public static void TrackAppUse(LaunchActivatedEventArgs args)
@@ -233,16 +221,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Launch the store app so the user can leave a review
+        /// Launches the store app so the user can leave a review.
         /// </summary>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation</returns>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static async Task LaunchStoreForReviewAsync()
         {
             await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
         }
 
         /// <summary>
-        /// Add to the record of how long the app has been running.
+        /// Adds to the record of how long the app has been running.
         /// Use this to optionally include time spent in background tasks or extended execution.
         /// </summary>
         /// <param name="duration">The amount to time to add</param>
@@ -253,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Reset launch count
+        /// Resets the launch count.
         /// </summary>
         public static void ResetLaunchCount()
         {

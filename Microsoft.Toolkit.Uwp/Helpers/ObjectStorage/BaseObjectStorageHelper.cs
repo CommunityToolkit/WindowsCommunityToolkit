@@ -12,38 +12,38 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Shared implementation of ObjectStorageHelper
+    /// Shared implementation of ObjectStorageHelper.
     /// </summary>
     public abstract class BaseObjectStorageHelper : IObjectStorageHelper
     {
         private JsonSerializer serializer = new JsonSerializer();
 
         /// <summary>
-        /// Gets or sets settings container
+        /// Gets or sets the settings container.
         /// </summary>
         protected ApplicationDataContainer Settings { get; set; }
 
         /// <summary>
-        /// Gets or sets storage folder
+        /// Gets or sets the storage folder.
         /// </summary>
         protected StorageFolder Folder { get; set; }
 
         /// <summary>
-        /// Detect if a setting already exists
+        /// Determines whether a setting already exists.
         /// </summary>
         /// <param name="key">Key of the setting (that contains object)</param>
-        /// <returns>True if a value exists</returns>
+        /// <returns><c>true</c> if the setting exists; otherwise, <c>false</c>.</returns>
         public bool KeyExists(string key)
         {
             return Settings.Values.ContainsKey(key);
         }
 
         /// <summary>
-        /// Detect if a setting already exists in composite.
+        /// Determines whether a setting already exists in composite.
         /// </summary>
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
         /// <param name="key">Key of the setting (that contains object)</param>
-        /// <returns>True if a value exists</returns>
+        /// <returns><c>true</c> if the setting exists; otherwise, <c>false</c>.</returns>
         public bool KeyExists(string compositeKey, string key)
         {
             if (KeyExists(compositeKey))
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Retrieve single item by its key.
+        /// Retrieves a single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="key">Key of the object</param>
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Retrieve single item by its key in composite.
+        /// Retrieves a single item by its key in composite.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Save single item by its key.
+        /// Saves a single item by its key.
         /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
         /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects).
         /// </summary>
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Save a group of items by its key in a composite.
+        /// Saves a group of items by its key in a composite.
         /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
         /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects) and for groups of settings which
         /// need to be treated in an atomic way.
@@ -176,17 +176,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Detect if a file already exists
+        /// Determines whether a file already exists.
         /// </summary>
         /// <param name="filePath">Key of the file (that contains object)</param>
-        /// <returns>True if a value exists</returns>
+        /// <returns><c>true</c> if the file exists; otherwise, <c>false</c>.</returns>
         public Task<bool> FileExistsAsync(string filePath)
         {
             return Folder.FileExistsAsync(filePath);
         }
 
         /// <summary>
-        /// Retrieve object from file.
+        /// Retrieves an object from a file.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="filePath">Path to the file that contains the object</param>
@@ -199,13 +199,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Save object inside file.
+        /// Saves an object inside a file.
         /// There is no limitation to use this method (refers to <see cref="Save{T}(string, T)"/> method for simple objects).
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="filePath">Path to the file that will contain the object</param>
         /// <param name="value">Object to save</param>
-        /// <returns>When this method completes, it returns the <see cref="StorageFile"/> where the object was saved</returns>
+        /// <returns>The <see cref="StorageFile"/> where the object was saved</returns>
         public Task<StorageFile> SaveFileAsync<T>(string filePath, T value)
         {
             return StorageFileHelper.WriteTextToFileAsync(Folder, JsonConvert.SerializeObject(value), filePath, CreationCollisionOption.ReplaceExisting);

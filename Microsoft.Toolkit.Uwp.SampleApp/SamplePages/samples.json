@@ -946,6 +946,14 @@
         "XamlCodeFile": "ScrollViewerExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ScrollViewerExtensions.md"
+      },
+      {
+        "Name": "OnDevice",
+        "Type": "OnDevicePage",
+        "About": "The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.",
+        "Icon": "/SamplePages/OnDevice/OnDevice.png",
+        "XamlCodeFile": "OnDeviceXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
       }
     ]
   },
