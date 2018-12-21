@@ -154,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets a value indicating whether gets or sets is lazy loading enable. (17763 or higher supported)
         /// </summary>
+        /// <remarks>Windows 10 build 17763 or higher required.</remarks>
         public bool EnableLazyLoading
         {
             get { return (bool)GetValue(EnableLazyLoadingProperty); }
