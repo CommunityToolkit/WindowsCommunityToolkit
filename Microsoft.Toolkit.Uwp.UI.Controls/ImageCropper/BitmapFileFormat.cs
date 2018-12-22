@@ -37,6 +37,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Indicates Windows Imaging Component's JPEGXR encoder.
         /// </summary>
-        JpegXR
+        JpegXR,
+
+        /// <summary>
+        /// Indicates Windows Imaging Component's HEIF encoder.
+        /// </summary>
+        Heif
     }
 }

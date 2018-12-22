@@ -63,6 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
             }
 
+            byte[] pixelBytes = null;
             using (var offScreen = new CanvasRenderTarget(device, (float)croppedRect.Width, (float)croppedRect.Height, 96f))
             {
                 using (var drawingSession = offScreen.CreateDrawingSession())
@@ -84,8 +85,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 clipGeometry.Dispose();
                 sourceBitmap.Dispose();
-                await offScreen.SaveAsync(stream, GetCanvasBitmapFileFormat(bitmapFileFormat));
+                pixelBytes = offScreen.GetPixelBytes();
             }
+
+            var width = (uint)Math.Floor(croppedRect.Width);
+            var height = (uint)Math.Floor(croppedRect.Height);
+            var croppedBitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+            croppedBitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, width, height, 96.0, 96.0, pixelBytes);
+            await croppedBitmapEncoder.FlushAsync();
         }
 
         private static CanvasGeometry CreateClipGeometry(ICanvasResourceCreator resourceCreator, CropShape cropShape, Size croppedSize)
@@ -104,27 +111,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return null;
         }
 
-        private static CanvasBitmapFileFormat GetCanvasBitmapFileFormat(BitmapFileFormat bitmapFileFormat)
-        {
-            switch (bitmapFileFormat)
-            {
-                case BitmapFileFormat.Bmp:
-                    return CanvasBitmapFileFormat.Bmp;
-                case BitmapFileFormat.Png:
-                    return CanvasBitmapFileFormat.Png;
-                case BitmapFileFormat.Jpeg:
-                    return CanvasBitmapFileFormat.Jpeg;
-                case BitmapFileFormat.Tiff:
-                    return CanvasBitmapFileFormat.Tiff;
-                case BitmapFileFormat.Gif:
-                    return CanvasBitmapFileFormat.Gif;
-                case BitmapFileFormat.JpegXR:
-                    return CanvasBitmapFileFormat.JpegXR;
-            }
-
-            return CanvasBitmapFileFormat.Png;
-        }
-
         private static Guid GetEncoderId(BitmapFileFormat bitmapFileFormat)
         {
             switch (bitmapFileFormat)
@@ -141,6 +127,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return BitmapEncoder.GifEncoderId;
                 case BitmapFileFormat.JpegXR:
                     return BitmapEncoder.JpegXREncoderId;
+                case BitmapFileFormat.Heif:
+                    return BitmapEncoder.HeifEncoderId;
             }
 
             return BitmapEncoder.PngEncoderId;

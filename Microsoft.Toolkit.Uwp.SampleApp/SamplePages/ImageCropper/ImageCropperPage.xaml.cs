@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary,
                 FileTypeFilter =
                 {
-                    ".png", ".jpg", ".jpeg"
+                    ".png", ".jpg", ".jpeg", ".heic"
                 }
             };
             var file = await filePicker.PickSingleFileAsync();
@@ -133,13 +133,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 FileTypeChoices =
                 {
                     { "PNG Picture", new List<string> { ".png" } },
-                    { "JPEG Picture", new List<string> { ".jpg" } }
+                    { "JPEG Picture", new List<string> { ".jpg" } },
+                    { "HEIF Picture", new List<string> { ".heic" } }
                 }
             };
             var imageFile = await savePicker.PickSaveFileAsync();
             if (imageFile != null)
             {
-                var bitmapFileFormat = imageFile.FileType.ToLower().Contains("png") ? BitmapFileFormat.Png : BitmapFileFormat.Jpeg;
+                var bitmapFileFormat = BitmapFileFormat.Png;
+                switch (imageFile.FileType.ToLower())
+                {
+                    case ".png":
+                        break;
+                    case ".jpg":
+                        bitmapFileFormat = BitmapFileFormat.Jpeg;
+                        break;
+                    case ".heic":
+                        bitmapFileFormat = BitmapFileFormat.Heif;
+                        break;
+                }
+
                 using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
                 {
                     await _imageCropper.SaveAsync(fileStream, bitmapFileFormat, false);
