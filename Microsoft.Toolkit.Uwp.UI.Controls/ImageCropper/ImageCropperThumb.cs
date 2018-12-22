@@ -79,12 +79,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="X"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty XProperty =
-            DependencyProperty.Register("X", typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnXChanged));
+            DependencyProperty.Register(nameof(X), typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnXChanged));
 
         /// <summary>
         /// Identifies the <see cref="Y"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register("Y", typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnYChanged));
+            DependencyProperty.Register(nameof(Y), typeof(double), typeof(ImageCropperThumb), new PropertyMetadata(0d, OnYChanged));
     }
 }
