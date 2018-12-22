@@ -884,7 +884,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty DataFetchSizeProperty =
             DependencyProperty.Register(
-                "DataFetchSize",
+                nameof(DataFetchSize),
                 typeof(double),
                 typeof(DataGrid),
                 new PropertyMetadata(DATAGRID_defaultDataFetchSize, OnDataFetchSizePropertyChanged));
@@ -1334,7 +1334,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty IncrementalLoadingThresholdProperty =
             DependencyProperty.Register(
-                "IncrementalLoadingThreshold",
+                nameof(IncrementalLoadingThreshold),
                 typeof(double),
                 typeof(DataGrid),
                 new PropertyMetadata(DATAGRID_defaultIncrementalLoadingThreshold, OnIncrementalLoadingThresholdPropertyChanged));
@@ -1372,7 +1372,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets a value that indicates the conditions for prefetch operations by the ListViewBase class.
+        /// Gets or sets a value that indicates the conditions for prefetch operations by the DataGrid class.
         /// </summary>
         /// <returns>
         /// An enumeration value that indicates the conditions that trigger prefetch operations. The default is **Edge**.
@@ -1388,7 +1388,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty IncrementalLoadingTriggerProperty =
             DependencyProperty.Register(
-                "IncrementalLoadingTrigger",
+                nameof(IncrementalLoadingTrigger),
                 typeof(IncrementalLoadingTrigger),
                 typeof(DataGrid),
                 new PropertyMetadata(IncrementalLoadingTrigger.Edge));

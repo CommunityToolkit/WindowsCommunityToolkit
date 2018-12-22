@@ -1002,7 +1002,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
         private void NotifyingIncrementalItemsSource(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "HasMoreItems")
+            if (e.PropertyName == nameof(HasMoreItems))
             {
                 _owner.LoadMoreDataFromIncrementalItemsSource();
             }
