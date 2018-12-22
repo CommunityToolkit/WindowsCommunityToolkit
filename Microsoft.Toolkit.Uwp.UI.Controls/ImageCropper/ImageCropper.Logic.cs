@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="animate">Whether animation is enabled.</param>
         private void UpdateImageLayout(bool animate = false)
         {
-            if (Source != null)
+            if (Source != null && CanvasRect.Width > 0 && CanvasRect.Height > 0)
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
                 UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
