@@ -63,7 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
             }
 
-            byte[] pixelBytes = null;
             using (var offScreen = new CanvasRenderTarget(device, (float)croppedRect.Width, (float)croppedRect.Height, 96f))
             {
                 using (var drawingSession = offScreen.CreateDrawingSession())
@@ -85,14 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 clipGeometry.Dispose();
                 sourceBitmap.Dispose();
-                pixelBytes = offScreen.GetPixelBytes();
+                var pixelBytes = offScreen.GetPixelBytes();
+                var croppedBitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+                croppedBitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
+                await croppedBitmapEncoder.FlushAsync();
             }
-
-            var width = (uint)Math.Floor(croppedRect.Width);
-            var height = (uint)Math.Floor(croppedRect.Height);
-            var croppedBitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-            croppedBitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, width, height, 96.0, 96.0, pixelBytes);
-            await croppedBitmapEncoder.FlushAsync();
         }
 
         private static CanvasGeometry CreateClipGeometry(ICanvasResourceCreator resourceCreator, CropShape cropShape, Size croppedSize)
