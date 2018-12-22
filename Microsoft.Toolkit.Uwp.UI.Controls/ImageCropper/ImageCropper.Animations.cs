@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 using Windows.Foundation;
+using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 using Windows.UI.Xaml.Media;
@@ -25,9 +26,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var linear = compositor.CreateLinearEasingFunction();
             var offsetAnimation = compositor.CreateVector3KeyFrameAnimation();
             offsetAnimation.Duration = duration;
-            offsetAnimation.Target = "Offset";
+            offsetAnimation.Target = nameof(Visual.Offset);
             offsetAnimation.InsertKeyFrame(1.0f, new Vector3((float)to.X, (float)to.Y, 0), linear);
-            targetVisual.StartAnimation("Offset", offsetAnimation);
+            targetVisual.StartAnimation(nameof(Visual.Offset), offsetAnimation);
         }
 
         private static void AnimateUIElementScale(double to, TimeSpan duration, UIElement target)
@@ -37,9 +38,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var linear = compositor.CreateLinearEasingFunction();
             var scaleAnimation = compositor.CreateVector3KeyFrameAnimation();
             scaleAnimation.Duration = duration;
-            scaleAnimation.Target = "Scale";
+            scaleAnimation.Target = nameof(Visual.Scale);
             scaleAnimation.InsertKeyFrame(1.0f, new Vector3((float)to), linear);
-            targetVisual.StartAnimation("Scale", scaleAnimation);
+            targetVisual.StartAnimation(nameof(Visual.Scale), scaleAnimation);
         }
 
         private static DoubleAnimation CreateDoubleAnimation(double to, TimeSpan duration, DependencyObject target, string propertyName, bool enableDependentAnimation)
@@ -87,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Storyboard.SetTarget(animation, rectangle);
-            Storyboard.SetTargetProperty(animation, "RectangleGeometry.Rect");
+            Storyboard.SetTargetProperty(animation, nameof(RectangleGeometry.Rect));
 
             return animation;
         }

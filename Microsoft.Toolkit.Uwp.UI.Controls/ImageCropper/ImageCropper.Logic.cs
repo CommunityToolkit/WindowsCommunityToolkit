@@ -262,8 +262,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _topThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _topThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _topThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _topThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -276,8 +276,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _bottomThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _bottomThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(centerX, _animationDuration, _bottomThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _bottomThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -290,8 +290,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _leftThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _leftThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _leftThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _leftThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -304,8 +304,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _rightThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _rightThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _rightThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(centerY, _animationDuration, _rightThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -318,8 +318,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _upperLeftThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _upperLeftThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _upperLeftThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _upperLeftThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -332,8 +332,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _upperRightThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _upperRightThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _upperRightThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startY, _animationDuration, _upperRightThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -346,8 +346,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _lowerLeftThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _lowerLeftThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_startX, _animationDuration, _lowerLeftThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _lowerLeftThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -360,8 +360,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 if (animate)
                 {
-                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _lowerRigthThumb, "ImageCropperThumb.X", true));
-                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _lowerRigthThumb, "ImageCropperThumb.Y", true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endX, _animationDuration, _lowerRigthThumb, nameof(ImageCropperThumb.X), true));
+                    storyboard.Children.Add(CreateDoubleAnimation(_endY, _animationDuration, _lowerRigthThumb, nameof(ImageCropperThumb.Y), true));
                 }
                 else
                 {
@@ -439,9 +439,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         if (animate)
                         {
                             var storyboard = new Storyboard();
-                            storyboard.Children.Add(CreatePointAnimation(center, _animationDuration, ellipseGeometry, "EllipseGeometry.Center", true));
-                            storyboard.Children.Add(CreateDoubleAnimation(radiusX, _animationDuration, ellipseGeometry, "EllipseGeometry.RadiusX", true));
-                            storyboard.Children.Add(CreateDoubleAnimation(radiusY, _animationDuration, ellipseGeometry, "EllipseGeometry.RadiusY", true));
+                            storyboard.Children.Add(CreatePointAnimation(center, _animationDuration, ellipseGeometry, nameof(EllipseGeometry.Center), true));
+                            storyboard.Children.Add(CreateDoubleAnimation(radiusX, _animationDuration, ellipseGeometry, nameof(EllipseGeometry.RadiusX), true));
+                            storyboard.Children.Add(CreateDoubleAnimation(radiusY, _animationDuration, ellipseGeometry, nameof(EllipseGeometry.RadiusY), true));
                             storyboard.Begin();
                         }
                         else
