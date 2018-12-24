@@ -428,8 +428,11 @@
         "Name": "ViewportBehavior",
         "Type": "ViewportBehaviorPage",
         "About": "Behavior for listening element enter or exit viewport",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ViewportBehavior",
         "CodeFile": "ViewportBehaviorCode.bind",
-        "XamlCodeFile": "ViewportBehaviorXaml.bind"
+        "XamlCodeFile": "ViewportBehaviorXaml.bind",
+        "Icon": "/SamplePages/ViewportBehavior/ViewportBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ViewportBehavior.md"
       }
     ]
   },
