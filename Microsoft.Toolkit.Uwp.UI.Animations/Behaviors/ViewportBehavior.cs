@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.Xaml.Interactivity;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -34,6 +35,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             DependencyProperty.Register(nameof(IsInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsInViewportChanged));
 
         /// <summary>
+        /// The IsRemoveBehaviorAfterEnteredViewport value of the associated element
+        /// </summary>
+        public static readonly DependencyProperty IsRemoveBehaviorAfterEnteredViewportProperty =
+            DependencyProperty.Register(nameof(IsRemoveBehaviorAfterEnteredViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
+
+        /// <summary>
         /// Associated element fully enter the ScrollViewer viewport event
         /// </summary>
         public event EventHandler EnteredViewport;
@@ -52,6 +59,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// Associated element exit the ScrollViewer viewport event
         /// </summary>
         public event EventHandler ExitingViewport;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether remove this behavior after associated element entered viewport.
+        /// </summary>
+        public bool IsRemoveBehaviorAfterEnteredViewport
+        {
+            get { return (bool)GetValue(IsRemoveBehaviorAfterEnteredViewportProperty); }
+            set { SetValue(IsRemoveBehaviorAfterEnteredViewportProperty, value); }
+        }
 
         /// <summary>
         /// Gets a value indicating whether associated element is fully in the ScrollViewer viewport
@@ -112,6 +128,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
             if (value)
             {
                 obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
+
+                if (obj.IsRemoveBehaviorAfterEnteredViewport)
+                {
+                    Interaction.GetBehaviors(obj.AssociatedObject).Remove(obj);
+                }
             }
             else
             {
