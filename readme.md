@@ -1,3 +1,11 @@
+---
+topic: sample
+languages:
+- csharp
+products:
+- windows
+---
+
 # Windows Community Toolkit
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
@@ -18,9 +26,9 @@ All documentation for the toolkit is hosted on [Microsoft Docs](https://docs.mic
 Want to see the toolkit in action before jumping into the code? Download and play with the [Windows Community Toolkit Sample App](https://www.microsoft.com/store/apps/9nblggh4tlcq) from the Store.
 
 ## NuGet Packages
-NuGet is a standard package manager for .NET applications that is built into Visual Studio. From your open solution choose the *Tools* menu, *NuGet Package Manager*, *Manage NuGet packages for solution...* to open the UI. Enter one of the package names below to search for it online.
+NuGet is a standard package manager for .NET applications which is built into Visual Studio. To open the UI, from your open solution, choose the *Tools* menu > *NuGet Package Manager* > *Manage NuGet packages for solution...* . Enter one of the package names below to search for it online.
 
-Once you search you should see a list similar to the one below (versions may be different, but names should be the same).
+Once you do a search, you should see a list similar to the one below (versions may be different, but names should be the same).
 
 ![nuget packages](githubresources/images/NugetPackages.png "Nuget Packages")
 
@@ -58,7 +66,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Implicit Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ImplicitAnimations/)
 * [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Light/)
 * [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Offset/)
-* [ParallaxService](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ParallaxService/)
 * [ReorderGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ReorderGrid/)
 * [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate/)
 * [Saturation](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Saturation/)
@@ -82,7 +89,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [DropShadowPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/DropShadowPanel/)
 * [Expander](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Expander/)
 * [GridSplitter](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/GridSplitter/)
-* [HamburgerMenu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HamburgerMenu/)
 * [HeaderedContentControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedContentControl/)
 * [HeaderedItemsControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedItemsControl/)
 * [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock/)
@@ -94,14 +100,13 @@ Once you search you should see a list similar to the one below (versions may be 
 * [MasterDetailsView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/MasterDetailsView/)
 * [Menu](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/Menu/)
 * [OrbitView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/OrbitView/)
-* [PullToRefreshListView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/PullToRefreshListview/)
 * [RadialGauge](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialGauge/)
 * [RadialProgressBar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RadialProgressBar/)
 * [RangeSelector](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RangeSelector/)
 * [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile/)
 * [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader/)
-* [SlideableListItem](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/SlidableListItem/)
 * [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel/)
+* [TabView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TabView/)
 * [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar/)
 * [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl/)
 * [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel/)
@@ -116,7 +121,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [ListViewExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ListViewBase/)
 * [LogicalTree](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/LogicalTree/)
 * [MouseCursor](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/MouseCursor/)
-* [NavigationView Styles](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/NavigationView/)
 * [ScrollViewerExtensions](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/ScrollViewerExtensions/)
 * [SurfaceDialTextbox](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/SurfaceDialTextboxHelper/)
 * [TextBoxMask](https://docs.microsoft.com/windows/uwpcommunitytoolkit/extensions/TextBoxMask/)
@@ -148,7 +152,6 @@ Once you search you should see a list similar to the one below (versions may be 
 * [WeakEventListener](https://docs.microsoft.com/windows/uwpcommunitytoolkit/helpers/WeakEventListener/)
 
 ### Services
-* [Bing](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Bing/)
 * [Facebook](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Facebook/)
 * [LinkedIn](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/Linkedin/)
 * [Microsoft Graph](https://docs.microsoft.com/windows/uwpcommunitytoolkit/services/MicrosoftGraph/)
@@ -165,12 +168,12 @@ Once you search you should see a list similar to the one below (versions may be 
 * [Toasts](https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/02/adaptive-and-interactive-toast-notifications-for-windows-10/)
 
 ## Feedback and Requests
-Please use [GitHub Issues](https://github.com/Microsoft/WindowsCommunityToolkit/issues) for bug reports and feature requests.
+Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For feature requests, please also create an entry in our [UserVoice](https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit).
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
 ## Contributing
-Do you want to contribute? Here are our [contribution guidelines](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md).
+Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
 
 ## Principles
 * Principle **#1**: The toolkit will be kept simple.
@@ -182,7 +185,7 @@ to clarify expected behavior in our community.
 For more information see the [.NET Foundation Code of Conduct](http://dotnetfoundation.org/code-of-conduct).
 
 ## Roadmap
-Read what we [plan for next iterations](https://github.com/Microsoft/WindowsCommunityToolkit/milestones), and feel free to ask questions.
+Read what we [plan for next iterations](https://github.com/windows-toolkit/WindowsCommunityToolkit/milestones), and feel free to ask questions.
 
 By adding this ([NuGet repo](https://dotnet.myget.org/F/uwpcommunitytoolkit/api/v3/index.json) | [Gallery](https://dotnet.myget.org/gallery/uwpcommunitytoolkit)) to your NuGet sources in Visual Studio, you can also get pre-release packages of upcoming versions.
 

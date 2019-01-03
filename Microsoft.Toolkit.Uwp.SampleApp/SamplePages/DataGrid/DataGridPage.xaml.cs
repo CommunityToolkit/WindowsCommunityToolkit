@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -22,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private MenuFlyoutItem heightLowItem;
         private MenuFlyoutItem heightHighItem;
         private DataGridDataSource viewModel = new DataGridDataSource();
-        private DataGridSortDirection? previousSortDirection = null;
 
         public DataGridPage()
         {
@@ -31,12 +29,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         public async void OnXamlRendered(FrameworkElement control)
         {
+            if (dataGrid != null)
+            {
+                dataGrid.Sorting -= DataGrid_Sorting;
+                dataGrid.LoadingRowGroup -= DataGrid_LoadingRowGroup;
+            }
+
             dataGrid = control.FindDescendantByName("dataGrid") as DataGrid;
             if (dataGrid != null)
             {
-                dataGrid.ItemsSource = await viewModel.GetDataAsync();
                 dataGrid.Sorting += DataGrid_Sorting;
                 dataGrid.LoadingRowGroup += DataGrid_LoadingRowGroup;
+                dataGrid.ItemsSource = await viewModel.GetDataAsync();
 
                 var comboBoxColumn = dataGrid.Columns.FirstOrDefault(x => x.Tag.Equals("Mountain")) as DataGridComboBoxColumn;
                 if (comboBoxColumn != null)
@@ -45,10 +49,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             }
 
+            if (groupButton != null)
+            {
+                groupButton.Click -= GroupButton_Click;
+            }
+
             groupButton = control.FindDescendantByName("groupButton") as AppBarButton;
             if (groupButton != null)
             {
                 groupButton.Click += GroupButton_Click;
+            }
+
+            if (rankLowItem != null)
+            {
+                rankLowItem.Click -= RankLowItem_Click;
             }
 
             rankLowItem = control.FindName("rankLow") as MenuFlyoutItem;
@@ -57,10 +71,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 rankLowItem.Click += RankLowItem_Click;
             }
 
+            if (rankHighItem != null)
+            {
+                rankHighItem.Click -= RankHigh_Click;
+            }
+
             rankHighItem = control.FindName("rankHigh") as MenuFlyoutItem;
             if (rankHighItem != null)
             {
                 rankHighItem.Click += RankHigh_Click;
+            }
+
+            if (heightLowItem != null)
+            {
+                heightLowItem.Click -= HeightLow_Click;
             }
 
             heightLowItem = control.FindName("heightLow") as MenuFlyoutItem;
@@ -69,18 +93,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 heightLowItem.Click += HeightLow_Click;
             }
 
+            if (heightHighItem != null)
+            {
+                heightHighItem.Click -= HeightHigh_Click;
+            }
+
             heightHighItem = control.FindName("heightHigh") as MenuFlyoutItem;
             if (heightHighItem != null)
             {
                 heightHighItem.Click += HeightHigh_Click;
-            }
-        }
-
-        private void RankLowItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (dataGrid != null)
-            {
-                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_Low);
             }
         }
 
@@ -106,32 +127,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 foreach (DataGridColumn dataGridColumn in dataGrid.Columns)
                 {
-                    if (dataGridColumn.Tag != null && dataGridColumn.Tag.ToString() == previousSortedColumn)
+                    if (dataGridColumn.Tag != null && dataGridColumn.Tag.ToString() == previousSortedColumn &&
+                        (e.Column.Tag == null || previousSortedColumn != e.Column.Tag.ToString()))
                     {
-                        if (e.Column.Tag == null || previousSortedColumn != e.Column.Tag.ToString())
-                        {
-                            dataGridColumn.SortDirection = null;
-                            previousSortDirection = null;
-                        }
+                        dataGridColumn.SortDirection = null;
                     }
                 }
             }
 
             if (e.Column.Tag != null)
             {
-                if ((e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Ascending)
-                    && previousSortDirection != DataGridSortDirection.Ascending)
+                if (e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Descending)
                 {
                     dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), true);
                     e.Column.SortDirection = DataGridSortDirection.Ascending;
-                    previousSortDirection = DataGridSortDirection.Ascending;
                 }
                 else
                 {
                     dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), false);
                     e.Column.SortDirection = DataGridSortDirection.Descending;
-                    previousSortDirection = DataGridSortDirection.Descending;
                 }
+            }
+        }
+
+        private void RankLowItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Rank_Low);
             }
         }
 
