@@ -26,17 +26,17 @@ What kind of change does this PR introduce?
 
 Please check if your PR fulfills the following requirements:
 
-- [ ] Tested code with current [supported SDKs](../readme.md#supported)
-- [ ] Pull Request has been submitted to the documentation repository [instructions](..\contributing.md#docs). Link: <!-- docs PR link -->
-- [ ] Sample in sample app has been added / updated (for bug fixes / features)
-    - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
+### Platforms
+<!-- For every not tested plattform please explain why.  -->
+- [ ] Tested code on Windows
+- [ ] Tested code on Android
+- [ ] Tested code on IOS
+
 - [ ] Tests for the changes have been added (for bug fixes / features) (if applicable)
-- [ ] Header has been added to all new source files (run *build/UpdateHeaders.bat*)
 - [ ] Contains **NO** breaking changes
 
 
-<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. 
-     Please note that breaking changes are likely to be rejected -->
+<!-- If this PR contains a breaking change, please describe the impact and migration path for existing applications below. -->
 
 
 ## Other information
