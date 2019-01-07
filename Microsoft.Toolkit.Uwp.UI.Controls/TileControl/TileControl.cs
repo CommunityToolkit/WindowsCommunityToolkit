@@ -206,6 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <remarks>
         /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automatically set to PureXaml.
         /// </remarks>
+        [Obsolete("This property will always return true because our minimum targeting SDK is 16299.")]
         public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
                                                      ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4); // SDK >= 15063. LoadedImageSurface is only available from 15063.
 
