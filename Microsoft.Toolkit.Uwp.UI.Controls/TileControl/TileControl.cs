@@ -207,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automatically set to PureXaml.
         /// </remarks>
         public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
-                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4); // SDK >= 15063. LoadedImageSurface is only available from 15063.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.
