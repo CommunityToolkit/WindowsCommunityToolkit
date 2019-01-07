@@ -12,8 +12,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using System.Threading.Tasks;
     using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
     using Microsoft.Toolkit.Uwp.UI.Extensions;
-    using Robmikh.CompositionSurfaceFactory;
-    using Windows.ApplicationModel;
     using Windows.Foundation;
     using Windows.Foundation.Metadata;
     using Windows.Storage;
@@ -31,17 +29,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public enum ScrollOrientation
     {
         /// <summary>
-        /// Scroll only Horizontaly (and optimize the number of image used)
+        /// Scroll only Horizontally (and optimize the number of image used)
         /// </summary>
         Horizontal,
 
         /// <summary>
-        /// Scroll only Verticaly (and optimize the number of image used)
+        /// Scroll only Vertically (and optimize the number of image used)
         /// </summary>
         Vertical,
 
         /// <summary>
-        /// Scroll both Horizontaly and verticaly
+        /// Scroll both Horizontally and vertically
         /// </summary>
         Both
     }
@@ -79,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
     /// <summary>
     /// A ContentControl that show an image repeated many times.
-    /// The control can be synchronized with a Scrollviewer and animated easily.
+    /// The control can be synchronized with a ScrollViewer and animated easily.
     /// </summary>
     public class TileControl : ContentControl
     {
@@ -149,42 +147,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AnimationDurationProperty =
             DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(TileControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
-        private FrameworkElement _rootElement = null;
-        private Canvas _containerElement = null;
-        private TranslateTransform _containerTranslate = null;
-        private ImageBrush _brushXaml = null;
+        private FrameworkElement _rootElement;
+        private Canvas _containerElement;
+        private TranslateTransform _containerTranslate;
+        private ImageBrush _brushXaml;
 
-        private ContainerVisual _containerVisual = null;
-        private CompositionSurfaceBrush _brushVisual = null;
+        private ContainerVisual _containerVisual;
+        private CompositionSurfaceBrush _brushVisual;
+        private LoadedImageSurface _imageSurface;
 
         private Size _imageSize = Size.Empty;
 
-        private UriSurface _uriSurface = null;
-        private Visual _rootVisual = null;
-
-        private DispatcherTimer _timerAnimation = null;
+        private DispatcherTimer _timerAnimation;
 
         /// <summary>
-        /// A Scrollviewer used for synchronized the move of the <see cref="TileControl"/>
+        /// A ScrollViewer used for synchronized the move of the <see cref="TileControl"/>
         /// </summary>
-        private ScrollViewer _scrollviewer = null;
+        private ScrollViewer _scrollViewer;
 
         /// <summary>
         /// a flag to lock shared method
         /// </summary>
-        private SemaphoreSlim _flag = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim _flag = new SemaphoreSlim(1);
 
-        private List<SpriteVisual> _compositionChildren = new List<SpriteVisual>(50);
-        private List<Rectangle> _xamlChildren = new List<Rectangle>(50);
+        private readonly List<SpriteVisual> _compositionChildren = new List<SpriteVisual>(50);
+        private readonly List<Rectangle> _xamlChildren = new List<Rectangle>(50);
 
-        private bool _isImageSourceLoaded = false;
-        private bool _isRootElementSizeChanged = false;
+        private bool _isImageSourceLoaded;
+        private bool _isRootElementSizeChanged;
 
-        private CompositionPropertySet _propertySetModulo = null;
-        private object _lockerOffset = new object();
+        private CompositionPropertySet _propertySetModulo;
+        private readonly object _lockerOffset = new object();
 
-        private double _animationX = 0;
-        private double _animationY = 0;
+        private double _animationX;
+        private double _animationY;
 
         private enum UIStrategy
         {
@@ -202,16 +198,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// The image loaded event.
         /// </summary>
-        public event EventHandler ImageLoaded = null;
+        public event EventHandler ImageLoaded;
 
         /// <summary>
         /// Gets a value indicating whether the platform supports Composition.
         /// </summary>
         /// <remarks>
-        /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automaticaly set to PureXaml.
+        /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automatically set to PureXaml.
         /// </remarks>
         public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
-             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.
@@ -225,7 +221,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         /// <summary>
         /// Gets or sets a ScrollViewer or a frameworkElement containing a ScrollViewer.
-        /// The tile control is synchronized with the offset of the scrollviewer
+        /// The tile control is synchronized with the offset of the scrollViewer
         /// </summary>
         public FrameworkElement ScrollViewerContainer
         {
@@ -254,12 +250,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newScrollViewerContainer != null)
             {
-                // May be the scrollViewerContainer is not completly loaded (and the scrollviewer doesn't exit yet)
+                // May be the scrollViewerContainer is not completely loaded (and the scrollViewer doesn't exit yet)
                 // so we need to wait the loaded event to be sure
                 newScrollViewerContainer.Loaded += ScrollViewerContainer_Loaded;
             }
 
-            // try to attach a scrollviewer (the null value is valid)
+            // try to attach a scrollViewer (the null value is valid)
             return AttachScrollViewer(newScrollViewerContainer);
         }
 
@@ -281,23 +277,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                if (currentStrategy == null)
+                if (_currentStrategy == null)
                 {
-                    if (!IsCompositionSupported)
-                    {
-                        currentStrategy = UIStrategy.PureXaml;
-                    }
-                    else
-                    {
-                        currentStrategy = UIStrategy.Composition;
-                    }
+                    _currentStrategy = !IsCompositionSupported ? UIStrategy.PureXaml : UIStrategy.Composition;
                 }
 
-                return currentStrategy.Value;
+                return _currentStrategy.Value;
             }
         }
 
-        private UIStrategy? currentStrategy = null;
+        private UIStrategy? _currentStrategy;
 
         /// <summary>
         /// Gets or sets the alignment of the tile when the <see cref="ScrollOrientation"/> is set to Vertical or Horizontal.
@@ -316,7 +305,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Attach a scrollviewer to the TileControl (parallax effect)
+        /// Attach a ScrollViewer to the TileControl (parallax effect)
         /// </summary>
         /// <param name="scrollViewerContainer">A ScrollViewer or a container of a ScrollViewer</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
@@ -327,35 +316,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            ScrollViewer newScrollviewer = scrollViewerContainer.FindDescendant<ScrollViewer>();
+            ScrollViewer newScrollViewer = scrollViewerContainer.FindDescendant<ScrollViewer>();
 
-            if (newScrollviewer != _scrollviewer)
+            if (newScrollViewer != _scrollViewer)
             {
                 var strategy = Strategy;
 
                 if (strategy == UIStrategy.Composition)
                 {
                     // Update the expression
-                    await CreateModuloExpression(newScrollviewer);
+                    await CreateModuloExpression(newScrollViewer);
                 }
                 else
                 {
-                    if (_scrollviewer != null)
+                    if (_scrollViewer != null)
                     {
-                        _scrollviewer.ViewChanging -= Scrollviewer_ViewChanging;
+                        _scrollViewer.ViewChanging -= ScrollViewer_ViewChanging;
                     }
 
-                    if (newScrollviewer != null)
+                    if (newScrollViewer != null)
                     {
-                        newScrollviewer.ViewChanging += Scrollviewer_ViewChanging;
+                        newScrollViewer.ViewChanging += ScrollViewer_ViewChanging;
                     }
                 }
 
-                _scrollviewer = newScrollviewer;
+                _scrollViewer = newScrollViewer;
             }
         }
 
-        private void Scrollviewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
+        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
         {
             RefreshMove();
         }
@@ -372,7 +361,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static async void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = d as TileControl;
-            await control.LoadImageBrush(e.NewValue as Uri);
+            await control.LoadImageBrushAsync(e.NewValue as Uri);
         }
 
         /// <summary>
@@ -380,7 +369,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="uri">the uri of the image to load</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        private async Task<bool> LoadImageBrush(Uri uri)
+        private async Task<bool> LoadImageBrushAsync(Uri uri)
         {
             if (DesignTimeHelpers.IsRunningInLegacyDesignerMode)
             {
@@ -412,7 +401,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 IsAnimated = false;
 
-                if (_isImageSourceLoaded == true)
+                if (_isImageSourceLoaded)
                 {
                     for (int i = 0; i < _compositionChildren.Count; i++)
                     {
@@ -428,11 +417,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (strategy == UIStrategy.Composition)
                     {
-                        _brushVisual.Dispose();
+                        _brushVisual?.Dispose();
                         _brushVisual = null;
 
-                        _uriSurface.Dispose();
-                        _uriSurface = null;
+                        _imageSurface?.Dispose();
+                        _imageSurface = null;
                     }
                 }
 
@@ -441,14 +430,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (strategy == UIStrategy.Composition)
                 {
                     var compositor = _containerVisual.Compositor;
-                    var surfaceFactory = SurfaceFactory.GetSharedSurfaceFactoryForCompositor(compositor);
 
-                    var surfaceUri = await surfaceFactory.CreateUriSurfaceAsync(uri);
+                    _imageSurface = LoadedImageSurface.StartLoadFromUri(new Uri("dsffsdffdsf.comdfdsfd"));
+                    var loadCompletedSource = new TaskCompletionSource<bool>();
+                    _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
 
-                    _uriSurface = surfaceUri;
-                    _brushVisual = compositor.CreateSurfaceBrush(surfaceUri.Surface);
+                    _imageSurface.LoadCompleted += (s, e) =>
+                    {
+                        if (e.Status == LoadedImageSourceLoadStatus.Success)
+                        {
+                            loadCompletedSource.SetResult(true);
+                        }
+                        else
+                        {
+                            loadCompletedSource.SetException(new ArgumentException("Image loading failed."));
+                        }
+                    };
 
-                    _imageSize = surfaceUri.Size;
+                    await loadCompletedSource.Task;
+                    _imageSize = _imageSurface.DecodedPhysicalSize;
                 }
                 else
                 {
@@ -461,7 +461,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         image.SetSource(stream);
                     }
 
-                    _brushXaml = new ImageBrush() { ImageSource = image };
+                    _brushXaml = new ImageBrush { ImageSource = image };
                     _imageSize = new Size(image.PixelWidth, image.PixelHeight);
                 }
 
@@ -471,7 +471,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 RefreshImageSize(_imageSize.Width, _imageSize.Height);
 
-                if (isAnimated == true)
+                if (isAnimated)
                 {
                     IsAnimated = true;
                 }
@@ -502,7 +502,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await control.RefreshContainerTileLocked();
             if (control.Strategy == UIStrategy.Composition)
             {
-                await control.CreateModuloExpression(control._scrollviewer);
+                await control.CreateModuloExpression(control._scrollViewer);
             }
         }
 
@@ -541,7 +541,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         ElementCompositionPreview.SetElementChildVisual(rootElement, container);
 
                         _containerVisual = container;
-                        _rootVisual = rootVisual;
 
                         await CreateModuloExpression();
                     }
@@ -553,7 +552,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _containerElement.RenderTransform = _containerTranslate;
                 }
 
-                await LoadImageBrush(ImageSource);
+                await this.LoadImageBrushAsync(ImageSource);
             }
 
             base.OnApplyTemplate();
@@ -612,7 +611,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            double numberSpriteToInstanciate = 0;
+            double numberSpriteToInstantiate = 0;
 
             int numberImagePerColumn = 1;
             int numberImagePerRow = 1;
@@ -628,7 +627,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _containerElement.Height = height;
             }
 
-            var clip = new RectangleGeometry() { Rect = new Rect(0, 0, width, height) };
+            var clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) };
             _rootElement.Clip = clip;
 
             var imageAlignment = ImageAlignment;
@@ -652,7 +651,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         numberImagePerRow = (int)Math.Ceiling(height / imageHeight);
                     }
 
-                    numberSpriteToInstanciate = numberImagePerColumn * numberImagePerRow;
+                    numberSpriteToInstantiate = numberImagePerColumn * numberImagePerRow;
                     break;
 
                 case ScrollOrientation.Vertical:
@@ -672,30 +671,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         numberImagePerColumn = (int)Math.Ceiling(width / imageWidth);
                     }
 
-                    numberSpriteToInstanciate = numberImagePerColumn * numberImagePerRow;
+                    numberSpriteToInstantiate = numberImagePerColumn * numberImagePerRow;
 
                     break;
 
                 case ScrollOrientation.Both:
                     numberImagePerColumn = (int)Math.Ceiling(width / imageWidth) + 1;
                     numberImagePerRow = (int)(Math.Ceiling(height / imageHeight) + 1);
-                    numberSpriteToInstanciate = numberImagePerColumn * numberImagePerRow;
+                    numberSpriteToInstantiate = numberImagePerColumn * numberImagePerRow;
                     break;
             }
 
-            var count = 0;
+            var count = strategy == UIStrategy.Composition ? _compositionChildren.Count : _xamlChildren.Count;
 
-            if (strategy == UIStrategy.Composition)
-            {
-                count = _compositionChildren.Count;
-            }
-            else
-            {
-                count = _xamlChildren.Count;
-            }
-
-            // instanciate all elements not created yet
-            for (int x = 0; x < numberSpriteToInstanciate - count; x++)
+            // instantiate all elements not created yet
+            for (int x = 0; x < numberSpriteToInstantiate - count; x++)
             {
                 if (strategy == UIStrategy.Composition)
                 {
@@ -712,7 +702,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // remove elements not used now
-            for (int x = 0; x < count - numberSpriteToInstanciate; x++)
+            for (int x = 0; x < count - numberSpriteToInstantiate; x++)
             {
                 if (strategy == UIStrategy.Composition)
                 {
@@ -733,13 +723,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 for (int x = 0; x < numberImagePerColumn; x++)
                 {
-                    int index = (y * numberImagePerColumn) + x;
+                    int index = y * numberImagePerColumn + x;
 
                     if (strategy == UIStrategy.Composition)
                     {
                         var sprite = _compositionChildren[index];
                         sprite.Brush = _brushVisual;
-                        sprite.Offset = new Vector3((float)((x * imageWidth) + offsetVerticalAlignment), (float)((y * imageHeight) + offsetHorizontalAlignment), 0);
+                        sprite.Offset = new Vector3((float)(x * imageWidth + offsetVerticalAlignment), (float)(y * imageHeight + offsetHorizontalAlignment), 0);
                         sprite.Size = new Vector2((float)imageWidth, (float)imageHeight);
                     }
                     else
@@ -747,8 +737,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var rectangle = _xamlChildren[index];
                         rectangle.Fill = _brushXaml;
 
-                        Canvas.SetLeft(rectangle, (x * imageWidth) + offsetVerticalAlignment);
-                        Canvas.SetTop(rectangle, (y * imageHeight) + offsetHorizontalAlignment);
+                        Canvas.SetLeft(rectangle, x * imageWidth + offsetVerticalAlignment);
+                        Canvas.SetTop(rectangle, y * imageHeight + offsetHorizontalAlignment);
                         rectangle.Width = imageWidth;
                         rectangle.Height = imageHeight;
                     }
@@ -828,11 +818,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Creation of an expression to manage modulo (positive and negative value)
         /// </summary>
-        /// <param name="scrollviewer">The ScrollViewer to synchonized. A null value is valid</param>
+        /// <param name="scrollViewer">The ScrollViewer to synchronized. A null value is valid</param>
         /// <param name="imageWidth">Width of the image</param>
         /// <param name="imageHeight">Height of the image</param>
         /// <param name="scrollOrientation">The ScrollOrientation</param>
-        private void CreateModuloExpression(ScrollViewer scrollviewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
+        private void CreateModuloExpression(ScrollViewer scrollViewer, double imageWidth, double imageHeight, ScrollOrientation scrollOrientation)
         {
             const string offsetXParam = "offsetX";
             const string offsetYParam = "offsetY";
@@ -855,8 +845,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Setup the expression
             ExpressionNode expressionX = null;
             ExpressionNode expressionY = null;
-            ExpressionNode expressionXVal = null;
-            ExpressionNode expressionYVal = null;
+            ExpressionNode expressionXVal;
+            ExpressionNode expressionYVal;
 
             var propertySetModulo = compositor.CreatePropertySet();
             propertySetModulo.InsertScalar(imageWidthParam, (float)imageWidth);
@@ -869,7 +859,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var imageHeightNode = propertySetNodeModulo.GetScalarProperty(imageHeightParam);
             var imageWidthNode = propertySetNodeModulo.GetScalarProperty(imageWidthParam);
-            if (scrollviewer == null)
+            if (scrollViewer == null)
             {
                 var offsetXNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 var offsetYNode = ExpressionFunctions.Ceil(propertySetNodeModulo.GetScalarProperty(offsetYParam));
@@ -880,41 +870,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     0,
                     ExpressionFunctions.Conditional(
                         offsetXNode < 0,
-                        -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode),
-                        -(imageWidthNode - (offsetXNode % imageWidthNode))));
+                        -(ExpressionFunctions.Abs(offsetXNode - ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode) % imageWidthNode),
+                        -(imageWidthNode - offsetXNode % imageWidthNode)));
 
                 expressionYVal = ExpressionFunctions.Conditional(
                     offsetYNode == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         offsetYNode < 0,
-                        -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode),
-                        -(imageHeightNode - (offsetYNode % imageHeightNode))));
+                        -(ExpressionFunctions.Abs(offsetYNode - ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode) % imageHeightNode),
+                        -(imageHeightNode - offsetYNode % imageHeightNode)));
             }
             else
             {
                 // expressions are created to simulate a positive and negative modulo with the size of the image and the offset and the ScrollViewer offset (Translation)
-                var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollviewer);
+                var scrollProperties = ElementCompositionPreview.GetScrollViewerManipulationPropertySet(scrollViewer);
                 var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
                 var speed = propertySetNodeModulo.GetScalarProperty(speedParam);
-                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * speed) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
+                var xCommon = ExpressionFunctions.Ceil(scrollPropSet.Translation.X * speed + propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 expressionXVal = ExpressionFunctions.Conditional(
                     xCommon == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         xCommon < 0,
-                        -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode),
-                        -(imageWidthNode - (xCommon % imageWidthNode))));
+                        -(ExpressionFunctions.Abs(xCommon - ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode) % imageWidthNode),
+                        -(imageWidthNode - xCommon % imageWidthNode)));
 
-                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * speed) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var yCommon = ExpressionFunctions.Ceil(scrollPropSet.Translation.Y * speed + propertySetNodeModulo.GetScalarProperty(offsetYParam));
                 expressionYVal = ExpressionFunctions.Conditional(
                     yCommon == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         yCommon < 0,
-                        -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode),
-                        -(imageHeightNode - (yCommon % imageHeightNode))));
+                        -(ExpressionFunctions.Abs(yCommon - ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode) % imageHeightNode),
+                        -(imageHeightNode - yCommon % imageHeightNode)));
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
@@ -976,17 +966,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var orientation = ScrollOrientation;
 
-                    var scrollviewer = _scrollviewer;
+                    var scrollViewer = _scrollViewer;
 
                     double scrollX = 0;
                     double scrollY = 0;
 
-                    if (scrollviewer != null)
+                    if (scrollViewer != null)
                     {
                         var speedRatio = ParallaxSpeedRatio;
 
-                        scrollX = -((scrollviewer.HorizontalOffset * scrollviewer.ActualWidth) / scrollviewer.ViewportWidth) * speedRatio;
-                        scrollY = -((scrollviewer.VerticalOffset * scrollviewer.ActualHeight) / scrollviewer.ViewportHeight) * speedRatio;
+                        scrollX = -(scrollViewer.HorizontalOffset * scrollViewer.ActualWidth / scrollViewer.ViewportWidth) * speedRatio;
+                        scrollY = -(scrollViewer.VerticalOffset * scrollViewer.ActualHeight / scrollViewer.ViewportHeight) * speedRatio;
                     }
 
                     if (orientation == ScrollOrientation.Both || orientation == ScrollOrientation.Horizontal)
@@ -1029,12 +1019,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (offsetCeil < 0)
             {
-                return -(Math.Abs(offsetCeil - (Math.Ceiling(offsetCeil / size) * size)) % size);
+                return -(Math.Abs(offsetCeil - Math.Ceiling(offsetCeil / size) * size) % size);
             }
-            else
-            {
-                return -(size - (offsetCeil % size));
-            }
+
+            return -(size - offsetCeil % size);
         }
 
         private void RefreshImageSize(double width, double height)
@@ -1050,12 +1038,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RefreshScrollSpeedRatio(double speedRatio)
         {
-            if (_propertySetModulo == null)
-            {
-                return;
-            }
-
-            _propertySetModulo.InsertScalar("speed", (float)speedRatio);
+            _propertySetModulo?.InsertScalar("speed", (float)speedRatio);
         }
 
         /// <summary>
@@ -1071,7 +1054,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var c = d as TileControl;
 
-            if ((bool)e.NewValue == true)
+            if ((bool)e.NewValue)
             {
                 c._timerAnimation.Start();
             }
