@@ -14,13 +14,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     using Microsoft.Toolkit.Uwp.UI.Extensions;
     using Windows.Foundation;
     using Windows.Foundation.Metadata;
-    using Windows.Storage;
     using Windows.UI.Composition;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
     using Windows.UI.Xaml.Hosting;
     using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Media.Imaging;
     using Windows.UI.Xaml.Shapes;
 
     /// <summary>
@@ -148,9 +146,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(TileControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
         private FrameworkElement _rootElement;
-        private Canvas _containerElement;
-        private TranslateTransform _containerTranslate;
-        private ImageBrush _brushXaml;
 
         private ContainerVisual _containerVisual;
         private CompositionSurfaceBrush _brushVisual;
@@ -182,19 +177,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double _animationX;
         private double _animationY;
 
-        private enum UIStrategy
-        {
-            /// <summary>
-            /// TileControl is created with XAML
-            /// </summary>
-            PureXaml,
-
-            /// <summary>
-            /// TileControl is created with Microsoft Composition
-            /// </summary>
-            Composition
-        }
-
         /// <summary>
         /// The image loaded event.
         /// </summary>
@@ -203,12 +185,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether the platform supports Composition.
         /// </summary>
-        /// <remarks>
-        /// On platforms not supporting Composition, this <See cref="UIStrategy"/> is automatically set to PureXaml.
-        /// </remarks>
-        [Obsolete("This property will always return true because our minimum targeting SDK is 16299.")]
+        [Obsolete("This property is now obsolete and will be removed in a future version of the Toolkit.")]
         public static bool IsCompositionSupported => !DesignTimeHelpers.IsRunningInLegacyDesignerMode &&
-                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 4); // SDK >= 15063. LoadedImageSurface is only available from 15063.
+                                                     ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TileControl"/> class.
@@ -271,25 +250,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets how the <see cref="TileControl"/> is rendered
-        /// The default value is Composition.
-        /// </summary>
-        private UIStrategy Strategy
-        {
-            get
-            {
-                if (_currentStrategy == null)
-                {
-                    _currentStrategy = !IsCompositionSupported ? UIStrategy.PureXaml : UIStrategy.Composition;
-                }
-
-                return _currentStrategy.Value;
-            }
-        }
-
-        private UIStrategy? _currentStrategy;
-
-        /// <summary>
         /// Gets or sets the alignment of the tile when the <see cref="ScrollOrientation"/> is set to Vertical or Horizontal.
         /// Valid values are Left or Right for <see cref="ScrollOrientation"/> set to Horizontal and Top or Bottom for <see cref="ScrollOrientation"/> set to Vertical.
         /// </summary>
@@ -321,33 +281,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newScrollViewer != _scrollViewer)
             {
-                var strategy = Strategy;
-
-                if (strategy == UIStrategy.Composition)
-                {
-                    // Update the expression
-                    await CreateModuloExpression(newScrollViewer);
-                }
-                else
-                {
-                    if (_scrollViewer != null)
-                    {
-                        _scrollViewer.ViewChanging -= ScrollViewer_ViewChanging;
-                    }
-
-                    if (newScrollViewer != null)
-                    {
-                        newScrollViewer.ViewChanging += ScrollViewer_ViewChanging;
-                    }
-                }
+                // Update the expression
+                await CreateModuloExpression(newScrollViewer);
 
                 _scrollViewer = newScrollViewer;
             }
-        }
-
-        private void ScrollViewer_ViewChanging(object sender, ScrollViewerViewChangingEventArgs e)
-        {
-            RefreshMove();
         }
 
         /// <summary>
@@ -377,21 +315,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            var strategy = Strategy;
-
-            if (strategy == UIStrategy.Composition)
+            if (_containerVisual == null || uri == null)
             {
-                if (_containerVisual == null || uri == null)
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                if (uri == null)
-                {
-                    return false;
-                }
+                return false;
             }
 
             await _flag.WaitAsync();
@@ -406,65 +332,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     for (int i = 0; i < _compositionChildren.Count; i++)
                     {
-                        if (strategy == UIStrategy.PureXaml)
-                        {
-                            _xamlChildren[i].Fill = null;
-                        }
-                        else
-                        {
-                            _compositionChildren[i].Brush = null;
-                        }
+                        _compositionChildren[i].Brush = null;
                     }
 
-                    if (strategy == UIStrategy.Composition)
-                    {
-                        _brushVisual?.Dispose();
-                        _brushVisual = null;
+                    _brushVisual?.Dispose();
+                    _brushVisual = null;
 
-                        _imageSurface?.Dispose();
-                        _imageSurface = null;
-                    }
+                    _imageSurface?.Dispose();
+                    _imageSurface = null;
                 }
 
                 _isImageSourceLoaded = false;
 
-                if (strategy == UIStrategy.Composition)
+                var compositor = _containerVisual.Compositor;
+
+                _imageSurface = LoadedImageSurface.StartLoadFromUri(uri);
+                var loadCompletedSource = new TaskCompletionSource<bool>();
+                _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
+
+                _imageSurface.LoadCompleted += (s, e) =>
                 {
-                    var compositor = _containerVisual.Compositor;
-
-                    _imageSurface = LoadedImageSurface.StartLoadFromUri(new Uri("dsffsdffdsf.comdfdsfd"));
-                    var loadCompletedSource = new TaskCompletionSource<bool>();
-                    _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
-
-                    _imageSurface.LoadCompleted += (s, e) =>
+                    if (e.Status == LoadedImageSourceLoadStatus.Success)
                     {
-                        if (e.Status == LoadedImageSourceLoadStatus.Success)
-                        {
-                            loadCompletedSource.SetResult(true);
-                        }
-                        else
-                        {
-                            loadCompletedSource.SetException(new ArgumentException("Image loading failed."));
-                        }
-                    };
-
-                    await loadCompletedSource.Task;
-                    _imageSize = _imageSurface.DecodedPhysicalSize;
-                }
-                else
-                {
-                    BitmapImage image = new BitmapImage();
-
-                    var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-
-                    using (var stream = await storageFile.OpenReadAsync())
-                    {
-                        image.SetSource(stream);
+                        loadCompletedSource.SetResult(true);
                     }
+                    else
+                    {
+                        loadCompletedSource.SetException(new ArgumentException("Image loading failed."));
+                    }
+                };
 
-                    _brushXaml = new ImageBrush { ImageSource = image };
-                    _imageSize = new Size(image.PixelWidth, image.PixelHeight);
-                }
+                await loadCompletedSource.Task;
+                _imageSize = _imageSurface.DecodedPhysicalSize;
 
                 _isImageSourceLoaded = true;
 
@@ -501,17 +400,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var control = d as TileControl;
             await control.RefreshContainerTileLocked();
-            if (control.Strategy == UIStrategy.Composition)
-            {
-                await control.CreateModuloExpression(control._scrollViewer);
-            }
+            await control.CreateModuloExpression(control._scrollViewer);
         }
 
         /// <inheritdoc/>
         protected override async void OnApplyTemplate()
         {
-            var strategy = Strategy;
-
             var rootElement = _rootElement;
 
             if (rootElement != null)
@@ -528,32 +422,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 rootElement.SizeChanged += RootElement_SizeChanged;
 
-                if (strategy == UIStrategy.Composition)
+                // Get the Visual of the root element
+                Visual rootVisual = ElementCompositionPreview.GetElementVisual(rootElement);
+
+                if (rootVisual != null)
                 {
-                    // Get the Visual of the root element
-                    Visual rootVisual = ElementCompositionPreview.GetElementVisual(rootElement);
+                    // We create a ContainerVisual to insert SpriteVisual with a brush
+                    var container = rootVisual.Compositor.CreateContainerVisual();
 
-                    if (rootVisual != null)
-                    {
-                        // We create a ContainerVisual to insert SpriteVisual with a brush
-                        var container = rootVisual.Compositor.CreateContainerVisual();
+                    // the containerVisual is now a child of rootVisual
+                    ElementCompositionPreview.SetElementChildVisual(rootElement, container);
 
-                        // the containerVisual is now a child of rootVisual
-                        ElementCompositionPreview.SetElementChildVisual(rootElement, container);
+                    _containerVisual = container;
 
-                        _containerVisual = container;
-
-                        await CreateModuloExpression();
-                    }
-                }
-                else
-                {
-                    _containerElement = rootElement.FindName("ContainerElement") as Canvas;
-                    _containerTranslate = new TranslateTransform();
-                    _containerElement.RenderTransform = _containerTranslate;
+                    await CreateModuloExpression();
                 }
 
-                await this.LoadImageBrushAsync(ImageSource);
+                await LoadImageBrushAsync(ImageSource);
             }
 
             base.OnApplyTemplate();
@@ -620,14 +505,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             int offsetHorizontalAlignment = 0;
             int offsetVerticalAlignment = 0;
 
-            var strategy = Strategy;
-
-            if (_containerElement != null)
-            {
-                _containerElement.Width = width;
-                _containerElement.Height = height;
-            }
-
             var clip = new RectangleGeometry { Rect = new Rect(0, 0, width, height) };
             _rootElement.Clip = clip;
 
@@ -683,40 +560,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     break;
             }
 
-            var count = strategy == UIStrategy.Composition ? _compositionChildren.Count : _xamlChildren.Count;
+            var count = _compositionChildren.Count;
 
             // instantiate all elements not created yet
             for (int x = 0; x < numberSpriteToInstantiate - count; x++)
             {
-                if (strategy == UIStrategy.Composition)
-                {
-                    var sprite = _containerVisual.Compositor.CreateSpriteVisual();
-                    _containerVisual.Children.InsertAtTop(sprite);
-                    _compositionChildren.Add(sprite);
-                }
-                else
-                {
-                    var rectangle = new Rectangle();
-                    _containerElement.Children.Add(rectangle);
-                    _xamlChildren.Add(rectangle);
-                }
+                var sprite = _containerVisual.Compositor.CreateSpriteVisual();
+                _containerVisual.Children.InsertAtTop(sprite);
+                _compositionChildren.Add(sprite);
             }
 
             // remove elements not used now
             for (int x = 0; x < count - numberSpriteToInstantiate; x++)
             {
-                if (strategy == UIStrategy.Composition)
-                {
-                    var element = _containerVisual.Children.FirstOrDefault() as SpriteVisual;
-                    _containerVisual.Children.Remove(element);
-                    _compositionChildren.Remove(element);
-                }
-                else
-                {
-                    var element = _containerElement.Children.FirstOrDefault() as Rectangle;
-                    _containerElement.Children.Remove(element);
-                    _xamlChildren.Remove(element);
-                }
+                var element = _containerVisual.Children.FirstOrDefault() as SpriteVisual;
+                _containerVisual.Children.Remove(element);
+                _compositionChildren.Remove(element);
             }
 
             // Change positions+brush for all actives elements
@@ -726,23 +585,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     int index = y * numberImagePerColumn + x;
 
-                    if (strategy == UIStrategy.Composition)
-                    {
-                        var sprite = _compositionChildren[index];
-                        sprite.Brush = _brushVisual;
-                        sprite.Offset = new Vector3((float)(x * imageWidth + offsetVerticalAlignment), (float)(y * imageHeight + offsetHorizontalAlignment), 0);
-                        sprite.Size = new Vector2((float)imageWidth, (float)imageHeight);
-                    }
-                    else
-                    {
-                        var rectangle = _xamlChildren[index];
-                        rectangle.Fill = _brushXaml;
-
-                        Canvas.SetLeft(rectangle, x * imageWidth + offsetVerticalAlignment);
-                        Canvas.SetTop(rectangle, y * imageHeight + offsetHorizontalAlignment);
-                        rectangle.Width = imageWidth;
-                        rectangle.Height = imageHeight;
-                    }
+                    var sprite = _compositionChildren[index];
+                    sprite.Brush = _brushVisual;
+                    sprite.Offset = new Vector3((float)(x * imageWidth + offsetVerticalAlignment), (float)(y * imageHeight + offsetHorizontalAlignment), 0);
+                    sprite.Size = new Vector2((float)imageWidth, (float)imageHeight);
                 }
             }
 
@@ -830,11 +676,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             const string imageWidthParam = "imageWidth";
             const string imageHeightParam = "imageHeight";
             const string speedParam = "speed";
-
-            if (Strategy == UIStrategy.PureXaml)
-            {
-                return;
-            }
 
             if (_containerVisual == null)
             {
@@ -953,53 +794,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             lock (_lockerOffset)
             {
-                if (Strategy == UIStrategy.Composition)
+                if (_propertySetModulo == null)
                 {
-                    if (_propertySetModulo == null)
-                    {
-                        return;
-                    }
-
-                    _propertySetModulo.InsertScalar("offsetX", (float)x);
-                    _propertySetModulo.InsertScalar("offsetY", (float)y);
+                    return;
                 }
-                else
-                {
-                    var orientation = ScrollOrientation;
 
-                    var scrollViewer = _scrollViewer;
-
-                    double scrollX = 0;
-                    double scrollY = 0;
-
-                    if (scrollViewer != null)
-                    {
-                        var speedRatio = ParallaxSpeedRatio;
-
-                        scrollX = -(scrollViewer.HorizontalOffset * scrollViewer.ActualWidth / scrollViewer.ViewportWidth) * speedRatio;
-                        scrollY = -(scrollViewer.VerticalOffset * scrollViewer.ActualHeight / scrollViewer.ViewportHeight) * speedRatio;
-                    }
-
-                    if (orientation == ScrollOrientation.Both || orientation == ScrollOrientation.Horizontal)
-                    {
-                        _containerTranslate.X = GetOffsetModulo(x + scrollX, _imageSize.Width);
-
-                        if (orientation == ScrollOrientation.Horizontal)
-                        {
-                            _containerTranslate.Y = 0;
-                        }
-                    }
-
-                    if (orientation == ScrollOrientation.Both || orientation == ScrollOrientation.Vertical)
-                    {
-                        _containerTranslate.Y = GetOffsetModulo(y + scrollY, _imageSize.Height);
-
-                        if (orientation == ScrollOrientation.Vertical)
-                        {
-                            _containerTranslate.X = 0;
-                        }
-                    }
-                }
+                _propertySetModulo.InsertScalar("offsetX", (float)x);
+                _propertySetModulo.InsertScalar("offsetY", (float)y);
             }
         }
 
@@ -1084,9 +885,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Timer_Tick(object sender, object e)
         {
-            var strategy = Strategy;
-
-            if (strategy == UIStrategy.Composition && _containerVisual == null)
+            if (_containerVisual == null)
             {
                 return;
             }
