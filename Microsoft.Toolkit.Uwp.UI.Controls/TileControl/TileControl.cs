@@ -432,7 +432,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     var compositor = _containerVisual.Compositor;
 
-                    _imageSurface = LoadedImageSurface.StartLoadFromUri(new Uri("dsffsdffdsf.comdfdsfd"));
+                    _imageSurface = LoadedImageSurface.StartLoadFromUri(uri);
                     var loadCompletedSource = new TaskCompletionSource<bool>();
                     _brushVisual = compositor.CreateSurfaceBrush(_imageSurface);
 
