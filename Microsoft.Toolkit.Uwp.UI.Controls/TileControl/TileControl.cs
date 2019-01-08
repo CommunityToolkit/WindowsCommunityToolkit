@@ -145,6 +145,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AnimationDurationProperty =
             DependencyProperty.Register(nameof(AnimationDuration), typeof(double), typeof(TileControl), new PropertyMetadata(30.0, OnAnimationDuration));
 
+        /// <summary>
+        /// a flag to lock shared method
+        /// </summary>
+        private readonly SemaphoreSlim _flag = new SemaphoreSlim(1);
+
+        private readonly List<SpriteVisual> _compositionChildren = new List<SpriteVisual>(50);
+        private readonly object _lockerOffset = new object();
+
         private FrameworkElement _rootElement;
 
         private ContainerVisual _containerVisual;
@@ -160,19 +168,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private ScrollViewer _scrollViewer;
 
-        /// <summary>
-        /// a flag to lock shared method
-        /// </summary>
-        private readonly SemaphoreSlim _flag = new SemaphoreSlim(1);
-
-        private readonly List<SpriteVisual> _compositionChildren = new List<SpriteVisual>(50);
-        private readonly List<Rectangle> _xamlChildren = new List<Rectangle>(50);
-
         private bool _isImageSourceLoaded;
         private bool _isRootElementSizeChanged;
 
         private CompositionPropertySet _propertySetModulo;
-        private readonly object _lockerOffset = new object();
 
         private double _animationX;
         private double _animationY;
@@ -583,11 +582,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 for (int x = 0; x < numberImagePerColumn; x++)
                 {
-                    int index = y * numberImagePerColumn + x;
+                    int index = (y * numberImagePerColumn) + x;
 
                     var sprite = _compositionChildren[index];
                     sprite.Brush = _brushVisual;
-                    sprite.Offset = new Vector3((float)(x * imageWidth + offsetVerticalAlignment), (float)(y * imageHeight + offsetHorizontalAlignment), 0);
+                    sprite.Offset = new Vector3((float)((x * imageWidth) + offsetVerticalAlignment), (float)((y * imageHeight) + offsetHorizontalAlignment), 0);
                     sprite.Size = new Vector2((float)imageWidth, (float)imageHeight);
                 }
             }
@@ -712,16 +711,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     0,
                     ExpressionFunctions.Conditional(
                         offsetXNode < 0,
-                        -(ExpressionFunctions.Abs(offsetXNode - ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode) % imageWidthNode),
-                        -(imageWidthNode - offsetXNode % imageWidthNode)));
+                        -(ExpressionFunctions.Abs(offsetXNode - (ExpressionFunctions.Ceil(offsetXNode / imageWidthNode) * imageWidthNode)) % imageWidthNode),
+                        -(imageWidthNode - (offsetXNode % imageWidthNode))));
 
                 expressionYVal = ExpressionFunctions.Conditional(
                     offsetYNode == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         offsetYNode < 0,
-                        -(ExpressionFunctions.Abs(offsetYNode - ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode) % imageHeightNode),
-                        -(imageHeightNode - offsetYNode % imageHeightNode)));
+                        -(ExpressionFunctions.Abs(offsetYNode - (ExpressionFunctions.Ceil(offsetYNode / imageHeightNode) * imageHeightNode)) % imageHeightNode),
+                        -(imageHeightNode - (offsetYNode % imageHeightNode))));
             }
             else
             {
@@ -730,23 +729,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var scrollPropSet = scrollProperties.GetSpecializedReference<ManipulationPropertySetReferenceNode>();
 
                 var speed = propertySetNodeModulo.GetScalarProperty(speedParam);
-                var xCommon = ExpressionFunctions.Ceil(scrollPropSet.Translation.X * speed + propertySetNodeModulo.GetScalarProperty(offsetXParam));
+                var xCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.X * speed) + propertySetNodeModulo.GetScalarProperty(offsetXParam));
                 expressionXVal = ExpressionFunctions.Conditional(
                     xCommon == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         xCommon < 0,
-                        -(ExpressionFunctions.Abs(xCommon - ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode) % imageWidthNode),
-                        -(imageWidthNode - xCommon % imageWidthNode)));
+                        -(ExpressionFunctions.Abs(xCommon - (ExpressionFunctions.Ceil(xCommon / imageWidthNode) * imageWidthNode)) % imageWidthNode),
+                        -(imageWidthNode - (xCommon % imageWidthNode))));
 
-                var yCommon = ExpressionFunctions.Ceil(scrollPropSet.Translation.Y * speed + propertySetNodeModulo.GetScalarProperty(offsetYParam));
+                var yCommon = ExpressionFunctions.Ceil((scrollPropSet.Translation.Y * speed) + propertySetNodeModulo.GetScalarProperty(offsetYParam));
                 expressionYVal = ExpressionFunctions.Conditional(
                     yCommon == 0,
                     0,
                     ExpressionFunctions.Conditional(
                         yCommon < 0,
-                        -(ExpressionFunctions.Abs(yCommon - ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode) % imageHeightNode),
-                        -(imageHeightNode - yCommon % imageHeightNode)));
+                        -(ExpressionFunctions.Abs(yCommon - (ExpressionFunctions.Ceil(yCommon / imageHeightNode) * imageHeightNode)) % imageHeightNode),
+                        -(imageHeightNode - (yCommon % imageHeightNode))));
             }
 
             if (scrollOrientation == ScrollOrientation.Horizontal || scrollOrientation == ScrollOrientation.Both)
@@ -821,10 +820,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (offsetCeil < 0)
             {
-                return -(Math.Abs(offsetCeil - Math.Ceiling(offsetCeil / size) * size) % size);
+                return -(Math.Abs(offsetCeil - (Math.Ceiling(offsetCeil / size) * size)) % size);
             }
 
-            return -(size - offsetCeil % size);
+            return -(size - (offsetCeil % size));
         }
 
         private void RefreshImageSize(double width, double height)
