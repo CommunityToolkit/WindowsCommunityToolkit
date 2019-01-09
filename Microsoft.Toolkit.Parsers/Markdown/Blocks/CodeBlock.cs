@@ -180,7 +180,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return new CodeBlock()
             {
                 Text = code.ToString().Trim('\r', '\n'),
-                CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage.Trim() : null
+                CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage.Trim() : null,
+
+                // substring to get the parsed codeblock from the full markdown string
+                OriginalMarkdown = markdown.Substring(start, actualEnd - start > 0 ? actualEnd - start : 0)
             };
         }
 

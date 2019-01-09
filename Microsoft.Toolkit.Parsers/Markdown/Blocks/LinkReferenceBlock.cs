@@ -160,6 +160,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             result.Id = id;
             result.Url = url;
             result.Tooltip = tooltip;
+
+            // substring to get the parsed link from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(start, end - start > 0 ? end - start : 0);
+
             return result;
         }
 

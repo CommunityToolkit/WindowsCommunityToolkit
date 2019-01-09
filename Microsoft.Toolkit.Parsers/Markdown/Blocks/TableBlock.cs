@@ -53,6 +53,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             // interior vertical bars as there are interior vertical bars on the first line.
             actualEnd = start;
 
+            // copy the original start index for the original markdown extraction
+            int origStart = start;
+
             // First thing to do is to check if there is a vertical bar on the line.
             int barOrNewLineIndex = markdown.IndexOf('|', start, endOfFirstLine - start);
             if (barOrNewLineIndex < 0)
@@ -146,7 +149,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             actualEnd = start;
-            return new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
+
+            TableBlock result = new TableBlock();
+            result.ColumnDefinitions = columnDefinitions;
+            result.Rows = rows;
+
+            // substring to get the parsed table from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(origStart, actualEnd - origStart > 0 ? actualEnd - origStart : 0);
+
+            return result;
         }
 
         /// <summary>

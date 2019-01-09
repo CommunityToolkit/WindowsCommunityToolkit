@@ -82,6 +82,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 end--;
             }
 
+            // substring to get the parsed header from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(start, end - start > 0 ? end - start : 0);
+
             // Parse the inline content.
             result.Inlines = Common.ParseInlineChildren(markdown, pos, end);
             return result;
@@ -143,6 +146,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             var result = new HeaderBlock();
             result.HeaderLevel = underlineChar == '=' ? 1 : 2;
+
+            // substring to get the parsed header from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(firstLineStart, secondLineEnd - firstLineStart > 0 ? secondLineEnd - firstLineStart : 0);
 
             // Parse the inline content.
             result.Inlines = Common.ParseInlineChildren(markdown, firstLineStart, firstLineEnd);

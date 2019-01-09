@@ -35,6 +35,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         {
             var result = new ParagraphBlock();
             result.Inlines = Common.ParseInlineChildren(markdown, 0, markdown.Length);
+
+            // no substring needed here, parsed markdown equals orignal markdown
+            result.OriginalMarkdown = markdown;
             return result;
         }
 

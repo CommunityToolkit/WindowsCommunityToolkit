@@ -209,6 +209,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             var result = russianDolls[0].List;
+
+            // substring to get the parsed list from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(start, actualEnd - start > 0 ? actualEnd - start : 0);
             ReplaceStringBuilders(result);
             return result;
         }

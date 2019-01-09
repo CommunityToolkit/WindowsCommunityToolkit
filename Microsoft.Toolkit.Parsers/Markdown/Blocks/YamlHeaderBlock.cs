@@ -137,6 +137,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 return null;
             }
 
+            // substring to get the parsed yaml from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(start, realEndIndex - start > 0 ? realEndIndex - start : 0);
+
             return result;
         }
 

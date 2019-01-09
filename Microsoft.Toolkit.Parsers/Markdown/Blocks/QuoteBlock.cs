@@ -41,6 +41,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             // Recursively call into the markdown block parser.
             result.Blocks = MarkdownDocument.Parse(markdown, startOfLine, maxEnd, quoteDepth: quoteDepth + 1, actualEnd: out actualEnd);
 
+            // substring to get the parsed quote from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(startOfLine, actualEnd - startOfLine > 0 ? actualEnd - startOfLine : 0);
+
             return result;
         }
     }

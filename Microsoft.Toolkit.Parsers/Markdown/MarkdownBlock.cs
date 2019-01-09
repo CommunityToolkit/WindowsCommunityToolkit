@@ -15,6 +15,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public MarkdownBlockType Type { get; set; }
 
         /// <summary>
+        /// Gets the original Markdown the element was parsed from.
+        /// </summary>
+        public string OriginalMarkdown { get; internal set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownBlock"/> class.
         /// </summary>
         internal MarkdownBlock(MarkdownBlockType type)

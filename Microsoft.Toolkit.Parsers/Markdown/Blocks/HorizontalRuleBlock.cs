@@ -58,8 +58,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
             }
 
+            HorizontalRuleBlock result = new HorizontalRuleBlock();
+
+            // substring to get the parsed horizontalrule from the full markdown string
+            result.OriginalMarkdown = markdown.Substring(start, end - start > 0 ? end - start : 0);
+
             // Hopefully there were at least 3 stars/dashes/underscores.
-            return hrCharCount >= 3 ? new HorizontalRuleBlock() : null;
+            return hrCharCount >= 3 ? result : null;
         }
 
         /// <summary>
