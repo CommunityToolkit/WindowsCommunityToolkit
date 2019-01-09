@@ -59,18 +59,18 @@ namespace GazeHidParsers {
             auto controlDescY = descY->ControlDescription;
             auto controlDescZ = descZ->ControlDescription;
 
-            if ((controlDescX->LogicalMaximum < descX->Value || controlDescX->LogicalMinimum > descX->Value) ||
-                (controlDescY->LogicalMaximum < descY->Value || controlDescY->LogicalMinimum > descY->Value) ||
-                (controlDescZ->LogicalMaximum < descZ->Value || controlDescZ->LogicalMinimum > descZ->Value))
+            if ((controlDescX->LogicalMaximum < descX->ScaledValue || controlDescX->LogicalMinimum > descX->ScaledValue) ||
+                (controlDescY->LogicalMaximum < descY->ScaledValue || controlDescY->LogicalMinimum > descY->ScaledValue) ||
+                (controlDescZ->LogicalMaximum < descZ->ScaledValue || controlDescZ->LogicalMinimum > descZ->ScaledValue))
             {
                 // One of the values is outside of the valid range.
             }
             else
             {
                 result = ref new GazeHidPosition();
-                result->X = descX->Value;
-                result->Y = descY->Value;
-                result->Z = descZ->Value;
+                result->X = descX->ScaledValue;
+                result->Y = descY->ScaledValue;
+                result->Z = descZ->ScaledValue;
             }
         }
 
@@ -107,18 +107,18 @@ namespace GazeHidParsers {
             auto controlDescY = descY->ControlDescription;
             auto controlDescZ = descZ->ControlDescription;
 
-            if ((controlDescX->LogicalMaximum < descX->Value || controlDescX->LogicalMinimum > descX->Value) ||
-                (controlDescY->LogicalMaximum < descY->Value || controlDescY->LogicalMinimum > descY->Value) ||
-                (controlDescZ->LogicalMaximum < descZ->Value || controlDescZ->LogicalMinimum > descZ->Value))
+            if ((controlDescX->LogicalMaximum < descX->ScaledValue || controlDescX->LogicalMinimum > descX->ScaledValue) ||
+                (controlDescY->LogicalMaximum < descY->ScaledValue || controlDescY->LogicalMinimum > descY->ScaledValue) ||
+                (controlDescZ->LogicalMaximum < descZ->ScaledValue || controlDescZ->LogicalMinimum > descZ->ScaledValue))
             {
                 // One of the values is outside of the valid range.
             }
             else
             {
                 result = ref new GazeHidPosition();
-                result->X = descX->Value;
-                result->Y = descY->Value;
-                result->Z = descZ->Value;
+                result->X = descX->ScaledValue;
+                result->Y = descY->ScaledValue;
+                result->Z = descZ->ScaledValue;
             }
         }
 
