@@ -9,19 +9,19 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Service used to store data
+    /// Service used to store data.
     /// </summary>
     public interface IObjectStorageHelper
     {
         /// <summary>
-        /// Detect if a setting already exists
+        /// Determines whether a setting already exists.
         /// </summary>
         /// <param name="key">Key of the setting (that contains object)</param>
         /// <returns>True if a value exists</returns>
         bool KeyExists(string key);
 
         /// <summary>
-        /// Detect if a setting already exists in composite.
+        /// Determines whether a setting already exists in composite.
         /// </summary>
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
         /// <param name="key">Key of the setting (that contains object)</param>
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         bool KeyExists(string compositeKey, string key);
 
         /// <summary>
-        /// Retrieve single item by its key
+        /// Retrieves a single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="key">Key of the object</param>
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         T Read<T>(string key, T @default = default(T));
 
         /// <summary>
-        /// Retrieve single item by its key in composite.
+        /// Retrieves a single item by its key in composite.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="compositeKey">Key of the composite (that contains settings)</param>
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         T Read<T>(string compositeKey, string key, T @default = default(T));
 
         /// <summary>
-        /// Save single item by its key
+        /// Saves a single item by its key.
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="key">Key of the value saved</param>
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         void Save<T>(string key, T value);
 
         /// <summary>
-        /// Save a group of items by its key in a composite.
+        /// Saves a group of items by its key in a composite.
         /// This method should be considered for objects that do not exceed 8k bytes during the lifetime of the application
         /// (refers to <see cref="SaveFileAsync{T}(string, T)"/> for complex/large objects) and for groups of settings which
         /// need to be treated in an atomic way.
@@ -67,14 +67,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         void Save<T>(string compositeKey, IDictionary<string, T> values);
 
         /// <summary>
-        /// Detect if a file already exists
+        /// Determines whether a file already exists.
         /// </summary>
         /// <param name="filePath">Key of the file (that contains object)</param>
         /// <returns>True if a value exists</returns>
         Task<bool> FileExistsAsync(string filePath);
 
         /// <summary>
-        /// Retrieve object from file
+        /// Retrieves an object from a file.
         /// </summary>
         /// <typeparam name="T">Type of object retrieved</typeparam>
         /// <param name="filePath">Path to the file that contains the object</param>
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         Task<T> ReadFileAsync<T>(string filePath, T @default = default(T));
 
         /// <summary>
-        /// Save object inside file
+        /// Saves an object inside a file.
         /// </summary>
         /// <typeparam name="T">Type of object saved</typeparam>
         /// <param name="filePath">Path to the file that will contain the object</param>
