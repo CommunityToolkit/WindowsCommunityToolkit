@@ -23,7 +23,7 @@
             <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
             <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush"/>
             <StaticResource x:Key="DataGridColumnHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
-            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemChromeMediumLowColor"/>
+            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemAltHighColor"/>
             <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{StaticResource DataGridColumnHeaderBackgroundColor}"/>
             <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
             <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor" ResourceKey="SystemListMediumColor"/>
@@ -36,7 +36,7 @@
             <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
             <StaticResource x:Key="ScrollBarsSeparatorBackground" ResourceKey="SystemControlPageBackgroundChromeLowBrush"/>
             <StaticResource x:Key="DataGridColumnHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
-            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemChromeMediumLowColor"/>
+            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemAltHighColor"/>
             <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{StaticResource DataGridColumnHeaderBackgroundColor}"/>
             <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
             <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor" ResourceKey="SystemListMediumColor"/>
@@ -49,7 +49,7 @@
             <SolidColorBrush x:Key="FillerGridLinesBrush" Color="Transparent"/>
             <SolidColorBrush x:Key="ScrollBarsSeparatorBackground" Color="{StaticResource SystemChromeMediumColor}" Opacity="0.9"/>
             <StaticResource x:Key="DataGridColumnHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseMediumBrush"/>
-            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemChromeMediumLowColor"/>
+            <StaticResource x:Key="DataGridColumnHeaderBackgroundColor" ResourceKey="SystemAltHighColor"/>
             <SolidColorBrush x:Key="DataGridColumnHeaderBackgroundBrush" Color="{StaticResource DataGridColumnHeaderBackgroundColor}"/>
             <StaticResource x:Key="DataGridColumnHeaderHoveredBackgroundColor" ResourceKey="SystemListLowColor"/>
             <StaticResource x:Key="DataGridColumnHeaderPressedBackgroundColor" ResourceKey="SystemListMediumColor"/>
