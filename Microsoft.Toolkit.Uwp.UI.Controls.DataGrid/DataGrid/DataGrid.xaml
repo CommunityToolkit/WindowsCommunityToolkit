@@ -81,6 +81,7 @@
     <StaticResource x:Key="DataGridRowGroupHeaderForegroundBrush" ResourceKey="SystemControlForegroundBaseHighBrush"/>
     <StaticResource x:Key="DataGridRowInvalidBrush" ResourceKey="InvalidBrush"/>
     <StaticResource x:Key="DataGridCellBackgroundBrush" ResourceKey="SystemControlTransparentBrush"/>
+    <StaticResource x:Key="DataGridCellForegroundBrush" ResourceKey="SystemControlForegroundBaseLowBrush"/>
     <StaticResource x:Key="DataGridCellFocusVisualPrimaryBrush" ResourceKey="SystemControlFocusVisualPrimaryBrush"/>
     <StaticResource x:Key="DataGridCellFocusVisualSecondaryBrush" ResourceKey="SystemControlFocusVisualSecondaryBrush"/>
     <StaticResource x:Key="DataGridCellInvalidBrush" ResourceKey="InvalidBrush"/>
@@ -424,6 +425,7 @@
 
     <Style TargetType="local:DataGridCell">
         <Setter Property="Background" Value="{ThemeResource DataGridCellBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{ThemeResource DataGridCellForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="FontSize" Value="15"/>
@@ -477,7 +479,9 @@
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}" 
+                            Foreground="{TemplateBinding Foreground}"/>
 
                         <Rectangle x:Name="InvalidVisualElement" IsHitTestVisible="False" StrokeThickness="1" Stroke="{ThemeResource DataGridCellInvalidBrush}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Opacity="0"/>
 
