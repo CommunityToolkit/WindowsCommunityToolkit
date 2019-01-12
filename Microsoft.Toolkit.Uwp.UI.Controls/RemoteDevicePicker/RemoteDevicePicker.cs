@@ -31,9 +31,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ComboBox _deviceStatus;
         private ComboBox _authorizationType;
         private Grid _advancedFiltersGrid;
-        private RemoteSystemDiscoveryTypeFilter discoveryFilter;
-        private RemoteSystemAuthorizationKindFilter authorizationKindFilter;
-        private RemoteSystemStatusTypeFilter statusFilter;
+        private RemoteSystemDiscoveryTypeFilter _discoveryFilter;
+        private RemoteSystemAuthorizationKindFilter _authorizationKindFilter;
+        private RemoteSystemStatusTypeFilter _statusFilter;
 
         /// <summary>
         /// Gets or sets List of All Remote Systems based on Selection Filter
@@ -95,9 +95,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             RemoteSystems = new ObservableCollection<RemoteSystem>();
             PrimaryButtonClick += RemoteDevicePicker_PrimaryButtonClick;
 
-            discoveryFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
-            authorizationKindFilter = new RemoteSystemAuthorizationKindFilter(remoteSystemAuthorizationKind);
-            statusFilter = new RemoteSystemStatusTypeFilter(remoteSystemStatusType);
+            _discoveryFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
+            _authorizationKindFilter = new RemoteSystemAuthorizationKindFilter(remoteSystemAuthorizationKind);
+            _statusFilter = new RemoteSystemStatusTypeFilter(remoteSystemStatusType);
         }
 
         private void RemoteDevicePicker_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_advancedFiltersGrid != null)
             {
-                _advancedFiltersGrid.Visibility = ShowAdvancedFilters || (discoveryFilter != null && statusFilter != null && authorizationKindFilter != null) ? Visibility.Visible : Visibility.Collapsed;
+                _advancedFiltersGrid.Visibility = ShowAdvancedFilters || (_discoveryFilter != null && _statusFilter != null && _authorizationKindFilter != null) ? Visibility.Visible : Visibility.Collapsed;
             }
 
             LoadFilters();
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _deviceStatus.SelectionChanged += Filters_SelectionChanged;
             }
 
-            BuildFilters(discoveryFilter, authorizationKindFilter, statusFilter);
+            BuildFilters(_discoveryFilter, _authorizationKindFilter, _statusFilter);
 
             IsSecondaryButtonEnabled = false;
 
@@ -229,11 +229,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Filters_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            discoveryFilter = new RemoteSystemDiscoveryTypeFilter((RemoteSystemDiscoveryType)Enum.Parse(typeof(RemoteSystemDiscoveryType), _deviceDiscovery?.SelectedValue.ToString()));
-            authorizationKindFilter = new RemoteSystemAuthorizationKindFilter((RemoteSystemAuthorizationKind)Enum.Parse(typeof(RemoteSystemAuthorizationKind), _authorizationType?.SelectedValue.ToString()));
-            statusFilter = new RemoteSystemStatusTypeFilter((RemoteSystemStatusType)Enum.Parse(typeof(RemoteSystemStatusType), _deviceStatus?.SelectedValue.ToString()));
+            _discoveryFilter = new RemoteSystemDiscoveryTypeFilter((RemoteSystemDiscoveryType)Enum.Parse(typeof(RemoteSystemDiscoveryType), _deviceDiscovery?.SelectedValue.ToString()));
+            _authorizationKindFilter = new RemoteSystemAuthorizationKindFilter((RemoteSystemAuthorizationKind)Enum.Parse(typeof(RemoteSystemAuthorizationKind), _authorizationType?.SelectedValue.ToString()));
+            _statusFilter = new RemoteSystemStatusTypeFilter((RemoteSystemStatusType)Enum.Parse(typeof(RemoteSystemStatusType), _deviceStatus?.SelectedValue.ToString()));
 
-            BuildFilters(discoveryFilter, authorizationKindFilter, statusFilter);
+            BuildFilters(_discoveryFilter, _authorizationKindFilter, _statusFilter);
         }
 
         private void LoadFilters()
@@ -241,25 +241,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             List<string> discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _deviceDiscovery.ItemsSource = discoveryType;
 
-            if (discoveryFilter != null)
+            if (_discoveryFilter != null)
             {
-                _deviceDiscovery.SelectedValue = discoveryFilter.RemoteSystemDiscoveryType.ToString();
+                _deviceDiscovery.SelectedValue = _discoveryFilter.RemoteSystemDiscoveryType.ToString();
             }
 
             List<string> statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _deviceStatus.ItemsSource = statusType;
 
-            if (statusFilter != null)
+            if (_statusFilter != null)
             {
-                _deviceStatus.SelectedValue = statusFilter.RemoteSystemStatusType.ToString();
+                _deviceStatus.SelectedValue = _statusFilter.RemoteSystemStatusType.ToString();
             }
 
             List<string> authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _authorizationType.ItemsSource = authType;
 
-            if (authorizationKindFilter != null)
+            if (_authorizationKindFilter != null)
             {
-                _authorizationType.SelectedValue = authorizationKindFilter.RemoteSystemAuthorizationKind.ToString();
+                _authorizationType.SelectedValue = _authorizationKindFilter.RemoteSystemAuthorizationKind.ToString();
             }
         }
 
