@@ -60,71 +60,59 @@
                                                 <RowDefinition Height="*" />
                                                 <RowDefinition Height="Auto" />
                                             </Grid.RowDefinitions>
-                                            <ContentControl x:Name="Title"
-                                                Margin="{ThemeResource ContentDialogTitleMargin}"
-                                                Content="{TemplateBinding Title}"
-                                                ContentTemplate="{TemplateBinding TitleTemplate}"
-                                                FontSize="20"
-                                                FontFamily="XamlAutoFontFamily"
-                                                FontWeight="Normal"
-                                                Foreground="{TemplateBinding Foreground}"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                IsTabStop="False"
-                                                MaxHeight="{ThemeResource ContentDialogTitleMaxHeight}">
-                                                <ContentControl.Template>
-                                                    <ControlTemplate TargetType="ContentControl">
-                                                        <ContentPresenter
-                                                            Content="{TemplateBinding Content}"
-                                                            MaxLines="2"
-                                                            TextWrapping="Wrap"
-                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                            Margin="12,12,12,0"
-                                                            ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-                                                    </ControlTemplate>
-                                                </ContentControl.Template>
-                                            </ContentControl>
-                                            <Grid VerticalAlignment="Center" Grid.Row="2" Margin="12,5">
+                                            <StackPanel Orientation="Horizontal">
+                                                <ContentControl x:Name="Title"
+                                                    Margin="{ThemeResource ContentDialogTitleMargin}"
+                                                    Content="{TemplateBinding Title}"
+                                                    ContentTemplate="{TemplateBinding TitleTemplate}"
+                                                    FontSize="20"
+                                                    FontFamily="XamlAutoFontFamily"
+                                                    FontWeight="Normal"
+                                                    Foreground="{TemplateBinding Foreground}"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    IsTabStop="False"
+                                                    MaxHeight="{ThemeResource ContentDialogTitleMaxHeight}">
+                                                    <ContentControl.Template>
+                                                        <ControlTemplate TargetType="ContentControl">
+                                                            <ContentPresenter
+                                                                Content="{TemplateBinding Content}"
+                                                                MaxLines="2"
+                                                                TextWrapping="Wrap"
+                                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                Margin="12,12,12,0"
+                                                                ContentTransitions="{TemplateBinding ContentTransitions}"
+                                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                        </ControlTemplate>
+                                                    </ContentControl.Template>
+                                                </ContentControl>
+                                                <ProgressRing x:Name="PART_ProgressRing" Width="25" Height="25" IsActive="True" Grid.Column="2" Margin="5" HorizontalAlignment="Right"/>
+                                            </StackPanel>
+                                            <Grid VerticalAlignment="Center" Grid.Row="2" Margin="{StaticResource RemoteDevicePickerMargin}">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="*" />
-                                                    <ColumnDefinition Width="Auto" />
-                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="*" />
                                                 </Grid.ColumnDefinitions>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <TextBlock Text="Device Type: " VerticalAlignment="Center" />
-                                                    <ComboBox x:Name="PART_ListDeviceTypes" Margin="10,0,0,0" VerticalAlignment="Center" SelectedIndex="0" />
-                                                </StackPanel>
-                                                <ProgressRing x:Name="PART_ProgressRing" Width="25" Height="25" IsActive="True" Grid.Column="1" Margin="5" />
+                                                <TextBlock Text="Device Type: " VerticalAlignment="Center" />
+                                                <ComboBox x:Name="PART_ListDeviceTypes" Margin="10,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" SelectedIndex="0" />
                                             </Grid>
-                                            <Grid Grid.Row="3" MaxWidth="{ThemeResource ContentDialogMinWidth}" Visibility="Collapsed" x:Name="AdvancedFiltersGrid">
-                                                <StackPanel Orientation="Vertical">
-                                                    <Grid Margin="{StaticResource RemoteDevicePickerMargin}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Device Discovery Type: " VerticalAlignment="Center" />
-                                                        <ComboBox x:Name="DiscoveryType" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="1" SelectedIndex="0" />
-                                                    </Grid>
-                                                    <Grid Margin="{StaticResource RemoteDevicePickerMargin}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Device Availability: " VerticalAlignment="Center" />
-                                                        <ComboBox x:Name="StatusType" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="1" SelectedIndex="0" />
-                                                    </Grid>
-                                                    <Grid Margin="{StaticResource RemoteDevicePickerMargin}">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="*"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <TextBlock Text="Device User Type: " VerticalAlignment="Center" />
-                                                        <ComboBox x:Name="AuthorizationType" Margin="10,0,0,0" VerticalAlignment="Center" Grid.Column="1" SelectedIndex="0" />
-                                                    </Grid>
-                                                </StackPanel>
+                                            <Grid Grid.Row="3" MaxWidth="{ThemeResource ContentDialogMinWidth}" Visibility="Collapsed" x:Name="AdvancedFiltersGrid" Margin="12,0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Text="Device Discovery Type: " VerticalAlignment="Center" />
+                                                <ComboBox x:Name="DiscoveryType" Margin="10,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" SelectedIndex="0" />
+                                                <TextBlock Text="Device Availability: " VerticalAlignment="Center" Grid.Row="1"/>
+                                                <ComboBox x:Name="StatusType" Margin="10,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" SelectedIndex="0" Grid.Row="1"/>
+                                                <TextBlock Text="Device User Type: " VerticalAlignment="Center" Grid.Row="2"/>
+                                                <ComboBox x:Name="AuthorizationType" Margin="10,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" SelectedIndex="0" Grid.Row="2"/>
                                             </Grid>
                                             <ScrollContentPresenter x:Name="Content"
                                                 FontSize="{ThemeResource ControlContentThemeFontSize}"
