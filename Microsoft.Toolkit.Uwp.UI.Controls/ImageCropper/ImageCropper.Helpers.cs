@@ -22,10 +22,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ImageCropper
     {
-        private static async Task CropImageAsync(WriteableBitmap writeableBitmap, Rect croppedRect, BitmapEncoder bitmapEncoder)
+        private static async Task CropImageAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
         {
-            croppedRect.X = croppedRect.X > 0 ? croppedRect.X : 0;
-            croppedRect.Y = croppedRect.Y > 0 ? croppedRect.Y : 0;
+            croppedRect.X = Math.Max(croppedRect.X, 0);
+            croppedRect.Y = Math.Max(croppedRect.Y, 0);
             var x = (uint)Math.Floor(croppedRect.X);
             var y = (uint)Math.Floor(croppedRect.Y);
             var width = (uint)Math.Floor(croppedRect.Width);
@@ -34,6 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var buffer = new byte[sourceStream.Length];
                 await sourceStream.ReadAsync(buffer, 0, buffer.Length);
+                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
                 bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, (uint)writeableBitmap.PixelWidth, (uint)writeableBitmap.PixelHeight, 96.0, 96.0, buffer);
                 bitmapEncoder.BitmapTransform.Bounds = new BitmapBounds
                 {
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static async Task CropImageWithShapeAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, CropShape cropShape, BitmapFileFormat bitmapFileFormat)
+        private static async Task CropImageWithShapeAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat, CropShape cropShape)
         {
             var device = CanvasDevice.GetSharedDevice();
             var clipGeometry = CreateClipGeometry(device, cropShape, new Size(croppedRect.Width, croppedRect.Height));
@@ -58,8 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CanvasBitmap sourceBitmap = null;
             using (var randomAccessStream = new InMemoryRandomAccessStream())
             {
-                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), randomAccessStream);
-                await CropImageAsync(writeableBitmap, croppedRect, bitmapEncoder);
+                await CropImageAsync(writeableBitmap, randomAccessStream, croppedRect, bitmapFileFormat);
                 sourceBitmap = await CanvasBitmap.LoadAsync(device, randomAccessStream);
             }
 
@@ -85,9 +85,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 clipGeometry.Dispose();
                 sourceBitmap.Dispose();
                 var pixelBytes = offScreen.GetPixelBytes();
-                var croppedBitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-                croppedBitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
-                await croppedBitmapEncoder.FlushAsync();
+                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
+                bitmapEncoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Premultiplied, offScreen.SizeInPixels.Width, offScreen.SizeInPixels.Height, 96.0, 96.0, pixelBytes);
+                await bitmapEncoder.FlushAsync();
             }
         }
 
@@ -123,8 +123,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return BitmapEncoder.GifEncoderId;
                 case BitmapFileFormat.JpegXR:
                     return BitmapEncoder.JpegXREncoderId;
-                case BitmapFileFormat.Heif:
-                    return BitmapEncoder.HeifEncoderId;
             }
 
             return BitmapEncoder.PngEncoderId;

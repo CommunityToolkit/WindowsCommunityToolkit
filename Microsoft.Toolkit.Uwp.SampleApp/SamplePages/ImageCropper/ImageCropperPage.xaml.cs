@@ -133,8 +133,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 FileTypeChoices =
                 {
                     { "PNG Picture", new List<string> { ".png" } },
-                    { "JPEG Picture", new List<string> { ".jpg" } },
-                    { "HEIF Picture", new List<string> { ".heic" } }
+                    { "JPEG Picture", new List<string> { ".jpg" } }
                 }
             };
             var imageFile = await savePicker.PickSaveFileAsync();
@@ -147,9 +146,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                         break;
                     case ".jpg":
                         bitmapFileFormat = BitmapFileFormat.Jpeg;
-                        break;
-                    case ".heic":
-                        bitmapFileFormat = BitmapFileFormat.Heif;
                         break;
                 }
 

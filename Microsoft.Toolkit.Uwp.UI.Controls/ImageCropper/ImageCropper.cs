@@ -367,12 +367,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (keepRectangularOutput || CropShape == CropShape.Rectangular)
             {
-                var bitmapEncoder = await BitmapEncoder.CreateAsync(GetEncoderId(bitmapFileFormat), stream);
-                await CropImageAsync(Source, _currentCroppedRect, bitmapEncoder);
+                await CropImageAsync(Source, stream, _currentCroppedRect, bitmapFileFormat);
                 return;
             }
 
-            await CropImageWithShapeAsync(Source, stream, _currentCroppedRect, CropShape, bitmapFileFormat);
+            await CropImageWithShapeAsync(Source, stream, _currentCroppedRect, bitmapFileFormat, CropShape);
         }
 
         /// <summary>
