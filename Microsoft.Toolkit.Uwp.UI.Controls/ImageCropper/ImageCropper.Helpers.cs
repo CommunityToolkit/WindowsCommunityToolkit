@@ -22,6 +22,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class ImageCropper
     {
+        private const double ThresholdValue = 0.001;
+
         private static async Task CropImageAsync(WriteableBitmap writeableBitmap, IRandomAccessStream stream, Rect croppedRect, BitmapFileFormat bitmapFileFormat)
         {
             croppedRect.X = Math.Max(croppedRect.X, 0);
@@ -169,22 +171,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>bool</returns>
         private static bool IsSafePoint(Rect targetRect, Point point)
         {
-            if (point.X - targetRect.X < -0.001)
+            if (point.X - targetRect.X < -ThresholdValue)
             {
                 return false;
             }
 
-            if (point.X - (targetRect.X + targetRect.Width) > 0.001)
+            if (point.X - (targetRect.X + targetRect.Width) > ThresholdValue)
             {
                 return false;
             }
 
-            if (point.Y - targetRect.Y < -0.001)
+            if (point.Y - targetRect.Y < -ThresholdValue)
             {
                 return false;
             }
 
-            if (point.Y - (targetRect.Y + targetRect.Height) > 0.001)
+            if (point.Y - (targetRect.Y + targetRect.Height) > ThresholdValue)
             {
                 return false;
             }
@@ -202,8 +204,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static bool IsSafeRect(Point startPoint, Point endPoint, Size minSize)
         {
             var checkPoint = new Point(startPoint.X + minSize.Width, startPoint.Y + minSize.Height);
-            return checkPoint.X - endPoint.X < 0.001
-                   && checkPoint.Y - endPoint.Y < 0.001;
+            return checkPoint.X - endPoint.X < ThresholdValue
+                   && checkPoint.Y - endPoint.Y < ThresholdValue;
         }
 
         /// <summary>

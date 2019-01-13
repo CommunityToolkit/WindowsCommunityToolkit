@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 SuggestedStartLocation = PickerLocationId.PicturesLibrary,
                 FileTypeFilter =
                 {
-                    ".png", ".jpg", ".jpeg", ".heic"
+                    ".png", ".jpg", ".jpeg"
                 }
             };
             var file = await filePicker.PickSingleFileAsync();
@@ -139,13 +139,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var imageFile = await savePicker.PickSaveFileAsync();
             if (imageFile != null)
             {
-                var bitmapFileFormat = BitmapFileFormat.Png;
+                BitmapFileFormat bitmapFileFormat;
                 switch (imageFile.FileType.ToLower())
                 {
                     case ".png":
+                        bitmapFileFormat = BitmapFileFormat.Png;
                         break;
                     case ".jpg":
                         bitmapFileFormat = BitmapFileFormat.Jpeg;
+                        break;
+                    default:
+                        bitmapFileFormat = BitmapFileFormat.Png;
                         break;
                 }
 
