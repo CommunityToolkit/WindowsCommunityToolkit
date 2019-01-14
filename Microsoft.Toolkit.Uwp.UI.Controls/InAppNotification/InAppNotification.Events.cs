@@ -39,8 +39,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DismissTimer_Tick(object sender, object e)
         {
-            Dismiss(InAppNotificationDismissKind.Timeout);
             _dismissTimer.Stop();
+            Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
         private void OpenAnimationTimer_Tick(object sender, object e)
