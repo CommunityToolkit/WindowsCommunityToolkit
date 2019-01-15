@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the aspect ratio of the cropped image，the default value is null.
+        /// Gets or sets the aspect ratio of the cropped image, the default value is null.
         /// Only works when <see cref="CropShape"/> = <see cref="CropShape.Rectangular"/>.
         /// </summary>
         public double? AspectRatio

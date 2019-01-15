@@ -3,14 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
   <Grid>
     <controls:ImageCropper x:Name="ImageCropper"
                            CropShape="@[Crop Shape:Enum:CropShape.Rectangular]"
-                           ThumbPlacement="@[Thumb Placement:Enum:ThumbPlacement.All]"
-                           Padding="@[Padding:Thickness:80]"/>
+                           ThumbPlacement="@[Thumb Placement:Enum:ThumbPlacement.All]"/>
   </Grid>
 </Page>

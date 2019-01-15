@@ -536,6 +536,7 @@
     <Compile Include="Shell.SamplePicker.cs" />
     <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
     <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">

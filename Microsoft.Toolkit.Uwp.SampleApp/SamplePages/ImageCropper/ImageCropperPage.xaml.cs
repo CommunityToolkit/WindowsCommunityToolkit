@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
                 {
-                    await _imageCropper.SaveAsync(fileStream, bitmapFileFormat, false);
+                    await _imageCropper.SaveAsync(fileStream, bitmapFileFormat);
                 }
             }
         }
