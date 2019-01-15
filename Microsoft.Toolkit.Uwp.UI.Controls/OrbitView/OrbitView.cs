@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(OrbitView);
 
             IsTabStop = false;
-            TabNavigation = KeyboardNavigationMode.Once;
+            TabNavigation = KeyboardNavigationMode.Cycle;
             KeyDown += OrbitView_KeyDown;
             _orbits = new Dictionary<object, Ellipse>();
             _anchors = new Dictionary<object, Line>();
