@@ -358,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="bitmapFileFormat">the specified format.</param>
         /// <param name="keepRectangularOutput">Whether to always keep rectangular output.</param>
         /// <returns>Task</returns>
-        public async Task SaveAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput)
+        public async Task SaveAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat, bool keepRectangularOutput = false)
         {
             if (Source == null)
             {
