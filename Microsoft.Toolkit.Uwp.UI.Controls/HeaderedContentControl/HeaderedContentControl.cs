@@ -66,14 +66,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void HeaderedContentControl_GotFocus(object sender, RoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "Focused", false);
-
         }
 
         private void HeaderedContentControl_LostFocus(object sender, RoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "Unfocused", false);
         }
-
 
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.
