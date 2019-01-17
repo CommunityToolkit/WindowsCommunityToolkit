@@ -14,6 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class HeaderedContentControl : ContentControl
     {
+        private const string PartHeaderPresenter = "HeaderPresenter";
+
         /// <summary>
         /// Initializes a new instance of the <see cref="HeaderedContentControl"/> class.
         /// </summary>
@@ -131,6 +133,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set { SetValue(HeaderTemplateProperty, value); }
         }
 
+        /// <inheritdoc/>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            SetHeaderVisibility();
+        }
+
         /// <summary>
         /// Called when the <see cref="Header"/> property changes.
         /// </summary>
@@ -154,7 +164,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (HeaderedContentControl)d;
+            control.SetHeaderVisibility();
             control.OnHeaderChanged(e.OldValue, e.NewValue);
+        }
+
+        private void SetHeaderVisibility()
+        {
+            if (GetTemplateChild(PartHeaderPresenter) is FrameworkElement headerPresenter)
+            {
+                headerPresenter.Visibility = Header != null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
         }
     }
 }

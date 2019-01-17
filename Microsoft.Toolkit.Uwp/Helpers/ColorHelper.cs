@@ -5,6 +5,7 @@
 using System;
 using System.Reflection;
 using Windows.UI;
+using Color = Windows.UI.Color;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -14,10 +15,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public static class ColorHelper
     {
         /// <summary>
-        /// Returns a color based on XAML color string.
+        /// Creates a <see cref="Color"/> from a XAML color string.
+        /// Any format used in XAML should work.
         /// </summary>
-        /// <param name="colorString">The color string. Any format used in XAML should work.</param>
-        /// <returns>Parsed color</returns>
+        /// <param name="colorString">The XAML color string.</param>
+        /// <returns>The created <see cref="Color"/>.</returns>
         public static Color ToColor(this string colorString)
         {
             if (string.IsNullOrEmpty(colorString))
@@ -120,20 +122,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Converts a Color value to a string representation of the value in hexadecimal.
+        /// Converts a <see cref="Color"/> to a hexadecimal string representation.
         /// </summary>
-        /// <param name="color">The Color to convert.</param>
-        /// <returns>Returns a string representing the hex value.</returns>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>The hexadecimal string representation of the color.</returns>
         public static string ToHex(this Color color)
         {
             return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
         }
 
         /// <summary>
-        /// Returns the color value as a premultiplied Int32 - 4 byte ARGB structure.
+        /// Converts a <see cref="Color"/> to a premultiplied Int32 - 4 byte ARGB structure.
         /// </summary>
-        /// <param name="color">the Color to convert</param>
-        /// <returns>Returns a int representing the color.</returns>
+        /// <param name="color">The color to convert.</param>
+        /// <returns>The int representation of the color.</returns>
         public static int ToInt(this Color color)
         {
             var a = color.A + 1;
@@ -142,10 +144,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Converts an RGBA Color the HSL representation.
+        /// Converts a <see cref="Color"/> to an <see cref="HslColor"/>.
         /// </summary>
-        /// <param name="color">The Color to convert.</param>
-        /// <returns>HslColor.</returns>
+        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <returns>The converted <see cref="HslColor"/>.</returns>
         public static HslColor ToHsl(this Color color)
         {
             const double toDouble = 1.0 / 255;
@@ -187,10 +189,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Converts an RGBA Color the HSV representation.
+        /// Converts a <see cref="Color"/> to an <see cref="HsvColor"/>.
         /// </summary>
-        /// <param name="color">Color to convert.</param>
-        /// <returns>HsvColor</returns>
+        /// <param name="color">The <see cref="Color"/> to convert.</param>
+        /// <returns>The converted <see cref="HsvColor"/>.</returns>
         public static HsvColor ToHsv(this Color color)
         {
             const double toDouble = 1.0 / 255;
@@ -231,13 +233,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a Color struct based on HSL model.
+        /// Creates a <see cref="Color"/> from the specified hue, saturation, lightness, and alpha values.
         /// </summary>
         /// <param name="hue">0..360 range hue</param>
         /// <param name="saturation">0..1 range saturation</param>
         /// <param name="lightness">0..1 range lightness</param>
         /// <param name="alpha">0..1 alpha</param>
-        /// <returns>A Color object</returns>
+        /// <returns>The created <see cref="Color"/>.</returns>
         public static Color FromHsl(double hue, double saturation, double lightness, double alpha = 1.0)
         {
             if (hue < 0 || hue > 360)
@@ -297,13 +299,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Returns a Color struct based on HSV model.
+        /// Creates a <see cref="Color"/> from the specified hue, saturation, value, and alpha values.
         /// </summary>
         /// <param name="hue">0..360 range hue</param>
         /// <param name="saturation">0..1 range saturation</param>
         /// <param name="value">0..1 range value</param>
         /// <param name="alpha">0..1 alpha</param>
-        /// <returns>A Color object</returns>
+        /// <returns>The created <see cref="Color"/>.</returns>
         public static Color FromHsv(double hue, double saturation, double value, double alpha = 1.0)
         {
             if (hue < 0 || hue > 360)
