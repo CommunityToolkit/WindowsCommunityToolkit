@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public StaggeredPanel()
         {
             RegisterPropertyChangedCallback(Panel.HorizontalAlignmentProperty, OnHorizontalAlignmentChanged);
+            TabFocusNavigation = Windows.UI.Xaml.Input.KeyboardNavigationMode.Cycle;
         }
 
         /// <summary>
