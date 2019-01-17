@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         private async void Settings_ColorValuesChanged(UISettings sender, object args)
         {
             // Getting called off thread, so we need to dispatch to request value.
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            await CoreApplication.MainView?.CoreWindow?.Dispatcher?.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
                 // TODO: This doesn't stop the multiple calls if we're in our faked 'White' HighContrast Mode below.
                 if (CurrentTheme != Application.Current.RequestedTheme ||
