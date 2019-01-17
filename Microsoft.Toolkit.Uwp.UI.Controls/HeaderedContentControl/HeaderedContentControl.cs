@@ -4,6 +4,8 @@
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -18,7 +20,60 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public HeaderedContentControl()
         {
             DefaultStyleKey = typeof(HeaderedContentControl);
+            GotFocus += HeaderedContentControl_GotFocus;
+            LostFocus += HeaderedContentControl_LostFocus;
+            KeyDown += HeaderedContentControl_KeyDown;
         }
+
+        private void HeaderedContentControl_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            DependencyObject candidate = null;
+
+            var options = new FindNextElementOptions()
+            {
+                SearchRoot = VisualTreeHelper.GetParent(this)
+            };
+
+            switch (e.Key)
+            {
+                case Windows.System.VirtualKey.Up:
+                    candidate =
+                        FocusManager.FindNextElement(
+                            FocusNavigationDirection.Up, options);
+                    break;
+                case Windows.System.VirtualKey.Down:
+                    candidate =
+                        FocusManager.FindNextElement(
+                            FocusNavigationDirection.Down, options);
+                    break;
+                case Windows.System.VirtualKey.Left:
+                    candidate = FocusManager.FindNextElement(
+                        FocusNavigationDirection.Left, options);
+                    break;
+                case Windows.System.VirtualKey.Right:
+                    candidate =
+                        FocusManager.FindNextElement(
+                            FocusNavigationDirection.Right, options);
+                    break;
+            }
+
+            if (candidate != null && candidate is Control)
+            {
+                (candidate as Control).Focus(FocusState.Keyboard);
+            }
+        }
+
+        private void HeaderedContentControl_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Focused", false);
+
+        }
+
+        private void HeaderedContentControl_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "Unfocused", false);
+        }
+
 
         /// <summary>
         /// Identifies the <see cref="Header"/> dependency property.

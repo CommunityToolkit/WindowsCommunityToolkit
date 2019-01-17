@@ -31,6 +31,15 @@
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="StatesFocus">
+                                <VisualState x:Name="Focused">
+                                    <VisualState.Setters>
+                                        <Setter Target="HeaderPresenter.BorderBrush" Value="{ThemeResource SystemControlFocusVisualPrimaryBrush}"/>
+                                        <Setter Target="HeaderPresenter.BorderThickness" Value="2"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>
