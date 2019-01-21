@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Menu Control defines a menu of choices for users to invoke.
     /// </summary>
+    [Obsolete("This control will be removed in a future major release.")]
     public partial class Menu : ItemsControl
     {
         private WrapPanel _wrapPanel;

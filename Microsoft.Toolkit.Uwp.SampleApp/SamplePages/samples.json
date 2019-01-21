@@ -219,7 +219,9 @@
       {
         "Name": "Menu",
         "Type": "MenuPage",
-        "About": "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
+        "About": "This control will be removed in a future major release.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "This control will be removed in a future major release.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",
