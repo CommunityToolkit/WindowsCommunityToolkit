@@ -45,6 +45,16 @@ void GazeInput::DwellFeedbackCompleteBrush::set(Brush^ value)
     GazePointer::Instance->_completeBrush = value;
 }
 
+double GazeInput::DwellStrokeThickness::get()
+{
+    return GazePointer::Instance->_dwellStrokeThickness;
+}
+
+void GazeInput::DwellStrokeThickness::set(double value)
+{
+    GazePointer::Instance->_dwellStrokeThickness = value;
+}
+
 Interaction GazeInput::Interaction::get()
 {
     return GazePointer::Instance->_interaction;
@@ -56,11 +66,11 @@ void GazeInput::Interaction::set(GazeInteraction::Interaction value)
     {
         if (value == GazeInteraction::Interaction::Enabled)
         {
-            GazePointer::Instance->AddRoot(nullptr);
+            GazePointer::Instance->AddRoot(0);
         }
         else if (GazePointer::Instance->_interaction == GazeInteraction::Interaction::Enabled)
         {
-            GazePointer::Instance->RemoveRoot(nullptr);
+            GazePointer::Instance->RemoveRoot(0);
         }
 
         GazePointer::Instance->_interaction = value;

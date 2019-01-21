@@ -44,9 +44,9 @@ GazePointer^ GazePointer::Instance::get()
     return value;
 }
 
-void GazePointer::AddRoot(Object^ element)
+void GazePointer::AddRoot(int proxyId)
 {
-    _roots->InsertAt(0, element);
+    _roots->InsertAt(0, proxyId);
 
     if (_roots->Size == 1)
     {
@@ -55,10 +55,10 @@ void GazePointer::AddRoot(Object^ element)
     }
 }
 
-void GazePointer::RemoveRoot(Object^ element)
+void GazePointer::RemoveRoot(int proxyId)
 {
     unsigned int index = 0;
-    if (_roots->IndexOf(element, &index))
+    if (_roots->IndexOf(proxyId, &index))
     {
         _roots->RemoveAt(index);
     }
@@ -93,17 +93,35 @@ GazePointer::GazePointer()
 
     InitializeHistogram();
 
+    _devices = ref new Vector<GazeDevicePreview^>();
     _watcher = GazeInputSourcePreview::CreateWatcher();
     _watcher->Added += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherAddedPreviewEventArgs^>(this, &GazePointer::OnDeviceAdded);
     _watcher->Removed += ref new TypedEventHandler<GazeDeviceWatcherPreview^, GazeDeviceWatcherRemovedPreviewEventArgs^>(this, &GazePointer::OnDeviceRemoved);
     _watcher->Start();
 }
 
+EventRegistrationToken GazePointer::GazeEvent::add(EventHandler<GazeEventArgs^>^ handler)
+{
+    _gazeEventCount++;
+    return _gazeEvent += handler;
+}
+
+void GazePointer::GazeEvent::remove(EventRegistrationToken token)
+{
+    _gazeEventCount--;
+    _gazeEvent -= token;
+}
+
+void GazePointer::GazeEvent::raise(Object^ sender, GazeEventArgs^ e)
+{
+    _gazeEvent(sender, e);
+}
+
 void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherAddedPreviewEventArgs^ args)
 {
-    _deviceCount++;
+    _devices->Append(args->Device);
 
-    if (_deviceCount == 1)
+    if (_devices->Size == 1)
     {
         IsDeviceAvailableChanged(nullptr, nullptr);
 
@@ -113,9 +131,22 @@ void GazePointer::OnDeviceAdded(GazeDeviceWatcherPreview^ sender, GazeDeviceWatc
 
 void GazePointer::OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args)
 {
-    _deviceCount--;
+    auto index = 0u;
+    while (index < _devices->Size && _devices->GetAt(index)->Id != args->Device->Id)
+    {
+        index++;
+    }
 
-    if (_deviceCount == 0)
+    if (index < _devices->Size)
+    {
+        _devices->RemoveAt(index);
+    }
+    else
+    {
+        _devices->RemoveAt(0);
+    }
+
+    if (_devices->Size == 0)
     {
         IsDeviceAvailableChanged(nullptr, nullptr);
     }
@@ -153,7 +184,7 @@ void GazePointer::LoadSettings(ValueSet^ settings)
 
     if (settings->HasKey("GazePointer.DwellRepeatDelay"))
     {
-        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.RepeatDelay")));
+        _defaultDwellRepeatDelay = TimeSpanFromMicroseconds((int)(settings->Lookup("GazePointer.DwellRepeatDelay")));
     }
 
     if (settings->HasKey("GazePointer.RepeatDelay"))
@@ -201,30 +232,39 @@ void GazePointer::InitializeHistogram()
 
 void GazePointer::InitializeGazeInputSource()
 {
-    if (_gazeInputSource == nullptr && _roots->Size != 0 && _deviceCount != 0)
+    if (!_initialized)
     {
-        _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
-        if (_gazeInputSource != nullptr)
+        if (_roots->Size != 0 && _devices->Size != 0)
         {
-            _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
-                GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
-            _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
-                GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
-            _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
-                GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+            if (_gazeInputSource == nullptr)
+            {
+                _gazeInputSource = GazeInputSourcePreview::GetForCurrentView();
+            }
+
+            if (_gazeInputSource != nullptr)
+            {
+                _gazeEnteredToken = _gazeInputSource->GazeEntered += ref new TypedEventHandler<
+                    GazeInputSourcePreview^, GazeEnteredPreviewEventArgs^>(this, &GazePointer::OnGazeEntered);
+                _gazeMovedToken = _gazeInputSource->GazeMoved += ref new TypedEventHandler<
+                    GazeInputSourcePreview^, GazeMovedPreviewEventArgs^>(this, &GazePointer::OnGazeMoved);
+                _gazeExitedToken = _gazeInputSource->GazeExited += ref new TypedEventHandler<
+                    GazeInputSourcePreview^, GazeExitedPreviewEventArgs^>(this, &GazePointer::OnGazeExited);
+
+                _initialized = true;
+            }
         }
     }
 }
 
 void GazePointer::DeinitializeGazeInputSource()
 {
-    if (_gazeInputSource != nullptr)
+    if (_initialized)
     {
+        _initialized = false;
+
         _gazeInputSource->GazeEntered -= _gazeEnteredToken;
         _gazeInputSource->GazeMoved -= _gazeMovedToken;
         _gazeInputSource->GazeExited -= _gazeExitedToken;
-
-        _gazeInputSource = nullptr;
     }
 }
 
@@ -349,8 +389,11 @@ GazeTargetItem^ GazePointer::GetHitTarget(Point gazePoint)
     switch (Window::Current->CoreWindow->ActivationMode)
     {
     default:
-        invokable = _nonInvokeGazeTargetItem;
-        break;
+        if (!_isAlwaysActivated)
+        {
+            invokable = _nonInvokeGazeTargetItem;
+            break;
+        }
 
     case CoreWindowActivationMode::ActivatedInForeground:
     case CoreWindowActivationMode::ActivatedNotForeground:
@@ -626,6 +669,16 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
     auto fa = Filter->Update(ea);
     _gazeCursor->Position = fa->Location;
 
+    if (_gazeEventCount != 0)
+    {
+        _gazeEventArgs->Set(fa->Location, timestamp);
+        GazeEvent(this, _gazeEventArgs);
+        if (_gazeEventArgs->Handled)
+        {
+            return;
+        }
+    }
+
     auto targetItem = ResolveHitTarget(fa->Location, fa->Timestamp);
     assert(targetItem != nullptr);
 
@@ -700,11 +753,22 @@ void GazePointer::ProcessGazePoint(TimeSpan timestamp, Point position)
 /// </summary>
 void GazePointer::Click()
 {
-    if (_isSwitchEnabled && 
+    if (_isSwitchEnabled &&
         _currentlyFixatedElement != nullptr)
     {
         _currentlyFixatedElement->Invoke();
     }
 }
+
+/// <summary>
+/// Run device calibration.
+/// </summary>
+IAsyncOperation<bool>^ GazePointer::RequestCalibrationAsync()
+{
+    return _devices->Size == 1 ?
+        _devices->GetAt(0)->RequestCalibrationAsync() :
+        concurrency::create_async([] { return false; });
+}
+
 
 END_NAMESPACE_GAZE_INPUT
