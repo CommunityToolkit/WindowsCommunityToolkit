@@ -154,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.ImageMaxHeight = ImageMaxHeight;
                     renderer.ImageMaxWidth = ImageMaxWidth;
                     renderer.WrapCodeBlock = WrapCodeBlock;
+                    renderer.FlowDirection = FlowDirection;
 
                     _rootElement.Child = renderer.Render();
                 }
