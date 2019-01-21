@@ -1,3 +1,11 @@
+---
+topic: sample
+languages:
+- csharp
+products:
+- windows
+---
+
 # Windows Community Toolkit
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
@@ -98,6 +106,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 * [RotatorTile](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/RotatorTile/)
 * [ScrollHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ScrollHeader/)
 * [StaggeredPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/StaggeredPanel/)
+* [TabView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TabView/)
 * [TextToolbar](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TextToolbar/)
 * [TileControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/TileControl/)
 * [WrapPanel](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/WrapPanel/)

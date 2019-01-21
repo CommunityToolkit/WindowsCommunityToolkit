@@ -13,8 +13,33 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <ContentPresenter Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"/>
-                        <ContentPresenter Grid.Row="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <ContentPresenter x:Name="HeaderPresenter" 
+                                          x:DeferLoadStrategy="Lazy"
+                                          Content="{TemplateBinding Header}" 
+                                          ContentTemplate="{TemplateBinding HeaderTemplate}" 
+                                          Grid.ColumnSpan="2"/>
+                        <ContentPresenter x:Name="ContentPresenter" 
+                                          Grid.ColumnSpan="2"
+                                          Grid.Row="1" 
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="OrientationStates">
+                                <VisualState x:Name="Vertical" />
+                                <VisualState x:Name="Horizontal">
+                                    <VisualState.Setters>
+                                        <Setter Target="HeaderPresenter.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="ContentPresenter.(Grid.ColumnSpan)" Value="1" />
+                                        <Setter Target="ContentPresenter.(Grid.Column)" Value="1" />
+                                        <Setter Target="HeaderPresenter.(Grid.Row)" Value="1" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

@@ -210,13 +210,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            var step = 1;
+            double step = 1;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = 5;
             }
 
+            step = Math.Max(StepSize, step);
             if (e.Key == VirtualKey.Left)
             {
                 Value = Math.Max(Minimum, Value - step);
@@ -796,7 +797,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            Value = value;
+            Value = RoundToMultiple(value, StepSize);
         }
 
         private Point ScalePoint(double angle, double middleOfScale)
@@ -831,6 +832,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private double RoundToMultiple(double number, double multiple)
         {
             double modulo = number % multiple;
+            if (double.IsNaN(modulo))
+            {
+                return number;
+            }
+
             if ((multiple - modulo) <= modulo)
             {
                 modulo = multiple - modulo;
