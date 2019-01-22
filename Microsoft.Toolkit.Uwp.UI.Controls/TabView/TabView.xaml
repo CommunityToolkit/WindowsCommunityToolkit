@@ -570,7 +570,7 @@
         <Setter Property="MinWidth" Value="{ThemeResource TabViewItemHeaderMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource TabViewItemHeaderMinHeight}" />
         <Setter Property="MaxWidth" Value="{ThemeResource TabViewItemHeaderMaxWidth}" />
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="FocusVisualMargin" Value="0" />
         <Setter Property="IsClosable" Value="False" />
         <Setter Property="Template" Value="{StaticResource TabViewItemHeaderTemplate}" />
@@ -682,7 +682,7 @@
         <Setter Property="BorderThickness" Value="1,0,0,0" />
         <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemHeaderRevealBorderBrush}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
