@@ -145,29 +145,30 @@ Task("Build")
     .Does(() =>
 {
     Information("\nBuilding Solution");
-    var buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Release")
-    .WithTarget("Restore");
+    //var buildSettings = new MSBuildSettings
+    //{
+    //    MaxCpuCount = 0
+    //}
+    //.SetConfiguration("Release")
+    //.WithTarget("Restore");
 
-    MSBuild(Solution, buildSettings);
-    MSBuild(win32Solution, buildSettings);
+	// 
+    // MSBuild(Solution, buildSettings);
+    // MSBuild(win32Solution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
 
 	// Build once with normal dependency ordering
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Release")
-    .WithTarget("Build")
-    .WithProperty("GenerateLibraryLayout", "true");
-
-    MSBuild(win32Solution, buildSettings);
-	MSBuild(Solution, buildSettings);
+    //buildSettings = new MSBuildSettings
+    //{
+    //    MaxCpuCount = 0
+    //}
+    //.SetConfiguration("Release")
+    //.WithTarget("Build")
+    //.WithProperty("GenerateLibraryLayout", "true");
+    
+    //MSBuild(win32Solution, buildSettings);
+	//MSBuild(Solution, buildSettings);
 });
 
 Task("InheritDoc")
@@ -205,32 +206,32 @@ Task("Package")
 	.Does(() =>
 {
 	// Invoke the pack target in the end
-    var buildSettings = new MSBuildSettings {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Release")
-    .WithTarget("Pack")
-    .WithProperty("GenerateLibraryLayout", "true")
-	.WithProperty("PackageOutputPath", nupkgDir);
+    //var buildSettings = new MSBuildSettings {
+    //    MaxCpuCount = 0
+    //}
+    //.SetConfiguration("Release")
+    //.WithTarget("Pack")
+    //.WithProperty("GenerateLibraryLayout", "true")
+	//.WithProperty("PackageOutputPath", nupkgDir);
 
-    MSBuild(Solution, buildSettings);
-    MSBuild(win32Solution, buildSettings);
+    //MSBuild(Solution, buildSettings);
+    //MSBuild(win32Solution, buildSettings);
 
     // Build and pack C++ packages
-    buildSettings = new MSBuildSettings
-    {
-        MaxCpuCount = 0
-    }
-    .SetConfiguration("Native");
+    //buildSettings = new MSBuildSettings
+    //{
+    //    MaxCpuCount = 0
+    //}
+    //.SetConfiguration("Native");
 
-    buildSettings.SetPlatformTarget(PlatformTarget.ARM);
-    MSBuild(Solution, buildSettings);
+    //buildSettings.SetPlatformTarget(PlatformTarget.ARM);
+    //MSBuild(Solution, buildSettings);
 
-    buildSettings.SetPlatformTarget(PlatformTarget.x64);
-    MSBuild(Solution, buildSettings);
+    //buildSettings.SetPlatformTarget(PlatformTarget.x64);
+    //MSBuild(Solution, buildSettings);
 
-    buildSettings.SetPlatformTarget(PlatformTarget.x86);
-    MSBuild(Solution, buildSettings);
+    //buildSettings.SetPlatformTarget(PlatformTarget.x86);
+    //MSBuild(Solution, buildSettings);
 
     var nuGetPackSettings = new NuGetPackSettings
 	{
@@ -238,7 +239,7 @@ Task("Package")
         Version = Version
 	};
 
-    var nuspecs = GetFiles("./*.nuspec");
+    var nuspecs = GetFiles(baseDir + "/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.UI.Controls.5.0.0.nuspec");
     foreach (var nuspec in nuspecs)
     {
         NuGetPack(nuspec, nuGetPackSettings);

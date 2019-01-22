@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Microsoft.Toolkit.Win32.UI.Controls</id>
+    <version>$version$</version>
+    <title>Windows Community Toolkit Win32 Controls</title>
+    <authors>Microsoft.Toolkit</authors>
+    <owners>Microsoft.Toolkit</owners>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/license.md</licenseUrl>
+    <projectUrl>https://github.com/Microsoft/WindowsCommunityToolkit</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png</iconUrl>
+    <description>This package is now obsolete and contains no DLLs. Please use Microsoft.Toolkit.Wpf.UI.Controls.WebView or Microsoft.Toolkit.Forms.UI.Controls.WebView packages instead. For more information, go to https://github.com/Microsoft/WindowsCommunityToolkit/releases/tag/v5.0.0</description>
+    <releaseNotes>This package is now obsolete and contains no DLLs. Please use Microsoft.Toolkit.Wpf.UI.Controls.WebView or Microsoft.Toolkit.Forms.UI.Controls.WebView packages instead. For more information, go to https://github.com/Microsoft/WindowsCommunityToolkit/releases/tag/v5.0.0</releaseNotes>
+    <copyright>(c) .NET Foundation and Contributors. All rights reserved.</copyright>
+    <tags>WebView Win32 WPF WindowsForms</tags>
+    <repository type="git" url="https://github.com/windows-toolkit/WindowsCommunityToolkit" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.2">
+        <dependency id="System.Net.Http" version="4.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+	<frameworkAssemblies>
+      <frameworkAssembly assemblyName="PresentationCore" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="PresentationFramework" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System.Design" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System.Drawing" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System.Windows.Forms" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="System.Xaml" targetFramework=".NETFramework4.6.2" />
+      <frameworkAssembly assemblyName="WindowsBase" targetFramework=".NETFramework4.6.2" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="readme.txt" target=""/>
+  </files>
+</package>
