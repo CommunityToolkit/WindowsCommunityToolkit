@@ -268,7 +268,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             VisualExtensions.SetCenterPoint(MoreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
 
             MoreInfoContent.DataContext = sample;
-            MoreInfoCanvas.Visibility = Visibility.Visible;
+
+            if (MoreInfoCanvas.Visibility == Visibility.Visible)
+            {
+                HideMoreInfo();
+            }
+            else
+            {
+                MoreInfoCanvas.Visibility = Visibility.Visible;
+            }
+
         }
 
         private void HideMoreInfo()
