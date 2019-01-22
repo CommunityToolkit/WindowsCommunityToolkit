@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _authorizationType = GetTemplateChild("AuthorizationType") as ComboBox;
             _advancedFiltersGrid = GetTemplateChild("AdvancedFiltersGrid") as Grid;
 
-            List<string> deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
+            var deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
             deviceList.Add("All");
             deviceList.Add("Unknown");
 
@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void LoadFilters()
         {
-            List<string> discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
+            var discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _deviceDiscovery.ItemsSource = discoveryType;
 
             if (_discoveryFilter != null)
@@ -246,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _deviceDiscovery.SelectedValue = _discoveryFilter.RemoteSystemDiscoveryType.ToString();
             }
 
-            List<string> statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
+            var statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _deviceStatus.ItemsSource = statusType;
 
             if (_statusFilter != null)
@@ -254,7 +254,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _deviceStatus.SelectedValue = _statusFilter.RemoteSystemStatusType.ToString();
             }
 
-            List<string> authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
+            var authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
             _authorizationType.ItemsSource = authType;
 
             if (_authorizationKindFilter != null)
@@ -265,14 +265,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void BuildFilters(RemoteSystemDiscoveryTypeFilter discoveryFilter, RemoteSystemAuthorizationKindFilter authorizationKindFilter, RemoteSystemStatusTypeFilter statusFilter)
         {
-            var filters = new List<IRemoteSystemFilter>
+            var filters = new List<IRemoteSystemFilter>();
+            if (discoveryFilter != null)
             {
-                discoveryFilter,
-                authorizationKindFilter,
-                statusFilter
-            };
+                filters.Add(discoveryFilter);
+            }
 
-            RemoteDeviceHelper remoteDeviceHelper = new RemoteDeviceHelper(filters);
+            if (authorizationKindFilter != null)
+            {
+                filters.Add(authorizationKindFilter);
+            }
+
+            if (statusFilter != null)
+            {
+                filters.Add(statusFilter);
+            }
+
+            var remoteDeviceHelper = new RemoteDeviceHelper(filters);
             RemoteSystems = remoteDeviceHelper.RemoteSystems;
 
             UpdateProgressRing(true);
@@ -281,7 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ListDevices_ContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
         {
-            RemoteSystem model = (RemoteSystem)args.Item;
+            var model = (RemoteSystem)args.Item;
             switch (model.Status)
             {
                 case RemoteSystemStatus.Available:
@@ -326,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateList()
         {
-            ObservableCollection<RemoteSystem> bindingList = new ObservableCollection<RemoteSystem>();
+            var bindingList = new ObservableCollection<RemoteSystem>();
             if (RemoteSystems != null)
             {
                 var bindinglist = _listDeviceTypes.SelectedValue.ToString().Equals("All")

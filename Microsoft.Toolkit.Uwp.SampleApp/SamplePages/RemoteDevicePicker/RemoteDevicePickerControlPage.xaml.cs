@@ -5,7 +5,6 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.System.RemoteSystems;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -23,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void Button_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker(RemoteSystemDiscoveryType.Proximal, RemoteSystemAuthorizationKind.Anonymous, RemoteSystemStatusType.Any)
+            var remoteDevicePicker = new RemoteDevicePicker()
             {
                 Title = "Pick Remote Device",
                 SelectionMode = (RemoteDeviceSelectionMode)Enum.Parse(typeof(RemoteDeviceSelectionMode), MyComboBox.SelectedValue.ToString()),
