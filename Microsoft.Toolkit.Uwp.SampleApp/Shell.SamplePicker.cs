@@ -92,6 +92,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             SamplePickerGridView.ItemsSource = samples;
+            SamplePickerGridView.TabIndex = 0;
 
             if (_currentSample != null && samples.Contains(_currentSample))
             {
