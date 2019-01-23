@@ -219,9 +219,9 @@
       {
         "Name": "Menu",
         "Type": "MenuPage",
-        "About": "This control will be removed in a future major release.",
+        "About": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
         "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "This control will be removed in a future major release.",
+        "DeprecatedWarning": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",

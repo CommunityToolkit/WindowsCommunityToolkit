@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Menu Control defines a menu of choices for users to invoke.
     /// </summary>
-    [Obsolete("This control will be removed in a future major release.")]
+    [Obsolete("This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.")]
     public partial class Menu : ItemsControl
     {
         private WrapPanel _wrapPanel;
