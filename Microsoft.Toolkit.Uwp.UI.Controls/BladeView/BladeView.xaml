@@ -160,6 +160,7 @@
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="12" 
+                                    AutomationProperties.Name="EnlargeButton"
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
                                 <Button Name="CloseButton"
                                     Grid.Column="2"
