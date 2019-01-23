@@ -304,12 +304,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas.Height = CanvasHeight;
             _drawingSurfaceRenderer.Width = CanvasWidth;
             _drawingSurfaceRenderer.Height = CanvasHeight;
-            _drawingSurfaceRenderer.ConfigureSpriteVisual(CanvasWidth, CanvasHeight);
+            _drawingSurfaceRenderer.ConfigureSpriteVisual(CanvasWidth, CanvasHeight, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         private void ReDrawCanvas()
         {
-            _drawingSurfaceRenderer.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Redo()
         {
-            _drawingSurfaceRenderer.Redo(ViewPort);
+            _drawingSurfaceRenderer.Redo(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Undo()
         {
-            _drawingSurfaceRenderer.Undo(ViewPort);
+            _drawingSurfaceRenderer.Undo(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -344,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="json">InfiniteCanvas json representation</param>
         public void ImportFromJson(string json)
         {
-            _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json);
+            _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
