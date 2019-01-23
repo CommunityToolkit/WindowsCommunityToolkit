@@ -12,7 +12,7 @@
 
     <Style TargetType="controls:BladeView">
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
