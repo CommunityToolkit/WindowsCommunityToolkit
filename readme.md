@@ -1,3 +1,11 @@
+---
+topic: sample
+languages:
+- csharp
+products:
+- windows
+---
+
 # Windows Community Toolkit
 The Windows Community Toolkit is a collection of helper functions, custom controls, and app services. It simplifies and demonstrates common developer patterns when building experiences for Windows 10.
 
