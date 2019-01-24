@@ -75,7 +75,7 @@
                                         <Button.Flyout>
                                             <Flyout Placement="Bottom">
                                                 <ColorPicker x:Name="CanvasTextBoxColorPicker"
-                                                             Color="Red" />
+                                                             Color="Black" />
                                             </Flyout>
                                         </Button.Flyout>
                                     </Button>
@@ -101,7 +101,7 @@
                                              Height="32"
                                              InputScope="Number"
                                              MaxLength="3"
-                                             Text="22"
+                                             Text="12"
                                              ToolTipService.ToolTip="Font Size" />
 
                                 </StackPanel>
@@ -191,7 +191,7 @@
                     <Grid>
                         <Border x:Name="BorderElement"
                                 Grid.RowSpan="1"
-                                BorderBrush="Blue"
+                                BorderBrush="LightGray"
                                 BorderThickness="1" />
                         <ScrollViewer x:Name="ContentElement"
                                       Margin="{TemplateBinding BorderThickness}"
