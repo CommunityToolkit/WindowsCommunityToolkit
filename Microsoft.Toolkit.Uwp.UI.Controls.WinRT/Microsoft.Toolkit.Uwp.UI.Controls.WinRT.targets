@@ -5,9 +5,16 @@
         <PackagePlatform Condition="'$(Platform)' != 'Win32'">$(Platform)</PackagePlatform>
     </PropertyGroup>
     <ItemGroup Condition="'$(TargetPlatformIdentifier)' == 'UAP'">
-        <Reference Include="$(MSBuildThisFileDirectory)..\..\lib\uap10.0.17134\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.winmd">
+        <Reference Include="$(MSBuildThisFileDirectory)..\..\lib\uap10.0.17763\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.winmd">
             <Implementation>Microsoft.Toolkit.Uwp.UI.Controls.WinRT.dll</Implementation>
         </Reference>
         <ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(PackagePlatform)\native\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.dll" />
+		<ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(PackagePlatform)\native\Microsoft.Toolkit.Uwp.UI.Controls.WinRT.pri" />
+		<ReferenceCopyLocalPaths Include="$(MSBuildThisFileDirectory)..\..\runtimes\win10-$(PackagePlatform)\native\Microsoft.Toolkit.Uwp.UI.Controls.WinRT\Themes\Generic.xaml" />
     </ItemGroup>
+	<ItemDefinitionGroup Condition="'$(TargetPlatformIdentifier)' == 'UAP'">
+        <ClCompile>
+            <AdditionalIncludeDirectories>$(MSBuildThisFileDirectory)..\..\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+        </ClCompile>
+    </ItemDefinitionGroup>
 </Project>
