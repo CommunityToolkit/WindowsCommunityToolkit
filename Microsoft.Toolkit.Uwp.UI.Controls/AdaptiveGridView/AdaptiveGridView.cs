@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Orientation _savedOrientation;
         private bool _needToRestoreScrollStates;
         private bool _needContainerMarginForLayout;
+        private int prevIndex;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdaptiveGridView"/> class.
@@ -42,9 +43,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Items.VectorChanged += ItemsOnVectorChanged;
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+            LostFocus += this.AdaptiveGridView_LostFocus;
 
             // Prevent issues with higher DPIs and underlying panel. #1803
             UseLayoutRounding = false;
+        }
+
+        private void AdaptiveGridView_LostFocus(object sender, RoutedEventArgs e)
+        {
+            int newIndex = (sender as AdaptiveGridView).SelectedIndex;
+
+            if (prevIndex == newIndex)
+            {
+                (sender as AdaptiveGridView).SelectedIndex = -1;
+            }
+
+            prevIndex = newIndex;
         }
 
         /// <summary>
