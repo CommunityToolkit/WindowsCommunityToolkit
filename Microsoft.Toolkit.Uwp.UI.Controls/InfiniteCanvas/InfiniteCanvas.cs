@@ -3,7 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
@@ -336,6 +339,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // We need to introduce versioning in the next release.
             return _drawingSurfaceRenderer.GetSerializedList();
+        }
+
+        /// <summary>
+        /// Export the InfinitCanvas as PNG file.
+        /// </summary>
+        /// <returns>json string</returns>
+        public Task ExportAsPng(IStorageFile file)
+        {
+            return _drawingSurfaceRenderer.ExportAsPNG(file);
+        }
+
+        /// <summary>
+        /// Export the InfinitCanvas ink strokes.
+        /// </summary>
+        /// <returns>json string</returns>
+        public List<InkStroke> ExportInkStrokes()
+        {
+            return _drawingSurfaceRenderer.ExportInkStrokes();
+        }
+
+        /// <summary>
+        /// Export the InfinitCanvas raw text.
+        /// </summary>
+        /// <returns>json string</returns>
+        public List<string> ExportText()
+        {
+            return _drawingSurfaceRenderer.ExportText();
         }
 
         /// <summary>
