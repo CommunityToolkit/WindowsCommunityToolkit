@@ -4,6 +4,7 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -66,6 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = _normalModeWidth;
                 VisualStateManager.GoToState(this, "Expanded", true);
+                AutomationProperties.SetName(this, "Expanded");
             }
         }
 
@@ -77,6 +79,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = double.NaN;
                 VisualStateManager.GoToState(this, "Collapsed", true);
+                AutomationProperties.SetName(this, "Collapsed");
             }
         }
 
