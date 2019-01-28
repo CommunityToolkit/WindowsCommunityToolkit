@@ -335,6 +335,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            if (Source == null || Source.PixelWidth == 0 || Source.PixelHeight == 0)
+            {
+                return base.MeasureOverride(availableSize);
+            }
+
+            if (double.IsInfinity(availableSize.Width) || double.IsInfinity(availableSize.Height))
+            {
+                if (!double.IsInfinity(availableSize.Width))
+                {
+                    availableSize.Height = availableSize.Width / Source.PixelWidth * Source.PixelHeight;
+                }
+                else if (!double.IsInfinity(availableSize.Height))
+                {
+                    availableSize.Width = availableSize.Height / Source.PixelHeight * Source.PixelWidth;
+                }
+                else
+                {
+                    availableSize.Width = Source.PixelWidth;
+                    availableSize.Height = Source.PixelHeight;
+                }
+
+                base.MeasureOverride(availableSize);
+                return availableSize;
+            }
+
+            return base.MeasureOverride(availableSize);
+        }
+
         /// <summary>
         /// Load an image from a file.
         /// </summary>

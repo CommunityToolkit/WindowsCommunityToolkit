@@ -327,5 +327,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return new Rect(cx - (width / 2f), cy - (height / 2f), width, height);
         }
+
+        private static bool IsValidRect(Rect targetRect)
+        {
+            return !targetRect.IsEmpty && targetRect.Width > 0 && targetRect.Height > 0;
+        }
     }
 }

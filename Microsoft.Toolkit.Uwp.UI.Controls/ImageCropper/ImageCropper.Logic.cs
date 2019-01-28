@@ -27,8 +27,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (Source != null)
             {
                 _restrictedCropRect = new Rect(0, 0, Source.PixelWidth, Source.PixelHeight);
-                _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
-                UpdateImageLayout(animate);
+                if (IsValidRect(_restrictedCropRect))
+                {
+                    _currentCroppedRect = KeepAspectRatio ? GetUniformRect(_restrictedCropRect, UsedAspectRatio) : _restrictedCropRect;
+                    UpdateImageLayout(animate);
+                }
             }
 
             UpdateThumbsVisibility();
@@ -40,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="animate">Whether animation is enabled.</param>
         private void UpdateImageLayout(bool animate = false)
         {
-            if (Source != null && CanvasRect.Width > 0 && CanvasRect.Height > 0)
+            if (Source != null && IsValidRect(CanvasRect))
             {
                 var uniformSelectedRect = GetUniformRect(CanvasRect, _currentCroppedRect.Width / _currentCroppedRect.Height);
                 UpdateImageLayoutWithViewport(uniformSelectedRect, _currentCroppedRect, animate);
@@ -55,6 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="animate">Whether animation is enabled.</param>
         private void UpdateImageLayoutWithViewport(Rect viewport, Rect viewportImageRect, bool animate = false)
         {
+            if (!IsValidRect(viewport) || !IsValidRect(viewportImageRect))
+            {
+                return;
+            }
+
             var imageScale = viewport.Width / viewportImageRect.Width;
             _imageTransform.ScaleX = _imageTransform.ScaleY = imageScale;
             _imageTransform.TranslateX = viewport.X - (viewportImageRect.X * imageScale);
@@ -90,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="diffPos">Position offset</param>
         private void UpdateCroppedRect(ThumbPosition position, Point diffPos)
         {
-            if (diffPos == default(Point))
+            if (diffPos == default(Point) || !IsValidRect(CanvasRect))
             {
                 return;
             }
@@ -466,7 +474,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void UpdateAspectRatio(bool animate = false)
         {
-            if (KeepAspectRatio && Source != null)
+            if (KeepAspectRatio && Source != null && IsValidRect(_restrictedSelectRect))
             {
                 var centerX = ((_endX - _startX) / 2) + _startX;
                 var centerY = ((_endY - _startY) / 2) + _startY;

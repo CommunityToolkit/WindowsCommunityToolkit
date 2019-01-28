@@ -42,6 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
+            target.InvalidateMeasure();
             target.UpdateCropShape();
             target.InitImageLayout();
         }
