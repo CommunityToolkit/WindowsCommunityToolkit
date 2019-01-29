@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             SizeChanged += AlignmentGrid_SizeChanged;
 
             IsHitTestVisible = false;
-
+            IsTabStop = false;
             Opacity = 0.5;
 
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
