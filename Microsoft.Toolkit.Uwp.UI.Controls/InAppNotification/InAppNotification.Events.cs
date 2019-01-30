@@ -4,12 +4,15 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// In App Notification defines a control to show local notification in the app.
     /// </summary>
+
     public partial class InAppNotification
     {
         /// <summary>
@@ -47,7 +50,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _animationTimer.Stop();
             Opened?.Invoke(this, EventArgs.Empty);
+            if (Content.GetType() == typeof(string))
+            {
+                AutomateTextNotification(Content.ToString());
+            }
+
             _animationTimer.Tick -= OpenAnimationTimer_Tick;
+        }
+
+        private void AutomateTextNotification(string message)
+        {
+            AutomationPeer peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+            if (peer != null)
+            {
+                peer.SetFocus();
+                peer.RaiseNotificationEvent(
+                    AutomationNotificationKind.Other,
+                    AutomationNotificationProcessing.ImportantMostRecent,
+                    "New notification " + message,
+                    Guid.NewGuid().ToString());
+            }
         }
 
         private void DismissAnimationTimer_Tick(object sender, object e)
