@@ -8,6 +8,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -39,14 +40,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_infiniteCanvas != null)
                 {
-                    var savePicker = new Windows.Storage.Pickers.FileSavePicker
+                    var savePicker = new FileSavePicker
                     {
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                        SuggestedStartLocation = PickerLocationId.DocumentsLibrary
                     };
                     savePicker.FileTypeChoices.Add("application/json", new List<string> { ".json" });
                     savePicker.SuggestedFileName = "Infinite Canvas Export";
 
-                    StorageFile file = await savePicker.PickSaveFileAsync();
+                    var file = await savePicker.PickSaveFileAsync();
                     if (file != null)
                     {
                         var json = _infiniteCanvas.ExportAsJson();
@@ -60,10 +61,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_infiniteCanvas != null)
                 {
-                    var picker = new Windows.Storage.Pickers.FileOpenPicker
+                    var picker = new FileOpenPicker
                     {
-                        ViewMode = Windows.Storage.Pickers.PickerViewMode.Thumbnail,
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                        ViewMode = PickerViewMode.Thumbnail,
+                        SuggestedStartLocation = PickerLocationId.DocumentsLibrary
                     };
                     picker.FileTypeFilter.Add(".json");
                     var file = await picker.PickSingleFileAsync();
@@ -88,9 +89,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_infiniteCanvas != null)
                 {
-                    var savePicker = new Windows.Storage.Pickers.FileSavePicker
+                    var savePicker = new FileSavePicker
                     {
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                        SuggestedStartLocation = PickerLocationId.Desktop
                     };
                     savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
                     savePicker.SuggestedFileName = "Infinite Canvas Max View";
@@ -115,9 +116,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 if (_infiniteCanvas != null)
                 {
-                    var savePicker = new Windows.Storage.Pickers.FileSavePicker
+                    var savePicker = new FileSavePicker
                     {
-                        SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.Desktop
+                        SuggestedStartLocation = PickerLocationId.Desktop
                     };
                     savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
                     savePicker.SuggestedFileName = "Infinite Canvas Current View";
