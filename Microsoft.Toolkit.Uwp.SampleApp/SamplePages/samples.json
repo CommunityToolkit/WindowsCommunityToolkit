@@ -768,6 +768,15 @@
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
+      },
+      {
+        "Name": "RemoteDeviceHelper",
+        "Type": "RemoteDeviceHelperPage",
+        "About": "Allows you to easily enumerate remote devices ( Project Rome ).",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper/RemoteDeviceHelper.cs",
+        "CodeFile": "RemoteDeviceHelperCode.bind",
+        "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
       }
     ]
   },
