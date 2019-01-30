@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public RemoteDeviceHelper(List<IRemoteSystemFilter> filter)
         {
             RemoteSystems = new ObservableCollection<RemoteSystem>();
-            GenerateSystemsWithFilter(filter);
+            GenerateSystemsWithFilterAsync(filter);
         }
 
         /// <summary>
@@ -45,52 +45,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         public void GenerateSystems()
         {
-            GenerateSystemsWithFilter(null);
-        }
-
-        /// <summary>
-        /// Initiate Enumeration with specific RemoteSystemAuthorizationKind
-        /// </summary>
-        public void GenerateSystemsByAuthorizationKind(RemoteSystemAuthorizationKind remoteSystemAuthorizationKind)
-        {
-            var remoteSystemAuthorizationKindFilter = new RemoteSystemAuthorizationKindFilter(remoteSystemAuthorizationKind);
-            var filters = new List<IRemoteSystemFilter>
-            {
-                remoteSystemAuthorizationKindFilter
-            };
-            GenerateSystemsWithFilter(filters);
-        }
-
-        /// <summary>
-        /// Initiate Enumeration with specific RemoteSystemDiscoveryType
-        /// </summary>
-        public void GenerateSystemsByDiscoveryType(RemoteSystemDiscoveryType remoteSystemDiscoveryType)
-        {
-            var remoteSystemDiscoveryTypeFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
-            var filters = new List<IRemoteSystemFilter>
-            {
-                remoteSystemDiscoveryTypeFilter
-            };
-            GenerateSystemsWithFilter(filters);
+            GenerateSystemsWithFilterAsync(null);
         }
 
         /// <summary>
         /// Initiate Enumeration with specific RemoteSystemStatusType
         /// </summary>
-        public void GenerateSystemsByStatusType(RemoteSystemStatusType remoteSystemStatusType)
-        {
-            var remoteSystemStatusTypeFilter = new RemoteSystemStatusTypeFilter(remoteSystemStatusType);
-            var filters = new List<IRemoteSystemFilter>
-            {
-                remoteSystemStatusTypeFilter
-            };
-            GenerateSystemsWithFilter(filters);
-        }
-
-        /// <summary>
-        /// Initiate Enumeration with specific RemoteSystemStatusType
-        /// </summary>
-        public void GenerateSystemsByFilters(RemoteSystemStatusType remoteSystemStatusType, RemoteSystemAuthorizationKind remoteSystemAuthorizationKind, RemoteSystemDiscoveryType remoteSystemDiscoveryType)
+        private void GenerateSystemsByFilters(RemoteSystemStatusType remoteSystemStatusType, RemoteSystemAuthorizationKind remoteSystemAuthorizationKind, RemoteSystemDiscoveryType remoteSystemDiscoveryType)
         {
             var remoteSystemStatusTypeFilter = new RemoteSystemStatusTypeFilter(remoteSystemStatusType);
             var remoteSystemDiscoveryTypeFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
@@ -111,13 +72,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 filters.Add(remoteSystemAuthorizationKindFilter);
             }
 
-            GenerateSystemsWithFilter(filters);
+            GenerateSystemsWithFilterAsync(filters);
         }
 
         /// <summary>
         /// Initiate Enumeration with specific RemoteSysemKind with Filters
         /// </summary>
-        private async void GenerateSystemsWithFilter(List<IRemoteSystemFilter> filter)
+        private async void GenerateSystemsWithFilterAsync(List<IRemoteSystemFilter> filter)
         {
             var accessStatus = await RemoteSystem.RequestAccessAsync();
             if (accessStatus == RemoteSystemAccessStatus.Allowed)
