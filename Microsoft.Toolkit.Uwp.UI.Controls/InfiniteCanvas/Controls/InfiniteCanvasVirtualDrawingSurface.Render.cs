@@ -2,13 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.UI;
@@ -36,17 +36,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal CanvasRenderTarget ExportOffScreenDrawings(Rect viewPort, float dpi)
+        internal CanvasRenderTarget ExportOffScreenDrawings(Rect viewPort)
         {
             var toDraw = GetDrawingBoundaries(viewPort);
-            var offScreen = DrawOffScreen(dpi, toDraw, _visibleList);
+            var offScreen = DrawOffScreen(toDraw, _visibleList);
             return offScreen;
         }
 
-        internal CanvasRenderTarget ExportMaxOffScreenDrawings(float dpi)
+        internal CanvasRenderTarget ExportMaxOffScreenDrawings()
         {
             var toDraw = GetMaxDrawingsBoundaries();
-            var offScreen = DrawOffScreen(dpi, toDraw, _drawableList);
+            var offScreen = DrawOffScreen(toDraw, _drawableList);
             return offScreen;
         }
 
@@ -158,8 +158,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return toDraw;
         }
 
-        private CanvasRenderTarget DrawOffScreen(float dpi, Rect toDraw, List<IDrawable> visibleList)
+        private CanvasRenderTarget DrawOffScreen(Rect toDraw, List<IDrawable> visibleList)
         {
+            const int dpi = 96;
             var offScreen = new CanvasRenderTarget(_win2DDevice, (float)toDraw.Width, (float)toDraw.Height, dpi);
             using (var drawingSession = offScreen.CreateDrawingSession())
             {

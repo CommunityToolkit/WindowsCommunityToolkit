@@ -2,9 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.Graphics.Canvas;
+using System;
+using System.Threading.Tasks;
 using Windows.Foundation;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
@@ -352,26 +354,48 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// This method exports the max possible view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
         /// Max is calculated using CanvasDevice.MaximumBitmapSizeInPixels
         /// </summary>
-        /// <param name="dpi">Dpi that is used in the export process</param>
-        /// <returns>Returns offScreen drawings as <see cref="CanvasRenderTarget"/> that can get converted to image</returns>
-        public CanvasRenderTarget ExportMaxOffScreenDrawings(float dpi = 96)
+        /// <param name="stream">The target stream.</param>
+        /// <param name="bitmapFileFormat">the specified format.</param>
+        public async Task SaveMaxViewAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
         {
-            return _drawingSurfaceRenderer.ExportMaxOffScreenDrawings(dpi);
+            var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
+            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
         }
 
         /// <summary>
         /// This method exports the current view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
         /// </summary>
-        /// <param name="dpi">Dpi that is used in the export process</param>
-        /// <returns>Returns offScreen drawings as <see cref="CanvasRenderTarget"/> that can get converted to image</returns>
-        public CanvasRenderTarget ExportCurrentViewOffScreenDrawings(float dpi = 96)
+        /// <param name="stream">The target stream.</param>
+        /// <param name="bitmapFileFormat">the specified format.</param>
+        public async Task SaveCurrentViewAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
         {
-            return _drawingSurfaceRenderer.ExportOffScreenDrawings(ViewPort, dpi);
+            var offScreen = _drawingSurfaceRenderer.ExportOffScreenDrawings(ViewPort);
+            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
         }
 
         /// <summary>
         /// This event triggered after each render happened because of any change in the canvas elements.
         /// </summary>
         public event EventHandler ReRenderCompleted;
+
+        private static CanvasBitmapFileFormat MapToCanvasBitmapFileFormat(BitmapFileFormat bitmapFileFormat)
+        {
+            switch (bitmapFileFormat)
+            {
+                case BitmapFileFormat.Bmp:
+                    return CanvasBitmapFileFormat.Bmp;
+                case BitmapFileFormat.Png:
+                    return CanvasBitmapFileFormat.Png;
+                case BitmapFileFormat.Jpeg:
+                    return CanvasBitmapFileFormat.Jpeg;
+                case BitmapFileFormat.Tiff:
+                    return CanvasBitmapFileFormat.Tiff;
+                case BitmapFileFormat.Gif:
+                    return CanvasBitmapFileFormat.Gif;
+                case BitmapFileFormat.JpegXR:
+                    return CanvasBitmapFileFormat.JpegXR;
+                default: return CanvasBitmapFileFormat.Auto;
+            }
+        }
     }
 }

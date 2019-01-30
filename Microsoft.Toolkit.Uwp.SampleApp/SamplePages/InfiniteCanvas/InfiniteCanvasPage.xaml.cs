@@ -91,22 +91,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     var savePicker = new FileSavePicker
                     {
-                        SuggestedStartLocation = PickerLocationId.Desktop
-                    };
-                    savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
-                    savePicker.SuggestedFileName = "Infinite Canvas Max View";
-
-                    var file = await savePicker.PickSaveFileAsync();
-
-                    if (file != null)
-                    {
-                        CachedFileManager.DeferUpdates(file);
-                        using (var stream = new InMemoryRandomAccessStream())
-                        using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                        SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                        SuggestedFileName = "Infinite Canvas Max View",
+                        FileTypeChoices =
                         {
-                            var offScreen = _infiniteCanvas.ExportMaxOffScreenDrawings();
-                            await offScreen.SaveAsync(stream, CanvasBitmapFileFormat.Png);
-                            await RandomAccessStream.CopyAndCloseAsync(stream.GetInputStreamAt(0), fileStream.GetOutputStreamAt(0));
+                            { "PNG Picture", new List<string> { ".png" } },
+                            { "JPEG Picture", new List<string> { ".jpg" } }
+                        }
+                    };
+                    var imageFile = await savePicker.PickSaveFileAsync();
+                    if (imageFile != null)
+                    {
+                        BitmapFileFormat bitmapFileFormat;
+                        switch (imageFile.FileType.ToLower())
+                        {
+                            case ".png":
+                                bitmapFileFormat = BitmapFileFormat.Png;
+                                break;
+                            case ".jpg":
+                                bitmapFileFormat = BitmapFileFormat.Jpeg;
+                                break;
+                            default:
+                                bitmapFileFormat = BitmapFileFormat.Png;
+                                break;
+                        }
+
+                        using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
+                        {
+                            await _infiniteCanvas.SaveMaxViewAsync(fileStream, bitmapFileFormat);
                         }
                     }
                 }
@@ -118,22 +130,34 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 {
                     var savePicker = new FileSavePicker
                     {
-                        SuggestedStartLocation = PickerLocationId.Desktop
-                    };
-                    savePicker.FileTypeChoices.Add("image/png", new List<string> { ".png" });
-                    savePicker.SuggestedFileName = "Infinite Canvas Current View";
-
-                    var file = await savePicker.PickSaveFileAsync();
-
-                    if (file != null)
-                    {
-                        CachedFileManager.DeferUpdates(file);
-                        using (var stream = new InMemoryRandomAccessStream())
-                        using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
+                        SuggestedStartLocation = PickerLocationId.PicturesLibrary,
+                        SuggestedFileName = "Infinite Canvas Current View",
+                        FileTypeChoices =
                         {
-                            var offScreen = _infiniteCanvas.ExportCurrentViewOffScreenDrawings();
-                            await offScreen.SaveAsync(stream, CanvasBitmapFileFormat.Png);
-                            await RandomAccessStream.CopyAndCloseAsync(stream.GetInputStreamAt(0), fileStream.GetOutputStreamAt(0));
+                            { "PNG Picture", new List<string> { ".png" } },
+                            { "JPEG Picture", new List<string> { ".jpg" } }
+                        }
+                    };
+                    var imageFile = await savePicker.PickSaveFileAsync();
+                    if (imageFile != null)
+                    {
+                        BitmapFileFormat bitmapFileFormat;
+                        switch (imageFile.FileType.ToLower())
+                        {
+                            case ".png":
+                                bitmapFileFormat = BitmapFileFormat.Png;
+                                break;
+                            case ".jpg":
+                                bitmapFileFormat = BitmapFileFormat.Jpeg;
+                                break;
+                            default:
+                                bitmapFileFormat = BitmapFileFormat.Png;
+                                break;
+                        }
+
+                        using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
+                        {
+                            await _infiniteCanvas.SaveCurrentViewAsync(fileStream, bitmapFileFormat);
                         }
                     }
                 }
