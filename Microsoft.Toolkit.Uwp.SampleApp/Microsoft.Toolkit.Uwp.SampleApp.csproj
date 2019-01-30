@@ -284,6 +284,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
+    <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
@@ -533,10 +534,16 @@
     <Compile Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml.cs">
       <DependentUpon>RemoteDeviceHelperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ImageCropper\AspectRatioConfig.cs" />
+    <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
+      <DependentUpon>ImageCropperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
     <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperCode.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -954,6 +961,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageCropper\ImageCropperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
