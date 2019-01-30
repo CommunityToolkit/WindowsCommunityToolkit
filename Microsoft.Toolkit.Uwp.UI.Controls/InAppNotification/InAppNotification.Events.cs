@@ -4,6 +4,7 @@
 
 using System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Media;
 
@@ -50,6 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _animationTimer.Stop();
             Opened?.Invoke(this, EventArgs.Empty);
+            SetValue(AutomationProperties.NameProperty, "Notification");
             if (Content.GetType() == typeof(string))
             {
                 AutomateTextNotification(Content.ToString());
