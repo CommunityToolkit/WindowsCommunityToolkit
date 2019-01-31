@@ -289,7 +289,6 @@
                             Grid.Column="2"
                             Width="{Binding (ex:FrameworkElementExtensions.Ancestor).IsCloseButtonOverlay, Converter={StaticResource CloseCollapsingSizeConverter}, ElementName=LayoutRoot}"
                             HorizontalAlignment="Right"
-                             AutomationProperties.Name="CloseButton"
                             Visibility="{Binding IsClosable, Converter={StaticResource BoolToVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                         <Border x:Name="CloseButtonBorder"
                                 Width="{StaticResource TabViewItemHeaderCloseWidth}"
