@@ -162,6 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public GridSplitter()
         {
             DefaultStyleKey = typeof(GridSplitter);
+            Loaded += GridSplitter_Loaded;
         }
 
         /// <inheritdoc />
@@ -178,6 +179,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationStarted -= GridSplitter_ManipulationStarted;
             ManipulationCompleted -= GridSplitter_ManipulationCompleted;
 
+            _hoverWrapper?.UnhookEvents();
+
             // Register Events
             Loaded += GridSplitter_Loaded;
             PointerEntered += GridSplitter_PointerEntered;
@@ -187,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationStarted += GridSplitter_ManipulationStarted;
             ManipulationCompleted += GridSplitter_ManipulationCompleted;
 
-            _hoverWrapper?.UnhookEvents();
+            _hoverWrapper?.UpdateHoverElement(Element);
 
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }

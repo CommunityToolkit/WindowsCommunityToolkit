@@ -15,9 +15,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public static class DispatcherHelper
     {
         /// <summary>
-        /// Execute the given function asynchronously on UI thread of the main view
+        /// Executes the given function asynchronously on UI thread of the main view.
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
@@ -27,9 +27,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -38,14 +38,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (viewToExecuteOn == null)
             {
-                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
 
             return viewToExecuteOn.Dispatcher.AwaitableRunAsync<T>(function, priority);
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
         /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
@@ -55,14 +55,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (viewToExecuteOn == null)
             {
-                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
 
             return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on UI thread of the main view
+        /// Executes the given function asynchronously on UI thread of the main view.
         /// </summary>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
         /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
@@ -83,14 +83,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (viewToExecuteOn == null)
             {
-                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
 
             return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -101,9 +101,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
         /// <param name="function">Synchronous function with return type <typeparamref name="T"/> to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -112,16 +112,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (viewToExecuteOn == null)
             {
-                throw new ArgumentNullException("viewToExecuteOn can't be null!");
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
 
             return viewToExecuteOn.Dispatcher.AwaitableRunAsync<T>(function, priority);
         }
 
         /// <summary>
-        /// Execute the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="function">Synchronous function to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task </returns>
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
         /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (function == null)
             {
-                throw new ArgumentNullException("function can't be null!");
+                throw new ArgumentNullException(nameof(function));
             }
 
             var taskCompletionSource = new TaskCompletionSource<T>();
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (function == null)
             {
-                throw new ArgumentNullException("function can't be null!");
+                throw new ArgumentNullException(nameof(function));
             }
 
             var taskCompletionSource = new TaskCompletionSource<object>();
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
         /// </summary>
-        /// <typeparam name="T">returned data type of the function</typeparam>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
         /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
@@ -223,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         {
             if (function == null)
             {
-                throw new ArgumentNullException("function can't be null!");
+                throw new ArgumentNullException(nameof(function));
             }
 
             var taskCompletionSource = new TaskCompletionSource<T>();

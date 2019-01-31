@@ -302,6 +302,16 @@
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
+      },
+      {
+        "Name": "ImageCropper",
+        "Type": "ImageCropperPage",
+        "About": "ImageCropper control allows user to crop image freely.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageCropper",
+        "XamlCodeFile": "ImageCropperXaml.bind",
+        "CodeFile": "ImageCropperCode.bind",
+        "Icon": "/SamplePages/ImageCropper/ImageCropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
       }
     ]
   },
@@ -434,49 +444,49 @@
         "About": "This guide helps you add UWP XAML controls to your WPF",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/WindowsXamlHost.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "WebView",
         "About": "The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content using the Microsoft Edge rendering engine",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/WebView.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "WebViewCompatible",
         "About": "The Windows Community Toolkit provides a version of the UWP web view control that can be used in WPF and Windows Forms applications. This control embeds a view into your application that renders web content in one of two ways. For client environments that support the WebViewControl (Windows 10), that implementation is used. For legacy systems, System.Windows.Controls.WebBrowser implements the view",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/WebViewCompatible.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "InkCanvas",
         "About": "This control is a wrapper to enable use of the UWP InkCanvas control in Windows Forms or WPF",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/InkCanvas.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "InkToolbar",
         "About": "This control is a wrapper to enable use of the UWP InkToolbar control in Windows Forms or WPF",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/InkToolbar.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "MediaPlayerElement",
         "About": "This control is a wrapper to enable use of the UWP MediaPlayerElement control in Windows Forms or WPF",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/MediaPlayerElement.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       },
       {
         "Name": "MapControl",
         "About": "This control is a wrapper to enable use of the UWP MapControl control in Windows Forms or WPF",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/MapControl.md",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Win32"
+        "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
       }
     ]
   },
@@ -939,6 +949,14 @@
         "XamlCodeFile": "ScrollViewerExtensionsCode.bind",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/ScrollViewerExtensions.md"
+      },
+      {
+        "Name": "OnDevice",
+        "Type": "OnDevicePage",
+        "About": "The OnDevice markup extension allows you to customize UI appearance on a per-DeviceFamily basis.",
+        "Icon": "/SamplePages/OnDevice/OnDevice.png",
+        "XamlCodeFile": "OnDeviceXaml.bind",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
       }
     ]
   },

@@ -374,7 +374,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
             {
                 FontFamily = CodeFontFamily ?? FontFamily,
                 Foreground = brush,
-                LineHeight = FontSize * 1.4
+                LineHeight = FontSize * 1.4,
+                FlowDirection = FlowDirection
             };
 
             textBlock.PointerWheelChanged += Preventative_PointerWheelChanged;
