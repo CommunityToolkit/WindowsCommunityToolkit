@@ -10,8 +10,6 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using System.Security;
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
@@ -29,7 +27,6 @@ using Windows.System;
 using Windows.UI.Input;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
@@ -133,6 +130,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DATAGRID_defaultMinColumnWidth = 20;
         private const double DATAGRID_defaultMaxColumnWidth = double.PositiveInfinity;
 
+        private const double DATAGRID_defaultIncrementalLoadingThreshold = 3.0;
+        private const double DATAGRID_defaultDataFetchSize = 3.0;
+
         // 2 seconds delay used to hide the scroll bars for example when OS animations are turned off.
         private const int DATAGRID_noScrollBarCountdownMs = 2000;
 
@@ -205,6 +205,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private int _noCurrentCellChangeCount;
         private int _noFocusedColumnChangeCount;
         private int _noSelectionChangeCount;
+
+        private double _oldEdgedRowsHeightCalculated = 0.0;
 
         // Set to True to favor mouse indicators over panning indicators for the scroll bars.
         private bool _preferMouseIndicators;
@@ -866,6 +868,55 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the amount of data to fetch for virtualizing/prefetch operations.
+        /// </summary>
+        /// <returns>
+        /// The amount of data to fetch per interval, in pages.
+        /// </returns>
+        public double DataFetchSize
+        {
+            get { return (double)GetValue(DataFetchSizeProperty); }
+            set { SetValue(DataFetchSizeProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="DataFetchSize"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DataFetchSizeProperty =
+            DependencyProperty.Register(
+                nameof(DataFetchSize),
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(DATAGRID_defaultDataFetchSize, OnDataFetchSizePropertyChanged));
+
+        /// <summary>
+        /// DataFetchSizeProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its DataFetchSize.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
+        private static void OnDataFetchSizePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
+            {
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
+
+                if (double.IsNaN(newValue))
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.DataFetchSize));
+                }
+
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.DataFetchSize), 0);
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the style that is used when rendering the drag indicator
         /// that is displayed while dragging column headers.
         /// </summary>
@@ -1266,64 +1317,81 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        // Field used for accessing the ItemsSource though the interface ISupportIncrementalLoading
-        private ISupportIncrementalLoading _incrementalItemsSource;
-
-        private bool _canLoadIncrementalData;
-
-        private bool _itemsSourceIsIncremental;
-
-        // Method that loads additional data once the user has scrolled to a certain threashold
-        private async void LoadMoreDataFromIncrementalItemsSource()
+        /// <summary>
+        /// Gets or sets the threshold range that governs when the DataGrid class will begin to prefetch more items.
+        /// </summary>
+        /// <returns>
+        /// The loading threshold, in terms of pages.
+        /// </returns>
+        public double IncrementalLoadingThreshold
         {
-            if (_itemsSourceIsIncremental && _incrementalItemsSource.HasMoreItems && _canLoadIncrementalData)
+            get { return (double)GetValue(IncrementalLoadingThresholdProperty); }
+            set { SetValue(IncrementalLoadingThresholdProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="IncrementalLoadingThreshold"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty IncrementalLoadingThresholdProperty =
+            DependencyProperty.Register(
+                nameof(IncrementalLoadingThreshold),
+                typeof(double),
+                typeof(DataGrid),
+                new PropertyMetadata(DATAGRID_defaultIncrementalLoadingThreshold, OnIncrementalLoadingThresholdPropertyChanged));
+
+        /// <summary>
+        /// IncrementalLoadingThresholdProperty property changed handler.
+        /// </summary>
+        /// <param name="d">DataGrid that changed its IncrementalLoadingThreshold.</param>
+        /// <param name="e">DependencyPropertyChangedEventArgs.</param>
+        private static void OnIncrementalLoadingThresholdPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DataGrid dataGrid = d as DataGrid;
+            if (!dataGrid.IsHandlerSuspended(e.Property))
             {
-                DataGridAutomationPeer peer = DataGridAutomationPeer.FromElement(this) as DataGridAutomationPeer;
-                if (peer != null)
+                double oldValue = (double)e.OldValue;
+                double newValue = (double)e.NewValue;
+
+                if (double.IsNaN(newValue))
                 {
-                    IScrollProvider isp = (IScrollProvider)peer;
-                    if (isp.VerticalScrollPercent >= IncrementalThreshold)
-                    {
-                        _canLoadIncrementalData = false;
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueCannotBeSetToNAN(nameof(dataGrid.IncrementalLoadingThreshold));
+                }
 
-                        await _incrementalItemsSource.LoadMoreItemsAsync(0);
+                if (newValue < 0)
+                {
+                    dataGrid.SetValueNoCallback(e.Property, oldValue);
+                    throw DataGridError.DataGrid.ValueMustBeGreaterThanOrEqualTo("value", nameof(dataGrid.IncrementalLoadingThreshold), 0);
+                }
 
-                        _canLoadIncrementalData = true;
-                    }
+                if (newValue > oldValue)
+                {
+                    dataGrid.LoadMoreDataFromIncrementalItemsSource();
                 }
             }
         }
 
         /// <summary>
-        /// Identifies the IncrementalThreshold dependency property.
+        /// Gets or sets a value that indicates the conditions for prefetch operations by the DataGrid class.
         /// </summary>
-        public static readonly DependencyProperty IncrementalThresholdProperty = DependencyProperty.Register(
-            "IncrementalThreshold", typeof(double), typeof(DataGrid), new PropertyMetadata(85.0, OnIncrementalThresholdChanged));
-
-        private static void OnIncrementalThresholdChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <returns>
+        /// An enumeration value that indicates the conditions that trigger prefetch operations. The default is **Edge**.
+        /// </returns>
+        public IncrementalLoadingTrigger IncrementalLoadingTrigger
         {
-            DataGrid dataGrid = d as DataGrid;
-            var newThreshold = (double)e.NewValue;
-
-            if (newThreshold < 50.0)
-            {
-                dataGrid.IncrementalThreshold = 50.0;
-            }
-
-            if (newThreshold > 100.0)
-            {
-                dataGrid.IncrementalThreshold = 100.0;
-            }
+            get { return (IncrementalLoadingTrigger)GetValue(IncrementalLoadingTriggerProperty); }
+            set { SetValue(IncrementalLoadingTriggerProperty, value); }
         }
 
         /// <summary>
-        /// Gets or sets the scroll threshold for loading more data from collections implementing ISupportIncrementalLoading. The value should be in the range between 50 - 100 and defaults to 85 if not provided.
+        /// Identifies the <see cref="IncrementalLoadingTrigger"/> dependency property
         /// </summary>
-        public double IncrementalThreshold
-        {
-            get { return (double)GetValue(IncrementalThresholdProperty); }
-            set { SetValue(IncrementalThresholdProperty, value); }
-        }
+        public static readonly DependencyProperty IncrementalLoadingTriggerProperty =
+            DependencyProperty.Register(
+                nameof(IncrementalLoadingTrigger),
+                typeof(IncrementalLoadingTrigger),
+                typeof(DataGrid),
+                new PropertyMetadata(IncrementalLoadingTrigger.Edge));
 
         /// <summary>
         /// Gets or sets a collection that is used to generate the content of the control.
@@ -1335,7 +1403,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Identifies the ItemsSource dependency property.
+        /// Identifies the <see cref="ItemsSource"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ItemsSourceProperty =
             DependencyProperty.Register(
@@ -1429,20 +1497,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // can be set when the DataGrid is not part of the visual tree.
                 dataGrid._measured = false;
                 dataGrid.InvalidateMeasure();
-
-                // Determine if incremental loading should be used
-                if (dataGrid.ItemsSource is ISupportIncrementalLoading incrementalItemsSource)
-                {
-                    dataGrid._incrementalItemsSource = incrementalItemsSource;
-                    dataGrid._itemsSourceIsIncremental = true;
-                    dataGrid._canLoadIncrementalData = true;
-                }
-                else
-                {
-                    dataGrid._incrementalItemsSource = default(ISupportIncrementalLoading);
-                    dataGrid._itemsSourceIsIncremental = false;
-                    dataGrid._canLoadIncrementalData = false;
-                }
             }
         }
 
@@ -2760,7 +2814,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     this.HorizontalAdjustment = 0;
                 }
 
+                bool loadMoreDataFromIncrementalItemsSource = _rowsPresenterAvailableSize.HasValue && value.HasValue && value.Value.Height > _rowsPresenterAvailableSize.Value.Height;
+
                 _rowsPresenterAvailableSize = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -2808,6 +2869,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             get
             {
                 return _verticalOffset;
+            }
+
+            set
+            {
+                bool loadMoreDataFromIncrementalItemsSource = _verticalOffset < value;
+
+                _verticalOffset = value;
+
+                if (loadMoreDataFromIncrementalItemsSource)
+                {
+                    LoadMoreDataFromIncrementalItemsSource();
+                }
             }
         }
 
@@ -3655,8 +3728,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 e.Handled = ProcessScrollOffsetDelta(offsetDelta, isForHorizontalScroll);
             }
-
-            LoadMoreDataFromIncrementalItemsSource();
         }
 
         /// <summary>
@@ -3938,6 +4009,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             return null;
+        }
+
+        internal void LoadMoreDataFromIncrementalItemsSource()
+        {
+            LoadMoreDataFromIncrementalItemsSource(totalVisibleHeight: EdgedRowsHeightCalculated);
         }
 
         internal void OnRowDetailsChanged()
@@ -6484,6 +6560,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private void LoadMoreDataFromIncrementalItemsSource(double totalVisibleHeight)
+        {
+            if (IncrementalLoadingTrigger == IncrementalLoadingTrigger.Edge && DataConnection.IsDataSourceIncremental && DataConnection.HasMoreItems && !DataConnection.IsLoadingMoreItems)
+            {
+                var bottomScrolledOffHeight = Math.Max(0, totalVisibleHeight - CellsHeight - VerticalOffset);
+
+                if ((IncrementalLoadingThreshold * CellsHeight) >= bottomScrolledOffHeight)
+                {
+                    var numberOfRowsToLoad = Math.Max(1, (int)(DataFetchSize * CellsHeight / RowHeightEstimate));
+
+                    DataConnection.LoadMoreItems((uint)numberOfRowsToLoad);
+                }
+            }
+        }
+
         private void MakeFirstDisplayedCellCurrentCell()
         {
             if (this.CurrentColumnIndex != -1)
@@ -8054,7 +8145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetVerticalOffset(double newVerticalOffset)
         {
-            _verticalOffset = newVerticalOffset;
+            VerticalOffset = newVerticalOffset;
 
             if (_vScrollBar != null && !DoubleUtil.AreClose(newVerticalOffset, _vScrollBar.Value))
             {
@@ -9076,7 +9167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void VerticalScrollBar_Scroll(object sender, ScrollEventArgs e)
         {
             ProcessVerticalScroll(e.ScrollEventType);
-            LoadMoreDataFromIncrementalItemsSource();
         }
     }
 }
