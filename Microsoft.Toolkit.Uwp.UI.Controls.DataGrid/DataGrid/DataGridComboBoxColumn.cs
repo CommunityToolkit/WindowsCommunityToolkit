@@ -336,6 +336,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else
                 {
                     textBlockElement.Text = GetDisplayValue(dataItem);
+
+                    if (dataItem is INotifyPropertyChanged notifiableDataItem && (Binding.Mode == BindingMode.OneWay || Binding.Mode == BindingMode.TwoWay))
+                    {
+                        notifiableDataItem.PropertyChanged += (sender, args) =>
+                        {
+                            textBlockElement.Text = GetDisplayValue(notifiableDataItem);
+                        };
+                    }
                 }
             }
 
