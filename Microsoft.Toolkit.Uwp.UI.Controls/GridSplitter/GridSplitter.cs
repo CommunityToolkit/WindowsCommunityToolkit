@@ -4,8 +4,13 @@
 
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Microsoft.Toolkit.Uwp.Extensions;
+using System.Reflection;
+using Windows.ApplicationModel.Resources;
+using System;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -163,6 +168,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(GridSplitter);
             Loaded += GridSplitter_Loaded;
+            string automationName = StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_GridSplitter");
+            AutomationProperties.SetName(this, automationName);
         }
 
         /// <inheritdoc />
