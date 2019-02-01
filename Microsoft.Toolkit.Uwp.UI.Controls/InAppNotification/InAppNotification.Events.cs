@@ -3,7 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -12,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InAppNotification
     {
+
         /// <summary>
         /// Event raised when the notification is opening
         /// </summary>
@@ -32,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event InAppNotificationClosedEventHandler Closed;
 
+        private AutomationPeer peer;
+
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
             Dismiss(InAppNotificationDismissKind.User);
@@ -47,7 +54,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _animationTimer.Stop();
             Opened?.Invoke(this, EventArgs.Empty);
+            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_InAppNotification_NameProperty"));
+            peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+            if (Content.GetType() == typeof(string))
+            {
+                AutomateTextNotification(Content.ToString());
+            }
+
             _animationTimer.Tick -= OpenAnimationTimer_Tick;
+        }
+
+        private void AutomateTextNotification(string message)
+        {
+            if (peer != null)
+            {
+                peer.SetFocus();
+                peer.RaiseNotificationEvent(
+                    AutomationNotificationKind.Other,
+                    AutomationNotificationProcessing.ImportantMostRecent,
+                    "New notification " + message,
+                    Guid.NewGuid().ToString());
+            }
         }
 
         private void DismissAnimationTimer_Tick(object sender, object e)
