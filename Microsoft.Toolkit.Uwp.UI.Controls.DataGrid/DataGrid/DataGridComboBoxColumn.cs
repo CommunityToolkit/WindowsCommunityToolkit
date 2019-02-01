@@ -335,15 +335,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    textBlockElement.Text = GetDisplayValue(dataItem);
-
-                    if (dataItem is INotifyPropertyChanged notifiableDataItem && (Binding.Mode == BindingMode.OneWay || Binding.Mode == BindingMode.TwoWay))
+                    var textBlockBinding = new Binding
                     {
-                        notifiableDataItem.PropertyChanged += (sender, args) =>
-                        {
-                            textBlockElement.Text = GetDisplayValue(notifiableDataItem);
-                        };
-                    }
+                        Source = dataItem,
+                        Path = new PropertyPath(DisplayMemberPath),
+                        Mode = BindingMode.TwoWay
+                    };
+
+                    textBlockElement.SetBinding(TextBlock.TextProperty, textBlockBinding);
                 }
             }
 
@@ -553,12 +552,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OwningGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            SetDisplayMemberPathValue(e.Row);
+            // SetDisplayMemberPathValue(e.Row);
         }
 
         private void OwningGrid_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            SetDisplayMemberPathValue(e.Row);
+            // SetDisplayMemberPathValue(e.Row);
         }
 
         private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
