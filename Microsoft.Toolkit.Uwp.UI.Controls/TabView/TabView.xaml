@@ -286,7 +286,6 @@
                                       OpticalMarginAlignment="TrimSideBearings" />
                     <!--  Use grid to toggle visibility based on IsClosable property and inner border for hover animations.  -->
                     <Border x:Name="CloseButtonContainer"
-                            x:Uid="/Microsoft.Toolkit.Uwp.UI.Controls/Resources/WindowsCommunityToolkit_TabView_CloseButton"
                             Grid.Column="2"
                             Width="{Binding (ex:FrameworkElementExtensions.Ancestor).IsCloseButtonOverlay, Converter={StaticResource CloseCollapsingSizeConverter}, ElementName=LayoutRoot}"
                             HorizontalAlignment="Right"
@@ -297,6 +296,7 @@
                                 Background="{TemplateBinding Background}"
                                 Visibility="Collapsed">
                             <Button x:Name="CloseButton"
+                                    x:Uid="/Microsoft.Toolkit.Uwp.UI.Controls/Resources/WindowsCommunityToolkit_TabView_CloseButton"
                                     Style="{StaticResource TabViewItemCloseButtonStyle}">
                                 &#xE711;
                             </Button>
