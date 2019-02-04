@@ -304,6 +304,16 @@
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
+      },
+      {
+        "Name": "ImageCropper",
+        "Type": "ImageCropperPage",
+        "About": "ImageCropper control allows user to crop image freely.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageCropper",
+        "XamlCodeFile": "ImageCropperXaml.bind",
+        "CodeFile": "ImageCropperCode.bind",
+        "Icon": "/SamplePages/ImageCropper/ImageCropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
       }
     ]
   },
