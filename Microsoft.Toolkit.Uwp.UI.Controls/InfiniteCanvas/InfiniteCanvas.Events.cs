@@ -138,7 +138,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (!e.IsIntermediate)
             {
-
                 _drawingSurfaceRenderer.SetScale(_infiniteCanvasScrollViewer.ZoomFactor);
 
                 ReDrawCanvas();

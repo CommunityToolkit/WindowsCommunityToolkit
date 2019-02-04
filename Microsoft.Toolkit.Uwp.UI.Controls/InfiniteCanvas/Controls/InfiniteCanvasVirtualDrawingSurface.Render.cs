@@ -20,6 +20,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InfiniteCanvasVirtualDrawingSurface
     {
+        private const float BaseCanvasDPI = 96;
+
         private readonly List<IDrawable> _visibleList = new List<IDrawable>();
         private readonly List<IDrawable> _drawableList = new List<IDrawable>();
 
@@ -68,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var scale = _screenScale * zoom;
 
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), 96 * (float)scale))
+            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), BaseCanvasDPI * (float)scale))
             {
                 drawingSession.Clear(Colors.White);
                 foreach (var drawable in _visibleList)
