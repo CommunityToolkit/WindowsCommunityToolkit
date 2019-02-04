@@ -126,6 +126,9 @@
   <data name="WindowsCommunityToolkit_GridSplitter" xml:space="preserve">
     <value>GridSpliter</value>
   </data>
+  <data name="WindowsCommunityToolkit_InAppNotification_NameProperty" xml:space="preserve">
+    <value>Notification</value>
+  </data>
   <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Close tab</value>
     <comment>Narrator Resource for TabView Close Button.</comment>
