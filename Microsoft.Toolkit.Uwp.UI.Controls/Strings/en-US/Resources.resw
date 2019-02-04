@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed" xml:space="preserve">
+    <value>Collapse Blade</value>
+  </data>
+  <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Expanded" xml:space="preserve">
+    <value>Expand Blade</value>
+  </data>
   <data name="WindowsCommunityToolkit_GridSplitter" xml:space="preserve">
     <value>GridSpliter</value>
   </data>

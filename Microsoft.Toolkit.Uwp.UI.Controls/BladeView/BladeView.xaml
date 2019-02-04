@@ -23,7 +23,6 @@
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False" />
         <Setter Property="ScrollViewer.BringIntoViewOnFocusChange" Value="True" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <Setter Property="AutomationProperties.Name" Value="{Binding BladeStatus}" />
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
@@ -161,13 +160,12 @@
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="12" 
-                                    AutomationProperties.Name="EnlargeButton"
-                                    Foreground="{TemplateBinding CloseButtonForeground}" />
+                                    Foreground="{TemplateBinding CloseButtonForeground}" 
+                                    AutomationProperties.Name="{Binding BladeStatus}"/>
                                 <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
-                                    AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     BorderThickness="0"
                                     Width="32"
