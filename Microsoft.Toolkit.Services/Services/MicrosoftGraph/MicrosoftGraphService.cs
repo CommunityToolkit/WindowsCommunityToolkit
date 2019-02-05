@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             var authenticationModel = AuthenticationModel.ToString();
             result = await Authentication.LogoutAsync(authenticationModel);
 #else
-            result = Authentication.Logout();
+            result = await Authentication.LogoutAsync();
 #endif
 
             if (result)

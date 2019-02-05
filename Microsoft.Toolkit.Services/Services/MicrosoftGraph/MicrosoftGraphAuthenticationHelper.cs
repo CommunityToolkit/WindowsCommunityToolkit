@@ -181,6 +181,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
+        [Obsolete("This method will be removed, please use LogoutAsync instead.")]
         public bool Logout()
         {
             return LogoutV2();
@@ -193,7 +194,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         [Obsolete("This method will be removed, please use LogoutAsync instead.")]
         public bool LogoutV2()
         {
-            Task<bool> task = Task.Run<bool>(async () => await LogoutV2Async());
+            Task<bool> task = Task.Run<bool>(async () => await LogoutAsync());
             return task.Result;
         }
 
@@ -201,7 +202,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user using the V2 endpoint asynchronous
         /// </summary>
         /// <returns>Success or failure</returns>
-        public async Task<bool> LogoutV2Async()
+        public async Task<bool> LogoutAsync()
         {
             try
             {
@@ -267,7 +268,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (authenticationModel.Equals("V2"))
             {
-                return Logout();
+                return await LogoutAsync();
             }
 
             return true;
