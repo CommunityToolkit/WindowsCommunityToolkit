@@ -356,6 +356,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="stream">The target stream.</param>
         /// <param name="bitmapFileFormat">the specified format.</param>
+        /// <returns>Task</returns>
         public async Task SaveMaxViewAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
         {
             var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
