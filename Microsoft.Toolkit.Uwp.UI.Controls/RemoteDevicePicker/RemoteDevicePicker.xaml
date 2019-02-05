@@ -124,13 +124,13 @@
                                                     <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" IsDoubleTapEnabled="True" IsMultiSelectCheckBoxEnabled="True">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
-                                                                <Grid>
+                                                                <Grid Margin="0,8">
                                                                     <Grid.ColumnDefinitions>
                                                                         <ColumnDefinition Width="Auto" />
                                                                         <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
                                                                     <TextBlock Text="{Binding Kind, Converter={StaticResource KindToImageConverter}}" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="{StaticResource HubHeaderThemeFontSize}"  />
-                                                                    <Grid Grid.Column="1" Margin="10,0">
+                                                                    <Grid Grid.Column="1" Margin="8,0">
                                                                         <Grid.RowDefinitions>
                                                                             <RowDefinition Height="*"/>
                                                                             <RowDefinition Height="*"/>
@@ -146,7 +146,7 @@
                                             </ScrollContentPresenter>
                                         </Grid>
                                     </ScrollViewer>
-                                    <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="5">
+                                    <Grid x:Name="CommandSpace" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom" Margin="5" Visibility="Collapsed">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition />
                                             <ColumnDefinition />

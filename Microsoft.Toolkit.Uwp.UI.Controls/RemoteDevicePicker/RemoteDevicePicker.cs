@@ -21,6 +21,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "PART_ListDevices", Type = typeof(ListView))]
     [TemplatePart(Name = "PART_ListDeviceTypes", Type = typeof(ComboBox))]
     [TemplatePart(Name = "PART_ProgressRing", Type = typeof(ProgressRing))]
+    [TemplatePart(Name = "CommandSpace", Type = typeof(Grid))]
+    [TemplatePart(Name = "DiscoveryType", Type = typeof(ComboBox))]
+    [TemplatePart(Name = "StatusType", Type = typeof(ComboBox))]
+    [TemplatePart(Name = "AuthorizationType", Type = typeof(ComboBox))]
+    [TemplatePart(Name = "AdvancedFiltersGrid", Type = typeof(Grid))]
     public sealed class RemoteDevicePicker : ContentDialog
     {
         private ListView _listDevices;
@@ -102,7 +107,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RemoteDevicePicker_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            _listDevices.SelectedItems.Clear();
+            if (_listDevices.SelectedItems.Count > 0)
+            {
+                _listDevices.SelectedItems?.Clear();
+            }
         }
 
         /// <summary>
@@ -154,12 +162,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_listDevices != null)
             {
                 _listDevices.SelectionChanged += ListDevices_SelectionChanged;
-                _listDevices.DoubleTapped += ListDevices_DoubleTapped;
                 _listDevices.ContainerContentChanging += ListDevices_ContainerContentChanging;
 
-                _commandSpace.Visibility = Visibility.Visible;
                 _listDevices.SelectionMode = SelectionMode == RemoteDeviceSelectionMode.Single ? ListViewSelectionMode.Single : ListViewSelectionMode.Multiple;
                 _listDevices.IsMultiSelectCheckBoxEnabled = SelectionMode == RemoteDeviceSelectionMode.Multiple ? true : false;
+                if (_listDevices.SelectionMode != ListViewSelectionMode.Single)
+                {
+                    _listDevices.DoubleTapped += ListDevices_DoubleTapped;
+                    if (_commandSpace != null)
+                    {
+                        _commandSpace.Visibility = Visibility.Visible;
+                    }
+                }
             }
 
             if (_advancedFiltersGrid != null)
@@ -295,12 +309,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case RemoteSystemStatus.Available:
                     args.ItemContainer.IsEnabled = true;
+                    args.ItemContainer.IsHitTestVisible = true;
                     break;
 
                 case RemoteSystemStatus.DiscoveringAvailability:
                 case RemoteSystemStatus.Unavailable:
                 case RemoteSystemStatus.Unknown:
                     args.ItemContainer.IsEnabled = false;
+                    args.ItemContainer.IsHitTestVisible = false;
                     break;
             }
         }
