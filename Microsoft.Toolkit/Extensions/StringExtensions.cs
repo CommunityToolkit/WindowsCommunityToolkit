@@ -170,7 +170,6 @@ namespace Microsoft.Toolkit.Extensions
             return string.Format(format, args);
         }
 
-
         /// <summary>
         /// Truncates a string to the specified length.
         /// </summary>
