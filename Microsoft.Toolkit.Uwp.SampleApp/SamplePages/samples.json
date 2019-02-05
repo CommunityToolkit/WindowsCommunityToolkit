@@ -312,6 +312,7 @@
         "Icon": "/SamplePages/RemoteDevicePicker/RemoteDevicePicker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RemoteDevicePicker.md"
       },
+      {
         "Name": "ImageCropper",
         "Type": "ImageCropperPage",
         "About": "ImageCropper control allows user to crop image freely.",
