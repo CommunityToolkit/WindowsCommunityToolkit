@@ -123,45 +123,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             });
-
-            SampleController.Current.RegisterNewCommand("Export current view as image", async (sender, args) =>
-            {
-                if (_infiniteCanvas != null)
-                {
-                    var savePicker = new FileSavePicker
-                    {
-                        SuggestedStartLocation = PickerLocationId.PicturesLibrary,
-                        SuggestedFileName = "Infinite Canvas Current View",
-                        FileTypeChoices =
-                        {
-                            { "PNG Picture", new List<string> { ".png" } },
-                            { "JPEG Picture", new List<string> { ".jpg" } }
-                        }
-                    };
-                    var imageFile = await savePicker.PickSaveFileAsync();
-                    if (imageFile != null)
-                    {
-                        BitmapFileFormat bitmapFileFormat;
-                        switch (imageFile.FileType.ToLower())
-                        {
-                            case ".png":
-                                bitmapFileFormat = BitmapFileFormat.Png;
-                                break;
-                            case ".jpg":
-                                bitmapFileFormat = BitmapFileFormat.Jpeg;
-                                break;
-                            default:
-                                bitmapFileFormat = BitmapFileFormat.Png;
-                                break;
-                        }
-
-                        using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
-                        {
-                            await _infiniteCanvas.SaveCurrentViewAsync(fileStream, bitmapFileFormat);
-                        }
-                    }
-                }
-            });
         }
     }
 }

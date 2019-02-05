@@ -36,13 +36,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal CanvasRenderTarget ExportOffScreenDrawings(Rect viewPort)
-        {
-            var toDraw = GetDrawingBoundaries(viewPort);
-            var offScreen = DrawOffScreen(toDraw, _visibleList);
-            return offScreen;
-        }
-
         internal CanvasRenderTarget ExportMaxOffScreenDrawings()
         {
             var toDraw = GetMaxDrawingsBoundaries();

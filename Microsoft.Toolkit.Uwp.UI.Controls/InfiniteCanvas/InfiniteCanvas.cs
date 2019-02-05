@@ -363,17 +363,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// This method exports the current view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
-        /// </summary>
-        /// <param name="stream">The target stream.</param>
-        /// <param name="bitmapFileFormat">the specified format.</param>
-        public async Task SaveCurrentViewAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
-        {
-            var offScreen = _drawingSurfaceRenderer.ExportOffScreenDrawings(ViewPort);
-            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
-        }
-
-        /// <summary>
         /// This event triggered after each render happened because of any change in the canvas elements.
         /// </summary>
         public event EventHandler ReRenderCompleted;
