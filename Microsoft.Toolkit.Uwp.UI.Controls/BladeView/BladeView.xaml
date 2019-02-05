@@ -160,9 +160,8 @@
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="12" 
-                                    Foreground="{TemplateBinding CloseButtonForeground}" 
-                                    AutomationProperties.Name="{Binding BladeStatus}"/>
-                                <Button Name="CloseButton"
+                                    Foreground="{TemplateBinding CloseButtonForeground}" />
+                            <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"

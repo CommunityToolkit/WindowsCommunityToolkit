@@ -69,8 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Width = _normalModeWidth;
                 VisualStateManager.GoToState(this, "Expanded", true);
                 var name = StringExtensions.GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed");
-                System.Diagnostics.Debug.Print(name);
-                AutomationProperties.SetName(this.GetTemplateChild("EnlargeButton"), name);
+                AutomationProperties.SetName(_enlargeButton, name);
             }
         }
 
@@ -83,8 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Width = double.NaN;
                 VisualStateManager.GoToState(this, "Collapsed", true);
                 var name = StringExtensions.GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_BladeView_ExpandButton_Expanded");
-                System.Diagnostics.Debug.Print(name);
-                AutomationProperties.SetName(this.GetTemplateChild("EnlargeButton"), name);
+                AutomationProperties.SetName(_enlargeButton, name);
             }
         }
 
