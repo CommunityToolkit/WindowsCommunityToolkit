@@ -190,6 +190,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user using the V2 endpoint
         /// </summary>
         /// <returns>Success or failure</returns>
+        [Obsolete("This method will be removed, please use LogoutAsync instead.")]
         public bool LogoutV2()
         {
             Task<bool> task = Task.Run<bool>(async () => await LogoutV2Async());
