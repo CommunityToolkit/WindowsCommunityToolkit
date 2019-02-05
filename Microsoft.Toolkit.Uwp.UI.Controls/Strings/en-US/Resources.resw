@@ -126,6 +126,9 @@
   <data name="WindowsCommunityToolkit_GridSplitter" xml:space="preserve">
     <value>GridSpliter</value>
   </data>
+  <data name="WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage" xml:space="preserve">
+    <value>New notification</value>
+  </data>
   <data name="WindowsCommunityToolkit_InAppNotification_NameProperty" xml:space="preserve">
     <value>Notification</value>
   </data>

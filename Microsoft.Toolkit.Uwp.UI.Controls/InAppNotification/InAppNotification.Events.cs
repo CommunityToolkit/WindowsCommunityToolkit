@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 peer.RaiseNotificationEvent(
                     AutomationNotificationKind.Other,
                     AutomationNotificationProcessing.ImportantMostRecent,
-                    "New notification " + message,
+                    StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage") + message,
                     Guid.NewGuid().ToString());
             }
         }
