@@ -342,27 +342,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Export the InfinitCanvas as PNG file.
+        /// Export the InfiniteCanvas ink strokes.
         /// </summary>
-        /// <returns>json string</returns>
-        public Task ExportAsPng(IStorageFile file)
-        {
-            return _drawingSurfaceRenderer.ExportAsPNG(file);
-        }
-
-        /// <summary>
-        /// Export the InfinitCanvas ink strokes.
-        /// </summary>
-        /// <returns>json string</returns>
+        /// <returns>list of InkStrokes</returns>
         public List<InkStroke> ExportInkStrokes()
         {
             return _drawingSurfaceRenderer.ExportInkStrokes();
         }
 
         /// <summary>
-        /// Export the InfinitCanvas raw text.
+        /// Export the InfiniteCanvas raw text.
         /// </summary>
-        /// <returns>json string</returns>
+        /// <returns>list of strings</returns>
         public List<string> ExportText()
         {
             return _drawingSurfaceRenderer.ExportText();

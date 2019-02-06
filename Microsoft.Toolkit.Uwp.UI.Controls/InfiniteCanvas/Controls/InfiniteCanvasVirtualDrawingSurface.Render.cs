@@ -78,36 +78,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        internal async Task ExportAsPNG(IStorageFile file)
-        {
-            double width = double.MinValue,
-                   height = double.MinValue;
-
-            foreach (var drawable in _drawableList)
-            {
-                width = Math.Max(drawable.Bounds.Left + drawable.Bounds.Width, width);
-                height = Math.Max(drawable.Bounds.Top + drawable.Bounds.Height, height);
-            }
-
-            var device = CanvasDevice.GetSharedDevice();
-            var renderTarget = new CanvasRenderTarget(device, (float)width, (float)height, 96);
-            using (var drawingSession = renderTarget.CreateDrawingSession())
-            {
-                drawingSession.Clear(Colors.White);
-                foreach (var drawable in _visibleList)
-                {
-                    drawable.Draw(drawingSession, renderTarget.Bounds);
-                }
-            }
-
-            CanvasBitmap bit = renderTarget;
-
-            using (var fileStream = await file.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                await bit.SaveAsync(fileStream, CanvasBitmapFileFormat.Png, 1f);
-            }
-        }
-
         internal void ClearAll(Rect viewPort)
         {
             _visibleList.Clear();
