@@ -69,11 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Width = _normalModeWidth;
                 VisualStateManager.GoToState(this, "Expanded", true);
                 var name = StringExtensions.GetLocalized("Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed");
-
                 AutomationProperties.SetName(_enlargeButton, name);
-
-                AutomationProperties.SetName(this.GetTemplateChild("EnlargeButton"), name);
-
             }
         }
 
