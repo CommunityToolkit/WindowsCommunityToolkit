@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// /// <param name="resourcePath">Resource path to retrieve.</param>
         /// <param name="resourceKey">Resource key to retrieve.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
-        public static string GetLocalized(string resourcePath, string resourceKey)
+        public static string GetLocalized(this string resourceKey, string resourcePath)
         {
             _independentLoader = ResourceLoader.GetForViewIndependentUse(resourcePath);
             return _independentLoader.GetString(resourceKey);
