@@ -27,7 +27,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         public static string GetViewLocalized(this string resourceKey)
         {
 
-            _independentLoader = ResourceLoader.GetForViewIndependentUse();
             return ResourceLoader.GetForCurrentView().GetString(resourceKey);
         }
 
