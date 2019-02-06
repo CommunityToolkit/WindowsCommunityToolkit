@@ -119,18 +119,23 @@
   </resheader>
   <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed" xml:space="preserve">
     <value>Collapse Blade</value>
+    <comment>Narrator Resource for BladeView collapsed status</comment>
   </data>
   <data name="WindowsCommunityToolkit_BladeView_ExpandButton_Expanded" xml:space="preserve">
     <value>Expand Blade</value>
+    <comment>Narrator Resource for BladeView expanded status</comment>
   </data>
-  <data name="WindowsCommunityToolkit_GridSplitter" xml:space="preserve">
+  <data name="WindowsCommunityToolkit_GridSplitter_AutomationName" xml:space="preserve">
     <value>GridSpliter</value>
+    <comment>Narrator Resource for GridSplitter control</comment>
   </data>
   <data name="WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage" xml:space="preserve">
     <value>New notification</value>
+    <comment>Narrator resource for a new notification using the InAppNotification</comment>
   </data>
   <data name="WindowsCommunityToolkit_InAppNotification_NameProperty" xml:space="preserve">
     <value>Notification</value>
+    <comment>Name property for InAppNotification</comment>
   </data>
   <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Close tab</value>

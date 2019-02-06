@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(GridSplitter);
             Loaded += GridSplitter_Loaded;
-            string automationName = StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_GridSplitter");
+            string automationName = StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_GridSplitter_AutomationName");
             AutomationProperties.SetName(this, automationName);
         }
 
