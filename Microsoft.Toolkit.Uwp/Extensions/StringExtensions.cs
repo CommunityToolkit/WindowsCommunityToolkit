@@ -43,8 +43,8 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <summary>
         /// Retrieves the provided resource for the given key for use independent of the UI thread.
         /// </summary>
-        /// /// <param name="resourcePath">Resource path to retrieve.</param>
         /// <param name="resourceKey">Resource key to retrieve.</param>
+        /// <param name="resourcePath">Resource path to retrieve.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey, string resourcePath)
         {

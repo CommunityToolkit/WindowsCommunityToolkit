@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _animationTimer.Stop();
             Opened?.Invoke(this, EventArgs.Empty);
-            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_InAppNotification_NameProperty"));
+            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
             if (Content.GetType() == typeof(string))
             {
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 peer.RaiseNotificationEvent(
                     AutomationNotificationKind.Other,
                     AutomationNotificationProcessing.ImportantMostRecent,
-                    StringExtensions.GetLocalized("/Microsoft.Toolkit.Uwp.UI.Controls/Resources", "WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage") + message,
+                    StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources") + message,
                     Guid.NewGuid().ToString());
             }
         }
