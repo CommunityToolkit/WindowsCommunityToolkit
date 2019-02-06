@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                         using (var fileStream = await imageFile.OpenAsync(FileAccessMode.ReadWrite, StorageOpenOptions.None))
                         {
-                            await _infiniteCanvas.SaveMaxViewAsync(fileStream, bitmapFileFormat);
+                            await _infiniteCanvas.SaveBitmapAsync(fileStream, bitmapFileFormat);
                         }
                     }
                 }
