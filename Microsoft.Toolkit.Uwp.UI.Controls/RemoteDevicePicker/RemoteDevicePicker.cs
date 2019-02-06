@@ -21,7 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = "PART_ListDevices", Type = typeof(ListView))]
     [TemplatePart(Name = "PART_ListDeviceTypes", Type = typeof(ComboBox))]
     [TemplatePart(Name = "PART_ProgressRing", Type = typeof(ProgressRing))]
-    [TemplatePart(Name = "CommandSpace", Type = typeof(Grid))]
     [TemplatePart(Name = "DiscoveryType", Type = typeof(ComboBox))]
     [TemplatePart(Name = "StatusType", Type = typeof(ComboBox))]
     [TemplatePart(Name = "AuthorizationType", Type = typeof(ComboBox))]
@@ -109,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (_listDevices.SelectedItems.Count > 0)
             {
-                _listDevices.SelectedItems?.Clear();
+                _listDevices.SelectedItems.Clear();
             }
         }
 
@@ -138,6 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
+            Focus(FocusState.Programmatic);
             UnhookEvents();
 
             _listDevices = GetTemplateChild("PART_ListDevices") as ListView;
@@ -166,13 +166,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 _listDevices.SelectionMode = SelectionMode == RemoteDeviceSelectionMode.Single ? ListViewSelectionMode.Single : ListViewSelectionMode.Multiple;
                 _listDevices.IsMultiSelectCheckBoxEnabled = SelectionMode == RemoteDeviceSelectionMode.Multiple ? true : false;
-                if (_listDevices.SelectionMode != ListViewSelectionMode.Single)
+                if (_listDevices.SelectionMode == ListViewSelectionMode.Single)
                 {
                     _listDevices.DoubleTapped += ListDevices_DoubleTapped;
-                    if (_commandSpace != null)
-                    {
-                        _commandSpace.Visibility = Visibility.Visible;
-                    }
                 }
             }
 
@@ -204,8 +200,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             UpdateProgressRing(true);
             UpdateList();
-
-            Focus(FocusState.Programmatic);
 
             base.OnApplyTemplate();
         }
@@ -323,21 +317,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ListDevices_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_listDevices.SelectionMode == ListViewSelectionMode.Single)
+            if (_listDevices.SelectedItems.Count > 0)
             {
-                ReturnDevices();
-                Hide();
+                IsSecondaryButtonEnabled = true;
             }
             else
             {
-                if (_listDevices.SelectedItems.Count > 0)
-                {
-                    IsSecondaryButtonEnabled = true;
-                }
-                else
-                {
-                    IsSecondaryButtonEnabled = false;
-                }
+                IsSecondaryButtonEnabled = false;
             }
         }
 
