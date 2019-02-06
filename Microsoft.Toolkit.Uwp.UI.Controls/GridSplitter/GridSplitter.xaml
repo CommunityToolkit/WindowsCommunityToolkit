@@ -23,7 +23,6 @@
         <Setter Property="MinHeight" Value="16"></Setter>
         <Setter Property="Background" Value="{ThemeResource SystemControlHighlightChromeHighBrush}"></Setter>
         <Setter Property="GripperForeground" Value="{ThemeResource SystemControlForegroundAltHighBrush}" />
-        <Setter Property="AutomationProperties.Name" Value="GridSplitter" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:GridSplitter">
