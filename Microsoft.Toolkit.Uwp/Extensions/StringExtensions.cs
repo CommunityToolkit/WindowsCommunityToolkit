@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
     public static class StringExtensions
     {
 
-        private static ResourceLoader _independentLoader;
+        private static ResourceLoader _independentLoader = ResourceLoader.GetForViewIndependentUse();
 
 
         /// <summary>
@@ -37,7 +37,6 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey)
         {
-            _independentLoader = ResourceLoader.GetForViewIndependentUse();
             return _independentLoader.GetString(resourceKey);
         }
 
