@@ -76,6 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         protected override void OnCollapsed(EventArgs args)
         {
             base.OnCollapsed(args);

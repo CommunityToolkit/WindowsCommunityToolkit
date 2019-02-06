@@ -16,7 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InAppNotification
     {
-
         /// <summary>
         /// Event raised when the notification is opening
         /// </summary>
