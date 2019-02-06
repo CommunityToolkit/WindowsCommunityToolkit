@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey, string resourcePath)
         {
-            _independentLoader = ResourceLoader.GetForViewIndependentUse(resourcePath);
+            return ResourceLoader.GetForViewIndependentUse(resourcePath).GetString(resourceKey);
             return _independentLoader.GetString(resourceKey);
         }
     }
