@@ -162,11 +162,10 @@
                                     FontFamily="Segoe MDL2 Assets"
                                     FontSize="14" 
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
-                                <Button Name="CloseButton"
+                            <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
-                                    AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
                                     Style="{StaticResource ButtonRevealStyle}"
                                     BorderThickness="1"
