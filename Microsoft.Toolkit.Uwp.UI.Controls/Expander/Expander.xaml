@@ -7,6 +7,7 @@
                     mc:Ignorable="d">
 
     <converters:EmptyObjectToObjectConverter x:Key="NullToVisibilityConverter" EmptyValue="Collapsed" NotEmptyValue="Visible" />
+    <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
 
     <Style x:Key="HeaderToggleButtonStyle"
            TargetType="ToggleButton">
@@ -322,6 +323,26 @@
                                 <ColumnDefinition x:Name="ColumnTwo"
                                                   Width="*" />
                             </Grid.ColumnDefinitions>
+                            <controls:LayoutTransformControl x:Name="PART_LayoutTransformer"
+                                                             Grid.Row="0"
+                                                             Grid.RowSpan="1"
+                                                             Grid.Column="0"
+                                                             Grid.ColumnSpan="2"
+                                                             RenderTransformOrigin="0.5,0.5">
+                                <controls:LayoutTransformControl.Transform>
+                                    <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
+                                </controls:LayoutTransformControl.Transform>
+                                <ToggleButton x:Name="PART_ExpanderToggleButton"
+                                              MinWidth="40"
+                                              MinHeight="40"
+                                              AutomationProperties.Name="Expand"
+                                              Content="{TemplateBinding Header}"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              Foreground="{TemplateBinding Foreground}"
+                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{TemplateBinding HeaderStyle}"
+                                              TabIndex="0" />
+                            </controls:LayoutTransformControl>
                             <Grid x:Name="PART_ContentOverlay"
                                   Grid.Row="1"
                                   Grid.RowSpan="1"
@@ -334,6 +355,8 @@
                                   <ContentControl Content="{TemplateBinding ContentOverlay}"
                                                   HorizontalContentAlignment="Stretch"
                                                   VerticalContentAlignment="Stretch"
+                                                  IsTabStop="False"
+                                                  IsEnabled="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource BoolNegationConverter}}"
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Stretch">
                                     <ContentControl.RenderTransform>
@@ -361,26 +384,6 @@
                                     <ScaleTransform />
                                 </Grid.RenderTransform>
                             </Grid>
-                            <controls:LayoutTransformControl x:Name="PART_LayoutTransformer"
-                                                             Grid.Row="0"
-                                                             Grid.RowSpan="1"
-                                                             Grid.Column="0"
-                                                             Grid.ColumnSpan="2"
-                                                             RenderTransformOrigin="0.5,0.5">
-                                <controls:LayoutTransformControl.Transform>
-                                    <RotateTransform x:Name="RotateLayoutTransform" Angle="0" />
-                                </controls:LayoutTransformControl.Transform>
-                                <ToggleButton x:Name="PART_ExpanderToggleButton"
-                                              MinWidth="40"
-                                              MinHeight="40"
-                                              AutomationProperties.Name="Expand"
-                                              Content="{TemplateBinding Header}"
-                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                              Foreground="{TemplateBinding Foreground}"
-                                              IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                              Style="{TemplateBinding HeaderStyle}"
-                                              TabIndex="0" />
-                            </controls:LayoutTransformControl>
                         </Grid>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="DisplayModeAndDirectionStates">
