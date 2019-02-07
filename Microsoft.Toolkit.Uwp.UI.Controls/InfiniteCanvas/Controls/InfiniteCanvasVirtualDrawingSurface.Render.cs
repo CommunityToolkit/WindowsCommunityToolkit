@@ -27,11 +27,71 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ReDraw(Rect viewPort, float zoom)
         {
+            var toDraw = GetDrawingBoundaries(viewPort);
+            using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
+            {
+                drawingSession.Clear(Colors.White);
+                foreach (var drawable in _visibleList)
+                {
+                    drawable.Draw(drawingSession, toDraw);
+                }
+            }
+        }
+
+        internal CanvasRenderTarget ExportMaxOffScreenDrawings()
+        {
+            var toDraw = GetMaxDrawingsBoundaries();
+            var offScreen = DrawOffScreen(toDraw, _drawableList);
+            return offScreen;
+        }
+
+        internal void ClearAll(Rect viewPort)
+        {
             _visibleList.Clear();
-            double top = double.MaxValue,
-                   bottom = double.MinValue,
-                   left = double.MaxValue,
-                   right = double.MinValue;
+            ExecuteClearAll();
+            _drawingSurface.Trim(new RectInt32[0]);
+        }
+
+        internal string GetSerializedList()
+        {
+            var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
+            return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.Auto
+            });
+        }
+
+        internal void RenderFromJsonAndDraw(Rect viewPort, string json)
+        {
+            _visibleList.Clear();
+            _drawableList.Clear();
+            _undoCommands.Clear();
+            _redoCommands.Clear();
+
+            var token = JToken.Parse(json);
+            List<IDrawable> newList;
+            if (token is JArray)
+            {
+                // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
+                newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
+            }
+            else
+            {
+                newList = JsonConvert.DeserializeObject<InkCanvasExportModel>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).DrawableList;
+            }
+
+            foreach (var drawable in newList)
+            {
+                _drawableList.Add(drawable);
+            }
+
+            ReDraw(viewPort);
+        }
+
+        private Rect GetDrawingBoundaries(Rect viewPort)
+        {
+            _visibleList.Clear();
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
 
             foreach (var drawable in _drawableList)
             {
@@ -68,64 +128,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 toDraw.Width = Width;
             }
 
-            var scale = _screenScale * zoom;
+            return toDraw;
+        }
 
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), BaseCanvasDPI * (float)scale))
+        private Rect GetMaxDrawingsBoundaries()
+        {
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
+
+            foreach (var drawable in _drawableList)
+            {
+                bottom = Math.Max(drawable.Bounds.Bottom, bottom);
+                right = Math.Max(drawable.Bounds.Right, right);
+                top = Math.Min(drawable.Bounds.Top, top);
+                left = Math.Min(drawable.Bounds.Left, left);
+            }
+
+            // if the width or height are greater than _win2DDevice.MaximumBitmapSizeInPixels drawing session will through an exception.
+            var toDraw = new Rect(
+                Math.Max(left, 0),
+                Math.Max(top, 0),
+                Math.Min(Math.Max(right - left, 0), _win2DDevice.MaximumBitmapSizeInPixels),
+                Math.Min(Math.Max(bottom - top, 0), _win2DDevice.MaximumBitmapSizeInPixels));
+
+            return toDraw;
+        }
+
+        private CanvasRenderTarget DrawOffScreen(Rect toDraw, List<IDrawable> visibleList)
+        {
+            const int dpi = 96;
+            var offScreen = new CanvasRenderTarget(_win2DDevice, (float)toDraw.Width, (float)toDraw.Height, dpi);
+            using (var drawingSession = offScreen.CreateDrawingSession())
             {
                 drawingSession.Clear(Colors.White);
-                foreach (var drawable in _visibleList)
+                foreach (var drawable in visibleList)
                 {
                     drawable.Draw(drawingSession, toDraw);
                 }
             }
-        }
 
-        private Rect ScaleRect(Rect rect, double scale)
-        {
-            return new Rect(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
-        }
-
-        internal void ClearAll(Rect viewPort)
-        {
-            _visibleList.Clear();
-            ExecuteClearAll();
-            _drawingSurface.Trim(new RectInt32[0]);
-        }
-
-        internal string GetSerializedList()
-        {
-            var exportModel = new InkCanvasExportModel { DrawableList = _drawableList, Version = 1 };
-            return JsonConvert.SerializeObject(exportModel, Formatting.Indented, new JsonSerializerSettings
-            {
-                TypeNameHandling = TypeNameHandling.Auto
-            });
-        }
-
-        internal void RenderFromJsonAndDraw(Rect viewPort, string json, float zoom)
-        {
-            _visibleList.Clear();
-            _drawableList.Clear();
-            _undoCommands.Clear();
-            _redoCommands.Clear();
-
-            var token = JToken.Parse(json);
-            List<IDrawable> newList;
-            if (token is JArray)
-            {
-                // first sin, because of creating a file without versioning so we have to be able to import without breaking changes.
-                newList = JsonConvert.DeserializeObject<List<IDrawable>>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
-            }
-            else
-            {
-                newList = JsonConvert.DeserializeObject<InkCanvasExportModel>(json, new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).DrawableList;
-            }
-
-            foreach (var drawable in newList)
-            {
-                _drawableList.Add(drawable);
-            }
-
-            ReDraw(viewPort, zoom);
+            return offScreen;
         }
     }
 }
