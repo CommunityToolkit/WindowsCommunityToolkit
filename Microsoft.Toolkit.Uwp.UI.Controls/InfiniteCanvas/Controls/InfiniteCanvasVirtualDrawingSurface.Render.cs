@@ -5,12 +5,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
+using Windows.Storage;
 using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls

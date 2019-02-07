@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
@@ -339,6 +340,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // We need to introduce versioning in the next release.
             return _drawingSurfaceRenderer.GetSerializedList();
+        }
+
+        /// <summary>
+        /// Export the InfiniteCanvas ink strokes.
+        /// </summary>
+        /// <returns>list of InkStrokes</returns>
+        public List<InkStroke> ExportInkStrokes()
+        {
+            return _drawingSurfaceRenderer.ExportInkStrokes();
+        }
+
+        /// <summary>
+        /// Export the InfiniteCanvas raw text.
+        /// </summary>
+        /// <returns>list of strings</returns>
+        public List<string> ExportText()
+        {
+            return _drawingSurfaceRenderer.ExportText();
         }
 
         /// <summary>
