@@ -306,6 +306,15 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       },
       {
+        "Name": "RemoteDevicePicker",
+        "Type": "RemoteDevicePickerControlPage",
+        "About": "Remote Device Picker Control for Project Rome.",
+        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RemoteDevicePicker",
+        "CodeFile": "RemoteDevicePickerCode.bind",
+        "Icon": "/SamplePages/RemoteDevicePicker/RemoteDevicePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/RemoteDevicePicker.md"
+      },
+      {
         "Name": "ImageCropper",
         "Type": "ImageCropperPage",
         "About": "ImageCropper control allows user to crop image freely.",
@@ -771,6 +780,15 @@
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
+      },
+      {
+        "Name": "RemoteDeviceHelper",
+        "Type": "RemoteDeviceHelperPage",
+        "About": "Allows you to easily enumerate remote devices ( Project Rome ).",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper/RemoteDeviceHelper.cs",
+        "CodeFile": "RemoteDeviceHelperCode.bind",
+        "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
       }
     ]
   },

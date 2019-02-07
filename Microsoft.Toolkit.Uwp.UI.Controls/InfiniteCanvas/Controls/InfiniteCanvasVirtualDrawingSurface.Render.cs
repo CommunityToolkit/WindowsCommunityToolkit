@@ -27,48 +27,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ReDraw(Rect viewPort)
         {
-            _visibleList.Clear();
-            double top = double.MaxValue,
-                   bottom = double.MinValue,
-                   left = double.MaxValue,
-                   right = double.MinValue;
-
-            foreach (var drawable in _drawableList)
-            {
-                if (drawable.IsVisible(viewPort))
-                {
-                    _visibleList.Add(drawable);
-
-                    bottom = Math.Max(drawable.Bounds.Bottom, bottom);
-                    right = Math.Max(drawable.Bounds.Right, right);
-                    top = Math.Min(drawable.Bounds.Top, top);
-                    left = Math.Min(drawable.Bounds.Left, left);
-                }
-            }
-
-            Rect toDraw;
-            if (_visibleList.Any())
-            {
-                toDraw = new Rect(Math.Max(left, 0), Math.Max(top, 0), Math.Max(right - left, 0), Math.Max(bottom - top, 0));
-
-                toDraw.Union(viewPort);
-            }
-            else
-            {
-                toDraw = viewPort;
-            }
-
-            if (toDraw.Height > Height)
-            {
-                toDraw.Height = Height;
-            }
-
-            if (toDraw.Width > Width)
-            {
-                toDraw.Width = Width;
-            }
-
-            using (CanvasDrawingSession drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
+            var toDraw = GetDrawingBoundaries(viewPort);
+            using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
             {
                 drawingSession.Clear(Colors.White);
                 foreach (var drawable in _visibleList)
@@ -76,6 +36,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     drawable.Draw(drawingSession, toDraw);
                 }
             }
+        }
+
+        internal CanvasRenderTarget ExportMaxOffScreenDrawings()
+        {
+            var toDraw = GetMaxDrawingsBoundaries();
+            var offScreen = DrawOffScreen(toDraw, _drawableList);
+            return offScreen;
         }
 
         internal void ClearAll(Rect viewPort)
@@ -119,6 +86,87 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             ReDraw(viewPort);
+        }
+
+        private Rect GetDrawingBoundaries(Rect viewPort)
+        {
+            _visibleList.Clear();
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
+
+            foreach (var drawable in _drawableList)
+            {
+                if (drawable.IsVisible(viewPort))
+                {
+                    _visibleList.Add(drawable);
+
+                    bottom = Math.Max(drawable.Bounds.Bottom, bottom);
+                    right = Math.Max(drawable.Bounds.Right, right);
+                    top = Math.Min(drawable.Bounds.Top, top);
+                    left = Math.Min(drawable.Bounds.Left, left);
+                }
+            }
+
+            Rect toDraw;
+            if (_visibleList.Any())
+            {
+                toDraw = new Rect(Math.Max(left, 0), Math.Max(top, 0), Math.Max(right - left, 0), Math.Max(bottom - top, 0));
+
+                toDraw.Union(viewPort);
+            }
+            else
+            {
+                toDraw = viewPort;
+            }
+
+            if (toDraw.Height > Height)
+            {
+                toDraw.Height = Height;
+            }
+
+            if (toDraw.Width > Width)
+            {
+                toDraw.Width = Width;
+            }
+
+            return toDraw;
+        }
+
+        private Rect GetMaxDrawingsBoundaries()
+        {
+            double top = double.MaxValue, bottom = double.MinValue, left = double.MaxValue, right = double.MinValue;
+
+            foreach (var drawable in _drawableList)
+            {
+                bottom = Math.Max(drawable.Bounds.Bottom, bottom);
+                right = Math.Max(drawable.Bounds.Right, right);
+                top = Math.Min(drawable.Bounds.Top, top);
+                left = Math.Min(drawable.Bounds.Left, left);
+            }
+
+            // if the width or height are greater than _win2DDevice.MaximumBitmapSizeInPixels drawing session will through an exception.
+            var toDraw = new Rect(
+                Math.Max(left, 0),
+                Math.Max(top, 0),
+                Math.Min(Math.Max(right - left, 0), _win2DDevice.MaximumBitmapSizeInPixels),
+                Math.Min(Math.Max(bottom - top, 0), _win2DDevice.MaximumBitmapSizeInPixels));
+
+            return toDraw;
+        }
+
+        private CanvasRenderTarget DrawOffScreen(Rect toDraw, List<IDrawable> visibleList)
+        {
+            const int dpi = 96;
+            var offScreen = new CanvasRenderTarget(_win2DDevice, (float)toDraw.Width, (float)toDraw.Height, dpi);
+            using (var drawingSession = offScreen.CreateDrawingSession())
+            {
+                drawingSession.Clear(Colors.White);
+                foreach (var drawable in visibleList)
+                {
+                    drawable.Draw(drawingSession, toDraw);
+                }
+            }
+
+            return offScreen;
         }
     }
 }
