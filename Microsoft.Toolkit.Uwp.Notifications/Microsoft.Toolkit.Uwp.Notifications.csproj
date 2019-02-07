@@ -1,13 +1,17 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;native;net461</TargetFrameworks>
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
 Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications.JavaScript for the JS version). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
     <PackageTags>notifications win10 windows 10 tile tiles toast toasts badge xml uwp c# csharp c++</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
+    <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
   </PropertyGroup>
   
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
@@ -21,8 +25,17 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
   <ItemGroup>
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
-  
 
+  <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
+    <Compile Remove="DesktopNotificationManager\**\*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)'=='net461'">
+    <Reference Include="System" />
+    <Reference Include="System.Runtime" />
+    <Reference Include="Windows.UI" />
+  </ItemGroup>
+  
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
     <OutputType>winmdobj</OutputType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
