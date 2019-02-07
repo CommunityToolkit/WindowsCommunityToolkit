@@ -3,7 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Threading.Tasks;
+using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
 using Windows.UI.Xaml;
@@ -348,8 +351,41 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// This event triggered after each render happended because of any change in the canvas elements.
+        /// This method exports the max possible view of the InfiniteCanvas drawings as offScreen drawings that can be converted to image.
+        /// Max is calculated using CanvasDevice.MaximumBitmapSizeInPixels
+        /// </summary>
+        /// <param name="stream">The target stream.</param>
+        /// <param name="bitmapFileFormat">the specified format.</param>
+        /// <returns>Task</returns>
+        public async Task SaveBitmapAsync(IRandomAccessStream stream, BitmapFileFormat bitmapFileFormat)
+        {
+            var offScreen = _drawingSurfaceRenderer.ExportMaxOffScreenDrawings();
+            await offScreen.SaveAsync(stream, MapToCanvasBitmapFileFormat(bitmapFileFormat));
+        }
+
+        /// <summary>
+        /// This event triggered after each render happened because of any change in the canvas elements.
         /// </summary>
         public event EventHandler ReRenderCompleted;
+
+        private static CanvasBitmapFileFormat MapToCanvasBitmapFileFormat(BitmapFileFormat bitmapFileFormat)
+        {
+            switch (bitmapFileFormat)
+            {
+                case BitmapFileFormat.Bmp:
+                    return CanvasBitmapFileFormat.Bmp;
+                case BitmapFileFormat.Png:
+                    return CanvasBitmapFileFormat.Png;
+                case BitmapFileFormat.Jpeg:
+                    return CanvasBitmapFileFormat.Jpeg;
+                case BitmapFileFormat.Tiff:
+                    return CanvasBitmapFileFormat.Tiff;
+                case BitmapFileFormat.Gif:
+                    return CanvasBitmapFileFormat.Gif;
+                case BitmapFileFormat.JpegXR:
+                    return CanvasBitmapFileFormat.JpegXR;
+                default: return CanvasBitmapFileFormat.Auto;
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Menu Item is the items main container for Class Menu control
     /// </summary>
+    [Obsolete("This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.")]
     public class MenuItem : HeaderedItemsControl
     {
         private const string FlyoutButtonName = "FlyoutButton";
