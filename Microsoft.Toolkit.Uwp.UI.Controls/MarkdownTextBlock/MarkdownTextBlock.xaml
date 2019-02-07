@@ -24,6 +24,7 @@
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
             <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeForegroundBrush" Color="#FFB7B4B4" />
             <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
             <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
