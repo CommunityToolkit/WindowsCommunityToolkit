@@ -18,7 +18,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public class DesktopNotificationManagerCompat
     {
-        private const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
+        // Todo: Improve name to for .net
+        public const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
 
         private static bool _registeredAumidAndComServer;
         private static string _aumid;

@@ -1,6 +1,6 @@
 <Project>
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native'">
+    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native' or '$(TargetFramework)' == 'net461'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
       <PropertyGroup>
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>

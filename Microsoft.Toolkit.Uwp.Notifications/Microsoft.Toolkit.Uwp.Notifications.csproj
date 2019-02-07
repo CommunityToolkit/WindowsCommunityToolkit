@@ -10,10 +10,6 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
     <ExtrasImplicitPlatformPackageIsPrivate Condition=" '$(TargetFramework)' == 'native' ">true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)'=='net461'">
-    <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
-  </PropertyGroup>
-  
   <ItemGroup Condition=" '$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native' ">
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.5" />
   </ItemGroup>
@@ -33,7 +29,12 @@ Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is pa
   <ItemGroup Condition="'$(TargetFramework)'=='net461'">
     <Reference Include="System" />
     <Reference Include="System.Runtime" />
-    <Reference Include="Windows.UI" />
+    <Reference Include="Windows">
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
+      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
+      <IsWinMDFile>true</IsWinMDFile>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   
   <PropertyGroup Condition="'$(TargetFramework)' == 'native'">
