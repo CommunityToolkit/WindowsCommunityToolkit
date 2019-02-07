@@ -20,13 +20,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class InfiniteCanvasVirtualDrawingSurface
     {
+        private const float BaseCanvasDPI = 96;
+
         private readonly List<IDrawable> _visibleList = new List<IDrawable>();
         private readonly List<IDrawable> _drawableList = new List<IDrawable>();
 
-        internal void ReDraw(Rect viewPort)
+        internal void ReDraw(Rect viewPort, float zoom)
         {
             var toDraw = GetDrawingBoundaries(viewPort);
-            using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, toDraw))
+
+            var scale = _screenScale * zoom;
+
+            using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), BaseCanvasDPI * (float)scale))
             {
                 drawingSession.Clear(Colors.White);
                 foreach (var drawable in _visibleList)
@@ -34,6 +39,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     drawable.Draw(drawingSession, toDraw);
                 }
             }
+        }
+
+        private Rect ScaleRect(Rect rect, double scale)
+        {
+            return new Rect(rect.X * scale, rect.Y * scale, rect.Width * scale, rect.Height * scale);
         }
 
         internal CanvasRenderTarget ExportMaxOffScreenDrawings()
@@ -59,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             });
         }
 
-        internal void RenderFromJsonAndDraw(Rect viewPort, string json)
+        internal void RenderFromJsonAndDraw(Rect viewPort, string json, float zoom)
         {
             _visibleList.Clear();
             _drawableList.Clear();
@@ -83,7 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _drawableList.Add(drawable);
             }
 
-            ReDraw(viewPort);
+            ReDraw(viewPort, zoom);
         }
 
         private Rect GetDrawingBoundaries(Rect viewPort)
