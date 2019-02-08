@@ -247,7 +247,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void LoadFilters()
         {
             var discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceDiscovery.ItemsSource = discoveryType;
+            if (_deviceDiscovery != null)
+            {
+                _deviceDiscovery.ItemsSource = discoveryType;
+            }
 
             if (_discoveryFilter != null)
             {
@@ -255,7 +258,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceStatus.ItemsSource = statusType;
+            if (_deviceStatus != null)
+            {
+                _deviceStatus.ItemsSource = statusType;
+            }
 
             if (_statusFilter != null)
             {
@@ -263,7 +269,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _authorizationType.ItemsSource = authType;
+            if (_authorizationType != null)
+            {
+                _authorizationType.ItemsSource = authType;
+            }
 
             if (_authorizationKindFilter != null)
             {
@@ -338,7 +347,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateList()
         {
             var bindingList = new ObservableCollection<RemoteSystem>();
-            if (RemoteSystems != null)
+            if (RemoteSystems != null && _listDeviceTypes != null && _listDevices != null)
             {
                 var bindinglist = _listDeviceTypes.SelectedValue.ToString().Equals("All")
                     ? RemoteSystems
