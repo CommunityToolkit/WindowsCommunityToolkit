@@ -18,8 +18,10 @@ namespace Microsoft.Toolkit.Uwp.Notifications
     /// </summary>
     public class DesktopNotificationManagerCompat
     {
-        // Todo: Improve name to for .net
-        public const string TOAST_ACTIVATED_LAUNCH_ARG = "-ToastActivated";
+        /// <summary>
+        /// A constant that is used as the launch arg when your EXE is launched from a toast notification.
+        /// </summary>
+        public const string ToastActivatedLaunchArg = "-ToastActivated";
 
         private static bool _registeredAumidAndComServer;
         private static string _aumid;
@@ -30,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// register your COM CLSID and EXE in LocalServer32 registry. Feel free to call this regardless, and we will no-op if running
         /// under Desktop Bridge. Call this upon application startup, before calling any other APIs.
         /// </summary>
+        /// <typeparam name="T">Your implementation of NotificationActivator. Must have GUID and ComVisible attributes on class.</typeparam>
         /// <param name="aumid">An AUMID that uniquely identifies your application.</param>
         public static void RegisterAumidAndComServer<T>(string aumid)
             where T : NotificationActivator
@@ -67,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 
             // Include a flag so we know this was a toast activation and should wait for COM to process
             // We also wrap EXE path in quotes for extra security
-            key.SetValue(null, '"' + exePath + '"' + " " + TOAST_ACTIVATED_LAUNCH_ARG);
+            key.SetValue(null, '"' + exePath + '"' + " " + ToastActivatedLaunchArg);
         }
 
         /// <summary>

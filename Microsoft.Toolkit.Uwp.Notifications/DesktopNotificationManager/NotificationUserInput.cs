@@ -13,7 +13,6 @@ using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
-
     /// <summary>
     /// Text and selection values that the user entered on your notification. The Key is the ID of the input, and the Value is what the user entered.
     /// </summary>
@@ -26,24 +25,53 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             _data = data;
         }
 
+        /// <summary>
+        /// Gets the value of an input with the given key.
+        /// </summary>
+        /// <param name="key">The key of the inpupt.</param>
+        /// <returns>The value of the input.</returns>
         public string this[string key] => _data.First(i => i.Key == key).Value;
 
+        /// <summary>
+        /// Gets all the keys of the inputs.
+        /// </summary>
         public IEnumerable<string> Keys => _data.Select(i => i.Key);
 
+        /// <summary>
+        /// Gets all the values of the inputs.
+        /// </summary>
         public IEnumerable<string> Values => _data.Select(i => i.Value);
 
+        /// <summary>
+        /// Gets how many inputs there were.
+        /// </summary>
         public int Count => _data.Length;
 
+        /// <summary>
+        /// Checks whether any inpupts have the given key.
+        /// </summary>
+        /// <param name="key">The key to look for.</param>
+        /// <returns>A boolean representing whether any inputs have the given key.</returns>
         public bool ContainsKey(string key)
         {
             return _data.Any(i => i.Key == key);
         }
 
+        /// <summary>
+        /// Gets an enumerator of the inputs.
+        /// </summary>
+        /// <returns>An enumerator of the inputs.</returns>
         public IEnumerator<KeyValuePair<string, string>> GetEnumerator()
         {
             return _data.Select(i => new KeyValuePair<string, string>(i.Key, i.Value)).GetEnumerator();
         }
 
+        /// <summary>
+        /// Tries to get the input value for the given key.
+        /// </summary>
+        /// <param name="key">The key of the input to look for.</param>
+        /// <param name="value">The value of the input.</param>
+        /// <returns>True if found an input with the specified key, else false.</returns>
         public bool TryGetValue(string key, out string value)
         {
             foreach (var item in _data)
