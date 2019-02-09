@@ -250,8 +250,9 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     DWRITE_TEXT_METRICS textMetrics = {};
     winrt::check_hresult(textLayout->GetMetrics(&textMetrics));
 
-    auto sisWidth = static_cast<UINT32>(std::ceil(textMetrics.width));
-    auto sisHeight = static_cast<UINT32>(std::ceil(textMetrics.height));
+    // the image has to be scaled since we're manually handling DPI changes.
+    auto sisWidth = static_cast<UINT32>(std::ceil(textMetrics.width * scale));
+    auto sisHeight = static_cast<UINT32>(std::ceil(textMetrics.height * scale));
     auto imageSource = ref new SurfaceImageSource(sisWidth, sisHeight);
     auto sisUnknown = reinterpret_cast<IUnknown*>(imageSource);
     winrt::com_ptr<ISurfaceImageSourceNative> sisNative;
@@ -330,7 +331,7 @@ Size DirectWriteTextBlock::RenderText(DirectWriteTextRenderArgs const& args)
     else
     {
         // if we fail to draw 2x a retry, just bail.
-        return Size{};
+        return Size(0.0f, 0.0f);
     }
 }
 
