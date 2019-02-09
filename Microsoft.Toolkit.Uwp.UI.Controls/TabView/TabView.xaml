@@ -114,7 +114,7 @@
     <Style TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsSwipeEnabled" Value="False" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
@@ -296,6 +296,7 @@
                                 Background="{TemplateBinding Background}"
                                 Visibility="Collapsed">
                             <Button x:Name="CloseButton"
+                                    x:Uid="/Microsoft.Toolkit.Uwp.UI.Controls/Resources/WindowsCommunityToolkit_TabView_CloseButton"
                                     Style="{StaticResource TabViewItemCloseButtonStyle}">
                                 &#xE711;
                             </Button>
@@ -711,6 +712,7 @@
 
                             <ScrollContentPresenter x:Name="ScrollContentPresenter"
                                                     Grid.Column="1"
+                                                    TabFocusNavigation="Once"
                                                     Margin="{TemplateBinding Padding}" />
 
                             <RepeatButton x:Name="ScrollForwardButton"
