@@ -1,0 +1,35 @@
+﻿c#
+
+// without filters
+
+RemoteDeviceHelper _remoteDeviceHelper = new RemoteDeviceHelper();
+DevicesList.DataContext = _remoteDeviceHelper;
+
+// with filters
+
+var filters = new List<IRemoteSystemFilter>
+{
+    new RemoteSystemDiscoveryTypeFilter(RemoteSystemDiscoveryType.Cloud),
+    new RemoteSystemAuthorizationKindFilter(RemoteSystemAuthorizationKind.SameUser),
+    new RemoteSystemStatusTypeFilter(RemoteSystemStatusType.Available)
+};
+
+RemoteDeviceHelper _remoteDeviceHelper = new RemoteDeviceHelper(filters);
+DevicesList.DataContext = _remoteDeviceHelper;
+
+xaml
+
+<ListView ItemsSource="{Binding RemoteSystems}" x:Name="DevicesList">
+  <ListView.ItemTemplate>
+    <DataTemplate>
+	  <Grid>
+		<Grid.RowDefinitions>
+		  <RowDefinition Height="*"/>
+		  <RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
+		<TextBlock Text="{Binding DisplayName}" Tag="{Binding }" Grid.Row="0" />
+		<TextBlock Text="{Binding ModelDisplayName}" Tag="{Binding }" Grid.Row="1" />
+	  </Grid>
+    </DataTemplate>
+  </ListView.ItemTemplate>
+</ListView>

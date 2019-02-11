@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Windows.Foundation;
@@ -307,12 +308,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _inkCanvas.Height = CanvasHeight;
             _drawingSurfaceRenderer.Width = CanvasWidth;
             _drawingSurfaceRenderer.Height = CanvasHeight;
-            _drawingSurfaceRenderer.ConfigureSpriteVisual(CanvasWidth, CanvasHeight);
+            _drawingSurfaceRenderer.ConfigureSpriteVisual(CanvasWidth, CanvasHeight, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         private void ReDrawCanvas()
         {
-            _drawingSurfaceRenderer.ReDraw(ViewPort);
+            _drawingSurfaceRenderer.ReDraw(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -320,7 +321,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Redo()
         {
-            _drawingSurfaceRenderer.Redo(ViewPort);
+            _drawingSurfaceRenderer.Redo(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -328,7 +329,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Undo()
         {
-            _drawingSurfaceRenderer.Undo(ViewPort);
+            _drawingSurfaceRenderer.Undo(ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
@@ -342,12 +343,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Export the InfiniteCanvas ink strokes.
+        /// </summary>
+        /// <returns>list of InkStrokes</returns>
+        public List<InkStroke> ExportInkStrokes()
+        {
+            return _drawingSurfaceRenderer.ExportInkStrokes();
+        }
+
+        /// <summary>
+        /// Export the InfiniteCanvas raw text.
+        /// </summary>
+        /// <returns>list of strings</returns>
+        public List<string> ExportText()
+        {
+            return _drawingSurfaceRenderer.ExportText();
+        }
+
+        /// <summary>
         /// Import InfiniteCanvas from json string and render the new canvas, this function will empty the Redo/Undo queue.
         /// </summary>
         /// <param name="json">InfiniteCanvas json representation</param>
         public void ImportFromJson(string json)
         {
-            _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json);
+            _drawingSurfaceRenderer.RenderFromJsonAndDraw(ViewPort, json, _infiniteCanvasScrollViewer.ZoomFactor);
         }
 
         /// <summary>
