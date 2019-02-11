@@ -159,7 +159,8 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             try
             {
-                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, _identityClient.Users.FirstOrDefault());
+                IAccount account = (await _identityClient.GetAccountsAsync()).FirstOrDefault();
+                authenticationResult = await _identityClient.AcquireTokenSilentAsync(DelegatedPermissionScopes, account);
             }
             catch (MsalUiRequiredException)
             {
@@ -180,6 +181,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user
         /// </summary>
         /// <returns>Success or failure</returns>
+        [Obsolete("This method will be removed, please use LogoutAsync instead.")]
         public bool Logout()
         {
             return LogoutV2();
@@ -189,11 +191,23 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         /// Logout the user using the V2 endpoint
         /// </summary>
         /// <returns>Success or failure</returns>
+        [Obsolete("This method will be removed, please use LogoutAsync instead.")]
         public bool LogoutV2()
+        {
+            Task<bool> task = Task.Run<bool>(async () => await LogoutAsync());
+            return task.Result;
+        }
+
+        /// <summary>
+        /// Logout the user using the V2 endpoint asynchronous
+        /// </summary>
+        /// <returns>Success or failure</returns>
+        public async Task<bool> LogoutAsync()
         {
             try
             {
-                _identityClient.Remove(_identityClient.Users.FirstOrDefault());
+                IAccount account = (await _identityClient.GetAccountsAsync()).FirstOrDefault();
+                await _identityClient.RemoveAsync(account);
             }
             catch (MsalException)
             {
@@ -254,7 +268,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
 
             if (authenticationModel.Equals("V2"))
             {
-                return Logout();
+                return await LogoutAsync();
             }
 
             return true;
