@@ -190,7 +190,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             _hostScrollViewer = AssociatedObject.FindAscendant<ScrollViewer>();
             if (_hostScrollViewer == null)
             {
-                throw new InvalidOperationException("This behavior can only attach the element which is under a ScrollViewer.");
+                throw new InvalidOperationException("This behavior can only be attached to an element which has a ScrollViewer as a parent.");
             }
 
             _hostScrollViewer.ViewChanged += ParentScrollViewer_ViewChanged;
