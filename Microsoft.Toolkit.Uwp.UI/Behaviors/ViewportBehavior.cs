@@ -10,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
+namespace Microsoft.Toolkit.Uwp.UI.Behaviors
 {
     /// <summary>
     /// A class for listening element enter or exit the ScrollViewer viewport
