@@ -30,13 +30,15 @@
                        Foreground="OrangeRed"
                        IsHitTestVisible="False"
                        Text="Please scroll down to see the effect." />
-            <AppBarButton Width="48"
-                          Height="48"
-                          HorizontalAlignment="Right"
-                          VerticalAlignment="Top"
-                          Click="CloseButton_Click"
-                          Icon="Cancel"
-                          IsCompact="True" />
+            <Button Width="48"
+                    Height="48"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderThickness="0"
+                    Click="CloseButton_Click">
+                <SymbolIcon Symbol="Cancel" />
+            </Button>
         </Grid>
     </Grid>
 </UserControl>
