@@ -37,8 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <summary>
         /// The IsRemoveBehaviorAfterEnteredViewport value of the associated element
         /// </summary>
-        public static readonly DependencyProperty IsRemoveBehaviorAfterEnteredViewportProperty =
-            DependencyProperty.Register(nameof(IsRemoveBehaviorAfterEnteredViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
+        public static readonly DependencyProperty IsAlwaysOnProperty =
+            DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
 
         /// <summary>
         /// Associated element fully enter the ScrollViewer viewport event
@@ -63,10 +63,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         /// <summary>
         /// Gets or sets a value indicating whether remove this behavior after associated element entered viewport.
         /// </summary>
-        public bool IsRemoveBehaviorAfterEnteredViewport
+        public bool IsAlwaysOn
         {
-            get { return (bool)GetValue(IsRemoveBehaviorAfterEnteredViewportProperty); }
-            set { SetValue(IsRemoveBehaviorAfterEnteredViewportProperty, value); }
+            get { return (bool)GetValue(IsAlwaysOnProperty); }
+            set { SetValue(IsAlwaysOnProperty, value); }
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             {
                 obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
 
-                if (obj.IsRemoveBehaviorAfterEnteredViewport)
+                if (obj.IsAlwaysOn)
                 {
                     Interaction.GetBehaviors(obj.AssociatedObject).Remove(obj);
                 }
