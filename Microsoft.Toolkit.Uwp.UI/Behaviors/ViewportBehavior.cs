@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             DependencyProperty.Register(nameof(IsInViewport), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool), OnIsInViewportChanged));
 
         /// <summary>
-        /// The IsRemoveBehaviorAfterEnteredViewport value of the associated element
+        /// The IsAlwaysOn value of the associated element
         /// </summary>
         public static readonly DependencyProperty IsAlwaysOnProperty =
             DependencyProperty.Register(nameof(IsAlwaysOn), typeof(bool), typeof(ViewportBehavior), new PropertyMetadata(default(bool)));
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
         public event EventHandler ExitingViewport;
 
         /// <summary>
-        /// Gets or sets a value indicating whether remove this behavior after associated element entered viewport.
+        /// Gets or sets a value indicating whether this behavior will remain attached after the associated element enters the viewport. When false, the behavior will remove itself after entering.
         /// </summary>
         public bool IsAlwaysOn
         {
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Behaviors
             {
                 obj.EnteredViewport?.Invoke(obj.AssociatedObject, EventArgs.Empty);
 
-                if (obj.IsAlwaysOn)
+                if (!obj.IsAlwaysOn)
                 {
                     Interaction.GetBehaviors(obj.AssociatedObject).Remove(obj);
                 }
