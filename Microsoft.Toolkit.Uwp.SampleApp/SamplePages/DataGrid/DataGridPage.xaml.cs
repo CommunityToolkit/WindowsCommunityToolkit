@@ -122,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void DataGrid_Sorting(object sender, DataGridColumnEventArgs e)
         {
+            // Clear previous sorted column if we start sorting a different column
             string previousSortedColumn = viewModel.CachedSortedColumn;
             if (previousSortedColumn != string.Empty)
             {
@@ -135,17 +136,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
             }
 
+            // Toggle clicked column's sorting method
             if (e.Column.Tag != null)
             {
-                if (e.Column.SortDirection == null || e.Column.SortDirection == DataGridSortDirection.Descending)
+                if (e.Column.SortDirection == null)
                 {
                     dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), true);
                     e.Column.SortDirection = DataGridSortDirection.Ascending;
                 }
-                else
+                else if (e.Column.SortDirection == DataGridSortDirection.Ascending)
                 {
                     dataGrid.ItemsSource = viewModel.SortData(e.Column.Tag.ToString(), false);
                     e.Column.SortDirection = DataGridSortDirection.Descending;
+                }
+                else
+                {
+                    dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.All);
+                    e.Column.SortDirection = null;
                 }
             }
         }
