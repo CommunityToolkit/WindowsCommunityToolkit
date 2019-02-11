@@ -113,6 +113,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _printCanvas.Opacity = 0;
 
             _canvasContainer = canvasContainer;
+            _canvasContainer.RequestedTheme = ElementTheme.Light;
 
             _elementsToPrint = new List<FrameworkElement>();
 
@@ -268,16 +269,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             case PrintTaskCompletion.Failed:
                             {
                                 OnPrintFailed?.Invoke();
+                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                             case PrintTaskCompletion.Canceled:
                             {
                                 OnPrintCanceled?.Invoke();
+                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                             case PrintTaskCompletion.Submitted:
                             {
                                 OnPrintSucceeded?.Invoke();
+                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                         }
@@ -381,6 +385,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (_directPrint)
             {
+                _canvasContainer.RequestedTheme = ElementTheme.Light;
                 foreach (FrameworkElement element in this._canvasContainer.Children)
                 {
                     _printPreviewPages.Add(element);
