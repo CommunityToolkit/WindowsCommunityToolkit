@@ -263,25 +263,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         _stateBags.Clear();
 
                         DetachCanvas();
+                        _canvasContainer.RequestedTheme = ElementTheme.Default;
 
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
                             {
                                 OnPrintFailed?.Invoke();
-                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                             case PrintTaskCompletion.Canceled:
                             {
                                 OnPrintCanceled?.Invoke();
-                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                             case PrintTaskCompletion.Submitted:
                             {
                                 OnPrintSucceeded?.Invoke();
-                                _canvasContainer.RequestedTheme = ElementTheme.Default;
                                 break;
                             }
                         }
