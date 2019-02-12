@@ -103,6 +103,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 heightHighItem.Click += HeightHigh_Click;
             }
+
+            var clearFilter = control.FindName("clearFilter") as MenuFlyoutItem;
+            if (clearFilter != null)
+            {
+                clearFilter.Click += this.ClearFilter_Click;
+            }
         }
 
         private void DataGrid_LoadingRowGroup(object sender, DataGridRowGroupHeaderEventArgs e)
@@ -186,6 +192,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (dataGrid != null)
             {
                 dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.Height_High);
+            }
+        }
+
+        private void ClearFilter_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataGrid != null)
+            {
+                dataGrid.ItemsSource = viewModel.FilterData(DataGridDataSource.FilterOptions.All);
             }
         }
     }
