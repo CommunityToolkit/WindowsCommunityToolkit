@@ -323,6 +323,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// The target locale of the XML payload, specified as a BCP-47 language tags such as "en-US" or "fr-FR". The locale specified here overrides any other specified locale, such as that in binding or visual.
         /// </param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        /// <exception cref="InvalidOperationException">Throws when attempting to add/reserve more than 4 lines on a single toast. </exception>
+        /// <exception cref="ArgumentOutOfRangeException">Throws when <paramref name="hintMaxLines"/> value is larger than 2. </exception>
+        /// <remarks>More info at: https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements</remarks>
         public ToastContentBuilder AddText(string text, AdaptiveTextStyle? hintStyle = null, bool? hintWrap = default(bool?), int? hintMaxLines = default(int?), int? hintMinLines = default(int?), AdaptiveTextAlign? hintAlign = null, string language = default(string))
         {
             int lineCount = GetCurrentTextLineCount();
@@ -401,6 +404,8 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             var textList = VisualChildren.Where(c => c is AdaptiveText).Select(c => c as AdaptiveText).ToList();
 
             // First one is already the header.
+            // https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#text-elements
+            // The default (and maximum) is up to 2 lines of text for the title, and up to 4 lines (combined) for the two additional description elements (the second and third AdaptiveText).
             AdaptiveText text = textList.First();
             int count = 0;
             count += text.HintMaxLines ?? 2;

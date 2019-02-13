@@ -12,111 +12,10 @@ using System.Threading.Tasks;
 
 namespace UnitTests.Notifications
 {
+#if !WINRT
     [TestClass]
     public class TestToastContentBuilder
     {
-        public void ToastContentBuilderTest()
-        {
-            // Arrange
-            string testToastHeaderId = "Test Header ID";
-            string testToastTitle = "Test Toast Title";
-            string testToastArguments = "Test Toast Arguments";
-
-            string testToastLaunchArugments = "Test Toast Launch Args";
-            ToastActivationType testToastActivationType = ToastActivationType.Background;
-            ToastDuration testToastDuration = ToastDuration.Long;
-            ToastScenario testToastScenario = ToastScenario.Default;
-
-            Uri testAudioUriSrc = new Uri("ms-appx:///just-a-test-uri.mp3");
-            string testAttributionText = "Test Attribution Text";
-            Uri testAppLogoOverrideUri = new Uri("ms-appx:///just-a-test-uri.jpg");
-            Uri testHeroImageUri = new Uri("ms-appx:///just-a-test-uri.png");
-            Uri testInlineImageUri = new Uri("ms-appx:///just-a-test-uri.jpeg");
-            string testText = "Test inline text";
-
-            // Taken from : https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#adaptive-content
-            AdaptiveGroup group = new AdaptiveGroup()
-            {
-                Children =
-                {        
-                    new AdaptiveSubgroup()        
-                    {        
-                        Children =        
-                        {        
-                            new AdaptiveText()        
-                            {        
-                                Text = "52 attendees",        
-                                HintStyle = AdaptiveTextStyle.Base        
-                            },        
-                            new AdaptiveText()        
-                            {        
-                                Text = "23 minute drive",        
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle        
-                            }        
-                        }        
-                    },
-                    new AdaptiveSubgroup()        
-                    {        
-                        Children =        
-                        {        
-                            new AdaptiveText()        
-                            {        
-                                Text = "1 Microsoft Way",        
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle,        
-                                HintAlign = AdaptiveTextAlign.Right        
-                            },        
-                            new AdaptiveText()        
-                            {        
-                                Text = "Bellevue, WA 98008",        
-                                HintStyle = AdaptiveTextStyle.CaptionSubtle,        
-                                HintAlign = AdaptiveTextAlign.Right        
-                            }        
-                        }        
-                    }        
-                }
-            };
-
-            string testButtonContent = "Test Button Content";
-            ToastActivationType testButtonActivationType = ToastActivationType.Foreground;
-            string testButtonLaunchArgs = "Test Toast Button Launch Args";
-
-            string testInputTextBoxId = "Test Input TextBox Id";
-
-            string testInputTextBoxButtonContent = "Test Input TextBox Button Content";
-            ToastActivationType testInputTextBoxButtonActivationType = ToastActivationType.Foreground;
-            string testInputTextBoxButtonLaunchArgs = "Test Input TextBox Button Launch Args";
-            Uri testInputTextBoxButtonImageUri = new Uri("ms-appx:///just-a-test-uri.bmp");
-
-            string testComboBoxId = "Test Combo Box Id";
-            string testComboBoxTitle = "Test ComboBox Title";
-
-            var testComboBoxOption1 = ("TestComboBoxOption1", "TestComboBoxOption1Content");
-            var testComboBoxOption2 = ("TestComboBoxOption2", "TestComboBoxOption2Content");
-
-            // Act
-            ToastContentBuilder builder = new ToastContentBuilder();
-
-            builder.AddCustomTimeStamp(DateTime.Today)
-                .AddHeader(testToastHeaderId, testToastTitle, testToastArguments)
-                .AddToastActivationInfo(testToastLaunchArugments, testToastActivationType)
-                .SetToastDuration(testToastDuration)
-                .SetToastScenario(testToastScenario)
-                .AddAudio(testAudioUriSrc)
-                .AddAttributionText(testAttributionText)
-                .AddAppLogoOverride(testAppLogoOverrideUri)
-                .AddHeroImage(testHeroImageUri)
-                .AddInlineImage(testInlineImageUri)
-                .AddProgressBar()
-                .AddText(testText)
-                .AddVisualChild(group)
-                .AddButton(testButtonContent, testButtonActivationType, testButtonLaunchArgs)
-                .AddInputTextBox(testInputTextBoxId)
-                .AddInputTextBoxButton(testInputTextBoxId, testInputTextBoxButtonContent, testInputTextBoxButtonActivationType, testInputTextBoxButtonLaunchArgs, testInputTextBoxButtonImageUri)
-                .AddComboBox(testComboBoxId, testComboBoxTitle, null, testComboBoxOption1, testComboBoxOption2);
-
-            // Assert
-        }
-
         [TestMethod]
         public void AddCustomTimeStampTest_WithCustomTimeStamp_ReturnSelfWithCustomTimeStampAdded()
         {
@@ -333,5 +232,265 @@ namespace UnitTests.Notifications
             Assert.AreEqual(testHeroImageAltText, builder.Content.Visual.BindingGeneric.HeroImage.AlternateText);
             Assert.AreEqual(testHeroImageAddImageQuery, builder.Content.Visual.BindingGeneric.HeroImage.AddImageQuery);
         }
+
+        [TestMethod]
+        public void AddInlineImageTest_WithInlineImageUriOnly_ReturnSelfWithInlineImageAdded()
+        {
+            // Arrange
+            Uri testInlineImageUriSrc = new Uri("C:/justatesturi.jpg");
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddInlineImage(testInlineImageUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.AreEqual(testInlineImageUriSrc.OriginalString, (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveImage).Source);
+        }
+
+        [TestMethod]
+        public void AddInlineImageTest_WithInlineImageAndFullOptions_ReturnSelfWithInlineImageAndOptionsAdded()
+        {
+            // Arrange
+            Uri testInlineImageUriSrc = new Uri("C:/justatesturi.jpg");
+            string testInlineImageAltText = "Test Inline Image Text";
+            bool testInlineImageAddImageQuery = true;
+
+            // Act
+            ToastContentBuilder builder = new ToastContentBuilder();
+            ToastContentBuilder anotherReference = builder.AddInlineImage(testInlineImageUriSrc, testInlineImageAltText, testInlineImageAddImageQuery);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+
+            var image = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveImage);
+
+            Assert.AreEqual(testInlineImageUriSrc.OriginalString, image.Source);
+            Assert.AreEqual(testInlineImageAltText, image.AlternateText);
+            Assert.AreEqual(testInlineImageAddImageQuery, image.AddImageQuery);
+        }
+
+        [TestMethod]
+        public void AddProgressBarTest_WithoutInputArgs_ReturnSelfWithNonIndeterminateBindableProgressBarAdded()
+        {
+            // Arrange
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddProgressBar();
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+
+            Assert.IsNotNull(progressBar.Title.BindingName);
+            Assert.IsNotNull(progressBar.Value.BindingName);
+            Assert.IsNotNull(progressBar.ValueStringOverride.BindingName);
+            Assert.IsNotNull(progressBar.Status.BindingName);
+        }
+
+        [TestMethod]
+        public void AddProgressBarTest_WithFixedPropertiesAndDeterminateValue_ReturnSelfWithFixedValueAndPropertiesProgressBarAdded()
+        {
+            // Arrange
+            string testProgressBarTitle = "Test Progress Bar Title";
+            double testProgressBarValue = 0.25;
+            string testValueStringOverride = "Test Value String Override";
+            string testProgressBarStatus = "Test Progress Bar Status";
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddProgressBar(testProgressBarTitle, testProgressBarValue, false, testValueStringOverride, testProgressBarStatus);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+
+            Assert.IsNull(progressBar.Title.BindingName);
+            Assert.AreEqual(testProgressBarTitle, (string)progressBar.Title);
+
+            Assert.IsNull(progressBar.Value.BindingName);
+            Assert.AreEqual(testProgressBarValue, ((AdaptiveProgressBarValue)progressBar.Value).Value);
+
+            Assert.IsNull(progressBar.ValueStringOverride.BindingName);
+            Assert.AreEqual(testValueStringOverride, (string)progressBar.ValueStringOverride);
+
+            Assert.IsNull(progressBar.Status.BindingName);
+            Assert.AreEqual(testProgressBarStatus, (string)progressBar.Status);
+        }
+
+        [TestMethod]
+        public void AddProgressBarTest_WithIndeterminateValue_ReturnSelfWithIndeterminateProgressBarAdded()
+        {
+            // Arrange
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddProgressBar(isIndeterminate: true);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var progressBar = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveProgressBar);
+
+            Assert.IsTrue(((AdaptiveProgressBarValue)progressBar.Value).IsIndeterminate);
+        }
+
+        [TestMethod]
+        public void AddTextTest_WithSimpleText_ReturnSelfWithTextAdded()
+        {
+            // Arrange
+            string testText = "Test Text";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddText(testText);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var text = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText);
+
+            Assert.AreEqual(testText, (string)text.Text);
+        }
+
+        [TestMethod]
+        public void AddTextTest_WithMultipleTexts_ReturnSelfWithAllTextsAdded()
+        {
+            // Arrange
+            string testText1 = "Test Header";
+            string testText2 = "Test Text";
+            string testText3 = "Test Text Again";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddText(testText1)
+                .AddText(testText2)
+                .AddText(testText3);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var texts = builder.Content.Visual.BindingGeneric.Children.Take(3).Cast<AdaptiveText>().ToList();
+
+            Assert.AreEqual(testText1, (string)(texts[0].Text));
+            Assert.AreEqual(testText2, (string)(texts[1].Text));
+            Assert.AreEqual(testText3, (string)(texts[2].Text));
+        }
+
+        [TestMethod]
+        public void AddTextTest_WithTextAndFullOptions_ReturnSelfWithTextAndAllOptionsAdded()
+        {
+            // Arrange
+            string testText = "Test Text";
+            AdaptiveTextStyle testStyle = AdaptiveTextStyle.Header;
+            bool testWrapHint = true;
+            int testHintMaxLine = 2;
+            int testHintMinLine = 1;
+            AdaptiveTextAlign testAlign = AdaptiveTextAlign.Auto;
+            string testLanguage = "en-US";
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddText(testText, testStyle, testWrapHint, testHintMaxLine, testHintMinLine, testAlign, testLanguage);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var text = (builder.Content.Visual.BindingGeneric.Children.First() as AdaptiveText);
+
+            Assert.AreEqual(testText, (string)text.Text);
+            Assert.AreEqual(testStyle, text.HintStyle);
+            Assert.AreEqual(testWrapHint, text.HintWrap);
+            Assert.AreEqual(testHintMaxLine, text.HintMaxLines);
+            Assert.AreEqual(testHintMinLine, text.HintMinLines);
+            Assert.AreEqual(testAlign, text.HintAlign);
+            Assert.AreEqual(testLanguage, text.Language);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddTextTest_WithMoreThan4LinesOfText_ThrowInvalidOperationException()
+        {
+            // Arrange
+            string testText1 = "Test Header";
+            string testText2 = "Test Text";
+            string testText3 = "Test Text Again";
+            string testText4 = "Test Text Again x2";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddText(testText1)
+                .AddText(testText2)
+                .AddText(testText3)
+                .AddText(testText4);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void AddTextTest_WithMaxLinesValueLargerThan2_ThrowArgumentOutOfRangeException()
+        {
+            // Arrange
+            string testText1 = "Test Header";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddText(testText1, hintMaxLines: 3);
+        }
+
+        [TestMethod]
+        public void AddVisualChildTest_AddCustomVisual_ReturnSelfWithCustomVisualAdded()
+        {
+            // Arrange
+            // Taken from : https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#adaptive-content
+            AdaptiveGroup group = new AdaptiveGroup()
+            {
+                Children =
+                {
+                    new AdaptiveSubgroup()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "52 attendees",
+                                HintStyle = AdaptiveTextStyle.Base
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "23 minute drive",
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle
+                            }
+                        }
+                    },
+                    new AdaptiveSubgroup()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "1 Microsoft Way",
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                                HintAlign = AdaptiveTextAlign.Right
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "Bellevue, WA 98008",
+                                HintStyle = AdaptiveTextStyle.CaptionSubtle,
+                                HintAlign = AdaptiveTextAlign.Right
+                            }
+                        }
+                    }
+                }
+            };
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddVisualChild(group);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            Assert.IsInstanceOfType(builder.Content.Visual.BindingGeneric.Children.First(), typeof(AdaptiveGroup));
+        }
     }
+
+#endif
 }
