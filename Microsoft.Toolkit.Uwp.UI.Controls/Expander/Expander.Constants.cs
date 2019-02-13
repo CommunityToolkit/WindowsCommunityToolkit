@@ -98,10 +98,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Key of the UI Element that contains the content of the LayoutTransformer (of the expander button)
         /// </summary>
         private const string LayoutTransformerPart = "PART_LayoutTransformer";
-
-        /// <summary>
-        /// Key of the UI Element that contains the content of the control that is visible in Overlay mode
-        /// </summary>
-        private const string ContentOverlayPart = "PART_ContentOverlay";
     }
 }

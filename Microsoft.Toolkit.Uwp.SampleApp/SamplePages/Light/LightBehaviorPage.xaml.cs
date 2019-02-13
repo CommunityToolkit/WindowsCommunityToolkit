@@ -16,7 +16,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class LightBehaviorPage : IXamlRenderListener
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         private Light _lightBehavior;
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LightBehaviorPage"/> class.
@@ -41,7 +43,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("EffectElement") is FrameworkElement element)
             {
                 var behaviors = Interaction.GetBehaviors(element);
+#pragma warning disable CS0618 // Type or member is obsolete
                 _lightBehavior = behaviors.FirstOrDefault(item => item is Light) as Light;
+#pragma warning restore CS0618 // Type or member is obsolete
             }
         }
     }

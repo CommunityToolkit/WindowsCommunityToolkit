@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Services.OneDrive.Uwp
                 throw new ArgumentNullException(nameof(content));
             }
 
-            var uploadSessionUri = $"{_service.Provider.GraphProvider.BaseUrl}/drive/items/{_oneDriveStorageFolder.OneDriveItem.Id}:/{desiredName}:/createUploadSession";
+            var uploadSessionUri = $"{_service.Provider.GraphProvider.BaseUrl}/me/drive/items/{_oneDriveStorageFolder.OneDriveItem.Id}:/{desiredName}:/createUploadSession";
 
             var conflictBehavior = new OneDriveItemConflictBehavior { Item = new OneDriveConflictItem { ConflictBehavior = OneDriveHelper.TransformCollisionOptionToConflictBehavior(options.ToString()) } };
 

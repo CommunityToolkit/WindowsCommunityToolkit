@@ -10,7 +10,8 @@
     <Grid Visibility="Collapsed">
         <controls:DataGrid>
             <controls:DataGrid.Columns>
-                <controls:DataGridTextColumn />
+                <controls:DataGridTextColumn/>
+                <controls:DataGridComboBoxColumn/>
             </controls:DataGrid.Columns>
         </controls:DataGrid>
     </Grid>

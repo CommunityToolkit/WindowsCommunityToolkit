@@ -27,6 +27,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             CommentInline.AddTripChars(_triggerList);
             StrikethroughTextInline.AddTripChars(_triggerList);
             SuperscriptTextInline.AddTripChars(_triggerList);
+            SubscriptTextInline.AddTripChars(_triggerList);
             CodeInline.AddTripChars(_triggerList);
             ImageInline.AddTripChars(_triggerList);
             EmojiInline.AddTripChars(_triggerList);
@@ -181,6 +182,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 
                             case InlineParseMethod.Superscript:
                                 parseResult = SuperscriptTextInline.Parse(markdown, pos, end);
+                                break;
+
+                            case InlineParseMethod.Subscript:
+                                parseResult = SubscriptTextInline.Parse(markdown, pos, end);
                                 break;
 
                             case InlineParseMethod.Code:

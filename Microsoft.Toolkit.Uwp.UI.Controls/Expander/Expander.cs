@@ -30,7 +30,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = RootGridPart, Type = typeof(Grid))]
     [TemplatePart(Name = ExpanderToggleButtonPart, Type = typeof(ToggleButton))]
     [TemplatePart(Name = LayoutTransformerPart, Type = typeof(LayoutTransformControl))]
-    [TemplatePart(Name = ContentOverlayPart, Type = typeof(ContentPresenter))]
     [ContentProperty(Name = "Content")]
     public partial class Expander : HeaderedContentControl
     {

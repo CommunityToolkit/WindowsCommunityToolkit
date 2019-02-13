@@ -27,7 +27,6 @@ var inheritDocVersion = "1.1.1.1";
 var baseDir = MakeAbsolute(Directory("../")).ToString();
 var buildDir = baseDir + "/build";
 var Solution = baseDir + "/Windows Community Toolkit.sln";
-var win32Solution = baseDir + "/Microsoft.Toolkit.Win32/Microsoft.Toolkit.Win32.sln";
 var toolsDir = buildDir + "/tools";
 
 var binDir = baseDir + "/bin";
@@ -117,6 +116,8 @@ Task("Verify")
     .Does(() =>
 {
     VerifyHeaders(false);
+
+    StartPowershellFile("./Find-WindowsSDKVersions.ps1");
 });
 
 Task("Version")
@@ -153,7 +154,6 @@ Task("Build")
     .WithTarget("Restore");
 
     MSBuild(Solution, buildSettings);
-    MSBuild(win32Solution, buildSettings);
 
     EnsureDirectoryExists(nupkgDir);
 
@@ -166,7 +166,6 @@ Task("Build")
     .WithTarget("Build")
     .WithProperty("GenerateLibraryLayout", "true");
 
-    MSBuild(win32Solution, buildSettings);
 	MSBuild(Solution, buildSettings);
 });
 
@@ -214,7 +213,6 @@ Task("Package")
 	.WithProperty("PackageOutputPath", nupkgDir);
 
     MSBuild(Solution, buildSettings);
-    MSBuild(win32Solution, buildSettings);
 
     // Build and pack C++ packages
     buildSettings = new MSBuildSettings

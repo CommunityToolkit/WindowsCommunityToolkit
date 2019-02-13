@@ -7,7 +7,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="controls:HeaderedItemsControl">
-                    <StackPanel>
+                    <StackPanel Orientation="{TemplateBinding Orientation}">
                         <ContentPresenter Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}"/>
                         <ItemsPresenter Margin="{TemplateBinding Padding}"/>
                     </StackPanel>

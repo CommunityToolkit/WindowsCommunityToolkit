@@ -47,6 +47,8 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem x:Name="heightLow" Text="Height &lt; 8000ft" />
             <MenuFlyoutItem x:Name="heightHigh" Text="Height &gt; 8000ft" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem x:Name="clearFilter" Text="Remove Filter" />
           </MenuFlyout>
         </AppBarButton.Flyout>
       </AppBarButton>
@@ -79,7 +81,7 @@
         RowGroupHeaderPropertyNameAlternative="Range">
       <controls:DataGrid.Columns>
         <controls:DataGridTextColumn Header="Rank" Binding="{Binding Rank}" Tag="Rank" />
-        <controls:DataGridTextColumn Header="Mountain" Binding="{Binding Mountain}" Tag="Mountain" />
+        <controls:DataGridComboBoxColumn Header="Mountain" Binding="{Binding Mountain}" Tag="Mountain" />
         <controls:DataGridTextColumn Header="Height (m)" Binding="{Binding Height_m}" Tag="Height_m" />
         <controls:DataGridTextColumn Header="Range" Binding="{Binding Range}" Tag="Range" />
         <controls:DataGridTextColumn Header="Parent Mountain" Binding="{Binding Parent_mountain}" Tag="Parent_mountain" />

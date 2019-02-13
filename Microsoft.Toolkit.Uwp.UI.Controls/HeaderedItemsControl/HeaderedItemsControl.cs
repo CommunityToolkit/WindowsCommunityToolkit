@@ -39,11 +39,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="Orientation"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
+            nameof(Orientation),
+            typeof(Orientation),
+            typeof(HeaderedItemsControl),
+            new PropertyMetadata(Orientation.Vertical));
+
+        /// <summary>
         /// Gets or sets the data used for the header of each control.
         /// </summary>
         public object Header
         {
-            get { return (object)GetValue(HeaderProperty); }
+            get { return GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
 
@@ -54,6 +63,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(HeaderTemplateProperty); }
             set { SetValue(HeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Orientation"/> used for the header.
+        /// </summary>
+        /// <remarks>
+        /// If set to <see cref="Orientation.Vertical"/> the header will be above the content.
+        /// If set to <see cref="Orientation.Horizontal"/> the header will be to the left of the content.
+        /// </remarks>
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
         }
 
         /// <summary>

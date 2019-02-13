@@ -11,7 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Shared Code for ImageEx and RoundImageEx
+    /// Base Code for ImageEx
     /// </summary>
     public partial class ImageExBase
     {
@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(new CornerRadius(0)));
+        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(new CornerRadius(0)));
 
         /// <summary>
         /// Identifies the <see cref="DecodePixelHeight"/> dependency property.
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets or sets the CornerRadius for underlying image. <para/>
         /// Used to created rounded/circular images.
         /// </summary>
-        public CornerRadius CornerRadius
+        public new CornerRadius CornerRadius
         {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }

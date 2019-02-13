@@ -25,6 +25,19 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - inline")]
+        public void Superscript_Tag()
+        {
+            AssertEqual(
+                "This is <sup>tag</sup> create test",
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "This is " },
+                    new SuperscriptTextInline().AddChildren(
+                        new TextRunInline { Text = "tag" }),
+                    new TextRunInline { Text = " create test" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - inline")]
         public void Superscript_Nested()
         {
             AssertEqual("A^B^C",

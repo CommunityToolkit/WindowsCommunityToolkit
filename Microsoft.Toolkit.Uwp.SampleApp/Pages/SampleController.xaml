@@ -28,17 +28,16 @@
             </Grid.RowDefinitions>
 
             <Grid x:Name="SampleTitleBar"
-              Grid.Row="1"
-              Canvas.ZIndex="999"
-              Background="{ThemeResource Brush-Sample-HeaderBacking}">
+                  Grid.Row="1"
+                  Canvas.ZIndex="999"
+                  Background="{ThemeResource Brush-Sample-HeaderBacking}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <StackPanel
-                Orientation="Horizontal"
-                Padding="10,0">
+                <StackPanel Orientation="Horizontal"
+                            Padding="10,0">
                     <TextBlock Text="{x:Bind CurrentSample.Name, FallbackValue=Sample}"
                        VerticalAlignment="Center"
                        FontSize="20"
@@ -63,16 +62,20 @@
                         </AppBarButton.Icon>
                     </AppBarButton>
 
-                    <AppBarSeparator Margin="-10, 3, -10, 0" />
+                    <AppBarSeparator Margin="-10, 3, -10, 0"
+                                     Visibility="{x:Bind CanChangePaneState}" />
 
                     <!-- Sample Display properties -->
-                    <StackPanel Margin="10,0,0,0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <StackPanel Margin="10,0,0,0"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Visibility="{x:Bind CanChangePaneState}">
                         <!-- Disabled for Possible Future PR -->
                         <ToggleSwitch x:Name="BGSwitch"
-                        Visibility="Collapsed"
-                        OffContent="BG Image"
-                        OnContent="BG Image"
-                        IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
+                                      Visibility="Collapsed"
+                                      OffContent="BG Image"
+                                      OnContent="BG Image"
+                                      IsOn="{x:Bind UseBackground, Mode=TwoWay}" />
 
                         <TextBlock Text="Theme" VerticalAlignment="Center" Margin="0,0,10,0" />
                         <ComboBox x:Name="ThemePicker">
@@ -84,17 +87,19 @@
                 </StackPanel>
 
                 <AppBarButton x:Name="NarrowInfoButton"
-                Grid.Column="1"
-                Width="50"
-                Visibility="Collapsed"
-                Click="{x:Bind OpenClosePane}">
+                              Grid.Column="1"
+                              Width="50"
+                              Visibility="Collapsed"
+                              Click="{x:Bind OpenClosePane}">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;" />
                     </AppBarButton.Icon>
                 </AppBarButton>
             </Grid>
 
-            <Grid x:Name="DemoAreaGrid" Grid.Row="2" Background="{ThemeResource Brush-Sample-Background}">
+            <Grid x:Name="DemoAreaGrid"
+                  Grid.Row="2"
+                  Background="{ThemeResource Brush-Sample-Background}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="Auto" />
@@ -105,22 +110,20 @@
 
                 <ContentPresenter x:Name="SampleContent" />
 
-                <controls:DropShadowPanel
-                Grid.Row="1"
-                Color="Black"
-                ShadowOpacity="0.2"
-                BlurRadius="40"
-                HorizontalContentAlignment="Stretch"
-                Margin="8,0,8,8"
-                Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
+                <controls:DropShadowPanel Grid.Row="1"
+                                          Color="Black"
+                                          ShadowOpacity="0.2"
+                                          BlurRadius="40"
+                                          HorizontalContentAlignment="Stretch"
+                                          Margin="8,0,8,8"
+                                          Visibility="{x:Bind GreaterThanZero(Commands.Count), Mode=OneWay}">
 
-                    <Border
-                    Background="{ThemeResource Commands-Background}"
-                    CornerRadius="6">
+                    <Border Background="{ThemeResource Commands-Background}"
+                            CornerRadius="6">
                         <ItemsControl ItemsSource="{x:Bind Commands}"
-                                    VerticalAlignment="Top"
-                                    HorizontalAlignment="Stretch"
-                                    Margin="10,10,0,0">
+                                      VerticalAlignment="Top"
+                                      HorizontalAlignment="Stretch"
+                                      Margin="10,10,0,0">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <controls:WrapPanel />
@@ -129,10 +132,10 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate x:DataType="common:SampleCommand">
                                     <Button Content="{x:Bind Label}"
-                                        Margin="0, 0, 10, 10"
-                                        MinWidth="150"
-                                        FontSize="12"
-                                        Foreground="{ThemeResource Brush-Grey-01}">
+                                            Margin="0, 0, 10, 10"
+                                            MinWidth="150"
+                                            FontSize="12"
+                                            Foreground="{ThemeResource Brush-Grey-01}">
                                         <interactivity:Interaction.Behaviors>
                                             <core:EventTriggerBehavior EventName="Click">
                                                 <core:InvokeCommandAction Command="{x:Bind}" />
@@ -154,16 +157,16 @@
                   Canvas.ZIndex="99">
 
                 <Pivot Style="{StaticResource PivotUnderlineStyle}" x:Name="InfoAreaPivot"
-                        Grid.Row="1"
-                        Padding="5,0"
-                        HeaderTemplate="{StaticResource PivotHeaderTemplate}"
-                        SelectionChanged="InfoAreaPivot_OnSelectionChanged">
+                       Grid.Row="1"
+                       Padding="5,0"
+                       HeaderTemplate="{StaticResource PivotHeaderTemplate}"
+                       SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <Pivot.LeftHeader>
                         <AppBarButton x:Name="ExpandPane"
-                        Visibility="{x:Bind CanChangePaneState}"
-                        Icon="ClosePane"
-                        Width="50"
-                        Click="{x:Bind ExpandCollapsePane}" />
+                                      Visibility="{x:Bind CanChangePaneState}"
+                                      Icon="ClosePane"
+                                      Width="50"
+                                      Click="{x:Bind ExpandCollapsePane}" />
                     </Pivot.LeftHeader>
 
                     <PivotItem x:Name="PropertiesPivotItem"
@@ -175,26 +178,26 @@
                     </PivotItem>
 
                     <PivotItem x:Name="XamlPivotItem"
-                            Header="XAML">
+                               Header="XAML">
                         <controlsLocal:XamlCodeEditor x:Name="XamlCodeEditor" />
                     </PivotItem>
 
                     <PivotItem x:Name="XamlReadOnlyPivotItem"
-                            Padding="0, 10,0,0"
-                            Header="XAML">
+                               Padding="0, 10,0,0"
+                               Header="XAML">
                         <controlsLocal:CodeRenderer x:Name="XamlReadOnlyCodeRenderer" />
                     </PivotItem>
 
                     <PivotItem x:Name="CSharpPivotItem"
-                            Padding="0, 10,0,0"
-                            Header="Code">
+                               Padding="0, 10,0,0"
+                               Header="Code">
                         <controlsLocal:CodeRenderer x:Name="CSharpCodeRenderer"
-                                                IsFocusEngagementEnabled="False" />
+                                                    IsFocusEngagementEnabled="False" />
                     </PivotItem>
 
                     <PivotItem x:Name="JavaScriptPivotItem"
-                            Padding="0, 10,0,0"
-                            Header="Javascript">
+                               Padding="0, 10,0,0"
+                               Header="Javascript">
                         <controlsLocal:CodeRenderer x:Name="JavaScriptCodeRenderer" />
                     </PivotItem>
 
@@ -203,28 +206,28 @@
                             Header="Documentation">
                         <ScrollViewer x:Name="DocumentationScrollViewer">
                             <controls:MarkdownTextBlock x:Name="DocumentationTextblock"
-                                                    Foreground="{ThemeResource DocumentationForeground}"
-                                                    Background="Transparent"
-                                                    CodeBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
-                                                    QuoteBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
-                                                    InlineCodeBackground="{ThemeResource SampleMarkdownInlineCodeBackgroundBrush}"
-                                                    LinkForeground="{ThemeResource Brush-Link-Normal}"
-                                                    ImageResolving="DocumentationTextblock_ImageResolving"
-                                                    LinkClicked="DocumentationTextblock_OnLinkClicked"
-                                                    IsFocusEngagementEnabled="False"
-                                                    ImageMaxWidth="500"
-                                                    ImageMaxHeight="500" />
+                                                        Foreground="{ThemeResource DocumentationForeground}"
+                                                        Background="Transparent"
+                                                        CodeBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
+                                                        QuoteBackground="{ThemeResource SampleMarkdownBackgroundBrush}"
+                                                        InlineCodeBackground="{ThemeResource SampleMarkdownInlineCodeBackgroundBrush}"
+                                                        LinkForeground="{ThemeResource Brush-Link-Normal}"
+                                                        ImageResolving="DocumentationTextblock_ImageResolving"
+                                                        LinkClicked="DocumentationTextblock_OnLinkClicked"
+                                                        IsFocusEngagementEnabled="False"
+                                                        ImageMaxWidth="500"
+                                                        ImageMaxHeight="500" />
                         </ScrollViewer>
                     </PivotItem>
                 </Pivot>
 
                 <controls:GridSplitter x:Name="Splitter"
-                                    Grid.Row="1"
-                                    Width="11"
-                                    Background="Transparent"
-                                    HorizontalAlignment="Left"
-                                    GripperForeground="{ThemeResource Brush-Alt}"
-                                    ParentLevel="1" />
+                                       Grid.Row="1"
+                                       Width="11"
+                                       Background="Transparent"
+                                       HorizontalAlignment="Left"
+                                       GripperForeground="{ThemeResource Brush-Alt}"
+                                       ParentLevel="1" />
             </Grid>
 
             <Border HorizontalAlignment="Stretch"
@@ -248,6 +251,7 @@
                                         StackMode="QueueBehind"
                                         Margin="10"
                                         Canvas.ZIndex="999" />
+            
             <Grid x:Name="waitRing"
                     Grid.Row="1"
                     Grid.RowSpan="3"

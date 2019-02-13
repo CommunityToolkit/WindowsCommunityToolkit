@@ -20,6 +20,7 @@ This makes it easy for a developer to test out values for a control and then cop
 
 In order to provide a property UI and associated code, you have to define a the .bind XAML file associated with your page.
 Here is an example:
+
 ```xaml
 <Grid>
     <Grid.ColumnDefinitions>
@@ -89,7 +90,7 @@ Therefore, for any new control/extension, you should still have a simplified sni
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
-This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/Microsoft/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
+This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
 ```csharp
 var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
@@ -145,9 +146,9 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/Microsoft/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
       }
     ]
   }
@@ -156,7 +157,7 @@ Select the category where you want your page to be listed and add the following 
 
 ## Thumbnail Images
 
-> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/WindowsCommunityToolkit-design-assets)
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
 
 ## Restricting Samples to Specific API Sets
 
@@ -179,14 +180,22 @@ If the specified type is not found on the system running the sample app the samp
 
 ### Adding documentation
 
-Every API must be accompanied by Markdown documentation in the docs folder in the root of this repo.
+Every API must be accompanied by Markdown documentation in the [documentation repository](..\contributing.md#docs).
 
 Use the DocumentationUrl property to add a link to the raw documentation in *samples.json*. Please follow the following pattern:
 
-`https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/{branch}/docs/{folder/file.md}`
+`https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/{branch}/docs/{folder/file.md}`
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
-> Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For exaple, this folder structure works best:
+> ```
+> repositories
+> ├── WindowsCommunityToolkit
+> ├── WindowsCommunityToolkitDocs
+> ``` 
 
 ### CodeUrl
 

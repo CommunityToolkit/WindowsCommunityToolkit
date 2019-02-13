@@ -43,6 +43,9 @@
     <ClCompile Include="GazePointer.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="GazeEventArgs.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
     <ClCompile Include="GazeHidParsers.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
@@ -103,6 +106,9 @@
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Interaction.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GazeEventArgs.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="GazeHidUsages.h">

@@ -3,6 +3,10 @@ PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATI
 ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
+
+<!-- For WPF or WinForms controls, please file an issue instead at https://github.com/windows-toolkit/Microsoft.Toolkit.Win32/issues/new -->
+
+
 ## I'm submitting a...
 <!-- Please uncomment one or more that apply to this issue -->
 <!-- For new features, create a UserVoice request here and link below: https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->
@@ -12,7 +16,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 <!-- - Feature request (UserVoice request: ) --> 
 <!-- - Sample app request -->
 <!-- - Documentation issue or request -->
-<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/Microsoft/UWPCommunityToolkit/blob/master/contributing.md#question -->
+<!-- - Question of Support request => Please do not submit support request here, instead see https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md#question -->
 
 
 ## Current behavior
@@ -37,15 +41,15 @@ Nuget Package(s):
 Package Version(s): 
 
 Windows 10 Build Number:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (build number: )
 
 App min and target version:
-- [ ] Creators Update (15063)
 - [ ] Fall Creators Update (16299)
 - [ ] April 2018 Update (17134)
+- [ ] October 2018 Update (17763)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:

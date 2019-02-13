@@ -18,12 +18,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         public event EventHandler<SignInEventArgs> SignInCompleted;
 
         /// <summary>
-        /// Occurs when sign in failed when attempting to sign in
-        /// </summary>
-        [Obsolete("Please use the SignInFailed event in MicrosoftGraphService instead.")]
-        public event EventHandler<SignInFailedEventArgs> SignInFailed;
-
-        /// <summary>
         /// Occurs when the user is logged out.
         /// </summary>
         public event EventHandler SignOutCompleted;

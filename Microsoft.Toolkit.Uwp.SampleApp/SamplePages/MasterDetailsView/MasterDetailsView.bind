@@ -8,7 +8,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <controls:MasterDetailsView ItemsSource="{Binding Emails}"
+        <controls:MasterDetailsView BackButtonBehavior="Automatic" 
+                                    ItemsSource="{Binding Emails}"
                                     NoSelectionContent="Select an item to view"
                                     CompactModeThresholdWidth="720">
             <controls:MasterDetailsView.ItemTemplate>
@@ -30,7 +31,7 @@
             <controls:MasterDetailsView.DetailsTemplate>
                 <DataTemplate>
                     <RelativePanel Margin="24">
-                        <controls:RoundImageEx x:Name="FromEllipse"
+                        <controls:ImageEx x:Name="FromEllipse"
                                                Source="{Binding Thumbnail}"
                                                Width="50"
                                                Height="50"

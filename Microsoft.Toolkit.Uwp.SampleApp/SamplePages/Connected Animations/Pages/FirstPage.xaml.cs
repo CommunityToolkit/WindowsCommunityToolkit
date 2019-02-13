@@ -4,6 +4,7 @@
 
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
 {
@@ -19,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages.ConnectedAnimations.Pages
 
         private void Border_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(SecondPage));
+            Frame.Navigate(typeof(SecondPage), null, new SuppressNavigationTransitionInfo());
         }
     }
 }

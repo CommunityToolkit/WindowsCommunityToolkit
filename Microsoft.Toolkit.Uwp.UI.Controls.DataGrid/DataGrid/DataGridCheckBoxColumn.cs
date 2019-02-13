@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Remove && e.OldItems.Contains(this) && _owningGrid != null)
+            if (this.OwningGrid == null && _owningGrid != null)
             {
                 _owningGrid.Columns.CollectionChanged -= new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
                 _owningGrid.CurrentCellChanged -= new EventHandler<EventArgs>(OwningGrid_CurrentCellChanged);

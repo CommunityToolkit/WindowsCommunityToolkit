@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls DataGrid</Title>
     <Description>This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>

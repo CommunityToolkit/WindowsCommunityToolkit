@@ -1,1 +1,0 @@
-﻿window.external.notify('preload');

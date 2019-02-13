@@ -1,15 +1,14 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-
-    <PackageReference Include="ColorCode.UWP" Version="2.0.5" />
+    <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
@@ -20,6 +19,29 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Update="ImageCropper\ImageCropper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ImageCropper\ImageCropperThumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+   
+  <ItemGroup>
+     <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
