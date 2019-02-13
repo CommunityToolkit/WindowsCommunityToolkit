@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.Notifications
@@ -94,15 +95,19 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="arguments">App-defined string of arguments that the app can later retrieve once it is activated when the user clicks the button.</param>
         /// <param name="imageUri">An optional image icon for the button to display (required for buttons adjacent to inputs like quick reply)</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
-        public ToastContentBuilder AddInputTextBoxButton(string textBoxId, string content, ToastActivationType activationType, string arguments, Uri imageUri)
+        public ToastContentBuilder AddButton(string textBoxId, string content, ToastActivationType activationType, string arguments, Uri imageUri = default(Uri))
         {
             // Add new button
             ToastButton button = new ToastButton(content, arguments)
             {
                 ActivationType = activationType,
-                TextBoxId = textBoxId,
-                ImageUri = imageUri.OriginalString
+                TextBoxId = textBoxId
             };
+
+            if (imageUri != default(Uri))
+            {
+                button.ImageUri = imageUri.OriginalString;
+            }
 
             return AddButton(button);
         }
@@ -135,12 +140,23 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// Add a combo box / drop-down menu that contain options for user to select.
         /// </summary>
         /// <param name="id">Required ID property used so that developers can retrieve user input once the app is activated.</param>
-        /// <param name="defaultSelectionBoxItemId">Sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).</param>
+        /// <param name="choices">List of choices that will be available for user to select.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddComboBox(string id, params (string comboBoxItemId, string comboBoxItemContent)[] choices)
+        {
+            return AddComboBox(id, default(string), choices);
+        }
+
+        /// <summary>
+        /// Add a combo box / drop-down menu that contain options for user to select.
+        /// </summary>
+        /// <param name="id">Required ID property used so that developers can retrieve user input once the app is activated.</param>
+        /// <param name="defaultSelectionBoxItemId">Sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this or null, the default selection will be empty (user sees nothing).</param>
         /// <param name="choices">List of choices that will be available for user to select.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddComboBox(string id, string defaultSelectionBoxItemId, params (string comboBoxItemId, string comboBoxItemContent)[] choices)
         {
-            return AddComboBox(id, null, defaultSelectionBoxItemId, choices);
+            return AddComboBox(id, default(string), defaultSelectionBoxItemId, choices);
         }
 
         /// <summary>
@@ -148,18 +164,39 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// </summary>
         /// <param name="id">Required ID property used so that developers can retrieve user input once the app is activated.</param>
         /// <param name="title">Title text to display above the Combo Box.</param>
-        /// <param name="defaultSelectionBoxItemId">Sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this, the default selection will be empty (user sees nothing).</param>
+        /// <param name="defaultSelectionBoxItemId">Sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this or null, the default selection will be empty (user sees nothing).</param>
         /// <param name="choices">List of choices that will be available for user to select.</param>
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder AddComboBox(string id, string title, string defaultSelectionBoxItemId, params (string comboBoxItemId, string comboBoxItemContent)[] choices)
         {
-            var box = new ToastSelectionBox(id);
-            box.DefaultSelectionBoxItemId = defaultSelectionBoxItemId;
-            box.Title = title;
+            return AddComboBox(id, title, defaultSelectionBoxItemId, choices as IEnumerable<(string, string)>);
+        }
 
-            for (int i = 0; i < choices.Length; i++)
+        /// <summary>
+        /// Add a combo box / drop-down menu that contain options for user to select.
+        /// </summary>
+        /// <param name="id">Required ID property used so that developers can retrieve user input once the app is activated.</param>
+        /// <param name="title">Title text to display above the Combo Box.</param>
+        /// <param name="defaultSelectionBoxItemId">Sets which item is selected by default, and refers to the Id property of <see cref="ToastSelectionBoxItem"/>. If you do not provide this or null, the default selection will be empty (user sees nothing).</param>
+        /// <param name="choices">List of choices that will be available for user to select.</param>
+        /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
+        public ToastContentBuilder AddComboBox(string id, string title, string defaultSelectionBoxItemId, IEnumerable<(string comboBoxItemId, string comboBoxItemContent)> choices)
+        {
+            var box = new ToastSelectionBox(id);
+
+            if (defaultSelectionBoxItemId != default(string))
             {
-                var choice = choices[i];
+                box.DefaultSelectionBoxItemId = defaultSelectionBoxItemId;
+            }
+
+            if (title != default(string))
+            {
+                box.Title = title;
+            }
+
+            for (int i = 0; i < choices.Count(); i++)
+            {
+                var choice = choices.ElementAt(i);
                 box.Items.Add(new ToastSelectionBoxItem(choice.comboBoxItemId, choice.comboBoxItemContent));
             }
 

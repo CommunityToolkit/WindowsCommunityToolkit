@@ -437,7 +437,7 @@ namespace UnitTests.Notifications
         }
 
         [TestMethod]
-        public void AddVisualChildTest_AddCustomVisual_ReturnSelfWithCustomVisualAdded()
+        public void AddVisualChildTest_WithCustomVisual_ReturnSelfWithCustomVisualAdded()
         {
             // Arrange
             // Taken from : https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/adaptive-interactive-toasts#adaptive-content
@@ -489,6 +489,207 @@ namespace UnitTests.Notifications
             // Assert
             Assert.AreSame(builder, anotherReference);
             Assert.IsInstanceOfType(builder.Content.Visual.BindingGeneric.Children.First(), typeof(AdaptiveGroup));
+        }
+
+        [TestMethod]
+        public void AddButtonTest_WithTextOnlyButton_ReturnSelfWithButtonAdded()
+        {
+            // Arrange
+            string testButtonContent = "Test Button Content";
+            ToastActivationType testToastActivationType = ToastActivationType.Background;
+            string testButtonLaunchArgs = "Test Launch Args";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddButton(testButtonContent, testToastActivationType, testButtonLaunchArgs);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+
+            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
+            Assert.AreEqual(testButtonContent, button.Content);
+            Assert.AreEqual(testToastActivationType, button.ActivationType);
+            Assert.AreEqual(testButtonLaunchArgs, button.Arguments);
+        }
+
+        [TestMethod]
+        public void AddButtonTest_WithCustomImageAndTextButton_ReturnSelfWithButtonAdded()
+        {
+            // Arrange
+            string testButtonContent = "Test Button Content";
+            ToastActivationType testToastActivationType = ToastActivationType.Background;
+            string testButtonLaunchArgs = "Test Launch Args";
+            Uri testImageUriSrc = new Uri("C:/justatesturi.jpg");
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddButton(testButtonContent, testToastActivationType, testButtonLaunchArgs, testImageUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+
+            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
+            Assert.AreEqual(testButtonContent, button.Content);
+            Assert.AreEqual(testToastActivationType, button.ActivationType);
+            Assert.AreEqual(testButtonLaunchArgs, button.Arguments);
+            Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
+        }
+
+        [TestMethod]
+        public void AddButtonTest_WithTextBoxId_ReturnSelfWithButtonAdded()
+        {
+            // Arrange
+            string testInputTextBoxId = Guid.NewGuid().ToString();
+            string testButtonContent = "Test Button Content";
+            ToastActivationType testToastActivationType = ToastActivationType.Background;
+            string testButtonLaunchArgs = "Test Launch Args";
+            Uri testImageUriSrc = new Uri("C:/justatesturi.jpg");
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddButton(testInputTextBoxId, testButtonContent, testToastActivationType, testButtonLaunchArgs, testImageUriSrc);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+
+            var button = (builder.Content.Actions as ToastActionsCustom).Buttons.First() as ToastButton;
+            Assert.AreEqual(testInputTextBoxId, button.TextBoxId);
+            Assert.AreEqual(testButtonContent, button.Content);
+            Assert.AreEqual(testToastActivationType, button.ActivationType);
+            Assert.AreEqual(testButtonLaunchArgs, button.Arguments);
+            Assert.AreEqual(testImageUriSrc.OriginalString, button.ImageUri);
+        }
+
+        [TestMethod]
+        public void AddInputTextBoxTest_WithStringIdOnly_ReturnSelfWithInputTextBoxAdded()
+        {
+            // Arrange
+            string testInputTextBoxId = Guid.NewGuid().ToString();
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddInputTextBox(testInputTextBoxId);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var inputTextBox = (builder.Content.Actions as ToastActionsCustom).Inputs.First() as ToastTextBox;
+
+            Assert.AreEqual(testInputTextBoxId, inputTextBox.Id);
+        }
+
+        [TestMethod]
+        public void AddInputTextBoxTest_WithPlaceHolderContentAndTitle_ReturnSelfWithInputTextBoxAndAllOptionsAdded()
+        {
+            // Arrange
+            string testInputTextBoxId = Guid.NewGuid().ToString();
+            string testInputTextBoxPlaceHolderContent = "Placeholder Content";
+            string testInputTextBoxTitle = "Test Title";
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddInputTextBox(testInputTextBoxId, testInputTextBoxPlaceHolderContent, testInputTextBoxTitle);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var inputTextBox = (builder.Content.Actions as ToastActionsCustom).Inputs.First() as ToastTextBox;
+
+            Assert.AreEqual(testInputTextBoxId, inputTextBox.Id);
+            Assert.AreEqual(testInputTextBoxPlaceHolderContent, inputTextBox.PlaceholderContent);
+            Assert.AreEqual(testInputTextBoxTitle, inputTextBox.Title);
+        }
+
+        [TestMethod]
+        public void AddComboBoxTest_WithMultipleChoices_ReturnSelfWithComboBoxAndAllChoicesAdded()
+        {
+            // Arrange
+            string testComboBoxId = Guid.NewGuid().ToString();
+            var choice1 = (Guid.NewGuid().ToString(), "Test Choice 1");
+            var choice2 = (Guid.NewGuid().ToString(), "Test Choice 2");
+            var choice3 = (Guid.NewGuid().ToString(), "Test Choice 3");
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddComboBox(testComboBoxId, choice1, choice2, choice3);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var comboBox = (builder.Content.Actions as ToastActionsCustom).Inputs.First() as ToastSelectionBox;
+
+            Assert.AreEqual(testComboBoxId, comboBox.Id);
+            Assert.AreEqual(choice1.Item1, comboBox.Items[0].Id);
+            Assert.AreEqual(choice2.Item1, comboBox.Items[1].Id);
+            Assert.AreEqual(choice3.Item1, comboBox.Items[2].Id);
+
+            Assert.AreEqual(choice1.Item2, comboBox.Items[0].Content);
+            Assert.AreEqual(choice2.Item2, comboBox.Items[1].Content);
+            Assert.AreEqual(choice3.Item2, comboBox.Items[2].Content);
+        }
+
+        [TestMethod]
+        public void AddComboBoxTest_WithMultipleChoicesAndDefaultSelected_ReturnSelfWithComboBoxAddedWithAllChoicesAndDefaultSelection()
+        {
+            // Arrange
+            string testComboBoxId = Guid.NewGuid().ToString();
+            var choice1 = (Guid.NewGuid().ToString(), "Test Choice 1");
+            var choice2 = (Guid.NewGuid().ToString(), "Test Choice 2");
+            var choice3 = (Guid.NewGuid().ToString(), "Test Choice 3");
+            string defaultChoice = choice2.Item1;
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddComboBox(testComboBoxId, defaultChoice, choice1, choice2, choice3);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var comboBox = (builder.Content.Actions as ToastActionsCustom).Inputs.First() as ToastSelectionBox;
+
+            Assert.AreEqual(testComboBoxId, comboBox.Id);
+            Assert.AreEqual(choice1.Item1, comboBox.Items[0].Id);
+            Assert.AreEqual(choice2.Item1, comboBox.Items[1].Id);
+            Assert.AreEqual(choice3.Item1, comboBox.Items[2].Id);
+
+            Assert.AreEqual(choice1.Item2, comboBox.Items[0].Content);
+            Assert.AreEqual(choice2.Item2, comboBox.Items[1].Content);
+            Assert.AreEqual(choice3.Item2, comboBox.Items[2].Content);
+
+            Assert.AreEqual(defaultChoice, comboBox.DefaultSelectionBoxItemId);
+        }
+
+        [TestMethod]
+        public void AddComboBoxTest_WithMultipleChoiceAndDefaultSelectedAndTitle_ReturnSelfWithComboBoxAddedWithAllChoicesAndDefaultSelectionAndTitle()
+        {
+            // Arrange
+            string testComboBoxId = Guid.NewGuid().ToString();
+            var choice1 = (Guid.NewGuid().ToString(), "Test Choice 1");
+            var choice2 = (Guid.NewGuid().ToString(), "Test Choice 2");
+            var choice3 = (Guid.NewGuid().ToString(), "Test Choice 3");
+            string defaultChoice = choice2.Item1;
+            string testComboBoxTitle = "Test Title";
+
+            ToastContentBuilder builder = new ToastContentBuilder();
+
+            // Act
+            ToastContentBuilder anotherReference = builder.AddComboBox(testComboBoxId, testComboBoxTitle, defaultChoice, choice1, choice2, choice3);
+
+            // Assert
+            Assert.AreSame(builder, anotherReference);
+            var comboBox = (builder.Content.Actions as ToastActionsCustom).Inputs.First() as ToastSelectionBox;
+
+            Assert.AreEqual(testComboBoxId, comboBox.Id);
+            Assert.AreEqual(choice1.Item1, comboBox.Items[0].Id);
+            Assert.AreEqual(choice2.Item1, comboBox.Items[1].Id);
+            Assert.AreEqual(choice3.Item1, comboBox.Items[2].Id);
+
+            Assert.AreEqual(choice1.Item2, comboBox.Items[0].Content);
+            Assert.AreEqual(choice2.Item2, comboBox.Items[1].Content);
+            Assert.AreEqual(choice3.Item2, comboBox.Items[2].Content);
+
+            Assert.AreEqual(defaultChoice, comboBox.DefaultSelectionBoxItemId);
+            Assert.AreEqual(testComboBoxTitle, comboBox.Title);
         }
     }
 
