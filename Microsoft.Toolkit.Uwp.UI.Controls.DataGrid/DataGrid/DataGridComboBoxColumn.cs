@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -14,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
+using TextBlock = Windows.UI.Xaml.Controls.TextBlock;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -39,6 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private FontStyle? _fontStyle;
         private FontWeight? _fontWeight;
         private Brush _foreground;
+        private HashSet<object> _notifyingDataItems;
 
         /// <summary>
         /// Identifies the ItemsSource dependency property.
@@ -264,6 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             comboBox.SelectionChanged += (sender, args) =>
             {
                 var item = args.AddedItems.FirstOrDefault();
+
                 if (item != null)
                 {
                     var newValue = !string.IsNullOrEmpty(DisplayMemberPath)
@@ -335,14 +339,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else
                 {
-                    var textBlockBinding = new Binding
-                    {
-                        Source = dataItem,
-                        Path = new PropertyPath(DisplayMemberPath),
-                        Mode = BindingMode.TwoWay
-                    };
+                    textBlockElement.Text = GetDisplayValue(dataItem);
 
-                    textBlockElement.SetBinding(TextBlock.TextProperty, textBlockBinding);
+                    HookDataItemPropertyChanged(dataItem);
                 }
             }
 
@@ -422,7 +421,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
                 {
-                    OwningGrid.OnColumnBindingChanged(this);
+                    // Left in place for future functionality
                 }
                 else
                 {
@@ -541,6 +540,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _owningGrid = OwningGrid;
                     _owningGrid.Columns.CollectionChanged += new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
                     _owningGrid.LoadingRow += OwningGrid_LoadingRow;
+                    _owningGrid.UnloadingRow += OwningGrid_UnloadingRow;
                     _owningGrid.CellEditEnded += OwningGrid_CellEditEnded;
                 }
 
@@ -552,20 +552,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OwningGrid_LoadingRow(object sender, DataGridRowEventArgs e)
         {
-            // SetDisplayMemberPathValue(e.Row);
+            HookDataItemPropertyChanged(e.Row.DataContext);
+            SetDisplayMemberPathValue(e.Row);
+        }
+
+        private void OwningGrid_UnloadingRow(object sender, DataGridRowEventArgs e)
+        {
+            UnhookDataItemPropertyChanged(e.Row.DataContext);
         }
 
         private void OwningGrid_CellEditEnded(object sender, DataGridCellEditEndedEventArgs e)
         {
-            // SetDisplayMemberPathValue(e.Row);
+            SetDisplayMemberPathValue(e.Row);
         }
 
         private void Columns_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (OwningGrid == null && _owningGrid != null)
             {
+                _notifyingDataItems?.Clear();
                 _owningGrid.Columns.CollectionChanged -= new NotifyCollectionChangedEventHandler(Columns_CollectionChanged);
                 _owningGrid.LoadingRow -= OwningGrid_LoadingRow;
+                _owningGrid.UnloadingRow -= this.OwningGrid_UnloadingRow;
                 _owningGrid.CellEditEnded -= OwningGrid_CellEditEnded;
                 _owningGrid = null;
             }
@@ -641,6 +649,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(Binding.Path.Path)))
                 {
                     throw DataGridError.DataGridComboBoxColumn.UnknownItemsSourcePath(Binding);
+                }
+            }
+        }
+
+        private void HookDataItemPropertyChanged(object dataItem)
+        {
+            var notifyingDataItem = dataItem as INotifyPropertyChanged;
+
+            if (notifyingDataItem == null)
+            {
+                return;
+            }
+
+            if (_notifyingDataItems == null)
+            {
+                _notifyingDataItems = new HashSet<object>();
+            }
+
+            if (!_notifyingDataItems.Contains(dataItem))
+            {
+                notifyingDataItem.PropertyChanged += DataItem_PropertyChanged;
+                _notifyingDataItems.Add(dataItem);
+            }
+        }
+
+        private void UnhookDataItemPropertyChanged(object dataItem)
+        {
+            if (_notifyingDataItems == null)
+            {
+                return;
+            }
+
+            var notifyingDataItem = dataItem as INotifyPropertyChanged;
+
+            if (notifyingDataItem == null)
+            {
+                return;
+            }
+
+            if (_notifyingDataItems.Contains(dataItem))
+            {
+                notifyingDataItem.PropertyChanged -= DataItem_PropertyChanged;
+                _notifyingDataItems.Remove(dataItem);
+            }
+        }
+
+        private void DataItem_PropertyChanged(object dataItem, PropertyChangedEventArgs e)
+        {
+            if (this.OwningGrid != null && Binding?.Path != null && this.Binding.Path.Path == e.PropertyName)
+            {
+                var dataGridRow = OwningGrid.GetRowFromItem(dataItem);
+
+                if (dataGridRow != null && this.GetCellContent(dataGridRow) is TextBlock textBlockElement)
+                {
+                    textBlockElement.Text = GetDisplayValue(dataItem);
                 }
             }
         }
