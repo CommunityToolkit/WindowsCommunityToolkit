@@ -353,6 +353,38 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         }
 
         /// <summary>
+        /// Set the text stacking (vertical alignment) of the entire binding element.
+        /// </summary>
+        /// <param name="textStacking">Text Stacking Option</param>
+        /// <param name="size">The tile size that the peek image should be applied to. Default to all currently supported tile size.</param>
+        /// <returns>The current instance of <see cref="TileContentBuilder"/></returns>
+        public TileContentBuilder SetTextStacking(TileTextStacking textStacking, TileSize size = AllSize)
+        {
+            // Set to any available tile at the moment of calling.
+            if (size.HasFlag(TileSize.Small) && SmallTile != null)
+            {
+                GetAdaptiveTileContent(SmallTile).TextStacking = textStacking;
+            }
+
+            if (size.HasFlag(TileSize.Medium) && MediumTile != null)
+            {
+                GetAdaptiveTileContent(MediumTile).TextStacking = textStacking;
+            }
+
+            if (size.HasFlag(TileSize.Wide) && WideTile != null)
+            {
+                GetAdaptiveTileContent(WideTile).TextStacking = textStacking;
+            }
+
+            if (size.HasFlag(TileSize.Large) && LargeTile != null)
+            {
+                GetAdaptiveTileContent(LargeTile).TextStacking = textStacking;
+            }
+
+            return this;
+        }
+
+        /// <summary>
         /// Set the tile's activation arguments for chasable tile notification.
         /// </summary>
         /// <param name="args">App-Defined custom arguments that will be passed in when the user click on the tile when this tile notification is being displayed.</param>
