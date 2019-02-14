@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <returns>The current instance of <see cref="ToastContentBuilder"/></returns>
         public ToastContentBuilder SetToastScenario(ToastScenario scenario)
         {
-            Content.Scenario = scenario; 
+            Content.Scenario = scenario;
             return this;
         }
 

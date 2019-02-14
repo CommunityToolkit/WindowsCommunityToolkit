@@ -10,6 +10,8 @@ using System.Text;
 namespace Microsoft.Toolkit.Uwp.Notifications
 {
 #if !WINRT
+#pragma warning disable SA1008
+#pragma warning disable SA1009
     /// <summary>
     /// Builder class used to create <see cref="TileContent"/>
     /// </summary>
@@ -155,5 +157,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
             return tileImage;
         }
     }
+#pragma warning restore SA1008
+#pragma warning restore SA1009
 #endif
 }

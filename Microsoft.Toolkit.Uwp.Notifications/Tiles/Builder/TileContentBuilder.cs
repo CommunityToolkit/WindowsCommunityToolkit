@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="alternateText">Description of the background image, for user of assistance technology</param>
         /// <param name="addImageQuery">
         /// Indicating whether Windows should append a query string to the image URI supplied in the Tile notification.
-        /// Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. 
+        /// Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string.
         /// This query string specifies scale, contrast setting, and language.
         /// </param>
         /// <param name="hintOverlay">The opacity of the black overlay on the background image.</param>
@@ -290,7 +290,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         /// <param name="alternateText">Description of the peek image, for user of assistance technology</param>
         /// <param name="addImageQuery">
         /// Indicating whether Windows should append a query string to the image URI supplied in the Tile notification.
-        /// Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string. 
+        /// Use this attribute if your server hosts images and can handle query strings, either by retrieving an image variant based on the query strings or by ignoring the query string and returning the image as specified without the query string.
         /// This query string specifies scale, contrast setting, and language.
         /// </param>
         /// <param name="hintOverlay">The opacity of the black overlay on the peek image.</param>
@@ -329,7 +329,6 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         public TileContentBuilder SetPeekImage(TilePeekImage peekImage, TileSize size = AllSize)
         {
             // Set to any available tile at the moment of calling.
-
             if (size.HasFlag(TileSize.Small) && SmallTile != null)
             {
                 GetAdaptiveTileContent(SmallTile).PeekImage = peekImage;
