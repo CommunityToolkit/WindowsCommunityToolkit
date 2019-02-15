@@ -73,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             SizeChanged += AlignmentGrid_SizeChanged;
 
             IsHitTestVisible = false;
-
+            IsTabStop = false;
             Opacity = 0.5;
 
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -88,30 +88,36 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             var verticalStep = VerticalStep;
             var brush = LineBrush ?? (Brush)Application.Current.Resources["ApplicationForegroundThemeBrush"];
 
-            for (double x = 0; x < ActualWidth; x += horizontalStep)
+            if (horizontalStep > 0)
             {
-                var line = new Rectangle
+                for (double x = 0; x < ActualWidth; x += horizontalStep)
                 {
-                    Width = 1,
-                    Height = ActualHeight,
-                    Fill = brush
-                };
-                Canvas.SetLeft(line, x);
+                    var line = new Rectangle
+                    {
+                        Width = 1,
+                        Height = ActualHeight,
+                        Fill = brush
+                    };
+                    Canvas.SetLeft(line, x);
 
-                containerCanvas.Children.Add(line);
+                    containerCanvas.Children.Add(line);
+                }
             }
 
-            for (double y = 0; y < ActualHeight; y += verticalStep)
+            if (verticalStep > 0)
             {
-                var line = new Rectangle
+                for (double y = 0; y < ActualHeight; y += verticalStep)
                 {
-                    Width = ActualWidth,
-                    Height = 1,
-                    Fill = brush
-                };
-                Canvas.SetTop(line, y);
+                    var line = new Rectangle
+                    {
+                        Width = ActualWidth,
+                        Height = 1,
+                        Fill = brush
+                    };
+                    Canvas.SetTop(line, y);
 
-                containerCanvas.Children.Add(line);
+                    containerCanvas.Children.Add(line);
+                }
             }
         }
 

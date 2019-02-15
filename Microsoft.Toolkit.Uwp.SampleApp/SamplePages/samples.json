@@ -6,6 +6,7 @@
       {
         "Name": "TextToolbar",
         "Type": "TextToolbarPage",
+        "Subcategory": "Menus and Toolbars",
         "About": "A Toolbar for Editing Text attached to a RichEditBox. It can format RTF and Markdown, or use a Custom Formatter, and specify your own Formatter with Buttons and Actions.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "TextToolbar.bind",
@@ -16,6 +17,7 @@
       {
         "Name": "TabView",
         "Type": "TabViewPage",
+        "Subcategory": "Layout",
         "About": "A control for displaying multiple items in the same space and allows a user to easily switch between them.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TabView",
         "XamlCodeFile": "TabViewXaml.bind",
@@ -25,6 +27,7 @@
       {
         "Name": "DataGrid",
         "Type": "DataGridPage",
+        "Subcategory": "Layout",
         "About": "Control that presents data in a customizable table of rows and columns.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.DataGrid/DataGrid",
         "XamlCodeFile": "DataGridCode.bind",
@@ -34,6 +37,7 @@
       {
         "Name": "Carousel",
         "Type": "CarouselPage",
+        "Subcategory": "Layout",
         "About": "Presents items in a carousel control. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Carousel",
         "XamlCodeFile": "CarouselCode.bind",
@@ -43,6 +47,7 @@
       {
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
+        "Subcategory": "Layout",
         "About": "Presents items in a evenly-spaced set of columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/AdaptiveGridView",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
@@ -52,6 +57,7 @@
       {
         "Name": "UniformGrid",
         "Type": "UniformGridPage",
+        "Subcategory": "Layout",
         "About": "Presents items in a evenly-spaced set of rows or columns to fill the total available display space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/UniformGrid",
         "XamlCodeFile": "UniformGridXaml.bind",
@@ -61,6 +67,7 @@
       {
         "Name": "RangeSelector",
         "Type": "RangeSelectorPage",
+        "Subcategory": "Input",
         "About": "The RangeSelector is a \"double slider\" control for range values.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RangeSelector",
         "XamlCodeFile": "RangeSelectorCode.bind",
@@ -70,6 +77,7 @@
       {
         "Name": "ImageEx",
         "Type": "ImageExPage",
+        "Subcategory": "Media",
         "About": "Images are downloaded asynchronously showing a load indicator. Source images are then stored in the App local cache to preserve resources and load time.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageEx",
         "XamlCodeFile": "ImageExCode.bind",
@@ -79,6 +87,7 @@
       {
         "Name": "HeaderedTextBlock",
         "Type": "HeaderedTextBlockPage",
+        "Subcategory": "Layout",
         "About": "The HeaderedTextBlock control is designed to provide a header for read only text. This control is useful for displaying read only forms.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedTextBlock",
         "XamlCodeFile": "HeaderedTextBlockCode.bind",
@@ -90,6 +99,7 @@
       {
         "Name": "MasterDetailsView",
         "Type": "MasterDetailsViewPage",
+        "Subcategory": "Layout",
         "About": "The MasterDetailsView control allows the user to implement the Master/Details design pattern.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView",
         "XamlCodeFile": "MasterDetailsView.bind",
@@ -100,6 +110,7 @@
       {
         "Name": "MarkdownTextBlock",
         "Type": "MarkdownTextBlockPage",
+        "Subcategory": "Input",
         "About": "An efficient and extensible control that can parse and render markdown.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/MarkdownTextBlock",
         "XamlCodeFile": "MarkdownTextBlock.bind",
@@ -110,6 +121,7 @@
       {
         "Name": "RadialGauge",
         "Type": "RadialGaugePage",
+        "Subcategory": "Status and Info",
         "About": "The radial gauge displays a value within a range, using a needle on a circular face.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialGauge",
         "XamlCodeFile": "RadialGaugeCode.bind",
@@ -119,6 +131,7 @@
       {
         "Name": "RadialProgressBar",
         "Type": "RadialProgressBarPage",
+        "Subcategory": "Status and Info",
         "About": "The radial progress bar displays progress as a circle getting filled.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RadialProgressBar",
         "XamlCodeFile": "RadialProgressBarCode.bind",
@@ -128,6 +141,7 @@
       {
         "Name": "RotatorTile",
         "Type": "RotatorTilePage",
+        "Subcategory": "Media",
         "About": "RotatorTile is an ItemsControl that rotates through a set of items one-by-one. It enables you to show multiple items of data in a live-tile like way.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RotatorTile",
         "XamlCodeFile": "RotatorTileCode.bind",
@@ -137,6 +151,7 @@
       {
         "Name": "BladeView",
         "Type": "BladePage",
+        "Subcategory": "Layout",
         "About": "BladeView provides a horizontal collection of blades for master-detail scenarios. The control is based on the experience demonstrated by the Azure Portal.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/BladeView",
         "XamlCodeFile": "BladeCode.bind",
@@ -146,6 +161,7 @@
       {
         "Name": "ScrollHeader",
         "Type": "ScrollHeaderPage",
+        "Subcategory": "Layout",
         "About": "A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ScrollHeader",
         "XamlCodeFile": "ScrollHeaderCode.bind",
@@ -155,6 +171,7 @@
       {
         "Name": "GridSplitter",
         "Type": "GridSplitterPage",
+        "Subcategory": "Layout",
         "About": "GridSplitter represents the control that redistributes space between columns or rows of a Grid control.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/GridSplitter",
         "XamlCodeFile": "GridSplitter.bind",
@@ -164,6 +181,7 @@
       {
         "Name": "DropShadowPanel",
         "Type": "DropShadowPanelPage",
+        "Subcategory": "Media",
         "About": "DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DropShadowPanel",
         "XamlCodeFile": "DropShadowPanelXaml.bind",
@@ -174,6 +192,7 @@
       {
         "Name": "Loading",
         "Type": "LoadingPage",
+        "Subcategory": "Status and Info",
         "About": "LoadingControl helps to show content with animation to the user while the app is doing some calculation.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Loading",
         "XamlCodeFile": "LoadingCode.bind",
@@ -183,6 +202,7 @@
       {
         "Name": "Expander",
         "Type": "ExpanderPage",
+        "Subcategory": "Layout",
         "About": "Expander control allows user to show/hide content based on a boolean state.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Expander",
         "XamlCodeFile": "ExpanderXaml.bind",
@@ -192,6 +212,7 @@
       {
         "Name": "TileControl",
         "Type": "TileControlPage",
+        "Subcategory": "Layout",
         "About": "A ContentControl that show an image repeated many times.The control can be synchronized with a Scrollviewer and animated easily",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TileControl",
         "XamlCodeFile": "TileControl.bind",
@@ -201,6 +222,7 @@
       {
         "Name": "WrapPanel",
         "Type": "WrapPanelPage",
+        "Subcategory": "Layout",
         "About": "The WrapPanel Control positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/WrapPanel",
         "XamlCodeFile": "WrapPanel.bind",
@@ -210,6 +232,7 @@
       {
         "Name": "OrbitView",
         "Type": "OrbitViewPage",
+        "Subcategory": "Layout",
         "About": "The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/OrbitView",
         "XamlCodeFile": "OrbitViewXaml.bind",
@@ -219,7 +242,10 @@
       {
         "Name": "Menu",
         "Type": "MenuPage",
-        "About": "Represents a Windows menu control that enables you to hierarchically organize elements associated with commands and event handlers.",
+        "Subcategory": "Menus and Toolbars",
+        "About": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
         "XamlCodeFile": "Menu.bind",
         "Icon": "/SamplePages/Menu/Menu.png",
@@ -228,6 +254,7 @@
       {
         "Name": "InAppNotification",
         "Type": "InAppNotificationPage",
+        "Subcategory": "Status and Info",
         "About": "The In App Notification control offers the ability to show local notifications in your application.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InAppNotification",
         "XamlCodeFile": "InAppNotificationXaml.bind",
@@ -238,6 +265,7 @@
       {
         "Name": "DockPanel",
         "Type": "DockPanelPage",
+        "Subcategory": "Layout",
         "About": "Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/DockPanel",
         "XamlCodeFile": "DockPanel.bind",
@@ -247,6 +275,7 @@
       {
         "Name": "HeaderedContentControl",
         "Type": "HeaderedContentControlPage",
+        "Subcategory": "Layout",
         "About": "Allows content to be displayed with a specified header.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedContentControl",
         "XamlCodeFile": "HeaderedContentControlXaml.bind",
@@ -256,6 +285,7 @@
       {
         "Name": "HeaderedItemsControl",
         "Type": "HeaderedItemsControlPage",
+        "Subcategory": "Layout",
         "About": "Allows items to be displayed with a specified header.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/HeaderedItemsControl",
         "XamlCodeFile": "HeaderedItemsControlXaml.bind",
@@ -265,6 +295,7 @@
       {
         "Name": "StaggeredPanel",
         "Type": "StaggeredPanelPage",
+        "Subcategory": "Layout",
         "About": "The StaggeredPanel allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/StaggeredPanel",
         "XamlCodeFile": "StaggeredPanel.bind",
@@ -274,6 +305,7 @@
       {
         "Name": "LayoutTransformControl",
         "Type": "LayoutTransformControlPage",
+        "Subcategory": "Layout",
         "About": "Control that implements support for transformations as if applied by LayoutTransform.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/LayoutTransformControl",
         "XamlCodeFile": "LayoutTransformControlXaml.bind",
@@ -283,6 +315,7 @@
       {
         "Name": "CameraPreview",
         "Type": "CameraPreviewPage",
+        "Subcategory": "Media",
         "About": "Allows to easily preview video from available camera frame source groups and also get realtime video frames/ software bitmaps from the selected source.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/CameraPreview",
         "XamlCodeFile": "CameraPreviewXaml.bind",
@@ -295,6 +328,7 @@
       {
         "Name": "InfiniteCanvas",
         "Type": "InfiniteCanvasPage",
+        "Subcategory": "Media",
         "About": "InfiniteCanvas is a canvas that supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export canvas data, Import canvas data.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas",
         "XamlCodeFile": "InfiniteCanvas.bind",
@@ -302,6 +336,108 @@
         "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
+      },
+      {
+        "Name": "RemoteDevicePicker",
+        "Type": "RemoteDevicePickerControlPage",
+        "Subcategory": "Input",
+        "About": "Remote Device Picker Control for Project Rome.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/RemoteDevicePicker",
+        "CodeFile": "RemoteDevicePickerCode.bind",
+        "Icon": "/SamplePages/RemoteDevicePicker/RemoteDevicePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/RemoteDevicePicker.md"
+      },
+      {
+        "Name": "ImageCropper",
+        "Type": "ImageCropperPage",
+        "Subcategory": "Input",
+        "About": "ImageCropper control allows user to crop image freely.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/ImageCropper",
+        "XamlCodeFile": "ImageCropperXaml.bind",
+        "CodeFile": "ImageCropperCode.bind",
+        "Icon": "/SamplePages/ImageCropper/ImageCropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
+      },
+      {
+        "Name": "AadLogin",
+        "Type": "AadLoginPage",
+        "Subcategory": "Graph",
+        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
+        "CodeFile": "AadLoginCode.bind",
+        "XamlCodeFile": "AadLoginXaml.bind",
+        "Icon": "/SamplePages/AadLogin/AadLogin.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
+      },
+      {
+        "Name": "ProfileCard",
+        "Type": "ProfileCardPage",
+        "Subcategory": "Graph",
+        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
+        "XamlCodeFile": "ProfileCardXaml.bind",
+        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
+      },
+      {
+        "Name": "PeoplePicker",
+        "Type": "PeoplePickerPage",
+        "Subcategory": "Graph",
+        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
+        "XamlCodeFile": "PeoplePickerXaml.bind",
+        "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
+      },
+      {
+        "Name": "SharePointFileList",
+        "Type": "SharePointFileListPage",
+        "Subcategory": "Graph",
+        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
+        "CodeFile": "SharePointFileListCode.bind",
+        "XamlCodeFile": "SharePointFileListXaml.bind",
+        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/SharePointFileList.md"
+      },
+      {
+        "Name": "PowerBIEmbedded",
+        "Type": "PowerBIEmbeddedPage",
+        "Subcategory": "Graph",
+        "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
+        "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PowerBIEmbedded.md"
+      },
+      {
+        "Name": "PlannerTaskList",
+        "Type": "PlannerTaskListPage",
+        "Subcategory": "Graph",
+        "About": "The PlannerTaskList Control displays a simple list of Planner tasks.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
+        "XamlCodeFile": "PlannerTaskListXaml.bind",
+        "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
+      },
+      {
+        "Name": "AlignmentGrid",
+        "Type": "AlignmentGridPage",
+        "Subcategory": "Developer",
+        "About": "AlignmentGrid is used to display a grid to help aligning controls.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/AlignmentGrid",
+        "XamlCodeFile": "AlignmentGridXaml.bind",
+        "Icon": "/SamplePages/AlignmentGrid/AlignmentGrid.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/AlignmentGrid.md"
+      },
+      {
+        "Name": "FocusTracker",
+        "Type": "FocusTrackerPage",
+        "Subcategory": "Developer",
+        "About": "FocusTracker can be used to display information about the current focused XAML element.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/FocusTracker",
+        "XamlCodeFile": "FocusTrackerXaml.bind",
+        "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
       }
     ]
   },
@@ -312,6 +448,7 @@
       {
         "Name": "Fade",
         "Type": "FadeBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Opacity of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "FadeBehaviorCode.bind",
@@ -322,6 +459,7 @@
       {
         "Name": "Scale",
         "Type": "ScaleBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Scale of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "ScaleBehaviorCode.bind",
@@ -332,6 +470,7 @@
       {
         "Name": "Offset",
         "Type": "OffsetBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Offset of XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "OffsetBehaviorCode.bind",
@@ -342,6 +481,7 @@
       {
         "Name": "Rotate",
         "Type": "RotateBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Rotation on XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "RotateBehaviorCode.bind",
@@ -352,6 +492,7 @@
       {
         "Name": "Blur",
         "Type": "BlurBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Blur XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "BlurBehaviorCode.bind",
@@ -363,6 +504,7 @@
       {
         "Name": "Saturation",
         "Type": "SaturationBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "Saturate XAML elements using composition",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "SaturationBehaviorCode.bind",
@@ -374,6 +516,7 @@
       {
         "Name": "Light",
         "Type": "LightBehaviorPage",
+        "Subcategory": "Behavior",
         "About": "The Light effect will be removed in a future major release",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "The Light effect will be removed in a future major release",
@@ -386,6 +529,7 @@
       {
         "Name": "FadeHeader",
         "Type": "FadeHeaderBehaviorPage",
+        "Subcategory": "Effect",
         "About": "Fade ListView and GridView Headers",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/Behaviors",
         "CodeFile": "FadeHeaderBehaviorCode.bind",
@@ -394,8 +538,17 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/FadeHeader.md"
       },
       {
+        "Name": "Lottie",
+        "About": "Lottie-Windows is a library and tools for rendering Lottie animations on Windows 10.",
+        "Subcategory": "Effect",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/Lottie.md",
+        "CodeUrl": "https://github.com/windows-toolkit/Lottie-Windows"
+      },
+      {
         "Name": "ReorderGridAnimation",
         "Type": "ReorderGridPage",
+        "Subcategory": "Effect",
         "About": "Animates items of a grid when the size changes",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "XamlCodeFile": "ReorderGrid.bind",
@@ -406,6 +559,7 @@
       {
         "Name": "Implicit Animations",
         "Type": "ImplicitAnimationsPage",
+        "Subcategory": "Effect",
         "About": "Attached properties to enable Implicit animations (including Show and Hide animations) through XAML",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations",
         "Icon": "/SamplePages/Implicit Animations/ImplicitAnimations.png",
@@ -416,6 +570,7 @@
       {
         "Name": "Connected Animations",
         "Type": "ConnectedAnimationsPage",
+        "Subcategory": "Effect",
         "About": "Attached properties to enable Connected animations through XAML",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ConnectedAnimations",
         "XamlCodeFile": "ConnectedAnimationsCode.bind",
@@ -477,67 +632,6 @@
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/wpf-winforms/MapControl.md",
         "CodeUrl": "https://github.com/windows-toolkit/Microsoft.Toolkit.Win32"
-      }
-    ]
-  },
-  {
-    "Name": "Graph Controls",
-    "Icon": "Icons/Foundation.png",
-    "Samples": [
-      {
-        "Name": "AadLogin",
-        "Type": "AadLoginPage",
-        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
-        "CodeFile": "AadLoginCode.bind",
-        "XamlCodeFile": "AadLoginXaml.bind",
-        "Icon": "/SamplePages/AadLogin/AadLogin.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
-      },
-      {
-        "Name": "ProfileCard",
-        "Type": "ProfileCardPage",
-        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
-        "XamlCodeFile": "ProfileCardXaml.bind",
-        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
-      },
-      {
-        "Name": "PeoplePicker",
-        "Type": "PeoplePickerPage",
-        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
-        "XamlCodeFile": "PeoplePickerXaml.bind",
-        "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
-      },
-      {
-        "Name": "SharePointFileList",
-        "Type": "SharePointFileListPage",
-        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
-        "CodeFile": "SharePointFileListCode.bind",
-        "XamlCodeFile": "SharePointFileListXaml.bind",
-        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/SharePointFileList.md"
-      },
-      {
-        "Name": "PowerBIEmbedded",
-        "Type": "PowerBIEmbeddedPage",
-        "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
-        "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PowerBIEmbedded.md"
-      },
-      {
-        "Name": "PlannerTaskList",
-        "Type": "PlannerTaskListPage",
-        "About": "The PlannerTaskList Control displays a simple list of Planner tasks.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
-        "XamlCodeFile": "PlannerTaskListXaml.bind",
-        "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
       }
     ]
   },
@@ -611,48 +705,13 @@
     ]
   },
   {
-    "Name": "Notifications",
-    "Icon": "Icons/Notifications.png",
-    "Samples": [
-      {
-        "Name": "LiveTile",
-        "Type": "LiveTilePage",
-        "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "LiveTileCode.bind",
-        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
-        "Icon": "/SamplePages/LiveTile/LiveTile.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
-      },
-      {
-        "Name": "Toast",
-        "Type": "ToastPage",
-        "About": "This shows how to send a Toast notification.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "ToastCode.bind",
-        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
-        "Icon": "/SamplePages/Toast/Toast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
-      },
-      {
-        "Name": "WeatherLiveTileAndToast",
-        "Type": "WeatherLiveTileAndToastPage",
-        "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
-        "CodeFile": "WeatherLiveTileAndToastCode.bind",
-        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
-        "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
-      }
-    ]
-  },
-  {
     "Name": "Helpers",
     "Icon": "Icons/Helpers.png",
     "Samples": [
       {
         "Name": "ImageCache",
         "Type": "ImageCachePage",
+        "Subcategory": "Data",
         "About": "The ImageCache allows persistence of images with an option to use in-memory storage.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Cache/ImageCache.cs",
         "CodeFile": "ImageCacheCode.bind",
@@ -663,6 +722,7 @@
       {
         "Name": "Object Storage",
         "Type": "ObjectStoragePage",
+        "Subcategory": "Systems",
         "About": "The Object Storage helper allows you to easily read and save objects in your application, both locally or on every device (roaming).",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/ObjectStorage",
         "CodeFile": "ObjectStorageCode.bind",
@@ -672,6 +732,7 @@
       {
         "Name": "Incremental Loading Collection",
         "Type": "IncrementalLoadingCollectionPage",
+        "Subcategory": "Data",
         "About": "Allows to create collections that can be loaded incrementally, as user requests more items in the view. This type of collections can be bound to controls like GridView and ListView.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection",
         "CodeFile": "IncrementalLoadingCollectionCode.bind",
@@ -681,6 +742,7 @@
       {
         "Name": "BackgroundTaskHelper",
         "Type": "BackgroundTaskHelperPage",
+        "Subcategory": "Systems",
         "About": "Allows easy registration and maintenance of background task",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/BackgroundTaskHelper.cs",
         "CodeFile": "BackgroundTaskHelperCode.bind",
@@ -690,6 +752,7 @@
       {
         "Name": "NetworkHelper",
         "Type": "NetworkHelperPage",
+        "Subcategory": "Systems",
         "About": "The NetworkHelper class is used to determine whether the app has Internet, and if it is on a metered Internet connection",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/Network",
         "CodeFile": "NetworkHelperCode.bind",
@@ -699,6 +762,7 @@
       {
         "Name": "BluetoothLEHelper",
         "Type": "BluetoothLEHelperPage",
+        "Subcategory": "Systems",
         "About": "The Bluetooth LE helper class is used to connect and interact with bluetooth LE devices.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Connectivity/BluetoothLEHelper",
         "CodeFile": "BluetoothLEHelperCode.bind",
@@ -709,6 +773,7 @@
       {
         "Name": "SystemInformation",
         "Type": "SystemInformationPage",
+        "Subcategory": "Systems",
         "About": "The SystemInformation class provides easy access to some of system/app/device information",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/SystemInformation.cs",
         "CodeFile": "SystemInformationCode.bind",
@@ -718,6 +783,7 @@
       {
         "Name": "PrintHelper",
         "Type": "PrintHelperPage",
+        "Subcategory": "Systems",
         "About": "Allows to easily print XAML controls",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp/Helpers/PrintHelper",
         "CodeFile": "PrintHelperCode.bind",
@@ -728,6 +794,7 @@
       {
         "Name": "DispatcherHelper",
         "Type": "DispatcherHelperPage",
+        "Subcategory": "Developer",
         "About": "Allows easy interaction with Windows Runtime core message dispatcher for multi-threaded scenario (I.E: Run code on UI thread). ",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/DispatcherHelper.cs",
         "CodeFile": "DispatcherHelperCode.bind",
@@ -737,6 +804,7 @@
       {
         "Name": "AdvancedCollectionView",
         "Type": "AdvancedCollectionViewPage",
+        "Subcategory": "Data",
         "About": "Allows you to easily sort and filter your collections before displaying them.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/AdvancedCollectionView",
         "CodeFile": "AdvancedCollectionView.bind",
@@ -746,6 +814,7 @@
       {
         "Name": "CameraHelper",
         "Type": "CameraHelperPage",
+        "Subcategory": "Systems",
         "About": "Allows to easily get camera frame sources available for media capture to preview video and get real time video frames/software bitmaps.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/CameraHelper/CameraHelper.cs",
         "CodeFile": "CameraHelperCode.bind",
@@ -756,9 +825,77 @@
       {
         "Name": "ThemeListener",
         "Type": "ThemeListenerPage",
+        "Subcategory": "Developer",
         "About": "The ThemeListener allows you to keep track of changes to the System Theme.",
         "Icon": "/Assets/Helpers.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/ThemeListener.md"
+      },
+      {
+        "Name": "RemoteDeviceHelper",
+        "Type": "RemoteDeviceHelperPage",
+        "Subcategory": "Systems",
+        "About": "Allows you to easily enumerate remote devices ( Project Rome ).",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp/Helpers/RemoteDeviceHelper/RemoteDeviceHelper.cs",
+        "CodeFile": "RemoteDeviceHelperCode.bind",
+        "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
+      },
+      {
+        "Name": "Markdown Parser",
+        "Type": "MarkdownParserPage",
+        "Subcategory": "Parser",
+        "About": "The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
+      },
+      {
+        "Name": "RSS Parser",
+        "Type": "RssParserPage",
+        "Subcategory": "Parser",
+        "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/RssParser.md"
+      },
+      {
+        "Name": "LiveTile",
+        "Type": "LiveTilePage",
+        "Subcategory": "Notifications",
+        "About": "This shows how to update a Live Tile with a rich Adaptive notification.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "LiveTileCode.bind",
+        "JavaScriptCodeFile": "LiveTileCodeJavaScript.bind",
+        "Icon": "/SamplePages/LiveTile/LiveTile.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
+      },
+      {
+        "Name": "Toast",
+        "Type": "ToastPage",
+        "Subcategory": "Notifications",
+        "About": "This shows how to send a Toast notification.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "ToastCode.bind",
+        "JavaScriptCodeFile": "ToastCodeJavaScript.bind",
+        "Icon": "/SamplePages/Toast/Toast.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
+      },
+      {
+        "Name": "WeatherLiveTileAndToast",
+        "Type": "WeatherLiveTileAndToastPage",
+        "Subcategory": "Notifications",
+        "About": "This shows how to send a Weather Live Tile and Toast notification, displaying the forecast.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Notifications",
+        "CodeFile": "WeatherLiveTileAndToastCode.bind",
+        "JavaScriptCodeFile": "WeatherLiveTileAndToastCodeJavaScript.bind",
+        "Icon": "/SamplePages/WeatherLiveTileAndToast/WeatherLiveTileAndToast.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/notifications/NotificationsOverview.md"
+      },
+      {
+        "Name": "PlatformSpecificAnalyzer",
+        "Subcategory": "Developer",
+        "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
+        "Icon": "/Assets/Helpers.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
       }
     ]
   },
@@ -947,57 +1084,6 @@
         "Icon": "/SamplePages/OnDevice/OnDevice.png",
         "XamlCodeFile": "OnDeviceXaml.bind",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
-      }
-    ]
-  },
-  {
-    "Name": "Parsers",
-    "Icon": "Icons/Helpers.png",
-    "Samples": [
-      {
-        "Name": "Markdown Parser",
-        "Type": "MarkdownParserPage",
-        "About": "The Markdown Parser allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/MarkdownParser.md"
-      },
-      {
-        "Name": "RSS Parser",
-        "Type": "RssParserPage",
-        "About": "The RSS Parser allows you to parse an RSS content String into RSS Schema.",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/parsers/RssParser.md"
-      }
-    ]
-  },
-  {
-    "Name": "Developer tools",
-    "Icon": "Icons/DeveloperTools.png",
-    "Samples": [
-      {
-        "Name": "AlignmentGrid",
-        "Type": "AlignmentGridPage",
-        "About": "AlignmentGrid is used to display a grid to help aligning controls.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/AlignmentGrid",
-        "XamlCodeFile": "AlignmentGridXaml.bind",
-        "Icon": "/SamplePages/AlignmentGrid/AlignmentGrid.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/AlignmentGrid.md"
-      },
-      {
-        "Name": "FocusTracker",
-        "Type": "FocusTrackerPage",
-        "About": "FocusTracker can be used to display information about the current focused XAML element.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.DeveloperTools/FocusTracker",
-        "XamlCodeFile": "FocusTrackerXaml.bind",
-        "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
-      },
-      {
-        "Name": "PlatformSpecificAnalyzer",
-        "About": "Platform Specific Analyzer is a Roslyn analyzer that analyzes and suggests code fixes to ensure that any version / platform specific API are guarded by correct runtime checks",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer",
-        "Icon": "/Assets/Helpers.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/platform-specific/PlatformSpecificAnalyzer.md"
       }
     ]
   },
