@@ -13,7 +13,7 @@ using Windows.Graphics.Printing;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Public class to store settings applicable to a print task
+    /// Represents options used in a print task.
     /// </summary>
     public class PrintHelperOptions
     {
@@ -73,18 +73,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         public PrintOrientation Orientation { get; set; }
 
         /// <summary>
-        /// Gets the options that will be displayed in the printing dialog
+        /// Gets the options that will be displayed in the printing dialog.
         /// </summary>
         public IList<string> DisplayedOptions { get; private set; }
 
         /// <summary>
-        /// Gets the possible display options
+        /// The possible display options.
         /// </summary>
         private IEnumerable<string> _possibleDisplayOptions;
 
         /// <summary>
         /// Gets or sets a value indicating whether the default displayed options should be kept.
-        /// Defaults to true
+        /// Defaults to <c>true</c>.
         /// </summary>
         public bool ExtendDisplayedOptions { get; set; }
 
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Adds a display option
+        /// Adds a display option.
         /// </summary>
         /// <param name="displayOption">Display option to add. Must be a part of the <see cref="StandardPrintTaskOptions"/> class</param>
         public void AddDisplayOption(string displayOption)
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
-        /// Removes a display option
+        /// Removes a display option.
         /// </summary>
         /// <param name="displayOption">Display option to add. Must be a part of the <see cref="StandardPrintTaskOptions"/> class</param>
         public void RemoveDisplayOption(string displayOption)

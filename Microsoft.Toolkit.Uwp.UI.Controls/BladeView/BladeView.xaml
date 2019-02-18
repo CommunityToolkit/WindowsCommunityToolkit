@@ -12,7 +12,7 @@
 
     <Style TargetType="controls:BladeView">
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Disabled" />
@@ -154,25 +154,26 @@
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="0"
+                                    Style="{StaticResource ButtonRevealStyle}"
+                                    BorderThickness="1"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE73F;"
                                     FontFamily="Segoe MDL2 Assets"
-                                    FontSize="12" 
+                                    FontSize="14" 
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
-                                <Button Name="CloseButton"
+                            <Button Name="CloseButton"
                                     Grid.Column="2"
                                     TabIndex="0"
                                     HorizontalAlignment="Right"
-                                    AutomationProperties.Name="Cancel"
                                     Background="{TemplateBinding CloseButtonBackground}"
-                                    BorderThickness="0"
+                                    Style="{StaticResource ButtonRevealStyle}"
+                                    BorderThickness="1"
                                     Width="32"
                                     Height="32"
                                     Content="&#xE711;"
                                     FontFamily="Segoe MDL2 Assets"
-                                    FontSize="12"
+                                    FontSize="14"
                                     Foreground="{TemplateBinding CloseButtonForeground}" />
                         </Grid>
 

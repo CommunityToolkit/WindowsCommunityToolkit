@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             // when exiting change the cursor to the target Mouse.Cursor value of the new element
             CoreCursor cursor;
-            if (e.OriginalSource is FrameworkElement newElement)
+            if (sender != e.OriginalSource && e.OriginalSource is FrameworkElement newElement)
             {
                 cursor = _cursors[GetCursor(newElement)];
             }

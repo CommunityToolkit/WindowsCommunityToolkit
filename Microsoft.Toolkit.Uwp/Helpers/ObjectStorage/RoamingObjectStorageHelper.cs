@@ -7,7 +7,7 @@ using Windows.Storage;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// Store data in the Roaming environment (shared around all user devices)
+    /// Store data in the Roaming environment (shared across all user devices).
     /// </summary>
     public class RoamingObjectStorageHelper : BaseObjectStorageHelper
     {
