@@ -282,6 +282,9 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\OnDevice\OnDevice.png" />
+    <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
+    <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
@@ -349,6 +352,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
+    <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePicker.png" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
@@ -517,14 +521,29 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
+    <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\TabView\TabViewXaml.bind">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
+      <DependentUpon>OnDevicePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml.cs">
+      <DependentUpon>RemoteDeviceHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageCropper\AspectRatioConfig.cs" />
+    <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
+      <DependentUpon>ImageCropperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
+    <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperCode.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -681,6 +700,9 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml.cs">
+      <DependentUpon>RemoteDevicePickerControlPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
       <DependentUpon>RssParserPage.xaml</DependentUpon>
     </Compile>
@@ -934,6 +956,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageCropper\ImageCropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\TabView\TabViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1081,6 +1115,10 @@
     <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RssParser\RssParserPage.xaml">
       <SubType>Designer</SubType>
@@ -1428,6 +1466,7 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
