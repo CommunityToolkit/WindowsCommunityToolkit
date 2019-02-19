@@ -3,7 +3,7 @@ Issue: #
 
 ## PR Type
 What kind of change does this PR introduce?
-<!-- Please uncomment one ore more that apply to this PR -->
+<!-- Please uncomment one or more that apply to this PR -->
 
 <!-- - Bugfix -->
 <!-- - Feature -->
