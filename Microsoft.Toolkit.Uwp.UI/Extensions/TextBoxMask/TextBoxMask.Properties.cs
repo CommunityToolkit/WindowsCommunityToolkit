@@ -29,6 +29,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null, InitTextBoxMask));
 
+        /// <summary>
+        /// Represents the character that's used to escape variables in the mask
+        /// </summary>
+        public static readonly DependencyProperty EscapeCharacterProperty =
+            DependencyProperty.RegisterAttached("EscapeCharacter", typeof(string), typeof(TextBoxMask), new PropertyMetadata("\0"));
+
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty DefaultDisplayTextProperty = DependencyProperty.RegisterAttached("DefaultDisplayText", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
@@ -93,6 +99,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static void SetCustomMask(DependencyObject obj, string value)
         {
             obj.SetValue(CustomMaskProperty, value);
+        }
+
+        /// <summary>
+        /// Gets EscapeCharacter value
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string GetEscapeCharacter(DependencyObject obj)
+        {
+            return (string)obj.GetValue(EscapeCharacterProperty);
+        }
+
+        /// <summary>
+        /// Sets EscapeCharacter property which represents the character that's used to escape variables in the mask
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="value"></param>
+        public static void SetEscapeCharacter(DependencyObject obj, string value)
+        {
+            obj.SetValue(EscapeCharacterProperty, value);
         }
     }
 }
