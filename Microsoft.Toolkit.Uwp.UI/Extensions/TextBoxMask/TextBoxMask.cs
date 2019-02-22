@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     public partial class TextBoxMask
     {
         private const string DefaultPlaceHolder = "_";
+        private const char EscapeChar = '\\';
         private static readonly KeyValuePair<char, string> AlphaCharacterRepresentation = new KeyValuePair<char, string>('a', "[A-Za-z]");
         private static readonly KeyValuePair<char, string> NumericCharacterRepresentation = new KeyValuePair<char, string>('9', "[0-9]");
         private static readonly KeyValuePair<char, string> AlphaNumericRepresentation = new KeyValuePair<char, string>('*', "[A-Za-z0-9]");
@@ -56,28 +57,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 throw new ArgumentException("PlaceHolder can't be null or empty");
             }
 
-            var escapeCharValue = textbox.GetValue(EscapeCharacterProperty) as string;
-            if (string.IsNullOrEmpty(escapeCharValue))
-            {
-                throw new ArgumentException("EscapeCharacter can't be null or empty.");
-            }
-
-            var escape = escapeCharValue[0];
-
             var escapedChars = new List<int>();
-            var builder = new StringBuilder(mask);
-            for (int i = 0; i < builder.Length - 1; i++)
+
+            string escapedMask;
+            var shouldEscapeVariables = (bool)textbox.GetValue(EscapeVariablesProperty);
+            if (shouldEscapeVariables)
             {
-                if (builder[i] == escape)
+                var builder = new StringBuilder(mask);
+                for (int i = 0; i < builder.Length - 1; i++)
                 {
-                    escapedChars.Add(i);
-                    builder.Remove(i, 1);
+                    if (builder[i] == EscapeChar)
+                    {
+                        escapedChars.Add(i);
+                        builder.Remove(i, 1);
+                    }
                 }
+                escapedMask = builder.ToString();
+            }
+            else
+            {
+                escapedMask = mask;
             }
 
-            var escapedMask = builder.ToString();
-            textbox.SetValue(MaskEscapedCharIndecesProperty, escapedChars);
-            textbox.SetValue(EscapeCharacterProperty, escapedMask);
+            textbox.SetValue(MaskEscapedCharactersProperty, escapedChars);
+            textbox.SetValue(EscapedMaskProperty, escapedMask);
 
             var placeHolder = placeHolderValue[0];
 
@@ -208,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
-            var escapedChars = textbox.GetValue(MaskEscapedCharIndecesProperty) as List<int>;
+            var escapedChars = textbox.GetValue(MaskEscapedCharactersProperty) as List<int>;
 
             // to update the textbox text without triggering TextChanging text
             int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
@@ -264,8 +267,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
             var mask = textbox.GetValue(MaskProperty) as string;
-            var escapedMask = textbox.GetValue(EscapeCharacterProperty) as string;
-            var escapedChars = textbox.GetValue(MaskEscapedCharIndecesProperty) as List<int>;
+            var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
+            var escapedChars = textbox.GetValue(MaskEscapedCharactersProperty) as List<int>;
 
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
