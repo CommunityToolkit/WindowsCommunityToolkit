@@ -56,6 +56,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 throw new ArgumentException("PlaceHolder can't be null or empty");
             }
 
+            var escapeCharValue = textbox.GetValue(EscapeCharacterProperty) as string;
+            if (string.IsNullOrEmpty(escapeCharValue))
+            {
+                throw new ArgumentException("EscapeCharacter can't be null or empty.");
+            }
+
+            var escape = escapeCharValue[0];
+
+            var escapedChars = new List<int>();
+            var builder = new StringBuilder(mask);
+            for (int i = 0; i < builder.Length - 1; i++)
+            {
+                if (builder[i] == escape)
+                {
+                    escapedChars.Add(i);
+                    builder.Remove(i, 1);
+                }
+            }
+
+            var escapedMask = builder.ToString();
+            textbox.SetValue(MaskEscapedCharIndecesProperty, escapedChars);
+            textbox.SetValue(EscapeCharacterProperty, escapedMask);
+
             var placeHolder = placeHolderValue[0];
 
             var representationDictionary = new Dictionary<char, string>();
@@ -92,27 +115,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             textbox.SetValue(RepresentationDictionaryProperty, representationDictionary);
 
-            var escape = GetEscapeChar(textbox);
-
-            var builder = new StringBuilder(mask);
-            foreach (var key in representationDictionary.Keys)
+            var displayTextBuilder = new StringBuilder(escapedMask);
+            for (int i = 0; i < displayTextBuilder.Length; i++)
             {
-                for (int i = 0; i < builder.Length; i++)
+                if (escapedChars.Contains(i))
+                    continue;
+
+                foreach (var key in representationDictionary.Keys)
                 {
-                    if (i >= 1 && builder[i - 1] == escape &&
-                       (builder[i] == escape || builder[i] == key))
+                    if (displayTextBuilder[i] == key)
                     {
-                        builder.Remove(i - 1, 1);
-                        i--;
-                    }
-                    else if (builder[i] == key)
-                    {
-                        builder[i] = placeHolder;
+                        displayTextBuilder[i] = placeHolder;
                     }
                 }
             }
 
-            var displayText = builder.ToString();
+            var displayText = displayTextBuilder.ToString();
 
             if (string.IsNullOrEmpty(textbox.Text))
             {
@@ -123,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 var textboxInitialValue = textbox.Text;
                 textbox.Text = displayText;
                 int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
-                SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolder, oldSelectionStart, escape);
+                SetTextBoxValue(textboxInitialValue, textbox, escapedMask, escapedChars, representationDictionary, placeHolder, oldSelectionStart);
             }
 
             textbox.TextChanging += Textbox_TextChanging;
@@ -138,37 +156,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Textbox_GotFocus(object sender, RoutedEventArgs e)
         {
             var textbox = (TextBox)sender;
-            textbox.GotFocus -= Textbox_GotFocus;
-
-            try
+            var mask = textbox?.GetValue(MaskProperty) as string;
+            var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
+            var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
+            if (string.IsNullOrWhiteSpace(mask) ||
+                representationDictionary == null ||
+                string.IsNullOrEmpty(placeHolderValue))
             {
-                var mask = textbox?.GetValue(MaskProperty) as string;
-                var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
-                var representationDictionary = textbox?.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
-                if (string.IsNullOrWhiteSpace(mask) ||
-                    representationDictionary == null ||
-                    string.IsNullOrEmpty(placeHolderValue))
-                {
-                    return;
-                }
-
-                var placeHolder = placeHolderValue[0];
-
-                // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
-                // if the textbox has value set the cursor to the first empty mask character
-                var textboxText = textbox.Text;
-                for (int i = 0; i < textboxText.Length; i++)
-                {
-                    if (placeHolder == textboxText[i])
-                    {
-                        textbox.SelectionStart = i;
-                        break;
-                    }
-                }
+                return;
             }
-            finally
+
+            var placeHolder = placeHolderValue[0];
+
+            // if the textbox got focus and the textbox is empty (contains only mask) set the textbox cursor at the beginning to simulate normal TextBox behavior if it is empty.
+            // if the textbox has value set the cursor to the first empty mask character
+            var textboxText = textbox.Text;
+            for (int i = 0; i < textboxText.Length; i++)
             {
-                textbox.GotFocus += Textbox_GotFocus;
+                if (placeHolder == textboxText[i])
+                {
+                    textbox.SelectionStart = i;
+                    break;
+                }
             }
         }
 
@@ -198,12 +207,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 return;
             }
 
-            var escape = GetEscapeChar(textbox);
+            var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
+            var escapedChars = textbox.GetValue(MaskEscapedCharIndecesProperty) as List<int>;
 
             // to update the textbox text without triggering TextChanging text
             int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             textbox.TextChanging -= Textbox_TextChanging;
-            SetTextBoxValue(pasteText, textbox, mask, representationDictionary, placeHolderValue[0], oldSelectionStart, escape);
+            SetTextBoxValue(pasteText, textbox, escapedMask, escapedChars, representationDictionary, placeHolderValue[0], oldSelectionStart);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.TextChanging += Textbox_TextChanging;
         }
@@ -212,29 +222,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             string newValue,
             TextBox textbox,
             string mask,
+            List<int> escapedChars,
             Dictionary<char, string> representationDictionary,
             char placeholder,
-            int oldSelectionStart,
-            char escape)
+            int oldSelectionStart)
         {
-            int slashes = 0;
-            for (int i = 0; i < mask.Length; i++)
-            {
-                if (mask[i] == escape)
-                    slashes++;
-            }
-
-            var maxLength = (newValue.Length + oldSelectionStart) < mask.Length - slashes ? (newValue.Length + oldSelectionStart) : mask.Length - slashes;
+            var maxLength = (newValue.Length + oldSelectionStart) < mask.Length ? (newValue.Length + oldSelectionStart) : mask.Length;
             var textArray = textbox.Text.ToCharArray();
 
             for (int i = oldSelectionStart; i < maxLength; i++)
             {
-                var mi = GetMaskIndex(i, mask, escape);
-                var maskChar = mask[mi];// mask[i];
+                var maskChar = mask[i];
                 var selectedChar = newValue[i - oldSelectionStart];
 
                 // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar) && (mi == 0 || mask[mi - 1] != escape))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                 {
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
@@ -262,12 +264,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static void Textbox_TextChanging(TextBox textbox, TextBoxTextChangingEventArgs args)
         {
             var mask = textbox.GetValue(MaskProperty) as string;
+            var escapedMask = textbox.GetValue(EscapeCharacterProperty) as string;
+            var escapedChars = textbox.GetValue(MaskEscapedCharIndecesProperty) as List<int>;
+
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
             var oldText = textbox.GetValue(OldTextProperty) as string;
             var oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
             var oldSelectionLength = (int)textbox.GetValue(OldSelectionLengthProperty);
-            if (string.IsNullOrWhiteSpace(mask) ||
+            if (string.IsNullOrWhiteSpace(escapedMask) ||
                 representationDictionary == null ||
                 string.IsNullOrEmpty(placeHolderValue) ||
                 oldText == null)
@@ -318,8 +323,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // for handling single key click add +1 to match length for selection = 1
             var singleOrMultiSelectionIndex = oldSelectionLength == 0 ? oldSelectionLength + 1 : oldSelectionLength;
 
-            var escape = GetEscapeChar(textbox);
-
             // Case change due to Text property is assigned a value (Ex Textbox.Text="value")
             if (textbox.SelectionStart == 0 && textbox.FocusState == FocusState.Unfocused)
             {
@@ -332,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 {
                     var textboxInitialValue = textbox.Text;
                     textbox.Text = displayText;
-                    SetTextBoxValue(textboxInitialValue, textbox, mask, representationDictionary, placeHolderValue[0], 0, escape);
+                    SetTextBoxValue(textboxInitialValue, textbox, escapedMask, escapedChars, representationDictionary, placeHolderValue[0], 0);
                     textbox.SetValue(OldTextProperty, textbox.Text);
                     return;
                 }
@@ -345,13 +348,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                                     textbox.Text[textbox.SelectionStart - 1] :
                                     placeHolder;
 
-                // Re-Align the mask index ina
-                var mi = GetMaskIndex(textbox.SelectionStart - 1, mask, escape);
-
-                var maskChar = mask[mi];
+                var maskChar = escapedMask[newSelectionIndex];
 
                 // If dynamic character a,9,* or custom
-                if (representationDictionary.ContainsKey(maskChar) && (mi == 0 || mask[mi - 1] != escape))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(newSelectionIndex))
                 {
                     var pattern = representationDictionary[maskChar];
                     if (Regex.IsMatch(selectedChar.ToString(), pattern))
@@ -395,11 +395,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     i < (oldSelectionStart - deleteBackspaceIndex + singleOrMultiSelectionIndex);
                     i++)
                 {
-                    var mi = GetMaskIndex(i, mask, escape);
-                    var maskChar = mask[mi];
+                    var maskChar = escapedMask[i];
 
                     // If dynamic character a,9,* or custom
-                    if (representationDictionary.ContainsKey(maskChar) && (i == 0 || mask[mi - 1] != escape))
+                    if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                     {
                         textArray[i] = placeHolder;
                     }
@@ -414,60 +413,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
-            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(mask, newSelectionIndex, representationDictionary, escape);
+            textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(escapedMask, escapedChars, newSelectionIndex, representationDictionary);
         }
 
-        private static int GetSelectionStart(string mask, int selectionIndex, Dictionary<char, string> representationDictionary, char escape)
+        private static int GetSelectionStart(string mask, List<int> escapedChars, int selectionIndex, Dictionary<char, string> representationDictionary)
         {
-            var index = selectionIndex;
-            var slashes = 0;
-            for (int i = 0; i < selectionIndex; i++)
-            {
-                if (mask[i] == escape)
-                    slashes++;
-            }
-
-            for (int i = selectionIndex + slashes; i < mask.Length; i++)
+            for (int i = selectionIndex; i < mask.Length; i++)
             {
                 var maskChar = mask[i];
 
                 // If dynamic character a,9,* or custom
-                if ((i == 0 || mask[i - 1] != escape) && representationDictionary.ContainsKey(maskChar))
+                if (representationDictionary.ContainsKey(maskChar) && !escapedChars.Contains(i))
                 {
-                    return index;
+                    return i;
                 }
-                else if (mask[i] == escape)
-                {
-                    index--;
-                }
-
-                index++;
             }
 
             return selectionIndex;
-        }
-
-        private static char GetEscapeChar(TextBox textBox)
-        {
-            var escapeCharValue = textBox.GetValue(EscapeCharacterProperty) as string;
-            if (string.IsNullOrEmpty(escapeCharValue))
-            {
-                throw new ArgumentException("EscapeCharacter can't be null or empty.");
-            }
-
-            return escapeCharValue[0];
-        }
-
-        private static int GetMaskIndex(int index, string mask, char escape)
-        {
-            int slashes = 0;
-            for (int i = 0; i <= index + slashes && i < mask.Length; i++)
-            {
-                if (mask[i] == escape)
-                    slashes++;
-            }
-
-            return Math.Min(mask.Length - 1, index + slashes);
         }
     }
 }

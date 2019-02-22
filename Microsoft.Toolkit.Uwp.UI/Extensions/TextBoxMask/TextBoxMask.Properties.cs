@@ -41,6 +41,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static readonly DependencyProperty OldSelectionLengthProperty = DependencyProperty.RegisterAttached("OldSelectionLength", typeof(int), typeof(TextBoxMask), new PropertyMetadata(0));
         private static readonly DependencyProperty OldSelectionStartProperty = DependencyProperty.RegisterAttached("OldSelectionStart", typeof(int), typeof(TextBoxMask), new PropertyMetadata(0));
 
+        private static readonly DependencyProperty EscapedMaskProperty = DependencyProperty.RegisterAttached("EscapedMask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
+        private static readonly DependencyProperty MaskEscapedCharIndecesProperty = DependencyProperty.RegisterAttached("MaskEscapedCharIndeces", typeof(List<int>), typeof(TextBoxMask), new PropertyMetadata(null));
+
         /// <summary>
         /// Gets mask value
         /// </summary>
