@@ -412,8 +412,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                 }
             }
 
-            var text = new string(textArray);
-            textbox.Text = text;
+            textbox.Text = new string(textArray);
             textbox.SetValue(OldTextProperty, textbox.Text);
             textbox.SelectionStart = isDeleteOrBackspace ? newSelectionIndex : GetSelectionStart(mask, newSelectionIndex, representationDictionary, escape);
         }
