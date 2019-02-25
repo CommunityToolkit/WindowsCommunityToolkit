@@ -123,9 +123,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 var child = Children[i];
                 var elementSize = child.DesiredSize;
-                
                 HorizontalAlignment childHorizontalAlignment = HorizontalAlignment.Left;
-                if(child is ContentControl contentControl)
+                if (child is ContentControl contentControl)
                 {
                     childHorizontalAlignment = contentControl.HorizontalContentAlignment;
                 }
@@ -140,11 +139,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 
                 double finalHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex);
-                if(childHorizontalAlignment == HorizontalAlignment.Right)
+                if (childHorizontalAlignment == HorizontalAlignment.Right)
                 {
                     finalHorizontalOffset += _columnWidth - elementSize.Width;
                 }
-                else if(childHorizontalAlignment == HorizontalAlignment.Center)
+                else if (childHorizontalAlignment == HorizontalAlignment.Center)
                 {
                     finalHorizontalOffset += (_columnWidth - elementSize.Width) / 2;
                 }
