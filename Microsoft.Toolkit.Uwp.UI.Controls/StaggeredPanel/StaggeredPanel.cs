@@ -124,32 +124,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var child = Children[i];
                 var elementSize = child.DesiredSize;
 
-                HorizontalAlignment childHorizontalAlignment = HorizontalAlignment.Left;
-                if (child is ContentControl contentControl)
-                {
-                    childHorizontalAlignment = contentControl.HorizontalContentAlignment;
-                }
-
-                double elementWidth = childHorizontalAlignment == HorizontalAlignment.Stretch ? _columnWidth : elementSize.Width;
                 double elementHeight = elementSize.Height;
-                if (elementWidth > _columnWidth)
-                {
-                    double differencePercentage = _columnWidth / elementWidth;
-                    elementHeight = elementHeight * differencePercentage;
-                    elementWidth = _columnWidth;
-                }
 
-                double finalHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex);
-                if (childHorizontalAlignment == HorizontalAlignment.Right)
-                {
-                    finalHorizontalOffset += _columnWidth - elementSize.Width;
-                }
-                else if (childHorizontalAlignment == HorizontalAlignment.Center)
-                {
-                    finalHorizontalOffset += (_columnWidth - elementSize.Width) / 2;
-                }
-
-                Rect bounds = new Rect(finalHorizontalOffset, columnHeights[columnIndex] + verticalOffset, elementWidth, elementHeight);
+                Rect bounds = new Rect(horizontalOffset + (_columnWidth * columnIndex), columnHeights[columnIndex] + verticalOffset, _columnWidth, elementHeight);
                 child.Arrange(bounds);
 
                 columnHeights[columnIndex] += elementSize.Height;
