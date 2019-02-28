@@ -17,6 +17,7 @@ GazeCursor::GazeCursor()
     _gazeCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
     _gazeCursor->Width = 2 * CursorRadius;
     _gazeCursor->Height = 2 * CursorRadius;
+	_gazeCursor->Margin = Thickness(-CursorRadius, -CursorRadius, 0, 0);
     _gazeCursor->IsHitTestVisible = false;
 
     _gazePopup->Child = _gazeCursor;
@@ -27,6 +28,7 @@ void GazeCursor::CursorRadius::set(int value)
     _cursorRadius = value;
     _gazeCursor->Width = 2 * _cursorRadius;
     _gazeCursor->Height = 2 * _cursorRadius;
+	_gazeCursor->Margin = Thickness(-_cursorRadius, -_cursorRadius, 0, 0);
 }
 
 void GazeCursor::IsCursorVisible::set(bool value)

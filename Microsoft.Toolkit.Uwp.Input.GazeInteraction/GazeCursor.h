@@ -46,8 +46,8 @@ public:
         void set(Point value)
         {
             _cursorPosition = value;
-            _gazePopup->HorizontalOffset = value.X - CursorRadius;
-            _gazePopup->VerticalOffset = value.Y - CursorRadius;
+            _gazePopup->HorizontalOffset = value.X;
+            _gazePopup->VerticalOffset = value.Y;
             SetVisibility();
         }
     }
