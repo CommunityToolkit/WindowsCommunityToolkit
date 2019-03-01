@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Opened?.Invoke(this, EventArgs.Empty);
             SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
             peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-            if (Content != null && Content.GetType() == typeof(string))
+            if (Content?.GetType() == typeof(string))
             {
                 AutomateTextNotification(Content.ToString());
             }
