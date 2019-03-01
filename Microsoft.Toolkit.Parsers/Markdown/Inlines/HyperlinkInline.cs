@@ -136,6 +136,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             // The URL must have at least one character after the http:// and at least one dot.
             int pos = tripPos + 3;
+            if (pos > maxEnd)
+            {
+                return null;
+            }
+
             int dotIndex = markdown.IndexOf('.', pos, maxEnd - pos);
             if (dotIndex == -1 || dotIndex == pos)
             {
