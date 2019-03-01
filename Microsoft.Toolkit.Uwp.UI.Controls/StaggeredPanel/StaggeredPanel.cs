@@ -109,22 +109,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
-            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
-            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
+            double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
+            double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
-            _columnWidth = Math.Min(DesiredColumnWidth, availableSize.Width);
-            int numColumns = (int)Math.Floor(availableSize.Width / _columnWidth);
+            _columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            int numColumns = (int)Math.Floor(availableWidth / _columnWidth);
 
             // adjust for column spacing on all columns expect the first
             double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
-            if (totalWidth > availableSize.Width)
+            if (totalWidth > availableWidth)
             {
                 numColumns--;
             }
 
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
             {
-                double availableWidth = availableSize.Width - ((numColumns - 1) * ColumnSpacing);
+                availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
                 _columnWidth = availableWidth / numColumns;
             }
 
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var columnIndex = GetColumnIndex(columnHeights);
 
                 var child = Children[i];
-                child.Measure(new Size(_columnWidth, availableSize.Height));
+                child.Measure(new Size(_columnWidth, availableHeight));
                 var elementSize = child.DesiredSize;
                 columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
                 itemsPerColumn[columnIndex]++;
@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             double desiredHeight = columnHeights.Max();
 
-            return new Size(availableSize.Width, desiredHeight);
+            return new Size(availableWidth, desiredHeight);
         }
 
         /// <inheritdoc/>
