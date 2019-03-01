@@ -117,7 +117,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
-            var uIndex = 0;
 
             foreach (var child in Children)
             {
@@ -128,22 +127,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     continue; // ignore collapsed items
                 }
 
-                // If this is the first item, do not add spacing. Spacing is added to the "left"
+                // if this is the first item, do not add spacing. Spacing is added to the "left"
                 double uChange = lineMeasure.U == 0
-                    ? currentMeasure.U 
+                    ? currentMeasure.U
                     : currentMeasure.U + spacingMeasure.U;
-                if (parentMeasure.U >=uChange + lineMeasure.U)
+                if (parentMeasure.U >= uChange + lineMeasure.U)
                 {
                     lineMeasure.U += uChange;
-                    lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
-                }
-                {
-                    lineMeasure.U += currentMeasure.U;
-                    if (uIndex++ != 0)
-                    {
-                        lineMeasure.U += spacingMeasure.U; // only add the spacing after the first element on any row/column
-                    }
-
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -169,7 +159,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         // add new empty line
                         lineMeasure = UvMeasure.Zero;
-                        uIndex = 0;
                     }
                 }
             }
