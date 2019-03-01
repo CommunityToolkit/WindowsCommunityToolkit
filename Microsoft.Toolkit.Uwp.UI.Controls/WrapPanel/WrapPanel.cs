@@ -123,12 +123,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 child.Measure(availableSize);
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (currentMeasure.U < 0.1) continue; // ignore collapsed items
+                if (currentMeasure.U < 0.1)
+                {
+                    continue; // ignore collapsed items
+                }
 
                 if (parentMeasure.U >= (uIndex == 0 ? currentMeasure.U : currentMeasure.U + lineMeasure.U + spacingMeasure.U))
                 {
                     lineMeasure.U += currentMeasure.U;
-                    if (uIndex++ != 0) lineMeasure.U += spacingMeasure.U;
+                    if (uIndex++ != 0)
+                    {
+                        lineMeasure.U += spacingMeasure.U; // only add the spacing after the first element on any row/column
+                    }
+
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -185,7 +192,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (desiredMeasure.U < 0.1) continue; // if an item is collapsed, avoid adding the spacing
+                if (desiredMeasure.U < 0.1)
+                {
+                    continue; // if an item is collapsed, avoid adding the spacing
+                }
+
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
