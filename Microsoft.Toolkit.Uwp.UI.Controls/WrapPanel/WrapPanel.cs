@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 child.Measure(availableSize);
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (currentMeasure.U < 0.1)
+                if (currentMeasure.U == 0)
                 {
                     continue; // ignore collapsed items
                 }
@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (desiredMeasure.U < 0.1)
+                if (desiredMeasure.U == 0)
                 {
                     continue; // if an item is collapsed, avoid adding the spacing
                 }
