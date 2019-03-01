@@ -128,7 +128,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     continue; // ignore collapsed items
                 }
 
-                if (parentMeasure.U >= (uIndex == 0 ? currentMeasure.U : currentMeasure.U + lineMeasure.U + spacingMeasure.U))
+                // If this is the first item, do not add spacing. Spacing is added to the "left"
+                double uChange = lineMeasure.U == 0
+                    ? currentMeasure.U 
+                    : currentMeasure.U + spacingMeasure.U;
+                if (parentMeasure.U >=uChange + lineMeasure.U)
+                {
+                    lineMeasure.U += uChange;
+                    lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
+                }
                 {
                     lineMeasure.U += currentMeasure.U;
                     if (uIndex++ != 0)
