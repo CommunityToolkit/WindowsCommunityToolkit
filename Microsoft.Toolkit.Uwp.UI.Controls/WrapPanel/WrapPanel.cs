@@ -117,16 +117,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
+            var uIndex = 0;
 
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
-
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                if (currentMeasure.U < 0.1) continue; // ignore collapsed items
 
-                if (parentMeasure.U >= currentMeasure.U + lineMeasure.U + spacingMeasure.U)
+                if (parentMeasure.U >= (uIndex == 0 ? currentMeasure.U : currentMeasure.U + lineMeasure.U + spacingMeasure.U))
                 {
-                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
+                    lineMeasure.U += currentMeasure.U;
+                    if (uIndex++ != 0) lineMeasure.U += spacingMeasure.U;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -152,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         // add new empty line
                         lineMeasure = UvMeasure.Zero;
+                        uIndex = 0;
                     }
                 }
             }
@@ -182,6 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                if (desiredMeasure.U < 0.1) continue; // if an item is collapsed, avoid adding the spacing
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
@@ -190,7 +194,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentV = 0;
                 }
 
-                // Place the item
+                // place the item
                 if (Orientation == Orientation.Horizontal)
                 {
                     child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));
