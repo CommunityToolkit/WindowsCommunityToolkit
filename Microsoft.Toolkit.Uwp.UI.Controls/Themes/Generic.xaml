@@ -30,5 +30,6 @@
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/TabView/TabView.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/ImageCropper/ImageCropperThumb.xaml" />
         <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/ImageCropper/ImageCropper.xaml" />
+        <ResourceDictionary Source="ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/Eyedropper/Eyedropper.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
