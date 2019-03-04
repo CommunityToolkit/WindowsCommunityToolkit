@@ -5,7 +5,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Provides event data for the ColorChanged event.
     /// </summary>
-    public sealed class ColorChangedEventArgs
+    public sealed class EyedropperColorChangedEventArgs
     {
         /// <summary>
         /// Gets the color that is currently selected in the control.

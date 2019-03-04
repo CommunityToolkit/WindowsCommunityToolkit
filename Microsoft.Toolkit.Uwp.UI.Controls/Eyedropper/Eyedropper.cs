@@ -62,18 +62,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Occurs when the Color property has changed.
         /// </summary>
-        public event TypedEventHandler<Eyedropper, ColorChangedEventArgs> ColorChanged;
-
-        /// <summary>
-        /// Occurs when the eyedropper stops to take color.
-        /// </summary>
-        public event TypedEventHandler<Eyedropper, EventArgs> PickCompleted;
+        public event TypedEventHandler<Eyedropper, EyedropperColorChangedEventArgs> ColorChanged;
 
         /// <summary>
         /// Occurs when the eyedropper begins to take color.
         /// </summary>
         public event TypedEventHandler<Eyedropper, EventArgs> PickStarted;
 
+        /// <summary>
+        /// Occurs when the eyedropper stops to take color.
+        /// </summary>
+        public event TypedEventHandler<Eyedropper, EventArgs> PickCompleted;
+        
         /// <summary>
         /// Open the eyedropper.
         /// </summary>

@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the current color value.
+        /// Gets the enlarged pixelated preview image.
         /// </summary>
         public ImageSource Preview
         {
@@ -47,19 +47,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets the working area of the eyedropper.
+        /// Gets or sets the working area of the eyedropper.
         /// </summary>
         public Rect WorkArea
         {
             get => (Rect)GetValue(WorkAreaProperty);
-            private set => SetValue(WorkAreaProperty, value);
+            set => SetValue(WorkAreaProperty, value);
         }
 
         private static void OnColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is Eyedropper eyedropper)
             {
-                eyedropper.ColorChanged?.Invoke(eyedropper, new ColorChangedEventArgs { OldColor = (Color)e.OldValue, NewColor = (Color)e.NewValue });
+                eyedropper.ColorChanged?.Invoke(eyedropper, new EyedropperColorChangedEventArgs { OldColor = (Color)e.OldValue, NewColor = (Color)e.NewValue });
             }
         }
 
