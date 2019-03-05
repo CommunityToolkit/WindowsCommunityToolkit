@@ -19,6 +19,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Eyedropper : Control
     {
+        private const string TouchState = "Touch";
+        private const string MousePenState = "MousePen";
+
         private const int PreviewPixelsPerRawPixel = 10;
         private const int PixelCountPerRow = 11;
         private static readonly CoreCursor DefaultCursor = new CoreCursor(CoreCursorType.Arrow, 1);
@@ -73,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when the eyedropper stops to take color.
         /// </summary>
         public event TypedEventHandler<Eyedropper, EventArgs> PickCompleted;
-        
+
         /// <summary>
         /// Open the eyedropper.
         /// </summary>
@@ -200,6 +203,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             await UpdateAppScreenshotAsync();
             var point = e.GetCurrentPoint(_rootGrid);
             UpdateEyedropper(point.Position);
+
+            if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
+            {
+                VisualStateManager.GoToState(this, TouchState, false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, MousePenState, false);
+            }
 
             if (Opacity < 1)
             {

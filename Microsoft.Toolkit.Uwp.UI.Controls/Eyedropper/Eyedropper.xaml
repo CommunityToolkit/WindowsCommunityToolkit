@@ -15,11 +15,14 @@
                         <Grid Padding="5">
                             <Grid.RowDefinitions>
                                 <RowDefinition />
+                                <RowDefinition Height="5" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Grid Width="100"
+                            <Grid x:Name="imageGrid"
+                                  Grid.Row="0"
+                                  Width="100"
                                   Height="100"
-                                  Margin="0,0,0,5">
+                                  Margin="0">
                                 <Image Source="{TemplateBinding Preview}" />
                                 <Grid>
                                     <Grid.RowDefinitions>
@@ -38,7 +41,8 @@
                                                StrokeThickness="1" />
                                 </Grid>
                             </Grid>
-                            <Grid Grid.Row="1">
+                            <Grid x:Name="colorGrid"
+                                  Grid.Row="2">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition />
@@ -58,6 +62,22 @@
                                            Text="{Binding Color, RelativeSource={RelativeSource Mode=TemplatedParent}, Mode=OneWay}" />
                             </Grid>
                         </Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup>
+                                <VisualState x:Name="MousePen">
+                                    <VisualState.Setters>
+                                        <Setter Target="imageGrid.(Grid.Row)" Value="0" />
+                                        <Setter Target="colorGrid.(Grid.Row)" Value="2" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="Touch">
+                                    <VisualState.Setters>
+                                        <Setter Target="imageGrid.(Grid.Row)" Value="2" />
+                                        <Setter Target="colorGrid.(Grid.Row)" Value="0" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
