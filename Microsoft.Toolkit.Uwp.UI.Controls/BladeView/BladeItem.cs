@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -66,6 +68,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = _normalModeWidth;
                 VisualStateManager.GoToState(this, "Expanded", true);
+                var name = StringExtensions.GetLocalized("WindowsCommunityToolkit_BladeView_ExpandButton_Collapsed", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                if (_enlargeButton != null)
+                {
+                    AutomationProperties.SetName(_enlargeButton, name);
+                }
             }
         }
 
@@ -77,6 +84,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Width = double.NaN;
                 VisualStateManager.GoToState(this, "Collapsed", true);
+                var name = StringExtensions.GetLocalized("WindowsCommunityToolkit_BladeView_ExpandButton_Expanded", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                if (_enlargeButton != null)
+                {
+                    AutomationProperties.SetName(_enlargeButton, name);
+                }
             }
         }
 

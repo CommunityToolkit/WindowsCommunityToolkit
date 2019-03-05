@@ -62,6 +62,15 @@ public:
         void raise(Object^ sender, GazeEventArgs^ e);
     }
 
+	/// <summary>
+	/// The UIElement representing the cursor.
+	/// </summary>
+	property UIElement^ CursorElement
+	{
+		UIElement^ get() { return _gazeCursor->PopupChild; }
+		void set(UIElement^ value) { _gazeCursor->PopupChild = value; }
+	}
+
 private:
 
     event EventHandler<GazeEventArgs^>^ _gazeEvent;

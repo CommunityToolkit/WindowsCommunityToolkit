@@ -21,13 +21,27 @@
   </ItemGroup>
  
   <ItemGroup>
-    <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
-      <SubType>Designer</SubType>
+    <Page Update="ImageCropper\ImageCropper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ImageCropper\ImageCropperThumb.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+   
+  <ItemGroup>
+     <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
   
+
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">
