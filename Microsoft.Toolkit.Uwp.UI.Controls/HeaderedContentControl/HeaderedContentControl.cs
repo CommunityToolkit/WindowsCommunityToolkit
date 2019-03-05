@@ -119,15 +119,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (GetTemplateChild(PartHeaderPresenter) is FrameworkElement headerPresenter)
             {
-                var isEmptyString = false;
                 if (Header is string headerText)
                 {
-                    isEmptyString = string.IsNullOrEmpty(headerText);
+                    headerPresenter.Visibility = string.IsNullOrEmpty(headerText)
+                        ? Visibility.Collapsed
+                        : Visibility.Visible;
                 }
-
-                headerPresenter.Visibility = (Header != null && isEmptyString == false)
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
+                else
+                {
+                    headerPresenter.Visibility = Header != null
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                }
             }
         }
     }
