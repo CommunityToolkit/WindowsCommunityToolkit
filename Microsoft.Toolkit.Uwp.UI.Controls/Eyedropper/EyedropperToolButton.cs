@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Click += EyedropperToolButton_Click;
             Unloaded += EyedropperToolButton_Unloaded;
+            ActualThemeChanged += EyedropperToolButton_ActualThemeChanged;
             Window.Current.SizeChanged += Current_SizeChanged;
             _eyedropper.ColorChanged += Eyedropper_ColorChanged;
             _eyedropper.PickStarted += Eyedropper_PickStarted;
@@ -67,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             Click -= EyedropperToolButton_Click;
             Unloaded -= EyedropperToolButton_Unloaded;
+            ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
             Window.Current.SizeChanged -= Current_SizeChanged;
             _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
             _eyedropper.PickStarted -= Eyedropper_PickStarted;
@@ -90,6 +92,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void EyedropperToolButton_Unloaded(object sender, RoutedEventArgs e)
         {
             UnhookEvents();
+        }
+
+        private void EyedropperToolButton_ActualThemeChanged(FrameworkElement sender, object args)
+        {
+            _eyedropper.RequestedTheme = this.ActualTheme;
         }
 
         /// <inheritdoc />
