@@ -47,6 +47,8 @@
             <MenuFlyoutSeparator />
             <MenuFlyoutItem x:Name="heightLow" Text="Height &lt; 8000ft" />
             <MenuFlyoutItem x:Name="heightHigh" Text="Height &gt; 8000ft" />
+            <MenuFlyoutSeparator />
+            <MenuFlyoutItem x:Name="clearFilter" Text="Remove Filter" />
           </MenuFlyout>
         </AppBarButton.Flyout>
       </AppBarButton>

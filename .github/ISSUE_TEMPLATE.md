@@ -3,6 +3,10 @@ PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATI
 ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
+
+<!-- For WPF or WinForms controls, please file an issue instead at https://github.com/windows-toolkit/Microsoft.Toolkit.Win32/issues/new -->
+
+
 ## I'm submitting a...
 <!-- Please uncomment one or more that apply to this issue -->
 <!-- For new features, create a UserVoice request here and link below: https://wpdev.uservoice.com/forums/110705-universal-windows-platform/category/193402-uwp-community-toolkit -->

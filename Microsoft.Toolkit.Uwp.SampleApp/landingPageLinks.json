@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "WindowsXamlHost", "TabView", "Weibo Service", "InkCanvas", "WebViewCompatible" ],
+  "new-samples": [ "Lottie", "RemoteDevicePicker", "RemoteDeviceHelper", "ImageCropper", "OnDevice" ],
   "resources": [
     {
       "title": "Toolkit",
