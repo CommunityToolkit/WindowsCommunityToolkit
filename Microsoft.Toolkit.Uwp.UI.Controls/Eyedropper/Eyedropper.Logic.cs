@@ -71,8 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var width = right - left + 1;
             var height = bottom - top + 1;
             var colors = _appScreenshot.GetPixelColors(left, top, width, height);
-
-
             var colorStartX = left - (centerX - halfPixelCountPerRow);
             var colorStartY = top - (centerY - halfPixelCountPerRow);
             var colorEndX = colorStartX + width;
