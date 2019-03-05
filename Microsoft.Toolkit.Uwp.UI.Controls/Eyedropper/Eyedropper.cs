@@ -58,9 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Child = _rootGrid
             };
             RenderTransform = _layoutTransform;
-            HorizontalAlignment = HorizontalAlignment.Left;
-            VerticalAlignment = VerticalAlignment.Top;
-            IsHitTestVisible = false;
             _previewImageSource = new CanvasImageSource(_device, PreviewPixelsPerRawPixel * PixelCountPerRow, PreviewPixelsPerRawPixel * PixelCountPerRow, 96f);
             Preview = _previewImageSource;
             Loaded += Eyedropper_Loaded;
