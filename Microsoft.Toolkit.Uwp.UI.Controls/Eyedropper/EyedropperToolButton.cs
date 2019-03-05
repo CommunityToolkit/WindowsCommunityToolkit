@@ -31,11 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(EyedropperToolButton);
             RegisterPropertyChangedCallback(IsEnabledProperty, OnIsEnabledChanged);
             _eyedropper = new Eyedropper();
-            _eyedropper.ColorChanged += Eyedropper_ColorChanged;
-            _eyedropper.PickStarted += Eyedropper_PickStarted;
-            _eyedropper.PickCompleted += Eyedropper_PickCompleted;
-            Click += EyedropperToolButton_Click;
-            Window.Current.SizeChanged += Current_SizeChanged;
+            this.Loaded += EyedropperToolButton_Loaded;
         }
 
         /// <summary>
@@ -52,6 +48,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Occurs when the eyedropper stops to take color.
         /// </summary>
         public event TypedEventHandler<EyedropperToolButton, EventArgs> PickCompleted;
+
+        private void HookUpEvents()
+        {
+            Click += EyedropperToolButton_Click;
+            Unloaded += EyedropperToolButton_Unloaded;
+            Window.Current.SizeChanged += Current_SizeChanged;
+            _eyedropper.ColorChanged += Eyedropper_ColorChanged;
+            _eyedropper.PickStarted += Eyedropper_PickStarted;
+            _eyedropper.PickCompleted += Eyedropper_PickCompleted;
+        }
+
+        private void UnhookEvents()
+        {
+            Click -= EyedropperToolButton_Click;
+            Unloaded -= EyedropperToolButton_Unloaded;
+            Window.Current.SizeChanged -= Current_SizeChanged;
+            _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
+            _eyedropper.PickStarted -= Eyedropper_PickStarted;
+            _eyedropper.PickCompleted -= Eyedropper_PickCompleted;
+            if (Target != null)
+            {
+                Target = null;
+            }
+
+            if (EyedropperEnabled)
+            {
+                EyedropperEnabled = false;
+            }
+        }
+
+        private void EyedropperToolButton_Loaded(object sender, RoutedEventArgs e)
+        {
+            HookUpEvents();
+        }
+
+        private void EyedropperToolButton_Unloaded(object sender, RoutedEventArgs e)
+        {
+            UnhookEvents();
+        }
 
         /// <inheritdoc />
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
@@ -77,6 +112,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void Eyedropper_PickStarted(Eyedropper sender, EventArgs args)
         {
             PickStarted?.Invoke(this, args);
+        }
+
+        private void Eyedropper_PickCompleted(Eyedropper sender, EventArgs args)
+        {
+            EyedropperEnabled = false;
+            PickCompleted?.Invoke(this, args);
         }
 
         private void Eyedropper_ColorChanged(Eyedropper sender, EyedropperColorChangedEventArgs args)
@@ -126,12 +167,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var position = transform.TransformPoint(default(Point));
                 _eyedropper.WorkArea = new Rect(position, new Size(Target.ActualWidth, Target.ActualHeight));
             }
-        }
-
-        private void Eyedropper_PickCompleted(Eyedropper sender, EventArgs args)
-        {
-            EyedropperEnabled = false;
-            PickCompleted?.Invoke(this, args);
         }
     }
 }
