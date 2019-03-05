@@ -45,6 +45,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 | Microsoft.Toolkit.Uwp.UI.Animations | Animations and Composition behaviors such as Blur, Fade, Rotate, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls | XAML Controls such as RadialGauge, RangeSelector, etc. |
 | Microsoft.Toolkit.Uwp.UI.Controls.DataGrid | XAML DataGrid control |
+| Microsoft.Toolkit.Uwp.UI.Lottie | Library for rendering Adobe AfterEffects animations natively in Windows apps |
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
@@ -65,6 +66,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 * [FadeHeader](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/FadeHeader/)
 * [Implicit Animations](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ImplicitAnimations/)
 * [Light](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Light/)
+* [Lottie](https://aka.ms/lottiedocs)
 * [Offset](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Offset/)
 * [ReorderGrid](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/ReorderGrid/)
 * [Rotate](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Rotate/)
@@ -92,6 +94,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 * [HeaderedContentControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedContentControl/)
 * [HeaderedItemsControl](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedItemsControl/)
 * [HeaderedTextBlock](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/HeaderedTextBlock/)
+* [ImageCropper](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageCropper/)
 * [ImageEx](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/ImageEx/)
 * [InAppNotification](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InAppNotification/)
 * [InfiniteCanvas](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/InfiniteCanvas/)
