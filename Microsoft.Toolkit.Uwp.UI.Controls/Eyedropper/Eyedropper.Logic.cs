@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private async Task UpdateAppScreenshotAsync()
+        internal async Task UpdateAppScreenshotAsync()
         {
             var renderTarget = new RenderTargetBitmap();
             var diaplayInfo = DisplayInformation.GetForCurrentView();

@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private readonly Grid _targetGrid;
         private CanvasBitmap _appScreenshot;
         private Action _lazyTask;
-        private uint _pointerId;
+        private uint? _pointerId = null;
         private TaskCompletionSource<Color> _taskSource;
 
         /// <summary>
@@ -162,6 +162,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void TargetGrid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             Window.Current.CoreWindow.PointerCursor = DefaultCursor;
+            if (_pointerId != null)
+            {
+                _pointerId = null;
+                Opacity = 0;
+            }
         }
 
         private void TargetGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
@@ -182,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var point = e.GetCurrentPoint(_rootGrid);
                 UpdateEyedropper(point.Position);
                 PickCompleted?.Invoke(this, EventArgs.Empty);
-                _pointerId = 0;
+                _pointerId = null;
                 if (!_taskSource.Task.IsCanceled)
                 {
                     _taskSource.SetResult(Color);
@@ -237,15 +242,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Window.Current.CoreWindow.PointerCursor = DefaultCursor;
         }
 
-        private async void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             if (_rootGrid != null)
             {
                 _rootGrid.Width = Window.Current.Bounds.Width;
                 _rootGrid.Height = Window.Current.Bounds.Height;
             }
-
-            await UpdateAppScreenshotAsync();
         }
     }
 }

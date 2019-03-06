@@ -170,13 +170,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpadateEyedropperWorkArea();
         }
 
-        private void UpadateEyedropperWorkArea()
+        private async void UpadateEyedropperWorkArea()
         {
             if (Target != null)
             {
                 var transform = Target.TransformToVisual(Window.Current.Content);
                 var position = transform.TransformPoint(default(Point));
                 _eyedropper.WorkArea = new Rect(position, new Size(Target.ActualWidth, Target.ActualHeight));
+                await _eyedropper.UpdateAppScreenshotAsync();
             }
         }
     }
