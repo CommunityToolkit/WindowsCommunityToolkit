@@ -3,6 +3,9 @@
                     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
     <Style TargetType="controls:Eyedropper">
         <Setter Property="Background" Value="{ThemeResource SystemControlBaseLowAcrylicElementBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsHitTestVisible" Value="False" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="0,0,0,15" />
         <Setter Property="MinWidth" Value="110" />
