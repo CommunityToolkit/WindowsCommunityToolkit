@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Click += EyedropperToolButton_Click;
             Unloaded += EyedropperToolButton_Unloaded;
             ActualThemeChanged += EyedropperToolButton_ActualThemeChanged;
-            Window.Current.SizeChanged += Current_SizeChanged;
+            Window.Current.SizeChanged += Window_SizeChanged;
             _eyedropper.ColorChanged += Eyedropper_ColorChanged;
             _eyedropper.PickStarted += Eyedropper_PickStarted;
             _eyedropper.PickCompleted += Eyedropper_PickCompleted;
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Click -= EyedropperToolButton_Click;
             Unloaded -= EyedropperToolButton_Unloaded;
             ActualThemeChanged -= EyedropperToolButton_ActualThemeChanged;
-            Window.Current.SizeChanged -= Current_SizeChanged;
+            Window.Current.SizeChanged -= Window_SizeChanged;
             _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
             _eyedropper.PickStarted -= Eyedropper_PickStarted;
             _eyedropper.PickCompleted -= Eyedropper_PickCompleted;
@@ -165,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             EyedropperEnabled = !EyedropperEnabled;
         }
 
-        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
             UpadateEyedropperWorkArea();
         }
