@@ -50,6 +50,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             else
             {
                 NavigationFrame.Navigate(typeof(SampleController), sample);
+                TrackingManager.TrackEvent("sample", "navigation", sample.Name);
             }
         }
 
@@ -73,7 +74,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            NavigationFrame.Navigating += NavigationFrame_Navigating;
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             NavView.BackRequested += NavView_BackRequested;
 
@@ -105,12 +105,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 NavigationFrame.GoBack();
             }
-        }
-
-        private void NavigationFrame_Navigating(object sender, NavigatingCancelEventArgs navigationEventArgs)
-        {
-            var name = navigationEventArgs.SourcePageType.Name;
-            TrackingManager.TrackPage(name);
         }
 
         private void NavigationFrameOnNavigated(object sender, NavigationEventArgs navigationEventArgs)

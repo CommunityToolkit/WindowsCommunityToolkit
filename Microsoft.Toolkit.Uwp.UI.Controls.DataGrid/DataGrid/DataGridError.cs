@@ -4,6 +4,7 @@
 
 using System;
 using System.Globalization;
+using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 {
@@ -176,6 +177,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             public static InvalidOperationException CannotChangeSelectedItemsCollectionInSingleMode()
             {
                 return new InvalidOperationException("Can only change SelectedItems collection in Extended selection mode. Use SelectedItem property in Single selection mode.");
+            }
+        }
+
+        public static class DataGridComboBoxColumn
+        {
+            public static ArgumentException UnsetBinding(string header)
+            {
+                return new ArgumentException(Format("Binding for column {0} is null. Ensure that the binding path has been set correctly.", header));
+            }
+
+            public static ArgumentException UnsetBinding(Type type)
+            {
+                return new ArgumentException(Format("Binding for column of type {0} is null. Ensure that the binding path has been set correctly.", type.FullName));
+            }
+
+            public static ArgumentException UnknownBindingPath(Binding binding, Type type)
+            {
+                return new ArgumentException(Format("Binding path {0} could not be found in type {1}. Ensure that the binding path has been set correctly.", binding.Path.Path, type.FullName));
+            }
+
+            public static ArgumentException UnknownDisplayMemberPath(string displayMemberPath, Type type)
+            {
+                return new ArgumentException(Format("DisplayMemberPath {0} could not be found in type {1}. Ensure that the value has been set correctly and note that for built-in types DisplayMemberPath should not be used.", displayMemberPath, type.FullName));
+            }
+
+            public static ArgumentException UnknownItemsSourcePath(Binding binding)
+            {
+                return new ArgumentException(Format("The ItemsSource elements do not contain a property {0}. Ensure that the binding path has been set correctly.", binding.Path.Path));
             }
         }
 

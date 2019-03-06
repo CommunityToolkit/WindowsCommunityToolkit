@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if (ex.Error.Code == 21332)
                 {
                     await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
-                    WeiboService.Instance.Logout();
+                    await WeiboService.Instance.LogoutAsync();
                     return;
                 }
                 else

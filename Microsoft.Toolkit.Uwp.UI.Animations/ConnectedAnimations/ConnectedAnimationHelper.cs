@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back &&
                     ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
                 {
-                    animation.Configuration = new DirectConnectedAnimationConfiguration();
+                    UseDirectConnectedAnimationConfiguration(animation);
                 }
 
                 _previousPageConnectedAnimationProps[props.Key] = props;
@@ -206,6 +206,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             navigatedPage.Loaded += loadedHandler;
+        }
+
+        private void UseDirectConnectedAnimationConfiguration(ConnectedAnimation animation)
+        {
+            animation.Configuration = new DirectConnectedAnimationConfiguration();
         }
     }
 }

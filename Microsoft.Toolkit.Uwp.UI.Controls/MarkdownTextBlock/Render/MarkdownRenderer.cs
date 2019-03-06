@@ -85,7 +85,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 FontWeight = FontWeight,
                 Foreground = localContext.Foreground,
                 IsTextSelectionEnabled = IsTextSelectionEnabled,
-                TextWrapping = TextWrapping
+                TextWrapping = TextWrapping,
+                FlowDirection = FlowDirection
             };
             localContext.BlockUIElementCollection?.Add(result);
 
@@ -108,7 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
                 FontWeight = FontWeight,
                 Foreground = context.Foreground,
                 IsTextSelectionEnabled = IsTextSelectionEnabled,
-                TextWrapping = TextWrapping
+                TextWrapping = TextWrapping,
+                FlowDirection = FlowDirection
             };
             return result;
         }

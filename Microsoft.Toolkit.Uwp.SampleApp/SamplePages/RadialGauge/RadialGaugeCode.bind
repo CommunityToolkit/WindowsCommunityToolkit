@@ -19,7 +19,7 @@
                   Value="@[Value:Slider:120:0-240]@"
                   Minimum="0"
                   Maximum="240"
-                  StepSize="30"
+                  StepSize="@[StepSize:Slider:30:5-30]"
                   IsInteractive="@[IsInteractive:Bool:True]"
                   TickSpacing="@[TickSpacing:Slider:30:10-30]"
                   ScaleWidth="@[ScaleWidth:Slider:4:4-50]"

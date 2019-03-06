@@ -98,6 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.InlineCodeBorderBrush = InlineCodeBorderBrush;
                     renderer.InlineCodePadding = InlineCodePadding;
                     renderer.InlineCodeFontFamily = InlineCodeFontFamily;
+                    renderer.InlineCodeForeground = InlineCodeForeground;
                     renderer.CodeForeground = CodeForeground;
                     renderer.CodeFontFamily = CodeFontFamily;
                     renderer.CodePadding = CodePadding;
@@ -134,6 +135,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.ListGutterWidth = ListGutterWidth;
                     renderer.ListBulletSpacing = ListBulletSpacing;
                     renderer.ParagraphMargin = ParagraphMargin;
+                    renderer.ParagraphLineHeight = ParagraphLineHeight;
                     renderer.QuoteBackground = QuoteBackground;
                     renderer.QuoteBorderBrush = QuoteBorderBrush;
                     renderer.QuoteBorderThickness = QuoteBorderThickness;
@@ -142,6 +144,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.QuotePadding = QuotePadding;
                     renderer.TableBorderBrush = TableBorderBrush;
                     renderer.TableBorderThickness = TableBorderThickness;
+                    renderer.YamlBorderBrush = YamlBorderBrush;
+                    renderer.YamlBorderThickness = YamlBorderThickness;
                     renderer.TableCellPadding = TableCellPadding;
                     renderer.TableMargin = TableMargin;
                     renderer.TextWrapping = TextWrapping;
@@ -150,6 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     renderer.ImageMaxHeight = ImageMaxHeight;
                     renderer.ImageMaxWidth = ImageMaxWidth;
                     renderer.WrapCodeBlock = WrapCodeBlock;
+                    renderer.FlowDirection = FlowDirection;
 
                     _rootElement.Child = renderer.Render();
                 }

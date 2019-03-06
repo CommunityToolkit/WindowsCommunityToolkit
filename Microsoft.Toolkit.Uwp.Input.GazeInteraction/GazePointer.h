@@ -5,6 +5,7 @@
 
 #include "GazeCursor.h"
 #include "GazeFeedbackPopupFactory.h"
+#include "GazeEventArgs.h"
 #include "IGazeFilter.h"
 #include "Interaction.h"
 #include "PointerState.h"
@@ -49,12 +50,41 @@ public:
     /// </summary>
     void Click();
 
+    /// <summary>
+    /// Run device calibration.
+    /// </summary>
+    IAsyncOperation<bool>^ RequestCalibrationAsync();
+
+    event EventHandler<GazeEventArgs^>^ GazeEvent
+    {
+        EventRegistrationToken add(EventHandler<GazeEventArgs^>^ handler);
+        void remove(EventRegistrationToken token);
+        void raise(Object^ sender, GazeEventArgs^ e);
+    }
+
+	/// <summary>
+	/// The UIElement representing the cursor.
+	/// </summary>
+	property UIElement^ CursorElement
+	{
+		UIElement^ get() { return _gazeCursor->PopupChild; }
+		void set(UIElement^ value) { _gazeCursor->PopupChild = value; }
+	}
+
+private:
+
+    event EventHandler<GazeEventArgs^>^ _gazeEvent;
+    GazeEventArgs^ const _gazeEventArgs = ref new GazeEventArgs();
+    int _gazeEventCount = 0;
+
 internal:
     Brush^ _enterBrush = nullptr;
 
     Brush^ _progressBrush = ref new SolidColorBrush(Colors::Green);
 
     Brush^ _completeBrush = ref new SolidColorBrush(Colors::Red);
+
+    double _dwellStrokeThickness = 2;
 
     Interaction _interaction = Interaction::Disabled;
 
@@ -106,16 +136,24 @@ internal:
         void set(bool value) { _isSwitchEnabled = value; }
     }
 
+public:
+
+    property bool IsAlwaysActivated
+    {
+        bool get() { return _isAlwaysActivated; }
+        void set(bool value) { _isAlwaysActivated = value; }
+    }
+
 internal:
 
     static property GazePointer^ Instance { GazePointer^ get(); }
     EventRegistrationToken _unloadedToken;
 
-    void AddRoot(Object^ element);
-    void RemoveRoot(Object^ element);
+    void AddRoot(int proxyId);
+    void RemoveRoot(int proxyId);
 
 
-    property bool IsDeviceAvailable { bool get() { return _deviceCount != 0; }}
+    property bool IsDeviceAvailable { bool get() { return _devices->Size != 0; }}
     event EventHandler<Object^>^ IsDeviceAvailableChanged;
 
 private:
@@ -124,6 +162,7 @@ private:
 
 private:
 
+    bool _initialized;
     bool _isShuttingDown;
 
     TimeSpan GetDefaultPropertyValue(PointerState state);
@@ -157,7 +196,7 @@ private:
     void OnDeviceRemoved(GazeDeviceWatcherPreview^ sender, GazeDeviceWatcherRemovedPreviewEventArgs^ args);
 
 private:
-    Vector<Object^>^ _roots = ref new Vector<Object^>();
+    Vector<int>^ _roots = ref new Vector<int>();
 
     TimeSpan                               _eyesOffDelay;
 
@@ -186,7 +225,7 @@ private:
     EventRegistrationToken              _gazeExitedToken;
 
     GazeDeviceWatcherPreview^ _watcher;
-    int _deviceCount;
+    Vector<GazeDevicePreview^>^ _devices;
     EventRegistrationToken _deviceAddedToken;
     EventRegistrationToken _deviceRemovedToken;
 
@@ -196,6 +235,7 @@ private:
     TimeSpan _defaultRepeatDelay = DEFAULT_REPEAT_DELAY;
     TimeSpan _defaultThreshold = DEFAULT_THRESHOLD_DELAY;
 
+    bool                                _isAlwaysActivated;
     bool                                _isSwitchEnabled;
     GazeTargetItem^                     _currentlyFixatedElement;
 };

@@ -20,6 +20,7 @@ This makes it easy for a developer to test out values for a control and then cop
 
 In order to provide a property UI and associated code, you have to define a the .bind XAML file associated with your page.
 Here is an example:
+
 ```xaml
 <Grid>
     <Grid.ColumnDefinitions>
@@ -179,14 +180,22 @@ If the specified type is not found on the system running the sample app the samp
 
 ### Adding documentation
 
-Every API must be accompanied by Markdown documentation in the docs folder in the root of this repo.
+Every API must be accompanied by Markdown documentation in the [documentation repository](..\contributing.md#docs).
 
 Use the DocumentationUrl property to add a link to the raw documentation in *samples.json*. Please follow the following pattern:
 
-`https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/{branch}/docs/{folder/file.md}`
+`https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/{branch}/docs/{folder/file.md}`
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
-> Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For exaple, this folder structure works best:
+> ```
+> repositories
+> ├── WindowsCommunityToolkit
+> ├── WindowsCommunityToolkitDocs
+> ``` 
 
 ### CodeUrl
 

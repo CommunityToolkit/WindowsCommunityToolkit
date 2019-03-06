@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Threading.Tasks;
+
 namespace Microsoft.Toolkit.Services.Core
 {
     /// <summary>
@@ -14,13 +16,14 @@ namespace Microsoft.Toolkit.Services.Core
         /// </summary>
         /// <param name="key"> Token value </param>
         /// <returns> Returns a string value</returns>
-        string Get(string key);
+        Task<string> GetAsync(string key);
 
         /// <summary>
         /// Sets the key value
         /// </summary>
         /// <param name="key"> Token key </param>
         /// <param name="value"> String value </param>
-        void Set(string key, string value);
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task SetAsync(string key, string value);
     }
 }

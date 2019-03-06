@@ -15,6 +15,10 @@ using Newtonsoft.Json.Linq;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
+#if NET462
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
@@ -62,13 +66,32 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="storageManager">Storage Manager interface.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions, IAuthenticationBroker authentication, IPasswordManager passwordManager, IStorageManager storageManager)
         {
+            if (string.IsNullOrEmpty(tokens.ClientSecret))
+            {
+                throw new ArgumentException("Missing client secret key");
+            }
+
+            if (string.IsNullOrEmpty(tokens.ClientId))
+            {
+                throw new ArgumentException("Missing client ID");
+            }
+
+            if (string.IsNullOrEmpty(tokens.CallbackUri))
+            {
+                throw new ArgumentException("Missing callback uri");
+            }
+
+            if (!Enum.IsDefined(typeof(LinkedInPermissions), requiredPermissions))
+            {
+                throw new ArgumentException("Error retrieving required permissions");
+            }
+
             Tokens = tokens;
             RequiredPermissions = requiredPermissions;
-            _authentication = authentication;
-            _storageManager = storageManager;
-            _passwordManager = passwordManager;
+            _authentication = authentication ?? throw new ArgumentException("Invalid AuthenticationBroker");
+            _storageManager = storageManager ?? throw new ArgumentException("Invalid StorageManager");
+            _passwordManager = passwordManager ?? throw new ArgumentException("Invalid PasswordManager");
         }
-
 #if WINRT
         /// <summary>
         /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
@@ -77,12 +100,21 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <param name="tokens">OAuth tokens for request.</param>
         /// <param name="requiredPermissions">Required permissions for the session.</param>
         public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        : this(tokens, requiredPermissions, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager())
         {
-            Tokens = tokens;
-            RequiredPermissions = requiredPermissions;
-            _authentication = new UwpAuthenticationBroker();
-            _storageManager = new UwpStorageManager();
-            _passwordManager = new UwpPasswordManager();
+        }
+#endif
+
+#if NET462
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkedInDataProvider"/> class.
+        /// Constructor.
+        /// </summary>
+        /// <param name="tokens">OAuth tokens for request.</param>
+        /// <param name="requiredPermissions">Required permissions for the session.</param>
+        public LinkedInDataProvider(LinkedInOAuthTokens tokens, LinkedInPermissions requiredPermissions)
+        : this(tokens, requiredPermissions, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager())
+        {
         }
 #endif
 
@@ -92,12 +124,12 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <returns>Boolean indicating login success.</returns>
         public async Task<bool> LoginAsync()
         {
-            var user = _storageManager.Get(LinkedInConstants.STORAGEKEYUSER);
+            var user = await _storageManager.GetAsync(LinkedInConstants.STORAGEKEYUSER);
             var credential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
             if (!string.IsNullOrEmpty(user) && credential != null)
             {
                 Tokens.AccessToken = credential.Password;
-                Username = _storageManager.Get(LinkedInConstants.STORAGEKEYUSER);
+                Username = user;
                 LoggedIn = true;
                 return true;
             }
@@ -113,7 +145,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                     Tokens.AccessToken = accessToken;
 
                     _passwordManager.Store(LinkedInConstants.STORAGEKEYACCESSTOKEN, new PasswordCredential { UserName = LinkedInConstants.STORAGEKEYUSER, Password = accessToken });
-                    _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, LinkedInConstants.STORAGEKEYUSER);
+                    await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, LinkedInConstants.STORAGEKEYUSER);
                     return true;
                 }
             }
@@ -125,13 +157,26 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
         public void Logout()
         {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            LogoutAsync();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+        }
+
+        /// <summary>
+        /// Log user out of LinkedIn.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task LogoutAsync()
+        {
             var crendential = _passwordManager.Get(LinkedInConstants.STORAGEKEYACCESSTOKEN);
+
             if (crendential != null)
             {
                 _passwordManager.Remove(LinkedInConstants.STORAGEKEYACCESSTOKEN);
-                _storageManager.Set(LinkedInConstants.STORAGEKEYUSER, null);
+                 await _storageManager.SetAsync(LinkedInConstants.STORAGEKEYUSER, null);
             }
 
             LoggedIn = false;
@@ -180,7 +225,6 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         public async Task<U> ShareDataAsync<T, U>(T dataToShare)
         {
             var shareRequest = dataToShare as LinkedInShareRequest;
-
             if (shareRequest != null)
             {
                 LinkedInVisibility.ParseVisibilityStringToEnum(shareRequest.Visibility.Code);

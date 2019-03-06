@@ -1,0 +1,17 @@
+﻿RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker()
+{
+    Title = "Pick Remote Device",
+	SelectionMode = RemoteDevicesSelectionMode.Multiple
+};
+
+var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
+await new MessageDialog($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();
+
+RemoteDevicePicker remoteDevicePicker = new RemoteDevicePicker(RemoteSystemDiscoveryType.Proximal, RemoteSystemAuthorizationKind.Anonymous, RemoteSystemStatusType.Any)
+{
+    Title = "Pick Remote Device",
+	SelectionMode = RemoteDevicesSelectionMode.Multiple
+};
+
+var remoteSystems = await remoteDevicePicker.PickDeviceAsync();
+await new MessageDialog($"You picked {remoteSystems.Count().ToString()} Device(s)" + Environment.NewLine + string.Join(",", remoteSystems.Select(x => x.DisplayName.ToString()).ToList())).ShowAsync();

@@ -10,6 +10,10 @@ using Microsoft.Toolkit.Services.Core;
 using Microsoft.Toolkit.Services.PlatformSpecific.Uwp;
 #endif
 
+#if NET462
+using Microsoft.Toolkit.Services.PlatformSpecific.NetFramework;
+#endif
+
 namespace Microsoft.Toolkit.Services.LinkedIn
 {
     /// <summary>
@@ -91,10 +95,20 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         /// <summary>
         /// Log user out of LinkedIn.
         /// </summary>
+        [Obsolete("Logout is deprecated, please use LogoutAsync instead.", true)]
         public void Logout()
         {
             Provider.Logout();
+        }
+
+        /// <summary>
+        /// Log user out of LinkedIn.
+        /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public Task LogoutAsync()
+        {
             _isInitialized = false;
+            return Provider.LogoutAsync();
         }
 
 #if WINRT
@@ -119,6 +133,31 @@ namespace Microsoft.Toolkit.Services.LinkedIn
         public bool Initialize(string clientId, string clientSecret, string callbackUri)
         {
             return Initialize(clientId, clientSecret, callbackUri, new UwpAuthenticationBroker(), new UwpPasswordManager(), new UwpStorageManager());
+        }
+#endif
+
+#if NET462
+        /// <summary>
+        /// Initialize underlying provider with relevent token information for Uwp.
+        /// </summary>
+        /// <param name="oAuthTokens">Token instance.</param>
+        /// <param name="requiredPermissions">Scope / permissions app requires user to sign up for.</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(LinkedInOAuthTokens oAuthTokens, LinkedInPermissions requiredPermissions = LinkedInPermissions.NotSet)
+        {
+            return Initialize(oAuthTokens, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager(), requiredPermissions);
+        }
+
+        /// <summary>
+        /// Initialize underlying provider with relevent token information.
+        /// </summary>
+        /// <param name="clientId">Client Id.</param>
+        /// <param name="clientSecret">Client secret.</param>
+        /// <param name="callbackUri">Callback URI. Has to match callback URI defined at www.linkedin.com/developer/apps/ (can be arbitrary).</param>
+        /// <returns>Success or failure.</returns>
+        public bool Initialize(string clientId, string clientSecret, string callbackUri)
+        {
+            return Initialize(clientId, clientSecret, callbackUri, new NetFrameworkAuthenticationBroker(), new NetFrameworkPasswordManager(), new NetFrameworkStorageManager());
         }
 #endif
 

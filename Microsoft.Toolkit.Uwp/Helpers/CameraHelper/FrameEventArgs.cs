@@ -11,7 +11,7 @@ using Windows.Media;
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
     /// <summary>
-    /// EventArgs to be used by <see cref="CameraHelper"/> FrameArrived Event
+    /// Provides data for the <see cref="CameraHelper.FrameArrived"/> event.
     /// </summary>
     public class FrameEventArgs : EventArgs
     {
@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
         /// <summary>
-        /// Gets Video Frame
+        /// Gets the video frame.
         /// </summary>
         public VideoFrame VideoFrame
         {
@@ -28,8 +28,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 _semaphore.Wait();
 
-                // videoFrame could be disposed at any time so we need to create a copy we can use
-                // this api is only available on 17134 - so we return the original VideoFrame on older versions
+                // The VideoFrame could be disposed at any time so we need to create a copy we can use.
+                // This API is only available on 17134 so we return the original VideoFrame on older versions.
                 if (_videoFrameCopy == null &&
                     ApiInformation.IsMethodPresent("Windows.Media.VideoFrame", "CreateWithSoftwareBitmap", 1) &&
                     _videoFrame != null &&

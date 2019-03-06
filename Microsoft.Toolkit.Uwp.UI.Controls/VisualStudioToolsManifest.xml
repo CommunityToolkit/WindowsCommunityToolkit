@@ -27,14 +27,14 @@
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.OrbitViewPanel" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.PullToRefreshListView" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialGauge" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.RotatorTile" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader" />
-      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.SlidableListItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.StaggeredPanel" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabView" />
+      <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TabViewItem" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.TileControl" />
       <Item Type="Microsoft.Toolkit.Uwp.UI.Controls.UniformGrid" />
