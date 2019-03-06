@@ -4,11 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
