@@ -29,12 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// </summary>
         public static readonly DependencyProperty CustomMaskProperty = DependencyProperty.RegisterAttached("CustomMask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null, InitTextBoxMask));
 
-        /// <summary>
-        /// Represents whether the variables in the mask can be escaped
-        /// </summary>
-        public static readonly DependencyProperty EscapeVariablesProperty =
-            DependencyProperty.RegisterAttached("EscapeVariables", typeof(bool), typeof(TextBoxMask), new PropertyMetadata(false, InitTextBoxMask));
-
         private static readonly DependencyProperty RepresentationDictionaryProperty = DependencyProperty.RegisterAttached("RepresentationDictionary", typeof(Dictionary<char, string>), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty OldTextProperty = DependencyProperty.RegisterAttached("OldText", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
         private static readonly DependencyProperty DefaultDisplayTextProperty = DependencyProperty.RegisterAttached("DefaultDisplayText", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
@@ -42,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         private static readonly DependencyProperty OldSelectionStartProperty = DependencyProperty.RegisterAttached("OldSelectionStart", typeof(int), typeof(TextBoxMask), new PropertyMetadata(0));
 
         private static readonly DependencyProperty EscapedMaskProperty = DependencyProperty.RegisterAttached("EscapedMask", typeof(string), typeof(TextBoxMask), new PropertyMetadata(null));
-        private static readonly DependencyProperty MaskEscapedCharactersProperty = DependencyProperty.RegisterAttached("MaskEscapedCharacters", typeof(List<int>), typeof(TextBoxMask), new PropertyMetadata(null));
+        private static readonly DependencyProperty EscapedCharacterIndeciesProperty = DependencyProperty.RegisterAttached("MaskEscapedCharacters", typeof(List<int>), typeof(TextBoxMask), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets mask value
@@ -102,26 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         public static void SetCustomMask(DependencyObject obj, string value)
         {
             obj.SetValue(CustomMaskProperty, value);
-        }
-
-        /// <summary>
-        /// Gets EscapeCharacter value
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public static bool GetEscapeVariables(DependencyObject obj)
-        {
-            return (bool)obj.GetValue(EscapeVariablesProperty);
-        }
-
-        /// <summary>
-        /// Sets EscapeCharacter property which determines whether the variables in the mask can be escaped
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <param name="value"></param>
-        public static void SetEscapeVariables(DependencyObject obj, bool value)
-        {
-            obj.SetValue(EscapeVariablesProperty, value);
         }
     }
 }

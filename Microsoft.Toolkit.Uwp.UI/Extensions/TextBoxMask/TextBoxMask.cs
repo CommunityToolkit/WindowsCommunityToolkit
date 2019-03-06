@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using System.Text;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -59,27 +60,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
             var escapedChars = new List<int>();
 
-            string escapedMask;
-            var shouldEscapeVariables = (bool)textbox.GetValue(EscapeVariablesProperty);
-            if (shouldEscapeVariables)
+            var builder = new StringBuilder(mask);
+            for (int i = 0; i < builder.Length - 1; i++)
             {
-                var builder = new StringBuilder(mask);
-                for (int i = 0; i < builder.Length - 1; i++)
+                if (builder[i] == EscapeChar)
                 {
-                    if (builder[i] == EscapeChar)
-                    {
-                        escapedChars.Add(i);
-                        builder.Remove(i, 1);
-                    }
+                    escapedChars.Add(i);
+                    builder.Remove(i, 1);
                 }
-                escapedMask = builder.ToString();
-            }
-            else
-            {
-                escapedMask = mask;
             }
 
-            textbox.SetValue(MaskEscapedCharactersProperty, escapedChars);
+            var escapedMask = builder.ToString();
+
+            textbox.SetValue(EscapedCharacterIndeciesProperty, escapedChars);
             textbox.SetValue(EscapedMaskProperty, escapedMask);
 
             var placeHolder = placeHolderValue[0];
@@ -122,7 +115,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             for (int i = 0; i < displayTextBuilder.Length; i++)
             {
                 if (escapedChars.Contains(i))
+                {
                     continue;
+                }
 
                 foreach (var key in representationDictionary.Keys)
                 {
@@ -211,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
 
             var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
-            var escapedChars = textbox.GetValue(MaskEscapedCharactersProperty) as List<int>;
+            var escapedChars = textbox.GetValue(EscapedCharacterIndeciesProperty) as List<int>;
 
             // to update the textbox text without triggering TextChanging text
             int oldSelectionStart = (int)textbox.GetValue(OldSelectionStartProperty);
@@ -268,7 +263,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             var mask = textbox.GetValue(MaskProperty) as string;
             var escapedMask = textbox.GetValue(EscapedMaskProperty) as string;
-            var escapedChars = textbox.GetValue(MaskEscapedCharactersProperty) as List<int>;
+            var escapedChars = textbox.GetValue(EscapedCharacterIndeciesProperty) as List<int>;
 
             var representationDictionary = textbox.GetValue(RepresentationDictionaryProperty) as Dictionary<char, string>;
             var placeHolderValue = textbox?.GetValue(PlaceHolderProperty) as string;
