@@ -32,10 +32,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DependencyProperty.Register(nameof(EyedropperStyle), typeof(Style), typeof(EyedropperToolButton), new PropertyMetadata(default(Style), OnEyedropperStyleChanged));
 
         /// <summary>
-        /// Identifies the <see cref="Target"/> dependency property.
+        /// Identifies the <see cref="TargetElement"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty TargetProperty =
-            DependencyProperty.Register(nameof(Target), typeof(FrameworkElement), typeof(EyedropperToolButton), new PropertyMetadata(default(FrameworkElement), OnTargetChanged));
+        public static readonly DependencyProperty TargetElementProperty =
+            DependencyProperty.Register(nameof(TargetElement), typeof(FrameworkElement), typeof(EyedropperToolButton), new PropertyMetadata(default(FrameworkElement), OnTargetElementChanged));
 
         /// <summary>
         /// Gets the current color value.
@@ -65,12 +65,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the working target of the eyedropper.
+        /// Gets or sets the working target element of the eyedropper.
         /// </summary>
-        public FrameworkElement Target
+        public FrameworkElement TargetElement
         {
-            get => (FrameworkElement)GetValue(TargetProperty);
-            set => SetValue(TargetProperty, value);
+            get => (FrameworkElement)GetValue(TargetElementProperty);
+            set => SetValue(TargetElementProperty, value);
         }
 
         private static void OnEyedropperEnabledChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -98,16 +98,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private static void OnTargetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnTargetElementChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is EyedropperToolButton eyedropperToolButton)
             {
-                eyedropperToolButton.UnhookTargetEvents(e.OldValue as FrameworkElement);
-                eyedropperToolButton.HookUpTargetEvents(e.NewValue as FrameworkElement);
+                eyedropperToolButton.UnhookTargetElementEvents(e.OldValue as FrameworkElement);
+                eyedropperToolButton.HookUpTargetElementEvents(e.NewValue as FrameworkElement);
             }
         }
 
-        private void UnhookTargetEvents(FrameworkElement target)
+        private void UnhookTargetElementEvents(FrameworkElement target)
         {
             if (target != null)
             {
@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void HookUpTargetEvents(FrameworkElement target)
+        private void HookUpTargetElementEvents(FrameworkElement target)
         {
             if (target != null)
             {

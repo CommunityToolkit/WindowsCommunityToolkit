@@ -73,9 +73,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _eyedropper.ColorChanged -= Eyedropper_ColorChanged;
             _eyedropper.PickStarted -= Eyedropper_PickStarted;
             _eyedropper.PickCompleted -= Eyedropper_PickCompleted;
-            if (Target != null)
+            if (TargetElement != null)
             {
-                Target = null;
+                TargetElement = null;
             }
 
             if (EyedropperEnabled)
@@ -172,11 +172,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void UpadateEyedropperWorkArea()
         {
-            if (Target != null)
+            if (TargetElement != null)
             {
-                var transform = Target.TransformToVisual(Window.Current.Content);
+                var transform = TargetElement.TransformToVisual(Window.Current.Content);
                 var position = transform.TransformPoint(default(Point));
-                _eyedropper.WorkArea = new Rect(position, new Size(Target.ActualWidth, Target.ActualHeight));
+                _eyedropper.WorkArea = new Rect(position, new Size(TargetElement.ActualWidth, TargetElement.ActualHeight));
                 await _eyedropper.UpdateAppScreenshotAsync();
             }
         }

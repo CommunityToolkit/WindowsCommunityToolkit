@@ -10,7 +10,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <controls:EyedropperToolButton HorizontalAlignment="Center" Target="{Binding ElementName=Image}" />
+        <controls:EyedropperToolButton HorizontalAlignment="Center" TargetElement="{Binding ElementName=Image}" />
         <Image
             x:Name="Image"
             Grid.Row="1"
