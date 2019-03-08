@@ -413,7 +413,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             InitImageLayout(true);
         }
 
-
         /// <summary>
         /// Tries to set a new value for the cropped region, returns true if it succeeded, false if the region is invalid
         /// </summary>
