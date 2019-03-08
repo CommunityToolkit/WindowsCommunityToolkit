@@ -11,22 +11,28 @@ GazeCursor::GazeCursor()
     _gazePopup = ref new Popup();
     _gazePopup->IsHitTestVisible = false;
 
-    _gazeCursor = ref new Shapes::Ellipse();
-    _gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
-    _gazeCursor->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
-    _gazeCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
-    _gazeCursor->Width = 2 * CursorRadius;
-    _gazeCursor->Height = 2 * CursorRadius;
-    _gazeCursor->IsHitTestVisible = false;
+    auto gazeCursor = ref new Shapes::Ellipse();
+    gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
+    gazeCursor->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
+    gazeCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
+    gazeCursor->Width = 2 * CursorRadius;
+    gazeCursor->Height = 2 * CursorRadius;
+	gazeCursor->Margin = Thickness(-CursorRadius, -CursorRadius, 0, 0);
+    gazeCursor->IsHitTestVisible = false;
 
-    _gazePopup->Child = _gazeCursor;
+    _gazePopup->Child = gazeCursor;
 }
 
 void GazeCursor::CursorRadius::set(int value)
 {
     _cursorRadius = value;
-    _gazeCursor->Width = 2 * _cursorRadius;
-    _gazeCursor->Height = 2 * _cursorRadius;
+	auto gazeCursor = CursorElement;
+	if (gazeCursor != nullptr)
+	{
+		gazeCursor->Width = 2 * _cursorRadius;
+		gazeCursor->Height = 2 * _cursorRadius;
+		gazeCursor->Margin = Thickness(-_cursorRadius, -_cursorRadius, 0, 0);
+	}
 }
 
 void GazeCursor::IsCursorVisible::set(bool value)
