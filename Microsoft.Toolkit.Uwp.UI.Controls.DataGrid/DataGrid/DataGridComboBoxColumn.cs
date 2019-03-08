@@ -15,7 +15,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
-using TextBlock = Windows.UI.Xaml.Controls.TextBlock;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -421,7 +420,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (propertyName == DATAGRIDCOMBOBOXCOLUMN_itemsSourceName)
                 {
-                    // Left in place for future functionality
+                    OwningGrid.OnColumnBindingChanged(this);
                 }
                 else
                 {
@@ -655,6 +654,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void HookDataItemPropertyChanged(object dataItem)
         {
+            if (Binding.Mode == BindingMode.OneTime)
+            {
+                return;
+            }
+
             var notifyingDataItem = dataItem as INotifyPropertyChanged;
 
             if (notifyingDataItem == null)
