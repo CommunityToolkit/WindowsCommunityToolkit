@@ -400,10 +400,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 // Clear the print canvas of preview pages
                 _printCanvas.Children.Clear();
 
+                 var printPageTasks = new List<Task>();
                 foreach (var element in _elementsToPrint)
                 {
-                    AddOnePrintPreviewPage(element, pageDescription);
+                    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
+
+                await Task.WhenAll(printPageTasks);
+            
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
