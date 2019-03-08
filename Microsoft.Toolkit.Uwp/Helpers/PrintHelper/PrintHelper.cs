@@ -401,13 +401,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 _printCanvas.Children.Clear();
 
                  var printPageTasks = new List<Task>();
+              
                 foreach (var element in _elementsToPrint)
                 {
-                    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
+                    AddOnePrintPreviewPage(element, pageDescription);
                 }
-
-                await Task.WhenAll(printPageTasks);
-            
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
