@@ -118,6 +118,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
 
+            _printCanvas.UpdateLayout();
             RegisterForPrinting();
         }
 
@@ -400,10 +401,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 // Clear the print canvas of preview pages
                 _printCanvas.Children.Clear();
 
+                var printPageTasks = new List<Task>();
                 foreach (var element in _elementsToPrint)
                 {
-                    await AddOnePrintPreviewPage(element, pageDescription);
+                    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
+
+                await Task.WhenAll(printPageTasks);
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
@@ -411,7 +415,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             PrintDocument printDoc = (PrintDocument)sender;
 
             // Report the number of preview pages created
+            _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
+            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[0]);
+
         }
 
         /// <summary>
@@ -424,7 +431,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
             PrintDocument printDoc = (PrintDocument)sender;
-            printDoc.SetPreviewPage(e.PageNumber, _printPreviewPages[e.PageNumber - 1]);
+            if (_printPreviewPages.Count() > 0)
+            {
+                printDoc.SetPreviewPage(e.PageNumber, _printPreviewPages[e.PageNumber - 1]);
+            }
         }
 
         /// <summary>
@@ -474,7 +484,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // Get the margins size
             double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
-
+            
             // Set up the "printable area" on the "paper"
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
@@ -503,8 +513,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
                     // through layout so that the linked containers correctly distribute the content inside them.
                     _printCanvas.Children.Add(page);
-                    _printCanvas.InvalidateMeasure();
                     _printCanvas.UpdateLayout();
+                    _printCanvas.InvalidateMeasure();
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
