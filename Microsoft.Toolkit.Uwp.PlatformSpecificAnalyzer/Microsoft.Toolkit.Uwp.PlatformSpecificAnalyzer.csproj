@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>Windows Community Toolkit UWP Platform Specific Analyzer</Title>
-    <Description>This standard library provides analyzer and code fixer to ensure that version / platform specific code is well guarded. It is part of the Windows Community Toolkit.</Description>
+    <Description>This standard library provides code analysis and code fix (on CS and VB) to ensure that version / platform specific code is well guarded.</Description>
     <PackageTags>UWP Toolkit Windows Platform Specific Analyzer</PackageTags>
     
     <IncludeBuildOutput>false</IncludeBuildOutput>
