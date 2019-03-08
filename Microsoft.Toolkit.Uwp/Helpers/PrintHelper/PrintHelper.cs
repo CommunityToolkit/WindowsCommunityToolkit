@@ -418,7 +418,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
             printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[0]);
-
         }
 
         /// <summary>
