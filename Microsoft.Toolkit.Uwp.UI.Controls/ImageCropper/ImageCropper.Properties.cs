@@ -26,19 +26,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public double MinSelectedLength { get; set; } = 40;
 
         /// <summary>
-        /// Gets or sets the current cropped region.
+        /// Gets the current cropped region.
         /// </summary>
         public Rect CroppedRegion
         {
             get
             {
                 return _currentCroppedRect;
-            }
-
-            set
-            {
-                _currentCroppedRect = value;
-                UpdateImageLayout(true);
             }
         }
 
