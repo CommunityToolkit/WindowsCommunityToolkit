@@ -28,13 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the current cropped region.
         /// </summary>
-        public Rect CroppedRegion
-        {
-            get
-            {
-                return _currentCroppedRect;
-            }
-        }
+        public Rect CroppedRegion => _currentCroppedRect;
 
         private static void OnSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
