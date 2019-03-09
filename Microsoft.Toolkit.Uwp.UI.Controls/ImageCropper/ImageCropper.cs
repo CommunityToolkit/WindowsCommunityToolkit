@@ -426,8 +426,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return false;
             }
 
-            // Reject regions larger than the original picture
-            if (rect.Width > _restrictedCropRect.Width || rect.Height > _restrictedCropRect.Height)
+            // Reject regions that are not contained in the original picture
+            if (rect.Left < _restrictedCropRect.Left || rect.Top < _restrictedCropRect.Top || rect.Right > _restrictedCropRect.Right || rect.Bottom > _restrictedCropRect.Bottom)
             {
                 return false;
             }
