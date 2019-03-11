@@ -482,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // Get the margins size
             double marginWidth = Math.Max(printPageDescription.PageSize.Width - printPageDescription.ImageableRect.Width, printPageDescription.PageSize.Width * ApplicationContentMarginLeft * 2);
             double marginHeight = Math.Max(printPageDescription.PageSize.Height - printPageDescription.ImageableRect.Height, printPageDescription.PageSize.Height * ApplicationContentMarginTop * 2);
-            
+
             // Set up the "printable area" on the "paper"
             element.VerticalAlignment = VerticalAlignment.Top;
             element.HorizontalAlignment = HorizontalAlignment.Left;
