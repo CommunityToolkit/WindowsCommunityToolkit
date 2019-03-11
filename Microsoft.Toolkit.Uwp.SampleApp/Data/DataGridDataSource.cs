@@ -203,6 +203,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         // Filtering implementation using LINQ
         public enum FilterOptions
         {
+            All = -1,
             Rank_Low = 0,
             Rank_High = 1,
             Height_Low = 2,
@@ -213,6 +214,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         {
             switch (filterBy)
             {
+                case FilterOptions.All:
+                    return new ObservableCollection<DataGridDataItem>(_items);
+
                 case FilterOptions.Rank_Low:
                     return new ObservableCollection<DataGridDataItem>(from item in _items
                                                                       where item.Rank < 50
