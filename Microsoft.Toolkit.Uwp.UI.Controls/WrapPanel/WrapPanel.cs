@@ -121,12 +121,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
-
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-
-                if (parentMeasure.U >= currentMeasure.U + lineMeasure.U + spacingMeasure.U)
+                if (currentMeasure.U == 0)
                 {
-                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
+                    continue; // ignore collapsed items
+                }
+
+                // if this is the first item, do not add spacing. Spacing is added to the "left"
+                double uChange = lineMeasure.U == 0
+                    ? currentMeasure.U
+                    : currentMeasure.U + spacingMeasure.U;
+                if (parentMeasure.U >= uChange + lineMeasure.U)
+                {
+                    lineMeasure.U += uChange;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -182,6 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                if (desiredMeasure.U == 0)
+                {
+                    continue; // if an item is collapsed, avoid adding the spacing
+                }
+
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
@@ -190,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentV = 0;
                 }
 
-                // Place the item
+                // place the item
                 if (Orientation == Orientation.Horizontal)
                 {
                     child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));
