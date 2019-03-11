@@ -118,7 +118,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
 
-            _printCanvas.UpdateLayout();
             RegisterForPrinting();
         }
 
@@ -417,7 +416,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             // Report the number of preview pages created
             _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
-            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[0]);
+            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
         }
 
         /// <summary>
