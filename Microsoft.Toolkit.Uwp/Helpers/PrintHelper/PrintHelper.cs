@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _printCanvas.Opacity = 0;
 
             _canvasContainer = canvasContainer;
-
+            _canvasContainer.RequestedTheme = ElementTheme.Light;
             _elementsToPrint = new List<FrameworkElement>();
 
             _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
@@ -262,6 +262,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         _stateBags.Clear();
 
                         await DetachCanvas();
+                        _canvasContainer.RequestedTheme = ElementTheme.Default;
 
                         switch (args.Completion)
                         {
@@ -381,6 +382,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (_directPrint)
             {
+                _canvasContainer.RequestedTheme = ElementTheme.Light;
                 foreach (FrameworkElement element in this._canvasContainer.Children)
                 {
                     _printPreviewPages.Add(element);
