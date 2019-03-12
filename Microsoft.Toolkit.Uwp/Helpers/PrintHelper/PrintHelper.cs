@@ -261,8 +261,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         }
                         _stateBags.Clear();
 
-                        await DetachCanvas();
                         _canvasContainer.RequestedTheme = ElementTheme.Default;
+                        await DetachCanvas();
 
                         switch (args.Completion)
                         {
@@ -395,6 +395,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 {
                     _canvasContainer.Children.Add(_printCanvas);
                 }
+
+                _canvasContainer.RequestedTheme = ElementTheme.Light;
 
                 // Clear the cache of preview pages
                 await ClearPageCache();
