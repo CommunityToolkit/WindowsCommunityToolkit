@@ -4,24 +4,7 @@
     <Title>Windows Community Toolkit Controls DataGrid</Title>
     <Description>
       This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
-
-      -CollectionViews : Allows handling CollectionViews List on a DataGrid.
-      -Datagrid :  Provides the neccesary files to provide a flexible way to display diferents types of data collections in rows and columns and to handle the related events. Managaes the distributions in cells, columns and rows of the displayed content.
-      -Datagrid.Automation : Contains the code to handle the AutomationPeers behaviour.
-      -Themes : Defines the ResourceDictionaries source path for the themes appliable to the control.
-      -Utilities : 
-                    -BindingInfo
-                    -DoubleUtil
-                    -Extensions
-                    -IndexToValueTable
-                    -KeyboardHelper
-                    -Range
-                    -TypeHelper
-                    -UISettingaHelper
-                    -ValidationUtil
-                    -VisualStates
-                    -WeakEventListener
-                    
+                   
     </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
