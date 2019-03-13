@@ -86,6 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
 
             SetHeaderVisibility();
+            SetOrientation();
         }
 
         /// <summary>
@@ -100,12 +101,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private static void OnOrientationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var control = (HeaderedContentControl)d;
-
-            var orientation = control.Orientation == Orientation.Vertical
-                ? nameof(Orientation.Vertical)
-                : nameof(Orientation.Horizontal);
-
-            VisualStateManager.GoToState(control, orientation, true);
+            control.SetOrientation();
         }
 
         private static void OnHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -123,6 +119,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     ? Visibility.Visible
                     : Visibility.Collapsed;
             }
+        }
+        
+        private void SetOrientation()
+        {
+            var orientation = this.Orientation == Orientation.Vertical
+                ? nameof(Orientation.Vertical)
+                : nameof(Orientation.Horizontal);
+            VisualStateManager.GoToState(this, orientation, true);
         }
     }
 }
