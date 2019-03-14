@@ -13,9 +13,6 @@
     
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
-    <!-- TODO: Update to later version -->
-    <PackageReference Include="Microsoft.Identity.Client" Version="1.1.2-preview0008" />
-
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
 
   </ItemGroup>
