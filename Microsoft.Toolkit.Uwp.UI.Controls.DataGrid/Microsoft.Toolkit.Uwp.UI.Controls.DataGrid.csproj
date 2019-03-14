@@ -2,7 +2,10 @@
   <PropertyGroup>
     <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls DataGrid</Title>
-    <Description>This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.</Description>
+    <Description>
+      This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
+                   
+    </Description>
     <PackageTags>UWP Toolkit Windows Controls XAML DataGrid</PackageTags>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls</RootNamespace>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
