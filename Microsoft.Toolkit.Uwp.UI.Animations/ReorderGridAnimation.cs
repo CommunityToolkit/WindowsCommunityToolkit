@@ -86,7 +86,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
 
             double duration = (double)view.GetValue(DurationProperty);
-            elementImplicitAnimation[nameof(Visual.Offset)] = CreateOffsetAnimation(compositor, duration);
+            if (double.IsNaN(duration))
+            {
+                elementImplicitAnimation.Remove(nameof(Visual.Offset));
+            }
+            else
+            {
+                elementImplicitAnimation[nameof(Visual.Offset)] = CreateOffsetAnimation(compositor, duration);
+            }
         }
 
         private static void OnContainerContentChanging(ListViewBase sender, ContainerContentChangingEventArgs args)
