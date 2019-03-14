@@ -261,7 +261,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             _stateBags[element].Restore(element);
                         }
                         _stateBags.Clear();
-                        
                         _canvasContainer.RequestedTheme = ElementTheme.Default;
                         await DetachCanvas();
 
