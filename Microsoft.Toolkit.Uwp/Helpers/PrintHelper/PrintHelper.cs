@@ -114,6 +114,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             _canvasContainer = canvasContainer;
             _canvasContainer.RequestedTheme = ElementTheme.Light;
+
             _elementsToPrint = new List<FrameworkElement>();
 
             _defaultPrintHelperOptions = defaultPrintHelperOptions ?? new PrintHelperOptions();
@@ -260,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                             _stateBags[element].Restore(element);
                         }
                         _stateBags.Clear();
-
+                        
                         _canvasContainer.RequestedTheme = ElementTheme.Default;
                         await DetachCanvas();
 
