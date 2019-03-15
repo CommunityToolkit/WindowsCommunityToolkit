@@ -217,11 +217,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _printDocument.AddPages += AddPrintPages;
         }
 
-        private void DetachCanvas()
+        private async Task DetachCanvas()
         {
             if (!_directPrint)
             {
-                DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+                await DispatcherHelper.ExecuteOnUIThreadAsync(() =>
                 {
                     _canvasContainer.Children.Remove(_printCanvas);
                     _printCanvas.Children.Clear();
@@ -231,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             _stateBags.Clear();
 
             // Clear the cache of preview pages
-            ClearPageCache();
+            await ClearPageCache();
 
             // Remove the handler for printing initialization.
             PrintManager printMan = PrintManager.GetForCurrentView();
@@ -254,16 +254,15 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 printTask.Completed += async (s, args) =>
                 {
                     // Notify the user when the print operation fails.
-                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                     {
                         foreach (var element in _stateBags.Keys)
                         {
                             _stateBags[element].Restore(element);
                         }
                         _stateBags.Clear();
-
-                        DetachCanvas();
                         _canvasContainer.RequestedTheme = ElementTheme.Default;
+                        await DetachCanvas();
 
                         switch (args.Completion)
                         {
@@ -373,7 +372,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="sender">PrintDocument</param>
         /// <param name="e">Paginate Event Arguments</param>
-        private void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
+        private async void CreatePrintPreviewPages(object sender, PaginateEventArgs e)
         {
             // Get the PrintTaskOptions
             PrintTaskOptions printingOptions = e.PrintTaskOptions;
@@ -397,16 +396,21 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     _canvasContainer.Children.Add(_printCanvas);
                 }
 
+                _canvasContainer.RequestedTheme = ElementTheme.Light;
+
                 // Clear the cache of preview pages
-                ClearPageCache();
+                await ClearPageCache();
 
                 // Clear the print canvas of preview pages
                 _printCanvas.Children.Clear();
 
+                var printPageTasks = new List<Task>();
                 foreach (var element in _elementsToPrint)
                 {
-                    AddOnePrintPreviewPage(element, pageDescription);
+                    printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
                 }
+
+                await Task.WhenAll(printPageTasks);
             }
 
             OnPreviewPagesCreated?.Invoke(_printPreviewPages);
@@ -414,7 +418,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             PrintDocument printDoc = (PrintDocument)sender;
 
             // Report the number of preview pages created
+            _printCanvas.UpdateLayout();
             printDoc.SetPreviewPageCount(_printPreviewPages.Count, PreviewPageCountType.Intermediate);
+            printDoc.SetPreviewPage(_printPreviewPages.Count, _printPreviewPages[_printPreviewPages.Count - 1]);
         }
 
         /// <summary>
@@ -427,7 +433,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         private void GetPrintPreviewPage(object sender, GetPreviewPageEventArgs e)
         {
             PrintDocument printDoc = (PrintDocument)sender;
-            printDoc.SetPreviewPage(e.PageNumber, _printPreviewPages[e.PageNumber - 1]);
+            if (_printPreviewPages.Count() > 0)
+            {
+                printDoc.SetPreviewPage(e.PageNumber, _printPreviewPages[e.PageNumber - 1]);
+            }
         }
 
         /// <summary>
@@ -457,7 +466,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <param name="element">FrameworkElement used to represent the "printing page"</param>
         /// <param name="printPageDescription">Printer's page description</param>
-        private void AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        private Task AddOnePrintPreviewPage(FrameworkElement element, PrintPageDescription printPageDescription)
         {
             var page = new Page();
 
@@ -499,19 +509,23 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
             page.Content = element;
 
-            // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
-            // through layout so that the linked containers correctly distribute the content inside them.
-            _printCanvas.Children.Add(page);
-            _printCanvas.InvalidateMeasure();
-            _printCanvas.UpdateLayout();
+            return DispatcherHelper.ExecuteOnUIThreadAsync(
+                () =>
+                {
+                    // Add the (newly created) page to the print canvas which is part of the visual tree and force it to go
+                    // through layout so that the linked containers correctly distribute the content inside them.
+                    _printCanvas.Children.Add(page);
+                    _printCanvas.UpdateLayout();
+                    _printCanvas.InvalidateMeasure();
 
-            // Add the page to the page preview collection
-            _printPreviewPages.Add(page);
+                    // Add the page to the page preview collection
+                    _printPreviewPages.Add(page);
+                }, Windows.UI.Core.CoreDispatcherPriority.High);
         }
 
-        private void ClearPageCache()
+        private Task ClearPageCache()
         {
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            return DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 if (!_directPrint)
                 {
