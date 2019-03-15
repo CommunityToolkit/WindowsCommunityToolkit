@@ -1,11 +1,17 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
     <TargetFramework>uap10.0</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <Title>Windows Community Toolkit Notifications for JavaScript</Title>
-    <Description>Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
-      Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit. Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications). Also works with C# portable class libraries and non-UWP C# projects like server projects.</Description>
+    <Description>
+      This project is used for packaging the WinMD to work for WinJS projects. 
+      
+      Generate tile, toast, and badge notifications for Windows 10 via code, with the help of IntelliSense, instead of directly using XML.
+      Supports adaptive tiles and adaptive/interactive toasts for Windows 10. It is part of the Windows Community Toolkit.
+      Supports C# and C++ UWP project types (see Microsoft.Toolkit.Uwp.Notifications).
+      Also works with C# portable class libraries and non-UWP C# projects like server projects.
+    </Description>
     <PackageTags>notifications win10 windows-10 tile tiles toast toasts badge xml uwp javascript</PackageTags>
     <ExtrasImplicitPlatformPackageIsPrivate>true</ExtrasImplicitPlatformPackageIsPrivate>
   </PropertyGroup>
