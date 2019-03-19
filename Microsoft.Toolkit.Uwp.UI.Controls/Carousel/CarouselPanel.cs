@@ -186,6 +186,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         internal void UpdatePosition()
         {
+            if (storyboard?.GetCurrentState() == ClockState.Active)
+            {
+                storyboard.SkipToFill();
+            }
+
             storyboard = new Storyboard();
             ManipulationMode = ManipulationModes.None;
 
