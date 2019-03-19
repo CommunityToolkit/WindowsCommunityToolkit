@@ -267,20 +267,20 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                         switch (args.Completion)
                         {
                             case PrintTaskCompletion.Failed:
-                            {
-                                OnPrintFailed?.Invoke();
-                                break;
-                            }
+                                {
+                                    OnPrintFailed?.Invoke();
+                                    break;
+                                }
                             case PrintTaskCompletion.Canceled:
-                            {
-                                OnPrintCanceled?.Invoke();
-                                break;
-                            }
+                                {
+                                    OnPrintCanceled?.Invoke();
+                                    break;
+                                }
                             case PrintTaskCompletion.Submitted:
-                            {
-                                OnPrintSucceeded?.Invoke();
-                                break;
-                            }
+                                {
+                                    OnPrintSucceeded?.Invoke();
+                                    break;
+                                }
                         }
                     });
                 };
@@ -403,12 +403,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                 // Clear the print canvas of preview pages
                 _printCanvas.Children.Clear();
-<<<<<<< HEAD
-                
-=======
 
                 var printPageTasks = new List<Task>();
->>>>>>> windows/master
                 foreach (var element in _elementsToPrint)
                 {
                     printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
