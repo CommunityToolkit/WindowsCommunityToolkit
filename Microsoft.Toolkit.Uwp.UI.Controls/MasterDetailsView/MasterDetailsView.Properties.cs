@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
-        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependancy property
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property
         /// </summary>
         public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
             nameof(CompactModeThresholdWidth),
@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
 
         /// <summary>
-        /// Identifies the <see cref="BackButtonBehavior"/> dependancy property
+        /// Identifies the <see cref="BackButtonBehavior"/> dependency property
         /// </summary>
         public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
             nameof(BackButtonBehavior),

@@ -62,6 +62,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
         public Brush BorderBrush { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="FlowDirection"/> of the markdown.
+        /// </summary>
+        public FlowDirection FlowDirection { get; set; }
+
+        /// <summary>
         /// Gets or sets the font used to display text in the control.
         /// </summary>
         public FontFamily FontFamily { get; set; }

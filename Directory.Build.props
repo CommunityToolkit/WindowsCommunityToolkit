@@ -14,9 +14,6 @@
     <IsDesignProject>$(MSBuildProjectName.Contains('.Design'))</IsDesignProject>
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
-    <IsWin32Project Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Win32'))</IsWin32Project>
-    <IsWpfProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Wpf'))</IsWpfProject>
-    <IsFormsProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Forms'))</IsFormsProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
     <DefaultTargetPlatformVersion>17763</DefaultTargetPlatformVersion>
     <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
@@ -29,54 +26,6 @@
   </PropertyGroup>
 
   <Choose>
-    <When Condition="'$(IsWin32Project)' == 'true' or '$(IsWpfProject)' == 'true' or '$(IsFormsProject)' == 'true'">
-      <PropertyGroup>
-        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-        <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-        <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-
-        <!-- Need RS5 or later.
-        
-        When changing this value, ensure the SDK is installed with the build process.
-        Need to check several files:
-          - /azure-pipelines.yml
-
-        This also needs to be installed on your local machine. Can do this with PowerShell:
-          ./build/Install-WindowsSDKISO.ps1 17763
-        -->
-        <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
-        <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
-
-        <!-- Compiler -->
-        <FileAlignment>512</FileAlignment>
-        <HighEntropyVA>true</HighEntropyVA>
-        <ErrorReport>prompt</ErrorReport>
-        <WarningLevel>4</WarningLevel>
-        <WarningsAsErrors />
-        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <NoWarn>1591</NoWarn>
-        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-        <OutputPath>bin\$(Platform)\$(Configuration)</OutputPath>
-        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-
-      </PropertyGroup>
-      <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>full</DebugType>
-        <DefineConstants>$(DefineConstants);DEBUG;TRACE</DefineConstants>
-        <Optimize>false</Optimize>
-      </PropertyGroup>
-      <PropertyGroup Condition="'$(Configuration)' == 'Release'">
-        <DebugSymbols>true</DebugSymbols>
-        <DebugType>pdbonly</DebugType>
-        <Optimize>true</Optimize>
-        <DefineConstants>$(DefineConstants);TRACE</DefineConstants>
-      </PropertyGroup>
-    </When>
-  </Choose>
-
-  <Choose>
     <When Condition="'$(IsTestProject)' != 'true' and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
@@ -85,7 +34,7 @@
   </Choose>
 
   <Choose>
-    <When Condition="('$(IsUwpProject)' == 'true' or '$(IsWin32Project)' == 'true' or '$(IsWpfProject)' == 'true' or '$(IsFormsProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
+    <When Condition="('$(IsUwpProject)' == 'true') and '$(IsSampleProject)' != 'true' and '$(IsDesignProject)' != 'true'">
       <PropertyGroup>
         <GenerateLibraryLayout>true</GenerateLibraryLayout>
       </PropertyGroup>

@@ -20,59 +20,18 @@ function Download-File
            [string] $downloadUrl,
            [string] $downloadName)
 
-    # The ISO file can be large (800 MB), we want to use smart caching if we can to avoid long delays
-    # Note that some sources explicitly disable caching, so this may not be possible
-    $etagFile = Join-path $outDir "$downloadName.ETag"
     $downloadPath = Join-Path $outDir "$downloadName.download"
     $downloadDest = Join-Path $outDir $downloadName
     $downloadDestTemp = Join-Path $outDir "$downloadName.tmp"
-    $headers = @{}
 
-    Write-Host -NoNewline "Ensuring that $downloadName is up to date..."
-
-    # if the destination folder doesn't exist, delete the ETAG file if it exists
-    if (!(Test-Path -PathType Container $downloadDest) -and (Test-Path -PathType Container $etagFile))
-    {
-        Remove-Item -Force $etagFile
-    }
-
-    if (Test-Path $etagFile)
-    {
-        $headers.Add("If-None-Match", [System.IO.File]::ReadAllText($etagFile))
-    }
+    Write-Host -NoNewline "Downloading $downloadName..."
 
     try
     {
-        # Dramatically speeds up download performance
-        $ProgressPreference = 'SilentlyContinue'
-        $response = Invoke-WebRequest -Headers $headers -Uri $downloadUrl -PassThru -OutFile $downloadPath -UseBasicParsing
+        $webclient = new-object System.Net.WebClient
+        $webclient.DownloadFile($downloadUrl, $downloadPath)
     }
     catch [System.Net.WebException]
-    {
-        $response = $_.Exception.Response
-    }
-
-    if ($response.StatusCode -eq 200)
-    {
-        Unblock-File $downloadPath
-        [System.IO.File]::WriteAllText($etagFile, $response.Headers["ETag"])
-
-        $downloadDestTemp = $downloadPath;
-
-        # Delete and rename to final dest
-        if (Test-Path -PathType Container $downloadDest)
-        {
-            [System.IO.Directory]::Delete($downloadDest, $true)
-        }
-
-        Move-Item -Force $downloadDestTemp $downloadDest
-        Write-Host "Updated $downloadName"
-    }
-    elseif ($response.StatusCode -eq 304)
-    {
-        Write-Host "Done"
-    }
-    else
     {
         Write-Host
         Write-Warning "Failed to fetch updated file from $downloadUrl"
@@ -85,6 +44,19 @@ function Download-File
             Write-Warning "$downloadName may be out of date"
         }
     }
+
+    Unblock-File $downloadPath
+
+    $downloadDestTemp = $downloadPath;
+
+    # Delete and rename to final dest
+    if (Test-Path -PathType Container $downloadDest)
+    {
+        [System.IO.Directory]::Delete($downloadDest, $true)
+    }
+
+    Move-Item -Force $downloadDestTemp $downloadDest
+    Write-Host "Done"
 
     return $downloadDest
 }
@@ -268,7 +240,7 @@ if ($InstallWindowsSDK)
 {
     # Static(ish) link for Windows SDK
     # Note: there is a delay from Windows SDK announcements to availability via the static link
-    $uri = "https://go.microsoft.com/fwlink/?prd=11966&pver=1.0&plcid=0x409&clcid=0x409&ar=Flight&sar=Sdsurl&o1=$buildNumber"
+    $uri = "https://software-download.microsoft.com/download/sg/Windows_InsiderPreview_SDK_en-us_$($buildNumber)_1.iso";
 
     if ($env:TEMP -eq $null)
     {

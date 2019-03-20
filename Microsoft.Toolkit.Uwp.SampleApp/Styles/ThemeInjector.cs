@@ -30,13 +30,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                     {
                         TintColor = Helpers.ColorHelper.ToColor("#FF333333"),
                         TintOpacity = 0.8,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                        FallbackColor = Helpers.ColorHelper.ToColor("#FF333333")
                     },
                     LightAcrylic = new AcrylicBrush
                     {
                         TintColor = Colors.White,
                         TintOpacity = 0.8,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                        FallbackColor = Colors.White
                     }
                 });
 
@@ -47,13 +49,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                     {
                         TintColor = Helpers.ColorHelper.ToColor("#FF111111"),
                         TintOpacity = 0.7,
-                        BackgroundSource = AcrylicBackgroundSource.Backdrop
+                        BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                        FallbackColor = Helpers.ColorHelper.ToColor("#FF111111")
                     },
                     LightAcrylic = new AcrylicBrush
                     {
                         TintColor = Helpers.ColorHelper.ToColor("#FFDDDDDD"),
                         TintOpacity = 0.6,
                         BackgroundSource = AcrylicBackgroundSource.Backdrop,
+                        FallbackColor = Helpers.ColorHelper.ToColor("#FFDDDDDD")
                     }
                 });
             }

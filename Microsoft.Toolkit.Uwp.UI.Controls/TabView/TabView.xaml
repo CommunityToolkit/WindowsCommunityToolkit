@@ -114,7 +114,7 @@
     <Style TargetType="local:TabView">
         <Setter Property="Background" Value="{ThemeResource TabViewBackground}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsSwipeEnabled" Value="False" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
@@ -296,6 +296,7 @@
                                 Background="{TemplateBinding Background}"
                                 Visibility="Collapsed">
                             <Button x:Name="CloseButton"
+                                    x:Uid="/Microsoft.Toolkit.Uwp.UI.Controls/Resources/WindowsCommunityToolkit_TabView_CloseButton"
                                     Style="{StaticResource TabViewItemCloseButtonStyle}">
                                 &#xE711;
                             </Button>
@@ -570,7 +571,7 @@
         <Setter Property="MinWidth" Value="{ThemeResource TabViewItemHeaderMinWidth}" />
         <Setter Property="MinHeight" Value="{ThemeResource TabViewItemHeaderMinHeight}" />
         <Setter Property="MaxWidth" Value="{ThemeResource TabViewItemHeaderMaxWidth}" />
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="FocusVisualMargin" Value="0" />
         <Setter Property="IsClosable" Value="False" />
         <Setter Property="Template" Value="{StaticResource TabViewItemHeaderTemplate}" />
@@ -682,7 +683,7 @@
         <Setter Property="BorderThickness" Value="1,0,0,0" />
         <Setter Property="BorderBrush" Value="{ThemeResource TabViewItemHeaderRevealBorderBrush}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="UseSystemFocusVisuals" Value="{StaticResource UseSystemFocusVisuals}" />
+        <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollViewer">
@@ -711,6 +712,7 @@
 
                             <ScrollContentPresenter x:Name="ScrollContentPresenter"
                                                     Grid.Column="1"
+                                                    TabFocusNavigation="Once"
                                                     Margin="{TemplateBinding Padding}" />
 
                             <RepeatButton x:Name="ScrollForwardButton"

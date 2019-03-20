@@ -1,9 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Title>Windows Community Toolkit .NET Standard Parsers</Title>
-    <Description>This .NET standard library contains various parsers including Markdown and RSS. It is part of the Windows Community Toolkit.</Description>
+    <Description>
+      This .NET standard library contains various parsers
+
+      Markdown: Allows you to parse a Markdown String into a Markdown Document, and then Render it with a Markdown Renderer.
+
+      RSS: Allows you to parse an RSS content String into an RSS Schema.
+
+    </Description>
     <PackageTags>UWP Toolkit Windows Parsers Parsing Markdown RSS</PackageTags>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
