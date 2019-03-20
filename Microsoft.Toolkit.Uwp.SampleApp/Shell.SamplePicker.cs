@@ -92,7 +92,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             SamplePickerGridView.ItemsSource = samples;
-            SamplePickerGridView.TabIndex = 0;
 
             if (_currentSample != null && samples.Contains(_currentSample))
             {
@@ -172,7 +171,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (button != null)
             {
                 button.Click -= MoreInfoClicked;
+                button.LostFocus -= MoreInfoLostFocus;
                 button.Click += MoreInfoClicked;
+                button.LostFocus += MoreInfoLostFocus;
             }
 
             var itemIndex = SamplePickerGridView.IndexFromContainer(itemContainer);
@@ -254,6 +255,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 MoreInfoCanvas.Visibility = Visibility.Visible;
             }
+        }
+
+        private void MoreInfoLostFocus(object sender, RoutedEventArgs e)
+        {
+            HideMoreInfo();
         }
 
         private void InitMoreInfoContentContainer( GridViewItem container)
