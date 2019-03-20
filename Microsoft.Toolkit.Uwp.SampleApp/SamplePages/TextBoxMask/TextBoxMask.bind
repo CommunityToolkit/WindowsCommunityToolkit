@@ -61,7 +61,7 @@
                 <TextBox Grid.Row="4"
                          extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
                          extensions:TextBoxMask.Mask="a5c-5c*9"
-                         Header="Text box with CustomMask in case you want to define your own variable character like a,9 and * , mask: a5c-5c*9, 5: [1-5], c: [a-c]"
+                         Header="Text box with CustomMask in case you want to define your own variable character like a, 9 and *. Mask: a5c-5c*9, 5: [1-5], c: [a-c]"
                          HeaderTemplate="{StaticResource HeaderTemplate}"
                          Style="{StaticResource MaskedTextBoxStyle}" />
 
