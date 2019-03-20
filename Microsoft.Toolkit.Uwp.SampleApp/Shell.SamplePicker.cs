@@ -14,6 +14,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
@@ -22,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
     {
         private Sample _currentSample;
         private SampleCategory _selectedCategory;
+
+        public CollectionViewSource SampleView { get; } = new CollectionViewSource();
 
         private Sample CurrentSample
         {
@@ -62,7 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var noop = SetNavViewSelection();
         }
 
-        private async void ShowSamplePicker(Sample[] samples = null)
+        private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
         {
             if (samples == null && _currentSample != null)
             {
@@ -91,8 +94,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
+
             SamplePickerGridView.ItemsSource = samples;
             SamplePickerGridView.TabIndex = 0;
+
+            var groups = samples.GroupBy(sample => sample.Subcategory);
+
+            if (group && groups.Count() > 1)
+            {
+                SampleView.IsSourceGrouped = true;
+                SampleView.Source = groups.OrderBy(g => g.Key);
+            }
+            else
+            {
+                SampleView.IsSourceGrouped = false;
+                SampleView.Source = samples;
+            }
+
+            SamplePickerGridView.ItemsSource = SampleView.View;
 
             if (_currentSample != null && samples.Contains(_currentSample))
             {
@@ -119,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 else
                 {
                     _selectedCategory = category;
-                    ShowSamplePicker(category.Samples);
+                    ShowSamplePicker(category.Samples, true);
                 }
             }
             else if (args.IsSettingsInvoked)

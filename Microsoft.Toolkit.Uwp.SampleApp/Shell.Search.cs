@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            var samples = (await Samples.FindSamplesByName(SearchBox.Text)).OrderBy(s => s.Name).ToArray();
+            var samples = (await Samples.FindSample(SearchBox.Text)).OrderBy(s => s.Name).ToArray();
             if (samples.Count() > 0)
             {
                 ShowSamplePicker(samples);
