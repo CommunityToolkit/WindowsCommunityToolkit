@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         private string _okLabel = "Ok";
-        private string _boldLabel = "Negrita";
+        private string _boldLabel = "Bold";
         private string _italicsLabel = "Italics";
         private string _strikethroughLabel = "Strikethrough";
         private string _quoteLabel = "Quote";
