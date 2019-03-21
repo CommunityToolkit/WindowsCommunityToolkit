@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Strings for TextToolbar Tooltips and UI.
     /// </summary>
-    public partial class TextToolbarStrings : DependencyObject
+    public partial class TextToolbarStrings
     {
         /// <summary>
         /// Gets or sets the label for <see cref="BoldLabel"/> .
@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the label for Italics
+        /// Gets or sets the label for <see cref="ItalicsLabel"/>
         /// </summary>
         public string ItalicsLabel
         {
@@ -30,12 +30,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the label for <see cref="StrikeThroughLabel"/>.
+        /// Gets or sets the label for <see cref="StrikethroughLabel"/>.
         /// </summary>
-        public string StrikeThroughLabel
+        public string StrikethroughLabel
         {
-            get => _strikeThroughLabel;
-            set => _strikeThroughLabel = value;
+            get => _strikethroughLabel;
+            set => _strikethroughLabel = value;
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the label for Code
+        /// Gets or sets the label for <see cref="CodeLabel"/>
         /// </summary>
         public string CodeLabel
         {
@@ -66,12 +66,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the label for <see cref="OrderedList"/>
+        /// Gets or sets the label for <see cref="OrderedListLabel"/>
         /// </summary>
-        public string OrderedList
+        public string OrderedListLabel
         {
-            get => _orderedList;
-            set => _orderedList = value;
+            get => _orderedListlabel;
+            set => _orderedListlabel = value;
         }
 
         /// <summary>
@@ -180,27 +180,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public string RelativeLabel
         {
             get => _relativeLabel;
+
             set => _relativeLabel = value;
         }
 
-        private string _okLabel;
-        private string _boldLabel;
-        private string _italicsLabel;
-        private string _strikeThroughLabel;
-        private string _quoteLabel;
-        private string _codeLabel;
-        private string _listLabel;
-        private string _orderedList;
-        private string _linkLabel;
-        private string _createLinkLabel;
-        private string _urlLabel;
-        private string _labelLabel;
-        private string _cancelLabel;
-        private string _underlineLabel;
-        private string _headerLabel;
-        private string _emptyTextLabel;
-        private string _linkInvalidLabel;
-        private string _warningLabel;
-        private string _relativeLabel;
+        private string _okLabel = "Ok";
+        private string _boldLabel = "Negrita";
+        private string _italicsLabel = "Italics";
+        private string _strikethroughLabel = "Strikethrough";
+        private string _quoteLabel = "Quote";
+        private string _codeLabel = "Code";
+        private string _listLabel = "List";
+        private string _orderedListlabel = "Ordered List";
+        private string _linkLabel = "Link";
+        private string _createLinkLabel = "Create Link";
+        private string _urlLabel = "Url";
+        private string _labelLabel = "Label";
+        private string _cancelLabel = "Cancel";
+        private string _underlineLabel = "Underline";
+        private string _headerLabel = "Header";
+        private string _emptyTextLabel = "Empty Text";
+        private string _linkInvalidLabel = "Link invalid";
+        private string _warningLabel = "Warning";
+        private string _relativeLabel = "Relative";
     }
 }
