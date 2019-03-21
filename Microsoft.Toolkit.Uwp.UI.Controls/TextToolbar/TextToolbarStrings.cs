@@ -12,126 +12,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TextToolbarStrings : DependencyObject
     {
         /// <summary>
-        /// Identifies the <see cref="BoldLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty BoldLabelProperty =
-            DependencyProperty.Register(nameof(BoldLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Bold"));
-
-        /// <summary>
-        /// Identifies the <see cref="ItalicsLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ItalicsLabelProperty =
-            DependencyProperty.Register(nameof(ItalicsLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Italics"));
-
-        /// <summary>
-        /// Identifies the <see cref="StrikethroughLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty StrikethroughLabelProperty =
-            DependencyProperty.Register(nameof(StrikethroughLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Strikethrough"));
-
-        /// <summary>
-        /// Identifies the <see cref="QuoteLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty QuoteLabelProperty =
-            DependencyProperty.Register(nameof(QuoteLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Quote"));
-
-        /// <summary>
-        /// Identifies the <see cref="CodeLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty CodeLabelProperty =
-            DependencyProperty.Register(nameof(CodeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Code"));
-
-        /// <summary>
-        /// Identifies the <see cref="ListLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ListLabelProperty =
-            DependencyProperty.Register(nameof(ListLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("List"));
-
-        /// <summary>
-        /// Identifies the <see cref="OrderedListLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty OrderedListLabelProperty =
-            DependencyProperty.Register(nameof(OrderedListLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Ordered List"));
-
-        /// <summary>
-        /// Identifies the <see cref="LinkLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty LinkLabelProperty =
-            DependencyProperty.Register(nameof(LinkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Link"));
-
-        /// <summary>
-        /// Identifies the <see cref="CreateLinkLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty CreateLinkLabelProperty =
-            DependencyProperty.Register(nameof(CreateLinkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Create Link"));
-
-        /// <summary>
-        /// Identifies the <see cref="UrlLabelProperty"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty UrlLabelProperty =
-            DependencyProperty.Register(nameof(UrlLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Url"));
-
-        /// <summary>
-        /// Identifies the <see cref="LabelLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty LabelLabelProperty =
-            DependencyProperty.Register(nameof(LabelLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Label"));
-
-        /// <summary>
-        /// Identifies the <see cref="OkLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty OkLabelProperty =
-            DependencyProperty.Register(nameof(OkLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("OK"));
-
-        /// <summary>
-        /// Identifies the <see cref="CancelLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty CancelLabelProperty =
-            DependencyProperty.Register(nameof(CancelLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Cancel"));
-
-        /// <summary>
-        /// Identifies the <see cref="UnderlineLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty UnderlineLabelProperty =
-            DependencyProperty.Register(nameof(UnderlineLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Underline"));
-
-        /// <summary>
-        /// Identifies the <see cref="HeaderLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty HeaderLabelProperty =
-            DependencyProperty.Register(nameof(HeaderLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Header"));
-
-        /// <summary>
-        /// Identifies the <see cref="EmptyTextLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty EmptyTextLabelProperty =
-            DependencyProperty.Register(nameof(EmptyTextLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Label cannot be Empty"));
-
-        /// <summary>
-        /// Identifies the <see cref="LinkInvalidLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty LinkInvalidLabelProperty =
-            DependencyProperty.Register(nameof(LinkInvalidLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Link Format is Invaild"));
-
-        /// <summary>
-        /// Identifies the <see cref="WarningLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty WarningLabelProperty =
-            DependencyProperty.Register(nameof(WarningLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Warning"));
-
-        /// <summary>
-        /// Identifies the <see cref="RelativeLabel"/> dependency property.
-        /// </summary>
-        public static readonly DependencyProperty RelativeLabelProperty =
-            DependencyProperty.Register(nameof(RelativeLabel), typeof(string), typeof(TextToolbarStrings), new PropertyMetadata("Relative"));
-
-        /// <summary>
-        /// Gets or sets the label for Bold
+        /// Gets or sets the label for <see cref="BoldLabel"/> .
         /// </summary>
         public string BoldLabel
         {
-            get { return (string)GetValue(BoldLabelProperty); }
-            set { SetValue(BoldLabelProperty, value); }
+            get => _boldLabel;
+            set => _boldLabel = value;
         }
 
         /// <summary>
@@ -139,26 +25,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public string ItalicsLabel
         {
-            get { return (string)GetValue(ItalicsLabelProperty); }
-            set { SetValue(ItalicsLabelProperty, value); }
+            get => _italicsLabel;
+            set => _italicsLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Strikethrough
+        /// Gets or sets the label for <see cref="StrikeThroughLabel"/>.
         /// </summary>
-        public string StrikethroughLabel
+        public string StrikeThroughLabel
         {
-            get { return (string)GetValue(StrikethroughLabelProperty); }
-            set { SetValue(StrikethroughLabelProperty, value); }
+            get => _strikeThroughLabel;
+            set => _strikeThroughLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Quote
+        /// Gets or sets the label for <see cref="QuoteLabel"/>.
         /// </summary>
         public string QuoteLabel
         {
-            get { return (string)GetValue(QuoteLabelProperty); }
-            set { SetValue(QuoteLabelProperty, value); }
+            get => _quoteLabel;
+            set => _quoteLabel = value;
         }
 
         /// <summary>
@@ -166,134 +52,155 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public string CodeLabel
         {
-            get { return (string)GetValue(CodeLabelProperty); }
-            set { SetValue(CodeLabelProperty, value); }
+            get => _codeLabel;
+            set => _codeLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for List
+        /// Gets or sets the label for <see cref="ListLabel"/>
         /// </summary>
         public string ListLabel
         {
-            get { return (string)GetValue(ListLabelProperty); }
-            set { SetValue(ListLabelProperty, value); }
+            get => _listLabel;
+            set => _listLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for OrderedList
+        /// Gets or sets the label for <see cref="OrderedList"/>
         /// </summary>
-        public string OrderedListLabel
+        public string OrderedList
         {
-            get { return (string)GetValue(OrderedListLabelProperty); }
-            set { SetValue(OrderedListLabelProperty, value); }
+            get => _orderedList;
+            set => _orderedList = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Link
+        /// Gets or sets the label for <see cref="LinkLabel"/>
         /// </summary>
         public string LinkLabel
         {
-            get { return (string)GetValue(LinkLabelProperty); }
-            set { SetValue(LinkLabelProperty, value); }
+            get => _linkLabel;
+            set => _linkLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for CreateLink
+        /// Gets or sets the label for <see cref="CreateLinkLabel"/>
         /// </summary>
         public string CreateLinkLabel
         {
-            get { return (string)GetValue(CreateLinkLabelProperty); }
-            set { SetValue(CreateLinkLabelProperty, value); }
+            get => _createLinkLabel;
+            set => _createLinkLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Url
+        /// Gets or sets the label for <see cref="UrlLabel"/>
         /// </summary>
         public string UrlLabel
         {
-            get { return (string)GetValue(UrlLabelProperty); }
-            set { SetValue(UrlLabelProperty, value); }
+            get => _urlLabel;
+            set => _urlLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Label
+        /// Gets or sets the label for <see cref="LabelLabel"/>
         /// </summary>
         public string LabelLabel
         {
-            get { return (string)GetValue(LabelLabelProperty); }
-            set { SetValue(LabelLabelProperty, value); }
+            get => _labelLabel;
+            set => _labelLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for OK
+        /// Gets or sets the label for <see cref="OkLabel"/>
         /// </summary>
         public string OkLabel
         {
-            get { return (string)GetValue(OkLabelProperty); }
-            set { SetValue(OkLabelProperty, value); }
+            get => _okLabel;
+
+            set => _okLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Cancel
+        /// Gets or sets the label for <see cref="CancelLabel"/>
         /// </summary>
         public string CancelLabel
         {
-            get { return (string)GetValue(CancelLabelProperty); }
-            set { SetValue(CancelLabelProperty, value); }
+            get => _cancelLabel;
+            set => _cancelLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Underline
+        /// Gets or sets the label for <see cref="UnderlineLabel"/>
         /// </summary>
         public string UnderlineLabel
         {
-            get { return (string)GetValue(UnderlineLabelProperty); }
-            set { SetValue(UnderlineLabelProperty, value); }
+            get => _underlineLabel;
+            set => _underlineLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Header
+        /// Gets or sets the label for <see cref="HeaderLabel"/>
         /// </summary>
         public string HeaderLabel
         {
-            get { return (string)GetValue(HeaderLabelProperty); }
-            set { SetValue(HeaderLabelProperty, value); }
+            get => _headerLabel;
+            set => _headerLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for EmptyTextLabel
+        /// Gets or sets the label for <see cref="EmptyTextLabel"/>
         /// </summary>
         public string EmptyTextLabel
         {
-            get { return (string)GetValue(EmptyTextLabelProperty); }
-            set { SetValue(EmptyTextLabelProperty, value); }
+            get => _emptyTextLabel;
+            set => _emptyTextLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for LinkInvalid
+        /// Gets or sets the label for <see cref="LinkInvalidLabel"/>
         /// </summary>
         public string LinkInvalidLabel
         {
-            get { return (string)GetValue(LinkInvalidLabelProperty); }
-            set { SetValue(LinkInvalidLabelProperty, value); }
+            get => _linkInvalidLabel;
+            set => _linkInvalidLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Warning
+        /// Gets or sets the label for <see cref="WarningLabel"/>
         /// </summary>
         public string WarningLabel
         {
-            get { return (string)GetValue(WarningLabelProperty); }
-            set { SetValue(WarningLabelProperty, value); }
+            get => _warningLabel;
+            set => _warningLabel = value;
         }
 
         /// <summary>
-        /// Gets or sets the label for Relative
+        /// Gets or sets the label for <see cref="RelativeLabel"/>
         /// </summary>
         public string RelativeLabel
         {
-            get { return (string)GetValue(RelativeLabelProperty); }
-            set { SetValue(RelativeLabelProperty, value); }
+            get => _relativeLabel;
+            set => _relativeLabel = value;
         }
+
+        private string _okLabel;
+        private string _boldLabel;
+        private string _italicsLabel;
+        private string _strikeThroughLabel;
+        private string _quoteLabel;
+        private string _codeLabel;
+        private string _listLabel;
+        private string _orderedList;
+        private string _linkLabel;
+        private string _createLinkLabel;
+        private string _urlLabel;
+        private string _labelLabel;
+        private string _cancelLabel;
+        private string _underlineLabel;
+        private string _headerLabel;
+        private string _emptyTextLabel;
+        private string _linkInvalidLabel;
+        private string _warningLabel;
+        private string _relativeLabel;
     }
 }
