@@ -125,8 +125,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             SamplePickerGrid.RegisterPropertyChangedCallback(UIElement.VisibilityProperty, (s, args) =>
             {
-                var samplePicker = s as UIElement;
-                if (samplePicker != null && samplePicker.Visibility == Visibility.Visible)
+                if (s is UIElement samplePicker && samplePicker.Visibility == Visibility.Visible)
                 {
                     DispatcherHelper.ExecuteOnUIThreadAsync(() => SamplePickerGridView.Focus(FocusState.Keyboard));
                 }
