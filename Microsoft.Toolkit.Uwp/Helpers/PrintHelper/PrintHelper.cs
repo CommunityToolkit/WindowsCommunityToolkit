@@ -402,13 +402,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 await ClearPageCache();
 
                 // Clear the print canvas of preview pages
-                _printCanvas.Children.Clear();
-<<<<<<< HEAD
-                
-=======
 
                 var printPageTasks = new List<Task>();
->>>>>>> windows/master
                 foreach (var element in _elementsToPrint)
                 {
                     printPageTasks.Add(AddOnePrintPreviewPage(element, pageDescription));
