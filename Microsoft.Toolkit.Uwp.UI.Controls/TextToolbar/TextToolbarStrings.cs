@@ -180,7 +180,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public string RelativeLabel
         {
             get => _relativeLabel;
-
             set => _relativeLabel = value;
         }
 
