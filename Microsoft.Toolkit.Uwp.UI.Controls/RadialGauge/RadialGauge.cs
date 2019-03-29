@@ -12,6 +12,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Automation.Peers;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Shapes;
@@ -27,20 +28,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = ScalePartName, Type = typeof(Path))]
     [TemplatePart(Name = TrailPartName, Type = typeof(Path))]
     [TemplatePart(Name = ValueTextPartName, Type = typeof(TextBlock))]
-    public class RadialGauge : Control
+    public class RadialGauge : RangeBase
     {
-        /// <summary>
-        /// Identifies the Minimum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MinimumProperty =
-            DependencyProperty.Register(nameof(Minimum), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0, OnScaleChanged));
-
-        /// <summary>
-        /// Identifies the Maximum dependency property.
-        /// </summary>
-        public static readonly DependencyProperty MaximumProperty =
-            DependencyProperty.Register(nameof(Maximum), typeof(double), typeof(RadialGauge), new PropertyMetadata(100.0, OnScaleChanged));
-
         /// <summary>
         /// Identifies the optional StepSize property.
         /// </summary>
@@ -64,12 +53,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty NeedleBrushProperty =
             DependencyProperty.Register(nameof(NeedleBrush), typeof(SolidColorBrush), typeof(RadialGauge), new PropertyMetadata(null, OnFaceChanged));
-
-        /// <summary>
-        /// Identifies the Value dependency property.
-        /// </summary>
-        public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(nameof(Value), typeof(double), typeof(RadialGauge), new PropertyMetadata(0.0, OnValueChanged));
 
         /// <summary>
         /// Identifies the Unit dependency property.
@@ -200,6 +183,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(RadialGauge);
 
+            SmallChange = 1;
+            LargeChange = 10;
             Unloaded += RadialGauge_Unloaded;
         }
 
@@ -210,22 +195,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
-            double step = 1;
+            double step = SmallChange;
             var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
-                step = 5;
+                step = LargeChange;
             }
 
             step = Math.Max(StepSize, step);
-            if (e.Key == VirtualKey.Left)
+            if ((e.Key == VirtualKey.Left) || (e.Key == VirtualKey.Down))
             {
                 Value = Math.Max(Minimum, Value - step);
                 e.Handled = true;
                 return;
             }
 
-            if (e.Key == VirtualKey.Right)
+            if ((e.Key == VirtualKey.Right) || (e.Key == VirtualKey.Up))
             {
                 Value = Math.Min(Maximum, Value + step);
                 e.Handled = true;
@@ -239,24 +224,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ThemeListener.ThemeChanged -= ThemeListener_ThemeChanged;
             PointerReleased -= RadialGauge_PointerReleased;
             Unloaded -= RadialGauge_Unloaded;
-        }
-
-        /// <summary>
-        /// Gets or sets the minimum value of the scale.
-        /// </summary>
-        public double Minimum
-        {
-            get { return (double)GetValue(MinimumProperty); }
-            set { SetValue(MinimumProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the maximum value of the scale.
-        /// </summary>
-        public double Maximum
-        {
-            get { return (double)GetValue(MaximumProperty); }
-            set { SetValue(MaximumProperty, value); }
         }
 
         /// <summary>
@@ -284,15 +251,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (double)GetValue(ScaleWidthProperty); }
             set { SetValue(ScaleWidthProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the current value.
-        /// </summary>
-        public double Value
-        {
-            get { return (double)GetValue(ValueProperty); }
-            set { SetValue(ValueProperty, value); }
         }
 
         /// <summary>
@@ -492,9 +450,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             base.OnApplyTemplate();
         }
 
-        private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        /// <inheritdoc/>
+        protected override void OnMinimumChanged(double oldMinimum, double newMinimum)
         {
-            OnValueChanged(d);
+            base.OnMinimumChanged(oldMinimum, newMinimum);
+            OnScaleChanged(this);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnMaximumChanged(double oldMaximum, double newMaximum)
+        {
+            base.OnMaximumChanged(oldMaximum, newMaximum);
+            OnScaleChanged(this);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnValueChanged(double oldValue, double newValue)
+        {
+            OnValueChanged(this);
+            base.OnValueChanged(oldValue, newValue);
         }
 
         private static void OnValueChanged(DependencyObject d)
