@@ -152,6 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _minThumb.DragDelta += MinThumb_DragDelta;
                 _minThumb.DragStarted += MinThumb_DragStarted;
                 _minThumb.KeyDown += MinThumb_KeyDown;
+                _minThumb.KeyUp += Thumb_KeyUp;
             }
 
             if (_maxThumb != null)
@@ -160,6 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _maxThumb.DragDelta += MaxThumb_DragDelta;
                 _maxThumb.DragStarted += MaxThumb_DragStarted;
                 _maxThumb.KeyDown += MaxThumb_KeyDown;
+                _maxThumb.KeyUp += Thumb_KeyUp;
             }
 
             if (_containerCanvas != null)
@@ -190,11 +192,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Left:
                     RangeMin -= StepFrequency;
                     SyncThumbs(fromMinKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMin += StepFrequency;
                     SyncThumbs(fromMinKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
             }
@@ -207,11 +219,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Left:
                     RangeMax -= StepFrequency;
                     SyncThumbs(fromMaxKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMax += StepFrequency;
                     SyncThumbs(fromMaxKeyDown: true);
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Visible;
+                    }
+
+                    e.Handled = true;
+                    break;
+            }
+        }
+
+        private void Thumb_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                case VirtualKey.Right:
+                    if (_toolTip != null)
+                    {
+                        _toolTip.Visibility = Visibility.Collapsed;
+                    }
+
                     e.Handled = true;
                     break;
             }
@@ -262,6 +300,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             SyncThumbs();
+
+            if (_toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void ContainerCanvas_PointerMoved(object sender, PointerRoutedEventArgs e)
