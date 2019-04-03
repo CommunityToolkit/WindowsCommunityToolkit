@@ -278,6 +278,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ValueChanged?.Invoke(this, new RangeChangedEventArgs(RangeMax, normalizedPosition, RangeSelectorProperty.MaximumValue));
             }
 
+            if (_toolTip != null)
+            {
+                _toolTip.Visibility = Visibility.Collapsed;
+            }
+
             VisualStateManager.GoToState(this, "Normal", false);
         }
 
