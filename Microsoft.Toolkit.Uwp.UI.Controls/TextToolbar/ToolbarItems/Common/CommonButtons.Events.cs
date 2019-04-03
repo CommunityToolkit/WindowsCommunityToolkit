@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Extensions;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -53,13 +54,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             var labelBox = new RichEditBox
             {
-                PlaceholderText = Model.Labels.LabelLabel,
+                PlaceholderText = StringExtensions.GetLocalized("TextToolbarStrings_LabelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Margin = new Thickness(0, 0, 0, 5),
                 AcceptsReturn = false
             };
             var linkBox = new TextBox
             {
-                PlaceholderText = Model.Labels.UrlLabel
+                PlaceholderText = StringExtensions.GetLocalized("TextToolbarStrings_UrlLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
 
             CheckBox relativeBox = null;
@@ -77,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
             {
                 relativeBox = new CheckBox
                 {
-                    Content = Model.Labels.RelativeLabel
+                    Content = StringExtensions.GetLocalized("TextToolbarStrings_RelativeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
                 };
                 contentPanel.Children.Add(relativeBox);
             }
@@ -88,10 +89,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 
             var result = await new ContentDialog
             {
-                Title = Model.Labels.CreateLinkLabel,
+                Title = StringExtensions.GetLocalized("TextToolbarStrings_CreateLinkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                 Content = contentPanel,
-                PrimaryButtonText = Model.Labels.OkLabel,
-                SecondaryButtonText = Model.Labels.CancelLabel
+                PrimaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
+                SecondaryButtonText = StringExtensions.GetLocalized("TextToolbarStrings_CancelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             }.ShowAsync();
 
             if (result == ContentDialogResult.Primary)
@@ -99,11 +100,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.None, out string labelText);
                 labelBox.Document.GetText(Windows.UI.Text.TextGetOptions.FormatRtf, out string formattedlabelText);
 
+                string linkInvalidLabel = StringExtensions.GetLocalized("TextToolbarStrings_LinkInvalidLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string okLabel = StringExtensions.GetLocalized("TextToolbarStrings_OkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+                string warningLabel = StringExtensions.GetLocalized("TextToolbarStrings_WarningLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
                 string linkText = linkBox.Text.Trim();
 
                 if (string.IsNullOrWhiteSpace(linkText))
                 {
-                    ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
+                    ShowContentDialog(warningLabel, linkInvalidLabel, okLabel);
                     return;
                 }
 
@@ -112,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                     var wellFormed = Uri.IsWellFormedUriString(linkText, relativeBox?.IsChecked == true ? UriKind.RelativeOrAbsolute : UriKind.Absolute);
                     if (!wellFormed)
                     {
-                        ShowContentDialog(Model.Labels.WarningLabel, Model.Labels.LinkInvalidLabel, Model.Labels.OkLabel);
+                        ShowContentDialog(warningLabel, linkInvalidLabel, okLabel);
                         return;
                     }
                 }
