@@ -32,7 +32,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
                 return value;
             }
 
-            return string.Format((string)parameter, value);
+            try
+            {
+                return string.Format((string)parameter, value);
+            }
+            catch
+            {
+            }
+
+            return value;
         }
 
         /// <summary>
