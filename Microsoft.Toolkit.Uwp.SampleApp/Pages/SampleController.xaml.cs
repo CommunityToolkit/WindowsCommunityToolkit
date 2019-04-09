@@ -439,9 +439,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private async void DocumentationTextblock_OnLinkClicked(object sender, LinkClickedEventArgs e)
         {
             TrackingManager.TrackEvent("Link", e.Link);
-            if (Uri.TryCreate(e.Link, UriKind.Absolute, out Uri result))
+            var link = e.Link;
+            if (e.Link.EndsWith(".md"))
             {
-                await Launcher.LaunchUriAsync(new Uri(e.Link));
+                link = string.Format("https://docs.microsoft.com/en-us/windows/communitytoolkit/{0}/{1}", CurrentSample.CategoryName.ToLower(), link.Replace(".md", string.Empty));
+            }
+
+            if (Uri.TryCreate(link, UriKind.Absolute, out Uri result))
+            {
+                await Launcher.LaunchUriAsync(result);
             }
         }
 
