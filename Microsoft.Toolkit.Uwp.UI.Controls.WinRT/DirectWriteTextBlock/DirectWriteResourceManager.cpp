@@ -55,6 +55,10 @@ HRESULT DirectWriteResourceManager::InitializeDeviceResources()
         UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
         D3D_FEATURE_LEVEL supportedFeatureLevel;
 
+        m_d3dDevice = nullptr;
+        m_d2dDevice = nullptr;
+        m_dwriteFactory = nullptr;
+
         D3D_FEATURE_LEVEL featureLevels[] =
         {
             D3D_FEATURE_LEVEL_11_1,
