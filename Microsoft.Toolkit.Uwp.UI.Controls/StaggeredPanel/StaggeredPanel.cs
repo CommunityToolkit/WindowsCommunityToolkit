@@ -124,16 +124,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var child = Children[i];
                 var elementSize = child.DesiredSize;
 
-                double elementWidth = elementSize.Width;
                 double elementHeight = elementSize.Height;
-                if (elementWidth > _columnWidth)
-                {
-                    double differencePercentage = _columnWidth / elementWidth;
-                    elementHeight = elementHeight * differencePercentage;
-                    elementWidth = _columnWidth;
-                }
 
-                Rect bounds = new Rect(horizontalOffset + (_columnWidth * columnIndex), columnHeights[columnIndex] + verticalOffset, elementWidth, elementHeight);
+                Rect bounds = new Rect(horizontalOffset + (_columnWidth * columnIndex), columnHeights[columnIndex] + verticalOffset, _columnWidth, elementHeight);
                 child.Arrange(bounds);
 
                 columnHeights[columnIndex] += elementSize.Height;
