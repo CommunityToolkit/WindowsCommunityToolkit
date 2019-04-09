@@ -33,7 +33,8 @@
                                   OffsetY="@[OffsetY:DoubleSlider:2.0:0.0-100.0]"
                                   Color="@[Color:Brush:Black]"
                                   VerticalAlignment="Center"
-                                  HorizontalAlignment="Center">
+                                  HorizontalAlignment="Center"
+                                  IsMasked="@[Is Masked:Bool:true]">
           <TextBlock TextWrapping="Wrap">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. In eget sem luctus, gravida diam cursus, rutrum ipsum.
             Pellentesque semper magna nec sapien ornare tincidunt. Sed pellentesque, turpis quis laoreet pellentesque, urna sapien efficitur nulla,
@@ -53,7 +54,8 @@
                                     OffsetX="@[OffsetX]"
                                     OffsetY="@[OffsetY]"
                                     Color="@[Color]"
-                                    Margin="20">
+                                    Margin="20"
+                                    IsMasked="@[Is Masked]">
             <Polygon Points="50,0 0,50 50,50"
                 Stroke="BlueViolet" StrokeThickness="2" Fill="Blue" />
           </controls:DropShadowPanel>
@@ -63,7 +65,8 @@
                                     OffsetX="@[OffsetX]"
                                     OffsetY="@[OffsetY]"
                                     Color="@[Color]"
-                                    Margin="20">
+                                    Margin="20"
+                                    IsMasked="@[Is Masked]">
             <Rectangle Width="100" Height="50"
                 Stroke="Green" StrokeThickness="5" />
           </controls:DropShadowPanel>
@@ -73,13 +76,14 @@
                                     OffsetX="@[OffsetX]"
                                     OffsetY="@[OffsetY]"
                                     Color="@[Color]"
-                                    Margin="20">
+                                    Margin="20"
+                                    IsMasked="@[Is Masked]">
             <Polyline Points="0,0 50,50 50,0 0,50"
                 Stroke="Black" StrokeThickness="2" />
           </controls:DropShadowPanel>
         </StackPanel>
 
-        <TextBlock Style="{StaticResource TitleText}" >Images</TextBlock>
+        <TextBlock Style="{StaticResource TitleText}">Images</TextBlock>
         <Border Style="{StaticResource DividingBorder}" />
 
         <StackPanel Orientation="Horizontal">
@@ -89,7 +93,8 @@
                                     OffsetY="@[OffsetY]"
                                     Color="@[Color]"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
+                                    HorizontalAlignment="Center"
+                                    IsMasked="@[Is Masked]">
             <Image Width="200" Source="/SamplePages/DropShadowPanel/Unicorn.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
           <controls:DropShadowPanel BlurRadius="@[BlurRadius]"
@@ -98,7 +103,8 @@
                                     OffsetY="@[OffsetY]"
                                     Color="@[Color]"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
+                                    HorizontalAlignment="Center"
+                                    IsMasked="@[Is Masked]">
             <Image Width="200" Source="/SamplePages/DropShadowPanel/Trex.png" Stretch="Uniform" />
           </controls:DropShadowPanel>
         </StackPanel>
