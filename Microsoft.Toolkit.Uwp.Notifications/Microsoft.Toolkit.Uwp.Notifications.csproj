@@ -36,7 +36,6 @@
     <Reference Include="System.Runtime" />
     <Reference Include="Windows">
       <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
-      <HintPath Condition="Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</HintPath>
       <IsWinMDFile>true</IsWinMDFile>
       <Private>False</Private>
     </Reference>
