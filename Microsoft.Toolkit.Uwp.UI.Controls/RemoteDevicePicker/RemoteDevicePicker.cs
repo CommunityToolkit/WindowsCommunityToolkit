@@ -88,6 +88,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(RemoteDevicePicker);
             RemoteSystems = new ObservableCollection<RemoteSystem>();
             PrimaryButtonClick += RemoteDevicePicker_PrimaryButtonClick;
+
+            _discoveryFilter = new RemoteSystemDiscoveryTypeFilter(RemoteSystemDiscoveryType.Any);
+            _authorizationKindFilter = new RemoteSystemAuthorizationKindFilter(RemoteSystemAuthorizationKind.SameUser);
+            _statusFilter = new RemoteSystemStatusTypeFilter(RemoteSystemStatusType.Any);
         }
 
         /// <summary>
@@ -138,7 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnApplyTemplate()
         {
             Focus(FocusState.Programmatic);
-            UnhookEvents();
 
             _listDevices = GetTemplateChild("PART_ListDevices") as ListView;
             _listDeviceTypes = GetTemplateChild("PART_ListDeviceTypes") as ComboBox;
@@ -149,6 +152,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _authorizationType = GetTemplateChild("AuthorizationType") as ComboBox;
             _advancedFiltersGrid = GetTemplateChild("AdvancedFiltersGrid") as Grid;
 
+            UnhookEvents();
+
             var deviceList = typeof(RemoteSystemKinds).GetProperties().Select(a => a.Name).ToList();
             deviceList.Add("All");
             deviceList.Add("Unknown");
@@ -156,6 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_listDeviceTypes != null)
             {
                 _listDeviceTypes.ItemsSource = deviceList.OrderBy(a => a.ToString());
+                _listDeviceTypes.SelectedIndex = 0;
                 _listDeviceTypes.SelectionChanged += ListDeviceTypes_SelectionChanged;
             }
 
@@ -174,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_advancedFiltersGrid != null)
             {
-                _advancedFiltersGrid.Visibility = ShowAdvancedFilters || (_discoveryFilter != null && _statusFilter != null && _authorizationKindFilter != null) ? Visibility.Visible : Visibility.Collapsed;
+                _advancedFiltersGrid.Visibility = ShowAdvancedFilters ? Visibility.Visible : Visibility.Collapsed;
             }
 
             LoadFilters();
@@ -247,27 +253,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void LoadFilters()
         {
             var discoveryType = typeof(RemoteSystemDiscoveryType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceDiscovery.ItemsSource = discoveryType;
-
-            if (_discoveryFilter != null)
+            if (_deviceDiscovery != null)
             {
-                _deviceDiscovery.SelectedValue = _discoveryFilter.RemoteSystemDiscoveryType.ToString();
+                _deviceDiscovery.ItemsSource = discoveryType;
+                _deviceDiscovery.SelectedIndex = 0;
+                if (_discoveryFilter != null)
+                {
+                    _deviceDiscovery.SelectedValue = _discoveryFilter.RemoteSystemDiscoveryType.ToString();
+                }
             }
 
             var statusType = typeof(RemoteSystemStatusType).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _deviceStatus.ItemsSource = statusType;
-
-            if (_statusFilter != null)
+            if (_deviceStatus != null)
             {
-                _deviceStatus.SelectedValue = _statusFilter.RemoteSystemStatusType.ToString();
+                _deviceStatus.ItemsSource = statusType;
+                _deviceStatus.SelectedIndex = 0;
+                if (_statusFilter != null)
+                {
+                    _deviceStatus.SelectedValue = _statusFilter.RemoteSystemStatusType.ToString();
+                }
             }
 
             var authType = typeof(RemoteSystemAuthorizationKind).GetEnumNames().OrderBy(a => a.ToString()).ToList();
-            _authorizationType.ItemsSource = authType;
-
-            if (_authorizationKindFilter != null)
+            if (_authorizationType != null)
             {
-                _authorizationType.SelectedValue = _authorizationKindFilter.RemoteSystemAuthorizationKind.ToString();
+                _authorizationType.ItemsSource = authType;
+                _authorizationType.SelectedIndex = 0;
+                if (_authorizationKindFilter != null)
+                {
+                    _authorizationType.SelectedValue = _authorizationKindFilter.RemoteSystemAuthorizationKind.ToString();
+                }
             }
         }
 
@@ -338,7 +353,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void UpdateList()
         {
             var bindingList = new ObservableCollection<RemoteSystem>();
-            if (RemoteSystems != null)
+            if (RemoteSystems != null && _listDeviceTypes != null && _listDevices != null)
             {
                 var bindinglist = _listDeviceTypes.SelectedValue.ToString().Equals("All")
                     ? RemoteSystems
