@@ -586,7 +586,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            toolTip.Text = string.Format("{0:0.##}", newValue);
+            if (toolTip != null)
+            {
+                toolTip.Text = string.Format("{0:0.##}", newValue);
+            }
         }
 
         /// <summary>
