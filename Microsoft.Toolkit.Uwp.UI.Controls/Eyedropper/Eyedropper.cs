@@ -106,7 +106,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             _taskSource = null;
-            _targetGrid.Children.Clear();
             _rootGrid.Children.Clear();
             return result;
         }
@@ -205,9 +204,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void TargetGrid_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             _pointerId = e.Pointer.PointerId;
+            var point = e.GetCurrentPoint(_rootGrid);
             PickStarted?.Invoke(this, EventArgs.Empty);
             await UpdateAppScreenshotAsync();
-            var point = e.GetCurrentPoint(_rootGrid);
             UpdateEyedropper(point.Position);
 
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Touch)
