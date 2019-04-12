@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
 
             if (collisionOption.Equals("OpenIfExists"))
             {
-                throw new ArgumentException("OpenIfExists conflict option is not supported for te time being", collisionOption);
+                throw new ArgumentException("OpenIfExists conflict option is not supported at this time", collisionOption);
             }
 
             return "fail";
