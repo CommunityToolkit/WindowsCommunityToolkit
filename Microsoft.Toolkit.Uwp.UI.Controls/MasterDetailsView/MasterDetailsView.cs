@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -169,47 +169,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled == false)
+            if (DesignMode.DesignModeEnabled) { return; }
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            if (_frame != null)
             {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                if (_frame != null)
-                {
-                    _frame.Navigating -= OnFrameNavigating;
-                }
-
-                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
-                _frame = this.FindAscendant<Frame>();
-                if (_frame != null)
-                {
-                    _frame.Navigating += OnFrameNavigating;
-                }
-
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-                }
-
-                UpdateView(true);
+                _frame.Navigating -= OnFrameNavigating;
             }
+
+            _navigationView = this.FindAscendants()?.FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
+            _frame = this.FindAscendant<Frame>();
+            if (_frame != null)
+            {
+                _frame.Navigating += OnFrameNavigating;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
+
+            UpdateView(true);
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled == false)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                if (_frame != null)
-                {
-                    _frame.Navigating -= OnFrameNavigating;
-                }
+            if (DesignMode.DesignModeEnabled) { return; }
 
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
-                    _selectionStateGroup = null;
-                }
+            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            if (_frame != null)
+            {
+                _frame.Navigating -= OnFrameNavigating;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                _selectionStateGroup = null;
             }
         }
 
@@ -237,7 +235,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
-        /// <param name="sender">The sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
@@ -251,7 +249,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
-        /// <param name="sender">The sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
@@ -337,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
-                    if (_previousSystemBackButtonVisibility.HasValue == false)
+                    if (!(_previousSystemBackButtonVisibility is null))
                     {
                         if ((_navigationView == null) || (_frame == null))
                         {
@@ -484,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fires when the selection state of the control changes
         /// </summary>
-        /// <param name="sender">the sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="e">the event args</param>
         /// <remarks>
         /// Sets focus to the item list when the viewState is not Details.
