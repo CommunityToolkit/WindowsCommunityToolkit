@@ -91,6 +91,7 @@
                         <GridView x:Name="SamplePickerGridView"
                                   animations:ReorderGridAnimation.Duration="200"
                                   IsItemClickEnabled="True"
+                                  Loaded="SamplePickerGridView_Loaded"
                                   ItemContainerStyle="{StaticResource SamplePickerItemStyle}"
                                   ItemContainerTransitions="{x:Null}"
                                   ItemTemplate="{StaticResource SampleTemplate}"

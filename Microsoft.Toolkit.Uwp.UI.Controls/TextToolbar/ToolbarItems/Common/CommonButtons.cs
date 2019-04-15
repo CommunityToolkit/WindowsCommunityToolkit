@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommonButtons"/> class. <para/>
-        /// Requires a TextToolbar Instance to Populate from <see cref="TextToolbarStrings"/> Instance.
+        /// Requires a TextToolbar Instance />.
         /// </summary>
         /// <param name="model">TextToolbar Instance</param>
         public CommonButtons(TextToolbar model)
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.BoldElement,
-                    ToolTip = Model.Labels.BoldLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_BoldLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Bold },
                     ShortcutKey = VirtualKey.B,
                     Activation = MakeBold
@@ -54,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.ItalicsElement,
-                    ToolTip = Model.Labels.ItalicsLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_StrikethroughLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Italic },
                     ShortcutKey = VirtualKey.I,
                     Activation = MakeItalics
@@ -72,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.StrikethoughElement,
-                    ToolTip = Model.Labels.StrikethroughLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_StrikethroughLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
                     Activation = MakeStrike,
                     ShortcutKey = VirtualKey.Subtract,
@@ -91,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.LinkElement,
-                    ToolTip = Model.Labels.LinkLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_LinkLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Icon = new SymbolIcon { Symbol = Symbol.Link },
                     ShortcutKey = VirtualKey.K,
                     Activation = OpenLinkCreator,
@@ -110,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.ListElement,
-                    ToolTip = Model.Labels.ListLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_ListLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Content = new TextToolbarSymbols.List(),
                     Activation = MakeList
                 };
@@ -127,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 return new ToolbarButton
                 {
                     Name = TextToolbar.OrderedElement,
-                    ToolTip = Model.Labels.OrderedListLabel,
+                    ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_OrderedListLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
                     Content = new TextToolbarSymbols.NumberedList(),
                     Activation = MakeOList
                 };
