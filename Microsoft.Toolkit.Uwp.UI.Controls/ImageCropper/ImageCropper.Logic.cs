@@ -223,12 +223,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var isEffectiveRegion = IsSafePoint(_restrictedSelectRect, startPoint) &&
                                     IsSafePoint(_restrictedSelectRect, endPoint);
+            var selectedRect = new Rect(startPoint, endPoint);
             if (!isEffectiveRegion)
             {
-                return;
+                if (TryGetContainedRect(_restrictedSelectRect, ref selectedRect))
+                {
+                    startPoint = new Point(selectedRect.Left, selectedRect.Top);
+                    endPoint = new Point(selectedRect.Right, selectedRect.Bottom);
+                }
+                else
+                {
+                    return;
+                }
             }
 
-            var selectedRect = new Rect(startPoint, endPoint);
             selectedRect.Union(CanvasRect);
             if (selectedRect != CanvasRect)
             {
