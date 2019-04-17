@@ -367,5 +367,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return true;
         }
+
+        private static bool IsCornerThumb(ThumbPosition thumbPosition)
+        {
+            switch (thumbPosition)
+            {
+                case ThumbPosition.Top:
+                case ThumbPosition.Bottom:
+                case ThumbPosition.Left:
+                case ThumbPosition.Right:
+                    return false;
+                case ThumbPosition.UpperLeft:
+                case ThumbPosition.UpperRight:
+                case ThumbPosition.LowerLeft:
+                case ThumbPosition.LowerRight:
+                    return true;
+            }
+
+            return false;
+        }
     }
 }

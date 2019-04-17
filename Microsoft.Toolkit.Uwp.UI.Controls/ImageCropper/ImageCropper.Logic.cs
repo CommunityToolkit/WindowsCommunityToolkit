@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var selectedRect = new Rect(startPoint, endPoint);
             if (!isEffectiveRegion)
             {
-                if (TryGetContainedRect(_restrictedSelectRect, ref selectedRect))
+                if (!IsCornerThumb(position) && TryGetContainedRect(_restrictedSelectRect, ref selectedRect))
                 {
                     startPoint = new Point(selectedRect.Left, selectedRect.Top);
                     endPoint = new Point(selectedRect.Right, selectedRect.Bottom);
