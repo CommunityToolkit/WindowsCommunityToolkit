@@ -169,7 +169,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled) { return; }
+            if (DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
             if (_frame != null)
@@ -195,7 +198,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled) { return; }
+            if (DesignMode.DesignModeEnabled)
+            {
+                return;
+            }
 
             SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
             if (_frame != null)
