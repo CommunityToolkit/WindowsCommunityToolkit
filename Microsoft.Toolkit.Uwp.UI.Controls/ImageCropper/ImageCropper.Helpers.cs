@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static bool CanContains(Rect targetRect, Rect testRect)
         {
-            return targetRect.Width > testRect.Width && targetRect.Height > testRect.Height;
+            return (targetRect.Width - testRect.Width > -ThresholdValue) && (targetRect.Height - testRect.Height > -ThresholdValue);
         }
 
         private static bool TryGetContainedRect(Rect targetRect, ref Rect testRect)
