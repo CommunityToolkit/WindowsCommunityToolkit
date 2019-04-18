@@ -112,45 +112,66 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var startPoint = new Point(_startX, _startY);
             var endPoint = new Point(_endX, _endY);
+            var currentSelectedRect = new Rect(startPoint, endPoint);
             switch (position)
             {
                 case ThumbPosition.Top:
-                    startPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
-                        var changeX = diffPos.Y * UsedAspectRatio;
-                        startPoint.X += changeX / 2;
-                        endPoint.X -= changeX / 2;
+                        var originSizeChange = new Point(-diffPos.Y * UsedAspectRatio, -diffPos.Y);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        startPoint.X += -safeChange.X / 2;
+                        endPoint.X -= -safeChange.X / 2;
+                        startPoint.Y += -safeChange.Y;
+                    }
+                    else
+                    {
+                        startPoint.Y += diffPos.Y;
                     }
 
                     break;
                 case ThumbPosition.Bottom:
-                    endPoint.Y += diffPos.Y;
                     if (KeepAspectRatio)
                     {
-                        var changeX = diffPos.Y * UsedAspectRatio;
-                        startPoint.X -= changeX / 2;
-                        endPoint.X += changeX / 2;
+                        var originSizeChange = new Point(diffPos.Y * UsedAspectRatio, diffPos.Y);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        startPoint.X -= safeChange.X / 2;
+                        endPoint.X += safeChange.X / 2;
+                        endPoint.Y += safeChange.Y;
+                    }
+                    else
+                    {
+                        endPoint.Y += diffPos.Y;
                     }
 
                     break;
                 case ThumbPosition.Left:
-                    startPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
-                        var changeY = diffPos.X / UsedAspectRatio;
-                        startPoint.Y += changeY / 2;
-                        endPoint.Y -= changeY / 2;
+                        var originSizeChange = new Point(-diffPos.X, -diffPos.X / UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        startPoint.Y += -safeChange.Y / 2;
+                        endPoint.Y -= -safeChange.Y / 2;
+                        startPoint.X += -safeChange.X;
+                    }
+                    else
+                    {
+                        startPoint.X += diffPos.X;
                     }
 
                     break;
                 case ThumbPosition.Right:
-                    endPoint.X += diffPos.X;
                     if (KeepAspectRatio)
                     {
-                        var changeY = diffPos.X / UsedAspectRatio;
-                        startPoint.Y -= changeY / 2;
-                        endPoint.Y += changeY / 2;
+                        var originSizeChange = new Point(diffPos.X, diffPos.X / UsedAspectRatio);
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        startPoint.Y -= safeChange.Y / 2;
+                        endPoint.Y += safeChange.Y / 2;
+                        endPoint.X += safeChange.X;
+                    }
+                    else
+                    {
+                        endPoint.X += diffPos.X;
                     }
 
                     break;
@@ -158,8 +179,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (KeepAspectRatio)
                     {
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        diffPos.X = effectiveLength * Math.Sin(radian);
-                        diffPos.Y = effectiveLength * Math.Cos(radian);
+                        var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        diffPos.X = -safeChange.X;
+                        diffPos.Y = -safeChange.Y;
                     }
 
                     startPoint.X += diffPos.X;
@@ -170,8 +193,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         diffPointRadian = -diffPointRadian;
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        diffPos.X = -effectiveLength * Math.Sin(radian);
-                        diffPos.Y = effectiveLength * Math.Cos(radian);
+                        var originSizeChange = new Point(-effectiveLength * Math.Sin(radian), -effectiveLength * Math.Cos(radian));
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        diffPos.X = safeChange.X;
+                        diffPos.Y = -safeChange.Y;
                     }
 
                     endPoint.X += diffPos.X;
@@ -180,10 +205,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case ThumbPosition.LowerLeft:
                     if (KeepAspectRatio)
                     {
-                        diffPointRadian = -diffPointRadian;
                         effectiveLength = diffPos.Y / Math.Cos(diffPointRadian) * Math.Cos(diffPointRadian - radian);
-                        diffPos.X = -effectiveLength * Math.Sin(radian);
-                        diffPos.Y = effectiveLength * Math.Cos(radian);
+                        var originSizeChange = new Point(effectiveLength * Math.Sin(radian), effectiveLength * Math.Cos(radian));
+                        var safeChange = GetSafeSizeChangeWhenKeepAspectRatio(_restrictedSelectRect, position, currentSelectedRect, originSizeChange, UsedAspectRatio);
+                        diffPos.X = safeChange.X;
+                        diffPos.Y = safeChange.Y;
                     }
 
                     startPoint.X += diffPos.X;
