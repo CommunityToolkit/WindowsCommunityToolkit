@@ -94,6 +94,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
+
+            SamplePickerGridView.ItemsSource = samples;
+
             var groups = samples.GroupBy(sample => sample.Subcategory);
 
             if (group && groups.Count() > 1)
@@ -187,7 +190,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (button != null)
             {
                 button.Click -= MoreInfoClicked;
+                button.LostFocus -= MoreInfoLostFocus;
                 button.Click += MoreInfoClicked;
+                button.LostFocus += MoreInfoLostFocus;
             }
 
             var itemIndex = SamplePickerGridView.IndexFromContainer(itemContainer);
@@ -249,13 +254,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void MoreInfoClicked(object sender, RoutedEventArgs e)
         {
-            if (MoreInfoContent == null)
-            {
-                return;
-            }
-
             var button = (Button)sender;
-            var sample = button.DataContext as Sample;
+            var sampleData = button.DataContext as Sample;
 
             var container = button.FindAscendant<GridViewItem>();
             if (container == null)
@@ -263,8 +263,32 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
+            InitMoreInfoContentContainer(container);
+            MoreInfoContent.DataContext = sampleData;
 
+            if (MoreInfoCanvas.Visibility == Visibility.Visible)
+            {
+                HideMoreInfo();
+            }
+            else
+            {
+                MoreInfoCanvas.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void MoreInfoLostFocus(object sender, RoutedEventArgs e)
+        {
+            HideMoreInfo();
+        }
+
+        private void InitMoreInfoContentContainer( GridViewItem container)
+        {
+            if (MoreInfoContent == null)
+            {
+                return;
+            }
+
+            var point = container.TransformToVisual(this).TransformPoint(new Windows.Foundation.Point(0, 0));
             var x = point.X - ((MoreInfoContent.Width - container.ActualWidth) / 2);
             var y = point.Y - ((MoreInfoContent.Height - container.ActualHeight) / 2);
 
@@ -282,8 +306,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             VisualExtensions.SetCenterPoint(MoreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
 
-            MoreInfoContent.DataContext = sample;
-            MoreInfoCanvas.Visibility = Visibility.Visible;
         }
 
         private void HideMoreInfo()
