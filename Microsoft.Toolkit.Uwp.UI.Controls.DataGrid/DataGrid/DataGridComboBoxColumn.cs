@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var value = GetDataItemProperty(dataItem);
 
                 var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(GetBindingPropertyName()).GetValue(x).Equals(value))
+                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value))
                     : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
@@ -357,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (comboBox != null && uneditedValue != null)
             {
                 var value = GetDataItemProperty(uneditedValue);
-                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(GetBindingPropertyName()).GetValue(x).Equals(value));
+                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -597,7 +597,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var value = this.GetDataItemProperty(dataItem);
 
-                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => x.GetType().GetProperty(GetBindingPropertyName()).GetValue(x).Equals(value));
+                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value));
 
                 var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
 
@@ -721,24 +721,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                var lastItem = dataItem;
-                var lastProperty = dataItem.GetType().GetProperty(propertyPathParts[0]);
-
+                object item = dataItem;
                 object nextToLastItem = null;
+                System.Reflection.PropertyInfo propertyInfo = null;
 
                 for (var i = 0; i < propertyPathParts.Length; i++)
                 {
-                    lastProperty = lastItem?.GetType().GetProperty(propertyPathParts[i]);
+                    propertyInfo = item?.GetType().GetProperty(propertyPathParts[i]);
 
                     if (i == propertyPathParts.Length - 2)
                     {
-                        nextToLastItem = lastProperty?.GetValue(lastItem);
+                        nextToLastItem = propertyInfo?.GetValue(item);
                     }
 
-                    lastItem = lastProperty?.GetValue(lastItem);
+                    item = propertyInfo?.GetValue(item);
                 }
 
-                lastProperty?.SetValue(nextToLastItem, newValue);
+                propertyInfo?.SetValue(nextToLastItem, newValue);
             }
         }
 
@@ -758,6 +757,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private string GetBindingPropertyName()
         {
             return Binding.Path.Path.Split('.').Last();
+        }
+
+        private object GetBindingValue(object property)
+        {
+            return property.GetType().GetProperty(GetBindingPropertyName()).GetValue(property);
         }
     }
 }
