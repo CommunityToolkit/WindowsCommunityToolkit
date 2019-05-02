@@ -108,6 +108,14 @@ is displayed as
 
 >This sentence^(has a superscript with multiple words)
 
+### Subscript
+
+Text can be displayed in a subscript font by preceding it with a caret ( <sub></sub> ).
+
+>This sentence includes \<sub>sub\</sub> script
+
+>This sentence includes <sub>sub</sub>script.
+
 ### Headers
 
 Markdown supports 6 levels of headers (some of which don't actually display as headers in reddit):
@@ -250,25 +258,43 @@ Sometimes you need to preserve indentation, too.  In those cases, you can create
         System.out.println("Hello world!");
     }
 
-Starting with UWP Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). So:
+Starting with Windows Community Toolkit v1.4, you can also use GitHub code notification by creating a block surrounded by 3x\` (3 backticks). This can also be used with Language Identifiers on the entering backticks, such as:
 
-\`\`\`
+\`\`\`csharp
 
-public void main(Strings argv[]){
-
-  System.out.println("Hello world!");
-
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 
 \`\`\`
 
 will produce:
 
-```
-public void main(Strings argv[]){
-    System.out.println("Hello world!");
+```csharp
+public static void Main(string[] args)
+{
+  Console.WriteLine("Hello world!");
 }
 ```
+
+*You can implement your own Syntax Highlighting or override the built in Highlighting with the `CodeBlockResolving` event. The Syntax Highlighting Style can be changed by setting the `StyleDictionary` on the `CodeStyling` Property.*
+
+As an example of CodeBlockResolving, a Custom Identifier has been created, to make text Red and Bold:
+
+\`\`\`CUSTOM
+
+This is very angry.
+
+\`\`\`
+
+makes
+
+```CUSTOM
+This is very angry.
+```
+
+See the Code Page for an implementation example.
 
 *****
 
@@ -280,7 +306,7 @@ There are a couple of ways to get HTML links.  The easiest is to just paste a va
 
 However, usually you'll want to have text that functions as a link.  In that case, include the text inside of square brackets followed by the URL in parentheses. So:
 
->\[Wikipedia\]\(http://en.wikipedia.org).
+>\[Wikipedia\]\(http\://en.wikipedia.org).
 
 results in:
 
@@ -288,13 +314,59 @@ results in:
 
 You can also provide tooltip text for links like so:
 
->\[Wikipedia\]\(http://en.wikipedia.org "tooltip text"\).
+>\[Wikipedia\]\(http\://en.wikipedia.org "tooltip text"\).
 
 results in:
 
 >[Wikipedia](http://en.wikipedia.org "tooltip text").
 
 There are other methods of generating links that aren't appropriate for discussion-board style comments.  See the [Markdown Syntax](http://daringfireball.net/projects/markdown/syntax#link) if you're interested in more info.
+
+&nbsp;
+
+Relative links are also supported
+
+>\[Relative Link\]\(/Assets/Photos/Photos.json\)
+
+results in:
+
+>[Relative Link](/Assets/Photos/Photos.json)
+
+&nbsp;
+
+>\[Relative Link 2\]\(../Photos/Photos.json\)
+
+results in:
+
+>[Relative Link 2](../Photos/Photos.json)
+
+**Note:** Relative Links has to be Manually Handled in `LinkClicked` Event.
+
+Custom Scheme's can be added now using `SchemeList` Property. Scheme's should be separated by a comma( , )
+
+*Example*: 
+
+If `SchemeList="companyportal,randomscheme"` then markdown will render
+
+`companyportal://mycompanyportal.com` to companyportal://mycompanyportal.com
+
+and 
+
+`randomscheme://www.randomscheme.render` to randomscheme://www.randomscheme.render
+
+*****
+
+# Email Links
+
+Emails can be used as Masked Links or Direct email links. 
+
+>[Email\]\(`email@email.com`) 
+
+will be rendered to [Email](email@email.com)
+
+>`email@email.com` 
+
+will be rendered to email@email.com
 
 *****
 
@@ -304,11 +376,66 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Toolkit logo](https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)
+![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+
+Rendering Images is now supported through prefix. use property **UriPrefix**
+
+&nbsp;
+
+Example: if you set **UriPrefix** to **ms-appx://** then
+
+>\!\[Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+&nbsp;
+
+renders in
+
+![Local Image](/Assets/NotificationAssets/Sunny-Square.png)
+
+You can also specify image width like this:
+
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32) (width is set to 32)
+
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64) (height is set to 64)
+
+>\!\[SVG logo](https\://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64) (width=128, height=64)
+
+which renders in:
+
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =32)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =x64)
+![SVG logo](https://upload.wikimedia.org/wikipedia/commons/0/02/SVG_logo.svg =128x64)
+
+MarkdownTextblock supports links wrapped with Images. 
+
+>\[!\[image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+
+will render into 
+
+[![image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+
+and when clicked will go to the Linked Page.
+
+MarkdownTextBlock also supports Reference based links.
+
+```
+[![image][1]][2]
+
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
+[2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
+
+```
+
+will render into 
+
+[![image][1]][2]
+
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
+[2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 *****
 
@@ -316,27 +443,55 @@ which renders in:
 
 You'll probably do a lot of quoting of other redditors.  In those cases, you'll want to use block quotes.  Simple begin each line you want quoted with a right angle bracket (>).  Multiple angle brackets can be used for nested quotes.  To cause a new paragraph to be quoted, begin that paragraph with another angle bracket.  So the following:
 
-    >Here's a quote.
-    
-    >Another paragraph in the same quote.
-    >>A nested quote.
+    >Quote1
 
-    >Back to a single quote.
+    >Quote2.1
+    >>Quote2.Nest1.1
+    >>
+    >>Quote2.Nest1.2
+    >
+    >Quote2.3
 
-    And finally some unquoted text.
+    >Quote3.1
+    >Quote3.2
+
+    >Quote4.1
+    >
+    >Quote4.2
+
+    >Quote5.1
+    Quote5.2
+
+    >Quote6
+
+    Plain text.
 
 
 Is displayed as:
 
 
->Here's a quote.
-    
->Another paragraph in the same quote.
->>A nested quote.
+>Quote1
 
->Back to a single quote.
+>Quote2.1
+>>Quote2.Nest1.1
+>>
+>>Quote2.Nest1.2
+>
+>Quote2.3
 
-And finally some unquoted text.
+>Quote3.1
+>Quote3.2
+
+>Quote4.1
+>
+>Quote4.2
+
+>Quote5.1
+Quote5.2
+
+>Quote6
+
+Plain text.
 
 *****
 
@@ -347,6 +502,31 @@ You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/
 *****
 
 # MISCELLANEOUS
+
+### Yaml Headers
+
+The parsing of YAML metadata is rendered as a form.  For example:
+
+title|date
+:-:|:-:
+Windows Community Toolkit|2018/10/17
+
+Which is produced with the following markdown:
+
+>`---`
+>`title: Windows Community Toolkit`
+>`date: 2018/10/17`
+>`---`
+
+When you use YAML, you should pay attention to:
+
+* Must be written at the beginning of the document.
+
+* The start and end are represented by three short horizontal lines respectively.
+
+* The format should conform to the YAML specification.
+
+
 
 ### Tables
 

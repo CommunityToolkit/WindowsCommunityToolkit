@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.UI.Xaml;
@@ -74,6 +66,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="DetailsHeader"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DetailsHeader"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsHeaderProperty = DependencyProperty.Register(
+            nameof(DetailsHeader),
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="DetailsHeaderTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DetailsHeaderTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsHeaderTemplateProperty = DependencyProperty.Register(
+            nameof(DetailsHeaderTemplate),
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
@@ -134,12 +146,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
+            nameof(CompactModeThresholdWidth),
+            typeof(double),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
+
+        /// <summary>
+        /// Identifies the <see cref="BackButtonBehavior"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty BackButtonBehaviorProperty = DependencyProperty.Register(
+            nameof(BackButtonBehavior),
+            typeof(BackButtonBehavior),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
-            get { return (object)GetValue(SelectedItemProperty); }
+            get { return GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
 
@@ -170,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </returns>
         public object MasterHeader
         {
-            get { return (object)GetValue(MasterHeaderProperty); }
+            get { return GetValue(MasterHeaderProperty); }
             set { SetValue(MasterHeaderProperty, value); }
         }
 
@@ -184,6 +214,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
             set { SetValue(MasterHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the details pane's header
+        /// </summary>
+        /// <returns>
+        /// The content of the details pane's header. The default is null.
+        /// </returns>
+        public object DetailsHeader
+        {
+            get { return GetValue(DetailsHeaderProperty); }
+            set { SetValue(DetailsHeaderProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the content of the details pane's header.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the details pane header object. The default is null.
+        /// </returns>
+        public DataTemplate DetailsHeaderTemplate
+        {
+            get { return (DataTemplate)GetValue(DetailsHeaderTemplateProperty); }
+            set { SetValue(DetailsHeaderTemplateProperty, value); }
         }
 
         /// <summary>
@@ -204,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public object NoSelectionContent
         {
-            get { return (object)GetValue(NoSelectionContentProperty); }
+            get { return GetValue(NoSelectionContentProperty); }
             set { SetValue(NoSelectionContentProperty, value); }
         }
 
@@ -246,6 +300,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (CommandBar)GetValue(DetailsCommandBarProperty); }
             set { SetValue(DetailsCommandBarProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the Threshold width that witll trigger the control to go into compact mode
+        /// </summary>
+        public double CompactModeThresholdWidth
+        {
+            get { return (double)GetValue(CompactModeThresholdWidthProperty); }
+            set { SetValue(CompactModeThresholdWidthProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the behavior to use for the back button
+        /// </summary>
+        /// <returns>The current BackButtonBehavior. The default is System.</returns>
+        public BackButtonBehavior BackButtonBehavior
+        {
+            get { return (BackButtonBehavior)GetValue(BackButtonBehaviorProperty); }
+            set { SetValue(BackButtonBehaviorProperty, value); }
         }
 
         /// <summary>

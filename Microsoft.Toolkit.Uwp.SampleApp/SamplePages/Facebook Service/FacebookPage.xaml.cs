@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.Services.Facebook;
@@ -46,12 +38,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
-            FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.PublishActions | FacebookPermissions.UserPhotos);
+            SampleController.Current.DisplayWaitRing = true;
+            FacebookService.Instance.Initialize(AppIDText.Text, FacebookPermissions.PublicProfile | FacebookPermissions.UserPosts | FacebookPermissions.UserPhotos);
             if (!await FacebookService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Facebook");
                 await error.ShowAsync();
                 return;
@@ -96,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ProfileImage.DataContext = await FacebookService.Instance.GetUserPictureInfoAsync();
             ProfileImage.Visibility = Visibility.Visible;
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void ShareButton_OnClick(object sender, RoutedEventArgs e)
@@ -109,30 +101,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await FacebookService.Instance.PostToFeedWithDialogAsync(UrlText.Text);
             var message = new MessageDialog("Post sent to facebook");
             await message.ShowAsync();
-        }
-
-        private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
-        {
-            if (!await Tools.CheckInternetConnectionAsync())
-            {
-                return;
-            }
-
-            var openPicker = new FileOpenPicker
-            {
-                ViewMode = PickerViewMode.Thumbnail,
-                SuggestedStartLocation = PickerLocationId.PicturesLibrary
-            };
-            openPicker.FileTypeFilter.Add(".jpg");
-            openPicker.FileTypeFilter.Add(".png");
-            StorageFile picture = await openPicker.PickSingleFileAsync();
-            if (picture != null)
-            {
-                using (var stream = await picture.OpenReadAsync())
-                {
-                    await FacebookService.Instance.PostPictureToFeedAsync(TitleText.Text, picture.Name, stream);
-                }
-            }
         }
 
         private void CredentialsBoxExpandButton_OnClick(object sender, RoutedEventArgs e)
@@ -209,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private async void PhotoGridView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
 
             var addedItem = e.AddedItems.Count > 0 ? e.AddedItems[0] as FacebookAlbum : null;
 
@@ -218,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 PhotoGridView.ItemsSource = await FacebookService.Instance.GetUserPhotosByAlbumIdAsync(addedItem.Id);
             }
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
     }
 }

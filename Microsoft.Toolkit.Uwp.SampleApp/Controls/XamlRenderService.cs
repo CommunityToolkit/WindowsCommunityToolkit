@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -20,13 +12,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     /// <summary>
     /// Class to assist in parsing a Xaml string and returning an UIElement.
     ///
-    /// Wrapper around XamlReader.Load* with extra pre/post processing to support more features like loading images from an external source.
+    /// Wrapper around XamlReader.Load* with extra pre/post processing to support more features like loading images from an external source. <para/>
     ///
-    /// References:
-    ///     https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.markup.xamlreader
-    ///     https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/xaml-namespaces-and-namespace-mapping
-    ///     https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth
-    ///     https://blogs.msdn.microsoft.com/mcsuksoldev/2010/08/27/designdata-mvvm-support-in-blend-vs2010-and-wpfsilverlight/
+    /// References:<para/>
+    ///     https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.markup.xamlreader <para/>
+    ///     https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/xaml-namespaces-and-namespace-mapping<para/>
+    ///     https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth<para/>
+    ///     https://blogs.msdn.microsoft.com/mcsuksoldev/2010/08/27/designdata-mvvm-support-in-blend-vs2010-and-wpfsilverlight/<para/>
     /// </summary>
     public class XamlRenderService
     {

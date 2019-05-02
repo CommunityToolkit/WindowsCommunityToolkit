@@ -1,18 +1,10 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -158,6 +150,52 @@ namespace UnitTests.Markdown.Parse
         }
 
         [TestMethod]
+        [TestCategory("Parse - block - backticks")]
+        public void Code_Block_With_Ticks()
+        {
+            // Multi-line code block.  Should have a border and scroll, not wrap!
+            AssertEqual(
+                CollapseWhitespace(@"
+                before
+
+                ```
+                Code
+                More code with **stars** and   spacing
+                Even more code
+                ```
+
+                after"),
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "before" }),
+                new CodeBlock { Text = "Code\r\nMore code with **stars** and   spacing\r\nEven more code" },
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "after" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block - backticks - language")]
+        public void Code_Block_With_Language()
+        {
+            // Multi-line code block.  Should have a border and scroll, not wrap!
+            AssertEqual(
+                CollapseWhitespace(@"
+                before
+
+                ```csharp
+                Code
+                More code with **stars** and   spacing
+                Even more code
+                ```
+
+                after"),
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "before" }),
+                new CodeBlock { Text = "Code\r\nMore code with **stars** and   spacing\r\nEven more code", CodeLanguage = "csharp" },
+                new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = "after" }));
+        }
+
+        [TestMethod]
         [TestCategory("Parse - block")]
         public void Code_Block_WithTabs()
         {
@@ -187,7 +225,6 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(CollapseWhitespace(@"
                 before
 
-                     
                     line 1
 
                 after"),
@@ -207,7 +244,6 @@ namespace UnitTests.Markdown.Parse
                 before
 
                     line 1
-                     
 
                 after"),
                 new ParagraphBlock().AddChildren(

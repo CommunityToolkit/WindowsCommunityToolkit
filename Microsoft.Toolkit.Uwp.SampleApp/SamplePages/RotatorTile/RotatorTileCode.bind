@@ -30,7 +30,7 @@
       </Grid>
     </DataTemplate>
   </Page.Resources>
-  <Grid  Background="{StaticResource Brush-Grey-05}">
+  <Grid>
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   VerticalScrollMode="Auto">
       <Grid HorizontalAlignment="Center"
@@ -148,7 +148,7 @@
             <Setter Target="Panel2.Width" Value="150" />
             <Setter Target="Tile1.Height" Value="150" />
             <Setter Target="Tile2.Height" Value="150" />
-            <Setter Target="Panel1.Margin" Value="0" />            
+            <Setter Target="Panel1.Margin" Value="0" />
             <Setter Target="Panel3.(Grid.Row)" Value="2" />
             <Setter Target="Panel4.(Grid.Column)" Value="0" />
             <Setter Target="Panel4.(Grid.Row)" Value="3" />

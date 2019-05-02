@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -32,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public DockPanelPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -39,16 +32,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _sampleDockPanel = control.FindChildByName("SampleDockPanel") as DockPanel;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Add Top Child", AddTopDock);
-            Shell.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
-            Shell.Current.RegisterNewCommand("Add Bottom Child", AddBottomDock);
-            Shell.Current.RegisterNewCommand("Add Right Child", AddRightDock);
-            Shell.Current.RegisterNewCommand("Add Stretch Child", AddStretchDock);
-            Shell.Current.RegisterNewCommand("Clear All", ClearAllDock);
+            SampleController.Current.RegisterNewCommand("Add Top Child", AddTopDock);
+            SampleController.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
+            SampleController.Current.RegisterNewCommand("Add Bottom Child", AddBottomDock);
+            SampleController.Current.RegisterNewCommand("Add Right Child", AddRightDock);
+            SampleController.Current.RegisterNewCommand("Add Stretch Child", AddStretchDock);
+            SampleController.Current.RegisterNewCommand("Clear All", ClearAllDock);
         }
 
         private void ClearAllDock(object sender, RoutedEventArgs e)

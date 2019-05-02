@@ -1,19 +1,15 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.System;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -70,8 +66,28 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         // To get the time the app was previously launched, not including this instance
         public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
+        // To get the time the launch count was reset, not including this instance
+        public string LastResetTime
+        {
+            get { return (string)GetValue(LastResetTimeProperty); }
+            set { SetValue(LastResetTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty LastResetTimeProperty =
+            DependencyProperty.Register(nameof(LastResetTime), typeof(string), typeof(SystemInformationPage), new PropertyMetadata(string.Empty));
+
+        // To get the number of times the app has been launched sicne the last reset.
+        public long LaunchCount
+        {
+            get { return (long)GetValue(LaunchCountProperty); }
+            set { SetValue(LaunchCountProperty, value); }
+        }
+
+        public static readonly DependencyProperty LaunchCountProperty =
+            DependencyProperty.Register(nameof(LaunchCount), typeof(long), typeof(SystemInformationPage), new PropertyMetadata(0));
+
         // To get the number of times the app has been launched.
-        public long LaunchCount => SystemInformation.LaunchCount;
+        public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
 
         // To get how long the app has been running
         public string AppUptime => SystemInformation.AppUptime.ToString();
@@ -79,6 +95,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public SystemInformationPage()
         {
             InitializeComponent();
+
+            RefreshProperties();
+
+            SampleController.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
+            {
+                SystemInformation.ResetLaunchCount();
+                RefreshProperties();
+            });
+        }
+
+        private void RefreshProperties()
+        {
+            LaunchCount = SystemInformation.LaunchCount;
+            LastResetTime = SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
         }
     }
 }

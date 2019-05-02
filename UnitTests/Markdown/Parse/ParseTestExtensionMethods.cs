@@ -1,18 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
+using Microsoft.Toolkit.Parsers.Markdown;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -24,9 +18,10 @@ namespace UnitTests.Markdown.Parse
         /// <summary>
         /// Adds one or more child elements to the given parent object.
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">the type</typeparam>
+        /// <param name="parent">the parent</param>
+        /// <param name="elements">the elements to add</param>
+        /// <returns>parent</returns>
         public static T AddChildren<T>(this T parent, params object[] elements)
         {
             foreach (var child in elements)
@@ -41,9 +36,9 @@ namespace UnitTests.Markdown.Parse
             else if (parent is HeaderBlock)
                 AddChild(() => ((HeaderBlock)(object)parent).Inlines, (value) => ((HeaderBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is ListBlock)
-                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListBlock.ListItemBlock)child);
-            else if (parent is ListBlock.ListItemBlock)
-                AddChild(() => ((ListBlock.ListItemBlock)(object)parent).Blocks, (value) => ((ListBlock.ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
+                AddChild(() => ((ListBlock)(object)parent).Items, (value) => ((ListBlock)(object)parent).Items = value, (ListItemBlock)child);
+            else if (parent is ListItemBlock)
+                AddChild(() => ((ListItemBlock)(object)parent).Blocks, (value) => ((ListItemBlock)(object)parent).Blocks = value, (MarkdownBlock)child);
             else if (parent is ParagraphBlock)
                 AddChild(() => ((ParagraphBlock)(object)parent).Inlines, (value) => ((ParagraphBlock)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is QuoteBlock)
@@ -64,6 +59,8 @@ namespace UnitTests.Markdown.Parse
                 AddChild(() => ((StrikethroughTextInline)(object)parent).Inlines, (value) => ((StrikethroughTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
             else if (parent is SuperscriptTextInline)
                 AddChild(() => ((SuperscriptTextInline)(object)parent).Inlines, (value) => ((SuperscriptTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
+            else if (parent is SubscriptTextInline)
+                AddChild(() => ((SubscriptTextInline)(object)parent).Inlines, (value) => ((SubscriptTextInline)(object)parent).Inlines = value, (MarkdownInline)child);
             else
                 throw new NotSupportedException(string.Format("Unsupported type {0}", typeof(T).Name));
         }

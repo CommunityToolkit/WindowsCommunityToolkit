@@ -1,0 +1,24 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:graphControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:sampleControls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+  <Page.Resources>
+    <converters:BoolToObjectConverter x:Key="BoolToObjectConverter1" TrueValue="Collapsed" FalseValue="Visible" />
+  </Page.Resources>
+  <Grid Padding="10">
+      <sampleControls:AadAuthControl x:Name="AadAuthControl"/>
+      <graphControls:ProfileCard x:Name="ProfileCardControl"
+                                 UserId="@[UserId:String: ]@"
+                                 DisplayMode="@[DisplayMode:Enum:ViewType.PictureOnly]@"
+                                 NormalMailDefaultText="@[NormalMailDefaultText:String:Mail]@"
+                                 LargeProfileTitleDefaultText="@[LargeProfileTitleDefaultText:String:Display name]@"
+                                 LargeProfileMailDefaultText="@[LargeProfileMailDefaultText:String:Secondary mail]@"
+                                 Visibility="{Binding ElementName=AadAuthControl, Path=IsEnabled, Converter={StaticResource BoolToObjectConverter1}}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"/>
+  </Grid>
+</Page>

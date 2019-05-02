@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -21,7 +13,7 @@ namespace Microsoft.Toolkit.Services
     /// <typeparam name="TConfig">Strong typed query configuration object.</typeparam>
     /// <typeparam name="TSchema">Strong typed object to parse the response items into.</typeparam>
     public abstract class DataProviderBase<TConfig, TSchema> : DataProviderBase<TConfig>
-        where TSchema : SchemaBase
+        where TSchema : Parsers.SchemaBase
     {
         /// <summary>
         /// Load data from provider endpoint.
@@ -40,6 +32,6 @@ namespace Microsoft.Toolkit.Services
         /// </summary>
         /// <param name="config">Query configuration object.</param>
         /// <returns>Strong typed default parser.</returns>
-        protected abstract IParser<TSchema> GetDefaultParser(TConfig config);
+        protected abstract Parsers.IParser<TSchema> GetDefaultParser(TConfig config);
     }
 }

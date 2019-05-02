@@ -10,7 +10,7 @@
 
     
     <!-- Need to have an placeholder of each element so they can be used in the XAML editor -->
-    <Grid extensions:VisualEx.CenterPoint="50,50,0">
+    <Grid extensions:VisualExtensions.CenterPoint="50,50,0">
         <animations:Implicit.ShowAnimations>
             <animations:TranslationAnimation></animations:TranslationAnimation>
             <animations:OpacityAnimation></animations:OpacityAnimation>

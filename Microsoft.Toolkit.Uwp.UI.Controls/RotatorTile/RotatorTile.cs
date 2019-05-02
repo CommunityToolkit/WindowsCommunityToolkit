@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections;
@@ -106,6 +98,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _nextElement = GetTemplateChild(NextPartName) as FrameworkElement;
             _translate = GetTemplateChild(TranslatePartName) as TranslateTransform;
             _stackPanel = GetTemplateChild(StackPartName) as StackPanel;
+
+            // set the correct defaults for translate transform
+            UpdateTranslateXY();
+
             if (_stackPanel != null)
             {
                 if (Direction == RotateDirection.Down || Direction == RotateDirection.Right)
@@ -152,9 +148,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RotatorTile_Loaded(object sender, RoutedEventArgs e)
         {
-            // set the correct defaults for translate transform
-            UpdateTranslateXY();
-
             // Start timer after control has loaded
             _timer?.Start();
         }
@@ -280,6 +273,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateTranslateXY()
         {
+            if (_translate == null)
+            {
+                return;
+            }
+
             if (Direction == RotateDirection.Left || Direction == RotateDirection.Up)
             {
                 _translate.X = _translate.Y = 0;

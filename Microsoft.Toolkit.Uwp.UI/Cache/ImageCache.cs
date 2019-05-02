@@ -1,20 +1,13 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml.Media.Imaging;
@@ -47,7 +40,6 @@ namespace Microsoft.Toolkit.Uwp.UI
         public ImageCache()
         {
             _extendedPropertyNames.Add(DateAccessedProperty);
-            MaintainContext = true;
         }
 
         /// <summary>
@@ -63,29 +55,32 @@ namespace Microsoft.Toolkit.Uwp.UI
                 throw new FileNotFoundException();
             }
 
-            BitmapImage image = new BitmapImage();
-
-            if (initializerKeyValues != null && initializerKeyValues.Count > 0)
+            return await DispatcherHelper.ExecuteOnUIThreadAsync(async () =>
             {
-                foreach (var kvp in initializerKeyValues)
+                BitmapImage image = new BitmapImage();
+
+                if (initializerKeyValues != null && initializerKeyValues.Count > 0)
                 {
-                    if (string.IsNullOrWhiteSpace(kvp.Key))
+                    foreach (var kvp in initializerKeyValues)
                     {
-                        continue;
-                    }
+                        if (string.IsNullOrWhiteSpace(kvp.Key))
+                        {
+                            continue;
+                        }
 
-                    var propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
+                        var propInfo = image.GetType().GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance);
 
-                    if (propInfo != null && propInfo.CanWrite)
-                    {
-                        propInfo.SetValue(image, kvp.Value);
+                        if (propInfo != null && propInfo.CanWrite)
+                        {
+                            propInfo.SetValue(image, kvp.Value);
+                        }
                     }
                 }
-            }
 
-            await image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(false);
+                await image.SetSourceAsync(stream.AsRandomAccessStream()).AsTask().ConfigureAwait(false);
 
-            return image;
+                return image;
+            });
         }
 
         /// <summary>
@@ -96,9 +91,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override async Task<BitmapImage> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            using (var stream = await baseFile.OpenStreamForReadAsync().ConfigureAwait(MaintainContext))
+            using (var stream = await baseFile.OpenStreamForReadAsync().ConfigureAwait(false))
             {
-                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(MaintainContext);
+                return await InitializeTypeAsync(stream, initializerKeyValues).ConfigureAwait(false);
             }
         }
 

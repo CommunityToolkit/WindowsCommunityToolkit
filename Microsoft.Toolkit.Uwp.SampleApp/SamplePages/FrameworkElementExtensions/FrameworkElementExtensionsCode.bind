@@ -7,7 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-  <StackPanel x:Name="RootGrid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="48">
+  <StackPanel x:Name="RootGrid" Padding="48">
     <Grid Height="300">
       <Grid.RowDefinitions>
         <RowDefinition MinHeight="100" MaxHeight="300" />
@@ -23,27 +23,27 @@
                  Grid.Row="0"
                  extensions:FrameworkElementExtensions.EnableActualSizeBinding="True"
                  Fill="{StaticResource Brush-Brand-Color}"
-                 Stroke="{StaticResource Brush-Grey-04}"
+                 Stroke="{ThemeResource Brush-Grey-04}"
                  x:Name="TargetObject"
-                 StrokeThickness="1"/>
+                 StrokeThickness="1" />
 
       <!--Column Grid Splitter-->
       <controls:GridSplitter
         Width="11"
-        Background="{StaticResource Brush-Grey-04}"
+        Background="{ThemeResource Brush-Grey-04}"
         GripperCursor="Default"
         HorizontalAlignment="Left"
         Grid.Column="1"
         ResizeDirection="Auto"
         ResizeBehavior="BasedOnAlignment"
         CursorBehavior="ChangeOnGripperHover"
-        GripperForeground="White">
+        GripperForeground="{ThemeResource Brush-Alt}">
       </controls:GridSplitter>
 
       <!--Row Grid Splitter-->
       <controls:GridSplitter
         Grid.Row="1"
-        Background="{StaticResource Brush-Grey-04}" Height="11"
+        Background="{ThemeResource Brush-Grey-04}" Height="11"
         HorizontalAlignment="Stretch">
         <controls:GridSplitter.Element>
           <Grid>
@@ -51,7 +51,7 @@
                        IsHitTestVisible="False"
                        VerticalAlignment="Center"
                        Text="&#xE76F;"
-                       Foreground="White"
+                       Foreground="{ThemeResource Brush-Alt}"
                        FontFamily="Segoe MDL2 Assets">
             </TextBlock>
           </Grid>
@@ -63,11 +63,11 @@
            TextWrapping="Wrap"
            Margin="12,12">
       Drag the handles to see how values are updated in the row below.
-      <LineBreak/>
+      <LineBreak />
       If EnableActualSizeBinding is set to false, the binding will not be updated.
-      <LineBreak/>
+      <LineBreak />
       Red rectangle is bound to ActualHeight and ActualWidth, so it won't be updated.
-      <LineBreak/>
+      <LineBreak />
       Blue rectangle is bound to the new bindable properties, so it will be updated.
     </TextBlock>
 
@@ -76,16 +76,16 @@
                Height="{Binding ElementName=TargetObject, Path=ActualHeight}"
                Width="{Binding ElementName=TargetObject, Path=ActualWidth}"
                Fill="{StaticResource Brush-Red}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
+               Stroke="{ThemeResource Brush-Grey-04}"
+               StrokeThickness="1" />
 
     <Rectangle Margin="12,12"
                HorizontalAlignment="Left"
                Height="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualHeight)}"
                Width="{Binding ElementName=TargetObject, Path=(extensions:FrameworkElementExtensions.ActualWidth)}"
-               Fill="{StaticResource Brush-Blue-01}"
-               Stroke="{StaticResource Brush-Grey-04}"
-               StrokeThickness="1"/>
+               Fill="{ThemeResource Brush-Blue-01}"
+               Stroke="{ThemeResource Brush-Grey-04}"
+               StrokeThickness="1" />
 
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup>

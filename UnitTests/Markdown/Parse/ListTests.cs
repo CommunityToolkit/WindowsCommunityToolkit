@@ -1,19 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+using Microsoft.Toolkit.Parsers.Markdown;
+using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Parse;
-using UITestMethodAttribute = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer.UITestMethodAttribute;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -26,7 +19,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("- List",
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }))));
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }))));
         }
 
         [TestMethod]
@@ -44,9 +37,9 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before" }),
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "after" }));
         }
@@ -60,8 +53,8 @@ namespace UnitTests.Markdown.Parse
 
                 * List item 2"),
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" })),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
         }
 
         [TestMethod]
@@ -76,10 +69,10 @@ namespace UnitTests.Markdown.Parse
 
                  ___"),
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new HeaderBlock { HeaderLevel = 1 }.AddChildren(new TextRunInline { Text = "Header" }),
                         new HorizontalRuleBlock()),
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = " #Not a header" }),
                         new HorizontalRuleBlock())));
         }
@@ -93,11 +86,11 @@ namespace UnitTests.Markdown.Parse
                     - Nested item
                 + List item 2"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" })))),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" })))),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }))));
         }
 
         [TestMethod]
@@ -115,17 +108,17 @@ namespace UnitTests.Markdown.Parse
 
                      text"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "#Level 1" })),
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "#Level 1" })),
+                    new ListItemBlock().AddChildren(
                         new HeaderBlock { HeaderLevel = 1 }.AddChildren(new TextRunInline { Text = "Level 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new HeaderBlock { HeaderLevel = 1 }.AddChildren(new TextRunInline { Text = "Level 2" }),
                                 new ListBlock().AddChildren(
-                                    new ListBlock.ListItemBlock().AddChildren(
+                                    new ListItemBlock().AddChildren(
                                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "#Level 3" }),
                                         new ListBlock().AddChildren(
-                                            new ListBlock.ListItemBlock().AddChildren(
+                                            new ListItemBlock().AddChildren(
                                                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "#Level 4\r\nlevel 4, line 2" }))))),
                                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "text" }))))));
         }
@@ -139,10 +132,10 @@ namespace UnitTests.Markdown.Parse
                 - List item 1
                  - Nested item"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
         }
 
         [TestMethod]
@@ -154,10 +147,10 @@ namespace UnitTests.Markdown.Parse
                 - List item 1
                        - Nested item"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
 
             // 11 spaces is the max relative indentation for three items.
             AssertEqual(CollapseWhitespace(@"
@@ -165,13 +158,13 @@ namespace UnitTests.Markdown.Parse
                  - List item 2
                            - List item 3"),
             new ListBlock().AddChildren(
-                new ListBlock.ListItemBlock().AddChildren(
+                new ListItemBlock().AddChildren(
                     new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                     new ListBlock().AddChildren(
-                        new ListBlock.ListItemBlock().AddChildren(
+                        new ListItemBlock().AddChildren(
                             new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }),
                             new ListBlock().AddChildren(
-                                new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
+                                new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
         }
 
         [TestMethod]
@@ -183,10 +176,10 @@ namespace UnitTests.Markdown.Parse
                  - List item 1
                 - Nested item"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "Nested item" }))))));
         }
 
         [TestMethod]
@@ -198,89 +191,89 @@ namespace UnitTests.Markdown.Parse
                 - List item 2
                 - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
             AssertEqual(CollapseWhitespace(@"
                    - List item 1
                 - List item 2
                   - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
             AssertEqual(CollapseWhitespace(@"
                    - List item 1
                 - List item 2
                    - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })))),
-                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })))),
+                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))));
             AssertEqual(CollapseWhitespace(@"
                    - List item 1
                 - List item 2
                     - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
             AssertEqual(CollapseWhitespace(@"
                    - List item 1
                 - List item 2
                      - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }),
                                 new ListBlock().AddChildren(
-                                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
+                                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
             AssertEqual(CollapseWhitespace(@"
                 - List item 1
                  - List item 2
                     - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" })),
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))));
             AssertEqual(CollapseWhitespace(@"
                 - List item 1
                  - List item 2
                      - List item 3"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }),
                                 new ListBlock().AddChildren(
-                                    new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
+                                    new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }))))))));
             AssertEqual(CollapseWhitespace(@"
                 - 1
                  - 2
                 - 3
                  - 4"),
                 new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "1" }),
                         new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" })))),
-                    new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" })))),
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "3" }),
                         new ListBlock { Style = ListStyle.Bulleted }.AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "4" }))))));
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "4" }))))));
         }
 
         [TestMethod]
@@ -293,10 +286,10 @@ namespace UnitTests.Markdown.Parse
 
                  3"),
             new ListBlock().AddChildren(
-                new ListBlock.ListItemBlock().AddChildren(
+                new ListItemBlock().AddChildren(
                     new ParagraphBlock().AddChildren(new TextRunInline { Text = "1" }),
                     new ListBlock().AddChildren(
-                        new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" }))),
+                        new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" }))),
                     new ParagraphBlock().AddChildren(new TextRunInline { Text = "3" }))));
 
             AssertEqual(CollapseWhitespace(@"
@@ -306,11 +299,11 @@ namespace UnitTests.Markdown.Parse
 
                      4"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "1" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" })))),
-                    new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(new ParagraphBlock().AddChildren(new TextRunInline { Text = "2" })))),
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = "3" }),
                         new ParagraphBlock().AddChildren(new TextRunInline { Text = " 4" }))));
         }
@@ -328,14 +321,14 @@ namespace UnitTests.Markdown.Parse
 2. * Bullet 1 in list item 2
     * Bullet 2 in list item 2"),
                 new ListBlock { Style = ListStyle.Numbered }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(
                             new TextRunInline { Text = "* Ordered list item 1" })),
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(
                             new TextRunInline { Text = "* Bullet 1 in list item 2" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(
                                     new TextRunInline { Text = "Bullet 2 in list item 2" }))))));
 
@@ -346,17 +339,17 @@ namespace UnitTests.Markdown.Parse
 2. * Bullet 1 in list item 2
     * Bullet 2 in list item 2"),
                 new ListBlock { Style = ListStyle.Numbered }.AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(
                                     new TextRunInline { Text = "Ordered list item 1" })))),
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(
                                     new TextRunInline { Text = "Bullet 1 in list item 2" })),
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(
                                     new TextRunInline { Text = "Bullet 2 in list item 2" }))))));
         }
@@ -393,7 +386,7 @@ namespace UnitTests.Markdown.Parse
                 * a
                         * b"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(
                             new TextRunInline { Text = "a * b" }))));
 
@@ -403,11 +396,11 @@ namespace UnitTests.Markdown.Parse
                  * b
                             * c"),
                 new ListBlock().AddChildren(
-                    new ListBlock.ListItemBlock().AddChildren(
+                    new ListItemBlock().AddChildren(
                         new ParagraphBlock().AddChildren(
                             new TextRunInline { Text = "a" }),
                         new ListBlock().AddChildren(
-                            new ListBlock.ListItemBlock().AddChildren(
+                            new ListItemBlock().AddChildren(
                                 new ParagraphBlock().AddChildren(
                                     new TextRunInline { Text = "b * c" }))))));
         }
@@ -418,7 +411,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("1. List",
                 new ListBlock { Style = ListStyle.Numbered }.AddChildren(
-                    new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }) } }));
+                    new ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List" }) } }));
         }
 
         [TestMethod]
@@ -431,9 +424,9 @@ namespace UnitTests.Markdown.Parse
                 502. List item 2
                 502456456456456456456456456456456456. List item 3"),
                 new ListBlock { Style = ListStyle.Numbered }.AddChildren(
-                    new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }) } },
-                    new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }) } },
-                    new ListBlock.ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }) } }));
+                    new ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 1" }) } },
+                    new ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 2" }) } },
+                    new ListItemBlock { Blocks = new List<MarkdownBlock> { new ParagraphBlock().AddChildren(new TextRunInline { Text = "List item 3" }) } }));
         }
 
         [TestMethod]

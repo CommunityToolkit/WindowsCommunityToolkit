@@ -40,6 +40,7 @@
                                           Grid.Row="1"
                                           IsTabStop="False"
                                           ItemContainerStyle="{TemplateBinding ItemContainerStyle}"
+                                          ItemContainerStyleSelector="{TemplateBinding ItemContainerStyleSelector}"
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
@@ -53,14 +54,33 @@
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
                                 <Grid x:Name="SelectionDetailsPanel">
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="MasterDetailsBackButton"
+                                                Background="Transparent"
+                                                Height="44" 
+                                                Width="48" 
+                                                Visibility="Collapsed">
+                                            <SymbolIcon Symbol="Back"/>
+                                        </Button>
+                                        <ContentPresenter x:Name="DetailsHeaderPresenter"
+                                                          Content="{TemplateBinding DetailsHeader}"
+                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"
+                                                          Grid.Column="1"/>
+                                    </Grid>
                                     <ContentPresenter x:Name="DetailsPresenter"
-                                                  Background="{TemplateBinding Background}"
-                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                                      Background="{TemplateBinding Background}"
+                                                      ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                                      Grid.Row="1">
                                     </ContentPresenter>
-                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="1"></Grid>
+                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="2"></Grid>
                                     <Grid.RenderTransform>
                                         <TranslateTransform x:Name="DetailsPresenterTransform" />
                                     </Grid.RenderTransform>
@@ -128,16 +148,34 @@
                                                     <QuarticEase EasingMode="EaseOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0.0"
+                                                             Storyboard.TargetName="MasterPanel"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0"
+                                                             To="1"
+                                                             Duration="0:0:0.25">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseIn" />
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
                                 <VisualState x:Name="NoSelectionWide">
                                     <VisualState.Setters>
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
-                                <VisualState x:Name="HasSelection">
+                                <VisualState x:Name="HasSelectionWide">
                                     <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="MasterPanel.Visibility" Value="Collapsed" />
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
@@ -145,14 +183,12 @@
                                     <VisualState.Setters>
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed" />
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterPanel.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>
                             <VisualStateGroup x:Name="WidthStates">
                                 <VisualState x:Name="NarrowState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="320" />
-                                    </VisualState.StateTriggers>
                                     <VisualState.Setters>
                                         <Setter Target="MasterColumn.Width" Value="*" />
                                         <Setter Target="DetailsColumn.Width" Value="0" />
@@ -163,9 +199,6 @@
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="WideState">
-                                    <VisualState.StateTriggers>
-                                        <AdaptiveTrigger MinWindowWidth="720" />
-                                    </VisualState.StateTriggers>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>

@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Windows.Foundation;
@@ -129,12 +121,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 child.Measure(availableSize);
-
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-
-                if (parentMeasure.U > currentMeasure.U + lineMeasure.U + spacingMeasure.U)
+                if (currentMeasure.U == 0)
                 {
-                    lineMeasure.U += currentMeasure.U + spacingMeasure.U;
+                    continue; // ignore collapsed items
+                }
+
+                // if this is the first item, do not add spacing. Spacing is added to the "left"
+                double uChange = lineMeasure.U == 0
+                    ? currentMeasure.U
+                    : currentMeasure.U + spacingMeasure.U;
+                if (parentMeasure.U >= uChange + lineMeasure.U)
+                {
+                    lineMeasure.U += uChange;
                     lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
                 }
                 else
@@ -190,6 +189,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var child in Children)
             {
                 var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                if (desiredMeasure.U == 0)
+                {
+                    continue; // if an item is collapsed, avoid adding the spacing
+                }
+
                 if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
                 {
                     // next row!
@@ -198,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentV = 0;
                 }
 
-                // Place the item
+                // place the item
                 if (Orientation == Orientation.Horizontal)
                 {
                     child.Arrange(new Rect(position.U, position.V, child.DesiredSize.Width, child.DesiredSize.Height));

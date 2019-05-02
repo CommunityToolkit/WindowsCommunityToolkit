@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.Foundation;
 using Windows.System;
@@ -24,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public partial class Menu
     {
+        private const uint AltScanCode = 56;
+        private bool _onlyAltCharacterPressed = true;
         private Control _lastFocusElement;
         private bool _isLostFocus = true;
         private Control _lastFocusElementBeforeMenu;
@@ -153,17 +147,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _lastFocusElement = FocusManager.GetFocusedElement() as Control;
 
+            if (args.KeyStatus.ScanCode != AltScanCode)
+            {
+                _onlyAltCharacterPressed = false;
+            }
+
             if (args.VirtualKey == VirtualKey.Menu)
             {
                 if (!IsOpened)
                 {
                     if (_isLostFocus)
                     {
-                        ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
-
-                        if (!(_lastFocusElement is MenuItem))
+                        if (_onlyAltCharacterPressed && args.KeyStatus.IsKeyReleased)
                         {
-                            _lastFocusElementBeforeMenu = _lastFocusElement;
+                            ((MenuItem)Items[0]).Focus(FocusState.Programmatic);
+
+                            if (!(_lastFocusElement is MenuItem))
+                            {
+                                _lastFocusElementBeforeMenu = _lastFocusElement;
+                            }
                         }
 
                         if (AllowTooltip)
@@ -180,17 +182,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _isLostFocus = false;
                         }
                     }
-                    else if (!_isLostFocus && args.KeyStatus.IsKeyReleased)
+                    else if (args.KeyStatus.IsKeyReleased)
                     {
-                        if (AllowTooltip)
-                        {
-                            HideMenuItemsTooltips();
-                        }
-                        else
-                        {
-                            RemoveUnderlineMenuItems();
-                        }
-
+                        HideToolTip();
                         _lastFocusElementBeforeMenu?.Focus(FocusState.Keyboard);
                     }
                 }
@@ -213,6 +207,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         menuItem.Focus(FocusState.Keyboard);
                     }
                 }
+            }
+
+            if (args.KeyStatus.IsKeyReleased && args.EventType == CoreAcceleratorKeyEventType.KeyUp)
+            {
+                _onlyAltCharacterPressed = true;
+                _isLostFocus = true;
+                HideToolTip();
+            }
+        }
+
+        private void HideToolTip()
+        {
+            if (AllowTooltip)
+            {
+                HideMenuItemsTooltips();
+            }
+            else
+            {
+                RemoveUnderlineMenuItems();
             }
         }
     }

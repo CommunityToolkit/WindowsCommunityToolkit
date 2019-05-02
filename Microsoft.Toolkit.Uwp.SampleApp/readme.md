@@ -20,7 +20,8 @@ This makes it easy for a developer to test out values for a control and then cop
 
 In order to provide a property UI and associated code, you have to define a the .bind XAML file associated with your page.
 Here is an example:
-```
+
+```xaml
 <Grid>
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -48,7 +49,7 @@ The `Property Name` can also contain spaces, but these will be removed from the 
 
 The name and options will be translated **automatically** to the following syntax when your .bind template is being used on the property page:
 
-```
+```xaml
 <Grid Margin="10">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -62,7 +63,7 @@ The name and options will be translated **automatically** to the following synta
 
 When the developer switches to the XAML tab, they'll automatically see the selected values instead:
 
-```
+```xaml
 <Grid Margin="10">
     <Grid.ColumnDefinitions>
         <ColumnDefinition Width="48"></ColumnDefinition>
@@ -78,7 +79,7 @@ You can also reuse a `@[Property Name]` reference by itself again later to use t
 
 If you happen to need a two-way binding for the generated XAML, then add an extra '@' after the property definition in the template:
 
-```
+```xaml
 Value="@[Value:Slider:0:0-180]@"
 ```
 
@@ -89,9 +90,9 @@ Therefore, for any new control/extension, you should still have a simplified sni
 
 
 ## 4. For Events/Resource Templates: Have your sample page implement the **IXamlRendererListener** interface
-This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/Microsoft/UWPCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
+This gets called whenever the template gets parsed (due to loading or user modification).   Here you can use the [LogicalTree](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI/Extensions/Tree/LogicalTree.cs) extensions to grab named controls in the template and register their events.  **Check for null first** as the developer may have removed the name from the element.
 
-```
+```csharp
 var markdownText = control.FindChildByName("MarkdownText") as MarkdownTextBlock;
 if (markdownText != null)
 {
@@ -102,12 +103,23 @@ if (markdownText != null)
 You'll have to register all events and grab **control.Resources** for templates from this method as the regular sample page XAML isn't used and you can't hook in an event from the dynamic XAML, it must be done via code by finding the element here.
 
 
-## 5. For Interactive Buttons: Use **Shell.Current.RegisterNewCommand**
-Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.  These are generally the only thing in your **OnNavigatedTo** event.
+## 5. For Interactive Buttons: Use **SampleController.Current.RegisterNewCommand**
+Buttons can be added through this command and are accessible in the main panel so they can be clicked when changing properties or editing XAML.  It's important instead of using buttons in your sample (as events can't be directly used, see above) to register these commands.
+
+```csharp
+protected override async void OnNavigatedTo(NavigationEventArgs e)
+{
+    base.OnNavigatedTo(e);
+
+    Shell.Current.RegisterNewCommand("Image with placeholder", (sender, args) =>
+    {
+        AddImage(false, true);
+    });
+```
 
 If your command adds content dynamically, try and use a style template in the .bind XAML that the user can modify.  Then grab `resources = control.Resources;` in the *OnXamlRendered* event and set the element style from it:
 
-```
+```csharp
 if (resources?.ContainsKey("ThingStyle") == true)
 {
     newThing.Style = resources["ThingStyle"] as Style;
@@ -122,7 +134,9 @@ Now, the sample page content in the app is ignored, but you can override that be
 After creating your page and the binding text, you just need to reference it in the /SamplePages/samples.json file.
 Select the category where you want your page to be listed and add the following information:
 
-```
+## Basic Structure
+
+```json
 [
   {
     "Name": "Panel controls",
@@ -132,27 +146,56 @@ Select the category where you want your page to be listed and add the following 
         "Name": "AdaptiveGridView",
         "Type": "AdaptiveGridViewPage",
         "About": "The AdaptiveGridView control allows to present information within a Grid View perfectly adjusting the total display available space. It reacts to changes in the layout as well as the content so it can adapt to different form factors automatically. The number and the width of items are calculated based on the screen resolution in order to fully leverage the available screen space. The property ItemsHeight define the items fixed height and the property DesiredWidth sets the minimum width for the elements to add a new column.",
-        "CodeUrl": "https://github.com/Microsoft/UWPCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TextToolbar",
         "XamlCodeFile": "AdaptiveGridViewCode.bind",
-        "DocumentationUrl": "https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
+        "DocumentationUrl": "https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/docs/controls/AdaptiveGridView.md"
       }
     ]
   }
 ]
 ```
 
-> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/Microsoft/UWPCommunityToolkit-design-assets)
+## Thumbnail Images
+
+> NOTE: If creating a new icon, follow the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
+
+## Restricting Samples to Specific API Sets
+
+Some features used by samples aren't available on all the OS versions that the Sample App runs on.  In order to make sure a sample is valid for the host OS, add the `ApiCheck` key/value in your JSON definition.
+
+The value is a string which is the fully-qualified typename to check for the presense of.  You can also accompany this with the `BadgeUpdateVersionRequred` which uses the string provided to show a short message on the sample information so uplevel implementors know the minimum version required.
+
+```json
+    {
+        //...
+        "About": "MySample needs 10.0.16299 or higher to work.",
+        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
+        "BadgeUpdateVersionRequired": "Fall Creators Update required",
+        //...
+    }
+```
+
+If the specified type is not found on the system running the sample app the sample will not appear in the sample list.
+
 
 ### Adding documentation
 
-Every API must be accompanied by Markdown documentation in the docs folder in the root of this repo.
+Every API must be accompanied by Markdown documentation in the [documentation repository](..\contributing.md#docs).
 
 Use the DocumentationUrl property to add a link to the raw documentation in *samples.json*. Please follow the following pattern:
 
-`https://raw.githubusercontent.com/Microsoft/UWPCommunityToolkit/{branch}/docs/{folder/file.md}`
+`https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/{branch}/docs/{folder/file.md}`
 
 > NOTE: When building and running the app in release mode, the branch will automatically be changed to **master** before loading. 
-> Note: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: The documentation is also packaged with the sample app. If there is no network connection, or the documentation is not yet on github, the sample app will use the packaged version
+
+> NOTE: To test your documentation in the sample app while running in debug mode, the docs repository will need to be cloned in the same folder as this repository and named **WindowsCommunityToolkitDocs**. For exaple, this folder structure works best:
+> ```
+> repositories
+> ├── WindowsCommunityToolkit
+> ├── WindowsCommunityToolkitDocs
+> ``` 
 
 ### CodeUrl
 

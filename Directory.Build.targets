@@ -1,7 +1,6 @@
 <Project>
-
   <Choose>
-    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'native'">
+    <When Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299' or '$(TargetFramework)' == 'native'">
       <!-- UAP versions for uap10.0 where TPMV isn't implied -->
       <PropertyGroup>
         <TargetPlatformVersion>10.0.$(DefaultTargetPlatformVersion).0</TargetPlatformVersion>
@@ -10,8 +9,6 @@
       </PropertyGroup>
 
       <ItemGroup>
-        <PackageReference Condition="'$(UseUwpMetaPackage)' == 'true'" Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="$(UwpMetaPackageVersion)" />
-
         <SDKReference Condition="'$(UseWindowsDesktopSdk)' == 'true' " Include="WindowsDesktop, Version=$(TargetPlatformVersion)">
           <Name>Windows Desktop Extensions for the UWP</Name>
         </SDKReference>
@@ -19,8 +16,15 @@
           <Name>Windows Mobile Extensions for the UWP</Name>
         </SDKReference>
       </ItemGroup>
-
     </When>
   </Choose>
 
+  <Target Name="AddCommitHashToAssemblyAttributes" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadataAttribute" Condition=" '$(SourceRevisionId)' != '' ">
+        <_Parameter1>CommitHash</_Parameter1>
+        <_Parameter2>$(SourceRevisionId)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
 </Project>

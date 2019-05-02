@@ -1,23 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -37,17 +25,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             base.OnNavigatedFrom(e);
 
             // Reset app back to normal.
-            StatusBar.SetIsVisible(this, false);
+            StatusBarExtensions.SetIsVisible(this, false);
 
-            ApplicationView.SetTitle(this, string.Empty);
+            ApplicationViewExtensions.SetTitle(this, string.Empty);
 
             var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];
             var brandColor = (Color)Application.Current.Resources["Brand-Color"];
 
-            TitleBar.SetButtonBackgroundColor(this, brandColor);
-            TitleBar.SetButtonForegroundColor(this, lightGreyBrush);
-            TitleBar.SetBackgroundColor(this, brandColor);
-            TitleBar.SetForegroundColor(this, lightGreyBrush);
+            TitleBarExtensions.SetButtonBackgroundColor(this, brandColor);
+            TitleBarExtensions.SetButtonForegroundColor(this, lightGreyBrush);
+            TitleBarExtensions.SetBackgroundColor(this, brandColor);
+            TitleBarExtensions.SetForegroundColor(this, lightGreyBrush);
         }
     }
 }

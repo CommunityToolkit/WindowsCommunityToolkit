@@ -1,0 +1,51 @@
+﻿        
+// You can handle State changes in the StateChanged handler declared in the XAML markup for the element
+
+private int dwellCount = 0;
+
+private void GazeButtonControl_StateChanged(object sender, GazePointerEventArgs ea)
+{
+
+    if (ea.PointerState == GazePointerState.Enter)
+    {
+       // do something
+    }
+    if (ea.PointerState == GazePointerState.Fixation)
+    {
+        // do something
+    }
+    if (ea.PointerState == GazePointerState.Dwell)
+    {
+        if (dwellCount == 0)
+        {
+            // do something
+
+            dwellCount = 1;
+        }
+        else
+        {
+           // do something 
+
+            dwellCount += 1;
+        }
+    }
+    if (ea.PointerState == GazePointerState.Exit)
+    {       
+       // do something
+    }
+
+}
+
+
+// You can respond to dwell progress in the ProgressFeedback handler
+
+ private void OnProgressFeedback(object sender, GazeProgressEventArgs e)
+{
+    // do something   
+}
+
+private void OnGazeInvoked(object sender, GazeInvokedRoutedEventArgs e)
+{
+    // do something
+}
+

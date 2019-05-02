@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.IO;
@@ -39,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// The saved <see cref="StorageFile"/> containing the text.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -71,7 +63,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// The saved <see cref="StorageFile"/> containing the text.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -106,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// The saved <see cref="StorageFile"/> containing the text.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -142,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the text.
+        /// The saved <see cref="StorageFile"/> containing the text.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -182,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// The saved <see cref="StorageFile"/> containing the bytes.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -214,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// The saved <see cref="StorageFile"/> containing the bytes.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -249,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// The saved <see cref="StorageFile"/> containing the bytes.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -285,7 +277,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The creation collision options. Default is ReplaceExisting.
         /// </param>
         /// <returns>
-        /// Returns the saved <see cref="StorageFile"/> containing the bytes.
+        /// The saved <see cref="StorageFile"/> containing the bytes.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the file location or file name are null or empty.
@@ -319,7 +311,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="string"/> value.
+        /// The stored <see cref="string"/> value.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -342,7 +334,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="string"/> value.
+        /// The stored <see cref="string"/> value.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -365,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="string"/> value.
+        /// The stored <see cref="string"/> value.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -391,7 +383,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="string"/> value.
+        /// The stored <see cref="string"/> value.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -419,7 +411,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="string"/> value.
+        /// The stored <see cref="string"/> value.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -444,7 +436,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -467,7 +459,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -490,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -516,7 +508,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -544,7 +536,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The relative <see cref="string"/> file path.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         /// <exception cref="ArgumentNullException">
         /// Exception thrown if the <paramref name="fileName"/> is null or empty.
@@ -569,7 +561,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="StorageFile"/>.
         /// </param>
         /// <returns>
-        /// Returns the stored <see cref="byte"/> array.
+        /// The stored <see cref="byte"/> array.
         /// </returns>
         public static async Task<byte[]> ReadBytesAsync(this StorageFile file)
         {
@@ -603,7 +595,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="bool"/>, indicating if the subfolders should also be searched through.
         /// </param>
         /// <returns>
-        /// Returns true, if the file exists.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         public static Task<bool> FileExistsAsync(this StorageFolder folder, string fileName, bool isRecursive = false)
             => isRecursive
@@ -614,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets a value indicating whether a filename is correct or not using the Storage feature.
         /// </summary>
         /// <param name="fileName">The filename to test. Must include the file extension and is not case-sensitive.</param>
-        /// <returns>Returns true if the filename is valid.</returns>
+        /// <returns><c>true</c> if the filename is valid; otherwise, <c>false</c>.</returns>
         public static bool IsFileNameValid(string fileName)
         {
             var illegalChars = Path.GetInvalidFileNameChars();
@@ -625,7 +617,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Gets a value indicating whether a file path is correct or not using the Storage feature.
         /// </summary>
         /// <param name="filePath">The file path to test. Must include the file extension and is not case-sensitive.</param>
-        /// <returns>Returns true if the file path is valid.</returns>
+        /// <returns><c>true</c> if the file path is valid; otherwise, <c>false</c>.</returns>
         public static bool IsFilePathValid(string filePath)
         {
             var illegalChars = Path.GetInvalidPathChars();
@@ -642,7 +634,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
         /// </param>
         /// <returns>
-        /// Returns true, if the file exists.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         internal static async Task<bool> FileExistsInFolderAsync(StorageFolder folder, string fileName)
         {
@@ -660,7 +652,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// The <see cref="string"/> filename of the file to search for. Must include the file extension and is not case-sensitive.
         /// </param>
         /// <returns>
-        /// Returns true, if the file exists.
+        /// <c>true</c> if the file exists; otherwise, <c>false</c>.
         /// </returns>
         /// <exception cref="ArgumentException">
         /// Exception thrown if the <paramref name="fileName"/> contains a quotation mark.
@@ -686,7 +678,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Returns a <see cref="StorageFolder"/> from a <see cref="KnownFolderId"/>
         /// </summary>
         /// <param name="knownFolderId">Folder Id</param>
-        /// <returns><see cref="StorageFolder"/></returns>
+        /// <returns>The <see cref="StorageFolder"/></returns>
         internal static StorageFolder GetFolderFromKnownFolderId(KnownFolderId knownFolderId)
         {
             StorageFolder workingFolder;

@@ -1,17 +1,12 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
+using Windows.UI.Xaml.Automation.Peers;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -31,12 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event EventHandler Opened;
 
         /// <summary>
-        /// Event raised when the notification is dismissed
-        /// </summary>
-        [Obsolete("Use Closed event instead.")]
-        public event EventHandler Dismissed;
-
-        /// <summary>
         /// Event raised when the notification is closing
         /// </summary>
         public event InAppNotificationClosingEventHandler Closing;
@@ -46,6 +35,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public event InAppNotificationClosedEventHandler Closed;
 
+        private AutomationPeer peer;
+
         private void DismissButton_Click(object sender, RoutedEventArgs e)
         {
             Dismiss(InAppNotificationDismissKind.User);
@@ -53,21 +44,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DismissTimer_Tick(object sender, object e)
         {
-            Dismiss(InAppNotificationDismissKind.Timeout);
             _dismissTimer.Stop();
+            Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
         private void OpenAnimationTimer_Tick(object sender, object e)
         {
             _animationTimer.Stop();
             Opened?.Invoke(this, EventArgs.Empty);
+            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+            peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+            if (Content?.GetType() == typeof(string))
+            {
+                AutomateTextNotification(Content.ToString());
+            }
+
             _animationTimer.Tick -= OpenAnimationTimer_Tick;
+        }
+
+        private void AutomateTextNotification(string message)
+        {
+            if (peer != null)
+            {
+                peer.SetFocus();
+                peer.RaiseNotificationEvent(
+                    AutomationNotificationKind.Other,
+                    AutomationNotificationProcessing.ImportantMostRecent,
+                    StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_Events_NewNotificationMessage", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources") + message,
+                    Guid.NewGuid().ToString());
+            }
         }
 
         private void DismissAnimationTimer_Tick(object sender, object e)
         {
             _animationTimer.Stop();
-            Dismissed?.Invoke(this, EventArgs.Empty);
             Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
             _animationTimer.Tick -= DismissAnimationTimer_Tick;
         }

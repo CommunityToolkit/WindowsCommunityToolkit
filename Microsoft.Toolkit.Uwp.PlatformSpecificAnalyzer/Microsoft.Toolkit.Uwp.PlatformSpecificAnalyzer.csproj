@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Title>Windows Community Toolkit UWP Platform Specific Analyzer</Title>
+    <Description>This standard library provides code analysis and code fixers (on CS and VB) to ensure that version / platform specific code is well guarded.</Description>
+    <PackageTags>UWP Toolkit Windows Platform Specific Analyzer</PackageTags>
+    
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Differences-6.0.0.0.gz" />
+    <None Remove="Differences-7.0.0.0.gz" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Differences-6.0.0.0.gz" />
+    <EmbeddedResource Include="Differences-7.0.0.0.gz" />
+  </ItemGroup>
+   
+  <ItemGroup>
+    <PackageReference Update="NETStandard.Library" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/vb" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="2.8.2" PrivateAssets="All" />
+  </ItemGroup>
+
+</Project>

@@ -4,9 +4,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:visualizer="using:NotificationsVisualizerLibrary"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <Style x:Key="Box-Header" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontFamily" Value="Segoe UI" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,-20,0,0" />
+        </Style>
+    </Page.Resources>
+
+    <ScrollViewer>
         <StackPanel>
 
             <Button x:Name="ButtonPinTile"
@@ -15,8 +25,7 @@
                     Click="ButtonPinTile_Click"
                     Content="Pin Tile" />
 
-            <RichTextBlock Margin="20,10,20,0"
-                           Foreground="{StaticResource Brush-Grey-03}">
+            <RichTextBlock Margin="20,10,20,0">
                 <Paragraph>Click the button to pin a secondary tile and send a notification to the tile, displaying rich visual content. The previews below show you what the tile will look like when you pin it.</Paragraph>
                 <Paragraph />
                 <Paragraph FontSize="12">
@@ -26,26 +35,52 @@
                 </Paragraph>
             </RichTextBlock>
 
-            <StackPanel Margin="18">
-                <StackPanel.Resources>
-                    <Style TargetType="visualizer:PreviewTile">
-                        <Setter Property="Margin" Value="2" />
-                    </Style>
-                </StackPanel.Resources>
+            <controls:WrapPanel
+                Margin="18"
+                HorizontalAlignment="Center">
 
-                <visualizer:PreviewTile x:Name="MediumPreviewTile"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="MEDIUM"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="MediumPreviewTile"
                                         IsAnimationEnabled="False"
-                                        TileSize="Medium" />
+                                        TileSize="Medium"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
 
-                <visualizer:PreviewTile x:Name="WidePreviewTile"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="WIDE"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="WidePreviewTile"
                                         IsAnimationEnabled="False"
-                                        TileSize="Wide" />
+                                        TileSize="Wide"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
 
-                <visualizer:PreviewTile x:Name="LargePreviewTile"
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    Padding="20"
+                    Background="{ThemeResource Brush-Grey-04}"
+                    Margin="10">
+                    <TextBlock
+                        Text="LARGE"
+                        Style="{StaticResource Box-Header}" />
+                    <visualizer:PreviewTile x:Name="LargePreviewTile"
                                         IsAnimationEnabled="False"
-                                        TileSize="Large" />
-
-            </StackPanel>
+                                        TileSize="Large"
+                                        HorizontalAlignment="Center" />
+                </StackPanel>
+            </controls:WrapPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>

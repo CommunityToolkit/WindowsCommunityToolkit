@@ -1,18 +1,11 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -128,84 +121,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Rounds the non-offset elements of a matrix to avoid issues due to floating point imprecision.
-        /// </summary>
-        /// <param name="matrix">The matrix to round.</param>
-        /// <param name="decimalsAfterRound">The number of decimals after the round.</param>
-        /// <returns>The rounded matrix.</returns>
-        private static Matrix RoundMatrix(Matrix matrix, int decimalsAfterRound)
-        {
-            return new Matrix(
-                Math.Round(matrix.M11, decimalsAfterRound),
-                Math.Round(matrix.M12, decimalsAfterRound),
-                Math.Round(matrix.M21, decimalsAfterRound),
-                Math.Round(matrix.M22, decimalsAfterRound),
-                matrix.OffsetX,
-                matrix.OffsetY);
-        }
-
-        /// <summary>
-        /// Implement WPF's Rect.Transform.
-        /// </summary>
-        /// <param name="rectangle">The rectangle to transform.</param>
-        /// <param name="matrix">The matrix to use to transform the rectangle.
-        /// </param>
-        /// <returns>The transformed rectangle.</returns>
-        private static Rect RectTransform(Rect rectangle, Matrix matrix)
-        {
-            // WPF equivalent of following code:
-            // var rectTransformed = Rect.Transform(rect, matrix);
-            Point leftTop = matrix.Transform(new Point(rectangle.Left, rectangle.Top));
-            Point rightTop = matrix.Transform(new Point(rectangle.Right, rectangle.Top));
-            Point leftBottom = matrix.Transform(new Point(rectangle.Left, rectangle.Bottom));
-            Point rightBottom = matrix.Transform(new Point(rectangle.Right, rectangle.Bottom));
-            double left = Math.Min(Math.Min(leftTop.X, rightTop.X), Math.Min(leftBottom.X, rightBottom.X));
-            double top = Math.Min(Math.Min(leftTop.Y, rightTop.Y), Math.Min(leftBottom.Y, rightBottom.Y));
-            double right = Math.Max(Math.Max(leftTop.X, rightTop.X), Math.Max(leftBottom.X, rightBottom.X));
-            double bottom = Math.Max(Math.Max(leftTop.Y, rightTop.Y), Math.Max(leftBottom.Y, rightBottom.Y));
-            Rect rectTransformed = new Rect(left, top, right - left, bottom - top);
-            return rectTransformed;
-        }
-
-        /// <summary>
-        /// Implements WPF's Matrix.Multiply.
-        /// </summary>
-        /// <param name="matrix1">The left matrix.</param>
-        /// <param name="matrix2">The right matrix.</param>
-        /// <returns>The product of the two matrices.</returns>
-        private static Matrix MatrixMultiply(Matrix matrix1, Matrix matrix2)
-        {
-            // WPF equivalent of following code:
-            // return Matrix.Multiply(matrix1, matrix2);
-            return new Matrix(
-                (matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21),
-                (matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22),
-                (matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21),
-                (matrix1.M21 * matrix2.M12) + (matrix1.M22 * matrix2.M22),
-                ((matrix1.OffsetX * matrix2.M11) + (matrix1.OffsetY * matrix2.M21)) + matrix2.OffsetX,
-                ((matrix1.OffsetX * matrix2.M12) + (matrix1.OffsetY * matrix2.M22)) + matrix2.OffsetY);
-        }
-
-        /// <summary>
-        /// Implements WPF's Matrix.HasInverse.
-        /// </summary>
-        /// <param name="matrix">The matrix.</param>
-        /// <returns>True if matrix has an inverse.</returns>
-        private static bool MatrixHasInverse(Matrix matrix)
-        {
-            // WPF equivalent of following code:
-            // return matrix.HasInverse;
-            return ((matrix.M11 * matrix.M22) - (matrix.M12 * matrix.M21)) != 0;
-        }
-
-        /// <summary>
         /// Processes the current transform to determine the corresponding
         /// matrix.
         /// </summary>
         private void ProcessTransform()
         {
             // Get the transform matrix and apply it
-            _transformation = RoundMatrix(GetTransformMatrix(Transform), DecimalsAfterRound);
+            _transformation = MatrixHelperEx.Round(GetTransformMatrix(Transform), DecimalsAfterRound);
 
             if (_matrixTransform != null)
             {
@@ -238,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     foreach (var child in transformGroup.Children)
                     {
-                        groupMatrix = MatrixMultiply(groupMatrix, GetTransformMatrix(child));
+                        groupMatrix = groupMatrix.Multiply(GetTransformMatrix(child));
                     }
 
                     return groupMatrix;
@@ -249,12 +171,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (rotateTransform != null)
                 {
-                    var angle = rotateTransform.Angle;
-                    var angleRadians = (2 * Math.PI * angle) / 360;
-                    var sine = Math.Sin(angleRadians);
-                    var cosine = Math.Cos(angleRadians);
-
-                    return new Matrix(cosine, sine, -sine, cosine, 0, 0);
+                    return rotateTransform.GetMatrix();
                 }
 
                 // Process the ScaleTransform
@@ -262,10 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (scaleTransform != null)
                 {
-                    var scaleX = scaleTransform.ScaleX;
-                    var scaleY = scaleTransform.ScaleY;
-
-                    return new Matrix(scaleX, 0, 0, scaleY, 0, 0);
+                    return scaleTransform.GetMatrix();
                 }
 
                 // Process the SkewTransform
@@ -273,12 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (skewTransform != null)
                 {
-                    var angleX = skewTransform.AngleX;
-                    var angleY = skewTransform.AngleY;
-                    var angleXRadians = (2 * Math.PI * angleX) / 360;
-                    var angleYRadians = (2 * Math.PI * angleY) / 360;
-
-                    return new Matrix(1, angleYRadians, angleXRadians, 1, 0, 0);
+                    return skewTransform.GetMatrix();
                 }
 
                 // Process the MatrixTransform
@@ -333,7 +242,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _layoutRoot.Measure(measureSize);
 
             // Transform DesiredSize to find its width/height
-            Rect transformedDesiredRect = RectTransform(new Rect(0, 0, _layoutRoot.DesiredSize.Width, _layoutRoot.DesiredSize.Height), _transformation);
+            Rect transformedDesiredRect = MatrixHelperEx.RectTransform(new Rect(0, 0, _layoutRoot.DesiredSize.Width, _layoutRoot.DesiredSize.Height), _transformation);
             Size transformedDesiredSize = new Size(transformedDesiredRect.Width, transformedDesiredRect.Height);
 
             // Return result to allocate enough space for the transformation
@@ -365,7 +274,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Transform the working size to find its width/height
-            Rect transformedRect = RectTransform(new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height), _transformation);
+            Rect transformedRect = MatrixHelperEx.RectTransform(new Rect(0, 0, finalSizeTransformed.Width, finalSizeTransformed.Height), _transformation);
 
             // Create the Arrange rect to center the transformed content
             Rect finalRect = new Rect(
@@ -457,7 +366,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Check for completely unbound scenario
                 computedSize = new Size(double.PositiveInfinity, double.PositiveInfinity);
             }
-            else if (!MatrixHasInverse(_transformation))
+            else if (!_transformation.HasInverse())
             {
                 // Check for singular matrix
                 computedSize = new Size(0, 0);

@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Generic;
@@ -17,6 +9,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Collections;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
@@ -196,10 +189,10 @@ namespace Microsoft.Toolkit.Uwp
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>
-        /// Clears the collection and reloads data from the source
+        /// Clears the collection and triggers/forces a reload of the first page
         /// </summary>
         /// <returns>This method does not return a result</returns>
-        public async Task RefreshAsync()
+        public Task RefreshAsync()
         {
             if (IsLoading)
             {
@@ -207,11 +200,19 @@ namespace Microsoft.Toolkit.Uwp
             }
             else
             {
+                var previousCount = Count;
                 Clear();
                 CurrentPageIndex = 0;
                 HasMoreItems = true;
-                await LoadMoreItemsAsync(1);
+
+                if (previousCount == 0)
+                {
+                    // When the list was empty before clearing, the automatic reload isn't fired, so force a reload.
+                    return LoadMoreItemsAsync(0).AsTask();
+                }
             }
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

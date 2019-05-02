@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
@@ -37,6 +29,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             dockPanel.InvalidateArrange();
         }
 
+        private static void OnPaddingChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var dockPanel = (DockPanel)sender;
+            dockPanel.InvalidateMeasure();
+        }
+
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
@@ -45,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return finalSize;
             }
 
-            var currentBounds = new Rect(0, 0, finalSize.Width, finalSize.Height);
+            var currentBounds = new Rect(Padding.Left, Padding.Top, finalSize.Width - Padding.Right, finalSize.Height - Padding.Bottom);
             var childrenCount = LastChildFill ? Children.Count - 1 : Children.Count;
 
             for (var index = 0; index < childrenCount; index++)
@@ -103,8 +101,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var parentWidth = 0.0;
             var parentHeight = 0.0;
-            var accumulatedWidth = 0.0;
-            var accumulatedHeight = 0.0;
+            var accumulatedWidth = Padding.Left + Padding.Right;
+            var accumulatedHeight = Padding.Top + Padding.Bottom;
 
             foreach (var child in Children)
             {

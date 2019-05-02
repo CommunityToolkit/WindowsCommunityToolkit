@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -20,8 +20,6 @@
         <Grid x:Name="XamlRoot" Grid.Row="2" />
 
         <ProgressRing Name="BusyIndicator"
-                      Grid.RowSpan="2"
-                      Foreground="Blue" />
+                      Grid.RowSpan="2" />
     </Grid>
 </Page>
-

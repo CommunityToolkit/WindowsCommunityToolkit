@@ -1,19 +1,8 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
-using System;
-using System.Threading.Tasks;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -28,17 +17,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public IncrementalLoadingCollectionPage()
         {
             InitializeComponent();
+            Load();
         }
 
-        /// <summary>
-        /// Invoked when the <see cref="Windows.UI.Xaml.Controls.Page"/> is loaded and becomes the current source of a parent <see cref="Windows.UI.Xaml.Controls.Frame"/>.
-        /// </summary>
-        /// <param name="e">
-        /// Event data that is representative of the pending navigation that will load the current <see cref="Windows.UI.Xaml.Controls.Page"/>. Usually the most relevant property to examine is <see cref="NavigationEventArgs.Parameter"/>.
-        /// </param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
+            SampleController.Current.RegisterNewCommand("Refresh Collection", RefreshCollection);
 
             // IncrementalLoadingCollection can be bound to a GridView or a ListView. In this case it is a ListView called PeopleListView.
             var collection = new IncrementalLoadingCollection<PeopleSource, Person>();
@@ -46,6 +30,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             // Binds the collection to the page DataContext in order to use its IsLoading and HasMoreItems properties.
             DataContext = collection;
+        }
+
+        private async void RefreshCollection(object sender, RoutedEventArgs e)
+        {
+            var collection = (IncrementalLoadingCollection<PeopleSource, Person>)PeopleListView.ItemsSource;
+            await collection.RefreshAsync();
         }
     }
 }

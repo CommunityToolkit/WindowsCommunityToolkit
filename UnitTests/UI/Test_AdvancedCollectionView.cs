@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections;
@@ -16,10 +8,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
-using Microsoft.VisualStudio.TestPlatform.UnitTestFramework.AppContainer;
-
-using Assert = Microsoft.VisualStudio.TestPlatform.UnitTestFramework.Assert;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 
 namespace UnitTests.UI
 {
@@ -96,7 +86,6 @@ namespace UnitTests.UI
             Assert.AreEqual("sit", a[0]);
             Assert.AreEqual("how", a[1]);
             Assert.AreEqual("amet", a[2]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -129,7 +118,6 @@ namespace UnitTests.UI
             Assert.AreEqual("ipsum", a[1]);
             Assert.AreEqual("dolor", a[2]);
             Assert.AreEqual("ipsum", a[3]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -162,7 +150,6 @@ namespace UnitTests.UI
             Assert.AreEqual("ipsum", a[1]);
             Assert.AreEqual("dolor", a[2]);
             Assert.AreEqual("ipsum", a[3]);
-
         }
 
         [TestCategory("AdvancedCollectionView")]
@@ -191,7 +178,6 @@ namespace UnitTests.UI
             Assert.AreEqual(2, a.Count);
             Assert.AreEqual(a[0], "how");
             Assert.AreEqual(a[1], "amet");
-
         }
 
         [TestCategory("AdvancedCollectionView")]

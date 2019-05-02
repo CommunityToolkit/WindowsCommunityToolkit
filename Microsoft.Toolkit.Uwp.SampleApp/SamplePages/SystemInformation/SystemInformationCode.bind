@@ -46,8 +46,14 @@
         // To get the time the app was previously launched, not including this instance.
         public DateTime LastLaunchTime => SystemInformation.LastLaunchTime;
 
-        // To get the number of times the app has been launched.
+        // To get the time the launch count was reset, not including this instance
+        public string LastResetTime => SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
+
+        // To get the number of times the app has been launched sicne the last reset.
         public long LaunchCount => SystemInformation.LaunchCount;
+
+        // To get the number of times the app has been launched.
+        public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
 
         // To get how long the app has been running
         public TimeSpan AppUptime => SystemInformation.AppUptime;

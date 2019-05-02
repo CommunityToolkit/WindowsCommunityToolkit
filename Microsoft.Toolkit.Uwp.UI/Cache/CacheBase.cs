@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using System;
 using System.Collections.Concurrent;
@@ -29,11 +21,6 @@ namespace Microsoft.Toolkit.Uwp.UI
     /// <typeparam name="T">Generic type as supplied by consumer of the class</typeparam>
     public abstract class CacheBase<T>
     {
-        /// <summary>
-        /// Gets or sets a value indicating whether context should be maintained until type has been instantiated or not.
-        /// </summary>
-        protected bool MaintainContext { get; set; }
-
         private class ConcurrentRequest
         {
             public Task<T> Task { get; set; }
@@ -356,7 +343,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             // if similar request exists check if it was preCacheOnly and validate that current request isn't preCacheOnly
             if (request != null && request.EnsureCachedCopy && !preCacheOnly)
             {
-                await request.Task.ConfigureAwait(MaintainContext);
+                await request.Task.ConfigureAwait(false);
                 request = null;
             }
 
@@ -373,7 +360,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             try
             {
-                instance = await request.Task.ConfigureAwait(MaintainContext);
+                instance = await request.Task.ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -411,13 +398,18 @@ namespace Microsoft.Toolkit.Uwp.UI
                 return instance;
             }
 
-            var folder = await GetCacheFolderAsync().ConfigureAwait(MaintainContext);
-            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(MaintainContext) as StorageFile;
+            var folder = await GetCacheFolderAsync().ConfigureAwait(false);
+            baseFile = await folder.TryGetItemAsync(fileName).AsTask().ConfigureAwait(false) as StorageFile;
 
-            if (baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(MaintainContext))
+            bool downloadDataFile = baseFile == null || await IsFileOutOfDateAsync(baseFile, CacheDuration).ConfigureAwait(false);
+
+            if (baseFile == null)
             {
-                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(MaintainContext);
+                baseFile = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting).AsTask().ConfigureAwait(false);
+            }
 
+            if (downloadDataFile)
+            {
                 uint retries = 0;
                 try
                 {
@@ -425,7 +417,7 @@ namespace Microsoft.Toolkit.Uwp.UI
                     {
                         try
                         {
-                            instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken, initializerKeyValues).ConfigureAwait(MaintainContext);
+                            instance = await DownloadFileAsync(uri, baseFile, preCacheOnly, cancellationToken, initializerKeyValues).ConfigureAwait(false);
 
                             if (instance != null)
                             {
@@ -448,7 +440,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
             if (EqualityComparer<T>.Default.Equals(instance, default(T)) && !preCacheOnly)
             {
-                instance = await InitializeTypeAsync(baseFile, initializerKeyValues).ConfigureAwait(MaintainContext);
+                instance = await InitializeTypeAsync(baseFile, initializerKeyValues).ConfigureAwait(false);
 
                 if (_inMemoryFileStorage.MaxItemCount > 0)
                 {

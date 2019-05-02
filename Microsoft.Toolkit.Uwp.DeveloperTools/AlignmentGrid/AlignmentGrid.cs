@@ -1,14 +1,6 @@
-﻿// ******************************************************************
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THE CODE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-// IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH
-// THE CODE OR THE USE OR OTHER DEALINGS IN THE CODE.
-// ******************************************************************
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
 
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -81,7 +73,7 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             SizeChanged += AlignmentGrid_SizeChanged;
 
             IsHitTestVisible = false;
-
+            IsTabStop = false;
             Opacity = 0.5;
 
             HorizontalContentAlignment = HorizontalAlignment.Stretch;
@@ -96,30 +88,36 @@ namespace Microsoft.Toolkit.Uwp.DeveloperTools
             var verticalStep = VerticalStep;
             var brush = LineBrush ?? (Brush)Application.Current.Resources["ApplicationForegroundThemeBrush"];
 
-            for (double x = 0; x < ActualWidth; x += horizontalStep)
+            if (horizontalStep > 0)
             {
-                var line = new Rectangle
+                for (double x = 0; x < ActualWidth; x += horizontalStep)
                 {
-                    Width = 1,
-                    Height = ActualHeight,
-                    Fill = brush
-                };
-                Canvas.SetLeft(line, x);
+                    var line = new Rectangle
+                    {
+                        Width = 1,
+                        Height = ActualHeight,
+                        Fill = brush
+                    };
+                    Canvas.SetLeft(line, x);
 
-                containerCanvas.Children.Add(line);
+                    containerCanvas.Children.Add(line);
+                }
             }
 
-            for (double y = 0; y < ActualHeight; y += verticalStep)
+            if (verticalStep > 0)
             {
-                var line = new Rectangle
+                for (double y = 0; y < ActualHeight; y += verticalStep)
                 {
-                    Width = ActualWidth,
-                    Height = 1,
-                    Fill = brush
-                };
-                Canvas.SetTop(line, y);
+                    var line = new Rectangle
+                    {
+                        Width = ActualWidth,
+                        Height = 1,
+                        Fill = brush
+                    };
+                    Canvas.SetTop(line, y);
 
-                containerCanvas.Children.Add(line);
+                    containerCanvas.Children.Add(line);
+                }
             }
         }
 

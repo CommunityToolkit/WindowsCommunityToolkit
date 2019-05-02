@@ -1,0 +1,35 @@
+using Windows.Devices.Input.Preview;
+
+public sealed partial class GazeTracingPage : IXamlRenderListener
+{
+    private GazeInputSourcePreview gazeInputSourcePreview;
+
+    public ObservableCollection<Point> GazeHistory { get; set; } = new ObservableCollection<Point>();
+
+    public int MaxGazeHistorySize { get; set; }
+    public GazeTracingPage()
+    {
+        this.InitializeComponent();
+        DataContext = this;
+
+        MaxGazeHistorySize = 100;
+
+        gazeInputSourcePreview = GazeInputSourcePreview.GetForCurrentView();
+        gazeInputSourcePreview.GazeMoved += GazeInputSourcePreview_GazeMoved;
+    }
+
+    private void GazeInputSourcePreview_GazeMoved(GazeInputSourcePreview sender, GazeMovedPreviewEventArgs args)
+    {
+        var point = args.CurrentPoint.EyeGazePosition;
+        if (!point.HasValue)
+        {
+            return;
+        }
+
+        GazeHistory.Add(point.Value);
+        if (GazeHistory.Count > MaxGazeHistorySize)
+        {
+            GazeHistory.RemoveAt(0);
+        }
+    }
+}

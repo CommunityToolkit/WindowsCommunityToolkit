@@ -1,0 +1,32 @@
+<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:graphControls="using:Microsoft.Toolkit.Uwp.UI.Controls.Graph"
+      xmlns:sampleControls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+    <Page.Resources>
+      <converters:BoolToObjectConverter x:Key="BoolToObjectConverter1" TrueValue="Collapsed" FalseValue="Visible" />
+    </Page.Resources>
+    <Grid Padding="10">
+      <sampleControls:AadAuthControl x:Name="AadAuthControl"/>
+      <Grid Visibility="{Binding ElementName=AadAuthControl, Path=IsEnabled, Converter={StaticResource BoolToObjectConverter1}}">
+        <StackPanel x:Name="LoadPanel">
+          <TextBox x:Name="DocLibOrDriveURL" PlaceholderText="Enter Drive or SharePoint Document Library URL"/>
+          <Button x:Name="LoadButton" Content="Load Drive" Margin="0 10 0 0" />
+        </StackPanel>
+        <graphControls:SharePointFileList x:Name="SharePointFileListControl"
+              PageSize="@[PageSize:Slider:20:1-100]"
+              DetailPane="@[DetailPane:Enum:DetailPaneDisplayMode.Side]"
+              ShareLinkCopiedMessage="@[ShareLinkCopiedMessage:String:Link copied!]"
+              AllFilesMessage="@[AllFilesMessage:String:All Files]"
+              DeleteConfirmMessage="@[DeleteConfirmMessage:String:Do you want to delete this file?]"
+              DeleteConfirmOkMessage="@[DeleteConfirmOkMessage:String:OK]"
+              DeleteConfirmCancelMessage="@[DeleteConfirmCancelMessage:String:Cancel]"
+              UploadingFilesMessageTemplate="@[UploadingFilesMessageTemplate:String:Uploading {0} files...]"
+              Visibility="Collapsed"/>
+      </Grid>
+    </Grid>
+</Page>
