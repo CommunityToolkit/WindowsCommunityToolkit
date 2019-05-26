@@ -177,7 +177,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                                 if (_stackedNotificationOptions.Any())
                                 {
-                                    UpdateContent(_stackedNotificationOptions[0]);
+                                    var notificationOptions = _stackedNotificationOptions[0];
+
+                                    UpdateContent(notificationOptions);
 
                                     if (notificationOptions.Duration > 0)
                                     {
