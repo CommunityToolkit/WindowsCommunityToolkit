@@ -186,6 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                                         _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
                                         _dismissTimer.Start();
                                     }
+
                                     return;
                                 }
                             }
