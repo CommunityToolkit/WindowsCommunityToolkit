@@ -3,7 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>uap10.0.16299;netstandard2.0;NET462</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
-    <Description>This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.</Description>
+    <Description>
+      This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.
+      
+      Namespace:
+      - Facebook: Album, DataConfig, DataHost, OAuthTokens, Permissions, Photo, Picture, PictureData, PlatformImageSource, Post, RequestSource, Service.
+    </Description>
     <PackageTags>UWP Community Toolkit Windows Microsoft Graph OneDrive Twitter Translator LinkedIn service login OAuth</PackageTags>
 
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
