@@ -44,22 +44,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DismissTimer_Tick(object sender, object e)
         {
-            _dismissTimer.Stop();
             Dismiss(InAppNotificationDismissKind.Timeout);
         }
 
         private void OpenAnimationTimer_Tick(object sender, object e)
         {
-            _animationTimer.Stop();
-            Opened?.Invoke(this, EventArgs.Empty);
-            SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
-            peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
-            if (Content?.GetType() == typeof(string))
+            lock (_openAnimationTimer)
             {
-                AutomateTextNotification(Content.ToString());
+                _openAnimationTimer.Stop();
+                Opened?.Invoke(this, EventArgs.Empty);
+                SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+                peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
+                if (Content?.GetType() == typeof(string))
+                {
+                    AutomateTextNotification(Content.ToString());
+                }
             }
-
-            _animationTimer.Tick -= OpenAnimationTimer_Tick;
         }
 
         private void AutomateTextNotification(string message)
@@ -75,11 +75,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void DismissAnimationTimer_Tick(object sender, object e)
+        private void ClosingAnimationTimer_Tick(object sender, object e)
         {
-            _animationTimer.Stop();
-            Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
-            _animationTimer.Tick -= DismissAnimationTimer_Tick;
+            lock (_closingAnimationTimer)
+            {
+                _closingAnimationTimer.Stop();
+                Closed?.Invoke(this, new InAppNotificationClosedEventArgs(_lastDismissKind));
+            }
         }
     }
 }
