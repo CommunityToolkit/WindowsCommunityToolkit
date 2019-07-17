@@ -567,6 +567,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     ctrl._nextElement.DataContext = e.NewValue;
                 }
+
                 ctrl.RotateToNextItem();
                 ctrl._timer.Stop();
                 ctrl._timer.Start();
