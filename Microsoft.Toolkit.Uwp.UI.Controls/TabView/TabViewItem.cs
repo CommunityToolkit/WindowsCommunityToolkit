@@ -71,19 +71,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     _isMiddleClick = true;
                 }
-                
-                // Disable unwanted behaviour inherited by ListView:
-                // Disable "Ctrl + Left Click" to deselect tab
+
+                // Disable unwanted behaviour inherited by ListViewItem:
+                // Disable "Ctrl + Left click" to deselect tab
+                // Or variant like "Ctrl + Shift + Left click"
+                // Or "Ctrl + Alt + Left click"
                 if (pointerPoint.Properties.IsLeftButtonPressed)
                 {
                     var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
                     if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
                     {
-                        e.Handled = true;
+                        // return here so the event won't be picked up by the base class
+                        // but keep this event unhandled so it can be picked up further
+                        return;
                     }
                 }
             }
-            
+
             base.OnPointerPressed(e);
         }
 
