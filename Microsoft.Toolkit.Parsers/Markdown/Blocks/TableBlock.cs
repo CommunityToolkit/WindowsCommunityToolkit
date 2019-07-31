@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     while (pos < maxEndingPos)
                     {
                         char c = markdown[pos];
-                        if (c == '|')
+                        if (c == '|' && (pos == 0 || markdown[pos - 1] != '\\'))
                         {
                             lineHasVerticalBar = true;
                             endOfLineFound = false;
