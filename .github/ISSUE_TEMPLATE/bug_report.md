@@ -14,26 +14,30 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 
 <!-- For WPF or WinForms controls, please file an issue instead at https://github.com/windows-toolkit/Microsoft.Toolkit.Win32/issues/new -->
 
-##Describe the bug
+<!-- For Documentation, please file an issue instead at https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new -->
+
+## Describe the bug
 A clear and concise description of what the bug is.
 
-##Steps to Reproduce
+- [ ] Is this bug a regression in the toolkit?  If so, what toolkit version did you last see it work:
+
+## Steps to Reproduce
 Steps to reproduce the behavior:
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
 4. See error
 
-##Expected behavior
+## Expected behavior
 A clear and concise description of what you expected to happen.
 
-##Screenshots
+## Screenshots
 If applicable, add screenshots to help explain your problem.
 
-##Environment
+## Environment
 <!-- Check one or more of the following options with "x" -->
 ```
-Nuget Package(s): 
+NuGet Package(s): 
 
 Package Version(s): 
 
@@ -64,5 +68,5 @@ Visual Studio
 
 ```
 
-##Additional context
+## Additional context
 Add any other context about the problem here.
