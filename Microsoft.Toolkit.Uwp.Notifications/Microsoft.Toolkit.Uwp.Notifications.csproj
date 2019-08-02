@@ -42,6 +42,13 @@
     <!-- this makes it UAP10_0_10240_0 to match the rest -->
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
+    <WindowsWinmdFile Condition=" Exists('$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd')">$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\$(TargetPlatformVersion)\Windows.winmd</WindowsWinmdFile>
+
+
   </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'native'">
+    <Reference Include="Windows" Private="false" HintPath="$(WindowsWinmdFile)" IsWinMDFile="true" Pack="false" />
+  </ItemGroup>
 
 </Project>

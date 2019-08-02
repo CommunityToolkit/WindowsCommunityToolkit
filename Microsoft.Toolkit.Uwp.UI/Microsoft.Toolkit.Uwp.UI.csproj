@@ -53,7 +53,6 @@
     <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers brushes blur</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
-    <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
 
   <ItemGroup>
