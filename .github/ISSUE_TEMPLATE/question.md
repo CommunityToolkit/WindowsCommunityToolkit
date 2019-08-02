@@ -16,5 +16,7 @@ Ideally, it'd be great to post your question on Stack Overflow using the 'window
 
 If this is more about a scenario that you think is missing documentation, please file an issue instead at https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new
 
+Otherwise, this issue will be automatically closed.
+
 Thanks!
 -->

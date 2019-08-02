@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Create a report to help us improve something
+about: Create a report to help us fix something that isn't working as expected
 title: ''
 labels: bug
 assignees: ''
@@ -11,10 +11,6 @@ assignees: ''
 PLEASE HELP US PROCESS GITHUB ISSUES FASTER BY PROVIDING THE FOLLOWING INFORMATION.
 ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
-
-<!-- For WPF or WinForms controls, please file an issue instead at https://github.com/windows-toolkit/Microsoft.Toolkit.Win32/issues/new -->
-
-<!-- For Documentation, please file an issue instead at https://github.com/MicrosoftDocs/WindowsCommunityToolkitDocs/issues/new -->
 
 ## Describe the bug
 A clear and concise description of what the bug is.
