@@ -54,8 +54,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             actualEnd = start;
 
             // First thing to do is to check if there is a vertical bar on the line.
-            int barOrNewLineIndex = markdown.IndexOf('|', start, endOfFirstLine - start);
-            if (barOrNewLineIndex < 0)
+            var barSections = markdown.Substring(start, endOfFirstLine - start).Split('|');
+
+            var allBarsEscaped = true;
+
+            // we can skip the last section, because there is no bar at the end of it
+            for (var i = 0; i < barSections.Length - 1; i++)
+            {
+                var barSection = barSections[i];
+                if (!barSection.EndsWith("\\"))
+                {
+                    allBarsEscaped = false;
+                    break;
+                }
+            }
+
+            if (allBarsEscaped)
             {
                 return null;
             }
@@ -208,7 +222,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     while (pos < maxEndingPos)
                     {
                         char c = markdown[pos];
-                        if (c == '|')
+                        if (c == '|' && (pos == 0 || markdown[pos - 1] != '\\'))
                         {
                             lineHasVerticalBar = true;
                             endOfLineFound = false;
