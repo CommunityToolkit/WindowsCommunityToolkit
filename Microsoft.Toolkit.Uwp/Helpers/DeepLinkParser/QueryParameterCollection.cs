@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     .Select(param =>
                     {
                         var kvp = param.Split('=');
-                        return new KeyValuePair<string, string>(kvp[0], kvp[1]);
+                        return new KeyValuePair<string, string>(System.Net.WebUtility.UrlDecode(kvp[0]), System.Net.WebUtility.UrlDecode(kvp[1]));
                     }).ToList();
             }
             else

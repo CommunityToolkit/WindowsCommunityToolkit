@@ -191,6 +191,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var tabitem = element as TabViewItem;
 
+            tabitem.Loaded -= TabViewItem_Loaded;
+            tabitem.Closing -= TabViewItem_Closing;
             tabitem.Loaded += TabViewItem_Loaded;
             tabitem.Closing += TabViewItem_Closing;
 
