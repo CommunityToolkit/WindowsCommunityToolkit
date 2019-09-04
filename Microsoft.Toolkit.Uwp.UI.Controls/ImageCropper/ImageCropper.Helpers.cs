@@ -389,7 +389,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return new Point(safeWidthChange, safeHeightChange);
         }
-      
+
         private static bool CanContains(Rect targetRect, Rect testRect)
         {
             return (targetRect.Width - testRect.Width > -ThresholdValue) && (targetRect.Height - testRect.Height > -ThresholdValue);
