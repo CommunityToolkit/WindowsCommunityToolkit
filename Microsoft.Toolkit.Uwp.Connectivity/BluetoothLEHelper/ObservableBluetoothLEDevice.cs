@@ -357,7 +357,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets the bluetooth address of this device as a string
         /// </summary>
         /// <value>The bluetooth address as string.</value>
-        public string BluetoothAddressAsString => DeviceInfo.Properties["System.Devices.Aep.DeviceAddress"]?.ToString() ?? string.Empty;
+        public string BluetoothAddressAsString => DeviceInfo.Properties["System.Devices.Aep.DeviceAddress"]?.ToString();
 
         /// <summary>
         /// Gets the bluetooth address of this device
