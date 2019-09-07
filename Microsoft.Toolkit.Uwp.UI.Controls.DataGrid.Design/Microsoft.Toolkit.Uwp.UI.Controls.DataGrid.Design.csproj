@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Microsoft.Toolkit.Uwp.UI.Controls.Design</RootNamespace>
     <AssemblyName>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.Design</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
@@ -77,7 +78,6 @@
     </Reference>
     <Reference Include="Windows.Foundation.UniversalApiContract">
       <HintPath>$(ProgramFiles)\Windows Kits\10\References\10.0.17763.0\Windows.Foundation.UniversalApiContract\7.0.0.0\Windows.Foundation.UniversalApiContract.winmd</HintPath>
-
       <Aliases>WindowsRuntime</Aliases>
       <Private>False</Private>
     </Reference>
