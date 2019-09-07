@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest a new idea for this project
+about: I have a new idea or improvement for the toolkit
 title: "[Feature]"
 labels: feature request
 assignees: ''
