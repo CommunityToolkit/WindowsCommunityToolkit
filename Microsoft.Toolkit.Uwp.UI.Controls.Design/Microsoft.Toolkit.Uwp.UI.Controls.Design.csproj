@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <NoWarn>$(NoWarn);0618</NoWarn>
+    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.16299</AssetTargetFallback>
   </PropertyGroup>
   <PropertyGroup>
     <TargetPlatformVersion>8.1</TargetPlatformVersion>
