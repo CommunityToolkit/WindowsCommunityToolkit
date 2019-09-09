@@ -94,7 +94,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-
             SamplePickerGridView.ItemsSource = samples;
 
             var groups = samples.GroupBy(sample => sample.Subcategory);
@@ -281,7 +280,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             HideMoreInfo();
         }
 
-        private void InitMoreInfoContentContainer( GridViewItem container)
+        private void InitMoreInfoContentContainer(GridViewItem container)
         {
             if (MoreInfoContent == null)
             {
@@ -305,7 +304,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var centerY = (point.Y + (container.ActualHeight / 2)) - y;
 
             VisualExtensions.SetCenterPoint(MoreInfoContent, new Vector3((float)centerX, (float)centerY, 0).ToString());
-
         }
 
         private void HideMoreInfo()
