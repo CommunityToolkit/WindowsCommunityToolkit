@@ -19,7 +19,9 @@ foreach ($nupkg in $nupkgs){
 	Write-Host "Submitting $nupkg for signing"
 
 	.\SignClient 'sign' -c $appSettings -i $nupkg -r $Env:SignClientUser -s $Env:SignClientSecret -n 'Windows Community Toolkit' -d 'Windows Community Toolkit' -u 'https://developer.microsoft.com/en-us/windows/uwp-community-toolkit' 
-
+  if ($LASTEXITCODE -ne 0) {
+    exit 1
+  }
 	Write-Host "Finished signing $nupkg"
 }
 
