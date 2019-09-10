@@ -41,8 +41,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 new RemoteSystemStatusTypeFilter((RemoteSystemStatusType)Enum.Parse(typeof(RemoteSystemStatusType), statusType?.SelectedValue.ToString()))
             };
 
-            
-
             _remoteDeviceHelper = new RemoteDeviceHelper(filters);
             DevicesList.DataContext = _remoteDeviceHelper;
         }
