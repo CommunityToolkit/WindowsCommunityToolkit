@@ -332,5 +332,59 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return !targetRect.IsEmpty && targetRect.Width > 0 && targetRect.Height > 0;
         }
+
+        private static bool CanContains(Rect targetRect, Rect testRect)
+        {
+            return (targetRect.Width - testRect.Width > -ThresholdValue) && (targetRect.Height - testRect.Height > -ThresholdValue);
+        }
+
+        private static bool TryGetContainedRect(Rect targetRect, ref Rect testRect)
+        {
+            if (!CanContains(targetRect, testRect))
+            {
+                return false;
+            }
+
+            if (targetRect.Left > testRect.Left)
+            {
+                testRect.X += targetRect.Left - testRect.Left;
+            }
+
+            if (targetRect.Top > testRect.Top)
+            {
+                testRect.Y += targetRect.Top - testRect.Top;
+            }
+
+            if (targetRect.Right < testRect.Right)
+            {
+                testRect.X += targetRect.Right - testRect.Right;
+            }
+
+            if (targetRect.Bottom < testRect.Bottom)
+            {
+                testRect.Y += targetRect.Bottom - testRect.Bottom;
+            }
+
+            return true;
+        }
+
+        private static bool IsCornerThumb(ThumbPosition thumbPosition)
+        {
+            switch (thumbPosition)
+            {
+                case ThumbPosition.Top:
+                case ThumbPosition.Bottom:
+                case ThumbPosition.Left:
+                case ThumbPosition.Right:
+                    return false;
+                case ThumbPosition.UpperLeft:
+                case ThumbPosition.UpperRight:
+                case ThumbPosition.LowerLeft:
+                case ThumbPosition.LowerRight:
+                    return true;
+            }
+
+            return false;
+        }
     }
 }
