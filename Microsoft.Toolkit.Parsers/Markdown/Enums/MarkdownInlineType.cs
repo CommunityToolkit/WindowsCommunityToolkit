@@ -55,6 +55,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         Superscript,
 
         /// <summary>
+        /// A subscript run
+        /// </summary>
+        Subscript,
+
+        /// <summary>
         /// A code run
         /// </summary>
         Code,

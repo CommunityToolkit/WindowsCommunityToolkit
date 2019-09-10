@@ -17,6 +17,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         protected abstract void RenderParagraph(ParagraphBlock element, IRenderContext context);
 
         /// <summary>
+        /// Renders a yaml header element.
+        /// </summary>
+        protected abstract void RenderYamlHeader(YamlHeaderBlock element, IRenderContext context);
+
+        /// <summary>
         /// Renders a header element.
         /// </summary>
         protected abstract void RenderHeader(HeaderBlock element, IRenderContext context);

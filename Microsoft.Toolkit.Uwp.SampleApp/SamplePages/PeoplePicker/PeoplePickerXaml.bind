@@ -9,11 +9,12 @@
     <Page.Resources>
       <converters:BoolToObjectConverter x:Key="BoolToObjectConverter1" TrueValue="Collapsed" FalseValue="Visible" />
     </Page.Resources>
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="10">
+    <Grid Padding="10">
       <sampleControls:AadAuthControl x:Name="AadAuthControl"/>
       <graphControls:PeoplePicker
          AllowMultiple="@[AllowMultiple:Bool:True]@"
          SearchResultLimit="@[SearchResultLimit:Slider:5:1-20]@"
+         GroupId="@[GroupId:String: ]@"
          PlaceholderText="@[PlaceholderText:String:Enter keywords to search people]@"
          Visibility="{Binding ElementName=AadAuthControl, Path=IsEnabled, Converter={StaticResource BoolToObjectConverter1}}"/>
     </Grid>

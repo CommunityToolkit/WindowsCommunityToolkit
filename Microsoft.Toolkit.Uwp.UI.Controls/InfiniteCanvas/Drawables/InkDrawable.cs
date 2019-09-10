@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 serializableStroke.FinalPointList = finalPointList;
 
-                serializableStroke.DrawingAttributes = stroke.DrawingAttributes;
+                serializableStroke.DrawingAttributesIgnored = stroke.DrawingAttributes;
                 serializableStroke.PointTransform = stroke.PointTransform;
                 SerializableStrokeList.Add(serializableStroke);
             }
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             foreach (var stroke in SerializableStrokeList)
             {
-                StrokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributes);
+                StrokeBuilder.SetDefaultDrawingAttributes(stroke.DrawingAttributesIgnored);
                 var newStroke = StrokeBuilder.CreateStrokeFromInkPoints(stroke.FinalPointList, stroke.PointTransform);
                 finalStrokeList.Add(newStroke);
             }

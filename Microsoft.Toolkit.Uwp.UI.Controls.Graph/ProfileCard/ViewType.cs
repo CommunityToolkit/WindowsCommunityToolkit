@@ -27,6 +27,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <summary>
         /// A basic user profile is shown, and the user photo is place on the right side.
         /// </summary>
-        LargeProfilePhotoRight = 3
+        LargeProfilePhotoRight = 3,
+
+        /// <summary>
+        /// A basic user profile is shown, and the user photo is place on the left side.
+        /// </summary>
+        SmallProfilePhotoLeft = 4,
+
+        /// <summary>
+        /// A basic user profile is shown, and the user photo is place on the right side.
+        /// </summary>
+        SmallProfilePhotoRight = 5
     }
 }

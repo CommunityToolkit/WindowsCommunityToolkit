@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Markup;
@@ -13,6 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = "HeaderContentPresenter", Type = typeof(ContentPresenter))]
     [ContentProperty(Name = nameof(Inlines))]
+    [Obsolete("The HeaderedTextBlock has been replaced with the more generic HeaderedContentControl.")]
     public partial class HeaderedTextBlock : Control
     {
         private ContentPresenter _headerContentPresenter;

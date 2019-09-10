@@ -20,10 +20,10 @@
                        TextAlignment="Center"
                        FontWeight="Bold"
                        FontSize="48"
-                       Foreground="{StaticResource Brush-White}"
+                       Foreground="White"
                        Margin="12" />
             <TextBlock Text="It starts with 100% opacity but will fade to 0% as you scroll up."
-                       Foreground="{StaticResource Brush-White}"
+                       Foreground="White"
 					             Margin="12,0,12,12"
                        VerticalAlignment="Center"
                        TextAlignment="Center" />
@@ -33,7 +33,7 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <Grid MinHeight="100"
-                Background="{StaticResource Brush-Grey-04}"
+                Background="{ThemeResource Brush-Grey-04}"
                 Opacity="0.9">
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />

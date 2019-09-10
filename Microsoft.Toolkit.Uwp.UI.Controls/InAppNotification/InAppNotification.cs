@@ -16,10 +16,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplateVisualState(Name = StateContentVisible, GroupName = GroupContent)]
     [TemplateVisualState(Name = StateContentCollapsed, GroupName = GroupContent)]
     [TemplatePart(Name = DismissButtonPart, Type = typeof(Button))]
-    public sealed partial class InAppNotification : ContentControl
+    public partial class InAppNotification : ContentControl
     {
         private InAppNotificationDismissKind _lastDismissKind;
-        private DispatcherTimer _animationTimer = new DispatcherTimer();
+        private DispatcherTimer _openAnimationTimer = new DispatcherTimer();
+        private DispatcherTimer _closingAnimationTimer = new DispatcherTimer();
         private DispatcherTimer _dismissTimer = new DispatcherTimer();
         private Button _dismissButton;
         private VisualStateGroup _visualStateGroup;
@@ -33,6 +34,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DefaultStyleKey = typeof(InAppNotification);
 
             _dismissTimer.Tick += DismissTimer_Tick;
+            _openAnimationTimer.Tick += OpenAnimationTimer_Tick;
+            _closingAnimationTimer.Tick += ClosingAnimationTimer_Tick;
         }
 
         /// <inheritdoc />
@@ -70,29 +73,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="duration">Displayed duration of the notification in ms (less or equal 0 means infinite duration)</param>
         public void Show(int duration = 0)
         {
-            _animationTimer.Stop();
-            _dismissTimer.Stop();
+            lock (_openAnimationTimer)
+                lock (_closingAnimationTimer)
+                    lock (_dismissTimer)
+                    {
+                        _openAnimationTimer.Stop();
+                        _closingAnimationTimer.Stop();
+                        _dismissTimer.Stop();
 
-            var eventArgs = new InAppNotificationOpeningEventArgs();
-            Opening?.Invoke(this, eventArgs);
+                        var eventArgs = new InAppNotificationOpeningEventArgs();
+                        Opening?.Invoke(this, eventArgs);
 
-            if (eventArgs.Cancel)
-            {
-                return;
-            }
+                        if (eventArgs.Cancel)
+                        {
+                            return;
+                        }
 
-            Visibility = Visibility.Visible;
-            VisualStateManager.GoToState(this, StateContentVisible, true);
+                        Visibility = Visibility.Visible;
+                        VisualStateManager.GoToState(this, StateContentVisible, true);
 
-            _animationTimer.Interval = AnimationDuration;
-            _animationTimer.Tick += OpenAnimationTimer_Tick;
-            _animationTimer.Start();
+                        _openAnimationTimer.Interval = AnimationDuration;
+                        _openAnimationTimer.Start();
 
-            if (duration > 0)
-            {
-                _dismissTimer.Interval = TimeSpan.FromMilliseconds(duration);
-                _dismissTimer.Start();
-            }
+                        if (duration > 0)
+                        {
+                            _dismissTimer.Interval = TimeSpan.FromMilliseconds(duration);
+                            _dismissTimer.Start();
+                        }
+                    }
         }
 
         /// <summary>
@@ -154,38 +162,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <param name="dismissKind">Kind of action that triggered dismiss event</param>
         private void Dismiss(InAppNotificationDismissKind dismissKind)
         {
-            if (Visibility == Visibility.Visible)
-            {
-                // Continue to display notification if on remaining stacked notification
-                if (_stackedNotificationOptions.Any())
-                {
-                    _stackedNotificationOptions.RemoveAt(0);
-
-                    if (_stackedNotificationOptions.Any())
+            lock (_openAnimationTimer)
+                lock (_closingAnimationTimer)
+                    lock (_dismissTimer)
                     {
-                        DisplayNextStackedNotification(_stackedNotificationOptions[0]);
-                        return;
+                        if (Visibility == Visibility.Visible)
+                        {
+                            _dismissTimer.Stop();
+
+                            // Continue to display notification if on remaining stacked notification
+                            if (_stackedNotificationOptions.Any())
+                            {
+                                _stackedNotificationOptions.RemoveAt(0);
+
+                                if (_stackedNotificationOptions.Any())
+                                {
+                                    var notificationOptions = _stackedNotificationOptions[0];
+
+                                    UpdateContent(notificationOptions);
+
+                                    if (notificationOptions.Duration > 0)
+                                    {
+                                        _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
+                                        _dismissTimer.Start();
+                                    }
+
+                                    return;
+                                }
+                            }
+
+                            _openAnimationTimer.Stop();
+                            _closingAnimationTimer.Stop();
+
+                            var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
+                            Closing?.Invoke(this, closingEventArgs);
+
+                            if (closingEventArgs.Cancel)
+                            {
+                                return;
+                            }
+
+                            VisualStateManager.GoToState(this, StateContentCollapsed, true);
+
+                            _lastDismissKind = dismissKind;
+
+                            _closingAnimationTimer.Interval = AnimationDuration;
+                            _closingAnimationTimer.Start();
+                        }
                     }
-                }
-
-                _animationTimer.Stop();
-
-                var closingEventArgs = new InAppNotificationClosingEventArgs(dismissKind);
-                Closing?.Invoke(this, closingEventArgs);
-
-                if (closingEventArgs.Cancel)
-                {
-                    return;
-                }
-
-                VisualStateManager.GoToState(this, StateContentCollapsed, true);
-
-                _lastDismissKind = dismissKind;
-
-                _animationTimer.Interval = AnimationDuration;
-                _animationTimer.Tick += DismissAnimationTimer_Tick;
-                _animationTimer.Start();
-            }
         }
 
         /// <summary>
@@ -196,23 +220,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             return StackMode != StackMode.QueueBehind ||
                 (StackMode == StackMode.QueueBehind && _stackedNotificationOptions.Count == 0);
-        }
-
-        /// <summary>
-        /// Display the next stacked notification using StackedNotificationInfo
-        /// </summary>
-        /// <param name="notificationOptions">Information to display for the next notification</param>
-        private void DisplayNextStackedNotification(NotificationOptions notificationOptions)
-        {
-            UpdateContent(notificationOptions);
-
-            _dismissTimer.Stop();
-
-            if (notificationOptions.Duration > 0)
-            {
-                _dismissTimer.Interval = TimeSpan.FromMilliseconds(notificationOptions.Duration);
-                _dismissTimer.Start();
-            }
         }
 
         /// <summary>

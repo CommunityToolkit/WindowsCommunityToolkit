@@ -36,20 +36,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 
             AutomationProperties.SetName(this, SignInDefaultText);
 
-            Click += async (object sender, RoutedEventArgs e) =>
-            {
-                if (!GraphService.IsAuthenticated)
-                {
-                    IsEnabled = false;
-                    Flyout = null;
-                    await SignInAsync();
-                    IsEnabled = true;
-                }
-                else
-                {
-                    Flyout = GenerateMenuItems();
-                }
-            };
+            Click -= AadLogin_Clicked;
+            Click += AadLogin_Clicked;
 
             GraphService.IsAuthenticatedChanged -= GraphService_StateChanged;
             GraphService.IsAuthenticatedChanged += GraphService_StateChanged;
@@ -57,6 +45,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             if (GraphService.IsAuthenticated)
             {
                 CurrentUserId = (await GraphService.User.GetProfileAsync(new MicrosoftGraphUserFields[1] { MicrosoftGraphUserFields.Id })).Id;
+            }
+        }
+
+        private async void AadLogin_Clicked(object sender, RoutedEventArgs e)
+        {
+            if (!GraphService.IsAuthenticated)
+            {
+                IsEnabled = false;
+                Flyout = null;
+                await SignInAsync();
+                IsEnabled = true;
+            }
+            else
+            {
+                Flyout = GenerateMenuItems();
             }
         }
 
@@ -78,18 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         /// <returns>True if sign in successfully, otherwise false</returns>
         public async Task<bool> SignInAsync()
         {
-            var success = false;
-
-            try
-            {
-                success = await GraphService.TryLoginAsync();
-            }
-            catch (Exception ex)
-            {
-                SignInFailed?.Invoke(this, new SignInFailedEventArgs(ex));
-            }
-
-            if (success)
+            if (await GraphService.TryLoginAsync())
             {
                 AutomationProperties.SetName(this, string.Empty);
 
@@ -104,16 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
 
             return false;
-        }
-
-        /// <summary>
-        /// This method is used to sign out the currently signed on user
-        /// </summary>
-        [Obsolete("Please use SignOutAsync instead")]
-        public void SignOut()
-        {
-            var result = GraphService.Logout().Result;
-            SignOutCompleted?.Invoke(this, EventArgs.Empty);
         }
 
         /// <summary>
@@ -173,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 Text = SignOutDefaultText
             };
             AutomationProperties.SetName(signoutItem, SignOutDefaultText);
-            signoutItem.Click += async (object sender, RoutedEventArgs e) => await GraphService.Logout();
+            signoutItem.Click += async (object sender, RoutedEventArgs e) => await SignOutAsync();
             menuFlyout.Items.Add(signoutItem);
 
             return menuFlyout;

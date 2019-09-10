@@ -10,7 +10,6 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -21,28 +20,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public AadLoginPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
         {
-            if (_aadLoginControl != null)
-            {
-                _aadLoginControl.SignInFailed -= AadLoginControl_SignInFailed;
-            }
-
             _aadLoginControl = control.FindDescendantByName("AadLoginControl") as AadLogin;
-
-            if (_aadLoginControl != null)
-            {
-                _aadLoginControl.SignInFailed += AadLoginControl_SignInFailed;
-            }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Change default image", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Change default image", async (sender, args) =>
             {
                 if (_aadLoginControl != null)
                 {
@@ -73,11 +61,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     }
                 }
             });
-        }
-
-        private void AadLoginControl_SignInFailed(object sender, SignInFailedEventArgs e)
-        {
-            Shell.Current.ShowExceptionNotification(e.Exception);
         }
     }
 }

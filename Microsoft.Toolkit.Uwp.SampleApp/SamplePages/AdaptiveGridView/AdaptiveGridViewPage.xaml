@@ -22,8 +22,7 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-
-    <Grid Background="{StaticResource Brush-Grey-05}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -37,7 +36,6 @@
                    Text="You haven't selected any items"
                    Visibility="{Binding IsItemClickEnabled.Value, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-        <Grid x:Name="XamlRoot" Grid.Row="1"/>
+        <Grid x:Name="XamlRoot" Grid.Row="1" />
     </Grid>
 </Page>
-

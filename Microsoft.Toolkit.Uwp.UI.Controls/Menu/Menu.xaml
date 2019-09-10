@@ -5,6 +5,38 @@
     xmlns:contract5Present="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractPresent(Windows.Foundation.UniversalApiContract,5)"
     xmlns:contract5NotPresent="http://schemas.microsoft.com/winfx/2006/xaml/presentation?IsApiContractNotPresent(Windows.Foundation.UniversalApiContract,5)">
 
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Light">
+            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{StaticResource SystemBaseLowColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
+            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
+            <contract5NotPresent:SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
+            <contract5Present:AcrylicBrush x:Key="SystemControlFlyoutBackgroundBrush"
+                                           BackgroundSource="Backdrop" 
+                                           TintColor="{StaticResource SystemChromeMediumLowColor}" 
+                                           TintOpacity="0.8" 
+                                           FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
+        </ResourceDictionary>
+
+        <ResourceDictionary x:Key="Dark">
+            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{StaticResource SystemChromeHighColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{StaticResource SystemBaseLowColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{StaticResource SystemBaseHighColor}" />
+            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="Transparent" />
+            <SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{StaticResource SystemChromeMediumLowColor}" />
+        </ResourceDictionary>
+        
+        <!-- HighContrast is used in all high contrast themes -->
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="SystemControlButtonBackgroundPointerOver" Color="{ThemeResource SystemColorHighlightColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonBorderBrushPointerOver" Color="{ThemeResource SystemColorButtonTextColor}" />
+            <SolidColorBrush x:Key="SystemControlButtonForegroundPointerOver" Color="{ThemeResource SystemColorHighlightTextColor}" />
+            <SolidColorBrush x:Key="SystemControlBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+            <SolidColorBrush x:Key="SystemControlFlyoutBackgroundBrush" Color="{ThemeResource SystemColorWindowColor}" />
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
     <Style TargetType="MenuFlyoutPresenter" x:Key="BaseMenuFlyoutStyle">
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundChromeHighBrush}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -19,6 +51,7 @@
         <Setter Property="MinWidth" Value="136" />
         <Setter Property="MaxWidth" Value="465" />
         <Setter Property="MinHeight" Value="{ThemeResource MenuFlyoutThemeMinHeight}"/>
+        <Setter Property="HighContrastAdjustment" Value="None"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="MenuFlyoutPresenter">
@@ -46,21 +79,10 @@
         </Setter>
     </Style>
 
-    <contract5NotPresent:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
-        <Setter Property="Background" Value="{StaticResource SystemControlBackgroundChromeMediumLowBrush}" />
-    </contract5NotPresent:Style>
-
-    <contract5Present:Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
-        <Setter Property="Background">
-            <Setter.Value>
-                <AcrylicBrush BackgroundSource="Backdrop" 
-                              TintColor="{StaticResource SystemChromeMediumLowColor}" 
-                              TintOpacity="0.8" 
-                              FallbackColor="{StaticResource SystemChromeMediumLowColor}" />
-            </Setter.Value>
-        </Setter>
-    </contract5Present:Style>
-
+    <Style TargetType="MenuFlyoutPresenter" BasedOn="{StaticResource BaseMenuFlyoutStyle}" x:Key="MenuFlyoutStyle">
+        <Setter Property="Background" Value="{ThemeResource SystemControlFlyoutBackgroundBrush}" />
+    </Style>
+    
     <Style TargetType="local:Menu">
         <Setter Property="MenuFlyoutStyle" Value="{StaticResource MenuFlyoutStyle}" />
         <Setter Property="IsTabStop" Value="True" />
@@ -86,12 +108,14 @@
 
     <Style TargetType="local:MenuItem">
         <Setter Property="IsTabStop" Value="True" />
+        <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBrush}" />
         <Setter Property="Foreground" Value="{ThemeResource SystemControlForegroundBaseHighBrush}" />
         <Setter Property="BorderBrush" Value="{ThemeResource SystemControlForegroundTransparentBrush}" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
         <Setter Property="Padding" Value="12, 0" />
         <Setter Property="Height" Value="40" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:MenuItem">
@@ -108,8 +132,9 @@
                             FontWeight="{TemplateBinding FontWeight}"
                             Foreground="{TemplateBinding Foreground}"
                             IsTabStop="False"
-                            Height="{TemplateBinding Height}"
-                            Padding="{TemplateBinding Padding}">
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
+                            Padding="{TemplateBinding Padding}"
+                            Style="{StaticResource MenuButtonBase}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
@@ -154,6 +179,71 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
                     </Button>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MenuButtonBase" TargetType="Button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Grid x:Name="RootGrid" Background="{ThemeResource SystemControlBackgroundBrush}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="PointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlButtonBorderBrushPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlButtonBackgroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlButtonForegroundPointerOver}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundPressed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBackgroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonBorderBrushDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource ButtonForegroundDisabled}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="ContentPresenter" HighContrastAdjustment="None" AutomationProperties.AccessibilityView="Raw" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" ContentTransitions="{TemplateBinding ContentTransitions}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" Padding="{TemplateBinding Padding}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -19,6 +19,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Listener = new ThemeListener();
             this.Loaded += ThemeListenerPage_Loaded;
             Listener.ThemeChanged += Listener_ThemeChanged;
+            SampleController.Current.ThemeChanged += Current_ThemeChanged;
+        }
+
+        private void Current_ThemeChanged(object sender, Models.ThemeChangedArgs e)
+        {
+            UpdateThemeState();
         }
 
         private void ThemeListenerPage_Loaded(object sender, RoutedEventArgs e)
@@ -33,7 +39,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void UpdateThemeState()
         {
-            CurrentTheme.Text = Listener.CurrentThemeName;
+            SystemTheme.Text = Listener.CurrentThemeName;
+            CurrentTheme.Text = SampleController.Current.GetCurrentTheme().ToString();
         }
 
         public ThemeListener Listener { get; }

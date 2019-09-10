@@ -12,13 +12,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
     /// <summary>
     /// Class to assist in parsing a Xaml string and returning an UIElement.
     ///
-    /// Wrapper around XamlReader.Load* with extra pre/post processing to support more features like loading images from an external source.
+    /// Wrapper around XamlReader.Load* with extra pre/post processing to support more features like loading images from an external source. <para/>
     ///
-    /// References:
-    ///     https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.markup.xamlreader
-    ///     https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/xaml-namespaces-and-namespace-mapping
-    ///     https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth
-    ///     https://blogs.msdn.microsoft.com/mcsuksoldev/2010/08/27/designdata-mvvm-support-in-blend-vs2010-and-wpfsilverlight/
+    /// References:<para/>
+    ///     https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.markup.xamlreader <para/>
+    ///     https://docs.microsoft.com/en-us/windows/uwp/xaml-platform/xaml-namespaces-and-namespace-mapping<para/>
+    ///     https://docs.microsoft.com/en-us/windows/uwp/data-binding/data-binding-in-depth<para/>
+    ///     https://blogs.msdn.microsoft.com/mcsuksoldev/2010/08/27/designdata-mvvm-support-in-blend-vs2010-and-wpfsilverlight/<para/>
     /// </summary>
     public class XamlRenderService
     {

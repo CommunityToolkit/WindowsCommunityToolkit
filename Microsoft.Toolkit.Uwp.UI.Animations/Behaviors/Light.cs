@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -13,6 +14,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// </summary>
     /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.CompositionBehaviorBase" />
     /// <seealso cref="AnimationExtensions.IsLightingSupported"/>
+    [Obsolete("The Light effect will be removed in a future major release. Please use XamlLight instead")]
+
     public class Light : CompositionBehaviorBase<FrameworkElement>
     {
         /// <summary>

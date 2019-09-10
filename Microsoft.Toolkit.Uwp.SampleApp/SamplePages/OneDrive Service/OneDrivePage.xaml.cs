@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 #pragma warning disable SA1118
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class OneDrivePage : Page
@@ -58,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             bool succeeded = false;
 
             try
@@ -97,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
 
             if (succeeded)
@@ -188,7 +189,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 top = Convert.ToInt32(txtTop);
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             try
             {
                 OneDriveItemsList.ItemsSource = await _graphCurrentFolder.GetItemsAsync(top);
@@ -199,7 +200,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 menuButton.Visibility = Visibility.Visible;
                 BackButton.Visibility = Visibility.Visible;
             }
@@ -222,7 +223,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (item.IsFolder())
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     var currentFolder = await _graphCurrentFolder.GetFolderAsync(item.Name);
@@ -235,7 +236,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -245,7 +246,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_graphCurrentFolder != null)
             {
                 OneDriveStorageFolder currentFolder = null;
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
@@ -266,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -276,7 +277,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_graphCurrentFolder != null)
             {
                 OneDriveStorageFolder currentFolder = null;
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 try
                 {
                     if (!string.IsNullOrEmpty(_graphCurrentFolder.Path))
@@ -297,7 +298,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    Shell.Current.DisplayWaitRing = false;
+                    SampleController.Current.DisplayWaitRing = false;
                 }
             }
         }
@@ -341,7 +342,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             MessageDialog messageDialog = new MessageDialog($"Are you sure you want to delete '{itemToDelete.Name}'", "Delete");
             messageDialog.Commands.Add(new UICommand("Yes", new UICommandInvokedHandler(async (cmd) =>
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = true; });
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = true; });
                 try
                 {
                     await itemToDelete.DeleteAsync();
@@ -353,7 +354,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 finally
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Shell.Current.DisplayWaitRing = false; });
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { SampleController.Current.DisplayWaitRing = false; });
                 }
             })));
 
@@ -383,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             try
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
 
                 var file = (OneDriveStorageItem)((AppBarButton)e.OriginalSource).DataContext;
                 using (var stream = (await file.StorageItemPlatformService.GetThumbnailAsync(Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums.ThumbnailSize.Large)) as IRandomAccessStream)
@@ -397,7 +398,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
             finally
             {
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
         }
 

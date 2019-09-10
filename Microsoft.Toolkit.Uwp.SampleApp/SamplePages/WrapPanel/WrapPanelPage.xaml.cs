@@ -4,14 +4,11 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -27,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public WrapPanelPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -40,15 +38,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
             _wrapPanelCollection = new ObservableCollection<PhotoDataItemWithDimension>();
 
-            Shell.Current.RegisterNewCommand("Add random sized Image", AddButton_Click);
-            Shell.Current.RegisterNewCommand("Add fixed sized Image", AddFixedButton_Click);
-            Shell.Current.RegisterNewCommand("Switch Orientation", SwitchButton_Click);
+            SampleController.Current.RegisterNewCommand("Add random sized Image", AddButton_Click);
+            SampleController.Current.RegisterNewCommand("Add fixed sized Image", AddFixedButton_Click);
+            SampleController.Current.RegisterNewCommand("Switch Orientation", SwitchButton_Click);
         }
 
         private void ItemControl_ItemClick(object sender, ItemClickEventArgs e)

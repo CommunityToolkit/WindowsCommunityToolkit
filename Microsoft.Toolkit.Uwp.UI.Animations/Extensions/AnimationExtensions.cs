@@ -18,10 +18,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     /// </summary>
     public static partial class AnimationExtensions
     {
-        /// <summary>
-        /// A cached dictionary mapping easings to bezier control points
-        /// </summary>
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
+#pragma warning disable SA1009 // Closing parenthesis must be spaced correctly
+                              /// <summary>
+                              /// A cached dictionary mapping easings to bezier control points
+                              /// </summary>
         private static readonly Dictionary<(string, EasingMode), (Vector2, Vector2)> _compositionEasingFunctions = new Dictionary<(string, EasingMode), (Vector2, Vector2)>();
+#pragma warning restore SA1009 // Closing parenthesis must be spaced correctly
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
 
         /// <summary>
         /// Gets or sets the default EasingType used for storyboard animations
@@ -123,7 +127,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 // In order to generate a usable hashcode for our ValueTuple without collisions
                 // we can't use enum values for both type & mode, so we have to string one of them.
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
                 _compositionEasingFunctions[(type.ToString(), mode)] = (p1, p2);
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
             }
 
             Add(EasingType.Cubic, EasingMode.EaseOut, new Vector2(0.215f, 0.61f), new Vector2(0.355f, 1f));
@@ -178,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             // Pay-per-play caching of easing functions
             EnsureEasingsCached();
 
-            if (_compositionEasingFunctions.TryGetValue((easingType.ToString(), easingMode), out (Vector2, Vector2) points))
+            if (_compositionEasingFunctions.TryGetValue((easingType.ToString(), easingMode), out(Vector2, Vector2) points))
             {
                 return compositor.CreateCubicBezierEasingFunction(points.Item1, points.Item2);
             }

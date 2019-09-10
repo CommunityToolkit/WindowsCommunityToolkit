@@ -5,6 +5,7 @@
 using System;
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Windows.System.Profile;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,6 +16,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// </summary>
     public partial class PeoplePicker : Control
     {
+        private const int DefaultSearchResultLimit = 10;
+
         /// <summary>
         /// File is selected
         /// </summary>
@@ -52,6 +55,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
+        /// Identifies the <see cref="GroupId"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty GroupIdProperty =
+            DependencyProperty.Register(
+                nameof(GroupId),
+                typeof(string),
+                typeof(PeoplePicker),
+                new PropertyMetadata(string.Empty));
+
+        /// <summary>
         /// Identifies the <see cref="PlaceholderText"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty PlaceholderTextProperty =
@@ -72,11 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                 null);
 
         /// <summary>
-        /// Identifies the <see cref="SearchResultList"/> dependency property.
+        /// Identifies the <see cref="SearchResults"/> dependency property.
         /// </summary>
-        internal static readonly DependencyProperty SearchResultListProperty =
+        internal static readonly DependencyProperty SearchResultsProperty =
             DependencyProperty.Register(
-                nameof(SearchResultList),
+                nameof(SearchResults),
                 typeof(ObservableCollection<Person>),
                 typeof(PeoplePicker),
                 null);
@@ -107,6 +120,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         }
 
         /// <summary>
+        /// Gets or sets which group should search users in
+        /// </summary>
+        public string GroupId
+        {
+            get => (string)GetValue(GroupIdProperty);
+            set => SetValue(GroupIdProperty, value);
+        }
+
+        /// <summary>
         /// Gets or sets the text to be displayed when no user is selected
         /// </summary>
         public string PlaceholderText
@@ -124,11 +146,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             set => SetValue(SelectionsProperty, value);
         }
 
-        internal ObservableCollection<Person> SearchResultList
+        internal ObservableCollection<Person> SearchResults
         {
-            get => (ObservableCollection<Person>)GetValue(SearchResultListProperty);
-            set => SetValue(SearchResultListProperty, value);
+            get => (ObservableCollection<Person>)GetValue(SearchResultsProperty);
+            set => SetValue(SearchResultsProperty, value);
         }
+
+        internal string SearchPattern
+        {
+            get { return (string)GetValue(SearchPatternProperty); }
+            set { SetValue(SearchPatternProperty, value); }
+        }
+
+        internal static readonly DependencyProperty SearchPatternProperty =
+            DependencyProperty.Register("SearchPattern", typeof(string), typeof(PeoplePicker), new PropertyMetadata(string.Empty, SearchPatternPropertyChanged));
 
         private bool IsLoading
         {

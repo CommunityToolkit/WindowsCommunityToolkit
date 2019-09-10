@@ -7,10 +7,10 @@
     mc:Ignorable="d">
 
   <Page.Resources>
-    <SolidColorBrush Color="{StaticResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
+    <SolidColorBrush Color="{ThemeResource SystemChromeLowColor}" x:Key="SystemControlForegroundChromeLowBrush"/>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <ScrollViewer>
       <StackPanel Margin="20">
         <controls:Expander x:Name="Expander1" VerticalAlignment="Top" Margin="0,0,0,10"

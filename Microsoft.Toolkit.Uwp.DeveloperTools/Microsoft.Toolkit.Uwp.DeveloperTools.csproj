@@ -1,10 +1,15 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Developer Tools</Title>
-    <Description>This library provides XAML user controls and services to help developer building their app. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility</PackageTags>
+    <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
+      
+      -AligmentGrid : Displays a Grid that helps align the controls.
+      -FocusTrackerControl : The FocusTracker Control is a feature that can be used to display information about the current focused XAML element.
+      -Themes : Provides the source path of the resource dictionaries for the FocusTracker.
+    </Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
   

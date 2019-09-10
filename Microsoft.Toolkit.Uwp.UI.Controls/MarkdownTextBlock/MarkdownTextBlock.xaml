@@ -8,19 +8,33 @@
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FFBEBEBE" />
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FFF6F8FA" />
             <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FFDDDFE1" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeForegroundBrush" Color="#FF6E6F70" />
             <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FF6E747C" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="#FFF6F8FA" />
         </ResourceDictionary>
         <ResourceDictionary x:Key="Dark">
             <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
             <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
             <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeForegroundBrush" Color="#FFB7B4B4" />
             <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="#FF202020" />
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="HighContrast">
+            <SolidColorBrush x:Key="MarkdownBorderBrush" Color="#FF424242" />
+            <SolidColorBrush x:Key="MarkdownBackgroundBrush" Color="#FF202020" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeBackgroundBrush" Color="#FF363636" />
+            <SolidColorBrush x:Key="MarkdownInlineCodeForegroundBrush" Color="#FFB7B4B4" />
+            <SolidColorBrush x:Key="MarkdownQuoteForeground" Color="#FFBEC1C5" />
+            <SolidColorBrush x:Key="MarkdownRichTextBlockBackground" Color="{ThemeResource SystemColorWindowColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
+   
     <Style TargetType="controls:MarkdownTextBlock">
+        <Setter Property="Background" Value="{ThemeResource MarkdownRichTextBlockBackground}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="LinkForeground" Value="{ThemeResource SystemControlHighlightAccentBrush}" />
+        <Setter Property="LinkForeground" Value="{ThemeResource SystemColorHotlightColor}" />
         <Setter Property="QuoteBackground" Value="Transparent" />
         <Setter Property="QuoteForeground" Value="{ThemeResource MarkdownQuoteForeground}" />
         <Setter Property="QuoteBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
@@ -32,8 +46,10 @@
         <Setter Property="CodeBorderThickness" Value="0" />
         <Setter Property="InlineCodeBorderThickness" Value="0" />
         <Setter Property="InlineCodePadding" Value="4, 2, 4, 2" />
+        <Setter Property="InlineCodeMargin" Value="2,0,2,-4"/>
         <Setter Property="InlineCodeBackground" Value="{ThemeResource MarkdownInlineCodeBackgroundBrush}" />
         <Setter Property="InlineCodeBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
+        <Setter Property="InlineCodeForeground" Value="{ThemeResource MarkdownInlineCodeForegroundBrush}" />
         <Setter Property="CodeFontFamily" Value="Consolas" />
         <Setter Property="CodeMargin" Value="0, 7, 0, 7" />
         <Setter Property="CodePadding" Value="10, 6, 10, 6" />
@@ -69,9 +85,12 @@
         <Setter Property="ListGutterWidth" Value="32" />
         <Setter Property="ListBulletSpacing" Value="8" />
         <Setter Property="ParagraphMargin" Value="0, 5, 0, 5" />
+        <Setter Property="ParagraphLineHeight" Value="20" />
         <Setter Property="TableBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="TableBorderThickness" Value="1" />
         <Setter Property="TableCellPadding" Value="9, 4, 9, 4" />
+        <Setter Property="YamlBorderThickness" Value="1" />
+        <Setter Property="YamlBorderBrush" Value="{ThemeResource MarkdownBorderBrush}" />
         <Setter Property="TableMargin" Value="0, 5, 0, 5" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Template">

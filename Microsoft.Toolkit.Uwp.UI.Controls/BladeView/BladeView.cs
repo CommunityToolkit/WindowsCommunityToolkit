@@ -38,9 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SizeChanged += (sender, e) => AdjustBladeItemSize();
         }
 
-        /// <summary>
-        /// Override default OnApplyTemplate to capture child controls
-        /// </summary>
+        /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -48,22 +46,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             AdjustBladeItemSize();
         }
 
-        /// <summary>
-        /// Creates or identifies the element that is used to display the given item.
-        /// </summary>
-        /// <returns>
-        /// The element that is used to display the given item.
-        /// </returns>
+        /// <inheritdoc/>
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new BladeItem();
         }
 
-        /// <summary>
-        /// Prepares the specified element to display the specified item.
-        /// </summary>
-        /// <param name="element">The element that's used to display the specified item.</param>
-        /// <param name="item">The item to display.</param>
+        /// <inheritdoc/>
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is BladeItem;
+        }
+
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
@@ -76,11 +71,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CycleBlades();
         }
 
-        /// <summary>
-        /// Undoes the effects of the PrepareContainerForItemOverride method.
-        /// </summary>
-        /// <param name="element">The container element.</param>
-        /// <param name="item">The item.</param>
+        /// <inheritdoc/>
         protected override void ClearContainerForItemOverride(DependencyObject element, object item)
         {
             var blade = element as BladeItem;
@@ -95,11 +86,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void CycleBlades()
         {
             ActiveBlades = new ObservableCollection<BladeItem>();
-            foreach (var blade in Items.OfType<BladeItem>())
+            foreach (var item in Items)
             {
-                if (blade.IsOpen)
+                BladeItem blade = GetBladeItem(item);
+                if (blade != null)
                 {
-                    ActiveBlades.Add(blade);
+                    if (blade.IsOpen)
+                    {
+                        ActiveBlades.Add(blade);
+                    }
                 }
             }
 
@@ -117,6 +112,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private BladeItem GetBladeItem(object item)
+        {
+            BladeItem blade = item as BladeItem;
+            if (blade == null)
+            {
+                blade = (BladeItem)ContainerFromItem(item);
+            }
+
+            return blade;
+        }
+
         private async void BladeOnVisibilityChanged(object sender, Visibility visibility)
         {
             var blade = sender as BladeItem;
@@ -128,13 +134,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     return;
                 }
 
-                Items.Remove(blade);
-                Items.Add(blade);
+                var item = ItemFromContainer(blade);
+                Items.Remove(item);
+                Items.Add(item);
                 BladeOpened?.Invoke(this, blade);
                 ActiveBlades.Add(blade);
                 UpdateLayout();
 
-                // Need to do this because of touch. See more information here: https://github.com/Microsoft/WindowsCommunityToolkit/issues/760#issuecomment-276466464
+                // Need to do this because of touch. See more information here: https://github.com/windows-toolkit/WindowsCommunityToolkit/issues/760#issuecomment-276466464
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
                 {
                     GetScrollViewer()?.ChangeView(_scrollViewer.ScrollableWidth, null, null);
@@ -163,8 +170,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Adjust blade items to be full screen
             if (BladeMode == BladeMode.Fullscreen && GetScrollViewer() != null)
             {
-                foreach (BladeItem blade in Items)
+                foreach (var item in Items)
                 {
+                    var blade = GetBladeItem(item);
                     blade.Width = _scrollViewer.ActualWidth;
                     blade.Height = _scrollViewer.ActualHeight;
                 }
@@ -175,7 +183,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (BladeMode == BladeMode.Fullscreen)
             {
-                var bladeItem = (BladeItem)sender[(int)e.Index];
+                var bladeItem = GetBladeItem(sender[(int)e.Index]);
                 if (bladeItem != null)
                 {
                     if (!_cachedBladeItemSizes.ContainsKey(bladeItem))

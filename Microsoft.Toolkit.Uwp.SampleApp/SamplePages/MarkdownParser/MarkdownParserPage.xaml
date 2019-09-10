@@ -9,14 +9,9 @@
 
     <ScrollViewer>
         <StackPanel Padding="12">
-            <TextBlock
-                Text="Inspect MarkdownDocument Structure"
-                FontWeight="Bold"
-                FontSize="25" />
             <TextBox x:Name="RawMarkdown"
                      Header="Markdown"
                      Text="This is **Markdown**"
-                     Margin="0,10,0,0"
                      TextChanged="RawMarkdown_TextChanged"
                      AcceptsReturn="True"
                      MinHeight="60" />

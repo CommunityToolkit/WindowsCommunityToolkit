@@ -9,14 +9,14 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <controls:HeaderedContentControl Grid.Column="0"
                                          Grid.Row="0"
@@ -24,41 +24,41 @@
                                          HorizontalContentAlignment="Stretch"
                                          VerticalContentAlignment="Stretch"
                                          Margin="6">
-            <Rectangle Fill="Aqua"/>
+            <Rectangle Fill="Aqua" />
         </controls:HeaderedContentControl>
         <controls:HeaderedContentControl Grid.Column="1"
                                          Grid.Row="0"
                                          Header="TextBlock content"
                                          Margin="6">
-            <TextBlock FontSize="12" 
+            <TextBlock FontSize="12"
                        Foreground="{ThemeResource SystemControlForegroundBaseMediumHighBrush}"
-                       Text="Some more text about this content" 
+                       Text="Some more text about this content"
                        TextWrapping="Wrap" />
         </controls:HeaderedContentControl>
         <controls:HeaderedContentControl Grid.Column="0"
                                          Grid.Row="1"
                                          Header="Image content"
                                          Margin="6">
-            <Image Source="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg"/>
+            <Image Source="ms-appx:///Assets/Photos/BisonBadlandsChillin.jpg" />
         </controls:HeaderedContentControl>
         <controls:HeaderedContentControl Grid.Column="1"
                                          Grid.Row="1"
                                          Header="Lotso content"
                                          Margin="6">
             <RelativePanel>
-                <Image x:Name="Icon" 
+                <Image x:Name="Icon"
                        Height="50"
                        Width="50"
                        Source="ms-appx:///Assets/NotificationAssets/Drizzle-Square.png" />
                 <StackPanel x:Name="Temp"
                             RelativePanel.RightOf="Icon">
-                    <TextBlock Text="65"/>
+                    <TextBlock Text="65" />
                 </StackPanel>
-                <TextBlock FontSize="12" 
+                <TextBlock FontSize="12"
                            Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}"
-                           RelativePanel.AlignLeftWith="Temp" 
+                           RelativePanel.AlignLeftWith="Temp"
                            RelativePanel.Below="Temp"
-                           Text="Rainy"/>
+                           Text="Rainy" />
             </RelativePanel>
         </controls:HeaderedContentControl>
     </Grid>

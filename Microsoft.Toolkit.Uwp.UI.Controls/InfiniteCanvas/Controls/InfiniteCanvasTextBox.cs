@@ -11,17 +11,24 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class InfiniteCanvasTextBox : Control
+    /// <summary>
+    /// This is the infiniteCanvas custom textbox that is used to write to the canvas. This control is used as part of the <see cref="InfiniteCanvas"/>
+    /// </summary>
+    public class InfiniteCanvasTextBox : Control
     {
         private TextBox _editZone;
 
-        public event EventHandler<string> TextChanged;
+        internal event EventHandler<string> TextChanged;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfiniteCanvasTextBox"/> class.
+        /// </summary>
         public InfiniteCanvasTextBox()
         {
             DefaultStyleKey = typeof(InfiniteCanvasTextBox);
         }
 
+        /// <inheritdoc />
         protected override void OnApplyTemplate()
         {
             _editZone = (TextBox)GetTemplateChild("EditZone");
@@ -52,17 +59,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextChanged?.Invoke(this, _editZone.Text);
         }
 
-        public double GetEditZoneWidth()
+        internal double GetEditZoneWidth()
         {
             return _editZone.ActualWidth;
         }
 
-        public double GetEditZoneHeight()
+        internal double GetEditZoneHeight()
         {
             return _editZone.ActualHeight;
         }
 
-        public void Clear()
+        internal void Clear()
         {
             if (_editZone == null)
             {
@@ -74,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone.TextChanged += EditZone_TextChanged;
         }
 
-        public void SetText(string text)
+        internal void SetText(string text)
         {
             if (_editZone == null)
             {
@@ -88,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _editZone.SelectionStart = text.Length;
         }
 
-        public void UpdateFontSize(float textFontSize)
+        internal void UpdateFontSize(float textFontSize)
         {
             FontSize = textFontSize;
 
@@ -98,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public void UpdateFontStyle(bool isItalic)
+        internal void UpdateFontStyle(bool isItalic)
         {
             if (_editZone != null)
             {
@@ -106,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public void UpdateFontWeight(bool isBold)
+        internal void UpdateFontWeight(bool isBold)
         {
             if (_editZone != null)
             {
@@ -114,17 +121,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        public bool CannotGoRight()
+        internal bool CannotGoRight()
         {
             return (_editZone.SelectionStart + _editZone.SelectionLength) == _editZone.Text.Length;
         }
 
-        public bool CannotGoLeft()
+        internal bool CannotGoLeft()
         {
             return _editZone.SelectionStart == 0;
         }
 
-        public bool CannotGoUp()
+        internal bool CannotGoUp()
         {
             var lines = _editZone.Text.Split('\r');
             if (lines.Count() == 1)
@@ -141,7 +148,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return false;
         }
 
-        public bool CannotGoDown()
+        internal bool CannotGoDown()
         {
             var lines = _editZone.Text.Split('\r');
             if (lines.Count() == 1)

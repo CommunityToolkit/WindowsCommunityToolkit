@@ -31,8 +31,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public class Sample
     {
-        private const string _repoOnlineRoot = "https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/";
-        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/UWPCommunityToolkitDocs/";
+        private const string _docsOnlineRoot = "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/";
         private const string _cacheSHAKey = "docs-cache-sha";
 
         private static HttpClient client = new HttpClient();
@@ -72,8 +71,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
+
+            // Replace any spaces in the category name as it's used for the host part of the URI in deep links and that can't have spaces.
             return categories?
-                .FirstOrDefault(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase))?
+                .FirstOrDefault(c => c.Name.Replace(" ", string.Empty).Equals(category, StringComparison.OrdinalIgnoreCase))?
                 .Samples
                 .FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
@@ -84,9 +85,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string Type { get; set; }
 
+        public string Subcategory { get; set; }
+
         public string About { get; set; }
 
         private string _codeUrl;
+
+        /// <summary>
+        /// Gets the Page Type.
+        /// </summary>
+        public Type PageType => System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
+
+        /// <summary>
+        /// Gets or sets the Category Name.
+        /// </summary>
+        public string CategoryName { get; set; }
 
         public string CodeUrl
         {
@@ -199,7 +212,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var filename = string.Empty;
             var localPath = string.Empty;
 
-            var docRegex = new Regex("^" + _repoOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
+            var docRegex = new Regex("^" + _docsOnlineRoot + "(?<branch>.+?)/docs/(?<file>.+)");
             var docMatch = docRegex.Match(DocumentationUrl);
             if (docMatch.Success)
             {
@@ -257,7 +270,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
                     {
-                        var result = await localDocsStream.ReadTextAsync();
+                        var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
                         _cachedDocumentation = ProcessDocs(result);
                         _cachedPath = localPath;
                     }
@@ -693,6 +706,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
             var gazeType = Interaction.Enabled;
             assembly = gazeType.GetType().GetTypeInfo().Assembly;
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
+            var dataGridProxyType = DataGridGridLinesVisibility.None;
+            assembly = dataGridProxyType.GetType().GetTypeInfo().Assembly;
+
             foreach (var typeInfo in assembly.ExportedTypes)
             {
                 if (typeInfo.Name == typeName)

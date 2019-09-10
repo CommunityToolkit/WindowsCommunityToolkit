@@ -10,22 +10,21 @@ using System.Text;
 namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
-    /// Helper extension methods for Arrays.
+    /// Helpers for working with arrays.
     /// </summary>
     public static class ArrayExtensions
     {
         /// <summary>
-        /// Fills in values of a multi-dimensional rectangular array to specified value based on the position and size given.
-        /// Ranges given outside the bounds of the array will fill in as much as possible and ignore elements that should appear outside it.
-        /// Won't throw bounds exception, just won't do work if ranges out of bounds.
+        /// Fills elements of a rectangular array at the given position and size to a specific value.
+        /// Ranges given will fill in as many elements as possible, ignoring positions outside the bounds of the array.
         /// </summary>
-        /// <typeparam name="T">Type of array values.</typeparam>
-        /// <param name="array">Extended type instance.</param>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="array">The source array.</param>
         /// <param name="value">Value to fill with.</param>
         /// <param name="row">Row to start on (inclusive, zero-index).</param>
         /// <param name="col">Column to start on (inclusive, zero-index).</param>
-        /// <param name="width">Positive Width of area to fill.</param>
-        /// <param name="height">Positive Height of area to fill.</param>
+        /// <param name="width">Positive width of area to fill.</param>
+        /// <param name="height">Positive height of area to fill.</param>
         public static void Fill<T>(this T[,] array, T value, int row, int col, int width, int height)
         {
             for (int r = row; r < row + height; r++)
@@ -41,12 +40,12 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieve a row as an enumerable from a multi-dimensional rectangular array.
+        /// Yields a row from a rectangular array.
         /// </summary>
-        /// <typeparam name="T">Type of rectangular array.</typeparam>
-        /// <param name="rectarray">Extended type instance.</param>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="rectarray">The source array.</param>
         /// <param name="row">Row record to retrieve, 0-based index.</param>
-        /// <returns>Yielded Enumerable of results.</returns>
+        /// <returns>Yielded row.</returns>
         public static IEnumerable<T> GetRow<T>(this T[,] rectarray, int row)
         {
             if (row < 0 || row >= rectarray.GetLength(0))
@@ -61,12 +60,12 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieve a column from a multi-dimensional rectangular array.
+        /// Yields a column from a rectangular array.
         /// </summary>
-        /// <typeparam name="T">Type of rectangular array.</typeparam>
-        /// <param name="rectarray">Extended type instance.</param>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
-        /// <returns>Yielded Enumerable of results.</returns>
+        /// <returns>Yielded column.</returns>
         public static IEnumerable<T> GetColumn<T>(this T[,] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.GetLength(1))
@@ -81,14 +80,14 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Retrieve a column from a multi-dimensional jagged array.
-        /// Will throw an exception if the column is out of bounds, and return default in places where there are no elements from inner arrays.
-        /// Note: No equivalent GetRow method, as you can use array[row] to retrieve.
+        /// Yields a column from a jagged array.
+        /// An exception will be thrown if the column is out of bounds, and return default in places where there are no elements from inner arrays.
+        /// Note: There is no equivalent GetRow method, as you can use array[row] to retrieve.
         /// </summary>
-        /// <typeparam name="T">Type of jagged array.</typeparam>
-        /// <param name="rectarray">Extended type instance.</param>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="rectarray">The source array.</param>
         /// <param name="column">Column record to retrieve, 0-based index.</param>
-        /// <returns>Yielded Enumerable of column elements for given column and default values for smaller inner arrays.</returns>
+        /// <returns>Yielded enumerable of column elements for given column, and default values for smaller inner arrays.</returns>
         public static IEnumerable<T> GetColumn<T>(this T[][] rectarray, int column)
         {
             if (column < 0 || column >= rectarray.Max(array => array.Length))
@@ -110,22 +109,22 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Joins the array together in a simple string representation.
+        /// Returns a simple string representation of an array.
         /// </summary>
-        /// <typeparam name="T">Type of array.</typeparam>
-        /// <param name="array">Extended type instance.</param>
-        /// <returns>String representation of array.</returns>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="array">The source array.</param>
+        /// <returns>String representation of the array.</returns>
         public static string ToArrayString<T>(this T[] array)
         {
             return "[" + string.Join(",\t", array) + "]";
         }
 
         /// <summary>
-        /// Joins the multi-dimensional array together in a string representation.
+        /// Returns a simple string representation of a jagged array.
         /// </summary>
-        /// <typeparam name="T">Type of jagged array.</typeparam>
-        /// <param name="mdarray">Extended type instance.</param>
-        /// <returns>String representation of array.</returns>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="mdarray">The source array.</param>
+        /// <returns>String representation of the array.</returns>
         public static string ToArrayString<T>(this T[][] mdarray)
         {
             string[] inner = new string[mdarray.GetLength(0)];
@@ -139,11 +138,11 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
-        /// Joins the rectangular-array together in a string representation.
+        /// Returns a simple string representation of a rectangular array.
         /// </summary>
-        /// <typeparam name="T">Type of rectangular array.</typeparam>
-        /// <param name="rectarray">Extended type instance.</param>
-        /// <returns>String representation of array.</returns>
+        /// <typeparam name="T">The element type of the array.</typeparam>
+        /// <param name="rectarray">The source array.</param>
+        /// <returns>String representation of the array.</returns>
         public static string ToArrayString<T>(this T[,] rectarray)
         {
             string[] inner = new string[rectarray.GetLength(0)];

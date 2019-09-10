@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Creates a Header to specify Language and provide a copy button.
                     var headerGrid = new Grid
                     {
-                        Background = new SolidColorBrush(Color.FromArgb(17, 0, 0, 0))
+                        Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0))
                     };
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
@@ -240,6 +240,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             SolidColorBrush localbackground = null;
             string symbolglyph = string.Empty;
 
+            var theme = SampleController.Current.GetActualTheme();
+
             // Check the required structure of the Quote is correct. Determine if it is a DocFX Note.
             if (element.Blocks.First() is ParagraphBlock para)
             {
@@ -261,8 +263,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                                 // Removes the identifier from the text
                                 textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
 
-                                localforeground = style.LightForeground;
-                                localbackground = style.LightBackground;
+                                if (theme == ElementTheme.Light)
+                                {
+                                    localforeground = style.LightForeground;
+                                    localbackground = style.LightBackground;
+                                }
+                                else
+                                {
+                                    localforeground = new SolidColorBrush(Colors.White);
+                                    localbackground = style.DarkBackground;
+                                }
                             }
                         }
                     }
@@ -305,6 +315,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     border.Padding = new Thickness(20);
                     border.Margin = new Thickness(0, 5, 0, 5);
                     border.Background = localbackground;
+
+                    if (theme == ElementTheme.Light)
+                    {
+                        border.BorderThickness = new Thickness(0.5);
+                        border.BorderBrush = localforeground;
+                    }
 
                     var headerPanel = new StackPanel
                     {

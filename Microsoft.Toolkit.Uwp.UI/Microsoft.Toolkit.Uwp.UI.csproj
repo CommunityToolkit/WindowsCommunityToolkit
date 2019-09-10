@@ -1,12 +1,60 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit UI</Title>
-    <Description>This library provides UI services. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows UI Converters</PackageTags>
+    <Description>
+      This library provides UI components, such as XAML extensions, helpers, brushes, converters and more. It is part of the Windows Community Toolkit.
+
+      AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
+      
+      CacheBase: Provides methods and tools to cache files in a folder.
+      
+      Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
+      
+      Extensions:
+      - ApplicationViewExtensions: Provides attached properties for interacting with the ApplicationView on a window (app view).
+      - FrameworkElementExtensions: Provides attached dependency properties for the FrameworkElement.
+      - ListViewExtensions: Provides attached dependency properties for the ListViewBase
+      - LogicalTree: Defines a collection of extensions methods for UI.
+      - MatrixExtensions: Provides a set of extensions to the Matrix struct.
+      - MatrixHelperEx: Static helper methods for Matrix.
+      - Mouse: Helper class for easily changing the mouseover cursor type.
+      - NullableBool: Custom MarkupExtension which can provide nullable bool values.
+      - RotateTransformExtensions: Extension methods for RotateTransform.
+      - ScaleTransformExtensions: Extension methods for ScaleTransform.
+      - ScrollViewerExtensions: Provides attached dependency properties for the ListViewBase
+      - SkewTransformExtensions: Extension methods for SkewTransform.
+      - StatusBarExtensions: Provides attached dependency properties for interacting with the StatusBar on a window (app view).
+      - SurfaceDialTextbox: Helper class that provides attached properties to enable any TextBox with the Surface Dial.
+      - TextBoxMask: TextBox mask property allows a user to more easily enter fixed width text in TextBox control.
+      - TextBoxRegex: TextBoxRegex allows text validation using a regular expression.
+      - TitleBarExtensions: Provides attached dependency properties for interacting with the ApplicationViewTitleBar on a window (app view).
+      - TranslateTransformExtensions: Extension methods for TranslateTransform.
+      - VisualExtensions: Extension methods and attached properties for Visual objects
+      - VisualTree: Defines a collection of extensions methods for UI.
+
+      Helpers:
+      - BindableValueHolder: Holds the value. Can be used to change several objects' properties at a time.
+      - DependencyPropertyWatcher: Used to Track Changes of a Dependency Property
+      - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
+      
+      Media:
+      - BackdropBlurBrush: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
+      - BackdropGammaTransferBrush: A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
+      - BackdropInvertBrush: The BackdropInvertBrush is a Brush which inverts whatever is behind it in the application.
+      - BackdropSaturationBrush: Brush which applies a SaturationEffect to the Backdrop.
+      - BackdropSepiaBrush: Brush which applies a SepiaEffect to the Backdrop.
+      - CanvasBrushBase: Helper Brush class to interop with Win2D Canvas calls.
+      - ImageBlendBrush: Brush which blends a BitmapImage to the Backdrop in a given mode.
+      - RadialGradientBrush: This GradientBrush defines its Gradient as an interpolation within an Ellipse.
+
+    </Description>
+    <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers brushes blur</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    
+    <!-- For StatusBar -->
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
 
@@ -16,6 +64,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>

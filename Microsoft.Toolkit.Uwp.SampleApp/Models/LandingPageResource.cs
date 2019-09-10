@@ -11,6 +11,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         [JsonProperty("title")]
         public string Title { get; set; }
 
+        [JsonProperty("id")]
+        public string ID { get; set; }
+
         [JsonProperty("links")]
         public LandingPageLink[] Links { get; set; }
     }

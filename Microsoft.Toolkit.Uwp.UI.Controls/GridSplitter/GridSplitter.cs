@@ -2,8 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Reflection;
+using Microsoft.Toolkit.Uwp.Extensions;
+using Windows.ApplicationModel.Resources;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Automation;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -162,6 +167,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public GridSplitter()
         {
             DefaultStyleKey = typeof(GridSplitter);
+            Loaded += GridSplitter_Loaded;
+            string automationName = StringExtensions.GetLocalized("WindowsCommunityToolkit_GridSplitter_AutomationName", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            AutomationProperties.SetName(this, automationName);
         }
 
         /// <inheritdoc />
@@ -178,6 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationStarted -= GridSplitter_ManipulationStarted;
             ManipulationCompleted -= GridSplitter_ManipulationCompleted;
 
+            _hoverWrapper?.UnhookEvents();
+
             // Register Events
             Loaded += GridSplitter_Loaded;
             PointerEntered += GridSplitter_PointerEntered;
@@ -187,7 +197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ManipulationStarted += GridSplitter_ManipulationStarted;
             ManipulationCompleted += GridSplitter_ManipulationCompleted;
 
-            _hoverWrapper?.UnhookEvents();
+            _hoverWrapper?.UpdateHoverElement(Element);
 
             ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
         }

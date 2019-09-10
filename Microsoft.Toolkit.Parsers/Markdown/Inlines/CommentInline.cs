@@ -47,9 +47,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            // Check the start sequence.
-            string startSequence = markdown.Substring(start, 4);
-            if (startSequence != "<!--")
+            string startSequence = markdown.Substring(start);
+            if (!startSequence.StartsWith("<!--"))
             {
                 return null;
             }

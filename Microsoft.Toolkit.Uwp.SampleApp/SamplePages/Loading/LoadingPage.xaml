@@ -7,7 +7,7 @@
       mc:Ignorable="d">
 
     <!-- Control References for Xaml Loader to have access to controls -->
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <ScrollViewer>
             <StackPanel Margin="20">
                 <controls:AdaptiveGridView/>

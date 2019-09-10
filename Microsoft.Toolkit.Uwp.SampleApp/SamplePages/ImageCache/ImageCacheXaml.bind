@@ -8,14 +8,14 @@
 
   <Page.Resources>
     <DataTemplate x:Key="PhotosTemplate">
-        <controls:ImageEx
-            Source="{Binding Thumbnail}"
-            Stretch="Uniform"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"/>
+      <controls:ImageEx
+          Source="{Binding Thumbnail}"
+          Stretch="Uniform"
+          HorizontalAlignment="Center"
+          VerticalAlignment="Center" />
     </DataTemplate>
   </Page.Resources>
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    <ListView Name="PhotoList" ItemTemplate="{StaticResource PhotosTemplate}"/>
+  <Grid>
+    <ListView Name="PhotoList" ItemTemplate="{StaticResource PhotosTemplate}" />
   </Grid>
 </Page>

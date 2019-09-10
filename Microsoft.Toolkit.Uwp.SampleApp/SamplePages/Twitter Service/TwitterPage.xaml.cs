@@ -5,8 +5,9 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
-using Microsoft.Toolkit.Uwp.Services.Twitter;
+using Microsoft.Toolkit.Services.Twitter;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -45,14 +46,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             TwitterService.Instance.Initialize(ConsumerKey.Text, ConsumerSecret.Text, CallbackUri.Text);
 
             if (!await TwitterService.Instance.LoginAsync())
             {
                 ShareBox.Visibility = Visibility.Collapsed;
                 SearchBox.Visibility = Visibility.Collapsed;
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
                 var error = new MessageDialog("Unable to log to Twitter");
                 await error.ShowAsync();
                 return;
@@ -77,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if ((ex.Errors?.Errors?.Length > 0) && (ex.Errors.Errors[0].Code == 89))
                 {
                     await new MessageDialog("Invalid or expired token. Logging out. Re-connect for new token.").ShowAsync();
-                    TwitterService.Instance.Logout();
+                    await TwitterService.Instance.LogoutAsync();
                     return;
                 }
                 else
@@ -90,9 +91,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             ProfileImage.Visibility = Visibility.Visible;
 
             _tweets = new ObservableCollection<ITwitterResult>(await TwitterService.Instance.GetUserTimeLineAsync(user.ScreenName, 50));
+
             ListView.ItemsSource = _tweets;
 
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void GetLocation_OnClick(object sender, RoutedEventArgs e)
@@ -130,9 +132,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Longitude = string.IsNullOrEmpty(Longitude.Text) ? (double?)null : Convert.ToDouble(Longitude.Text)
             };
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             await TwitterService.Instance.TweetStatusAsync(status);
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void SearchButton_OnClick(object sender, RoutedEventArgs e)
@@ -142,9 +144,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 return;
             }
 
-            Shell.Current.DisplayWaitRing = true;
+            SampleController.Current.DisplayWaitRing = true;
             ListView.ItemsSource = await TwitterService.Instance.SearchAsync(TagText.Text, 50);
-            Shell.Current.DisplayWaitRing = false;
+            SampleController.Current.DisplayWaitRing = false;
         }
 
         private async void SharePictureButton_OnClick(object sender, RoutedEventArgs e)
@@ -166,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 using (var stream = await picture.OpenReadAsync())
                 {
-                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream);
+                    await TwitterService.Instance.TweetStatusAsync(TweetText.Text, stream.AsStream());
                 }
             }
         }
@@ -175,9 +177,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (LiveFeedToggle.IsOn)
             {
-                Shell.Current.DisplayWaitRing = true;
+                SampleController.Current.DisplayWaitRing = true;
                 GetUserStreams();
-                Shell.Current.DisplayWaitRing = false;
+                SampleController.Current.DisplayWaitRing = false;
             }
             else
             {

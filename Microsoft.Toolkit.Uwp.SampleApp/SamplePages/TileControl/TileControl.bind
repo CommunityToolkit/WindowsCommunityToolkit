@@ -7,20 +7,20 @@
 
   <Page.Resources>
     <Style x:Name="TextBlockStyle" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="40"/>
-      <Setter Property="FontFamily" Value="Segoe UI"/>
-      <Setter Property="FontWeight" Value="Light"/>
-      <Setter Property="Foreground" Value="White"/>
-      <Setter Property="Margin" Value="48"/>
+      <Setter Property="FontSize" Value="40" />
+      <Setter Property="FontFamily" Value="Segoe UI" />
+      <Setter Property="FontWeight" Value="Light" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="Margin" Value="48" />
     </Style>
     <Style x:Name="BorderStyle" TargetType="Border">
-      <Setter Property="HorizontalAlignment" Value="Center"/>
-      <Setter Property="VerticalAlignment" Value="Center"/>
-      <Setter Property="Background" Value="#40000000"/>
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Background" Value="#40000000" />
     </Style>
   </Page.Resources>
 
-  <Grid Background="#FFF0F0F0">
+  <Grid>
 
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -38,7 +38,7 @@
                           AnimationDuration="@[Animation Duration:Slider:30:0-100]"
                           AnimationStepX="@[Animation StepX:Slider:1:0-3]"
                           AnimationStepY="@[Animation StepY:Slider:1:0-3]"
-                          Background="#FFDDDDDD"
+                          Background="{ThemeResource Brush-Grey-04}"
                           ImageAlignment="@[Image Alignment:Enum:ImageAlignment.None]"
                           ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                           IsAnimated="@[Is Animated:Bool:True]@"
@@ -57,7 +57,7 @@
                    Text="It can also be used for background painting:" />
 
     <controls:TileControl Grid.Row="3"
-                          Background="#FFDDDDDD"
+                          Background="{ThemeResource Brush-Grey-04}"
                           ImageSource="ms-appx:///SamplePages/TileControl/Animations.png"
                           ParallaxSpeedRatio="@[Parallax Speed Ratio:DoubleSlider:1.2:1-3]"
                           ScrollViewerContainer="{Binding ElementName=FlipView, Mode=OneTime}">
@@ -70,9 +70,7 @@
         <Border Style="{StaticResource BorderStyle}">
           <TextBlock Style="{StaticResource TextBlockStyle}" Text="&lt; Parallax with FlipView"></TextBlock>
         </Border>
-
       </FlipView>
     </controls:TileControl>
-
   </Grid>
 </Page>

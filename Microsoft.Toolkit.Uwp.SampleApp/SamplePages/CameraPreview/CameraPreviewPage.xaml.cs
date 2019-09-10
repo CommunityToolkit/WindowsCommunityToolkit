@@ -69,13 +69,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            Shell.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
+
+            SampleController.Current.RegisterNewCommand("Capture Current Frame", CaptureButton_Click);
             Application.Current.Suspending += Application_Suspending;
             Application.Current.Resuming += Application_Resuming;
         }
 
         protected async override void OnNavigatedFrom(NavigationEventArgs e)
         {
+            base.OnNavigatedFrom(e);
+
             Application.Current.Suspending -= Application_Suspending;
             Application.Current.Resuming -= Application_Resuming;
             await CleanUpAsync();

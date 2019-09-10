@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Measure our min/max text longest value so we can avoid the length of the scrolling reason shifting in size during use.
             var tb = new TextBlock { Text = Maximum.ToString() };
-            tb.Measure(new Size(Double.PositiveInfinity, Double.PositiveInfinity));
+            tb.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
 
             base.OnApplyTemplate();
         }
@@ -189,12 +189,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMin -= StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMinKeyDown: true);
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMin += StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMinKeyDown: true);
                     e.Handled = true;
                     break;
             }
@@ -206,12 +206,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 case VirtualKey.Left:
                     RangeMax -= StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMaxKeyDown: true);
                     e.Handled = true;
                     break;
                 case VirtualKey.Right:
                     RangeMax += StepFrequency;
-                    SyncThumbs();
+                    SyncThumbs(fromMaxKeyDown: true);
                     e.Handled = true;
                     break;
             }
@@ -586,7 +586,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private static void UpdateToolTipText(RangeSelector rangeSelector, TextBlock toolTip, double newValue)
         {
-            toolTip.Text = string.Format("{0:0.##}", newValue);
+            if (toolTip != null)
+            {
+                toolTip.Text = string.Format("{0:0.##}", newValue);
+            }
         }
 
         /// <summary>
@@ -636,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void SyncThumbs()
+        private void SyncThumbs(bool fromMinKeyDown = false, bool fromMaxKeyDown = false)
         {
             if (_containerCanvas == null)
             {
@@ -648,6 +651,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Canvas.SetLeft(_minThumb, relativeLeft);
             Canvas.SetLeft(_maxThumb, relativeRight);
+
+            if (fromMinKeyDown || fromMaxKeyDown)
+            {
+                DragThumb(
+                    fromMinKeyDown ? _minThumb : _maxThumb,
+                    fromMinKeyDown ? 0 : Canvas.GetLeft(_minThumb),
+                    fromMinKeyDown ? Canvas.GetLeft(_maxThumb) : DragWidth(),
+                    fromMinKeyDown ? relativeLeft : relativeRight);
+                if (_toolTipText != null)
+                {
+                    UpdateToolTipText(this, _toolTipText, fromMinKeyDown ? RangeMin : RangeMax);
+                }
+            }
 
             SyncActiveRectangle();
         }

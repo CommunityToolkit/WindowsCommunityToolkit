@@ -108,6 +108,14 @@ is displayed as
 
 >This sentence^(has a superscript with multiple words)
 
+### Subscript
+
+Text can be displayed in a subscript font by preceding it with a caret ( <sub></sub> ).
+
+>This sentence includes \<sub>sub\</sub> script
+
+>This sentence includes <sub>sub</sub>script.
+
 ### Headers
 
 Markdown supports 6 levels of headers (some of which don't actually display as headers in reddit):
@@ -368,11 +376,11 @@ To add an image, it is almost like a link. You just need to add a \! before.
 
 So inline image syntax looks like this:
 
->\!\[Helpers Image](https\://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+>\!\[Helpers Image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 which renders in:
 
-![Helpers Image](https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
+![Helpers Image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/Helpers.png)
 
 Rendering Images is now supported through prefix. use property **UriPrefix**
 
@@ -404,11 +412,11 @@ which renders in:
 
 MarkdownTextblock supports links wrapped with Images. 
 
->\[!\[image](https\://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+>\[!\[image](https\://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https\://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 will render into 
 
-[![image](https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
+[![image](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png)](https://docs.microsoft.com/windows/uwpcommunitytoolkit/)
 
 and when clicked will go to the Linked Page.
 
@@ -417,7 +425,7 @@ MarkdownTextBlock also supports Reference based links.
 ```
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 ```
@@ -426,7 +434,7 @@ will render into
 
 [![image][1]][2]
 
-[1]:https://raw.githubusercontent.com/Microsoft/WindowsCommunityToolkit/master/build/nuget.png
+[1]:https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/build/nuget.png
 [2]:https://docs.microsoft.com/windows/uwpcommunitytoolkit/
 
 *****
@@ -494,6 +502,31 @@ You can use nearly all emojis from this [list](https://gist.github.com/rxaviers/
 *****
 
 # MISCELLANEOUS
+
+### Yaml Headers
+
+The parsing of YAML metadata is rendered as a form.  For example:
+
+title|date
+:-:|:-:
+Windows Community Toolkit|2018/10/17
+
+Which is produced with the following markdown:
+
+>`---`
+>`title: Windows Community Toolkit`
+>`date: 2018/10/17`
+>`---`
+
+When you use YAML, you should pay attention to:
+
+* Must be written at the beginning of the document.
+
+* The start and end are represented by three short horizontal lines respectively.
+
+* The format should conform to the YAML specification.
+
+
 
 ### Tables
 

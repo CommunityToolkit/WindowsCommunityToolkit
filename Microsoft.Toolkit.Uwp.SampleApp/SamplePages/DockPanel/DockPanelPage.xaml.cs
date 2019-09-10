@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public DockPanelPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -31,16 +32,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _sampleDockPanel = control.FindChildByName("SampleDockPanel") as DockPanel;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Add Top Child", AddTopDock);
-            Shell.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
-            Shell.Current.RegisterNewCommand("Add Bottom Child", AddBottomDock);
-            Shell.Current.RegisterNewCommand("Add Right Child", AddRightDock);
-            Shell.Current.RegisterNewCommand("Add Stretch Child", AddStretchDock);
-            Shell.Current.RegisterNewCommand("Clear All", ClearAllDock);
+            SampleController.Current.RegisterNewCommand("Add Top Child", AddTopDock);
+            SampleController.Current.RegisterNewCommand("Add Left Child", AddLeftDock);
+            SampleController.Current.RegisterNewCommand("Add Bottom Child", AddBottomDock);
+            SampleController.Current.RegisterNewCommand("Add Right Child", AddRightDock);
+            SampleController.Current.RegisterNewCommand("Add Stretch Child", AddStretchDock);
+            SampleController.Current.RegisterNewCommand("Clear All", ClearAllDock);
         }
 
         private void ClearAllDock(object sender, RoutedEventArgs e)

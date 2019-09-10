@@ -54,14 +54,33 @@
                                                   ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
                                 <Grid x:Name="SelectionDetailsPanel">
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
                                         <RowDefinition Height="*" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
+                                    <Grid Background="{TemplateBinding Background}">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button x:Name="MasterDetailsBackButton"
+                                                Background="Transparent"
+                                                Height="44" 
+                                                Width="48" 
+                                                Visibility="Collapsed">
+                                            <SymbolIcon Symbol="Back"/>
+                                        </Button>
+                                        <ContentPresenter x:Name="DetailsHeaderPresenter"
+                                                          Content="{TemplateBinding DetailsHeader}"
+                                                          ContentTemplate="{TemplateBinding DetailsHeaderTemplate}"
+                                                          Grid.Column="1"/>
+                                    </Grid>
                                     <ContentPresenter x:Name="DetailsPresenter"
-                                                  Background="{TemplateBinding Background}"
-                                                  ContentTemplate="{TemplateBinding DetailsTemplate}">
+                                                      Background="{TemplateBinding Background}"
+                                                      ContentTemplate="{TemplateBinding DetailsTemplate}"
+                                                      Grid.Row="1">
                                     </ContentPresenter>
-                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="1"></Grid>
+                                    <Grid x:Name="DetailsCommandBarPanel" Grid.Row="2"></Grid>
                                     <Grid.RenderTransform>
                                         <TranslateTransform x:Name="DetailsPresenterTransform" />
                                     </Grid.RenderTransform>

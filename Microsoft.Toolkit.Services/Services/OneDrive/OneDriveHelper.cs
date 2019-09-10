@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using static Microsoft.Toolkit.Services.MicrosoftGraph.MicrosoftGraphEnums;
 
 namespace Microsoft.Toolkit.Services.OneDrive
@@ -23,9 +24,14 @@ namespace Microsoft.Toolkit.Services.OneDrive
                 return "rename";
             }
 
-            if (collisionOption.Equals("ReplaceExisting") || collisionOption.Equals("OpenIfExists"))
+            if (collisionOption.Equals("ReplaceExisting"))
             {
                 return "replace";
+            }
+
+            if (collisionOption.Equals("OpenIfExists"))
+            {
+                throw new ArgumentException("OpenIfExists conflict option is not supported at this time", collisionOption);
             }
 
             return "fail";

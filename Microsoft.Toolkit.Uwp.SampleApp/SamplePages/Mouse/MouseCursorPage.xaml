@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid>
         <Border Width="220"
                 Height="120"
                 Margin="50,100,20,20"

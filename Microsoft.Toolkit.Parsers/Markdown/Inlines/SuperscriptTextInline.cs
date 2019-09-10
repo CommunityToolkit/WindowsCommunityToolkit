@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
@@ -31,6 +32,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
         {
             tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '^', Method = InlineParseMethod.Superscript });
+            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '<', Method = InlineParseMethod.Superscript });
         }
 
         /// <summary>
@@ -43,43 +45,89 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
         {
             // Check the first character.
-            if (start == maxEnd || markdown[start] != '^')
+            bool isHTMLSequence = false;
+            if (start == maxEnd || (markdown[start] != '^' && markdown[start] != '<'))
             {
                 return null;
             }
 
-            // The content might be enclosed in parentheses.
-            int innerStart = start + 1;
-            int innerEnd, end;
-            if (innerStart < maxEnd && markdown[innerStart] == '(')
+            if (markdown[start] != '^')
             {
-                // Find the end parenthesis.
-                innerStart++;
-                innerEnd = Common.IndexOf(markdown, ')', innerStart, maxEnd);
+                if (maxEnd - start < 5)
+                {
+                    return null;
+                }
+                else if (markdown.Substring(start, 5) != "<sup>")
+                {
+                    return null;
+                }
+                else
+                {
+                    isHTMLSequence = true;
+                }
+            }
+
+            if (isHTMLSequence)
+            {
+                int innerStart = start + 5;
+                int innerEnd, end;
+                innerEnd = Common.IndexOf(markdown, "</sup>", innerStart, maxEnd);
                 if (innerEnd == -1)
                 {
                     return null;
                 }
 
-                end = innerEnd + 1;
-            }
-            else
-            {
-                // Search for the next whitespace character.
-                innerEnd = Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
                 if (innerEnd == innerStart)
                 {
-                    // No match if the character after the caret is a space.
                     return null;
                 }
 
-                end = innerEnd;
-            }
+                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]) || ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
+                {
+                    return null;
+                }
 
-            // We found something!
-            var result = new SuperscriptTextInline();
-            result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
-            return new InlineParseResult(result, start, end);
+                // We found something!
+                end = innerEnd + 6;
+                var result = new SuperscriptTextInline();
+                result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+                return new InlineParseResult(result, start, end);
+            }
+            else
+            {
+                // The content might be enclosed in parentheses.
+                int innerStart = start + 1;
+                int innerEnd, end;
+                if (innerStart < maxEnd && markdown[innerStart] == '(')
+                {
+                    // Find the end parenthesis.
+                    innerStart++;
+                    innerEnd = Common.IndexOf(markdown, ')', innerStart, maxEnd);
+                    if (innerEnd == -1)
+                    {
+                        return null;
+                    }
+
+                    end = innerEnd + 1;
+                }
+                else
+                {
+                    // Search for the next whitespace character.
+                    innerEnd = Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
+                    if (innerEnd == innerStart)
+                    {
+                        // No match if the character after the caret is a space.
+                        return null;
+                    }
+
+                    end = innerEnd;
+                }
+
+                // We found something!
+                var result = new SuperscriptTextInline();
+                result.Inlines = Common.ParseInlineChildren(markdown, innerStart, innerEnd);
+                return new InlineParseResult(result, start, end);
+            }
         }
 
         /// <summary>

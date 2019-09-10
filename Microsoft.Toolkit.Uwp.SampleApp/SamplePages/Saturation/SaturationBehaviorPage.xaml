@@ -9,22 +9,13 @@
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock x:Name="WarningText"
-                   Margin="0,20"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Foreground="{ThemeResource TextSelectionHighlightColorThemeBrush}"
-                   Text="Blur is only available on Windows 10 Anniversary Update or greater"
-                   TextWrapping="Wrap"
-                   Visibility="Collapsed" />
-
+    <Grid>
         <Grid x:Name="XamlRoot" />
-        
+
         <!-- Shallow Copy -->
         <Image>
             <interactivity:Interaction.Behaviors>
-                <behaviors:Saturation  />
+                <behaviors:Saturation />
             </interactivity:Interaction.Behaviors>
         </Image>
         <StackPanel Visibility="Collapsed">

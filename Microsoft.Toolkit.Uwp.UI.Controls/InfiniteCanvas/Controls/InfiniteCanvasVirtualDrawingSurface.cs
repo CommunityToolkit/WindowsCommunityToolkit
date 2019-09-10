@@ -7,6 +7,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Graphics;
 using Windows.Graphics.DirectX;
+using Windows.Graphics.Display;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -15,9 +16,9 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// The virtual Drawing surface renderer used to render the ink and text. This control is used as part of the <see cref="InfiniteCanvas"/>
     /// </summary>
-    internal partial class InfiniteCanvasVirtualDrawingSurface : Panel
+    public partial class InfiniteCanvasVirtualDrawingSurface : Panel
     {
         private Compositor _compositor;
         private CanvasDevice _win2DDevice;
@@ -25,7 +26,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private SpriteVisual _myDrawingVisual;
         private CompositionVirtualDrawingSurface _drawingSurface;
         private CompositionSurfaceBrush _surfaceBrush;
+        private double _screenScale;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InfiniteCanvasVirtualDrawingSurface"/> class.
+        /// </summary>
         public InfiniteCanvasVirtualDrawingSurface()
         {
             InitializeComposition();
@@ -37,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _myDrawingVisual.Size = new Vector2((float)ActualWidth, (float)ActualHeight);
         }
 
-        public void InitializeComposition()
+        internal void InitializeComposition()
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _win2DDevice = CanvasDevice.GetSharedDevice();
@@ -46,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ElementCompositionPreview.SetElementChildVisual(this, _myDrawingVisual);
         }
 
-        public void ConfigureSpriteVisual(double width, double height)
+        internal void ConfigureSpriteVisual(double width, double height, float zoomFactor)
         {
             var size = new SizeInt32
             {
@@ -65,8 +70,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _surfaceBrush.VerticalAlignmentRatio = 0;
             _surfaceBrush.TransformMatrix = Matrix3x2.CreateTranslation(0, 0);
 
+            SetScale(zoomFactor);
+
             _myDrawingVisual.Brush = _surfaceBrush;
             _surfaceBrush.Offset = new Vector2(0, 0);
+        }
+
+        internal void SetScale(float zoomFactor)
+        {
+            _screenScale = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+            var scale = _screenScale * zoomFactor;
+            _surfaceBrush.Scale = new Vector2((float)(1 / scale));
+            _surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;
         }
     }
 }

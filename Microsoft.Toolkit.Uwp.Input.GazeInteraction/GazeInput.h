@@ -93,6 +93,11 @@ public:
     static property Brush^ DwellFeedbackCompleteBrush { Brush^ get(); void set(Brush^ value); }
 
     /// <summary>
+    /// Gets or sets the thickness of the lines animated for dwell.
+    /// </summary>
+    static property double DwellStrokeThickness { double get(); void set(double value); }
+
+    /// <summary>
     /// Gets or sets the interaction default
     /// </summary>
     static property GazeInteraction::Interaction Interaction { GazeInteraction::Interaction get(); void set(GazeInteraction::Interaction value); }

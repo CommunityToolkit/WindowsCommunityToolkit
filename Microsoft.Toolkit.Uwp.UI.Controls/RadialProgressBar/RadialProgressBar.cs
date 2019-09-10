@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = OutlineArcPartName, Type = typeof(ArcSegment))]
     [TemplatePart(Name = BarFigurePartName, Type = typeof(PathFigure))]
     [TemplatePart(Name = BarArcPartName, Type = typeof(ArcSegment))]
-    public sealed class RadialProgressBar : ProgressBar
+    public class RadialProgressBar : ProgressBar
     {
         private const string OutlineFigurePartName = "OutlineFigurePart";
         private const string OutlineArcPartName = "OutlineArcPart";

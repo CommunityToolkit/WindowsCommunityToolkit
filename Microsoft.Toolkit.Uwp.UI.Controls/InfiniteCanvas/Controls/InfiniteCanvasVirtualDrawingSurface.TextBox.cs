@@ -2,15 +2,16 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// The virtual Drawing surface renderer used to render the ink and text.
+    /// The virtual Drawing surface renderer used to render the ink and text. This control is used as part of the <see cref="InfiniteCanvas"/>
     /// </summary>
-    internal partial class InfiniteCanvasVirtualDrawingSurface
+    public partial class InfiniteCanvasVirtualDrawingSurface
     {
         private const int DrawableNullIndex = -1;
 
@@ -49,6 +50,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void UpdateSelectedTextDrawable()
         {
             _selectedTextDrawableIndex = _drawableList.Count - 1;
+        }
+
+        internal List<string> ExportText()
+        {
+            return _drawableList.OfType<TextDrawable>().Select(td => td.Text).ToList();
         }
     }
 }

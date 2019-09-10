@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     {
                         if (validationModel == ValidationMode.Dynamic)
                         {
-                            int selectionStart = textbox.SelectionStart - 1;
+                            int selectionStart = textbox.SelectionStart == 0 ? textbox.SelectionStart : textbox.SelectionStart - 1;
                             textbox.Text = textbox.Text.Remove(selectionStart, 1);
                             textbox.SelectionStart = selectionStart;
                         }

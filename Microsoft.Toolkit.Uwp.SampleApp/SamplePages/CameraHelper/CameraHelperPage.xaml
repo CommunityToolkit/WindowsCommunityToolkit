@@ -10,7 +10,7 @@
         <Style x:Name="ErrorMessageStyle" TargetType="TextBlock">
             <Setter Property="FontSize" Value="14"/>
             <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="Foreground" Value="Firebrick"/>
         </Style>
     </Page.Resources>
     <StackPanel Orientation="Vertical" Margin="20">

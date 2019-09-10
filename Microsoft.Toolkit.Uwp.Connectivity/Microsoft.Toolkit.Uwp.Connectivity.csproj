@@ -1,10 +1,10 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0</TargetFramework>
+    <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Devices</Title>
-    <Description>This library enables easier consumption of Devices / Peripherals connected to Windows device. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Devices Bluetooth BTLE Networking</PackageTags>
+    <Description>This library enables easier consumption of connectivity Devices/Peripherals and handle its connection to Windows devices. It contains BluetoothLE and Network connectivity helpers.</Description>
+    <PackageTags>UWP Toolkit Windows Devices Bluetooth BluetoothLE BLE Networking</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

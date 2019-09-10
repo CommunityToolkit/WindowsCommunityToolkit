@@ -24,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public ProfileCardPage()
         {
             InitializeComponent();
+            Load();
         }
 
         public async void OnXamlRendered(FrameworkElement control)
@@ -47,11 +48,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void Load()
         {
-            base.OnNavigatedTo(e);
-
-            Shell.Current.RegisterNewCommand("Change default image", async (sender, args) =>
+            SampleController.Current.RegisterNewCommand("Change default image", async (sender, args) =>
             {
                 if (_profileCardControl != null)
                 {

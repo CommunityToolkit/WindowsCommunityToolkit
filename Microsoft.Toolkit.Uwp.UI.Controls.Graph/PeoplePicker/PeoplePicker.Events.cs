@@ -2,14 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Graph;
-using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -20,125 +19,99 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static void AllowMultiplePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as PeoplePicker;
-            if (!control.AllowMultiple)
+            if (d is PeoplePicker control && !control.AllowMultiple)
             {
-                control.Selections.Clear();
-                control.RaiseSelectionChanged();
-                control._searchBox.Text = string.Empty;
-            }
-        }
-
-        private void ClearAndHideSearchResultListBox()
-        {
-            SearchResultList.Clear();
-            _searchResultListBox.Visibility = Visibility.Collapsed;
-        }
-
-        private async void SearchBox_OnTextChanged(object sender, TextChangedEventArgs e)
-        {
-            var textboxSender = (TextBox)sender;
-            string searchText = textboxSender.Text.Trim();
-            if (string.IsNullOrWhiteSpace(searchText))
-            {
-                ClearAndHideSearchResultListBox();
-                return;
-            }
-
-            IsLoading = true;
-            try
-            {
-                var graphService = MicrosoftGraphService.Instance;
-                await graphService.TryLoginAsync();
-                GraphServiceClient graphClient = graphService.GraphProvider;
-
-                if (graphClient != null)
+                if (control.Selections != null)
                 {
-                    var options = new List<QueryOption>
-                    {
-                        new QueryOption("$search", $"\"{searchText}\""),
-                        new QueryOption("$filter", "personType/class eq 'Person' and personType/subclass eq 'OrganizationUser'")
-                    };
-                    IUserPeopleCollectionPage peopleList = await graphClient.Me.People.Request(options).GetAsync();
-
-                    if (peopleList.Any())
-                    {
-                        List<Person> searchResult = peopleList.ToList();
-
-                        // Remove all selected items
-                        foreach (Person selectedItem in Selections)
-                        {
-                            searchResult.RemoveAll(u => u.UserPrincipalName == selectedItem.UserPrincipalName);
-                        }
-
-                        SearchResultList.Clear();
-                        var result = SearchResultLimit > 0
-                            ? searchResult.Take(SearchResultLimit).ToList()
-                            : searchResult;
-                        foreach (var item in result)
-                        {
-                            SearchResultList.Add(item);
-                        }
-
-                        _searchResultListBox.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        ClearAndHideSearchResultListBox();
-                    }
+                    control.Selections.Clear();
+                    control.RaiseSelectionChanged();
                 }
-            }
-            catch (Exception)
-            {
-            }
-            finally
-            {
-                IsLoading = false;
-            }
-        }
 
-        private void SearchResultListBox_OnSelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
-        {
-#pragma warning disable SA1119 // Statement must not use unnecessary parenthesis
-            if (!((sender as ListBox)?.SelectedItem is Person person))
-#pragma warning restore SA1119 // Statement must not use unnecessary parenthesis
-            {
-                return;
-            }
-
-            if (!AllowMultiple && Selections.Any())
-            {
-                Selections.Clear();
-                Selections.Add(person);
-            }
-            else
-            {
-                Selections.Add(person);
-            }
-
-            RaiseSelectionChanged();
-
-            _searchBox.Text = string.Empty;
-        }
-
-        private void SelectionsListBox_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            var elem = e.OriginalSource as FrameworkElement;
-
-            var removeButton = elem.FindAscendantByName("PersonRemoveButton");
-            if (removeButton != null)
-            {
-                if (removeButton.Tag is Person item)
+                if (control._searchBox != null)
                 {
-                    Selections.Remove(item);
-                    RaiseSelectionChanged();
+                    control._searchBox.Text = string.Empty;
                 }
             }
         }
 
-        private void RaiseSelectionChanged()
+        private static async void SearchPatternPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            this.SelectionChanged?.Invoke(this, new PeopleSelectionChangedEventArgs(this.Selections));
+            if (d is PeoplePicker peoplePicker)
+            {
+                await peoplePicker.SearchPeopleAsync(peoplePicker.SearchPattern);
+            }
+        }
+
+        private void SearchBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (sender is TextBox textBox && !string.IsNullOrEmpty(textBox.Text))
+            {
+                textBox.Select(textBox.Text.Length, 0);
+            }
+        }
+
+        private void SelectionsListBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement sourceElement
+                && sourceElement.FindAscendantByName(PeoplePicker.PersonRemoveButtonName) is FrameworkElement removeButton
+                && removeButton.DataContext is Person person)
+            {
+                Selections.Remove(person);
+                RaiseSelectionChanged();
+            }
+        }
+
+        private void SelectionsListBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter
+                && e.OriginalSource is FrameworkElement source
+                && source.Name == PersonRemoveButtonName
+                && source.DataContext is Person person)
+            {
+                Selections.Remove(person);
+                RaiseSelectionChanged();
+            }
+        }
+
+        private void SearchBox_OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _searchResultListBox.Width = _searchBox.ActualWidth;
+        }
+
+        private void SearchResultListBox_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (e.OriginalSource is FrameworkElement source)
+            {
+                var parent = VisualTreeHelper.GetParent(source);
+                while (parent != null)
+                {
+                    parent = VisualTreeHelper.GetParent(parent);
+                    if (parent is ListBoxItem item)
+                    {
+                        if (item.DataContext is Person person)
+                        {
+                            SelectPerson(person);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void SearchResultListBox_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter
+                && _searchResultListBox.SelectedItem is Person person)
+            {
+                SelectPerson(person);
+            }
+        }
+
+        private void Flyout_Closed(object sender, object e)
+        {
+            _searchBox.Opacity = 1;
+            _searchBox.Focus(FocusState.Programmatic);
         }
     }
 }

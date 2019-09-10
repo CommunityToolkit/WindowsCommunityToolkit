@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:twitter="using:Microsoft.Toolkit.Uwp.Services.Twitter"
+      xmlns:twitter="using:Microsoft.Toolkit.Services.Twitter"
       xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp.SamplePages.Twitter_Service"
       mc:Ignorable="d">
     <Page.Resources>
@@ -11,8 +11,8 @@
                       x:DataType="twitter:Tweet">
             <Border Margin="12,0,12,12"
                     Padding="12"
-                    Background="White"
-                    BorderBrush="#FFCCCCCC"
+                    Background="{ThemeResource Brush-Sample-Background}"
+                    BorderBrush="{ThemeResource InfoArea-Titlebar}"
                     BorderThickness="1"
                     CornerRadius="4">
                 <Grid>
@@ -68,11 +68,11 @@
                                    Text="{x:Bind CreationDate}" />
                         <TextBlock Margin="4,0,0,0"
                                    FontWeight="ExtraLight"
-                                   Text="{x:Bind GeoData.DisplayCoordinates}" />
+                                   Text="{x:Bind Coordinates}" />
                     </StackPanel>
 
                     <Image Grid.Row="3"
-                           Source="{x:Bind Entities.Media[0].MediaUrl}"/>
+                           Source="{x:Bind Entities.Media[0].MediaUrl}" />
                 </Grid>
             </Border>
         </DataTemplate>
@@ -81,7 +81,7 @@
                       x:DataType="twitter:TwitterStreamEvent">
             <Border Margin="12,0,12,12"
                     Padding="12"
-                    Background="#FFCCCCCC"
+                    Background="{ThemeResource InfoArea-Titlebar}"
                     BorderBrush="#E2FFF893"
                     BorderThickness="1"
                     CornerRadius="4">
@@ -176,16 +176,16 @@
         </DataTemplate>
 
         <!--Template Selector-->
-        <local:TwitterTemplateSelector x:Key="TwitterTemplateSelector" 
+        <local:TwitterTemplateSelector x:Key="TwitterTemplateSelector"
                                        TweetTemplate="{StaticResource TwitterSchemaTemplate}"
-                                       EventTemplate="{StaticResource TwitterEventTemplate}"/>
+                                       EventTemplate="{StaticResource TwitterEventTemplate}" />
     </Page.Resources>
 
     <Grid MaxWidth="800"
-          Background="{StaticResource Brush-Grey-05}">
+          Background="{ThemeResource Brush-Grey-05}">
         <Grid Margin="24"
-              Background="{StaticResource Brush-Grey-04}"
-              BorderBrush="#FFCCCCCC"
+              Background="{ThemeResource Brush-Grey-04}"
+              BorderBrush="{ThemeResource InfoArea-Titlebar}"
               BorderThickness="1"
               CornerRadius="4">
             <Grid.RowDefinitions>
@@ -228,7 +228,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -242,7 +242,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Credentials" />
                         </Grid>
 
@@ -278,7 +278,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -292,7 +292,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Tweet" />
                         </Grid>
 
@@ -348,7 +348,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -362,7 +362,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Search" />
                         </Grid>
 
@@ -387,7 +387,7 @@
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
 
-                        <Grid Background="#FFCCCCCC">
+                        <Grid Background="{ThemeResource InfoArea-Titlebar}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition />
@@ -401,7 +401,7 @@
                                        Margin="12,6"
                                        HorizontalAlignment="Left"
                                        VerticalAlignment="Center"
-                                       Foreground="{StaticResource Brush-Grey-01}"
+                                       Foreground="{ThemeResource Brush-Grey-01}"
                                        Text="Live feed" />
                         </Grid>
 
@@ -410,7 +410,7 @@
                                     Margin="24,24,24,10">
                             <ToggleSwitch x:Name="LiveFeedToggle"
                                           Header="Get live tweets"
-                                          Toggled="LiveFeedPanel_OnToggled"/>
+                                          Toggled="LiveFeedPanel_OnToggled" />
                         </StackPanel>
                     </Grid>
 
@@ -439,4 +439,3 @@
         </Grid>
     </Grid>
 </Page>
-
