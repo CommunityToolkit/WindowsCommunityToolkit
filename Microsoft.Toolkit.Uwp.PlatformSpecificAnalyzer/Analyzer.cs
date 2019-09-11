@@ -29,12 +29,23 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         /// <summary>
         /// Embedded differences between API contract version 4 and 5.
         /// </summary>
-        public const string N1DifferencesRes = "Differences-8.0.0.0.gz";
+        public const string N2DifferencesRes = "Differences-6.0.0.0.gz";
+
 
         /// <summary>
-        /// Embedded differences between API contract version 5 and 6.
+        /// Embedded differences between API contract version 6 and 7.
         /// </summary>
-        public const string N0DifferencesRes = "Differences-7.0.0.0.gz";
+        public const string N1DifferencesRes = "Differences-7.0.0.0.gz";
+
+        /// <summary>
+        /// Embedded differences between API contract version 7 and 8.
+        /// </summary>
+        public const string N0DifferencesRes = "Differences-8.0.0.0.gz";
+
+        /// <summary>
+        /// Earliest supported SDK version.
+        /// </summary>
+        public const string BaseSDKVersion = "16299";
 
         /// <summary>
         /// Earliest supported SDK version.
@@ -161,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                 // Any call to ApiInformation.* is allowed without warning
                 if (symbol.ContainingType?.Name == "ApiInformation")
                 {
-                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                    return new Platform(PlatformKind.Uwp, Analyzer.BaseSDKVersion);
                 }
 
                 // Don't want to give warning when analyzing code in an PCL project.
@@ -174,13 +185,13 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
                 // Some WinRT types like Windows.UI.Color get projected to come from .NET assemblies, always present:
                 if (assembly.StartsWith("System.Runtime."))
                 {
-                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                    return new Platform(PlatformKind.Uwp, Analyzer.BaseSDKVersion);
                 }
 
                 // Some things are emphatically part of UWP.10240
                 if (assembly == "Windows.Foundation.FoundationContract" || (assembly == "Windows.Foundation.UniversalApiContract" && version == 1))
                 {
-                    return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+                    return new Platform(PlatformKind.Uwp, Analyzer.BaseSDKVersion);
                 }
 
                 if (assembly == "Windows.Foundation.UniversalApiContract")
@@ -189,38 +200,28 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                     var typeName = isType ? symbol.ToDisplayString() : symbol.ContainingType.ToDisplayString();
 
-                    TypePresenceIndicator presentInN0ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N0DifferencesRes), typeName, symbol);
+                    var platformN0 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N0DifferencesRes, Analyzer.N0SDKVersion);
 
-                    if (presentInN0ApiDiff == TypePresenceIndicator.New)
+                    if (!String.IsNullOrEmpty(platformN0.Version))
                     {
-                        // the entire type was found in Target Version
-                        return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion);
+                        return platformN0;
                     }
-                    else if (presentInN0ApiDiff == TypePresenceIndicator.Changes)
-                    {
-                        // the entire type was found in Target Version with matching parameter lengths
-                        return new Platform(PlatformKind.Uwp, Analyzer.N0SDKVersion, true);
-                    }
-                    else
-                    {
-                        TypePresenceIndicator presentInN1ApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(Analyzer.N1DifferencesRes), typeName, symbol);
 
-                        if (presentInN1ApiDiff == TypePresenceIndicator.New)
-                        {
-                            // the entire type was found in Target Version
-                            return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion);
-                        }
-                        else if (presentInN1ApiDiff == TypePresenceIndicator.Changes)
-                        {
-                            // the entire type was found in Target Version with matching parameter lengths
-                            return new Platform(PlatformKind.Uwp, Analyzer.N1SDKVersion, true);
-                        }
-                        else
-                        {
-                            // the type was in Min version
-                            return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
-                        }
+                    var platformN1 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N1DifferencesRes, Analyzer.N1SDKVersion);
+
+                    if (!String.IsNullOrEmpty(platformN1.N1Version))
+                    {
+                        return platformN1;
                     }
+
+                    var platformN2 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N2DifferencesRes, Analyzer.N2DKVersion);
+
+                    if (!String.IsNullOrEmpty(platformN2.Version))
+                    {
+                        return platformN2;
+                    }
+
+                    return new Platform(PlatformKind.Uwp, Analyzer.BaseSDKVersion);
                 }
 
                 // All other Windows.* types come from platform-specific extensions
@@ -229,6 +230,29 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
             else
             {
                 return new Platform(PlatformKind.Unchecked);
+            }
+        }
+
+        private static Platform GetPlatformFromDifferences(ISymbol symbol, string typeName, string differencesRes, string sdkVersion)
+        {
+            // the type was in Min version
+            //return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
+            TypePresenceIndicator presentInApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(differencesRes), typeName, symbol);
+
+            if (presentInApiDiff == TypePresenceIndicator.New)
+            {
+                // the entire type was found in Target Version
+                return new Platform(PlatformKind.Uwp, sdkVersion);
+            }
+            else if (presentInApiDiff == TypePresenceIndicator.Changes)
+            {
+                // the entire type was found in Target Version with matching parameter lengths
+                return new Platform(PlatformKind.Uwp, sdkVersion, true);
+            }
+            else
+            {
+                // the type was in Min version
+                return new Platform(PlatformKind.Uwp);
             }
         }
 
