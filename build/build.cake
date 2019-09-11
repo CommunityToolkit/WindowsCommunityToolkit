@@ -1,4 +1,4 @@
-#module "Cake.Longpath.Module"
+#module nuget:?package=Cake.LongPath.Module&version=0.5.0
 
 #addin "Cake.FileHelpers"
 #addin "Cake.Powershell"

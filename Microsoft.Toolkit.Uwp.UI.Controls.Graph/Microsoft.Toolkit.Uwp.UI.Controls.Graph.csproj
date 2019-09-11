@@ -3,7 +3,22 @@
   <PropertyGroup>
     <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Graph Controls</Title>
-    <Description>This library provides Microsoft Graph XAML controls. It is part of the Windows Community Toolkit.</Description>
+    <Description>
+      This library provides Microsoft Graph XAML controls. It is part of the Windows Community Toolkit.
+
+      Classes:
+      - AadLogin: The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
+      - FileSelectedEventArgs: Arguments relating to a file selected event of SharePointFiles control.
+      - PeoplePicker: The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.
+      - PeopleSelectionChangedEventArgs: Arguments relating to the people selected event of PeoplePicker control.
+      - PlannerTaskList: The PlannerTaskList Control displays a simple list of Planner tasks.
+      - PowerBIEmbedded: The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.
+      - ProfileCard: The Profile Card control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.
+      - SharePointFileList: The SharePointFiles Control displays a simple list of SharePoint Files.
+      - SignInEventArgs: Arguments relating to a sign-in event of Aadlogin control.
+      - SignInFailedEventArgs: Arguments relating to a sign-in event of Aadlogin control.
+      
+    </Description>
     <PackageTags>UWP Toolkit Windows Controls Microsoft Graph AadLogin ProfileCard PeoplePicker SharePointFiles</PackageTags>
 
   </PropertyGroup>

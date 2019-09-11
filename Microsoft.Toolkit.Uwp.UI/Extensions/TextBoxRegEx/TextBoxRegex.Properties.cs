@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <param name="value">A value indicating if the Text is valid according to the Regex property.</param>
         public static void SetIsValid(TextBox textBox, bool value)
         {
-            textBox.SetValue(ValidationModeProperty, value);
+            textBox.SetValue(IsValidProperty, value);
         }
 
         /// <summary>
