@@ -29,27 +29,27 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
         /// <summary>
         /// Embedded differences between API contract version 4 and 5.
         /// </summary>
-        public const string N1DifferencesRes = "Differences-5.0.0.0.gz";
+        public const string N1DifferencesRes = "Differences-8.0.0.0.gz";
 
         /// <summary>
         /// Embedded differences between API contract version 5 and 6.
         /// </summary>
-        public const string N0DifferencesRes = "Differences-6.0.0.0.gz";
+        public const string N0DifferencesRes = "Differences-7.0.0.0.gz";
 
         /// <summary>
         /// Earliest supported SDK version.
         /// </summary>
-        public const string N2SDKVersion = "15063";
+        public const string N2SDKVersion = "17134";
 
         /// <summary>
         /// Intermediate SDK version.
         /// </summary>
-        public const string N1SDKVersion = "16299";
+        public const string N1SDKVersion = "17763";
 
         /// <summary>
         /// Latest SDK version.
         /// </summary>
-        public const string N0SDKVersion = "17134";
+        public const string N0SDKVersion = "18362";
 
         /// <summary>
         /// Platform related diagnostic descriptor
