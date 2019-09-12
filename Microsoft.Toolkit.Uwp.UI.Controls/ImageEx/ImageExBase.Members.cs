@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Windows.Foundation.Metadata;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -49,6 +50,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="CachingStrategy"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty CachingStrategyProperty = DependencyProperty.Register(nameof(CachingStrategy), typeof(ImageExCachingStrategy), typeof(ImageExBase), new PropertyMetadata(ImageExCachingStrategy.Custom));
+
+        /// <summary>
+        /// Identifies the <see cref="EnableLazyLoading"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty EnableLazyLoadingProperty = DependencyProperty.Register(nameof(EnableLazyLoading), typeof(bool), typeof(ImageExBase), new PropertyMetadata(false));
+
+        /// <summary>
+        /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
+        /// </summary>
+        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Windows.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>
@@ -138,6 +149,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (ImageExCachingStrategy)GetValue(CachingStrategyProperty); }
             set { SetValue(CachingStrategyProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether gets or sets is lazy loading enable. (17763 or higher supported)
+        /// </summary>
+        /// <remarks>Windows 10 build 17763 or higher required.</remarks>
+        public bool EnableLazyLoading
+        {
+            get { return (bool)GetValue(EnableLazyLoadingProperty); }
+            set { SetValue(EnableLazyLoadingProperty, value); }
         }
     }
 }

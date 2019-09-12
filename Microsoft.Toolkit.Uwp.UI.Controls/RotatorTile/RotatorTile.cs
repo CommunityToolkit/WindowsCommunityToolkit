@@ -247,7 +247,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             sb.Completed += async (a, b) =>
             {
-                if (_currentElement != null)
+                if (_currentElement != null && _nextElement != null)
                 {
                     _currentElement.DataContext = _nextElement.DataContext;
                 }
@@ -475,7 +475,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (e.NewStartingIndex == _currentIndex + 1)
                     {
                         // Upcoming item was changed, so update the datacontext
-                        _nextElement.DataContext = GetNext();
+                        if (_nextElement != null)
+                        {
+                            _nextElement.DataContext = GetNext();
+                        }
                     }
                 }
             }
@@ -497,7 +500,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     else if (_currentIndex + 1 == e.NewStartingIndex)
                     {
                         // Upcoming item was changed, so update the datacontext
-                        _nextElement.DataContext = GetNext();
+                        if (_nextElement != null)
+                        {
+                            _nextElement.DataContext = GetNext();
+                        }
                     }
                 }
             }
@@ -557,7 +563,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (index > -1)
             {
                 ctrl._currentIndex = index;
-                ctrl._nextElement.DataContext = e.NewValue;
+                if (ctrl._nextElement != null)
+                {
+                    ctrl._nextElement.DataContext = e.NewValue;
+                }
+
                 ctrl.RotateToNextItem();
                 ctrl._timer.Stop();
                 ctrl._timer.Start();

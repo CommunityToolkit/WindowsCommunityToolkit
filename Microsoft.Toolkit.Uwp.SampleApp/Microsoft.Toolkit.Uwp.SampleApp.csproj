@@ -527,6 +527,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
+      <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
@@ -951,6 +954,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SampleController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
