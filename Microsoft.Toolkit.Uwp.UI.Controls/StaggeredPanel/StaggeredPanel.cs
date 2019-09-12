@@ -121,10 +121,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 numColumns--;
             }
-
-            if (double.IsInfinity(availableWidth))
+            else if (double.IsInfinity(availableWidth))
             {
-                availableWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+                availableWidth = totalWidth;
             }
 
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
