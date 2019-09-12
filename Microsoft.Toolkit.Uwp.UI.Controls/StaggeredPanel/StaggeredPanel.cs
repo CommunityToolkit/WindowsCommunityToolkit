@@ -180,14 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var child = Children[i];
                 var elementSize = child.DesiredSize;
 
-                double elementWidth = elementSize.Width;
                 double elementHeight = elementSize.Height;
-                if (elementWidth > _columnWidth)
-                {
-                    double differencePercentage = _columnWidth / elementWidth;
-                    elementHeight = elementHeight * differencePercentage;
-                    elementWidth = _columnWidth;
-                }
 
                 double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
                 double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);

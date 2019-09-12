@@ -111,6 +111,34 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - block")]
+        public void Table_WithEscapedCellDivider()
+        {
+            // Too many column dividers is okay.
+            AssertEqual(CollapseWhitespace(@"
+                        Column A | Column B | Column C
+                        -|-|-|-
+                        A1 \| A2 | B1 | C1"),
+                new TableBlock
+                {
+                    ColumnDefinitions = new List<TableBlock.TableColumnDefinition>
+                    {
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                        new TableBlock.TableColumnDefinition { Alignment = ColumnAlignment.Unspecified },
+                    }
+                }.AddChildren(
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column A" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column B" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "Column C" })),
+                        new TableBlock.TableRow().AddChildren(
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "A1 | A2" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "B1" }),
+                            new TableBlock.TableCell().AddChildren(new TextRunInline { Text = "C1" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
         public void Table_Minimal_1()
         {
             AssertEqual(CollapseWhitespace(@"

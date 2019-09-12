@@ -278,7 +278,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Tries to log in user if not already loged in. Calls LoginAsync internaly
+        /// Tries to log in user if not already logged in. Calls LoginAsync internally
         /// </summary>
         /// <remarks>Exceptions are not thrown but SignInFailed event is raised</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
