@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
             _columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
-            int numColumns = (int)Math.Floor(availableWidth / _columnWidth);
+            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / _columnWidth));
 
             // adjust for column spacing on all columns expect the first
             double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
@@ -121,11 +121,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 numColumns--;
             }
+            else if (double.IsInfinity(availableWidth))
+            {
+                availableWidth = totalWidth;
+            }
 
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
             {
                 availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
                 _columnWidth = availableWidth / numColumns;
+            }
+
+            if (Children.Count == 0)
+            {
+                return new Size(0, 0);
             }
 
             var columnHeights = new double[numColumns];
@@ -152,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             double horizontalOffset = Padding.Left;
             double verticalOffset = Padding.Top;
-            int numColumns = (int)Math.Floor(finalSize.Width / _columnWidth);
+            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / _columnWidth));
 
             // adjust for horizontal spacing on all columns expect the first
             double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
