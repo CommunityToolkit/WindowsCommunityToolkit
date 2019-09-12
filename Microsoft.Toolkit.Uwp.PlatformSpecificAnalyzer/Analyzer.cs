@@ -200,23 +200,23 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
                     var typeName = isType ? symbol.ToDisplayString() : symbol.ContainingType.ToDisplayString();
 
-                    var platformN0 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N0DifferencesRes, Analyzer.N0SDKVersion);
+                    var platformN0 = GetPlatformFromDifferences(symbol, typeName, N0DifferencesRes, N0SDKVersion);
 
-                    if (!String.IsNullOrEmpty(platformN0.Version))
+                    if (!string.IsNullOrEmpty(platformN0.Version))
                     {
                         return platformN0;
                     }
 
-                    var platformN1 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N1DifferencesRes, Analyzer.N1SDKVersion);
+                    var platformN1 = GetPlatformFromDifferences(symbol, typeName, N1DifferencesRes, N1SDKVersion);
 
-                    if (!String.IsNullOrEmpty(platformN1.N1Version))
+                    if (!string.IsNullOrEmpty(platformN1.Version))
                     {
                         return platformN1;
                     }
 
-                    var platformN2 = GetPlatformFromDifferences(symbol, typeName, Analyzer.N2DifferencesRes, Analyzer.N2DKVersion);
+                    var platformN2 = GetPlatformFromDifferences(symbol, typeName, N2DifferencesRes, N2SDKVersion);
 
-                    if (!String.IsNullOrEmpty(platformN2.Version))
+                    if (!string.IsNullOrEmpty(platformN2.Version))
                     {
                         return platformN2;
                     }
@@ -235,9 +235,7 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
         private static Platform GetPlatformFromDifferences(ISymbol symbol, string typeName, string differencesRes, string sdkVersion)
         {
-            // the type was in Min version
-            //return new Platform(PlatformKind.Uwp, Analyzer.N2SDKVersion);
-            TypePresenceIndicator presentInApiDiff = CheckCollectionForType(Analyzer.GetUniversalApiAdditions(differencesRes), typeName, symbol);
+            TypePresenceIndicator presentInApiDiff = CheckCollectionForType(GetUniversalApiAdditions(differencesRes), typeName, symbol);
 
             if (presentInApiDiff == TypePresenceIndicator.New)
             {
