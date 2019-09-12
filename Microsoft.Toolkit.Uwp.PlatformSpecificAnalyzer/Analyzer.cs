@@ -26,11 +26,22 @@ namespace Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer
 
         private static Dictionary<string, Dictionary<string, List<NewMember>>> _differencesDictionary = null;
 
+        /*
+         * SDK vs API Version
+         * 10240    1.0.0.0
+         * 10586    2.0.0.0
+         * 14393    3.0.0.0
+         * 15063    4.0.0.0
+         * 16299    5.0.0.0
+         * 17134    6.0.0.0
+         * 17763    7.0.0.0
+         * 18362    8.0.0.0
+         */
+
         /// <summary>
-        /// Embedded differences between API contract version 4 and 5.
+        /// Embedded differences between API contract version 5 and 6.
         /// </summary>
         public const string N2DifferencesRes = "Differences-6.0.0.0.gz";
-
 
         /// <summary>
         /// Embedded differences between API contract version 6 and 7.
