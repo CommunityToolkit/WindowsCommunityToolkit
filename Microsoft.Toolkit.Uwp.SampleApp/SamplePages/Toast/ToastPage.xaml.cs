@@ -23,67 +23,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             Initialize();
         }
 
+#pragma warning disable SA1008 // Parenthesis spacing
+#pragma warning disable SA1117 // Parameters must be on same line or separate lines
+
         public static ToastContent GenerateToastContent()
         {
-            return new ToastContent()
-            {
-                Launch = "action=viewEvent&eventId=1983",
-                Scenario = ToastScenario.Reminder,
+            var builder = new ToastContentBuilder().SetToastScenario(ToastScenario.Reminder)
+                .AddToastActivationInfo("action=viewEvent&eventId=1983", ToastActivationType.Foreground)
+                .AddText("Adaptive Tiles Meeting")
+                .AddText("Conf Room 2001 / Building 135")
+                .AddText("10:00 AM - 10:30 AM")
+                .AddComboBox("snoozeTime", "15", ("1", "1 minute"),
+                                                 ("15", "15 minutes"),
+                                                 ("60", "1 hour"),
+                                                 ("240", "4 hours"),
+                                                 ("1440", "1 day"))
+                .AddButton(new ToastButtonSnooze() { SelectionBoxId = "snoozeTime" })
+                .AddButton(new ToastButtonDismiss());
 
-                Visual = new ToastVisual()
-                {
-                    BindingGeneric = new ToastBindingGeneric()
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = "Adaptive Tiles Meeting"
-                            },
-
-                            new AdaptiveText()
-                            {
-                                Text = "Conf Room 2001 / Building 135"
-                            },
-
-                            new AdaptiveText()
-                            {
-                                Text = "10:00 AM - 10:30 AM"
-                            }
-                        }
-                    }
-                },
-
-                Actions = new ToastActionsCustom()
-                {
-                    Inputs =
-                    {
-                        new ToastSelectionBox("snoozeTime")
-                        {
-                            DefaultSelectionBoxItemId = "15",
-                            Items =
-                            {
-                                new ToastSelectionBoxItem("1", "1 minute"),
-                                new ToastSelectionBoxItem("15", "15 minutes"),
-                                new ToastSelectionBoxItem("60", "1 hour"),
-                                new ToastSelectionBoxItem("240", "4 hours"),
-                                new ToastSelectionBoxItem("1440", "1 day")
-                            }
-                        }
-                    },
-
-                    Buttons =
-                    {
-                        new ToastButtonSnooze()
-                        {
-                            SelectionBoxId = "snoozeTime"
-                        },
-
-                        new ToastButtonDismiss()
-                    }
-                }
-            };
+            return builder.Content;
         }
+
+#pragma warning restore SA1008
+#pragma warning restore SA1117
 
         private void ButtonPopToast_Click(object sender, RoutedEventArgs e)
         {

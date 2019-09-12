@@ -70,34 +70,90 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(StaggeredPanel),
             new PropertyMetadata(default(Thickness), OnPaddingChanged));
 
+        /// <summary>
+        /// Gets or sets the spacing between columns of items.
+        /// </summary>
+        public double ColumnSpacing
+        {
+            get { return (double)GetValue(ColumnSpacingProperty); }
+            set { SetValue(ColumnSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="ColumnSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ColumnSpacingProperty = DependencyProperty.Register(
+            nameof(ColumnSpacing),
+            typeof(double),
+            typeof(StaggeredPanel),
+            new PropertyMetadata(0d, OnPaddingChanged));
+
+        /// <summary>
+        /// Gets or sets the spacing between rows of items.
+        /// </summary>
+        public double RowSpacing
+        {
+            get { return (double)GetValue(RowSpacingProperty); }
+            set { SetValue(RowSpacingProperty, value); }
+        }
+
+        /// <summary>
+        /// Identifies the <see cref="RowSpacing"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty RowSpacingProperty = DependencyProperty.Register(
+            nameof(RowSpacing),
+            typeof(double),
+            typeof(StaggeredPanel),
+            new PropertyMetadata(0d, OnPaddingChanged));
+
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
-            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
-            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
+            double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
+            double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
-            _columnWidth = Math.Min(DesiredColumnWidth, availableSize.Width);
-            int numColumns = (int)Math.Floor(availableSize.Width / _columnWidth);
+            _columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / _columnWidth));
+
+            // adjust for column spacing on all columns expect the first
+            double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+            if (totalWidth > availableWidth)
+            {
+                numColumns--;
+            }
+            else if (double.IsInfinity(availableWidth))
+            {
+                availableWidth = totalWidth;
+            }
+
             if (HorizontalAlignment == HorizontalAlignment.Stretch)
             {
-                _columnWidth = availableSize.Width / numColumns;
+                availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
+                _columnWidth = availableWidth / numColumns;
+            }
+
+            if (Children.Count == 0)
+            {
+                return new Size(0, 0);
             }
 
             var columnHeights = new double[numColumns];
+            var itemsPerColumn = new double[numColumns];
 
             for (int i = 0; i < Children.Count; i++)
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
                 var child = Children[i];
-                child.Measure(new Size(_columnWidth, availableSize.Height));
+                child.Measure(new Size(_columnWidth, availableHeight));
                 var elementSize = child.DesiredSize;
-                columnHeights[columnIndex] += elementSize.Height;
+                columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
+                itemsPerColumn[columnIndex]++;
             }
 
             double desiredHeight = columnHeights.Max();
 
-            return new Size(availableSize.Width, desiredHeight);
+            return new Size(availableWidth, desiredHeight);
         }
 
         /// <inheritdoc/>
@@ -105,7 +161,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             double horizontalOffset = Padding.Left;
             double verticalOffset = Padding.Top;
-            int numColumns = (int)Math.Floor(finalSize.Width / _columnWidth);
+            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / _columnWidth));
+
+            // adjust for horizontal spacing on all columns expect the first
+            double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+            if (totalWidth > finalSize.Width)
+            {
+                numColumns--;
+            }
+
             if (HorizontalAlignment == HorizontalAlignment.Right)
             {
                 horizontalOffset += finalSize.Width - (numColumns * _columnWidth);
@@ -116,6 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var columnHeights = new double[numColumns];
+            var itemsPerColumn = new double[numColumns];
 
             for (int i = 0; i < Children.Count; i++)
             {
@@ -126,10 +191,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double elementHeight = elementSize.Height;
 
-                Rect bounds = new Rect(horizontalOffset + (_columnWidth * columnIndex), columnHeights[columnIndex] + verticalOffset, _columnWidth, elementHeight);
+                double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
+                double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
+
+                Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, elementHeight);
                 child.Arrange(bounds);
 
                 columnHeights[columnIndex] += elementSize.Height;
+                itemsPerColumn[columnIndex]++;
             }
 
             return base.ArrangeOverride(finalSize);

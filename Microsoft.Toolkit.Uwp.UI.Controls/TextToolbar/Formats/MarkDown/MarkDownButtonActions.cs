@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
@@ -43,6 +44,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         {
             var select = Formatter.Selected;
             int originalStart = Formatter.Selected.StartPosition;
+            string urlLabel = StringExtensions.GetLocalized("TextToolbarStrings_UrlLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
+            string labelLabel = StringExtensions.GetLocalized("TextToolbarStrings_LabelLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources");
 
             // Replaces Selection of first Line only.
             if (select.Text.Contains("\r"))
@@ -54,14 +57,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             {
                 if (!string.IsNullOrWhiteSpace(link))
                 {
-                    Formatter.SetSelection($"[{Formatter.Model.Labels.LabelLabel}](", ")", false, link);
+                    Formatter.SetSelection($"[{labelLabel}](", ")", false, link);
                     select.StartPosition = select.EndPosition;
                     select.EndPosition = select.StartPosition;
                 }
                 else
                 {
-                    string startChars = $"[{Formatter.Model.Labels.LabelLabel}](";
-                    string filler = Formatter.Model.Labels.UrlLabel;
+                    string startChars = $"[{labelLabel}](";
+                    string filler = urlLabel;
                     Formatter.SetSelection(startChars, ")", false, filler);
                     select.StartPosition = originalStart + startChars.Length;
                     select.EndPosition = select.StartPosition + filler.Length;
@@ -69,7 +72,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
             }
             else if (string.IsNullOrWhiteSpace(link))
             {
-                Formatter.SetSelection($"[{label}](", ")", false, Formatter.Model.Labels.UrlLabel);
+                Formatter.SetSelection($"[{label}](", ")", false, urlLabel);
             }
             else
             {
