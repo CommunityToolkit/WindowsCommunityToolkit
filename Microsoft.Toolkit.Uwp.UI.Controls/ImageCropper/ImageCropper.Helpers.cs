@@ -333,6 +333,63 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return !targetRect.IsEmpty && targetRect.Width > 0 && targetRect.Height > 0;
         }
 
+        private static Point GetSafeSizeChangeWhenKeepAspectRatio(Rect targetRect, ThumbPosition thumbPosition, Rect selectedRect, Point originSizeChange, double aspectRatio)
+        {
+            var safeWidthChange = originSizeChange.X;
+            var safeHeightChange = originSizeChange.Y;
+            var maxWidthChange = 0d;
+            var maxHeightChange = 0d;
+            switch (thumbPosition)
+            {
+                case ThumbPosition.Top:
+                    maxWidthChange = targetRect.Width - selectedRect.Width;
+                    maxHeightChange = selectedRect.Top - targetRect.Top;
+                    break;
+                case ThumbPosition.Bottom:
+                    maxWidthChange = targetRect.Width - selectedRect.Width;
+                    maxHeightChange = targetRect.Bottom - selectedRect.Bottom;
+                    break;
+                case ThumbPosition.Left:
+                    maxWidthChange = selectedRect.Left - targetRect.Left;
+                    maxHeightChange = targetRect.Height - selectedRect.Height;
+                    break;
+                case ThumbPosition.Right:
+                    maxWidthChange = targetRect.Right - selectedRect.Right;
+                    maxHeightChange = targetRect.Height - selectedRect.Height;
+                    break;
+                case ThumbPosition.UpperLeft:
+                    maxWidthChange = selectedRect.Left - targetRect.Left;
+                    maxHeightChange = selectedRect.Top - targetRect.Top;
+                    break;
+                case ThumbPosition.UpperRight:
+                    maxWidthChange = targetRect.Right - selectedRect.Right;
+                    maxHeightChange = selectedRect.Top - targetRect.Top;
+                    break;
+                case ThumbPosition.LowerLeft:
+                    maxWidthChange = selectedRect.Left - targetRect.Left;
+                    maxHeightChange = targetRect.Bottom - selectedRect.Bottom;
+                    break;
+                case ThumbPosition.LowerRight:
+                    maxWidthChange = targetRect.Right - selectedRect.Right;
+                    maxHeightChange = targetRect.Bottom - selectedRect.Bottom;
+                    break;
+            }
+
+            if (originSizeChange.X > maxWidthChange)
+            {
+                safeWidthChange = maxWidthChange;
+                safeHeightChange = safeWidthChange / aspectRatio;
+            }
+
+            if (originSizeChange.Y > maxHeightChange)
+            {
+                safeHeightChange = maxHeightChange;
+                safeWidthChange = safeHeightChange * aspectRatio;
+            }
+
+            return new Point(safeWidthChange, safeHeightChange);
+        }
+
         private static bool CanContains(Rect targetRect, Rect testRect)
         {
             return (targetRect.Width - testRect.Width > -ThresholdValue) && (targetRect.Height - testRect.Height > -ThresholdValue);

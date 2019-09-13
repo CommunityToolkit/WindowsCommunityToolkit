@@ -531,6 +531,9 @@
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
+      <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
@@ -961,6 +964,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Eyedropper\EyedropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
