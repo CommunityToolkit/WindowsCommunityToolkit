@@ -15,11 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         None,
 
         /// <summary>
-        /// Make the first child stretch to push any other items to the end
-        /// </summary>
-        First,
-
-        /// <summary>
         /// Make the last child stretch to fill the available space
         /// </summary>
         Last
