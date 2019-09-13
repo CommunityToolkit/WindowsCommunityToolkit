@@ -245,23 +245,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentV = Math.Max(desiredMeasure.V, currentV);
                 }
 
-                if (StretchLastChild)
+                var lastIndex = Children.Count - 1;
+                for (var i = 0; i < lastIndex; i++)
                 {
-                    var lastIndex = Children.Count - 1;
-                    for (var i = 0; i < lastIndex; i++)
-                    {
-                        arrange(Children[i]);
-                    }
+                    arrange(Children[i]);
+                }
 
-                    arrange(Children[lastIndex], true);
-                }
-                else
-                {
-                    foreach (var child in Children)
-                    {
-                        arrange(child);
-                    }
-                }
+                arrange(Children[lastIndex], StretchLastChild);
             }
 
             return finalSize;
