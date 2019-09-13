@@ -111,6 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="StretchLastChild"/> dependency property.
         /// </summary>
+        /// <returns>The identifier for the <see cref="StretchLastChild"/> dependency property.</returns>
         public static readonly DependencyProperty StretchLastChildProperty =
             DependencyProperty.Register(
                 nameof(StretchLastChild),
