@@ -117,7 +117,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 nameof(StretchChild),
                 typeof(StretchChild),
                 typeof(WrapPanel),
-                new PropertyMetadata(false, LayoutPropertyChanged));
+                new PropertyMetadata(StretchChild.None, LayoutPropertyChanged));
 
         private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
