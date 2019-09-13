@@ -100,22 +100,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 new PropertyMetadata(default(Thickness), LayoutPropertyChanged));
 
         /// <summary>
-        /// Gets or sets a value indicating whether the last child should fill the remaining space, or not.
+        /// Gets or sets a value indicating how to arrange child items
         /// </summary>
-        public bool StretchLastChild
+        public StretchChild StretchChild
         {
-            get { return (bool)GetValue(StretchLastChildProperty); }
-            set { SetValue(StretchLastChildProperty, value); }
+            get { return (StretchChild)GetValue(StretchChildProperty); }
+            set { SetValue(StretchChildProperty, value); }
         }
 
         /// <summary>
-        /// Identifies the <see cref="StretchLastChild"/> dependency property.
+        /// Identifies the <see cref="StretchChild"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="StretchLastChild"/> dependency property.</returns>
-        public static readonly DependencyProperty StretchLastChildProperty =
+        /// <returns>The identifier for the <see cref="StretchChild"/> dependency property.</returns>
+        public static readonly DependencyProperty StretchChildProperty =
             DependencyProperty.Register(
-                nameof(StretchLastChild),
-                typeof(bool),
+                nameof(StretchChild),
+                typeof(StretchChild),
                 typeof(WrapPanel),
                 new PropertyMetadata(false, LayoutPropertyChanged));
 
@@ -251,7 +251,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     arrange(Children[i]);
                 }
 
-                arrange(Children[lastIndex], StretchLastChild);
+                arrange(Children[lastIndex], StretchChild == StretchChild.Last);
             }
 
             return finalSize;
