@@ -72,12 +72,19 @@
      <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
       <SubType>Designer</SubType>
     </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBoxItem.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
   </ItemGroup>
   
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />
   </ItemGroup>
+  
 
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
