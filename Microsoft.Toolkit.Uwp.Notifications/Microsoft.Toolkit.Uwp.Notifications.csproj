@@ -23,6 +23,10 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.targets" Pack="true" PackagePath="build\native" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+  
   <ItemGroup Condition="!('$(TargetFramework)'=='net461')">
     <Compile Remove="DesktopNotificationManager\**\*" />
   </ItemGroup>
