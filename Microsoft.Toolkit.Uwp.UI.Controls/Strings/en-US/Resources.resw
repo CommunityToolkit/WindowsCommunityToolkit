@@ -226,7 +226,7 @@
     <comment>Label for TokenizingTextBox MenuFlyout 'Remove' option.</comment>
   </data>
   <data name="WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll" xml:space="preserve">
-    <value>Select all</value>
+    <value>Select All</value>
     <comment>Label for TokenizingTextBox MenuFlyout 'Select All' option.</comment>
   </data>
 </root>
