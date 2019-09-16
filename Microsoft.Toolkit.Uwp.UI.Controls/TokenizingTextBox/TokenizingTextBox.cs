@@ -4,10 +4,12 @@
 
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Uwp.Extensions;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -60,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var selectAllMenuItem = new MenuFlyoutItem
             {
-                Text = "Select All"
+                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             selectAllMenuItem.Click += (s, e) => SelectAll();
             var menuFlyout = new MenuFlyout();
@@ -68,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ContextFlyout = menuFlyout;
         }
 
-        private void AutoSuggestBox_CharacterReceived(UIElement sender, Windows.UI.Xaml.Input.CharacterReceivedRoutedEventArgs args)
+        private void AutoSuggestBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
             if (args.Character.ToString() == TokenDelimiter && sender is AutoSuggestBox autoSuggestBox)
             {
@@ -78,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void AutoSuggestBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
@@ -176,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var removeMenuItem = new MenuFlyoutItem
             {
-                Text = "Remove"
+                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             removeMenuItem.Click += (s, e) => RemoveToken(item);
             var menuFlyout = new MenuFlyout();
@@ -212,10 +214,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Returns the string representation of each token item, concatenated and delimeted by the <see cref="TokenDelimiter"/>
+        /// Returns the string representation of each token item, concatenated and delimeted.
         /// </summary>
         /// <returns>Untokenized text string</returns>
-        public string GetUntokenizedText()
+        public string GetUntokenizedText(string tokenDelimiter = " ,")
         {
             var tokenStrings = new List<string>();
             foreach (var child in _wrapPanel.Children)
@@ -226,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            return string.Join(TokenDelimiter, tokenStrings);
+            return string.Join(tokenDelimiter, tokenStrings);
         }
     }
 }

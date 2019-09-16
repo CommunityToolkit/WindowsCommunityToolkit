@@ -86,10 +86,6 @@
   </ItemGroup>
   
 
-  <ItemGroup>
-    <Folder Include="TokenizingTextBox\" />
-  </ItemGroup>
-
   <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
 
 
