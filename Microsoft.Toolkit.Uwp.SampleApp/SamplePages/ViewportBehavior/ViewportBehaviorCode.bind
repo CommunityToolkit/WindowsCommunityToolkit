@@ -1,0 +1,39 @@
+﻿// XAML
+<ScrollViewer>
+    ...
+    <Image Width="100"
+           Height="100">
+        <interactivity:Interaction.Behaviors>
+            <behaviors:ViewportBehavior x:Name="ViewportBehavior"
+                                        EnteredViewport="Element_EnteredViewport"
+                                        EnteringViewport="Element_EnteringViewport"
+                                        ExitedViewport="Element_ExitedViewport"
+                                        ExitingViewport="Element_ExitingViewport"/>
+        </interactivity:Interaction.Behaviors>
+    </Image>
+	...
+</ScrollViewer>
+
+// C#
+private void Element_EnteredViewport(object sender, EventArgs e)
+{
+    // The control is fully in the ScrollViewer viewport
+}
+
+private void Element_EnteringViewport(object sender, EventArgs e)
+{
+    // A part of the control enter the ScrollViewer viewport
+}
+
+private void Element_ExitedViewport(object sender, EventArgs e)
+{
+    // The control is outside of the ScrollViewer viewport
+}
+
+private void Element_ExitingViewport(object sender, EventArgs e)
+{
+    // A part of the control outside of the ScrollViewer viewport
+}
+
+bool isInViewport = ViewportBehavior.IsInViewport;// Get is in the ScrollViewer viewport
+bool isFullyInViewport = ViewportBehavior.IsFullyInViewport;// Get is fully in the ScrollViewer viewport

@@ -380,6 +380,7 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
     <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
@@ -524,6 +525,7 @@
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Content Include="SamplePages\TabView\TabViewXaml.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -546,6 +548,7 @@
     </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorXaml.bind" />
     <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperCode.bind" />
     <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
@@ -889,6 +892,9 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml.cs">
+      <DependentUpon>ViewportBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
       <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
     </Compile>
@@ -1346,6 +1352,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
       <SubType>Designer</SubType>
