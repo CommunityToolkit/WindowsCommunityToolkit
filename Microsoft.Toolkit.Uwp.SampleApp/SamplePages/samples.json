@@ -240,18 +240,6 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/OrbitView.md"
       },
       {
-        "Name": "Menu",
-        "Type": "MenuPage",
-        "Subcategory": "Menus and Toolbars",
-        "About": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
-        "BadgeUpdateVersionRequired": "DEPRECATED",
-        "DeprecatedWarning": "This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Menu",
-        "XamlCodeFile": "Menu.bind",
-        "Icon": "/SamplePages/Menu/Menu.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Menu.md"
-      },
-      {
         "Name": "InAppNotification",
         "Type": "InAppNotificationPage",
         "Subcategory": "Status and Info",

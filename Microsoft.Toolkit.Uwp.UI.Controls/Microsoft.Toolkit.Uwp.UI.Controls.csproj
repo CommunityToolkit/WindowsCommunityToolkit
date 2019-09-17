@@ -26,7 +26,6 @@
         - Loading: LoadingControl helps to show content with animation to the user while the app is doing some calculation.
         - MarkdownTextBlock: An efficient and extensible control that can parse and render markdown.
         - MasterDetailsView: The MasterDetailsView control allows the user to implement the Master/Details design pattern.
-        - Menu: This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.
         - OrbitView: The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.
         - RadialGauge: The radial gauge displays a value within a range, using a needle on a circular face.
         - RadialProgressBar: The radial progress bar displays progress as a circle getting filled.
