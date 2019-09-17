@@ -100,8 +100,6 @@
     <Compile Include="LoadingMetadata.cs" />
     <Compile Include="MarkdownTextBlockMetadata.cs" />
     <Compile Include="MasterDetailsViewMetadata.cs" />
-    <Compile Include="MenuItemMetadata.cs" />
-    <Compile Include="MenuMetadata.cs" />
     <Compile Include="MetadataRegistration.cs" />
     <Compile Include="Common\MetadataRegistrationBase.cs" />
     <Compile Include="Common\PlatformTypes.cs" />

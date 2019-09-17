@@ -340,7 +340,6 @@
     <Content Include="SamplePages\Loading\Loading.png" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
     <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
-    <Content Include="SamplePages\Menu\Menu.png" />
     <Content Include="SamplePages\Microsoft Graph Service\mslogo.png" />
     <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
@@ -468,7 +467,6 @@
     <Content Include="SamplePages\TextToolbar\TextToolbarCode.bind" />
     <Content Include="SamplePages\BluetoothLEHelper\BluetoothLEHelperCode.bind" />
     <Content Include="SamplePages\OrbitView\OrbitViewXaml.bind" />
-    <Content Include="SamplePages\Menu\Menu.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationCode.bind" />
     <Content Include="SamplePages\InAppNotification\InAppNotificationXaml.bind" />
     <Content Include="SamplePages\ListViewExtensions\ListViewExtensionsCode.bind" />
@@ -690,10 +688,6 @@
     </Compile>
     <Compile Include="SamplePages\MarkdownParser\MarkdownParserPage.xaml.cs">
       <DependentUpon>MarkdownParserPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Menu\Commands\VsCommands.cs" />
-    <Compile Include="SamplePages\Menu\MenuPage.xaml.cs">
-      <DependentUpon>MenuPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Mouse\MouseCursorPage.xaml.cs">
       <DependentUpon>MouseCursorPage.xaml</DependentUpon>
@@ -1158,10 +1152,6 @@
     <Page Include="SamplePages\ListViewExtensions\ListViewExtensionsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Menu\MenuPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\OrbitView\OrbitViewPage.xaml">
       <SubType>Designer</SubType>
