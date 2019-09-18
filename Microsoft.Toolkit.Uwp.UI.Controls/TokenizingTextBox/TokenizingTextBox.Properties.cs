@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -185,6 +186,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets the collection of currently selected token items.
+        /// </summary>
+        public IList<object> SelectedItems { get; private set; } = new List<object>();
+
+        /// <summary>
         /// Gets or sets the TextMemberPath of the AutoSuggestBox template part.
         /// </summary>
         public string TextMemberPath
@@ -288,7 +294,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the template for displaying suggested tokens.
         /// </summary>
-        public object SuggestedItemTemplate
+        public DataTemplate SuggestedItemTemplate
         {
             get => (DataTemplate)GetValue(SuggestedItemTemplateProperty);
             set => SetValue(SuggestedItemTemplateProperty, value);

@@ -137,16 +137,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             QueryTextChanged?.Invoke(sender, args);
         }
 
-        private void TokenizingTextBox_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
             RemoveToken(sender);
         }
 
-        private void TokenizingTextBox_Click(object sender, RoutedEventArgs e)
+        private void TokenizingTextBoxItem_Click(object sender, RoutedEventArgs e)
         {
             if (sender is TokenizingTextBoxItem item)
             {
-                if (!item.IsSelected && !CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
+                bool isControlDown = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                if (!item.IsSelected && !isControlDown)
                 {
                     foreach (var child in _wrapPanel.Children)
                     {
@@ -155,11 +156,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             childItem.IsSelected = false;
                         }
                     }
+
+                    SelectedItems.Clear();
                 }
 
                 item.IsSelected = !item.IsSelected;
 
                 var clickedItem = item.Content;
+
+                if (item.IsSelected)
+                {
+                    SelectedItems.Add(clickedItem);
+                }
+                else
+                {
+                    SelectedItems.Remove(clickedItem);
+                }
+
                 TokenItemClicked?.Invoke(this, clickedItem);
             }
         }
@@ -173,8 +186,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ContentTemplate = TokenItemTemplate,
                 Style = TokenItemStyle
             };
-            item.Click += TokenizingTextBox_Click;
-            item.ClearClicked += TokenizingTextBox_ClearClicked;
+            item.Click += TokenizingTextBoxItem_Click;
+            item.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
             var removeMenuItem = new MenuFlyoutItem
             {
@@ -193,6 +206,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void RemoveToken(TokenizingTextBoxItem item)
         {
+            SelectedItems.Remove(item.Content);
+
             var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
             _wrapPanel.Children.Remove(item);
 
@@ -209,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (child is TokenizingTextBoxItem item)
                 {
                     item.IsSelected = true;
+                    SelectedItems.Add(item.Content);
                 }
             }
         }
