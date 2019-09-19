@@ -30,11 +30,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when a new token item has been added.
         /// </summary>
-        public event TypedEventHandler<TokenizingTextBox, object> TokenItemAdded;
+        public event TypedEventHandler<TokenizingTextBox, TokenizingTextBoxItem> TokenItemAdded;
 
         /// <summary>
         /// Event raised when a token item has been clicked.
         /// </summary>
-        public event TypedEventHandler<TokenizingTextBox, object> TokenItemClicked;
+        public event TypedEventHandler<TokenizingTextBox, TokenizingTextBoxItem> TokenItemClicked;
+
+        /// <summary>
+        /// Event raised when a token item has been removed.
+        /// </summary>
+        public event TypedEventHandler<TokenizingTextBox, TokenItemRemovedEventArgs> TokenItemRemoved;
     }
 }
