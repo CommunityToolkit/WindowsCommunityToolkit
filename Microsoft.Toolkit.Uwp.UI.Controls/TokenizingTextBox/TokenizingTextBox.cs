@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     SelectedItems.Remove(clickedItem);
                 }
 
-                TokenItemClicked?.Invoke(this, clickedItem);
+                TokenItemClicked?.Invoke(this, item); // TODO: Do we want to use EventArgs here to have the OriginalSource like ItemClickEventArgs?
             }
         }
 
@@ -186,7 +186,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 ContentTemplate = TokenItemTemplate,
                 Style = TokenItemStyle
             };
-            item.Click += TokenizingTextBoxItem_Click;
+            item.Click += TokenizingTextBoxItem_Click; // TODO: Wonder if this needs to be in a PrepareContainerForItemOverride?
             item.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
             var removeMenuItem = new MenuFlyoutItem
@@ -201,11 +201,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var i = _wrapPanel.Children.Count - 1;
             _wrapPanel.Children.Insert(i, item);
 
-            TokenItemAdded?.Invoke(this, data);
+            TokenItemAdded?.Invoke(this, item);
         }
 
         private void RemoveToken(TokenizingTextBoxItem item)
         {
+            var tirea = new TokenItemRemovedEventArgs(item?.Content, item);
+            TokenItemRemoved?.Invoke(this, tirea);
+
+            if (tirea.Cancel)
+            {
+                return;
+            }
+
             SelectedItems.Remove(item.Content);
 
             var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);

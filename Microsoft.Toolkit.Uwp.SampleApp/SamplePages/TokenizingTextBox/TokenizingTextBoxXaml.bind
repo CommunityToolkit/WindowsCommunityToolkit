@@ -13,6 +13,7 @@
 
     <Grid>
         <controls:TokenizingTextBox
+            x:Name="TokenBox"
             PlaceholderText="Tags"
             QueryIcon="Tag"
             MaxHeight="104"
