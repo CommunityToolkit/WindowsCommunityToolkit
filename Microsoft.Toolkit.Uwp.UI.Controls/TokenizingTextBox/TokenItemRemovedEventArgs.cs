@@ -10,17 +10,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Event arguments for <see cref="TabView.TabClosing"/> event.
     /// </summary>
-    public class TabClosingEventArgs : CancelEventArgs
+    public class TokenItemRemovedEventArgs : CancelEventArgs
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TabClosingEventArgs"/> class.
+        /// Initializes a new instance of the <see cref="TokenItemRemovedEventArgs"/> class.
         /// </summary>
-        /// <param name="item">Item being closed.</param>
-        /// <param name="tab"><see cref="TabViewItem"/> container being closed.</param>
-        public TabClosingEventArgs(object item, TabViewItem tab)
+        /// <param name="item">Item being removed.</param>
+        /// <param name="token"><see cref="TokenizingTextBoxItem"/> container being closed.</param>
+        public TokenItemRemovedEventArgs(object item, TokenizingTextBoxItem token)
         {
             Item = item;
-            Tab = tab;
+            Token = token;
         }
 
         /// <summary>
@@ -31,6 +31,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the Tab being closed.
         /// </summary>
-        public TabViewItem Tab { get; private set; }
+        public TokenizingTextBoxItem Token { get; private set; }
     }
 }
