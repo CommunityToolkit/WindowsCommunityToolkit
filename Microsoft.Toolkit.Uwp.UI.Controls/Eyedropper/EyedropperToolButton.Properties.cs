@@ -127,12 +127,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Target_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
-            UpadateEyedropperWorkArea();
+            UpdateEyedropperWorkArea();
         }
 
         private void Target_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            UpadateEyedropperWorkArea();
+            UpdateEyedropperWorkArea();
         }
     }
 }

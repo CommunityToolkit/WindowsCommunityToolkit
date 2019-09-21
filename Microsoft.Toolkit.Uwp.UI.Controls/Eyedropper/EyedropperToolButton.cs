@@ -167,10 +167,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void Window_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            UpadateEyedropperWorkArea();
+            UpdateEyedropperWorkArea();
         }
 
-        private async void UpadateEyedropperWorkArea()
+        private async void UpdateEyedropperWorkArea()
         {
             if (TargetElement != null)
             {
