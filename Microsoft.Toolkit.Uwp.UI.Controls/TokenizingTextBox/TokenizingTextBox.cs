@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TokenizingTextBox()
         {
             DefaultStyleKey = typeof(TokenizingTextBox);
+            TokenizedItems.Clear();
         }
 
         /// <inheritdoc/>
@@ -139,7 +140,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            RemoveToken(sender);
+            bool removeMulti = false;
+            foreach (var item in SelectedItems)
+            {
+                if (item == sender)
+                {
+                    removeMulti = true;
+                    break;
+                }
+            }
+
+            if (removeMulti)
+            {
+                while (SelectedItems.Count > 0)
+                {
+                    var b = SelectedItems[0] as TokenizingTextBoxItem;
+                    RemoveToken(b);
+                }
+            }
+            else
+            {
+                RemoveToken(sender);
+            }
         }
 
         private void TokenizingTextBoxItem_Click(object sender, RoutedEventArgs e)
@@ -162,15 +184,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 item.IsSelected = !item.IsSelected;
 
-                var clickedItem = item.Content;
-
                 if (item.IsSelected)
                 {
-                    SelectedItems.Add(clickedItem);
+                    SelectedItems.Add(sender);
                 }
                 else
                 {
-                    SelectedItems.Remove(clickedItem);
+                    SelectedItems.Remove(sender);
                 }
 
                 TokenItemClicked?.Invoke(this, item); // TODO: Do we want to use EventArgs here to have the OriginalSource like ItemClickEventArgs?
@@ -201,6 +221,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var i = _wrapPanel.Children.Count - 1;
             _wrapPanel.Children.Insert(i, item);
 
+            TokenizedItems.Add(item.Content);
+
             TokenItemAdded?.Invoke(this, item);
         }
 
@@ -214,7 +236,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            SelectedItems.Remove(item.Content);
+            SelectedItems.Remove(item);
+            TokenizedItems.Remove(item);
 
             var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
             _wrapPanel.Children.Remove(item);
@@ -232,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (child is TokenizingTextBoxItem item)
                 {
                     item.IsSelected = true;
-                    SelectedItems.Add(item.Content);
+                    SelectedItems.Add(item);
                 }
             }
         }

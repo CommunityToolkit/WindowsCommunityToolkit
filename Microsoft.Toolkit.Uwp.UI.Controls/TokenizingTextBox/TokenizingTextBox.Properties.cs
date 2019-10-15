@@ -191,6 +191,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public IList<object> SelectedItems { get; private set; } = new List<object>();
 
         /// <summary>
+        /// Gets the collection of current token items.
+        /// </summary>
+        public IList<object> TokenizedItems { get; private set; } = new List<object>();
+
+        /// <summary>
         /// Gets or sets the TextMemberPath of the AutoSuggestBox template part.
         /// </summary>
         public string TextMemberPath
