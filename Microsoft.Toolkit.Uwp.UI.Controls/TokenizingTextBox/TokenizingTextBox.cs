@@ -4,7 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+
 using Microsoft.Toolkit.Uwp.Extensions;
+
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -110,6 +113,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 case VirtualKey.Down:
                     break;
+
+                case VirtualKey.C:
+                    {
+                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                        if (controlPressed)
+                        {
+                            CopySelectedToclipboard();
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -208,6 +222,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
             item.Click += TokenizingTextBoxItem_Click; // TODO: Wonder if this needs to be in a PrepareContainerForItemOverride?
             item.ClearClicked += TokenizingTextBoxItem_ClearClicked;
+            item.KeyUp += TokenizingTextBoxItem_KeyUp;
 
             var removeMenuItem = new MenuFlyoutItem
             {
@@ -224,6 +239,83 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TokenizedItems.Add(item.Content);
 
             TokenItemAdded?.Invoke(this, item);
+        }
+
+        private void TokenizingTextBoxItem_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            TokenizingTextBoxItem ttbi = sender as TokenizingTextBoxItem;
+
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
+                        break;
+                    }
+
+                case VirtualKey.Right:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
+                        break;
+                    }
+
+                case VirtualKey.Up:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
+                        break;
+                    }
+
+                case VirtualKey.Down:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                        break;
+                    }
+
+                case VirtualKey.Space:
+                    {
+                        ttbi.IsSelected = !ttbi.IsSelected;
+                        break;
+                    }
+
+                case VirtualKey.C:
+                    {
+                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                        if (controlPressed)
+                        {
+                            CopySelectedToclipboard();
+                        }
+
+                        break;
+                    }
+            }
+        }
+
+        private void CopySelectedToclipboard()
+        {
+            if (SelectedItems.Count > 0)
+            {
+                DataPackage dataPackage = new DataPackage();
+                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+
+                string tokenString = string.Empty;
+                bool addSeparator = false;
+                foreach (TokenizingTextBoxItem item in SelectedItems)
+                {
+                    if (addSeparator)
+                    {
+                        tokenString += TokenDelimiter + " ";
+                    }
+                    else
+                    {
+                        addSeparator = true;
+                    }
+
+                    tokenString += item.Content;
+                }
+
+                dataPackage.SetText(tokenString);
+                Clipboard.SetContent(dataPackage);
+            }
         }
 
         private void RemoveToken(TokenizingTextBoxItem item)
