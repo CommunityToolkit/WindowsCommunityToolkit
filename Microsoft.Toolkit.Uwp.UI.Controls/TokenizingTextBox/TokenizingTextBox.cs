@@ -78,9 +78,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (args.Character.ToString() == TokenDelimiter && sender is AutoSuggestBox autoSuggestBox)
             {
-                AddToken(autoSuggestBox.Text);
+                args.Handled = true;
+                string newItem = autoSuggestBox.Text;
+                string trimString = newItem.Trim();
+                if (trimString.Length > 0)
+                {
+                    AddToken(trimString);
+                }
+
                 autoSuggestBox.Text = string.Empty;
                 autoSuggestBox.Focus(FocusState.Programmatic);
+                args.Handled = true;
             }
         }
 
