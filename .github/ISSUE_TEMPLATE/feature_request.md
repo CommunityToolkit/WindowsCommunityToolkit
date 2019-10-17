@@ -2,7 +2,7 @@
 name: Feature request
 about: I have a new idea or improvement for the toolkit
 title: "[Feature]"
-labels: feature request :mailbox_with_mail:
+labels: "feature request :mailbox_with_mail:"
 assignees: ''
 
 ---
