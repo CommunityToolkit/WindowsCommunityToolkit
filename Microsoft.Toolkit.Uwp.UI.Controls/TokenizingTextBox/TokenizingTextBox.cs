@@ -4,7 +4,8 @@
 
 using System;
 using System.Collections.Generic;
-
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.Extensions;
 
 using Windows.ApplicationModel.DataTransfer;
@@ -49,7 +50,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown -= AutoSuggestBox_KeyDown;
-                _autoSuggestBox.CharacterReceived -= AutoSuggestBox_CharacterReceived;
             }
 
             _autoSuggestBox = (AutoSuggestBox)GetTemplateChild(PART_AutoSuggestBox);
@@ -61,7 +61,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown += AutoSuggestBox_KeyDown;
-                _autoSuggestBox.CharacterReceived += AutoSuggestBox_CharacterReceived;
             }
 
             var selectAllMenuItem = new MenuFlyoutItem
@@ -72,24 +71,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
             ContextFlyout = menuFlyout;
-        }
-
-        private void AutoSuggestBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-        {
-            if (args.Character.ToString() == TokenDelimiter && sender is AutoSuggestBox autoSuggestBox)
-            {
-                args.Handled = true;
-                string newItem = autoSuggestBox.Text;
-                string trimString = newItem.Trim();
-                if (trimString.Length > 0)
-                {
-                    AddToken(trimString);
-                }
-
-                autoSuggestBox.Text = string.Empty;
-                autoSuggestBox.Focus(FocusState.Programmatic);
-                args.Handled = true;
-            }
         }
 
         private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
@@ -157,7 +138,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            QueryTextChanged?.Invoke(sender, args);
+            string t = sender.Text.Trim();
+
+            if (t.Contains(TokenDelimiter))
+            {
+                bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
+
+                string[] tokens = t.Split(TokenDelimiter);
+                int numberToProcess = lastDelimited ? tokens.Length : tokens.Length - 1;
+                for (int position = 0; position < numberToProcess; position++)
+                {
+                    string token = tokens[position];
+                    token = token.Trim();
+                    if (token.Length > 0)
+                    {
+                        AddToken(token);
+                    }
+                }
+
+                if (lastDelimited)
+                {
+                    sender.Text = string.Empty;
+                }
+                else
+                {
+                    sender.Text = tokens[tokens.Length - 1];
+
+                    //sender.SelectionStart = sender.Text.Length;
+                }
+            }
         }
 
         private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
