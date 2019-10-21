@@ -90,81 +90,47 @@ namespace Microsoft.Toolkit.Helpers
         /// <summary>
         /// Gets the status of the task.
         /// </summary>
-        public TaskStatus Status
-        {
-            get { return Task.Status; }
-        }
+        public TaskStatus Status => Task.Status;
 
         /// <summary>
         /// Gets a value indicating whether the task is completed.
         /// </summary>
-        public bool IsCompleted
-        {
-            get { return Task.IsCompleted; }
-        }
+        public bool IsCompleted => Task.IsCompleted;
 
         /// <summary>
         /// Gets a value indicating whether the task is not completed.
         /// </summary>
-        public bool IsNotCompleted { get { return !Task.IsCompleted; } }
+        public bool IsNotCompleted => !Task.IsCompleted;
 
         /// <summary>
         /// Gets a value indicating whether the task was successfully completed.
         /// </summary>
-        public bool IsSuccessfullyCompleted
-        {
-            get
-            {
-                return Task.Status == TaskStatus.RanToCompletion;
-            }
-        }
+        public bool IsSuccessfullyCompleted => Task.Status == TaskStatus.RanToCompletion;
 
         /// <summary>
         /// Gets a value indicating whether the task was cancelled.
         /// </summary>
-        public bool IsCanceled
-        {
-            get { return Task.IsCanceled; }
-        }
+        public bool IsCanceled => Task.IsCanceled;
 
         /// <summary>
         /// Gets a value indicating whether there was an error with the task.
         /// </summary>
-        public bool IsFaulted
-        {
-            get { return Task.IsFaulted; }
-        }
+        public bool IsFaulted => Task.IsFaulted;
 
         /// <summary>
         /// Gets the exception which occured on the task (if one occurred).
         /// </summary>
-        public AggregateException Exception { get { return Task.Exception; } }
+        public AggregateException Exception => Task.Exception;
 
         /// <summary>
         /// Gets the inner exception of the task.
         /// </summary>
-        public Exception InnerException
-        {
-            get
-            {
-                return (Exception == null) ?
-                    null :
-                    Exception.InnerException;
-            }
-        }
+        public Exception InnerException => Exception?.InnerException;
 
         /// <summary>
         /// Gets the error message of the task.
         /// </summary>
-        public string ErrorMessage
-        {
-            get
-            {
-                return (InnerException == null) ?
-                    null :
-                    InnerException.Message;
-            }
-        }
+        public string ErrorMessage => InnerException?.Message;
 
         /// <summary>
         /// PropertyChanged event.
