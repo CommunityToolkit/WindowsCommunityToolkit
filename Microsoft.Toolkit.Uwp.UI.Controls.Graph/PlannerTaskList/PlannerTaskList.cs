@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The PlannerTaskList Control displays a simple list of Planner tasks.
     /// </summary>
+    [Obsolete("This control will be removed in a future release of the toolkit. Please use the new Graph controls at https://aka.ms/wgt")]
     [TemplatePart(Name = ControlTasks, Type = typeof(ListView))]
     [TemplatePart(Name = ControlInput, Type = typeof(TextBox))]
     [TemplatePart(Name = ControlAdd, Type = typeof(Button))]
