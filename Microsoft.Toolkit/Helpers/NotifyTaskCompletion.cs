@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Helpers
         /// <summary>
         /// Gets the error message of the task.
         /// </summary>
-        public string ErrorMessage => InnerException?.Message;
+        public string ErrorMessage => InnerException?.Message ?? Exception.Message;
 
         /// <summary>
         /// PropertyChanged event.
