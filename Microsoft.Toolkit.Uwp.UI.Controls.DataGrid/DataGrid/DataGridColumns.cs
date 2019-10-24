@@ -1209,6 +1209,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         {
                             cx += _negHorizontalOffset;
                             _horizontalOffset -= _negHorizontalOffset;
+                            if (_horizontalOffset < DATAGRID_roundingDelta)
+                            {
+                                // Snap to zero to avoid trying to partially scroll in first scrolled off column below
+                                _horizontalOffset = 0;
+                            }
+
                             _negHorizontalOffset = 0;
                         }
                         else
@@ -1217,6 +1223,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             _negHorizontalOffset -= displayWidth - cx;
                             cx = displayWidth;
                         }
+
+                        // Make sure the HorizontalAdjustment is not greater than the new HorizontalOffset
+                        // since it would cause an assertion failure in DataGridCellsPresenter.ShouldDisplayCell
+                        // called by DataGridCellsPresenter.MeasureOverride.
+                        this.HorizontalAdjustment = Math.Min(this.HorizontalAdjustment, _horizontalOffset);
                     }
 
                     // second try to scroll entire columns

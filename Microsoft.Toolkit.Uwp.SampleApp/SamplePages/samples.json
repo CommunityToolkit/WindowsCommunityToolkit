@@ -359,6 +359,17 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
       },
       {
+        "Name": "Eyedropper",
+        "Type": "EyedropperPage",
+        "Subcategory": "Input",
+        "About": "Eyedropper can pick up a color from anywhere in your application.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Eyedropper",
+        "XamlCodeFile": "EyedropperXaml.bind",
+        "CodeFile": "EyedropperCode.bind",
+        "Icon": "/SamplePages/Eyedropper/Eyedropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Eyedropper.md"
+      },
+      {
         "Name": "AadLogin",
         "Type": "AadLoginPage",
         "Subcategory": "Graph",
@@ -438,6 +449,17 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
+      },
+      {
+        "Name": "TokenizingTextBox",
+        "Type": "TokenizingTextBoxPage",
+        "Subcategory": "Input",
+        "About": "A text input control that makes suggestions and keeps track of data token items",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
+        "XamlCodeFile": "TokenizingTextBoxXaml.bind",
+        "CodeFile": "TokenizingTextBoxCode.bind",
+        "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
       }
     ]
   },
@@ -839,6 +861,16 @@
         "CodeFile": "RemoteDeviceHelperCode.bind",
         "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
+      },
+      {
+        "Name": "ViewportBehavior",
+        "Type": "ViewportBehaviorPage",
+        "About": "Behavior for listening element enter or exit viewport",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ViewportBehavior",
+        "CodeFile": "ViewportBehaviorCode.bind",
+        "XamlCodeFile": "ViewportBehaviorXaml.bind",
+        "Icon": "/SamplePages/ViewportBehavior/ViewportBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ViewportBehavior.md"
       },
       {
         "Name": "Markdown Parser",
