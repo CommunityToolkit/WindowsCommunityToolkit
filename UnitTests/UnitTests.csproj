@@ -16,9 +16,8 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>UnitTests_TemporaryKey.pfx</PackageCertificateKeyFile>
     <UnitTestPlatformVersion Condition="'$(UnitTestPlatformVersion)' == ''">$(VisualStudioVersion)</UnitTestPlatformVersion>
-    <PackageCertificateThumbprint>E1D0F2B5EE8606625F7D3B226EEF7B825CCC1A62</PackageCertificateThumbprint>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -132,6 +131,7 @@
     <Compile Include="Converters\Test_BoolToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />
+    <Compile Include="Converters\Test_StringFormatConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
@@ -189,7 +189,6 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <None Include="UnitTests.ruleset" />
-    <None Include="UnitTests_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Samples\lorem.txt" />

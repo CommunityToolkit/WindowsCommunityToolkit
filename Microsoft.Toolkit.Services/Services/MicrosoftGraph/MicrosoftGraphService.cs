@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
             var authenticationModel = AuthenticationModel.ToString();
             result = await Authentication.LogoutAsync(authenticationModel);
 #else
-            result = Authentication.Logout();
+            result = await Authentication.LogoutAsync();
 #endif
 
             if (result)
@@ -278,7 +278,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
         }
 
         /// <summary>
-        /// Tries to log in user if not already loged in. Calls LoginAsync internaly
+        /// Tries to log in user if not already logged in. Calls LoginAsync internally
         /// </summary>
         /// <remarks>Exceptions are not thrown but SignInFailed event is raised</remarks>
         /// <returns>Returns success or failure of login attempt.</returns>
@@ -332,13 +332,13 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
                 var publicClientApplication = new PublicClientApplication(AppClientId);
                 AuthenticationResult result = await publicClientApplication.AcquireTokenAsync(DelegatedPermissionScopes);
 
-                var signedUser = result.User;
+                var signedAccount = result.Account;
 
-                foreach (var user in publicClientApplication.Users)
+                foreach (var account in await publicClientApplication.GetAccountsAsync())
                 {
-                    if (user.Identifier != signedUser.Identifier)
+                    if (account.HomeAccountId.Identifier != signedAccount.HomeAccountId.Identifier)
                     {
-                        publicClientApplication.Remove(user);
+                        await publicClientApplication.RemoveAsync(account);
                     }
                 }
 

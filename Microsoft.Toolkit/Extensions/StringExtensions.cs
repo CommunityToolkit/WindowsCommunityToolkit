@@ -160,6 +160,17 @@ namespace Microsoft.Toolkit.Extensions
         }
 
         /// <summary>
+        /// Provide better linking for resourced strings.
+        /// </summary>
+        /// <param name="format">The format of the string being linked.</param>
+        /// <param name="args">The object which will receive the linked String.</param>
+        /// <returns>Truncated string.</returns>
+        public static string AsFormat(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
+
+        /// <summary>
         /// Truncates a string to the specified length.
         /// </summary>
         /// <param name="value">The string to be truncated.</param>

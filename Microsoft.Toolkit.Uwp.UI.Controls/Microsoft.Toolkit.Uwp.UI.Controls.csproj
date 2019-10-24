@@ -3,14 +3,50 @@
   <PropertyGroup>
     <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit Controls</Title>
-    <Description>This library provides XAML templated controls. It is part of the Windows Community Toolkit.</Description>
-    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Menu Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile UniformGrid Uniform Grid</PackageTags>
+    <Description>
+      This library provides XAML templated controls. It is part of the Windows Community Toolkit.
+      
+      Controls:
+        - AdaptiveGridView: Presents items in a evenly-spaced set of columns to fill the total available space.
+        - BladeView: BladeView provides a horizontal collection of blades for master-detail scenarios. Based on the Azure Portal experience.
+        - CameraPreview: Allows to easily preview video from available camera frame source groups and also get realtime video frames from the selected source.
+        - Carousel: Presents items in a carousel control.
+        - DockPanel: Defines an area where you can arrange child elements either horizontally or vertically, relative to each other.
+        - DropShadowPanel: DropShadowPanel contol allows the creation of a DropShadow for any Xaml FrameworkElement in markup.
+        - Expander: Expander control allows user to show/hide content based on a boolean state.
+        - GridSplitter: GridSplitter represents the control that redistributes space between columns or rows of a Grid control.
+        - HeaderedContentControl: Allows content to be displayed with a specified header.
+        - HeaderedItemsControl: Allows items to be displayed with a specified header.
+        - HeaderedTextBlock: The HeaderedTextBlock control is designed to provide a header for read only text.
+        - ImageCropper: ImageCropper control allows user to crop image freely.
+        - ImageEx: Images are downloaded asynchronously showing a load indicator and can be stored in a local cache.
+        - InAppNotification: The In App Notification control offers the ability to show local notifications in your application.
+        - InfiniteCanvas: InfiniteCanvas is a canvas that supports Infinite Scrolling, Ink, Text, Format Text, Zoom in/out, Redo, Undo, Export &amp; Import.
+        - LayoutTransformControl: Control that implements support for transformations as if applied by LayoutTransform.
+        - Loading: LoadingControl helps to show content with animation to the user while the app is doing some calculation.
+        - MarkdownTextBlock: An efficient and extensible control that can parse and render markdown.
+        - MasterDetailsView: The MasterDetailsView control allows the user to implement the Master/Details design pattern.
+        - Menu: This control will be removed in a future major release. Please use the MenuBar control from the WinUI Library instead.
+        - OrbitView: The OrbitView Control positions items in a circle around a center element and supports orbits and anchors.
+        - RadialGauge: The radial gauge displays a value within a range, using a needle on a circular face.
+        - RadialProgressBar: The radial progress bar displays progress as a circle getting filled.
+        - RangeSelector: The RangeSelector is a "double slider" control for range values.
+        - RemoteDevicePicker: Remote Device Picker Control for Project Rome.
+        - RotatorTile: Rotates through a set of items one-by-one like a live-tile.
+        - ScrollHeader: A UI control that works as a ListView or GridView header control with quick return, sticky and fade behavior.
+        - StaggeredPanel: The StaggeredPanel allows for layout of items in a column approach where an item will be added to whichever column has used the least amount of space.
+        - TabView: A control for displaying multiple items in the same space and allows a user to easily switch between them.
+        - TextToolbar: A Toolbar for Editing Text attached to a RichEditBox. It can format RTF, Markdown, or use a Custom Formatter.
+        - TileControl: A ContentControl that show an image repeated many times.
+        - TokenizingTextBox: An AutoSuggestBox like control which places entered input into easily removed containers for contacts or tags.
+        - UniformGrid: Presents items in a evenly-spaced set of rows or columns to fill the total available display space.
+        - WrapPanel: The WrapPanel Control positions child elements in sequential position from left to right, breaking content to the next line at the edge of the containing box.
+    </Description>
+    <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile Tokenizing TextBox UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
-    <PackageReference Include="Robmikh.CompositionSurfaceFactory" Version="0.7.3" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
@@ -20,6 +56,36 @@
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Update="ImageCropper\ImageCropper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="ImageCropper\ImageCropperThumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+   
+  <ItemGroup>
+     <Page Update="RemoteDevicePicker\RemoteDevicePicker.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBox.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
+     <Page Update="TokenizingTextBox\TokenizingTextBoxItem.xaml">
+       <Generator>MSBuild:Compile</Generator>
+     </Page>
+  </ItemGroup>
+  
+
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+  
+
+  <Import Project="$(MSBuildSDKExtrasTargets)" Condition="Exists('$(MSBuildSDKExtrasTargets)')" />
+
 
   <!-- https://weblogs.asp.net/rweigelt/disable-warnings-in-generated-c-files-of-uwp-app -->
   <Target Name="PragmaWarningDisablePrefixer" AfterTargets="MarkupCompilePass2">

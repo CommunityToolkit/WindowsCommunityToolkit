@@ -16,12 +16,11 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>7A086872CBF1D8A795A97B9559A3C88B3550527E</PackageCertificateThumbprint>
     <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
+    <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -282,12 +281,16 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
+    <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
+    <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
     <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskList.png" />
+    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
     <Content Include="SamplePages\AdvancedCollectionView\AdvancedCollectionView.png" />
@@ -350,6 +353,7 @@
     <Content Include="SamplePages\RadialGauge\RadialGauge.png" />
     <Content Include="SamplePages\RadialGradientBrush\RadialGradientBrush.png" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBar.png" />
+    <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePicker.png" />
     <Content Include="SamplePages\ReorderGridAnimation\ReorderGrid.png" />
     <Content Include="SamplePages\Rotate\RotateBehavior.png" />
     <Content Include="SamplePages\Saturation\SaturationBehavior.png" />
@@ -377,6 +381,7 @@
     <Content Include="SamplePages\Facebook Service\FacebookCode.bind" />
     <Content Include="SamplePages\HeaderedTextBlock\HeaderedTextBlockCode.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensions.png" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehavior.png" />
     <Content Include="SamplePages\Visual Extensions\VisualExtensions.png" />
     <Content Include="SamplePages\Weibo Service\WeiboLogo.png" />
     <Content Include="SamplePages\WrapPanel\WrapPanel.png" />
@@ -518,18 +523,42 @@
     <Content Include="SamplePages\GazeInteraction\GazeInteractionCode.bind" />
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
+    <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
     <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Content Include="SamplePages\TabView\TabViewXaml.bind">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
+      <DependentUpon>EyedropperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
+      <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml.cs">
+      <DependentUpon>RemoteDeviceHelperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\ImageCropper\AspectRatioConfig.cs" />
+    <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
+      <DependentUpon>ImageCropperPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
+      <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Shell.Search.cs" />
     <Compile Include="Shell.SamplePicker.cs" />
+    <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorXaml.bind" />
     <Content Include="SamplePages\OnDevice\OnDeviceXaml.bind" />
+    <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperCode.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
+    <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
+    <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
+    <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -686,6 +715,9 @@
       <DependentUpon>FocusTrackerPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\BackgroundTaskHelper\TestBackgroundTask.cs" />
+    <Compile Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml.cs">
+      <DependentUpon>RemoteDevicePickerControlPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\RssParser\RssParserPage.xaml.cs">
       <DependentUpon>RssParserPage.xaml</DependentUpon>
     </Compile>
@@ -864,6 +896,9 @@
       <DependentUpon>ImageExPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\Twitter Service\TwitterTemplateSelector.cs" />
+    <Compile Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml.cs">
+      <DependentUpon>ViewportBehaviorPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml.cs">
       <DependentUpon>VisualExtensionsPage.xaml</DependentUpon>
     </Compile>
@@ -909,7 +944,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Microsoft.Toolkit.Uwp.SampleApp_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />
@@ -939,9 +973,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SamplePages\Eyedropper\EyedropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\ImageCropper\ImageCropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\TabView\TabViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -987,6 +1037,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
+    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxXaml.bind">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Content>
     <Page Include="SamplePages\UniformGrid\UniformGridPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1090,6 +1149,10 @@
     <Page Include="SamplePages\RadialGradientBrush\RadialGradientBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerControlPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\RssParser\RssParserPage.xaml">
       <SubType>Designer</SubType>
@@ -1302,6 +1365,10 @@
     <Page Include="SamplePages\ImageEx\ImageExPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\ViewportBehavior\ViewportBehaviorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\Visual Extensions\VisualExtensionsPage.xaml">
       <SubType>Designer</SubType>

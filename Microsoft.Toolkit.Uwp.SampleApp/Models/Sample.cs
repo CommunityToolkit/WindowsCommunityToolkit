@@ -71,8 +71,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         internal static async Task<Sample> FindAsync(string category, string name)
         {
             var categories = await Samples.GetCategoriesAsync();
+
+            // Replace any spaces in the category name as it's used for the host part of the URI in deep links and that can't have spaces.
             return categories?
-                .FirstOrDefault(c => c.Name.Equals(category, StringComparison.OrdinalIgnoreCase))?
+                .FirstOrDefault(c => c.Name.Replace(" ", string.Empty).Equals(category, StringComparison.OrdinalIgnoreCase))?
                 .Samples
                 .FirstOrDefault(s => s.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
         }
@@ -82,6 +84,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public string Name { get; set; }
 
         public string Type { get; set; }
+
+        public string Subcategory { get; set; }
 
         public string About { get; set; }
 

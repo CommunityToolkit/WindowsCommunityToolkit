@@ -281,6 +281,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                                 _pathVisualState = NavStatesFolderEdit;
                                 VisualStateManager.GoToState(this, NavStatesFolderEdit, false);
                             }
+
+                            _list.Focus(FocusState.Programmatic);
                         }
                     }
                 }
