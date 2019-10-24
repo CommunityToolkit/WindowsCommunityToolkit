@@ -13,11 +13,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class TokenizingTextBox : Control
     {
         /// <summary>
-        /// Event raised when the text input value has changed.
-        /// </summary>
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> QueryTextChanged;
-
-        /// <summary>
         /// Event raised when a suggested item is chosen by the user.
         /// </summary>
         public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxSuggestionChosenEventArgs> SuggestionChosen;
