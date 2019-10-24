@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
@@ -34,6 +34,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             "sip"
         };
 
+        private readonly MarkdownBlock.Factory[] factorys;
+
         private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
@@ -42,6 +44,24 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         public MarkdownDocument()
             : base(MarkdownBlockType.Root)
         {
+            this.factorys = new Factory[]
+            {
+                new YamlHeaderBlock.Factory(),
+                new TableBlock.Factory(),
+                new QuoteBlock.Factory(),
+                new ListBlock.Factory(),
+                new LinkReferenceBlock.Factory(),
+                new HorizontalRuleBlock.Factory(),
+                new HeaderBlock.HashFactory(),
+                new HeaderBlock.UnderlineFactory(),
+                new CodeBlock.Factory()
+            };
+        }
+
+        internal MarkdownDocument(IEnumerable<Factory> blockFactorys)
+            : this()
+        {
+            this.factorys = blockFactorys.ToArray();
         }
 
         /// <summary>
@@ -89,15 +109,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// different from <paramref name="end"/> when the parser is being called recursively.
         /// </param>
         /// <returns> A list of parsed blocks. </returns>
-        internal static List<MarkdownBlock> Parse(string markdown, int start, int end, int quoteDepth, out int actualEnd)
+        internal List<MarkdownBlock> Parse(string markdown, int start, int end, int quoteDepth, out int actualEnd)
         {
             // We need to parse out the list of blocks.
             // Some blocks need to start on a new paragraph (code, lists and tables) while other
             // blocks can start on any line (headers, horizontal rules and quotes).
             // Text that is outside of any other block becomes a paragraph.
             var blocks = new List<MarkdownBlock>();
+
+            // Where the first character starts (without quote characters)
             int startOfLine = start;
+
+            // Is this the beginning of a paragraph
             bool lineStartsNewParagraph = true;
+
+            // text already "parsed" but not yet part of a block
             var paragraphText = new StringBuilder();
 
             // These are needed to parse underline-style header blocks.
@@ -111,7 +137,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // Find the first non-whitespace character.
                 int nonSpacePos = startOfLine;
                 char nonSpaceChar = '\0';
+
+                // actual start of line, including quote characters
                 int realStartOfLine = startOfLine;  // i.e. including quotes.
+
                 int expectedQuotesRemaining = quoteDepth;
                 while (true)
                 {
@@ -224,89 +253,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     // Or a quote if the line starts with a greater than character (optionally preceded by whitespace).
                     // Or a horizontal rule if the line contains nothing but 3 '*', '-' or '_' characters (with optional whitespace).
                     MarkdownBlock newBlockElement = null;
-                    if (nonSpaceChar == '-' && nonSpacePos == startOfLine)
+
+
+                    foreach (var factory in this.factorys)
                     {
-                        // Yaml Header
-                        newBlockElement = YamlHeaderBlock.Parse(markdown, startOfLine, markdown.Length, out startOfLine);
-                        if (newBlockElement != null)
-                        {
-                            realStartOfLine = startOfLine;
-                            endOfLine = startOfLine + 3;
-                            startOfNextLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out startOfNextLine);
-                        }
-
-                        paragraphText.Clear();
-                    }
-
-                    if (newBlockElement == null && nonSpaceChar == '#' && nonSpacePos == startOfLine)
-                    {
-                        // Hash-prefixed header.
-                        newBlockElement = HeaderBlock.ParseHashPrefixedHeader(markdown, startOfLine, endOfLine);
-                    }
-                    else if ((nonSpaceChar == '-' || nonSpaceChar == '=') && nonSpacePos == startOfLine && paragraphText.Length > 0)
-                    {
-                        // Underline style header. These are weird because you don't know you've
-                        // got one until you've gone past it.
-                        // Note: we intentionally deviate from reddit here in that we only
-                        // recognize this type of header if the previous line is part of a
-                        // paragraph.  For example if you have this, the header at the bottom is
-                        // ignored:
-                        //   a|b
-                        //   -|-
-                        //   1|2
-                        //   ===
-                        newBlockElement = HeaderBlock.ParseUnderlineStyleHeader(markdown, previousStartOfLine, previousEndOfLine, startOfLine, endOfLine);
-
-                        if (newBlockElement != null)
-                        {
-                            // We're going to have to remove the header text from the pending
-                            // paragraph by prematurely ending the current paragraph.
-                            // We already made sure that there is a paragraph in progress.
-                            paragraphText.Length = paragraphText.Length - (previousEndOfLine - previousStartOfLine);
-                        }
-                    }
-
-                    // These characters overlap with the underline-style header - this check should go after that one.
-                    if (newBlockElement == null && (nonSpaceChar == '*' || nonSpaceChar == '-' || nonSpaceChar == '_'))
-                    {
-                        newBlockElement = HorizontalRuleBlock.Parse(markdown, startOfLine, endOfLine);
-                    }
-
-                    if (newBlockElement == null && lineStartsNewParagraph)
-                    {
-                        // Some block elements must start on a new paragraph (tables, lists and code).
-                        int endOfBlock = startOfNextLine;
-                        if (nonSpaceChar == '*' || nonSpaceChar == '+' || nonSpaceChar == '-' || (nonSpaceChar >= '0' && nonSpaceChar <= '9'))
-                        {
-                            newBlockElement = ListBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
-                        }
-
-                        if (newBlockElement == null && (nonSpacePos > startOfLine || nonSpaceChar == '`'))
-                        {
-                            newBlockElement = CodeBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out endOfBlock);
-                        }
-
-                        if (newBlockElement == null)
-                        {
-                            newBlockElement = TableBlock.Parse(markdown, realStartOfLine, endOfLine, end, quoteDepth, out endOfBlock);
-                        }
-
+                        newBlockElement = factory.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, quoteDepth, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
                         {
                             startOfNextLine = endOfBlock;
                         }
-                    }
 
-                    // This check needs to go after the code block check.
-                    if (newBlockElement == null && nonSpaceChar == '>')
-                    {
-                        newBlockElement = QuoteBlock.Parse(markdown, realStartOfLine, end, quoteDepth, out startOfNextLine);
-                    }
-
-                    // This check needs to go after the code block check.
-                    if (newBlockElement == null && nonSpaceChar == '[')
-                    {
-                        newBlockElement = LinkReferenceBlock.Parse(markdown, startOfLine, endOfLine);
                     }
 
                     // Block elements start new paragraphs.
@@ -415,4 +371,168 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return string.Join("\r\n", Blocks);
         }
     }
+    public interface IDocumentBuilder
+    {
+        DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
+        MarkdownDocument Build();
+        DocumentBuilder RemoveParser<TFactory>()
+            where TFactory : MarkdownBlock.Factory, new();
+    }
+    public class DocumentBuilder : IDocumentBuilder
+    {
+
+        private readonly Dictionary<Type, MarkdownBlock.Factory> factoryInstances = new Dictionary<Type, MarkdownBlock.Factory>();
+        private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
+
+        public DocumentBuilder RemoveParser<TFactory>()
+            where TFactory : MarkdownBlock.Factory, new()
+        {
+            this.factoryInstances.Remove(typeof(TFactory));
+            return this;
+        }
+
+        public DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null)
+            where TFactory : MarkdownBlock.Factory, new()
+        {
+            var data = new TFactory();
+            configurationCallback?.Invoke(data);
+            this.factoryInstances.Add(typeof(TFactory), data);
+
+            foreach (var item in data.DefaultAfterFactorys)
+            {
+                this.AddRelation(item, data.GetType());
+            }
+            foreach (var item in data.DefaultBeforeFactorys)
+            {
+                this.AddRelation(data.GetType(), item);
+            }
+
+            return new DocumentBuilderConfigurator<TFactory>(this);
+        }
+
+
+        public MarkdownDocument Build()
+        {
+
+            // we need to get rid of all edges that are related to removed nodes
+
+            foreach (var item in this.aAfterBRelation.Keys.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
+            {
+                this.aAfterBRelation.Remove(item);
+            }
+
+            foreach (var keyValuePair in this.aAfterBRelation)
+            {
+                foreach (var item in keyValuePair.Value.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
+                {
+                    keyValuePair.Value.Remove(item);
+                }
+            }
+
+
+            // we want to order all elements to get a deterministic result
+            var orderedSource = this.factoryInstances.Values.OrderBy(x => x.GetType().FullName).ToArray();
+
+            // Kahn's algorithm [from Wikipedia](https://en.wikipedia.org/w/index.php?title=Topological_sorting&oldid=917759838)
+            // L ← Empty list that will contain the sorted elements
+            // S ← Set of all nodes with no incoming edge
+            // while S is non-empty do
+            //     remove a node n from S
+            //     add n to tail of L
+            //     for each node m with an edge e from n to m do
+            //         remove edge e from the graph
+            //         if m has no other incoming edges then
+            //             insert m into S
+            // if graph has edges then
+            //     return error   (graph has at least one cycle)
+            // else 
+            //     return L   (a topologically sorted order)
+
+
+            var L = new List<MarkdownBlock.Factory>();
+            var S = new Queue<MarkdownBlock.Factory>(orderedSource.Where(x => !this.aAfterBRelation.ContainsKey(x.GetType())));
+
+            while (S.Count > 0)
+            {
+                var n = S.Dequeue();
+                L.Add(n);
+                foreach (var m in orderedSource)
+                {
+                    if (this.aAfterBRelation.ContainsKey(m.GetType()) && this.aAfterBRelation[m.GetType()].Contains(n.GetType()))
+                    {
+                        this.RemoveRelation(m.GetType(), n.GetType());
+                        if (!this.aAfterBRelation.ContainsKey(m.GetType()))
+                            S.Enqueue(m);
+                    }
+                }
+            }
+
+            if (this.aAfterBRelation.Count > 0)
+                throw new InvalidOperationException("Graph contains cycles");
+
+            return new MarkdownDocument(L);
+
+
+
+        }
+
+        private void AddRelation(Type before, Type after)
+        {
+            if (this.aAfterBRelation.ContainsKey(before))
+            {
+                this.aAfterBRelation[before].Add(after);
+            }
+            else
+            {
+                this.aAfterBRelation.Add(before, new HashSet<Type> { after });
+            }
+        }
+        private void RemoveRelation(Type before, Type after)
+        {
+            if (this.aAfterBRelation.ContainsKey(before))
+            {
+                this.aAfterBRelation[before].Remove(after);
+                if (this.aAfterBRelation[before].Count == 0)
+                    this.aAfterBRelation.Remove(before);
+            }
+        }
+
+        public class DocumentBuilderConfigurator<TFactory> : IDocumentBuilder
+                where TFactory : MarkdownBlock.Factory, new()
+        {
+            private readonly DocumentBuilder parent;
+
+
+            internal DocumentBuilderConfigurator(DocumentBuilder documentBuilder)
+            {
+                this.parent = documentBuilder;
+            }
+
+            public DocumentBuilderConfigurator<TFactory1> AddParser<TFactory1>(Action<TFactory1> configurationCallback = null) where TFactory1 : MarkdownBlock.Factory, new() => this.parent.AddParser(configurationCallback);
+
+            public DocumentBuilderConfigurator<TFactory> After<TFactory2>()
+                where TFactory2 : MarkdownBlock.Factory, new()
+            {
+                this.parent.AddRelation(typeof(TFactory), typeof(TFactory2));
+                return this;
+            }
+
+            public DocumentBuilderConfigurator<TFactory> Before<TFactory2>()
+                where TFactory2 : MarkdownBlock.Factory, new()
+            {
+                this.parent.AddRelation(typeof(TFactory2), typeof(TFactory));
+                return this;
+            }
+
+            public MarkdownDocument Build() => this.parent.Build();
+
+
+            public DocumentBuilder RemoveParser<TFactory1>()
+                where TFactory1 : MarkdownBlock.Factory, new() => this.parent.RemoveParser<TFactory1>();
+
+        }
+
+
+    }
+
 }

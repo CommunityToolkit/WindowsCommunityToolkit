@@ -39,181 +39,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public ListStyle Style { get; set; }
 
         /// <summary>
-        /// Parses a list block.
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location of the first character in the block. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <param name="quoteDepth"> The current nesting level for block quoting. </param>
-        /// <param name="actualEnd"> Set to the end of the block when the return value is non-null. </param>
-        /// <returns> A parsed list block, or <c>null</c> if this is not a list block. </returns>
-        internal static ListBlock Parse(string markdown, int start, int maxEnd, int quoteDepth, out int actualEnd)
-        {
-            var russianDolls = new List<NestedListInfo>();
-            int russianDollIndex = -1;
-            bool previousLineWasBlank = false;
-            bool inCodeBlock = false;
-            ListItemBlock currentListItem = null;
-            actualEnd = start;
-
-            foreach (var lineInfo in Common.ParseLines(markdown, start, maxEnd, quoteDepth))
-            {
-                // Is this line blank?
-                if (lineInfo.IsLineBlank)
-                {
-                    // The line is blank, which means the next line which contains text may end the list (or it may not...).
-                    previousLineWasBlank = true;
-                }
-                else
-                {
-                    // Does the line contain a list item?
-                    ListItemPreamble listItemPreamble = null;
-                    if (lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine < (russianDollIndex + 2) * 4)
-                    {
-                        listItemPreamble = ParseItemPreamble(markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine);
-                    }
-
-                    if (listItemPreamble != null)
-                    {
-                        // Yes, this line contains a list item.
-
-                        // Determining the nesting level is done as follows:
-                        // 1. If this is the first line, then the list is not nested.
-                        // 2. If the number of spaces at the start of the line is equal to that of
-                        //    an existing list, then the nesting level is the same as that list.
-                        // 3. Otherwise, if the number of spaces is 0-4, then the nesting level
-                        //    is one level deep.
-                        // 4. Otherwise, if the number of spaces is 5-8, then the nesting level
-                        //    is two levels deep (but no deeper than one level more than the
-                        //    previous list item).
-                        // 5. Etcetera.
-                        ListBlock listToAddTo = null;
-                        int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
-                        russianDollIndex = russianDolls.FindIndex(rd => rd.SpaceCount == spaceCount);
-                        if (russianDollIndex >= 0)
-                        {
-                            // Add the new list item to an existing list.
-                            listToAddTo = russianDolls[russianDollIndex].List;
-
-                            // Don't add new list items to items higher up in the list.
-                            russianDolls.RemoveRange(russianDollIndex + 1, russianDolls.Count - (russianDollIndex + 1));
-                        }
-                        else
-                        {
-                            russianDollIndex = Math.Max(1, 1 + ((spaceCount - 1) / 4));
-                            if (russianDollIndex < russianDolls.Count)
-                            {
-                                // Add the new list item to an existing list.
-                                listToAddTo = russianDolls[russianDollIndex].List;
-
-                                // Don't add new list items to items higher up in the list.
-                                russianDolls.RemoveRange(russianDollIndex + 1, russianDolls.Count - (russianDollIndex + 1));
-                            }
-                            else
-                            {
-                                // Create a new list.
-                                listToAddTo = new ListBlock { Style = listItemPreamble.Style, Items = new List<ListItemBlock>() };
-                                if (russianDolls.Count > 0)
-                                {
-                                    currentListItem.Blocks.Add(listToAddTo);
-                                }
-
-                                russianDollIndex = russianDolls.Count;
-                                russianDolls.Add(new NestedListInfo { List = listToAddTo, SpaceCount = spaceCount });
-                            }
-                        }
-
-                        // Add a new list item.
-                        currentListItem = new ListItemBlock() { Blocks = new List<MarkdownBlock>() };
-                        listToAddTo.Items.Add(currentListItem);
-
-                        // Add the rest of the line to the builder.
-                        AppendTextToListItem(currentListItem, markdown, listItemPreamble.ContentStartPos, lineInfo.EndOfLine);
-                    }
-                    else
-                    {
-                        // No, this line contains text.
-
-                        // Is there even a list in progress?
-                        if (currentListItem == null)
-                        {
-                            actualEnd = start;
-                            return null;
-                        }
-
-                        // This is the start of a new paragraph.
-                        int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
-                        if (spaceCount == 0)
-                        {
-                            break;
-                        }
-
-                        russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
-                        int linestart = Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4));
-
-                        // 0 spaces = end of the list.
-                        // 1-4 spaces = first level.
-                        // 5-8 spaces = second level, etc.
-                        if (previousLineWasBlank)
-                        {
-                            ListBlock listToAddTo = russianDolls[russianDollIndex].List;
-                            currentListItem = listToAddTo.Items[listToAddTo.Items.Count - 1];
-
-                            ListItemBuilder builder;
-
-                            // Prevents new Block creation if still in a Code Block.
-                            if (!inCodeBlock)
-                            {
-                                builder = new ListItemBuilder();
-                                currentListItem.Blocks.Add(builder);
-                            }
-                            else
-                            {
-                                // This can only ever be a ListItemBuilder, so it is not a null reference.
-                                builder = currentListItem.Blocks.Last() as ListItemBuilder;
-
-                                // Make up for the escaped NewLines.
-                                builder.Builder.AppendLine();
-                                builder.Builder.AppendLine();
-                            }
-
-                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine);
-                        }
-                        else
-                        {
-                            // Inline text. Ignores the 4 spaces that are used to continue the list.
-                            AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine, true);
-                        }
-                    }
-
-                    // Check for Closing Code Blocks.
-                    if (currentListItem.Blocks.Last() is ListItemBuilder currentBlock)
-                    {
-                        var blockmatchcount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
-                        if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
-                        {
-                            inCodeBlock = true;
-                        }
-                        else
-                        {
-                            inCodeBlock = false;
-                        }
-                    }
-
-                    // The line was not blank.
-                    previousLineWasBlank = false;
-                }
-
-                // Go to the next line.
-                actualEnd = lineInfo.EndOfLine;
-            }
-
-            var result = russianDolls[0].List;
-            ReplaceStringBuilders(result);
-            return result;
-        }
-
-        /// <summary>
         /// Parsing helper method.
         /// </summary>
         /// <returns>Returns a ListItemPreamble</returns>
@@ -313,7 +138,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// Parsing helper.
         /// </summary>
         /// <returns> <c>true</c> if any of the list items were parsed using the block parser. </returns>
-        private static bool ReplaceStringBuilders(ListBlock list)
+        private static bool ReplaceStringBuilders(ListBlock list, MarkdownDocument document)
         {
             bool usedBlockParser = false;
             foreach (var listItem in list.Items)
@@ -324,7 +149,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // Recursively replace any child lists.
                 foreach (var block in listItem.Blocks)
                 {
-                    if (block is ListBlock && ReplaceStringBuilders((ListBlock)block))
+                    if (block is ListBlock && ReplaceStringBuilders((ListBlock)block, document))
                     {
                         useBlockParser = true;
                     }
@@ -341,7 +166,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         {
                             // Parse the list item as a series of blocks.
                             int actualEnd;
-                            newBlockList.AddRange(MarkdownDocument.Parse(blockText, 0, blockText.Length, quoteDepth: 0, actualEnd: out actualEnd));
+                            newBlockList.AddRange(document.Parse(blockText, 0, blockText.Length, quoteDepth: 0, actualEnd: out actualEnd));
                             usedBlockParser = true;
                         }
                         else
@@ -400,6 +225,186 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             return result.ToString();
+        }
+
+        public new class Factory : Factory<ListBlock>
+        {
+            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            {
+                var russianDolls = new List<NestedListInfo>();
+                int russianDollIndex = -1;
+                bool previousLineWasBlank = false;
+                bool inCodeBlock = false;
+                ListItemBlock currentListItem = null;
+                actualEnd = realStartOfLine; // using realStartOfLine will prevent qouting. So Why?
+
+                var nonSpaceChar = markdown[firstNonSpace];
+                if (!lineStartsNewParagraph)
+                {
+                    return null;
+                }
+
+                if (nonSpaceChar != '*' && nonSpaceChar != '+' && nonSpaceChar != '-' && (nonSpaceChar < '0' || nonSpaceChar > '9'))
+                {
+                    return null;
+                }
+
+                foreach (var lineInfo in Common.ParseLines(markdown, realStartOfLine, maxEnd, quoteDepth))
+                {
+                    // Is this line blank?
+                    if (lineInfo.IsLineBlank)
+                    {
+                        // The line is blank, which means the next line which contains text may end the list (or it may not...).
+                        previousLineWasBlank = true;
+                    }
+                    else
+                    {
+                        // Does the line contain a list item?
+                        ListItemPreamble listItemPreamble = null;
+                        if (lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine < (russianDollIndex + 2) * 4)
+                        {
+                            listItemPreamble = ParseItemPreamble(markdown, lineInfo.FirstNonWhitespaceChar, lineInfo.EndOfLine);
+                        }
+
+                        if (listItemPreamble != null)
+                        {
+                            // Yes, this line contains a list item.
+
+                            // Determining the nesting level is done as follows:
+                            // 1. If this is the first line, then the list is not nested.
+                            // 2. If the number of spaces at the start of the line is equal to that of
+                            //    an existing list, then the nesting level is the same as that list.
+                            // 3. Otherwise, if the number of spaces is 0-4, then the nesting level
+                            //    is one level deep.
+                            // 4. Otherwise, if the number of spaces is 5-8, then the nesting level
+                            //    is two levels deep (but no deeper than one level more than the
+                            //    previous list item).
+                            // 5. Etcetera.
+                            ListBlock listToAddTo = null;
+                            int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
+                            russianDollIndex = russianDolls.FindIndex(rd => rd.SpaceCount == spaceCount);
+                            if (russianDollIndex >= 0)
+                            {
+                                // Add the new list item to an existing list.
+                                listToAddTo = russianDolls[russianDollIndex].List;
+
+                                // Don't add new list items to items higher up in the list.
+                                russianDolls.RemoveRange(russianDollIndex + 1, russianDolls.Count - (russianDollIndex + 1));
+                            }
+                            else
+                            {
+                                russianDollIndex = Math.Max(1, 1 + ((spaceCount - 1) / 4));
+                                if (russianDollIndex < russianDolls.Count)
+                                {
+                                    // Add the new list item to an existing list.
+                                    listToAddTo = russianDolls[russianDollIndex].List;
+
+                                    // Don't add new list items to items higher up in the list.
+                                    russianDolls.RemoveRange(russianDollIndex + 1, russianDolls.Count - (russianDollIndex + 1));
+                                }
+                                else
+                                {
+                                    // Create a new list.
+                                    listToAddTo = new ListBlock { Style = listItemPreamble.Style, Items = new List<ListItemBlock>() };
+                                    if (russianDolls.Count > 0)
+                                    {
+                                        currentListItem.Blocks.Add(listToAddTo);
+                                    }
+
+                                    russianDollIndex = russianDolls.Count;
+                                    russianDolls.Add(new NestedListInfo { List = listToAddTo, SpaceCount = spaceCount });
+                                }
+                            }
+
+                            // Add a new list item.
+                            currentListItem = new ListItemBlock() { Blocks = new List<MarkdownBlock>() };
+                            listToAddTo.Items.Add(currentListItem);
+
+                            // Add the rest of the line to the builder.
+                            AppendTextToListItem(currentListItem, markdown, listItemPreamble.ContentStartPos, lineInfo.EndOfLine);
+                        }
+                        else
+                        {
+                            // No, this line contains text.
+
+                            // Is there even a list in progress?
+                            if (currentListItem == null)
+                            {
+                                actualEnd = realStartOfLine;
+                                return null;
+                            }
+
+                            // This is the start of a new paragraph.
+                            int spaceCount = lineInfo.FirstNonWhitespaceChar - lineInfo.StartOfLine;
+                            if (spaceCount == 0)
+                            {
+                                break;
+                            }
+
+                            russianDollIndex = Math.Min(russianDollIndex, (spaceCount - 1) / 4);
+                            int linestart = Math.Min(lineInfo.FirstNonWhitespaceChar, lineInfo.StartOfLine + ((russianDollIndex + 1) * 4));
+
+                            // 0 spaces = end of the list.
+                            // 1-4 spaces = first level.
+                            // 5-8 spaces = second level, etc.
+                            if (previousLineWasBlank)
+                            {
+                                ListBlock listToAddTo = russianDolls[russianDollIndex].List;
+                                currentListItem = listToAddTo.Items[listToAddTo.Items.Count - 1];
+
+                                ListItemBuilder builder;
+
+                                // Prevents new Block creation if still in a Code Block.
+                                if (!inCodeBlock)
+                                {
+                                    builder = new ListItemBuilder();
+                                    currentListItem.Blocks.Add(builder);
+                                }
+                                else
+                                {
+                                    // This can only ever be a ListItemBuilder, so it is not a null reference.
+                                    builder = currentListItem.Blocks.Last() as ListItemBuilder;
+
+                                    // Make up for the escaped NewLines.
+                                    builder.Builder.AppendLine();
+                                    builder.Builder.AppendLine();
+                                }
+
+                                AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine);
+                            }
+                            else
+                            {
+                                // Inline text. Ignores the 4 spaces that are used to continue the list.
+                                AppendTextToListItem(currentListItem, markdown, linestart, lineInfo.EndOfLine, true);
+                            }
+                        }
+
+                        // Check for Closing Code Blocks.
+                        if (currentListItem.Blocks.Last() is ListItemBuilder currentBlock)
+                        {
+                            var blockmatchcount = Regex.Matches(currentBlock.Builder.ToString(), "```").Count;
+                            if (blockmatchcount > 0 && blockmatchcount % 2 != 0)
+                            {
+                                inCodeBlock = true;
+                            }
+                            else
+                            {
+                                inCodeBlock = false;
+                            }
+                        }
+
+                        // The line was not blank.
+                        previousLineWasBlank = false;
+                    }
+
+                    // Go to the next line.
+                    actualEnd = lineInfo.EndOfLine;
+                }
+
+                var result = russianDolls[0].List;
+                ReplaceStringBuilders(result, document);
+                return result;
+            }
         }
     }
 }

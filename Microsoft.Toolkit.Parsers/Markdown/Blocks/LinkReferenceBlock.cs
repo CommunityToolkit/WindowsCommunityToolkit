@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Text;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
@@ -36,140 +37,139 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public string Tooltip { get; set; }
 
         /// <summary>
-        /// Attempts to parse a reference e.g. "[example]: http://www.reddit.com 'title'".
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="end"> The location to stop parsing. </param>
-        /// <returns> A parsed markdown link, or <c>null</c> if this is not a markdown link. </returns>
-        internal static LinkReferenceBlock Parse(string markdown, int start, int end)
-        {
-            // Expect a '[' character.
-            if (start >= end || markdown[start] != '[')
-            {
-                return null;
-            }
-
-            // Find the ']' character
-            int pos = start + 1;
-            while (pos < end)
-            {
-                if (markdown[pos] == ']')
-                {
-                    break;
-                }
-
-                pos++;
-            }
-
-            if (pos == end)
-            {
-                return null;
-            }
-
-            // Extract the ID.
-            string id = markdown.Substring(start + 1, pos - (start + 1));
-
-            // Expect the ':' character.
-            pos++;
-            if (pos == end || markdown[pos] != ':')
-            {
-                return null;
-            }
-
-            // Skip whitespace
-            pos++;
-            while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-            {
-                pos++;
-            }
-
-            if (pos == end)
-            {
-                return null;
-            }
-
-            // Extract the URL.
-            int urlStart = pos;
-            while (pos < end && !ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-            {
-                pos++;
-            }
-
-            string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
-
-            // Ignore leading '<' and trailing '>'.
-            url = url.TrimStart('<').TrimEnd('>');
-
-            // Skip whitespace.
-            pos++;
-            while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-            {
-                pos++;
-            }
-
-            string tooltip = null;
-            if (pos < end)
-            {
-                // Extract the tooltip.
-                char tooltipEndChar;
-                switch (markdown[pos])
-                {
-                    case '(':
-                        tooltipEndChar = ')';
-                        break;
-
-                    case '"':
-                    case '\'':
-                        tooltipEndChar = markdown[pos];
-                        break;
-
-                    default:
-                        return null;
-                }
-
-                pos++;
-                int tooltipStart = pos;
-                while (pos < end && markdown[pos] != tooltipEndChar)
-                {
-                    pos++;
-                }
-
-                if (pos == end)
-                {
-                    return null;    // No end character.
-                }
-
-                tooltip = markdown.Substring(tooltipStart, pos - tooltipStart);
-
-                // Check there isn't any trailing text.
-                pos++;
-                while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-                {
-                    pos++;
-                }
-
-                if (pos < end)
-                {
-                    return null;
-                }
-            }
-
-            // We found something!
-            var result = new LinkReferenceBlock();
-            result.Id = id;
-            result.Url = url;
-            result.Tooltip = tooltip;
-            return result;
-        }
-
-        /// <summary>
         /// Converts the object into it's textual representation.
         /// </summary>
         /// <returns> The textual representation of this object. </returns>
         public override string ToString()
         {
             return string.Format("[{0}]: {1} {2}", Id, Url, Tooltip);
+        }
+
+        public new class Factory : Factory<LinkReferenceBlock>
+        {
+            protected override LinkReferenceBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            {
+
+                actualEnd = startOfLine;
+
+                // Expect a '[' character.
+                if (startOfLine >= endOfFirstLine || markdown[startOfLine] != '[')
+                {
+                    return null;
+                }
+
+                // Find the ']' character
+                int pos = startOfLine + 1;
+                while (pos < endOfFirstLine)
+                {
+                    if (markdown[pos] == ']')
+                    {
+                        break;
+                    }
+
+                    pos++;
+                }
+
+                if (pos == endOfFirstLine)
+                {
+                    return null;
+                }
+
+                // Extract the ID.
+                string id = markdown.Substring(startOfLine + 1, pos - (startOfLine + 1));
+
+                // Expect the ':' character.
+                pos++;
+                if (pos == endOfFirstLine || markdown[pos] != ':')
+                {
+                    return null;
+                }
+
+                // Skip whitespace
+                pos++;
+                while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                {
+                    pos++;
+                }
+
+                if (pos == endOfFirstLine)
+                {
+                    return null;
+                }
+
+                // Extract the URL.
+                int urlStart = pos;
+                while (pos < endOfFirstLine && !ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                {
+                    pos++;
+                }
+
+                string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+
+                // Ignore leading '<' and trailing '>'.
+                url = url.TrimStart('<').TrimEnd('>');
+
+                // Skip whitespace.
+                pos++;
+                while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                {
+                    pos++;
+                }
+
+                string tooltip = null;
+                if (pos < endOfFirstLine)
+                {
+                    // Extract the tooltip.
+                    char tooltipEndChar;
+                    switch (markdown[pos])
+                    {
+                        case '(':
+                            tooltipEndChar = ')';
+                            break;
+
+                        case '"':
+                        case '\'':
+                            tooltipEndChar = markdown[pos];
+                            break;
+
+                        default:
+                            return null;
+                    }
+
+                    pos++;
+                    int tooltipStart = pos;
+                    while (pos < endOfFirstLine && markdown[pos] != tooltipEndChar)
+                    {
+                        pos++;
+                    }
+
+                    if (pos == endOfFirstLine)
+                    {
+                        return null;    // No end character.
+                    }
+
+                    tooltip = markdown.Substring(tooltipStart, pos - tooltipStart);
+
+                    // Check there isn't any trailing text.
+                    pos++;
+                    while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                    {
+                        pos++;
+                    }
+
+                    if (pos < endOfFirstLine)
+                    {
+                        return null;
+                    }
+                }
+
+                // We found something!
+                var result = new LinkReferenceBlock();
+                result.Id = id;
+                result.Url = url;
+                result.Tooltip = tooltip;
+                return result;
+            }
         }
     }
 }

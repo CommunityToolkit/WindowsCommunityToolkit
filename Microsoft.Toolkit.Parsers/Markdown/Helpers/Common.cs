@@ -245,6 +245,36 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         }
 
         /// <summary>
+        /// Returns the next \n or \r\n in the markdown.
+        /// </summary>
+        /// <returns>the next single line</returns>
+        public static int FindPreviousSingleNewLine(string markdown, int startingPos, int endingPos, out int startOfNextLine)
+        {
+            // A line can end with CRLF (\r\n) or just LF (\n).
+            int lineFeedPos = markdown.LastIndexOf('\n', startingPos);
+            if (lineFeedPos == -1)
+            {
+                // Trying with /r now
+                lineFeedPos = markdown.LastIndexOf('\r', startingPos);
+                if (lineFeedPos == -1)
+                {
+                    startOfNextLine = endingPos;
+                    return endingPos;
+                }
+            }
+
+            startOfNextLine = lineFeedPos + 1;
+
+            // Check if it was a CRLF.
+            if (lineFeedPos > startingPos && markdown[lineFeedPos - 1] == '\r')
+            {
+                return lineFeedPos - 1;
+            }
+
+            return lineFeedPos;
+        }
+
+        /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>
         /// <returns>Pos of the searched for item</returns>

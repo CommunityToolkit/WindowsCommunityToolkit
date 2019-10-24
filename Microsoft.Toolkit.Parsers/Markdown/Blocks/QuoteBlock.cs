@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using System.Text;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
@@ -25,23 +26,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 
-        /// <summary>
-        /// Parses a quote block.
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="startOfLine"> The location of the start of the line. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <param name="quoteDepth"> The current nesting level of quotes. </param>
-        /// <param name="actualEnd"> Set to the end of the block when the return value is non-null. </param>
-        /// <returns> A parsed quote block. </returns>
-        internal static QuoteBlock Parse(string markdown, int startOfLine, int maxEnd, int quoteDepth, out int actualEnd)
+        public new class Factory : Factory<QuoteBlock>
         {
-            var result = new QuoteBlock();
+            protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            {
+                if (markdown[firstNonSpace] != '>')
+                {
+                    actualEnd = startOfLine;
+                    return null;
+                }
 
-            // Recursively call into the markdown block parser.
-            result.Blocks = MarkdownDocument.Parse(markdown, startOfLine, maxEnd, quoteDepth: quoteDepth + 1, actualEnd: out actualEnd);
+                var result = new QuoteBlock();
 
-            return result;
+                // Recursively call into the markdown block parser.
+                result.Blocks = document.Parse(markdown, startOfLine, maxEnd, quoteDepth: quoteDepth + 1, actualEnd: out actualEnd);
+
+                return result;
+            }
         }
     }
 }
