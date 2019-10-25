@@ -172,11 +172,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (HorizontalAlignment == HorizontalAlignment.Right)
             {
-                horizontalOffset += finalSize.Width - (numColumns * _columnWidth);
+                horizontalOffset += finalSize.Width - totalWidth;
             }
             else if (HorizontalAlignment == HorizontalAlignment.Center)
             {
-                horizontalOffset += (finalSize.Width - (numColumns * _columnWidth)) / 2;
+                horizontalOffset += (finalSize.Width - totalWidth) / 2;
             }
 
             var columnHeights = new double[numColumns];
