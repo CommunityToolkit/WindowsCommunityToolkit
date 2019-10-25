@@ -5740,20 +5740,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         break;
                     }
 
-                    // Walk up the visual tree.  If we hit the root, try using the framework element's
+                    // Walk up the visual tree. Try using the framework element's
                     // parent.  We do this because Popups behave differently with respect to the visual tree,
                     // and it could have a parent even if the VisualTreeHelper doesn't find it.
-                    DependencyObject parent = VisualTreeHelper.GetParent(focusedDependencyObject);
-                    if (parent == null)
+                    DependencyObject parent = null;
+                    FrameworkElement element = focusedDependencyObject as FrameworkElement;
+                    if (element == null)
                     {
-                        FrameworkElement element = focusedDependencyObject as FrameworkElement;
-                        if (element != null)
+                        parent = VisualTreeHelper.GetParent(focusedDependencyObject);
+                    }
+                    else
+                    {
+                        parent = element.Parent;
+                        if (parent == null)
                         {
-                            parent = element.Parent;
-                            if (parent != null)
-                            {
-                                dataGridWillReceiveRoutedEvent = false;
-                            }
+                            parent = VisualTreeHelper.GetParent(focusedDependencyObject);
+                        }
+                        else
+                        {
+                            dataGridWillReceiveRoutedEvent = false;
                         }
                     }
 
