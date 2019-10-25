@@ -403,6 +403,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
         {
+            if (_navigationView == null)
+            {
+                return;
+            }
+
             var navType = _navigationView.GetType();
             var visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)
