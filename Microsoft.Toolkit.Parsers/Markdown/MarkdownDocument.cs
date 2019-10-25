@@ -371,13 +371,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return string.Join("\r\n", Blocks);
         }
     }
-    public interface IDocumentBuilder
-    {
-        DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
-        MarkdownDocument Build();
-        DocumentBuilder RemoveParser<TFactory>()
-            where TFactory : MarkdownBlock.Factory, new();
-    }
     public class DocumentBuilder : IDocumentBuilder
     {
 
