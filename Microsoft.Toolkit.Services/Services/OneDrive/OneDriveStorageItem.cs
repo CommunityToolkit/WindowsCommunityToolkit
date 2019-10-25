@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             get
             {
-                return FileSize.HasValue ? Convert.ToFileSizeString(FileSize.Value) : Convert.ToFileSizeString(0L);
+                return FileSize.HasValue ? Converters.ToFileSizeString(FileSize.Value) : Converters.ToFileSizeString(0L);
             }
         }
 

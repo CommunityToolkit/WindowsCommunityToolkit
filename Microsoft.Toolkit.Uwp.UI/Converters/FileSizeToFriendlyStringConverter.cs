@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
-    /// Converts a file size in bytes to a more human-readable friendly format using <see cref="Toolkit.Convert.ToFileSizeString(long)"/>
+    /// Converts a file size in bytes to a more human-readable friendly format using <see cref="Toolkit.Converters.ToFileSizeString(long)"/>
     /// </summary>
     public class FileSizeToFriendlyStringConverter : IValueConverter
     {
@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
         {
             if (value is long size)
             {
-                return Toolkit.Convert.ToFileSizeString(size);
+                return Toolkit.Converters.ToFileSizeString(size);
             }
 
             return string.Empty;

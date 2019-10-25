@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit
     /// <summary>
     /// Set of helpers to convert between data types and notations.
     /// </summary>
-    public static class Convert
+    public static class Converters
     {
         /// <summary>
         /// Translate numeric file size in bytes to a human-readable shorter string format.
