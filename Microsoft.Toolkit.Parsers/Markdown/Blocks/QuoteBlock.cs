@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -28,6 +29,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
         public new class Factory : Factory<QuoteBlock>
         {
+            public override IEnumerable<Type> DefaultAfterFactorys { get; } = new Type[] { typeof(CodeBlock) };
+
             protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (markdown[firstNonSpace] != '>')

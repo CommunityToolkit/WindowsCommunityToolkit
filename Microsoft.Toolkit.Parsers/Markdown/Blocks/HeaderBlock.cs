@@ -106,6 +106,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
         public class UnderlineFactory : Factory<HeaderBlock>
         {
+
+            public override IEnumerable<Type> DefaultBeforeFactorys { get; } = new Type[] { typeof(HorizontalRuleBlock) };
             protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with some text on the first line, followed by one or more
