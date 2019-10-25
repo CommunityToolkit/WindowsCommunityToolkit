@@ -168,6 +168,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (totalWidth > finalSize.Width)
             {
                 numColumns--;
+
+                // Need to recalculate the totalWidth for a correct horizontal offset
+                totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
             }
 
             if (HorizontalAlignment == HorizontalAlignment.Right)
