@@ -42,9 +42,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
         /// </summary>
         public MarkdownDocument()
-            : base(MarkdownBlockType.Root)
-        {
-            this.factorys = new Factory[]
+            : this(TopologicalSort(new Factory[]
             {
                 new YamlHeaderBlock.Factory(),
                 new TableBlock.Factory(),
@@ -55,11 +53,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 new HeaderBlock.HashFactory(),
                 new HeaderBlock.UnderlineFactory(),
                 new CodeBlock.Factory()
-            };
+            }))
+        {
         }
 
         internal MarkdownDocument(IEnumerable<Factory> blockFactorys)
-            : this()
+            : base(MarkdownBlockType.Root)
         {
             this.factorys = blockFactorys.ToArray();
         }
@@ -370,61 +369,51 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             return string.Join("\r\n", Blocks);
         }
-    }
-    public class DocumentBuilder : IDocumentBuilder
-    {
 
-        private readonly Dictionary<Type, MarkdownBlock.Factory> factoryInstances = new Dictionary<Type, MarkdownBlock.Factory>();
-        private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
-
-        public DocumentBuilder RemoveParser<TFactory>()
-            where TFactory : MarkdownBlock.Factory, new()
+        private static IEnumerable<Factory> TopologicalSort(IEnumerable<Factory> factorys)
         {
-            this.factoryInstances.Remove(typeof(TFactory));
-            return this;
-        }
+            var edges = new Dictionary<Type, HashSet<Type>>();
 
-        public DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null)
-            where TFactory : MarkdownBlock.Factory, new()
-        {
-            var data = new TFactory();
-            configurationCallback?.Invoke(data);
-            this.factoryInstances.Add(typeof(TFactory), data);
-
-            foreach (var item in data.DefaultAfterFactorys)
+            void AddRelation(Type before, Type after)
             {
-                this.AddRelation(item, data.GetType());
-            }
-            foreach (var item in data.DefaultBeforeFactorys)
-            {
-                this.AddRelation(data.GetType(), item);
-            }
-
-            return new DocumentBuilderConfigurator<TFactory>(this);
-        }
-
-
-        public MarkdownDocument Build()
-        {
-
-            // we need to get rid of all edges that are related to removed nodes
-
-            foreach (var item in this.aAfterBRelation.Keys.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
-            {
-                this.aAfterBRelation.Remove(item);
-            }
-
-            foreach (var keyValuePair in this.aAfterBRelation)
-            {
-                foreach (var item in keyValuePair.Value.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
+                if (edges.ContainsKey(before))
                 {
-                    keyValuePair.Value.Remove(item);
+                    edges[before].Add(after);
+                }
+                else
+                {
+                    edges.Add(before, new HashSet<Type> { after });
                 }
             }
 
+            foreach (var factory in factorys)
+            {
+                foreach (var item in factory.DefaultAfterFactorys)
+                {
+                    AddRelation(item, factory.GetType());
+                }
 
-            // we want to order all elements to get a deterministic result
-            var orderedSource = this.factoryInstances.Values.OrderBy(x => x.GetType().FullName).ToArray();
+                foreach (var item in factory.DefaultBeforeFactorys)
+                {
+                    AddRelation(factory.GetType(), item);
+                }
+            }
+
+            return TopologicalSort(factorys, edges);
+        }
+
+        /// <summary>
+        /// Performs a topolological sort on a graph.
+        /// </summary>
+        /// <param name="nodes">The Factores.</param>
+        /// <param name="edges">A dictionary that maps a factory to all of its incomming (must run before this) factorys.</param>
+        /// <returns>The ordered list</returns>
+        private static IEnumerable<Factory> TopologicalSort(IEnumerable<Factory> nodes, Dictionary<Type, HashSet<Type>> edges)
+        {
+            var orderedSource = nodes.OrderBy(x => x.GetType().FullName).ToArray();
+
+            // We will manipulate edges. So we make a copy
+            edges = new Dictionary<Type, HashSet<Type>>(edges);
 
             // Kahn's algorithm [from Wikipedia](https://en.wikipedia.org/w/index.php?title=Topological_sorting&oldid=917759838)
             // L ← Empty list that will contain the sorted elements
@@ -442,90 +431,152 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             //     return L   (a topologically sorted order)
 
 
-            var L = new List<MarkdownBlock.Factory>();
-            var S = new Queue<MarkdownBlock.Factory>(orderedSource.Where(x => !this.aAfterBRelation.ContainsKey(x.GetType())));
+            var l = new List<MarkdownBlock.Factory>();
+            var s = new Queue<MarkdownBlock.Factory>(orderedSource.Where(x => !edges.ContainsKey(x.GetType())));
 
-            while (S.Count > 0)
+            void RemoveRelation(Type before, Type after)
             {
-                var n = S.Dequeue();
-                L.Add(n);
-                foreach (var m in orderedSource)
+                if (edges.ContainsKey(before))
                 {
-                    if (this.aAfterBRelation.ContainsKey(m.GetType()) && this.aAfterBRelation[m.GetType()].Contains(n.GetType()))
+                    edges[before].Remove(after);
+                    if (edges[before].Count == 0)
                     {
-                        this.RemoveRelation(m.GetType(), n.GetType());
-                        if (!this.aAfterBRelation.ContainsKey(m.GetType()))
-                            S.Enqueue(m);
+                        edges.Remove(before);
                     }
                 }
             }
 
-            if (this.aAfterBRelation.Count > 0)
+            while (s.Count > 0)
+            {
+                var n = s.Dequeue();
+                l.Add(n);
+                foreach (var m in orderedSource)
+                {
+                    if (edges.ContainsKey(m.GetType()) && edges[m.GetType()].Contains(n.GetType()))
+                    {
+                        RemoveRelation(m.GetType(), n.GetType());
+                        if (!edges.ContainsKey(m.GetType()))
+                        {
+                            s.Enqueue(m);
+                        }
+                    }
+                }
+            }
+
+            if (edges.Count > 0)
+            {
                 throw new InvalidOperationException("Graph contains cycles");
+            }
 
-            return new MarkdownDocument(L);
-
-
-
+            return l;
         }
 
-        private void AddRelation(Type before, Type after)
+
+        public class DocumentBuilder : IDocumentBuilder
         {
-            if (this.aAfterBRelation.ContainsKey(before))
-            {
-                this.aAfterBRelation[before].Add(after);
-            }
-            else
-            {
-                this.aAfterBRelation.Add(before, new HashSet<Type> { after });
-            }
-        }
-        private void RemoveRelation(Type before, Type after)
-        {
-            if (this.aAfterBRelation.ContainsKey(before))
-            {
-                this.aAfterBRelation[before].Remove(after);
-                if (this.aAfterBRelation[before].Count == 0)
-                    this.aAfterBRelation.Remove(before);
-            }
-        }
 
-        public class DocumentBuilderConfigurator<TFactory> : IDocumentBuilder
+            private readonly Dictionary<Type, MarkdownBlock.Factory> factoryInstances = new Dictionary<Type, MarkdownBlock.Factory>();
+            private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
+
+            public DocumentBuilder RemoveParser<TFactory>()
                 where TFactory : MarkdownBlock.Factory, new()
-        {
-            private readonly DocumentBuilder parent;
-
-
-            internal DocumentBuilderConfigurator(DocumentBuilder documentBuilder)
             {
-                this.parent = documentBuilder;
-            }
-
-            public DocumentBuilderConfigurator<TFactory1> AddParser<TFactory1>(Action<TFactory1> configurationCallback = null) where TFactory1 : MarkdownBlock.Factory, new() => this.parent.AddParser(configurationCallback);
-
-            public DocumentBuilderConfigurator<TFactory> After<TFactory2>()
-                where TFactory2 : MarkdownBlock.Factory, new()
-            {
-                this.parent.AddRelation(typeof(TFactory), typeof(TFactory2));
+                this.factoryInstances.Remove(typeof(TFactory));
                 return this;
             }
 
-            public DocumentBuilderConfigurator<TFactory> Before<TFactory2>()
-                where TFactory2 : MarkdownBlock.Factory, new()
+            public DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null)
+                where TFactory : MarkdownBlock.Factory, new()
             {
-                this.parent.AddRelation(typeof(TFactory2), typeof(TFactory));
-                return this;
+                var data = new TFactory();
+                configurationCallback?.Invoke(data);
+                this.factoryInstances.Add(typeof(TFactory), data);
+
+                foreach (var item in data.DefaultAfterFactorys)
+                {
+                    this.AddRelation(item, data.GetType());
+                }
+
+                foreach (var item in data.DefaultBeforeFactorys)
+                {
+                    this.AddRelation(data.GetType(), item);
+                }
+
+                return new DocumentBuilderConfigurator<TFactory>(this);
             }
 
-            public MarkdownDocument Build() => this.parent.Build();
+
+            public MarkdownDocument Build()
+            {
+
+                // we need to get rid of all edges that are related to removed nodes
+
+                foreach (var item in this.aAfterBRelation.Keys.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
+                {
+                    this.aAfterBRelation.Remove(item);
+                }
+
+                foreach (var keyValuePair in this.aAfterBRelation)
+                {
+                    foreach (var item in keyValuePair.Value.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
+                    {
+                        keyValuePair.Value.Remove(item);
+                    }
+                }
 
 
-            public DocumentBuilder RemoveParser<TFactory1>()
-                where TFactory1 : MarkdownBlock.Factory, new() => this.parent.RemoveParser<TFactory1>();
+                // we want to order all elements to get a deterministic result
+                var values = this.factoryInstances.Values;
+                var edges = this.aAfterBRelation;
+                var l = TopologicalSort(values, edges);
 
+                return new MarkdownDocument(l);
+            }
+
+            private void AddRelation(Type before, Type after)
+            {
+                if (this.aAfterBRelation.ContainsKey(before))
+                {
+                    this.aAfterBRelation[before].Add(after);
+                }
+                else
+                {
+                    this.aAfterBRelation.Add(before, new HashSet<Type> { after });
+                }
+            }
+
+
+            public class DocumentBuilderConfigurator<TFactory> : IDocumentBuilder
+                    where TFactory : MarkdownBlock.Factory, new()
+            {
+                private readonly DocumentBuilder parent;
+
+                internal DocumentBuilderConfigurator(DocumentBuilder documentBuilder)
+                {
+                    this.parent = documentBuilder;
+                }
+
+                public DocumentBuilderConfigurator<TFactory1> AddParser<TFactory1>(Action<TFactory1> configurationCallback = null) where TFactory1 : MarkdownBlock.Factory, new() => this.parent.AddParser(configurationCallback);
+
+                public DocumentBuilderConfigurator<TFactory> After<TFactory2>()
+                    where TFactory2 : MarkdownBlock.Factory, new()
+                {
+                    this.parent.AddRelation(typeof(TFactory), typeof(TFactory2));
+                    return this;
+                }
+
+                public DocumentBuilderConfigurator<TFactory> Before<TFactory2>()
+                    where TFactory2 : MarkdownBlock.Factory, new()
+                {
+                    this.parent.AddRelation(typeof(TFactory2), typeof(TFactory));
+                    return this;
+                }
+
+                public MarkdownDocument Build() => this.parent.Build();
+
+                public DocumentBuilder RemoveParser<TFactory1>()
+                    where TFactory1 : MarkdownBlock.Factory, new() => this.parent.RemoveParser<TFactory1>();
+            }
         }
-
-
     }
-
 }

@@ -9,9 +9,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 {
     public interface IDocumentBuilder
     {
-        DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
+       MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
         MarkdownDocument Build();
-        DocumentBuilder RemoveParser<TFactory>()
+        MarkdownDocument.DocumentBuilder RemoveParser<TFactory>()
             where TFactory : MarkdownBlock.Factory, new();
     }
 
