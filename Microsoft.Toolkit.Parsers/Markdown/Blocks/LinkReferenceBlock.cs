@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
         public new class Factory : Factory<LinkReferenceBlock>
         {
-            public override IEnumerable<Type> DefaultAfterFactorys { get; } = new Type[] { typeof(CodeBlock) };
+            public override IEnumerable<Type> DefaultAfterFactorys { get; } = new Type[] { typeof(CodeBlock.Factory) };
 
             protected override LinkReferenceBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
