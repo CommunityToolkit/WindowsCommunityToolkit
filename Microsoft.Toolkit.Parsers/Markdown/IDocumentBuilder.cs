@@ -7,12 +7,32 @@ using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
+    /// <summary>
+    /// Defines the Builder methods to create a MarkdownDocument
+    /// </summary>
     public interface IDocumentBuilder
     {
-       MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
+        /// <summary>
+        /// Add a Parser with an optional configuration. Every Parser may only be used once.
+        /// </summary>
+        /// <typeparam name="TFactory">The Factory of a Block</typeparam>
+        /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
+        /// <returns>This instance</returns>
+        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
+
+        /// <summary>
+        /// Creates the Markdown Document
+        /// </summary>
+        /// <returns>The MarkdownDocument</returns>
         MarkdownDocument Build();
+
+        /// <summary>
+        /// Removes a Parser. This will no longer be used when parsing with the MarkdownDocument.
+        /// If the Parser is not present this method does nothing.
+        /// </summary>
+        /// <typeparam name="TFactory">The Factory of a Block</typeparam>
+        /// <returns>This instance</returns>
         MarkdownDocument.DocumentBuilder RemoveParser<TFactory>()
             where TFactory : MarkdownBlock.Factory, new();
     }
-
 }

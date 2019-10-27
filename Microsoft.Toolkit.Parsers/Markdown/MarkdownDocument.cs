@@ -71,13 +71,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 
-        public DocumentBuilder GetBuilder()
-        {
-            var builder = new DocumentBuilder(factorys,factoryDependencys);
-
-            return builder;
-
-        }
+        /// <summary>
+        /// Returns a builder with the same configuraiton as the one that created this Document.
+        /// </summary>
+        /// <returns>A Builder</returns>
+        public DocumentBuilder GetBuilder() => new DocumentBuilder(this.factorys, this.factoryDependencys);
 
         /// <summary>
         /// Parses markdown document text.
@@ -85,7 +83,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out int actualEnd);
+            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out _);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -264,7 +262,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     // Or a horizontal rule if the line contains nothing but 3 '*', '-' or '_' characters (with optional whitespace).
                     MarkdownBlock newBlockElement = null;
 
-
                     foreach (var factory in this.factorys)
                     {
                         newBlockElement = factory.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, quoteDepth, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
@@ -272,7 +269,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         {
                             startOfNextLine = endOfBlock;
                         }
-
                     }
 
                     // Block elements start new paragraphs.
@@ -438,10 +434,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             //             insert m into S
             // if graph has edges then
             //     return error   (graph has at least one cycle)
-            // else 
+            // else
             //     return L   (a topologically sorted order)
-
-
             var l = new List<MarkdownBlock.Factory>();
             var s = new Queue<MarkdownBlock.Factory>(orderedSource.Where(x => !edges.ContainsKey(x.GetType())));
 
@@ -482,10 +476,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return l;
         }
 
-
+        /// <summary>
+        /// Document builder allows to configure a MarkdownDocument with different blocks and inline that can be parsed.
+        /// </summary>
         public class DocumentBuilder : IDocumentBuilder
         {
-
             private readonly Dictionary<Type, MarkdownBlock.Factory> factoryInstances = new Dictionary<Type, MarkdownBlock.Factory>();
             private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
 
@@ -498,10 +493,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                 foreach (var dependecy in factoryDependencys)
                 {
-                    aAfterBRelation.Add(dependecy.Key,dependecy.Value);
+                    aAfterBRelation.Add(dependecy.Key, dependecy.Value);
                 }
             }
 
+            /// <inheritdoc/>
             public DocumentBuilder RemoveParser<TFactory>()
                 where TFactory : MarkdownBlock.Factory, new()
             {
@@ -509,6 +505,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 return this;
             }
 
+            /// <inheritdoc/>
             public DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null)
                 where TFactory : MarkdownBlock.Factory, new()
             {
@@ -529,12 +526,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 return new DocumentBuilderConfigurator<TFactory>(this);
             }
 
-
+            /// <inheritdoc/>
             public MarkdownDocument Build()
             {
-
                 // we need to get rid of all edges that are related to removed nodes
-
                 foreach (var item in this.aAfterBRelation.Keys.Where(x => !this.factoryInstances.ContainsKey(x)).ToArray())
                 {
                     this.aAfterBRelation.Remove(item);
@@ -547,7 +542,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         keyValuePair.Value.Remove(item);
                     }
                 }
-
 
                 // we want to order all elements to get a deterministic result
                 var values = this.factoryInstances.Values;
@@ -569,7 +563,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-
+            /// <summary>
+            /// Allows to order a Parsers relative to other Parsers.
+            /// </summary>
+            /// <typeparam name="TFactory">The type of the Factory</typeparam>
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public class DocumentBuilderConfigurator<TFactory> : IDocumentBuilder
                     where TFactory : MarkdownBlock.Factory, new()
             {
@@ -580,8 +578,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     this.parent = documentBuilder;
                 }
 
-                public DocumentBuilderConfigurator<TFactory1> AddParser<TFactory1>(Action<TFactory1> configurationCallback = null) where TFactory1 : MarkdownBlock.Factory, new() => this.parent.AddParser(configurationCallback);
+                /// <inheritdoc/>
+                public DocumentBuilderConfigurator<TFactory1> AddParser<TFactory1>(Action<TFactory1> configurationCallback = null)
+                    where TFactory1 : MarkdownBlock.Factory, new() => this.parent.AddParser(configurationCallback);
 
+                /// <summary>
+                /// Defines that the last added Parser will run after <typeparamref name="TFactory2"/>.
+                /// </summary>
+                /// <typeparam name="TFactory2">The Parser that will guarantee to parse before this one.</typeparam>
+                /// <returns>This Instance</returns>
                 public DocumentBuilderConfigurator<TFactory> After<TFactory2>()
                     where TFactory2 : MarkdownBlock.Factory, new()
                 {
@@ -589,6 +594,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     return this;
                 }
 
+                /// <summary>
+                /// Defines that the last added Parser will run before <typeparamref name="TFactory2"/>.
+                /// </summary>
+                /// <typeparam name="TFactory2">The Parser that will guarantee to parse after this one.</typeparam>
+                /// <returns>This Instance</returns>
                 public DocumentBuilderConfigurator<TFactory> Before<TFactory2>()
                     where TFactory2 : MarkdownBlock.Factory, new()
                 {
@@ -596,8 +606,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     return this;
                 }
 
+                /// <inheritdoc/>
                 public MarkdownDocument Build() => this.parent.Build();
 
+                /// <inheritdoc/>
                 public DocumentBuilder RemoveParser<TFactory1>()
                     where TFactory1 : MarkdownBlock.Factory, new() => this.parent.RemoveParser<TFactory1>();
             }
