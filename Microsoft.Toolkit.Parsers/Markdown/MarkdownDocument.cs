@@ -35,38 +35,49 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         };
 
         private readonly MarkdownBlock.Factory[] factorys;
-
+        private readonly Dictionary<Type, HashSet<Type>> factoryDependencys;
         private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
         /// </summary>
         public MarkdownDocument()
-            : this(TopologicalSort(new Factory[]
-            {
-                new YamlHeaderBlock.Factory(),
-                new TableBlock.Factory(),
-                new QuoteBlock.Factory(),
-                new ListBlock.Factory(),
-                new LinkReferenceBlock.Factory(),
-                new HorizontalRuleBlock.Factory(),
-                new HeaderBlock.HashFactory(),
-                new HeaderBlock.UnderlineFactory(),
-                new CodeBlock.Factory()
-            }))
+            : this(
+                blockFactorys: TopologicalSort(new Factory[]
+                {
+                    new YamlHeaderBlock.Factory(),
+                    new TableBlock.Factory(),
+                    new QuoteBlock.Factory(),
+                    new ListBlock.Factory(),
+                    new LinkReferenceBlock.Factory(),
+                    new HorizontalRuleBlock.Factory(),
+                    new HeaderBlock.HashFactory(),
+                    new HeaderBlock.UnderlineFactory(),
+                    new CodeBlock.Factory()
+                }),
+                 edges: null)
         {
         }
 
-        internal MarkdownDocument(IEnumerable<Factory> blockFactorys)
+        internal MarkdownDocument(IEnumerable<Factory> blockFactorys, Dictionary<Type, HashSet<Type>> edges)
             : base(MarkdownBlockType.Root)
         {
             this.factorys = blockFactorys.ToArray();
+            this.factoryDependencys = edges ?? new Dictionary<Type, HashSet<Type>>();
         }
 
         /// <summary>
         /// Gets or sets the list of block elements.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
+
+        public DocumentBuilder GetBuilder()
+        {
+            var builder = new DocumentBuilder(factorys,factoryDependencys);
+
+            return builder;
+
+        }
 
         /// <summary>
         /// Parses markdown document text.
@@ -478,6 +489,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             private readonly Dictionary<Type, MarkdownBlock.Factory> factoryInstances = new Dictionary<Type, MarkdownBlock.Factory>();
             private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
 
+            internal DocumentBuilder(Factory[] factorys, Dictionary<Type, HashSet<Type>> factoryDependencys)
+            {
+                foreach (var factory in factorys)
+                {
+                    factoryInstances.Add(factory.GetType(), factory);
+                }
+
+                foreach (var dependecy in factoryDependencys)
+                {
+                    aAfterBRelation.Add(dependecy.Key,dependecy.Value);
+                }
+            }
+
             public DocumentBuilder RemoveParser<TFactory>()
                 where TFactory : MarkdownBlock.Factory, new()
             {
@@ -530,7 +554,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 var edges = this.aAfterBRelation;
                 var l = TopologicalSort(values, edges);
 
-                return new MarkdownDocument(l);
+                return new MarkdownDocument(l, edges);
             }
 
             private void AddRelation(Type before, Type after)
