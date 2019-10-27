@@ -2706,6 +2706,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             CorrectSlotsAfterDeletion(slot, isRow);
 
             OnRemovedElement(slot, item, isRow);
+
+            // Synchronize CurrentCellCoordinates, CurrentColumn, CurrentColumnIndex, CurrentItem
+            // and CurrentSlot with the currently edited cell, since OnRemovingElement called
+            // SetCurrentCellCore(-1, -1) to temporarily reset the current cell.
+            if (_temporarilyResetCurrentCell &&
+                _editingColumnIndex != -1 &&
+                _previousCurrentItem != null &&
+                this.EditingRow != null &&
+                this.EditingRow.Slot != -1)
+            {
+                ProcessSelectionAndCurrency(
+                    columnIndex: _editingColumnIndex,
+                    item: _previousCurrentItem,
+                    backupSlot: this.EditingRow.Slot,
+                    action: DataGridSelectionAction.None,
+                    scrollIntoView: false);
+            }
         }
 
         private void RemoveNonDisplayedRows(int newFirstDisplayedSlot, int newLastDisplayedSlot)

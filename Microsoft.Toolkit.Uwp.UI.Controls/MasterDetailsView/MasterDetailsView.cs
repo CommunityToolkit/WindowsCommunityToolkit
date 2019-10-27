@@ -397,8 +397,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 hasSelectionState = HasSelectionWideState;
             }
 
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, state, animate);
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
         }
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
