@@ -25,7 +25,7 @@
             VerticalAlignment="Center"
             TokenSpacing="4"
             Padding="4"
-            Background="Blue"
+            Background="White"
             TokenDelimiter="," />
     </Grid>
 </Page>
