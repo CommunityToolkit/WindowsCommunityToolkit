@@ -22,10 +22,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = PART_AutoSuggestBox, Type = typeof(AutoSuggestBox))]
     [TemplatePart(Name = PART_WrapPanel, Type = typeof(WrapPanel))]
+    [TemplatePart(Name = PART_NormalState, Type = typeof(VisualState))]
+    [TemplatePart(Name = PART_PointerOverState, Type = typeof(VisualState))]
+    [TemplatePart(Name = PART_FocusedState, Type = typeof(VisualState))]
+    [TemplatePart(Name = PART_UnfocusedState, Type = typeof(VisualState))]
     public partial class TokenizingTextBox : Control
     {
         private const string PART_AutoSuggestBox = "PART_AutoSuggestBox";
         private const string PART_WrapPanel = "PART_WrapPanel";
+        private const string PART_NormalState = "Normal";
+        private const string PART_PointerOverState = "PointerOver";
+        private const string PART_FocusedState = "Focused";
+        private const string PART_UnfocusedState = "Unfocused";
 
         private AutoSuggestBox _autoSuggestBox;
         private WrapPanel _wrapPanel;
@@ -50,6 +58,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown -= AutoSuggestBox_KeyDown;
+                _autoSuggestBox.PointerEntered -= AutoSuggestBox_PointerEntered;
+                _autoSuggestBox.PointerExited -= AutoSuggestBox_PointerExited;
+                _autoSuggestBox.PointerCanceled -= AutoSuggestBox_PointerExited;
+                _autoSuggestBox.PointerCaptureLost -= AutoSuggestBox_PointerExited;
+                _autoSuggestBox.GotFocus -= AutoSuggestBox_GotFocus;
+                _autoSuggestBox.LostFocus -= AutoSuggestBox_LostFocus;
             }
 
             _autoSuggestBox = (AutoSuggestBox)GetTemplateChild(PART_AutoSuggestBox);
@@ -61,6 +75,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown += AutoSuggestBox_KeyDown;
+                _autoSuggestBox.PointerEntered += AutoSuggestBox_PointerEntered;
+                _autoSuggestBox.PointerExited += AutoSuggestBox_PointerExited;
+                _autoSuggestBox.PointerCanceled += AutoSuggestBox_PointerExited;
+                _autoSuggestBox.PointerCaptureLost += AutoSuggestBox_PointerExited;
+                _autoSuggestBox.GotFocus += AutoSuggestBox_GotFocus;
+                _autoSuggestBox.LostFocus += AutoSuggestBox_LostFocus;
             }
 
             var selectAllMenuItem = new MenuFlyoutItem
@@ -71,6 +91,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
             ContextFlyout = menuFlyout;
+        }
+
+        private void AutoSuggestBox_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, PART_PointerOverState, true);
+        }
+
+        private void AutoSuggestBox_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, PART_NormalState, true);
+        }
+
+        private void AutoSuggestBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, PART_UnfocusedState, true);
+        }
+
+        private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, PART_FocusedState, true);
         }
 
         private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)

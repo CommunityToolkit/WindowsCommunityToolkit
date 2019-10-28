@@ -23,9 +23,8 @@
             ScrollViewer.VerticalScrollBarVisibility="Auto"
             ScrollViewer.VerticalScrollMode="Enabled"
             VerticalAlignment="Center"
-            TokenSpacing="4"
+            TokenSpacing="2"
             Padding="4"
-            Background="White"
             TokenDelimiter="," />
     </Grid>
 </Page>
