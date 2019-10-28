@@ -185,15 +185,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(DisplayMemberPathProperty, value);
         }
 
+        private IList<TokenizingTextBoxItem> SelectedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
+
         /// <summary>
         /// Gets the collection of currently selected token items.
         /// </summary>
-        public IList<object> SelectedItems { get; private set; } = new List<object>();
+        public IList<object> SelectedItems
+        {
+            get
+            {
+                IList<object> items = new List<object>();
+
+                foreach (var item in SelectedItemsInternal)
+                {
+                    items.Add(item.Content);
+                }
+
+                return items;
+            }
+        }
+
+        private IList<TokenizingTextBoxItem> TokenizedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
 
         /// <summary>
         /// Gets the collection of current token items.
         /// </summary>
-        public IList<object> TokenizedItems { get; private set; } = new List<object>();
+        public IList<object> TokenizedItems
+        {
+            get
+            {
+                IList<object> items = new List<object>();
+
+                foreach (var item in SelectedItemsInternal)
+                {
+                    items.Add(item.Content);
+                }
+
+                return items;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the TextMemberPath of the AutoSuggestBox template part.
