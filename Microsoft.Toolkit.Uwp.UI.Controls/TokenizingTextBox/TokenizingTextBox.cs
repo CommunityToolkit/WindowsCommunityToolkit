@@ -4,7 +4,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.Toolkit.Uwp.Extensions;
+
+using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -40,6 +44,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TokenizingTextBox()
         {
             DefaultStyleKey = typeof(TokenizingTextBox);
+            TokenizedItemsInternal.Clear();
         }
 
         /// <inheritdoc/>
@@ -53,7 +58,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown -= AutoSuggestBox_KeyDown;
-                _autoSuggestBox.CharacterReceived -= AutoSuggestBox_CharacterReceived;
                 _autoSuggestBox.PointerEntered -= AutoSuggestBox_PointerEntered;
                 _autoSuggestBox.PointerExited -= AutoSuggestBox_PointerExited;
                 _autoSuggestBox.PointerCanceled -= AutoSuggestBox_PointerExited;
@@ -71,7 +75,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
                 _autoSuggestBox.KeyDown += AutoSuggestBox_KeyDown;
-                _autoSuggestBox.CharacterReceived += AutoSuggestBox_CharacterReceived;
                 _autoSuggestBox.PointerEntered += AutoSuggestBox_PointerEntered;
                 _autoSuggestBox.PointerExited += AutoSuggestBox_PointerExited;
                 _autoSuggestBox.PointerCanceled += AutoSuggestBox_PointerExited;
@@ -110,16 +113,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             VisualStateManager.GoToState(this, PART_FocusedState, true);
         }
 
-        private void AutoSuggestBox_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
-        {
-            if (args.Character.ToString() == TokenDelimiter && sender is AutoSuggestBox autoSuggestBox)
-            {
-                AddToken(autoSuggestBox.Text);
-                autoSuggestBox.Text = string.Empty;
-                autoSuggestBox.Focus(FocusState.Programmatic);
-            }
-        }
-
         private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
@@ -149,6 +142,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 case VirtualKey.Down:
                     break;
+
+                case VirtualKey.C:
+                    {
+                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                        if (controlPressed)
+                        {
+                            CopySelectedToclipboard();
+                        }
+
+                        break;
+                    }
             }
         }
 
@@ -174,12 +178,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            QueryTextChanged?.Invoke(sender, args);
+            TextChanged?.Invoke(sender, args);
+
+            string t = sender.Text.Trim();
+
+            if (t.Contains(TokenDelimiter))
+            {
+                bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
+
+                string[] tokens = t.Split(TokenDelimiter);
+                int numberToProcess = lastDelimited ? tokens.Length : tokens.Length - 1;
+                for (int position = 0; position < numberToProcess; position++)
+                {
+                    string token = tokens[position];
+                    token = token.Trim();
+                    if (token.Length > 0)
+                    {
+                        AddToken(token);
+                    }
+                }
+
+                if (lastDelimited)
+                {
+                    sender.Text = string.Empty;
+                }
+                else
+                {
+                    sender.Text = tokens[tokens.Length - 1];
+                }
+            }
         }
 
         private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            RemoveToken(sender);
+            bool removeMulti = false;
+            foreach (var item in SelectedItemsInternal)
+            {
+                if (item == sender)
+                {
+                    removeMulti = true;
+                    break;
+                }
+            }
+
+            if (removeMulti)
+            {
+                while (SelectedItemsInternal.Count > 0)
+                {
+                    var b = SelectedItemsInternal[0] as TokenizingTextBoxItem;
+                    RemoveToken(b);
+                }
+            }
+            else
+            {
+                RemoveToken(sender);
+            }
         }
 
         private void TokenizingTextBoxItem_Click(object sender, RoutedEventArgs e)
@@ -197,20 +250,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         }
                     }
 
-                    SelectedItems.Clear();
+                    SelectedItemsInternal.Clear();
                 }
 
                 item.IsSelected = !item.IsSelected;
 
-                var clickedItem = item.Content;
-
                 if (item.IsSelected)
                 {
-                    SelectedItems.Add(clickedItem);
+                    SelectedItemsInternal.Add(item);
                 }
                 else
                 {
-                    SelectedItems.Remove(clickedItem);
+                    SelectedItemsInternal.Remove(item);
                 }
 
                 TokenItemClicked?.Invoke(this, item); // TODO: Do we want to use EventArgs here to have the OriginalSource like ItemClickEventArgs?
@@ -228,6 +279,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             };
             item.Click += TokenizingTextBoxItem_Click; // TODO: Wonder if this needs to be in a PrepareContainerForItemOverride?
             item.ClearClicked += TokenizingTextBoxItem_ClearClicked;
+            item.KeyUp += TokenizingTextBoxItem_KeyUp;
 
             var removeMenuItem = new MenuFlyoutItem
             {
@@ -241,7 +293,86 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var i = _wrapPanel.Children.Count - 1;
             _wrapPanel.Children.Insert(i, item);
 
+            TokenizedItemsInternal.Add(item);
+
             TokenItemAdded?.Invoke(this, item);
+        }
+
+        private void TokenizingTextBoxItem_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            TokenizingTextBoxItem ttbi = sender as TokenizingTextBoxItem;
+
+            switch (e.Key)
+            {
+                case VirtualKey.Left:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
+                        break;
+                    }
+
+                case VirtualKey.Right:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
+                        break;
+                    }
+
+                case VirtualKey.Up:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
+                        break;
+                    }
+
+                case VirtualKey.Down:
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                        break;
+                    }
+
+                case VirtualKey.Space:
+                    {
+                        ttbi.IsSelected = !ttbi.IsSelected;
+                        break;
+                    }
+
+                case VirtualKey.C:
+                    {
+                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                        if (controlPressed)
+                        {
+                            CopySelectedToclipboard();
+                        }
+
+                        break;
+                    }
+            }
+        }
+
+        private void CopySelectedToclipboard()
+        {
+            if (SelectedItemsInternal.Count > 0)
+            {
+                DataPackage dataPackage = new DataPackage();
+                dataPackage.RequestedOperation = DataPackageOperation.Copy;
+
+                string tokenString = string.Empty;
+                bool addSeparator = false;
+                foreach (TokenizingTextBoxItem item in SelectedItemsInternal)
+                {
+                    if (addSeparator)
+                    {
+                        tokenString += TokenDelimiter + " ";
+                    }
+                    else
+                    {
+                        addSeparator = true;
+                    }
+
+                    tokenString += item.Content;
+                }
+
+                dataPackage.SetText(tokenString);
+                Clipboard.SetContent(dataPackage);
+            }
         }
 
         private void RemoveToken(TokenizingTextBoxItem item)
@@ -254,7 +385,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            SelectedItems.Remove(item.Content);
+            SelectedItemsInternal.Remove(item);
+            TokenizedItemsInternal.Remove(item);
 
             var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
             _wrapPanel.Children.Remove(item);
@@ -272,7 +404,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (child is TokenizingTextBoxItem item)
                 {
                     item.IsSelected = true;
-                    SelectedItems.Add(item.Content);
+                    SelectedItemsInternal.Add(item);
                 }
             }
         }
