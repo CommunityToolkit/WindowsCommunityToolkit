@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.Extensions;
-
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
@@ -73,11 +73,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ContextFlyout = menuFlyout;
         }
 
-        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
                 case VirtualKey.Back:
+                    {
+                        TextBox autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
+                        if (autoSuggestTextBox != null)
+                        {
+                            int currentCursorPosition = autoSuggestTextBox.SelectionStart;
+                            if (currentCursorPosition == 0)
+                            {
+                                // The last item is the AutoSuggestBox. Get the second to last.
+                                UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
+                                await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
+                            }
+                        }
+                        break;
+                    }
+
                 case VirtualKey.Delete:
 
                     if (_autoSuggestBox.Text != string.Empty || _wrapPanel.Children.Count <= 1)
