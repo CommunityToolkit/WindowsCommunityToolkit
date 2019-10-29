@@ -18,7 +18,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <typeparam name="TParser">The Parser of a Block</typeparam>
         /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
         /// <returns>This instance</returns>
-        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TParser> AddParser<TParser>(Action<TParser> configurationCallback = null) where TParser : MarkdownBlock.Parser, new();
+        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TParser> AddParser<TParser>(Action<TParser> configurationCallback = null)
+            where TParser : MarkdownBlock.Parser, new();
 
         /// <summary>
         /// Creates the Markdown Document

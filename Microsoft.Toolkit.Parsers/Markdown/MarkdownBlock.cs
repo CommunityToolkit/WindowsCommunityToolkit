@@ -50,9 +50,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return base.GetHashCode() ^ Type.GetHashCode();
         }
 
+        /// <summary>
+        /// Helper class to configure default parser behavior
+        /// </summary>
         public class DefaultParserConfiguration
         {
             internal List<Type> BeforeParsers { get; }
+
             internal List<Type> AfterParsers { get; }
 
             internal DefaultParserConfiguration()
@@ -61,12 +65,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 this.AfterParsers = new List<Type>();
             }
 
+            /// <summary>
+            /// This parser should run before <typeparamref name="T"/>
+            /// </summary>
+            /// <typeparam name="T">The Parser</typeparam>
             public void Before<T>()
                 where T : Parser
             {
                 this.BeforeParsers.Add(typeof(T));
             }
 
+            /// <summary>
+            /// This parser should run after <typeparamref name="T"/>
+            /// </summary>
+            /// <typeparam name="T">The Parser</typeparam>
             public void After<T>()
                 where T : Parser
             {
@@ -74,25 +86,35 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
+        /// <summary>
+        /// An Abstract base class of Block Parsers
+        /// </summary>
         public abstract class Parser
         {
-
             internal Parser()
             {
                 var config = new DefaultParserConfiguration();
                 this.ConfigureDefaults(config);
                 this.DefaultBeforeParsers = config.BeforeParsers.AsReadOnly();
                 this.DefaultAfterParsers = config.AfterParsers.AsReadOnly();
-
             }
 
+            /// <summary>
+            /// Gets the Default ordering of this Parser (ever parser that comes after this one)
+            /// </summary>
             public IEnumerable<Type> DefaultBeforeParsers { get; }
 
+            /// <summary>
+            /// Gets the Default ordering of this Parser (ever parser that comes before this one)
+            /// </summary>
             public IEnumerable<Type> DefaultAfterParsers { get; }
 
+            /// <summary>
+            /// Override this Method to order this Parser relative to others.
+            /// </summary>
+            /// <param name="configuration">A configuration class which methods can be used to order this parser.</param>
             protected virtual void ConfigureDefaults(DefaultParserConfiguration configuration)
             {
-
             }
 
             /// <summary>
@@ -108,15 +130,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="actualEnd">The position untill this block was parsed.</param>
             /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
+            /// <param name="document">The Document which is parsing</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
             public abstract MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
-
         }
 
+        /// <summary>
+        /// An Abstract Base class for parsing Blocks
+        /// </summary>
+        /// <typeparam name="TBlock">The Type of Block that will be parsed.</typeparam>
         public abstract class Parser<TBlock> : Parser
             where TBlock : MarkdownBlock
         {
-
             /// <summary>
             /// Parse a block.
             /// </summary>
@@ -130,9 +155,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="actualEnd">The position untill this block was parsed.</param>
             /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
+            /// <param name="document">The Document which is parsing</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
             protected abstract TBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
 
+            /// <inheritdoc/>
             public sealed override MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startOfLine, firstNonSpace, realStartOfLine, endOfFirstLine, maxEnd, quoteDepth, out actualEnd, paragraphText, lineStartsNewParagraph, document);
         }
     }
