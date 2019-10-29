@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when the text input value has changed.
         /// </summary>
-        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> QueryTextChanged;
+        public event TypedEventHandler<AutoSuggestBox, AutoSuggestBoxTextChangedEventArgs> TextChanged;
 
         /// <summary>
         /// Event raised when a suggested item is chosen by the user.
