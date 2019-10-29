@@ -25,6 +25,10 @@
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-arm\native"/>
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pri" target="runtimes\win10-arm\native"/>
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pdb" target="runtimes\win10-arm\native"/>
+	  
+	  <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-arm64\native"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pri" target="runtimes\win10-arm64\native"/>
+      <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\ARM64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pdb" target="runtimes\win10-arm64\native"/>
 
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\x64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.dll" target="runtimes\win10-x64\native"/>
       <file src="..\Microsoft.Toolkit.Uwp.Input.GazeInteraction\Output\x64\Release\Microsoft.Toolkit.Uwp.Input.GazeInteraction.pri" target="runtimes\win10-x64\native"/>
