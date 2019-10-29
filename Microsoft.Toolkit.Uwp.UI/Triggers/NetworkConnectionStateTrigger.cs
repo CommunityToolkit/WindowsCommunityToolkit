@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                 new WeakEventListener<NetworkConnectionStateTrigger, object>(this)
                 {
                     OnEventAction = (instance, source) => NetworkInformation_NetworkStatusChanged(source),
-                    OnDetachAction = (instance, weakEventListener) => NetworkInformation.NetworkStatusChanged -= weakEventListener.OnEvent
+                    OnDetachAction = (weakEventListener) => NetworkInformation.NetworkStatusChanged -= weakEventListener.OnEvent
                 };
             NetworkInformation.NetworkStatusChanged += weakEvent.OnEvent;
             UpdateState();
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             /// <summary>
             /// Gets or sets the method to call when detaching from the event.
             /// </summary>
-            public Action<TInstance, WeakEventListener<TInstance, TSource>> OnDetachAction { get; set; }
+            public Action<WeakEventListener<TInstance, TSource>> OnDetachAction { get; set; }
 
             /// <summary>
             /// Initializes a new instance of the <see cref="WeakEventListener{TInstance, TSource}"/> class.
@@ -122,10 +122,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
             /// </summary>
             public void Detach()
             {
-                TInstance target = (TInstance)_weakInstance.Target;
                 if (OnDetachAction != null)
                 {
-                    OnDetachAction(target, this);
+                    OnDetachAction(this);
                     OnDetachAction = null;
                 }
             }

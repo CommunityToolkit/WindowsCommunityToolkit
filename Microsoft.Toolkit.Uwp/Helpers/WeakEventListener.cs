@@ -44,14 +44,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets or sets the method to call when detaching from the event.
         /// </summary>
-        [Obsolete("Use OnDetachAction2")]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Action<WeakEventListener<TInstance, TSource, TEventArgs>> OnDetachAction { get; set; }
-
-        /// <summary>
-        /// Gets or sets the method to call when detaching from the event.
-        /// </summary>
-        public Action<TInstance, WeakEventListener<TInstance, TSource, TEventArgs>> OnDetachAction2 { get; set; }
 
         /// <summary>
         /// Handler for the subscribed event calls OnEventAction to handle it.
@@ -78,12 +72,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         public void Detach()
         {
-#pragma warning disable CS0618 // Type or member is obsolete
             OnDetachAction?.Invoke(this);
             OnDetachAction = null;
-#pragma warning restore CS0618 // Type or member is obsolete
-            TInstance target = (TInstance)weakInstance.Target;
-            OnDetachAction2?.Invoke(target, this);
         }
     }
 }

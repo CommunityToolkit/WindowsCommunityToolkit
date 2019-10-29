@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                     new WeakEventListener<FullScreenModeTrigger, ApplicationView, object>(this)
                     {
                         OnEventAction = (instance, source, eventArgs) => instance.FullScreenModeTrigger_VisibleBoundsChanged(source, eventArgs),
-                        OnDetachAction2 = (instance, weakEventListener) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= weakEventListener.OnEvent
+                        OnDetachAction = (weakEventListener) => ApplicationView.GetForCurrentView().VisibleBoundsChanged -= weakEventListener.OnEvent
                     };
                 ApplicationView.GetForCurrentView().VisibleBoundsChanged += weakEvent.OnEvent;
             }

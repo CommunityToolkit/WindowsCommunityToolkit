@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Triggers
                     new WeakEventListener<UserInteractionModeTrigger, object, WindowSizeChangedEventArgs>(this)
                     {
                         OnEventAction = (instance, source, eventArgs) => UserInteractionModeTrigger_SizeChanged(source, eventArgs),
-                        OnDetachAction2 = (instance, weakEventListener) => Window.Current.SizeChanged -= weakEventListener.OnEvent
+                        OnDetachAction = (weakEventListener) => Window.Current.SizeChanged -= weakEventListener.OnEvent
                     };
                 Window.Current.SizeChanged += weakEvent.OnEvent;
                 UpdateTrigger(InteractionMode);
