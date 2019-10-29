@@ -7,8 +7,6 @@ using System.Collections.Generic;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
-using Microsoft.Toolkit.Parsers.Markdown;
-
 
 namespace UnitTests.Markdown.Parse
 {
@@ -114,7 +112,8 @@ namespace UnitTests.Markdown.Parse
         public void Table_WithEscapedCellDivider()
         {
             // Too many column dividers is okay.
-            AssertEqual(CollapseWhitespace(@"
+            AssertEqual(
+                CollapseWhitespace(@"
                         Column A | Column B | Column C
                         -|-|-|-
                         A1 \| A2 | B1 | C1"),
