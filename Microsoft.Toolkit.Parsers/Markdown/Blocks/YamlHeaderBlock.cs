@@ -55,10 +55,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
-        public new class Factory : Factory<YamlHeaderBlock>
+        public new class Parser : Parser<YamlHeaderBlock>
         {
 
-            public override IEnumerable<Type> DefaultBeforeFactorys { get; } = new Type[] { typeof(HorizontalRuleBlock.Factory) };
+            public override IEnumerable<Type> DefaultBeforeParsers { get; } = new Type[] { typeof(HorizontalRuleBlock.Parser) };
             protected override YamlHeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // As yaml header, must be start a line with "---"

@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return string.Join(string.Empty, Inlines);
         }
 
-        public class HashFactory : Factory<HeaderBlock>
+        public class HashParser : Parser<HeaderBlock>
         {
             protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
@@ -104,10 +104,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
-        public class UnderlineFactory : Factory<HeaderBlock>
+        public class UnderlineParser : Parser<HeaderBlock>
         {
 
-            public override IEnumerable<Type> DefaultBeforeFactorys { get; } = new Type[] { typeof(HorizontalRuleBlock.Factory) };
+            public override IEnumerable<Type> DefaultBeforeParsers { get; } = new Type[] { typeof(HorizontalRuleBlock.Parser) };
             protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with some text on the first line, followed by one or more

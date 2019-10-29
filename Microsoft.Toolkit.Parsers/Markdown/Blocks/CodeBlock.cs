@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return Text;
         }
 
-        public new class Factory : Factory<CodeBlock>
+        public new class Parser : Parser<CodeBlock>
         {
             protected override CodeBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {

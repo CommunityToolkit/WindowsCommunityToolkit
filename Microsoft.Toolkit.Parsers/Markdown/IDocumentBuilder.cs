@@ -15,10 +15,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Add a Parser with an optional configuration. Every Parser may only be used once.
         /// </summary>
-        /// <typeparam name="TFactory">The Factory of a Block</typeparam>
+        /// <typeparam name="TParser">The Parser of a Block</typeparam>
         /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
         /// <returns>This instance</returns>
-        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TFactory> AddParser<TFactory>(Action<TFactory> configurationCallback = null) where TFactory : MarkdownBlock.Factory, new();
+        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TParser> AddParser<TParser>(Action<TParser> configurationCallback = null) where TParser : MarkdownBlock.Parser, new();
 
         /// <summary>
         /// Creates the Markdown Document
@@ -30,9 +30,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Removes a Parser. This will no longer be used when parsing with the MarkdownDocument.
         /// If the Parser is not present this method does nothing.
         /// </summary>
-        /// <typeparam name="TFactory">The Factory of a Block</typeparam>
+        /// <typeparam name="TParser">The Parser of a Block</typeparam>
         /// <returns>This instance</returns>
-        MarkdownDocument.DocumentBuilder RemoveParser<TFactory>()
-            where TFactory : MarkdownBlock.Factory, new();
+        MarkdownDocument.DocumentBuilder RemoveParser<TParser>()
+            where TParser : MarkdownBlock.Parser, new();
     }
 }

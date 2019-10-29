@@ -50,18 +50,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return base.GetHashCode() ^ Type.GetHashCode();
         }
 
-        public abstract class Factory
+        public abstract class Parser
         {
 
-            internal Factory() { }
-            public virtual IEnumerable<Type> DefaultBeforeFactorys => Array.Empty<Type>();
-            public virtual IEnumerable<Type> DefaultAfterFactorys => Array.Empty<Type>();
+            internal Parser() { }
+            public virtual IEnumerable<Type> DefaultBeforeParsers => Array.Empty<Type>();
+            public virtual IEnumerable<Type> DefaultAfterParsers => Array.Empty<Type>();
 
             public abstract MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
 
         }
 
-        public abstract class Factory<TBlock> : Factory
+        public abstract class Parser<TBlock> : Parser
             where TBlock : MarkdownBlock
         {
 

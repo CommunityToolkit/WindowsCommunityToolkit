@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             public IList<MarkdownInline> Inlines { get; set; }
         }
 
-        public new class Factory : Factory<TableBlock>
+        public new class Parser : Parser<TableBlock>
         {
             protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {

@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return "---";
         }
 
-        public new class Factory : Factory<HorizontalRuleBlock>
+        public new class Parser : Parser<HorizontalRuleBlock>
         {
             protected override HorizontalRuleBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {

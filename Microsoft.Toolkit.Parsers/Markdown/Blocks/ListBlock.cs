@@ -227,7 +227,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return result.ToString();
         }
 
-        public new class Factory : Factory<ListBlock>
+        public new class Parser : Parser<ListBlock>
         {
             protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
