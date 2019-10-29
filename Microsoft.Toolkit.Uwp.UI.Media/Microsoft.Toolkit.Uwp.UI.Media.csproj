@@ -18,11 +18,8 @@
 
     </Description>
     <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
-
-    <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     
-    <!-- For StatusBar -->
-    <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
+    <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
 
   <ItemGroup>
