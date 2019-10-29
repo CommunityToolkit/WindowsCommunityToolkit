@@ -6,6 +6,7 @@
     <x:Double x:Key="TokenizingTextBoxItemMinHeight">28</x:Double>
     <Thickness x:Key="TokenizingTextBoxItemPadding">8,0,0,0</Thickness>
     <Thickness x:Key="TokenizingTextBoxItemBorderThickness">0</Thickness>
+    <Thickness x:Key="TokenizingTextBoxItemPresenterMargin">0,-2,0,1</Thickness>
     <HorizontalAlignment x:Key="TokenizingTextBoxItemHorizontalContentAlignment">Center</HorizontalAlignment>
     <VerticalAlignment x:Key="TokenizingTextBoxItemVerticalContentAlignment">Center</VerticalAlignment>
     <Style x:Key="TokenizingTextBoxItemClearButtonStyle"
@@ -45,7 +46,7 @@
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Content="{TemplateBinding Content}"
                                               ContentTemplate="{TemplateBinding ContentTemplate}"
-                                              TextLineBounds="TrimToCapHeight" />
+                                              Margin="{StaticResource TokenizingTextBoxItemPresenterMargin}" />
 
                             <Button Name="PART_ClearButton"
                                     Width="{TemplateBinding MinHeight}"
