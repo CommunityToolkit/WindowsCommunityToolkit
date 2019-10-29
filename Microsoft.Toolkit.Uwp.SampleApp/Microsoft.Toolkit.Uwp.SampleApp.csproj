@@ -1041,7 +1041,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxXaml.bind">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

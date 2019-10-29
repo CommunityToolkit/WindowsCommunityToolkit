@@ -457,7 +457,6 @@
         "About": "A text input control that makes suggestions and keeps track of data token items",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
         "XamlCodeFile": "TokenizingTextBoxXaml.bind",
-        "CodeFile": "TokenizingTextBoxCode.bind",
         "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
       }
