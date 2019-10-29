@@ -29,6 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AutoSuggestBox _autoSuggestBox;
         private WrapPanel _wrapPanel;
+        private TextBox _autoSuggestTextBox;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
@@ -39,6 +40,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TokenizedItemsInternal.Clear();
         }
 
+        private void OnASBLoaded(object sender, RoutedEventArgs e)
+        {
+            _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
+            _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
+        }
+
+        private async void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            int currentCursorPosition = _autoSuggestTextBox.SelectionStart;
+            if (currentCursorPosition == 0 && e.Key == VirtualKey.Back && TokenizedItemsInternal.Count > 0)
+            {
+                // The last item is the AutoSuggestBox. Get the second to last
+                UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
+
+                // And set focus to it
+                await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
+                e.Handled = true;
+            }
+        }
+
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
@@ -46,6 +67,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_autoSuggestBox != null)
             {
+                _autoSuggestBox.Loaded -= OnASBLoaded;
+
                 _autoSuggestBox.QuerySubmitted -= AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
@@ -57,6 +80,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_autoSuggestBox != null)
             {
+                _autoSuggestBox.Loaded += OnASBLoaded;
+
                 _autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
@@ -73,39 +98,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ContextFlyout = menuFlyout;
         }
 
-        private async void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             switch (e.Key)
             {
-                case VirtualKey.Back:
-                    {
-                        TextBox autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
-                        if (autoSuggestTextBox != null)
-                        {
-                            int currentCursorPosition = autoSuggestTextBox.SelectionStart;
-                            if (currentCursorPosition == 0)
-                            {
-                                // The last item is the AutoSuggestBox. Get the second to last.
-                                UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
-                                await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
-                            }
-                        }
-                        break;
-                    }
-
-                case VirtualKey.Delete:
-
-                    if (_autoSuggestBox.Text != string.Empty || _wrapPanel.Children.Count <= 1)
-                    {
-                        break;
-                    }
-
-                    // The last item is the AutoSuggestBox. Get the second to last.
-                    var lastTokenIndex = _wrapPanel.Children.Count - 2;
-                    var lastToken = _wrapPanel.Children[lastTokenIndex];
-                    RemoveToken(lastToken as TokenizingTextBoxItem);
-                    break;
-
                 case VirtualKey.Left:
                     break;
 
