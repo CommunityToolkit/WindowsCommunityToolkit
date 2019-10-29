@@ -53,15 +53,18 @@
     <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers brushes blur</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
+    
+    <!-- For StatusBar -->
     <UseWindowsMobileSdk>true</UseWindowsMobileSdk>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
     <PackageReference Include="Win2D.uwp" Version="1.21.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-  </ItemGroup>
+  </ItemGroup>  
 
 </Project>

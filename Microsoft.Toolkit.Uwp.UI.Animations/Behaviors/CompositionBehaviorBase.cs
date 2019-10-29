@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Animation;
 
@@ -11,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// A base class for all behaviors using composition.It contains some of the common properties to set on a visual.
     /// </summary>
     /// <typeparam name="T">The type of the associated object.</typeparam>
-    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Animations.Behaviors.BehaviorBase{T}" />
+    /// <seealso cref="Microsoft.Toolkit.Uwp.UI.Behaviors.BehaviorBase{T}" />
     public abstract class CompositionBehaviorBase<T> : BehaviorBase<T>
         where T : UIElement
     {
