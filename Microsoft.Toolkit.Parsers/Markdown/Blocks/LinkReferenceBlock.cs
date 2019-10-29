@@ -47,13 +47,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return string.Format("[{0}]: {1} {2}", Id, Url, Tooltip);
         }
 
+        /// <summary>
+        /// Parse LinkReferenceBlock
+        /// </summary>
         public new class Parser : Parser<LinkReferenceBlock>
         {
-            public override IEnumerable<Type> DefaultAfterParsers { get; } = new Type[] { typeof(CodeBlock.Parser) };
+            /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.After<CodeBlock.Parser>();
+            }
 
+            /// <inheritdoc/>
             protected override LinkReferenceBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-
                 actualEnd = startOfLine;
 
                 // Expect a '[' character.

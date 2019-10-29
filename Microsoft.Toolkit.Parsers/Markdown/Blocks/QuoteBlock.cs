@@ -27,10 +27,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 
+        /// <summary>
+        /// Parses QuoteBlock
+        /// </summary>
         public new class Parser : Parser<QuoteBlock>
         {
-            public override IEnumerable<Type> DefaultAfterParsers { get; } = new Type[] { typeof(CodeBlock.Parser) };
+            /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.After<CodeBlock.Parser>();
+            }
 
+            /// <inheritdoc/>
             protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 if (markdown[firstNonSpace] != '>')

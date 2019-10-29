@@ -65,8 +65,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return string.Join(string.Empty, Inlines);
         }
 
+        /// <summary>
+        /// Parses Header with Hash
+        /// </summary>
         public class HashParser : Parser<HeaderBlock>
         {
+            /// <inheritdoc/>
             protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with one or more '#' characters, followed by the header
@@ -104,17 +108,25 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
+        /// <summary>
+        /// Parse Underline
+        /// </summary>
         public class UnderlineParser : Parser<HeaderBlock>
         {
+            /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.Before<HorizontalRuleBlock.Parser>();
+            }
 
-            public override IEnumerable<Type> DefaultBeforeParsers { get; } = new Type[] { typeof(HorizontalRuleBlock.Parser) };
+            /// <inheritdoc/>
             protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with some text on the first line, followed by one or more
                 // underline characters ('=' or '-') on the second line.
                 // The second line can have whitespace after the underline characters, but not before
                 // or between each character.
-
                 var nonSpaceChar = markdown[firstNonSpace];
                 actualEnd = startOfLine;
                 if ((nonSpaceChar != '-' && nonSpaceChar != '=') || firstNonSpace != startOfLine || paragraphText.Length == 0)
@@ -171,7 +183,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // We're going to have to remove the header text from the pending
                 // paragraph by prematurely ending the current paragraph.
                 // We already made sure that there is a paragraph in progress.
-                paragraphText.Length -= (paragraphText.Length - startOfHeader);
+                paragraphText.Length -= paragraphText.Length - startOfHeader;
 
                 return result;
             }

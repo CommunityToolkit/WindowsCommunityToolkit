@@ -42,8 +42,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return Text;
         }
 
+        /// <summary>
+        /// Parse Code Block
+        /// </summary>
         public new class Parser : Parser<CodeBlock>
         {
+            /// <inheritdoc/>
             protected override CodeBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 StringBuilder code = null;
@@ -56,7 +60,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     return null;
                 }
-
 
                 /*
                     Two options here:

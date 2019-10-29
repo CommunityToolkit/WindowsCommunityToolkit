@@ -55,10 +55,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
+        /// <summary>
+        /// Parses YAML header
+        /// </summary>
         public new class Parser : Parser<YamlHeaderBlock>
         {
+            /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.Before<HorizontalRuleBlock.Parser>();
+            }
 
-            public override IEnumerable<Type> DefaultBeforeParsers { get; } = new Type[] { typeof(HorizontalRuleBlock.Parser) };
+            /// <inheritdoc/>
             protected override YamlHeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // As yaml header, must be start a line with "---"
@@ -164,7 +173,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 return result;
             }
-
         }
     }
 }

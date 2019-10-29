@@ -227,8 +227,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return result.ToString();
         }
 
+        /// <summary>
+        /// Parse ListBlock
+        /// </summary>
         public new class Parser : Parser<ListBlock>
         {
+            /// <inheritdoc/>
             protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var russianDolls = new List<NestedListInfo>();

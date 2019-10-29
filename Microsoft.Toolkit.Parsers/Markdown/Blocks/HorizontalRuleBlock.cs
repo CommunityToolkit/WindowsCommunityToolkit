@@ -29,8 +29,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             return "---";
         }
 
+        /// <summary>
+        /// Parse HorizontalRule
+        /// </summary>
         public new class Parser : Parser<HorizontalRuleBlock>
         {
+            /// <inheritdoc/>
             protected override HorizontalRuleBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A horizontal rule is a line with at least 3 stars, optionally separated by spaces
@@ -46,6 +50,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     actualEnd = startOfLine;
                     return null;
                 }
+
                 while (pos < endOfFirstLine)
                 {
                     char c = markdown[pos++];

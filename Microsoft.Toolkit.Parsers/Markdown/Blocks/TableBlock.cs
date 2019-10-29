@@ -199,22 +199,24 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             public IList<MarkdownInline> Inlines { get; set; }
         }
 
+        /// <summary>
+        /// Parses Tables
+        /// </summary>
         public new class Parser : Parser<TableBlock>
         {
+            /// <inheritdoc/>
             protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally
                 // vertical bars at the start and end.  The second line must have at least as many
                 // interior vertical bars as there are interior vertical bars on the first line.
-                
                 actualEnd = realStartOfLine;
 
                 if (!lineStartsNewParagraph)
                 {
                     return null;
                 }
-
 
                 // First thing to do is to check if there is a vertical bar on the line.
                 var barSections = markdown.Substring((int)realStartOfLine, (int)(endOfFirstLine - realStartOfLine)).Split('|');
@@ -325,7 +327,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 actualEnd = realStartOfLine;
                 return new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
             }
-
         }
     }
 }
