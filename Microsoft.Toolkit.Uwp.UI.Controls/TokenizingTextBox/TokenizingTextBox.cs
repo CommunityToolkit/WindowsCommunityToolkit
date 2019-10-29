@@ -50,6 +50,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnASBLoaded(object sender, RoutedEventArgs e)
         {
+            if (_autoSuggestTextBox != null)
+            {
+                _autoSuggestTextBox.PreviewKeyDown -= this.AutoSuggestTextBox_PreviewKeyDown;
+            }
+
             _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
             _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
         }
@@ -296,7 +301,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
-            removeMenuItem.Click += (s, e) => RemoveToken(item);
+            removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(item, null);
+
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(removeMenuItem);
             item.ContextFlyout = menuFlyout;
