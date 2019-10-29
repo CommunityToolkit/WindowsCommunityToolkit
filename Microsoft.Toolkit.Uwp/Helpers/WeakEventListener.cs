@@ -44,7 +44,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets or sets the method to call when detaching from the event.
         /// </summary>
-        [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public Action<WeakEventListener<TInstance, TSource, TEventArgs>> OnDetachAction { get; set; }
 
         /// <summary>
