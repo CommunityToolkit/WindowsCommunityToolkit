@@ -148,7 +148,12 @@ Task("Build")
     Information("\nBuilding Solution");
     var buildSettings = new MSBuildSettings
     {
-        MaxCpuCount = 0
+        MaxCpuCount = 0,
+        BinaryLogger = new MSBuildBinaryLogSettings 
+        {
+            Enabled = true,
+            FileName = nupkgDir + "/binlog_output.binlog"
+        }
     }
     .SetConfiguration("Release")
     .WithTarget("Restore");
