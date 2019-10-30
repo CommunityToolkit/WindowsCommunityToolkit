@@ -63,4 +63,4 @@ steps:
     pathToPublish: .\bin\nupkg
     artifactType: container
     artifactName: Packages
-    condition: always()
+  condition: always()
