@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Graph;
+using Microsoft.Toolkit.Extensions;
 using Newtonsoft.Json;
 
 namespace Microsoft.Toolkit.Services.OneDrive
@@ -69,35 +70,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
         {
             get
             {
-                var size = FileSize.HasValue ? FileSize.Value : 0;
-                if (size < 1024)
-                {
-                    return size.ToString("F0") + " bytes";
-                }
-                else if ((size >> 10) < 1024)
-                {
-                    return (size / (float)1024).ToString("F1") + " KB";
-                }
-                else if ((size >> 20) < 1024)
-                {
-                    return ((size >> 10) / (float)1024).ToString("F1") + " MB";
-                }
-                else if ((size >> 30) < 1024)
-                {
-                    return ((size >> 20) / (float)1024).ToString("F1") + " GB";
-                }
-                else if ((size >> 40) < 1024)
-                {
-                    return ((size >> 30) / (float)1024).ToString("F1") + " TB";
-                }
-                else if ((size >> 50) < 1024)
-                {
-                    return ((size >> 40) / (float)1024).ToString("F1") + " PB";
-                }
-                else
-                {
-                    return ((size >> 50) / (float)1024).ToString("F0") + " EB";
-                }
+                return FileSize.HasValue ? Converters.ToFileSizeString(FileSize.Value) : Converters.ToFileSizeString(0L);
             }
         }
 

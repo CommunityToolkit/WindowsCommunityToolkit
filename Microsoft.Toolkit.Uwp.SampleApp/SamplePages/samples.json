@@ -378,6 +378,8 @@
         "CodeFile": "AadLoginCode.bind",
         "XamlCodeFile": "AadLoginXaml.bind",
         "Icon": "/SamplePages/AadLogin/AadLogin.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The AadLogin control has been replaced with the LoginButton control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
       },
       {
@@ -388,6 +390,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
         "XamlCodeFile": "ProfileCardXaml.bind",
         "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The ProfileCard control has been replaced with the PersonView control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
       },
       {
@@ -398,6 +402,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PeoplePicker control has been replaced with the new PeoplePicker control in Microsoft.Toolkit.Graph.Controls and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
       },
       {
@@ -428,6 +434,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
         "XamlCodeFile": "PlannerTaskListXaml.bind",
         "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PlannerTaskList control will be replaced with a new Task control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
       },
       {

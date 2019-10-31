@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The Profile Card control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.
     /// </summary>
+    [Obsolete("This control will be removed in a future release of the toolkit. Please use the new Graph controls at https://aka.ms/wgt")]
     public partial class ProfileCard : Control
     {
         private static readonly BitmapImage PersonPhoto = new BitmapImage(new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls.Graph/Assets/person.png"));
