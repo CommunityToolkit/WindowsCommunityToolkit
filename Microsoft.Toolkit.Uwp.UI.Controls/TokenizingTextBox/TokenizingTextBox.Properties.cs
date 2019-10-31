@@ -210,19 +210,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the collection of current token items.
         /// </summary>
-        public IList<object> TokenizedItems
+        public IList<object> Items
         {
             get
             {
                 IList<object> items = new List<object>();
 
-                foreach (var item in SelectedItemsInternal)
+                foreach (var item in TokenizedItemsInternal)
                 {
                     items.Add(item.Content);
                 }
 
                 return items;
             }
+
+            //// TODO: Need to make this settable/changable
         }
 
         /// <summary>
