@@ -4,13 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Deferred;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.WebUI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -172,22 +173,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
+            QuerySubmitted?.Invoke(sender, args);
+
             if (args.ChosenSuggestion != null)
             {
-                await AddToken(args.ChosenSuggestion);
                 sender.Text = string.Empty;
+                await AddToken(args.ChosenSuggestion);
                 sender.Focus(FocusState.Programmatic);
             }
             else if (!string.IsNullOrWhiteSpace(args.QueryText))
             {
-                await AddToken(args.QueryText);
                 sender.Text = string.Empty;
+                await AddToken(args.QueryText);
                 sender.Focus(FocusState.Programmatic);
             }
-
-            QuerySubmitted?.Invoke(sender, args);
         }
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
@@ -213,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     token = token.Trim();
                     if (token.Length > 0)
                     {
-                        AddToken(token);
+                        _ = AddToken(token);
                     }
                 }
 
@@ -287,8 +288,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void AddToken(object data)
+        private async Task AddToken(object data)
         {
+            if (data is string str)
+            {
+                var ticea = new TokenItemCreatingEventArgs(str);
+                await TokenItemCreating.InvokeAsync(this, ticea);
+
+                if (ticea.Cancel)
+                {
+                    return;
+                }
+
+                if (ticea.Item != null)
+                {
+                    data = ticea.Item; // Transformed by event implementor
+                }
+            }
+
             var item = new TokenizingTextBoxItem()
             {
                 Content = data,

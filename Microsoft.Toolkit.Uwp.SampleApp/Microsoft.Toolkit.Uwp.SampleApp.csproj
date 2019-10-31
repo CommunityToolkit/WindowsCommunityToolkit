@@ -547,6 +547,7 @@
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
@@ -559,6 +560,7 @@
     <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
+    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -1503,7 +1505,6 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
