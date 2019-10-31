@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TokenDelimiter),
             typeof(string),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(" "));
 
         /// <summary>
         /// Identifies the <see cref="TokenSpacing"/> property.

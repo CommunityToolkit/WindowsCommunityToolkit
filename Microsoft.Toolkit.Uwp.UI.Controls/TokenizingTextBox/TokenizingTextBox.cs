@@ -202,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             string t = sender.Text.Trim();
 
-            if (t.Contains(TokenDelimiter))
+            if (!string.IsNullOrEmpty(TokenDelimiter) && t.Contains(TokenDelimiter))
             {
                 bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
 
@@ -290,7 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task AddToken(object data)
         {
-            if (data is string str)
+            if (data is string str && TokenItemCreating != null)
             {
                 var ticea = new TokenItemCreatingEventArgs(str);
                 await TokenItemCreating.InvokeAsync(this, ticea);
@@ -450,7 +450,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Returns the string representation of each token item, concatenated and delimeted.
         /// </summary>
         /// <returns>Untokenized text string</returns>
-        public string GetUntokenizedText(string tokenDelimiter = " ,")
+        public string GetUntokenizedText(string tokenDelimiter = ", ")
         {
             var tokenStrings = new List<string>();
             foreach (var child in _wrapPanel.Children)
