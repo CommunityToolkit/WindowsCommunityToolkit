@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.
     /// </summary>
+    [Obsolete("This control will be removed in a future release of the toolkit. Please use the new Graph controls at https://aka.ms/wgt")]
     [TemplatePart(Name = SearchBoxPartName, Type = typeof(TextBox))]
     [TemplatePart(Name = InternalSearchBoxTextBoxPartName, Type = typeof(TextBox))]
     [TemplatePart(Name = SearchResultListBoxPartName, Type = typeof(ListBox))]
