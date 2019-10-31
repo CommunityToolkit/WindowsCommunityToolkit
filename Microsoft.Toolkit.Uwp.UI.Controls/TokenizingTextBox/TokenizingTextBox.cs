@@ -174,9 +174,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (args.QueryText != string.Empty)
+            if (args.ChosenSuggestion != null)
             {
-                AddToken(args.QueryText);
+                await AddToken(args.ChosenSuggestion);
+                sender.Text = string.Empty;
+                sender.Focus(FocusState.Programmatic);
+            }
+            else if (!string.IsNullOrWhiteSpace(args.QueryText))
+            {
+                await AddToken(args.QueryText);
                 sender.Text = string.Empty;
                 sender.Focus(FocusState.Programmatic);
             }
@@ -186,9 +192,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            AddToken(args.SelectedItem);
-            sender.Text = string.Empty;
-            sender.Focus(FocusState.Programmatic);
             SuggestionChosen?.Invoke(sender, args);
         }
 
