@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
                         if (controlPressed)
                         {
-                            CopySelectedToclipboard();
+                            CopySelectedToClipboard();
                         }
 
                         break;
@@ -356,7 +356,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
                         if (controlPressed)
                         {
-                            CopySelectedToclipboard();
+                            CopySelectedToClipboard();
                         }
 
                         break;
@@ -364,7 +364,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CopySelectedToclipboard()
+        private void CopySelectedToClipboard()
         {
             if (SelectedItemsInternal.Count > 0)
             {
