@@ -268,6 +268,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         if (newBlockElement != null)
                         {
                             startOfNextLine = endOfBlock;
+                            break;
                         }
                     }
 
