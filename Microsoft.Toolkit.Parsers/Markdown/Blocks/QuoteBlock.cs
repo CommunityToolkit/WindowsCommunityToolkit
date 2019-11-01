@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
@@ -42,16 +43,60 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <inheritdoc/>
             protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                if (markdown[firstNonSpace] != '>')
+                var nonSpace = firstNonSpace;
+                if (markdown[nonSpace] != '>')
                 {
                     actualEnd = startOfLine;
                     return null;
                 }
 
+                var lines = new List<ReadOnlyMemory<char>>();
+                var newLine = startOfLine;
+                int endOfLine;
+                while (true)
+                {
+                    endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, newLine, maxEnd, out var nextLine);
+
+                    nonSpace = Helpers.Common.FindNextNoneWhiteSpace(markdown, newLine, endOfLine, false);
+
+                    if (nonSpace == -1)
+                    {
+                        break;
+                    }
+
+                    if (markdown[nonSpace] != '>')
+                    {
+                        break;
+                    }
+
+                    var actualStart = nonSpace + 1;
+                    if (markdown.Length > actualStart && markdown[actualStart] == ' ')
+                    {
+                        actualStart++;
+                    }
+
+                    if (markdown.Length > actualStart)
+                    {
+                        int length;
+                        if (endOfLine < markdown.Length)
+                            length = endOfLine - actualStart + 1;
+                        else
+                            length = endOfLine - actualStart;
+
+                        lines.Add(markdown.AsMemory(actualStart, length));
+                    }
+
+                    newLine = nextLine;
+
+                }
+
+                actualEnd = endOfLine;
+                var filteredString = new StringFilter(lines);
+
                 var result = new QuoteBlock();
 
                 // Recursively call into the markdown block parser.
-                result.Blocks = document.Parse(markdown, startOfLine, maxEnd, quoteDepth: quoteDepth + 1, actualEnd: out actualEnd);
+                result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, 0, out _);
 
                 return result;
             }
