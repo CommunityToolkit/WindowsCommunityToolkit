@@ -4,6 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
@@ -18,8 +19,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <typeparam name="TParser">The Parser of a Block</typeparam>
         /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
         /// <returns>This instance</returns>
-        MarkdownDocument.DocumentBuilder.DocumentBuilderConfigurator<TParser> AddParser<TParser>(Action<TParser> configurationCallback = null)
+        MarkdownDocument.DocumentBuilder.DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser> configurationCallback = null)
             where TParser : MarkdownBlock.Parser, new();
+
+        /// <summary>
+        /// Add a Parser with an optional configuration. Every Parser may only be used once.
+        /// </summary>
+        /// <typeparam name="TParser">The Parser of an Inline</typeparam>
+        /// <param name="configurationCallback">A callback to configure the instance of the parser.</param>
+        /// <returns>This instance</returns>
+        MarkdownDocument.DocumentBuilder.DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser> configurationCallback = null)
+            where TParser : MarkdownInline.Parser, new();
 
         /// <summary>
         /// Creates the Markdown Document
@@ -33,7 +43,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <typeparam name="TParser">The Parser of a Block</typeparam>
         /// <returns>This instance</returns>
-        MarkdownDocument.DocumentBuilder RemoveParser<TParser>()
+        MarkdownDocument.DocumentBuilder RemoveBlockParser<TParser>()
             where TParser : MarkdownBlock.Parser, new();
+
+        /// <summary>
+        /// Removes a Parser. This will no longer be used when parsing with the MarkdownDocument.
+        /// If the Parser is not present this method does nothing.
+        /// </summary>
+        /// <typeparam name="TParser">The Parser of an Inline</typeparam>
+        /// <returns>This instance</returns>
+        MarkdownDocument.DocumentBuilder RemoveInlineParser<TParser>()
+            where TParser : MarkdownInline.Parser, new();
     }
 }

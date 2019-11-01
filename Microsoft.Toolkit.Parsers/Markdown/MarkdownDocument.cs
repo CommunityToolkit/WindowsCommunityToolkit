@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Blocks;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
@@ -34,8 +35,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             "sip"
         };
 
-        private readonly MarkdownBlock.Parser[] parsers;
-        private readonly Dictionary<Type, HashSet<Type>> parserDependencys;
+        private readonly MarkdownBlock.Parser[] parsersBlock;
+        private readonly Dictionary<Type, HashSet<Type>> parserDependencysBlock;
+
+        private readonly MarkdownInline.Parser[] parsersInline;
+        private readonly Dictionary<Type, HashSet<Type>> parserDependencysInline;
+
         private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
@@ -43,27 +48,34 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         public MarkdownDocument()
             : this(
-                blockParsers: TopologicalSort(new Parser[]
-                {
-                    new YamlHeaderBlock.Parser(),
-                    new TableBlock.Parser(),
-                    new QuoteBlock.Parser(),
-                    new ListBlock.Parser(),
-                    new LinkReferenceBlock.Parser(),
-                    new HorizontalRuleBlock.Parser(),
-                    new HeaderBlock.HashParser(),
-                    new HeaderBlock.UnderlineParser(),
-                    new CodeBlock.Parser()
-                }),
-                 edges: null)
+                  blockParsers: TopologicalSort(new Parser[]
+                  {
+                      new YamlHeaderBlock.Parser(),
+                      new TableBlock.Parser(),
+                      new QuoteBlock.Parser(),
+                      new ListBlock.Parser(),
+                      new LinkReferenceBlock.Parser(),
+                      new HorizontalRuleBlock.Parser(),
+                      new HeaderBlock.HashParser(),
+                      new HeaderBlock.UnderlineParser(),
+                      new CodeBlock.Parser()
+                  }),
+                  blockEdges: null,
+                  inlineParsers: TopologicalSort(new MarkdownInline.Parser[]
+                  {
+                  }),
+                  inlineEdges: null)
         {
         }
 
-        internal MarkdownDocument(IEnumerable<Parser> blockParsers, Dictionary<Type, HashSet<Type>> edges)
+        internal MarkdownDocument(IEnumerable<MarkdownBlock.Parser> blockParsers, Dictionary<Type, HashSet<Type>> blockEdges, IEnumerable<MarkdownInline.Parser> inlineParsers, Dictionary<Type, HashSet<Type>> inlineEdges)
             : base(MarkdownBlockType.Root)
         {
-            this.parsers = blockParsers.ToArray();
-            this.parserDependencys = edges ?? new Dictionary<Type, HashSet<Type>>();
+            this.parsersBlock = blockParsers.ToArray();
+            this.parserDependencysBlock = blockEdges ?? new Dictionary<Type, HashSet<Type>>();
+
+            this.parsersInline = inlineParsers.ToArray();
+            this.parserDependencysInline = inlineEdges ?? new Dictionary<Type, HashSet<Type>>();
         }
 
         /// <summary>
@@ -75,7 +87,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Returns a builder with the same configuraiton as the one that created this Document.
         /// </summary>
         /// <returns>A Builder</returns>
-        public DocumentBuilder GetBuilder() => new DocumentBuilder(this.parsers, this.parserDependencys);
+        public DocumentBuilder GetBuilder() => new DocumentBuilder(this.parsersBlock, this.parserDependencysBlock, this.parsersInline, this.parserDependencysInline);
 
         /// <summary>
         /// Parses markdown document text.
@@ -262,7 +274,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     // Or a horizontal rule if the line contains nothing but 3 '*', '-' or '_' characters (with optional whitespace).
                     MarkdownBlock newBlockElement = null;
 
-                    foreach (var parser in this.parsers)
+                    foreach (var parser in this.parsersBlock)
                     {
                         newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, quoteDepth, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
@@ -378,7 +390,39 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return string.Join("\r\n", Blocks);
         }
 
-        private static IEnumerable<Parser> TopologicalSort(IEnumerable<Parser> parsers)
+        private static IEnumerable<MarkdownBlock.Parser> TopologicalSort(IEnumerable<MarkdownBlock.Parser> parsers)
+        {
+            var edges = new Dictionary<Type, HashSet<Type>>();
+
+            void AddRelation(Type before, Type after)
+            {
+                if (edges.ContainsKey(before))
+                {
+                    edges[before].Add(after);
+                }
+                else
+                {
+                    edges.Add(before, new HashSet<Type> { after });
+                }
+            }
+
+            foreach (var parser in parsers)
+            {
+                foreach (var item in parser.DefaultAfterParsers)
+                {
+                    AddRelation(item, parser.GetType());
+                }
+
+                foreach (var item in parser.DefaultBeforeParsers)
+                {
+                    AddRelation(parser.GetType(), item);
+                }
+            }
+
+            return TopologicalSort(parsers, edges);
+        }
+
+        private static IEnumerable<MarkdownInline.Parser> TopologicalSort(IEnumerable<MarkdownInline.Parser> parsers)
         {
             var edges = new Dictionary<Type, HashSet<Type>>();
 
@@ -415,9 +459,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <param name="nodes">The Factores.</param>
         /// <param name="edges">A dictionary that maps a Parser to all of its incomming (must run before this) Parsers.</param>
+        /// <typeparam name="T">The type to sort</typeparam>
         /// <returns>The ordered list</returns>
-        private static IEnumerable<Parser> TopologicalSort(IEnumerable<Parser> nodes, Dictionary<Type, HashSet<Type>> edges)
+        private static IEnumerable<T> TopologicalSort<T>(IEnumerable<T> nodes, Dictionary<Type, HashSet<Type>> edges)
         {
+            // we want to order all elements to get a deterministic result
             var orderedSource = nodes.OrderBy(x => x.GetType().FullName).ToArray();
 
             // We will manipulate edges. So we make a copy
@@ -437,8 +483,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             //     return error   (graph has at least one cycle)
             // else
             //     return L   (a topologically sorted order)
-            var l = new List<MarkdownBlock.Parser>();
-            var s = new Queue<MarkdownBlock.Parser>(orderedSource.Where(x => !edges.ContainsKey(x.GetType())));
+            var l = new List<T>();
+            var s = new Queue<T>(orderedSource.Where(x => !edges.ContainsKey(x.GetType())));
 
             void RemoveRelation(Type before, Type after)
             {
@@ -482,85 +528,155 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         public class DocumentBuilder : IDocumentBuilder
         {
-            private readonly Dictionary<Type, MarkdownBlock.Parser> parserInstances = new Dictionary<Type, MarkdownBlock.Parser>();
-            private readonly Dictionary<Type, HashSet<Type>> aAfterBRelation = new Dictionary<Type, HashSet<Type>>();
+            private readonly Dictionary<Type, MarkdownBlock.Parser> parserInstancesBlock = new Dictionary<Type, MarkdownBlock.Parser>();
+            private readonly Dictionary<Type, HashSet<Type>> aAfterBRelationBlock = new Dictionary<Type, HashSet<Type>>();
 
-            internal DocumentBuilder(Parser[] parsers, Dictionary<Type, HashSet<Type>> parserDependencys)
+            private readonly Dictionary<Type, MarkdownInline.Parser> parserInstancesInline = new Dictionary<Type, MarkdownInline.Parser>();
+            private readonly Dictionary<Type, HashSet<Type>> aAfterBRelationInline = new Dictionary<Type, HashSet<Type>>();
+
+            internal DocumentBuilder(MarkdownBlock.Parser[] parsersBlock, Dictionary<Type, HashSet<Type>> parserDependencysBlock, MarkdownInline.Parser[] parsersInline, Dictionary<Type, HashSet<Type>> parserDependencysInline)
             {
-                foreach (var parser in parsers)
+                foreach (var parser in parsersBlock)
                 {
-                    parserInstances.Add(parser.GetType(), parser);
+                    parserInstancesBlock.Add(parser.GetType(), parser);
                 }
 
-                foreach (var dependecy in parserDependencys)
+                foreach (var dependecy in parserDependencysBlock)
                 {
-                    aAfterBRelation.Add(dependecy.Key, dependecy.Value);
+                    aAfterBRelationBlock.Add(dependecy.Key, dependecy.Value);
+                }
+
+                foreach (var parser in parsersInline)
+                {
+                    parserInstancesInline.Add(parser.GetType(), parser);
+                }
+
+                foreach (var dependecy in parserDependencysInline)
+                {
+                    aAfterBRelationInline.Add(dependecy.Key, dependecy.Value);
                 }
             }
 
             /// <inheritdoc/>
-            public DocumentBuilder RemoveParser<TParser>()
+            public DocumentBuilder RemoveBlockParser<TParser>()
                 where TParser : MarkdownBlock.Parser, new()
             {
-                this.parserInstances.Remove(typeof(TParser));
+                this.parserInstancesBlock.Remove(typeof(TParser));
                 return this;
             }
 
             /// <inheritdoc/>
-            public DocumentBuilderConfigurator<TParser> AddParser<TParser>(Action<TParser> configurationCallback = null)
+            public DocumentBuilder RemoveInlineParser<TParser>()
+                where TParser : MarkdownInline.Parser, new()
+            {
+                this.parserInstancesInline.Remove(typeof(TParser));
+                return this;
+            }
+
+            /// <inheritdoc/>
+            public DocumentBuilderBlockConfigurator<TParser> AddBlockParser<TParser>(Action<TParser> configurationCallback = null)
                 where TParser : MarkdownBlock.Parser, new()
             {
                 var data = new TParser();
                 configurationCallback?.Invoke(data);
-                this.parserInstances.Add(typeof(TParser), data);
+                this.parserInstancesBlock.Add(typeof(TParser), data);
 
                 foreach (var item in data.DefaultAfterParsers)
                 {
-                    this.AddRelation(item, data.GetType());
+                    this.AddRelationBlock(item, data.GetType());
                 }
 
                 foreach (var item in data.DefaultBeforeParsers)
                 {
-                    this.AddRelation(data.GetType(), item);
+                    this.AddRelationBlock(data.GetType(), item);
                 }
 
-                return new DocumentBuilderConfigurator<TParser>(this);
+                return new DocumentBuilderBlockConfigurator<TParser>(this);
+            }
+
+            /// <inheritdoc/>
+            public DocumentBuilderInlineConfigurator<TParser> AddInlineParser<TParser>(Action<TParser> configurationCallback = null)
+                where TParser : MarkdownInline.Parser, new()
+            {
+                var data = new TParser();
+                configurationCallback?.Invoke(data);
+                this.parserInstancesInline.Add(typeof(TParser), data);
+
+                foreach (var item in data.DefaultAfterParsers)
+                {
+                    this.AddRelationInline(item, data.GetType());
+                }
+
+                foreach (var item in data.DefaultBeforeParsers)
+                {
+                    this.AddRelationInline(data.GetType(), item);
+                }
+
+                return new DocumentBuilderInlineConfigurator<TParser>(this);
             }
 
             /// <inheritdoc/>
             public MarkdownDocument Build()
             {
                 // we need to get rid of all edges that are related to removed nodes
-                foreach (var item in this.aAfterBRelation.Keys.Where(x => !this.parserInstances.ContainsKey(x)).ToArray())
+                foreach (var item in this.aAfterBRelationBlock.Keys.Where(x => !this.parserInstancesBlock.ContainsKey(x)).ToArray())
                 {
-                    this.aAfterBRelation.Remove(item);
+                    this.aAfterBRelationBlock.Remove(item);
                 }
 
-                foreach (var keyValuePair in this.aAfterBRelation)
+                foreach (var keyValuePair in this.aAfterBRelationBlock)
                 {
-                    foreach (var item in keyValuePair.Value.Where(x => !this.parserInstances.ContainsKey(x)).ToArray())
+                    foreach (var item in keyValuePair.Value.Where(x => !this.parserInstancesBlock.ContainsKey(x)).ToArray())
                     {
                         keyValuePair.Value.Remove(item);
                     }
                 }
 
-                // we want to order all elements to get a deterministic result
-                var values = this.parserInstances.Values;
-                var edges = this.aAfterBRelation;
-                var l = TopologicalSort(values, edges);
+                foreach (var item in this.aAfterBRelationInline.Keys.Where(x => !this.parserInstancesInline.ContainsKey(x)).ToArray())
+                {
+                    this.aAfterBRelationInline.Remove(item);
+                }
 
-                return new MarkdownDocument(l, edges);
+                foreach (var keyValuePair in this.aAfterBRelationInline)
+                {
+                    foreach (var item in keyValuePair.Value.Where(x => !this.parserInstancesInline.ContainsKey(x)).ToArray())
+                    {
+                        keyValuePair.Value.Remove(item);
+                    }
+                }
+
+                var valuesBlocks = this.parserInstancesBlock.Values;
+                var edgesBlocks = this.aAfterBRelationBlock;
+                var sortedBlocks = TopologicalSort(valuesBlocks, edgesBlocks);
+
+                var valuesInlines = this.parserInstancesInline.Values;
+                var edgesInlines = this.aAfterBRelationInline;
+                var sortedInlines = TopologicalSort(valuesInlines, edgesInlines);
+
+                return new MarkdownDocument(sortedBlocks, edgesBlocks, sortedInlines, edgesInlines);
             }
 
-            private void AddRelation(Type before, Type after)
+            private void AddRelationBlock(Type before, Type after)
             {
-                if (this.aAfterBRelation.ContainsKey(before))
+                if (this.aAfterBRelationBlock.ContainsKey(before))
                 {
-                    this.aAfterBRelation[before].Add(after);
+                    this.aAfterBRelationBlock[before].Add(after);
                 }
                 else
                 {
-                    this.aAfterBRelation.Add(before, new HashSet<Type> { after });
+                    this.aAfterBRelationBlock.Add(before, new HashSet<Type> { after });
+                }
+            }
+
+            private void AddRelationInline(Type before, Type after)
+            {
+                if (this.aAfterBRelationInline.ContainsKey(before))
+                {
+                    this.aAfterBRelationInline[before].Add(after);
+                }
+                else
+                {
+                    this.aAfterBRelationInline.Add(before, new HashSet<Type> { after });
                 }
             }
 
@@ -569,29 +685,33 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             /// </summary>
             /// <typeparam name="TParser">The type of the Parser</typeparam>
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-            public class DocumentBuilderConfigurator<TParser> : IDocumentBuilder
+            public class DocumentBuilderBlockConfigurator<TParser> : IDocumentBuilder
                     where TParser : MarkdownBlock.Parser, new()
             {
                 private readonly DocumentBuilder parent;
 
-                internal DocumentBuilderConfigurator(DocumentBuilder documentBuilder)
+                internal DocumentBuilderBlockConfigurator(DocumentBuilder documentBuilder)
                 {
                     this.parent = documentBuilder;
                 }
 
                 /// <inheritdoc/>
-                public DocumentBuilderConfigurator<TParser1> AddParser<TParser1>(Action<TParser1> configurationCallback = null)
-                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.AddParser(configurationCallback);
+                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1> configurationCallback = null)
+                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.AddBlockParser(configurationCallback);
+
+                /// <inheritdoc/>
+                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1> configurationCallback = null)
+                    where TParser1 : MarkdownInline.Parser, new() => this.parent.AddInlineParser(configurationCallback);
 
                 /// <summary>
                 /// Defines that the last added Parser will run after <typeparamref name="TParser2"/>.
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse before this one.</typeparam>
                 /// <returns>This Instance</returns>
-                public DocumentBuilderConfigurator<TParser> After<TParser2>()
+                public DocumentBuilderBlockConfigurator<TParser> After<TParser2>()
                     where TParser2 : MarkdownBlock.Parser, new()
                 {
-                    this.parent.AddRelation(typeof(TParser), typeof(TParser2));
+                    this.parent.AddRelationBlock(typeof(TParser), typeof(TParser2));
                     return this;
                 }
 
@@ -600,10 +720,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse after this one.</typeparam>
                 /// <returns>This Instance</returns>
-                public DocumentBuilderConfigurator<TParser> Before<TParser2>()
+                public DocumentBuilderBlockConfigurator<TParser> Before<TParser2>()
                     where TParser2 : MarkdownBlock.Parser, new()
                 {
-                    this.parent.AddRelation(typeof(TParser2), typeof(TParser));
+                    this.parent.AddRelationBlock(typeof(TParser2), typeof(TParser));
                     return this;
                 }
 
@@ -611,8 +731,71 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 public MarkdownDocument Build() => this.parent.Build();
 
                 /// <inheritdoc/>
-                public DocumentBuilder RemoveParser<TParser1>()
-                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.RemoveParser<TParser1>();
+                public DocumentBuilder RemoveBlockParser<TParser1>()
+                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.RemoveBlockParser<TParser1>();
+
+                /// <inheritdoc/>
+                public DocumentBuilder RemoveInlineParser<TParser1>()
+                    where TParser1 : MarkdownInline.Parser, new() => this.parent.RemoveInlineParser<TParser1>();
+            }
+
+            /// <summary>
+            /// Allows to order a Parsers relative to other Parsers.
+            /// </summary>
+            /// <typeparam name="TParser">The type of the Parser</typeparam>
+            [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
+            public class DocumentBuilderInlineConfigurator<TParser> : IDocumentBuilder
+                    where TParser : MarkdownInline.Parser, new()
+            {
+                private readonly DocumentBuilder parent;
+
+                internal DocumentBuilderInlineConfigurator(DocumentBuilder documentBuilder)
+                {
+                    this.parent = documentBuilder;
+                }
+
+                /// <inheritdoc/>
+                public DocumentBuilderBlockConfigurator<TParser1> AddBlockParser<TParser1>(Action<TParser1> configurationCallback = null)
+                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.AddBlockParser(configurationCallback);
+
+                /// <inheritdoc/>
+                public DocumentBuilderInlineConfigurator<TParser1> AddInlineParser<TParser1>(Action<TParser1> configurationCallback = null)
+                    where TParser1 : MarkdownInline.Parser, new() => this.parent.AddInlineParser(configurationCallback);
+
+                /// <summary>
+                /// Defines that the last added Parser will run after <typeparamref name="TParser2"/>.
+                /// </summary>
+                /// <typeparam name="TParser2">The Parser that will guarantee to parse before this one.</typeparam>
+                /// <returns>This Instance</returns>
+                public DocumentBuilderInlineConfigurator<TParser> After<TParser2>()
+                    where TParser2 : MarkdownInline.Parser, new()
+                {
+                    this.parent.AddRelationInline(typeof(TParser), typeof(TParser2));
+                    return this;
+                }
+
+                /// <summary>
+                /// Defines that the last added Parser will run before <typeparamref name="TParser2"/>.
+                /// </summary>
+                /// <typeparam name="TParser2">The Parser that will guarantee to parse after this one.</typeparam>
+                /// <returns>This Instance</returns>
+                public DocumentBuilderInlineConfigurator<TParser> Before<TParser2>()
+                    where TParser2 : MarkdownInline.Parser, new()
+                {
+                    this.parent.AddRelationInline(typeof(TParser2), typeof(TParser));
+                    return this;
+                }
+
+                /// <inheritdoc/>
+                public MarkdownDocument Build() => this.parent.Build();
+
+                /// <inheritdoc/>
+                public DocumentBuilder RemoveBlockParser<TParser1>()
+                    where TParser1 : MarkdownBlock.Parser, new() => this.parent.RemoveBlockParser<TParser1>();
+
+                /// <inheritdoc/>
+                public DocumentBuilder RemoveInlineParser<TParser1>()
+                    where TParser1 : MarkdownInline.Parser, new() => this.parent.RemoveInlineParser<TParser1>();
             }
         }
     }
