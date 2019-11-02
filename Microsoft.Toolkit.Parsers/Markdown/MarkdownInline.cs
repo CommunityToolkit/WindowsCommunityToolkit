@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 using System;
 using System.Collections.Generic;
 
@@ -103,49 +104,45 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// Parse a block.
+            /// Parses an Inline
             /// </summary>
-            /// <param name="markdown">The markdown text. </param>
-            /// <param name="startOfLine">The location of the first hash character (without quotes). </param>
-            /// <param name="firstNonSpace">The first character that is not a space.</param>
-            /// <param name="realStartOfLine">The position of the Start of the line including the qute characters.</param>
-            /// <param name="endOfFirstLine">The position of the end of the line</param>
-            /// <param name="maxEnd">The maximum position untill we parsed.</param>
-            /// <param name="quoteDepth">Current quote characters</param>
-            /// <param name="actualEnd">The position untill this block was parsed.</param>
-            /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
-            /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
-            /// <param name="document">The Document which is parsing</param>
-            /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            public abstract MarkdownInline Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
+            /// <param name="markdown">The markdown text.</param>
+            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
+            /// <param name="tripPos">The position where the triping char matched.</param>
+            /// <param name="maxEnd">The position untill the text may be parsed.</param>
+            /// <param name="document">The current parsing document.</param>
+            /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
+            /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
+            /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar</remarks>
+            public abstract InlineParseResult Parse(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
+
+            /// <summary>
+            /// Gets the chars that if found means we might have a match. Empty if Tripchars are not supported.
+            /// </summary>
+            public virtual IEnumerable<char> TripChar => Array.Empty<char>();
         }
 
         /// <summary>
         /// An Abstract Base class for parsing Blocks
         /// </summary>
-        /// <typeparam name="TBlock">The Type of Block that will be parsed.</typeparam>
-        public abstract class Parser<TBlock> : Parser
-            where TBlock : MarkdownInline
+        /// <typeparam name="TInline">The Type of inline that will be parsed.</typeparam>
+        public abstract class Parser<TInline> : Parser
+            where TInline : MarkdownInline
         {
             /// <summary>
-            /// Parse a block.
+            /// Parses an Inline
             /// </summary>
-            /// <param name="markdown">The markdown text. </param>
-            /// <param name="startOfLine">The location of the first hash character (without quotes). </param>
-            /// <param name="firstNonSpace">The first character that is not a space.</param>
-            /// <param name="realStartOfLine">The position of the Start of the line including the qute characters.</param>
-            /// <param name="endOfFirstLine">The position of the end of the line</param>
-            /// <param name="maxEnd">The maximum position untill we parsed.</param>
-            /// <param name="quoteDepth">Current quote characters</param>
-            /// <param name="actualEnd">The position untill this block was parsed.</param>
-            /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
-            /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
-            /// <param name="document">The Document which is parsing</param>
-            /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            protected abstract TBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
+            /// <param name="markdown">The markdown text.</param>
+            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
+            /// <param name="tripPos">The position where the triping char matched.</param>
+            /// <param name="maxEnd">The position untill the text may be parsed.</param>
+            /// <param name="document">The current parsing document.</param>
+            /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
+            /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
+            protected abstract InlineParseResult<TInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
 
             /// <inheritdoc/>
-            public sealed override MarkdownInline Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startOfLine, firstNonSpace, realStartOfLine, endOfFirstLine, maxEnd, quoteDepth, out actualEnd, paragraphText, lineStartsNewParagraph, document);
+            public sealed override InlineParseResult Parse(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers) => this.ParseInternal(markdown, minStart, tripPos, maxEnd, document, ignoredParsers);
         }
     }
 }

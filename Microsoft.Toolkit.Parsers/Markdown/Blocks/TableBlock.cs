@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
             /// <returns>the postiion parsed to</returns>
-            internal int Parse(string markdown, int startingPos, int maxEndingPos, int quoteDepth)
+            internal int Parse(string markdown, int startingPos, int maxEndingPos, int quoteDepth, MarkdownDocument document)
             {
                 Cells = new List<TableCell>();
                 return ParseContents(
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     contentParser: (startingPos2, maxEndingPos2) =>
                     {
                         var cell = new TableCell();
-                        cell.Inlines = Common.ParseInlineChildren(markdown, startingPos2, maxEndingPos2);
+                        cell.Inlines = document.ParseInlineChildren(markdown, startingPos2, maxEndingPos2, Array.Empty<Type>());
                         Cells.Add(cell);
                     });
             }
@@ -243,7 +243,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                realStartOfLine = firstRow.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth);
+                realStartOfLine = firstRow.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth, document);
                 rows.Add(firstRow);
 
                 // Parse the contents of the second row.
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 while (realStartOfLine < maxEnd)
                 {
                     var row = new TableRow();
-                    realStartOfLine = row.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth);
+                    realStartOfLine = row.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth, document);
                     if (row.Cells.Count == 0)
                     {
                         break;

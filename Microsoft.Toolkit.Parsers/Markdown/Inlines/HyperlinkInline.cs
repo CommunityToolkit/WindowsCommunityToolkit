@@ -44,363 +44,394 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public HyperlinkType LinkType { get; set; }
 
         /// <summary>
-        /// Returns the chars that if found means we might have a match.
-        /// </summary>
-        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
-        {
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '<', Method = InlineParseMethod.AngleBracketLink });
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = ':', Method = InlineParseMethod.Url });
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '/', Method = InlineParseMethod.RedditLink });
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '.', Method = InlineParseMethod.PartialLink });
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '@', Method = InlineParseMethod.Email });
-        }
-
-        /// <summary>
         /// Attempts to parse a URL within angle brackets e.g. "http://www.reddit.com".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed URL, or <c>null</c> if this is not a URL. </returns>
-        internal static InlineParseResult ParseAngleBracketLink(string markdown, int start, int maxEnd)
+        public class AngleBracketLinkParser : Parser<HyperlinkInline>
         {
-            int innerStart = start + 1;
-
-            // Check for a known scheme e.g. "https://".
-            int pos = -1;
-            foreach (var scheme in MarkdownDocument.KnownSchemes)
+            /// <inheritdoc/>
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                if (maxEnd - innerStart >= scheme.Length && string.Equals(markdown.Substring(innerStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                int innerStart = tripPos + 1;
+
+                // Check for a known scheme e.g. "https://".
+                int pos = -1;
+                foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
-                    // URL scheme found.
-                    pos = innerStart + scheme.Length;
-                    break;
+                    if (maxEnd - innerStart >= scheme.Length && string.Equals(markdown.Substring(innerStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // URL scheme found.
+                        pos = innerStart + scheme.Length;
+                        break;
+                    }
                 }
+
+                if (pos == -1)
+                {
+                    return null;
+                }
+
+                // Angle bracket links should not have any whitespace.
+                int innerEnd = markdown.IndexOfAny(new char[] { ' ', '\t', '\r', '\n', '>' }, pos, maxEnd - pos);
+                if (innerEnd == -1 || markdown[innerEnd] != '>')
+                {
+                    return null;
+                }
+
+                // There should be at least one character after the http://.
+                if (innerEnd == pos)
+                {
+                    return null;
+                }
+
+                var url = markdown.Substring(innerStart, innerEnd - innerStart);
+                return InlineParseResult.Create(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.BracketedUrl }, tripPos, innerEnd + 1);
             }
 
-            if (pos == -1)
-            {
-                return null;
-            }
-
-            // Angle bracket links should not have any whitespace.
-            int innerEnd = markdown.IndexOfAny(new char[] { ' ', '\t', '\r', '\n', '>' }, pos, maxEnd - pos);
-            if (innerEnd == -1 || markdown[innerEnd] != '>')
-            {
-                return null;
-            }
-
-            // There should be at least one character after the http://.
-            if (innerEnd == pos)
-            {
-                return null;
-            }
-
-            var url = markdown.Substring(innerStart, innerEnd - innerStart);
-            return new InlineParseResult(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.BracketedUrl }, start, innerEnd + 1);
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "<";
         }
 
         /// <summary>
         /// Attempts to parse a URL e.g. "http://www.reddit.com".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="tripPos"> The location of the colon character. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed URL, or <c>null</c> if this is not a URL. </returns>
-        internal static InlineParseResult ParseUrl(string markdown, int tripPos, int maxEnd)
+        public class UrlParser : Parser<HyperlinkInline>
         {
-            int start = -1;
-
-            // Check for a known scheme e.g. "https://".
-            foreach (var scheme in MarkdownDocument.KnownSchemes)
+            /// <inheritdoc/>
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                int schemeStart = tripPos - scheme.Length;
-                if (schemeStart >= 0 && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                int start = -1;
+
+                // Check for a known scheme e.g. "https://".
+                foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
-                    // URL scheme found.
-                    start = schemeStart;
-                    break;
+                    int schemeStart = tripPos - scheme.Length;
+                    if (schemeStart >= minStart && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                    {
+                        // URL scheme found.
+                        start = schemeStart;
+                        break;
+                    }
                 }
+
+                if (start == -1)
+                {
+                    return null;
+                }
+
+                // The previous character must be non-alphanumeric i.e. "ahttp://t.co" is not a valid URL.
+                if (start > 0 && char.IsLetter(markdown[start - 1]))
+                {
+                    return null;
+                }
+
+                // The URL must have at least one character after the http:// and at least one dot.
+                int pos = tripPos + 3;
+                if (pos > maxEnd)
+                {
+                    return null;
+                }
+
+                int dotIndex = markdown.IndexOf('.', pos, maxEnd - pos);
+                if (dotIndex == -1 || dotIndex == pos)
+                {
+                    return null;
+                }
+
+                // Find the end of the URL.
+                int end = FindUrlEnd(markdown, dotIndex + 1, maxEnd);
+
+                var url = markdown.Substring(start, end - start);
+                return InlineParseResult.Create(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.FullUrl }, start, end);
             }
 
-            if (start == -1)
-            {
-                return null;
-            }
-
-            // The previous character must be non-alphanumeric i.e. "ahttp://t.co" is not a valid URL.
-            if (start > 0 && char.IsLetter(markdown[start - 1]))
-            {
-                return null;
-            }
-
-            // The URL must have at least one character after the http:// and at least one dot.
-            int pos = tripPos + 3;
-            if (pos > maxEnd)
-            {
-                return null;
-            }
-
-            int dotIndex = markdown.IndexOf('.', pos, maxEnd - pos);
-            if (dotIndex == -1 || dotIndex == pos)
-            {
-                return null;
-            }
-
-            // Find the end of the URL.
-            int end = FindUrlEnd(markdown, dotIndex + 1, maxEnd);
-
-            var url = markdown.Substring(start, end - start);
-            return new InlineParseResult(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.FullUrl }, start, end);
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => ":";
         }
 
         /// <summary>
-        /// Attempts to parse a subreddit link e.g. "/r/news" or "r/news".
+        /// Parses a redit link.
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
-        internal static InlineParseResult ParseRedditLink(string markdown, int start, int maxEnd)
+        public class ReditLinkParser : Parser<HyperlinkInline>
         {
-            var result = ParseDoubleSlashLink(markdown, start, maxEnd);
-            if (result != null)
+            /// <inheritdoc/>
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                return result;
+                var result = ParseDoubleSlashLink(markdown, minStart, tripPos, maxEnd);
+                if (result != null)
+                {
+                    return result;
+                }
+
+                return ParseSingleSlashLink(markdown, minStart, tripPos, maxEnd);
             }
 
-            return ParseSingleSlashLink(markdown, start, maxEnd);
-        }
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "/";
 
-        /// <summary>
-        /// Parse a link of the form "/r/news" or "/u/quinbd".
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
-        private static InlineParseResult ParseDoubleSlashLink(string markdown, int start, int maxEnd)
-        {
-            // The minimum length is 4 characters ("/u/u").
-            if (start > maxEnd - 4)
+            /// <summary>
+            /// Parse a link of the form "/r/news" or "/u/quinbd".
+            /// </summary>
+            /// <param name="markdown"> The markdown text. </param>
+            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
+            /// <param name="start"> The location to start parsing. </param>
+            /// <param name="maxEnd"> The location to stop parsing. </param>
+            /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
+            private static InlineParseResult<HyperlinkInline> ParseDoubleSlashLink(string markdown, int minStart, int start, int maxEnd)
             {
-                return null;
+                // The minimum length is 4 characters ("/u/u").
+                if (start > maxEnd - 4)
+                {
+                    return null;
+                }
+
+                // Determine the type of link (subreddit or user).
+                HyperlinkType linkType;
+                if (markdown[start + 1] == 'r')
+                {
+                    linkType = HyperlinkType.Subreddit;
+                }
+                else if (markdown[start + 1] == 'u')
+                {
+                    linkType = HyperlinkType.User;
+                }
+                else
+                {
+                    return null;
+                }
+
+                // Check that there is another slash.
+                if (markdown[start + 2] != '/')
+                {
+                    return null;
+                }
+
+                // Find the end of the link.
+                int end = FindEndOfRedditLink(markdown, start + 3, maxEnd);
+
+                // Subreddit names must be at least two characters long, users at least one.
+                if (end - start < (linkType == HyperlinkType.User ? 4 : 5))
+                {
+                    return null;
+                }
+
+                // We found something!
+                var text = markdown.Substring(start, end - start);
+                return InlineParseResult.Create(new HyperlinkInline { Text = text, Url = text, LinkType = linkType }, start, end);
             }
 
-            // Determine the type of link (subreddit or user).
-            HyperlinkType linkType;
-            if (markdown[start + 1] == 'r')
+            /// <summary>
+            /// Parse a link of the form "r/news" or "u/quinbd".
+            /// </summary>
+            /// <param name="markdown"> The markdown text. </param>
+            /// <param name="minStart">The position that is the ealyst charackter that was not yet consumed by an inline.</param>
+            /// <param name="start"> The location to start parsing. </param>
+            /// <param name="maxEnd"> The location to stop parsing. </param>
+            /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
+            private static InlineParseResult<HyperlinkInline> ParseSingleSlashLink(string markdown, int minStart, int start, int maxEnd)
             {
-                linkType = HyperlinkType.Subreddit;
-            }
-            else if (markdown[start + 1] == 'u')
-            {
-                linkType = HyperlinkType.User;
-            }
-            else
-            {
-                return null;
+                // The minimum length is 3 characters ("u/u").
+                start--;
+                if (start < minStart || start > maxEnd - 3)
+                {
+                    return null;
+                }
+
+                // Determine the type of link (subreddit or user).
+                HyperlinkType linkType;
+                if (markdown[start] == 'r')
+                {
+                    linkType = HyperlinkType.Subreddit;
+                }
+                else if (markdown[start] == 'u')
+                {
+                    linkType = HyperlinkType.User;
+                }
+                else
+                {
+                    return null;
+                }
+
+                // If the link doesn't start with '/', then the previous character must be
+                // non-alphanumeric i.e. "bear/trap" is not a valid subreddit link.
+                if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '/'))
+                {
+                    return null;
+                }
+
+                // Find the end of the link.
+                int end = FindEndOfRedditLink(markdown, start + 2, maxEnd);
+
+                // Subreddit names must be at least two characters long, users at least one.
+                if (end - start < (linkType == HyperlinkType.User ? 3 : 4))
+                {
+                    return null;
+                }
+
+                // We found something!
+                var text = markdown.Substring(start, end - start);
+                return InlineParseResult.Create(new HyperlinkInline { Text = text, Url = "/" + text, LinkType = linkType }, start, end);
             }
 
-            // Check that there is another slash.
-            if (markdown[start + 2] != '/')
+            /// <summary>
+            /// Finds the next character that is not a letter, digit or underscore in a range.
+            /// </summary>
+            /// <param name="markdown"> The markdown text. </param>
+            /// <param name="start"> The location to start searching. </param>
+            /// <param name="end"> The location to stop searching. </param>
+            /// <returns> The location of the next character that is not a letter, digit or underscore. </returns>
+            private static int FindEndOfRedditLink(string markdown, int start, int end)
             {
-                return null;
+                int pos = start;
+                while (pos < markdown.Length && pos < end)
+                {
+                    char c = markdown[pos];
+                    if ((c < 'a' || c > 'z') &&
+                        (c < 'A' || c > 'Z') &&
+                        (c < '0' || c > '9') &&
+                        c != '_' && c != '/')
+                    {
+                        return pos;
+                    }
+
+                    pos++;
+                }
+
+                return end;
             }
-
-            // Find the end of the link.
-            int end = FindEndOfRedditLink(markdown, start + 3, maxEnd);
-
-            // Subreddit names must be at least two characters long, users at least one.
-            if (end - start < (linkType == HyperlinkType.User ? 4 : 5))
-            {
-                return null;
-            }
-
-            // We found something!
-            var text = markdown.Substring(start, end - start);
-            return new InlineParseResult(new HyperlinkInline { Text = text, Url = text, LinkType = linkType }, start, end);
-        }
-
-        /// <summary>
-        /// Parse a link of the form "r/news" or "u/quinbd".
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
-        private static InlineParseResult ParseSingleSlashLink(string markdown, int start, int maxEnd)
-        {
-            // The minimum length is 3 characters ("u/u").
-            start--;
-            if (start < 0 || start > maxEnd - 3)
-            {
-                return null;
-            }
-
-            // Determine the type of link (subreddit or user).
-            HyperlinkType linkType;
-            if (markdown[start] == 'r')
-            {
-                linkType = HyperlinkType.Subreddit;
-            }
-            else if (markdown[start] == 'u')
-            {
-                linkType = HyperlinkType.User;
-            }
-            else
-            {
-                return null;
-            }
-
-            // If the link doesn't start with '/', then the previous character must be
-            // non-alphanumeric i.e. "bear/trap" is not a valid subreddit link.
-            if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '/'))
-            {
-                return null;
-            }
-
-            // Find the end of the link.
-            int end = FindEndOfRedditLink(markdown, start + 2, maxEnd);
-
-            // Subreddit names must be at least two characters long, users at least one.
-            if (end - start < (linkType == HyperlinkType.User ? 3 : 4))
-            {
-                return null;
-            }
-
-            // We found something!
-            var text = markdown.Substring(start, end - start);
-            return new InlineParseResult(new HyperlinkInline { Text = text, Url = "/" + text, LinkType = linkType }, start, end);
         }
 
         /// <summary>
         /// Attempts to parse a URL without a scheme e.g. "www.reddit.com".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="tripPos"> The location of the dot character. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed URL, or <c>null</c> if this is not a URL. </returns>
-        internal static InlineParseResult ParsePartialLink(string markdown, int tripPos, int maxEnd)
+        public class PartialLinkParser : Parser<HyperlinkInline>
         {
-            int start = tripPos - 3;
-            if (start < 0 || markdown[start] != 'w' || markdown[start + 1] != 'w' || markdown[start + 2] != 'w')
+            /// <inheritdoc/>
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                return null;
+                int start = tripPos - 3;
+                if (start < minStart || markdown[start] != 'w' || markdown[start + 1] != 'w' || markdown[start + 2] != 'w')
+                {
+                    return null;
+                }
+
+                // The character before the "www" must be non-alphanumeric i.e. "bwww.reddit.com" is not a valid URL.
+                if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '<'))
+                {
+                    return null;
+                }
+
+                // The URL must have at least one character after the www.
+                if (start >= maxEnd - 4)
+                {
+                    return null;
+                }
+
+                // Find the end of the URL.
+                int end = FindUrlEnd(markdown, start + 4, maxEnd);
+
+                var url = markdown.Substring(start, end - start);
+                return InlineParseResult.Create(new HyperlinkInline { Url = "http://" + url, Text = url, LinkType = HyperlinkType.PartialUrl }, start, end);
             }
 
-            // The character before the "www" must be non-alphanumeric i.e. "bwww.reddit.com" is not a valid URL.
-            if (start >= 1 && (char.IsLetterOrDigit(markdown[start - 1]) || markdown[start - 1] == '<'))
-            {
-                return null;
-            }
-
-            // The URL must have at least one character after the www.
-            if (start >= maxEnd - 4)
-            {
-                return null;
-            }
-
-            // Find the end of the URL.
-            int end = FindUrlEnd(markdown, start + 4, maxEnd);
-
-            var url = markdown.Substring(start, end - start);
-            return new InlineParseResult(new HyperlinkInline { Url = "http://" + url, Text = url, LinkType = HyperlinkType.PartialUrl }, start, end);
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => ".";
         }
 
         /// <summary>
         /// Attempts to parse an email address e.g. "test@reddit.com".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="minStart"> The minimum start position to return. </param>
-        /// <param name="tripPos"> The location of the at character. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed URL, or <c>null</c> if this is not a URL. </returns>
-        internal static InlineParseResult ParseEmailAddress(string markdown, int minStart, int tripPos, int maxEnd)
+        public class EmailAddressParser : Parser<HyperlinkInline>
         {
-            // Search backwards until we find a character which is not a letter, digit, or one of
-            // these characters: '+', '-', '_', '.'.
-            // Note: it is intended that this code match the reddit.com markdown parser; there are
-            // many characters which are legal in email addresses but which aren't picked up by
-            // reddit (for example: '$' and '!').
-
-            // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
-            char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
-
-            int start = tripPos;
-            while (start > minStart)
+            /// <inheritdoc/>
+            protected override InlineParseResult<HyperlinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                char c = markdown[start - 1];
-                if ((c < 'a' || c > 'z') &&
-                    (c < 'A' || c > 'Z') &&
-                    (c < '0' || c > '9') &&
-                    !allowedchars.Contains(c))
+                // Search backwards until we find a character which is not a letter, digit, or one of
+                // these characters: '+', '-', '_', '.'.
+                // Note: it is intended that this code match the reddit.com markdown parser; there are
+                // many characters which are legal in email addresses but which aren't picked up by
+                // reddit (for example: '$' and '!').
+
+                // Special characters as per https://en.wikipedia.org/wiki/Email_address#Local-part allowed
+                char[] allowedchars = new char[] { '!', '#', '$', '%', '&', '\'', '*', '+', '-', '/', '=', '?', '^', '_', '`', '{', '|', '}', '~' };
+
+                int start = tripPos;
+                while (start > minStart)
                 {
-                    break;
+                    char c = markdown[start - 1];
+                    if ((c < 'a' || c > 'z') &&
+                        (c < 'A' || c > 'Z') &&
+                        (c < '0' || c > '9') &&
+                        !allowedchars.Contains(c))
+                    {
+                        break;
+                    }
+
+                    start--;
                 }
 
-                start--;
-            }
-
-            // There must be at least one character before the '@'.
-            if (start == tripPos)
-            {
-                return null;
-            }
-
-            // Search forwards until we find a character which is not a letter, digit, or one of
-            // these characters: '-', '_'.
-            // Note: it is intended that this code match the reddit.com markdown parser;
-            // technically underscores ('_') aren't allowed in a host name.
-            int dotIndex = tripPos + 1;
-            while (dotIndex < maxEnd)
-            {
-                char c = markdown[dotIndex];
-                if ((c < 'a' || c > 'z') &&
-                    (c < 'A' || c > 'Z') &&
-                    (c < '0' || c > '9') &&
-                    c != '-' && c != '_')
+                // There must be at least one character before the '@'.
+                if (start == tripPos)
                 {
-                    break;
+                    return null;
                 }
 
-                dotIndex++;
-            }
-
-            // We are expecting a dot.
-            if (dotIndex == maxEnd || markdown[dotIndex] != '.')
-            {
-                return null;
-            }
-
-            // Search forwards until we find a character which is not a letter, digit, or one of
-            // these characters: '.', '-', '_'.
-            // Note: it is intended that this code match the reddit.com markdown parser;
-            // technically underscores ('_') aren't allowed in a host name.
-            int end = dotIndex + 1;
-            while (end < maxEnd)
-            {
-                char c = markdown[end];
-                if ((c < 'a' || c > 'z') &&
-                    (c < 'A' || c > 'Z') &&
-                    (c < '0' || c > '9') &&
-                    c != '.' && c != '-' && c != '_')
+                // Search forwards until we find a character which is not a letter, digit, or one of
+                // these characters: '-', '_'.
+                // Note: it is intended that this code match the reddit.com markdown parser;
+                // technically underscores ('_') aren't allowed in a host name.
+                int dotIndex = tripPos + 1;
+                while (dotIndex < maxEnd)
                 {
-                    break;
+                    char c = markdown[dotIndex];
+                    if ((c < 'a' || c > 'z') &&
+                        (c < 'A' || c > 'Z') &&
+                        (c < '0' || c > '9') &&
+                        c != '-' && c != '_')
+                    {
+                        break;
+                    }
+
+                    dotIndex++;
                 }
 
-                end++;
+                // We are expecting a dot.
+                if (dotIndex == maxEnd || markdown[dotIndex] != '.')
+                {
+                    return null;
+                }
+
+                // Search forwards until we find a character which is not a letter, digit, or one of
+                // these characters: '.', '-', '_'.
+                // Note: it is intended that this code match the reddit.com markdown parser;
+                // technically underscores ('_') aren't allowed in a host name.
+                int end = dotIndex + 1;
+                while (end < maxEnd)
+                {
+                    char c = markdown[end];
+                    if ((c < 'a' || c > 'z') &&
+                        (c < 'A' || c > 'Z') &&
+                        (c < '0' || c > '9') &&
+                        c != '.' && c != '-' && c != '_')
+                    {
+                        break;
+                    }
+
+                    end++;
+                }
+
+                // There must be at least one character after the dot.
+                if (end == dotIndex + 1)
+                {
+                    return null;
+                }
+
+                // We found an email address!
+                var emailAddress = markdown.Substring(start, end - start);
+                return InlineParseResult.Create(new HyperlinkInline { Url = "mailto:" + emailAddress, Text = emailAddress, LinkType = HyperlinkType.Email }, start, end);
             }
 
-            // There must be at least one character after the dot.
-            if (end == dotIndex + 1)
-            {
-                return null;
-            }
-
-            // We found an email address!
-            var emailAddress = markdown.Substring(start, end - start);
-            return new InlineParseResult(new HyperlinkInline { Url = "mailto:" + emailAddress, Text = emailAddress, LinkType = HyperlinkType.Email }, start, end);
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "@";
         }
 
         /// <summary>
@@ -415,33 +446,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             return Text;
-        }
-
-        /// <summary>
-        /// Finds the next character that is not a letter, digit or underscore in a range.
-        /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start searching. </param>
-        /// <param name="end"> The location to stop searching. </param>
-        /// <returns> The location of the next character that is not a letter, digit or underscore. </returns>
-        private static int FindEndOfRedditLink(string markdown, int start, int end)
-        {
-            int pos = start;
-            while (pos < markdown.Length && pos < end)
-            {
-                char c = markdown[pos];
-                if ((c < 'a' || c > 'z') &&
-                    (c < 'A' || c > 'Z') &&
-                    (c < '0' || c > '9') &&
-                    c != '_' && c != '/')
-                {
-                    return pos;
-                }
-
-                pos++;
-            }
-
-            return end;
         }
 
         /// <summary>

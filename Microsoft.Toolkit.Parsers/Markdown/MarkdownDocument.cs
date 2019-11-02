@@ -63,6 +63,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                   blockEdges: null,
                   inlineParsers: TopologicalSort(new MarkdownInline.Parser[]
                   {
+                      new BoldItalicTextInline.Parser(),
+                      new BoldTextInline.Parser(),
+                      new CodeInline.Parser(),
+                      new CommentInline.Parser(),
+                      new EmojiInline.Parser(),
+                      new HyperlinkInline.AngleBracketLinkParser(),
+                      new HyperlinkInline.EmailAddressParser(),
+                      new HyperlinkInline.PartialLinkParser(),
+                      new HyperlinkInline.ReditLinkParser(),
+                      new HyperlinkInline.UrlParser(),
+                      new ImageInline.Parser(),
+                      new ItalicTextInline.Parser(),
+                      new LinkAnchorInline.Parser(),
+                      new MarkdownLinkInline.Parser(),
+                      new StrikethroughTextInline.Parser(),
+                      new SubscriptTextInline.Parser(),
+                      new SuperscriptTextInline.Parser()
                   }),
                   inlineEdges: null)
         {
@@ -244,7 +261,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                         if (paragraphText.Length > 0)
                         {
-                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
+                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
                         }
 
                         return blocks;
@@ -262,7 +279,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     // End the current paragraph.
                     if (paragraphText.Length > 0)
                     {
-                        blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
+                        blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
                         paragraphText.Clear();
                     }
                 }
@@ -311,13 +328,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             if (paragraphText.Length == 0)
                             {
                                 // Optimize for single line paragraphs.
-                                blocks.Add(ParagraphBlock.Parse(markdown.Substring(startOfLine, endOfLine - startOfLine)));
+                                blocks.Add(ParagraphBlock.Parse(markdown.Substring(startOfLine, endOfLine - startOfLine), this));
                             }
                             else
                             {
                                 // Slow path.
                                 paragraphText.Append(markdown.Substring(startOfLine, endOfLine - startOfLine));
-                                blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
+                                blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
                             }
                         }
                         else
@@ -330,7 +347,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         // The line contained a block.  End the current paragraph, if any.
                         if (paragraphText.Length > 0)
                         {
-                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString()));
+                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
                             paragraphText.Clear();
                         }
 
@@ -347,6 +364,132 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             actualEnd = startOfLine;
             return blocks;
+        }
+
+        /// <summary>
+        /// This function can be called by any element parsing. Given a start and stopping point this will
+        /// parse all found elements out of the range.
+        /// </summary>
+        /// <returns> A list of parsed inlines. </returns>
+        public List<MarkdownInline> ParseInlineChildren(string markdown, int startingPos, int maxEndingPos, IEnumerable<Type> ignoredParsers)
+        {
+            int currentParsePosition = startingPos;
+
+            var inlines = new List<MarkdownInline>();
+            while (currentParsePosition < maxEndingPos)
+            {
+                // Find the next inline element.
+                var parseResult = FindNextInlineElement(markdown, currentParsePosition, maxEndingPos, ignoredParsers);
+
+                // If the element we found doesn't start at the position we are looking for there
+                // is text between the element and the start of the parsed element. We need to wrap
+                // it into a text run.
+                if (parseResult.Start != currentParsePosition)
+                {
+                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, parseResult.Start);
+                    inlines.Add(textRun);
+                }
+
+                // Add the parsed element.
+                inlines.Add(parseResult.ParsedElement);
+
+                // Update the current position.
+                currentParsePosition = parseResult.End;
+            }
+
+            return inlines;
+        }
+
+        /// <summary>
+        /// Finds the next inline element by matching trip chars and verifying the match.
+        /// </summary>
+        /// <param name="markdown"> The markdown text to parse. </param>
+        /// <param name="start"> The position to start parsing. </param>
+        /// <param name="end"> The position to stop parsing. </param>
+        /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link)</param>
+        /// <returns>Returns the next element</returns>
+        private InlineParseResult FindNextInlineElement(string markdown, int start, int end, IEnumerable<Type> ignoredParsers)
+        {
+            var parsers = this.parsersInline;
+            if (ignoredParsers.Any())
+            {
+                parsers = parsers.Where(x => !ignoredParsers.Contains(x.GetType())).ToArray();
+            }
+
+            var canUseTripChar = parsers.All(x => x.TripChar.Any());
+
+            return canUseTripChar
+                ? this.FindNextInlineWithTripChar(markdown, start, end, ignoredParsers, parsers)
+                : this.FindNextInlineSlow(markdown, start, end, ignoredParsers, parsers);
+        }
+
+        private InlineParseResult FindNextInlineSlow(string markdown, int start, int end, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
+        {
+            // Search for the next inline sequence.
+            for (int pos = start; pos < end; pos++)
+            {
+                // IndexOfAny should be the fastest way to skip characters we don't care about.
+
+                // Don't match if the previous character was a backslash.
+                if (pos > start && markdown[pos - 1] == '\\')
+                {
+                    continue;
+                }
+
+                // Find the trigger(s) that matched.
+                char currentChar = markdown[pos];
+                foreach (var parser in parsers.Where(x => !x.TripChar.Any() || x.TripChar.Contains(currentChar)))
+                {
+                    // If we are here we have a possible match. Call into the inline class to verify.
+                    var parseResult = parser.Parse(markdown, start, pos, end, this, ignoredParsers);
+                    if (parseResult != null)
+                    {
+                        return parseResult;
+                    }
+                }
+            }
+
+            // If we didn't find any elements we have a normal text block.
+            // Let us consume the entire range.
+            return InlineParseResult.Create(TextRunInline.Parse(markdown, start, end), start, end);
+        }
+
+        private InlineParseResult FindNextInlineWithTripChar(string markdown, int start, int end, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
+        {
+            var tripCharacters = parsers.SelectMany(x => x.TripChar).Distinct().ToArray();
+
+            // Search for the next inline sequence.
+            for (int pos = start; pos < end; pos++)
+            {
+                // IndexOfAny should be the fastest way to skip characters we don't care about.
+                pos = markdown.IndexOfAny(tripCharacters, pos, end - pos);
+                if (pos < 0)
+                {
+                    break;
+                }
+
+                // Don't match if the previous character was a backslash.
+                if (pos > start && markdown[pos - 1] == '\\')
+                {
+                    continue;
+                }
+
+                // Find the trigger(s) that matched.
+                char currentChar = markdown[pos];
+                foreach (var parser in parsers.Where(x => x.TripChar.Contains(currentChar)))
+                {
+                    // If we are here we have a possible match. Call into the inline class to verify.
+                    var parseResult = parser.Parse(markdown, start, pos, end, this, ignoredParsers);
+                    if (parseResult != null)
+                    {
+                        return parseResult;
+                    }
+                }
+            }
+
+            // If we didn't find any elements we have a normal text block.
+            // Let us consume the entire range.
+            return InlineParseResult.Create(TextRunInline.Parse(markdown, start, end), start, end);
         }
 
         /// <summary>

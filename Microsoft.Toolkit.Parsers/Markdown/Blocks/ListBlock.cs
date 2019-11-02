@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         {
                             // Don't allow blocks.
                             var paragraph = new ParagraphBlock();
-                            paragraph.Inlines = Common.ParseInlineChildren(blockText, 0, blockText.Length);
+                            paragraph.Inlines = document.ParseInlineChildren(blockText, 0, blockText.Length, Array.Empty<Type>());
                             newBlockList.Add(paragraph);
                         }
                     }

@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Extensions;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
@@ -44,190 +45,189 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public string ReferenceId { get; set; }
 
         /// <summary>
-        /// Returns the chars that if found means we might have a match.
-        /// </summary>
-        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
-        {
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '[', Method = InlineParseMethod.MarkdownLink });
-        }
-
-        /// <summary>
         /// Attempts to parse a markdown link e.g. "[](http://www.reddit.com)".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="maxEnd"> The location to stop parsing. </param>
-        /// <returns> A parsed markdown link, or <c>null</c> if this is not a markdown link. </returns>
-        internal static InlineParseResult Parse(string markdown, int start, int maxEnd)
+        public new class Parser : Parser<MarkdownLinkInline>
         {
-            // Expect a '[' character.
-            if (start == maxEnd || markdown[start] != '[')
-            {
-                return null;
-            }
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "[";
 
-            // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
-            int linkTextOpen = start + 1;
-            int pos = linkTextOpen;
-            int linkTextClose;
-            int openSquareBracketCount = 0;
-            while (true)
+            /// <inheritdoc/>
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                linkTextClose = markdown.IndexOfAny(new char[] { '[', ']' }, pos, maxEnd - pos);
-                if (linkTextClose == -1)
+                // Expect a '[' character.
+                if (tripPos == maxEnd || markdown[tripPos] != '[')
                 {
                     return null;
                 }
 
-                if (markdown[linkTextClose] == '[')
+                // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
+                int linkTextOpen = tripPos + 1;
+                int pos = linkTextOpen;
+                int linkTextClose;
+                int openSquareBracketCount = 0;
+                while (true)
                 {
-                    openSquareBracketCount++;
-                }
-                else if (openSquareBracketCount > 0)
-                {
-                    openSquareBracketCount--;
-                }
-                else
-                {
-                    break;
-                }
-
-                pos = linkTextClose + 1;
-            }
-
-            // Skip whitespace.
-            pos = linkTextClose + 1;
-            while (pos < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-            {
-                pos++;
-            }
-
-            if (pos == maxEnd)
-            {
-                return null;
-            }
-
-            // Expect the '(' character or the '[' character.
-            int linkOpen = pos;
-            if (markdown[pos] == '(')
-            {
-                // Skip whitespace.
-                linkOpen++;
-                while (linkOpen < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkOpen]))
-                {
-                    linkOpen++;
-                }
-
-                // Find the ')' character.
-                pos = linkOpen;
-                int linkClose = -1;
-                var openParenthesis = 0;
-                while (pos < maxEnd)
-                {
-                    if (markdown[pos] == ')')
-                    {
-                        if (openParenthesis == 0)
-                        {
-                            linkClose = pos;
-                            break;
-                        }
-                        else
-                        {
-                            openParenthesis--;
-                        }
-                    }
-
-                    if (markdown[pos] == '(')
-                    {
-                        openParenthesis++;
-                    }
-
-                    pos++;
-                }
-
-                if (pos >= maxEnd)
-                {
-                    return null;
-                }
-
-                int end = linkClose + 1;
-
-                // Skip whitespace backwards.
-                while (linkClose > linkOpen && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkClose - 1]))
-                {
-                    linkClose--;
-                }
-
-                // If there is no text whatsoever, then this is not a valid link.
-                if (linkOpen == linkClose)
-                {
-                    return null;
-                }
-
-                // Check if there is tooltip text.
-                string url;
-                string tooltip = null;
-                bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
-                int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
-                if (tooltipStart == linkOpen)
-                {
-                    return null;
-                }
-
-                if (lastUrlCharIsDoubleQuote && tooltipStart != -1)
-                {
-                    // Extract the URL (resolving any escape sequences).
-                    url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, tooltipStart).TrimEnd(' ', '\t', '\r', '\n');
-                    tooltip = markdown.Substring(tooltipStart + 2, (linkClose - 1) - (tooltipStart + 2));
-                }
-                else
-                {
-                    // Extract the URL (resolving any escape sequences).
-                    url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, linkClose);
-                }
-
-                // Check the URL is okay.
-                if (!url.IsEmail())
-                {
-                    if (!Common.IsUrlValid(url))
+                    linkTextClose = markdown.IndexOfAny(new char[] { '[', ']' }, pos, maxEnd - pos);
+                    if (linkTextClose == -1)
                     {
                         return null;
                     }
-                }
-                else
-                {
-                    tooltip = url = string.Format("mailto:{0}", url);
+
+                    if (markdown[linkTextClose] == '[')
+                    {
+                        openSquareBracketCount++;
+                    }
+                    else if (openSquareBracketCount > 0)
+                    {
+                        openSquareBracketCount--;
+                    }
+                    else
+                    {
+                        break;
+                    }
+
+                    pos = linkTextClose + 1;
                 }
 
-                // We found a regular stand-alone link.
-                var result = new MarkdownLinkInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
-                result.Url = url.Replace(" ", "%20");
-                result.Tooltip = tooltip;
-                return new InlineParseResult(result, start, end);
-            }
-            else if (markdown[pos] == '[')
-            {
-                // Find the ']' character.
-                int linkClose = Common.IndexOf(markdown, ']', pos + 1, maxEnd);
-                if (linkClose == -1)
+                // Skip whitespace.
+                pos = linkTextClose + 1;
+                while (pos < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                {
+                    pos++;
+                }
+
+                if (pos == maxEnd)
                 {
                     return null;
                 }
 
-                // We found a reference-style link.
-                var result = new MarkdownLinkInline();
-                result.Inlines = Common.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoreLinks: true);
-                result.ReferenceId = markdown.Substring(linkOpen + 1, linkClose - (linkOpen + 1));
-                if (result.ReferenceId == string.Empty)
+                // Expect the '(' character or the '[' character.
+                int linkOpen = pos;
+                if (markdown[pos] == '(')
                 {
-                    result.ReferenceId = markdown.Substring(linkTextOpen, linkTextClose - linkTextOpen);
+                    // Skip whitespace.
+                    linkOpen++;
+                    while (linkOpen < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkOpen]))
+                    {
+                        linkOpen++;
+                    }
+
+                    // Find the ')' character.
+                    pos = linkOpen;
+                    int linkClose = -1;
+                    var openParenthesis = 0;
+                    while (pos < maxEnd)
+                    {
+                        if (markdown[pos] == ')')
+                        {
+                            if (openParenthesis == 0)
+                            {
+                                linkClose = pos;
+                                break;
+                            }
+                            else
+                            {
+                                openParenthesis--;
+                            }
+                        }
+
+                        if (markdown[pos] == '(')
+                        {
+                            openParenthesis++;
+                        }
+
+                        pos++;
+                    }
+
+                    if (pos >= maxEnd)
+                    {
+                        return null;
+                    }
+
+                    int end = linkClose + 1;
+
+                    // Skip whitespace backwards.
+                    while (linkClose > linkOpen && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkClose - 1]))
+                    {
+                        linkClose--;
+                    }
+
+                    // If there is no text whatsoever, then this is not a valid link.
+                    if (linkOpen == linkClose)
+                    {
+                        return null;
+                    }
+
+                    // Check if there is tooltip text.
+                    string url;
+                    string tooltip = null;
+                    bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
+                    int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
+                    if (tooltipStart == linkOpen)
+                    {
+                        return null;
+                    }
+
+                    if (lastUrlCharIsDoubleQuote && tooltipStart != -1)
+                    {
+                        // Extract the URL (resolving any escape sequences).
+                        url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, tooltipStart).TrimEnd(' ', '\t', '\r', '\n');
+                        tooltip = markdown.Substring(tooltipStart + 2, (linkClose - 1) - (tooltipStart + 2));
+                    }
+                    else
+                    {
+                        // Extract the URL (resolving any escape sequences).
+                        url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, linkClose);
+                    }
+
+                    // Check the URL is okay.
+                    if (!url.IsEmail())
+                    {
+                        if (!Common.IsUrlValid(url))
+                        {
+                            return null;
+                        }
+                    }
+                    else
+                    {
+                        tooltip = url = string.Format("mailto:{0}", url);
+                    }
+
+                    // We found a regular stand-alone link.
+                    var result = new MarkdownLinkInline
+                    {
+                        Inlines = document.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoredParsers.Concat(IgnoredSubParsers)),
+                        Url = url.Replace(" ", "%20"),
+                        Tooltip = tooltip
+                    };
+                    return InlineParseResult.Create(result, tripPos, end);
+                }
+                else if (markdown[pos] == '[')
+                {
+                    // Find the ']' character.
+                    int linkClose = Common.IndexOf(markdown, ']', pos + 1, maxEnd);
+                    if (linkClose == -1)
+                    {
+                        return null;
+                    }
+
+                    // We found a reference-style link.
+                    var result = new MarkdownLinkInline
+                    {
+                        Inlines = document.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoredParsers.Concat(IgnoredSubParsers)),
+                        ReferenceId = linkClose - (linkOpen + 1) > 0
+                            ? markdown.Substring(linkOpen + 1, linkClose - (linkOpen + 1))
+                            : markdown.Substring(linkTextOpen, linkTextClose - linkTextOpen)
+                    };
+
+                    return InlineParseResult.Create(result, tripPos, linkClose + 1);
                 }
 
-                return new InlineParseResult(result, start, linkClose + 1);
+                return null;
             }
 
-            return null;
+            private static readonly Type[] IgnoredSubParsers = new Type[] { typeof(MarkdownLinkInline.Parser), typeof(HyperlinkInline.AngleBracketLinkParser), typeof(HyperlinkInline.EmailAddressParser), typeof(HyperlinkInline.PartialLinkParser), typeof(HyperlinkInline.ReditLinkParser), typeof(HyperlinkInline.UrlParser) };
         }
 
         /// <summary>

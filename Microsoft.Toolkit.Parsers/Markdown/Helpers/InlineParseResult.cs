@@ -9,9 +9,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// <summary>
     /// Represents the result of parsing an inline element.
     /// </summary>
-    internal class InlineParseResult
+    public abstract class InlineParseResult
     {
-        public InlineParseResult(MarkdownInline parsedElement, int start, int end)
+        private protected InlineParseResult(MarkdownInline parsedElement, int start, int end)
         {
             ParsedElement = parsedElement;
             Start = start;
@@ -32,5 +32,27 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// Gets the position of the character after the last character in the parsed element.
         /// </summary>
         public int End { get; }
+
+        public static InlineParseResult<T> Create<T>(T parsedElement, int start, int end)
+            where T : MarkdownInline
+            => new InlineParseResult<T>(parsedElement, start, end);
+    }
+
+    /// <summary>
+    /// Represents the result of parsing an inline element.
+    /// </summary>
+    public class InlineParseResult<T> : InlineParseResult
+        where T : MarkdownInline
+    {
+
+        internal InlineParseResult(T parsedElement, int start, int end) : base(parsedElement, start, end)
+        {
+        }
+
+        /// <summary>
+        /// Gets the element that was parsed (can be <c>null</c>).
+        /// </summary>
+        public new T ParsedElement => (T)base.ParsedElement;
+
     }
 }

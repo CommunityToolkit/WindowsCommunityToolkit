@@ -59,71 +59,35 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public int ImageHeight { get; internal set; }
 
-        internal static void AddTripChars(List<InlineTripCharHelper> tripCharHelpers)
-        {
-            tripCharHelpers.Add(new InlineTripCharHelper() { FirstChar = '!', Method = InlineParseMethod.Image });
-        }
-
         /// <summary>
         /// Attempts to parse an image e.g. "![Toolkit logo](https://raw.githubusercontent.com/windows-toolkit/WindowsCommunityToolkit/master/Microsoft.Toolkit.Uwp.SampleApp/Assets/ToolkitLogo.png)".
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="end"> The location to stop parsing. </param>
-        /// <returns> A parsed markdown image, or <c>null</c> if this is not a markdown image. </returns>
-        internal static InlineParseResult Parse(string markdown, int start, int end)
+        public new class Parser : Parser<ImageInline>
         {
-            int refstart = 0;
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "!";
 
-            // Expect a '!' character.
-            if (start >= end || markdown[start] != '!')
+            /// <inheritdoc/>
+            protected override InlineParseResult<ImageInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                return null;
-            }
-
-            int pos = start + 1;
-
-            // Then a '[' character
-            if (pos >= end || markdown[pos] != '[')
-            {
-                return null;
-            }
-
-            pos++;
-
-            // Find the ']' character
-            while (pos < end)
-            {
-                if (markdown[pos] == ']')
+                // Expect a '!' character.
+                if (tripPos >= maxEnd || markdown[tripPos] != '!')
                 {
-                    break;
+                    return null;
+                }
+
+                int pos = tripPos + 1;
+
+                // Then a '[' character
+                if (pos >= maxEnd || markdown[pos] != '[')
+                {
+                    return null;
                 }
 
                 pos++;
-            }
 
-            if (pos == end)
-            {
-                return null;
-            }
-
-            // Extract the alt.
-            string tooltip = markdown.Substring(start + 2, pos - (start + 2));
-
-            // Expect the '(' character.
-            pos++;
-
-            string reference = string.Empty;
-            string url = string.Empty;
-            int imageWidth = 0;
-            int imageHeight = 0;
-
-            if (pos < end && markdown[pos] == '[')
-            {
-                refstart = pos;
-
-                // Find the reference ']' character
-                while (pos < end)
+                // Find the ']' character
+                while (pos < maxEnd)
                 {
                     if (markdown[pos] == ']')
                     {
@@ -133,71 +97,103 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     pos++;
                 }
 
-                reference = markdown.Substring(refstart + 1, pos - refstart - 1);
-            }
-            else if (pos < end && markdown[pos] == '(')
-            {
-                while (pos < end && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                if (pos == maxEnd)
                 {
-                    pos++;
+                    return null;
                 }
 
-                // Extract the URL.
-                int urlStart = pos;
-                while (pos < end && markdown[pos] != ')')
+                // Extract the alt.
+                string tooltip = markdown.Substring(tripPos + 2, pos - (tripPos + 2));
+
+                // Expect the '(' character.
+                pos++;
+
+                string reference = string.Empty;
+                string url = string.Empty;
+                int imageWidth = 0;
+                int imageHeight = 0;
+
+                if (pos < maxEnd && markdown[pos] == '[')
                 {
-                    pos++;
-                }
+                    var refstart = pos;
 
-                var imageDimensionsPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
-
-                url = imageDimensionsPos > 0
-                    ? TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, imageDimensionsPos)
-                    : TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, pos);
-
-                if (imageDimensionsPos > 0)
-                {
-                    // trying to find 'x' which separates image width and height
-                    var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
-
-                    // didn't find separator, trying to parse value as imageWidth
-                    if (dimensionsSepatorPos == -1)
+                    // Find the reference ']' character
+                    while (pos < maxEnd)
                     {
-                        var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
-
-                        int.TryParse(imageWidthStr, out imageWidth);
-                    }
-                    else
-                    {
-                        var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
-
-                        // got width and height
-                        if (dimensions.Length == 2)
+                        if (markdown[pos] == ']')
                         {
-                            int.TryParse(dimensions[0], out imageWidth);
-                            int.TryParse(dimensions[1], out imageHeight);
+                            break;
+                        }
+
+                        pos++;
+                    }
+
+                    reference = markdown.Substring(refstart + 1, pos - refstart - 1);
+                }
+                else if (pos < maxEnd && markdown[pos] == '(')
+                {
+                    while (pos < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                    {
+                        pos++;
+                    }
+
+                    // Extract the URL.
+                    int urlStart = pos;
+                    while (pos < maxEnd && markdown[pos] != ')')
+                    {
+                        pos++;
+                    }
+
+                    var imageDimensionsPos = markdown.IndexOf(" =", urlStart, pos - urlStart, StringComparison.Ordinal);
+
+                    url = imageDimensionsPos > 0
+                        ? TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, imageDimensionsPos)
+                        : TextRunInline.ResolveEscapeSequences(markdown, urlStart + 1, pos);
+
+                    if (imageDimensionsPos > 0)
+                    {
+                        // trying to find 'x' which separates image width and height
+                        var dimensionsSepatorPos = markdown.IndexOf("x", imageDimensionsPos + 2, pos - imageDimensionsPos - 1, StringComparison.Ordinal);
+
+                        // didn't find separator, trying to parse value as imageWidth
+                        if (dimensionsSepatorPos == -1)
+                        {
+                            var imageWidthStr = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
+
+                            int.TryParse(imageWidthStr, out imageWidth);
+                        }
+                        else
+                        {
+                            var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
+
+                            // got width and height
+                            if (dimensions.Length == 2)
+                            {
+                                int.TryParse(dimensions[0], out imageWidth);
+                                int.TryParse(dimensions[1], out imageHeight);
+                            }
                         }
                     }
                 }
-            }
 
-            if (pos == end)
-            {
-                return null;
-            }
+                if (pos == maxEnd)
+                {
+                    return null;
+                }
 
-            // We found something!
-            var result = new ImageInline
-            {
-                Tooltip = tooltip,
-                RenderUrl = url,
-                ReferenceId = reference,
-                Url = url,
-                Text = markdown.Substring(start, pos + 1 - start),
-                ImageWidth = imageWidth,
-                ImageHeight = imageHeight
-            };
-            return new InlineParseResult(result, start, pos + 1);
+                // We found something!
+                var result = new ImageInline
+                {
+                    Tooltip = tooltip,
+                    RenderUrl = url,
+                    ReferenceId = reference,
+                    Url = url,
+                    Text = markdown.Substring(tripPos, pos + 1 - tripPos),
+                    ImageWidth = imageWidth,
+                    ImageHeight = imageHeight
+                };
+                return InlineParseResult.Create(result, tripPos, pos + 1);
+            }
         }
 
         /// <summary>
