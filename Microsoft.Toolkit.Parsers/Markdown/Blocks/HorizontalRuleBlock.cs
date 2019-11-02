@@ -74,6 +74,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         return null;
                     }
                 }
+
                 actualEnd = endOfFirstLine;
 
                 // Hopefully there were at least 3 stars/dashes/underscores.

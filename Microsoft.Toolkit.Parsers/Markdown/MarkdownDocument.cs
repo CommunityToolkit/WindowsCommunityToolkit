@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
                         {
-                            startOfNextLine = endOfBlock+1;
+                            startOfNextLine = endOfBlock + 1;
                             break;
                         }
                     }

@@ -95,7 +95,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     return null;
                 }
+
                 var endOfHeader = endOfFirstLine;
+
                 // Ignore any hashes at the end of the line.
                 while (pos < endOfHeader && markdown[endOfHeader - 1] == '#')
                 {
