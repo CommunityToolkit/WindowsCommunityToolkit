@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
                         {
-                            startOfNextLine = endOfBlock;
+                            startOfNextLine = endOfBlock+1;
                             break;
                         }
                     }
@@ -467,12 +467,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             {
                 foreach (var item in parser.DefaultAfterParsers)
                 {
-                    AddRelation(item, parser.GetType());
+                    AddRelation(parser.GetType(), item);
                 }
 
                 foreach (var item in parser.DefaultBeforeParsers)
                 {
-                    AddRelation(parser.GetType(), item);
+                    AddRelation(item, parser.GetType());
                 }
             }
 
@@ -499,12 +499,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             {
                 foreach (var item in parser.DefaultAfterParsers)
                 {
-                    AddRelation(item, parser.GetType());
+                    AddRelation(parser.GetType(), item);
                 }
 
                 foreach (var item in parser.DefaultBeforeParsers)
                 {
-                    AddRelation(parser.GetType(), item);
+                    AddRelation(item, parser.GetType());
                 }
             }
 

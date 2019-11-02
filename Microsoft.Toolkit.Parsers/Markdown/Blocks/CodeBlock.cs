@@ -93,7 +93,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                             if (!insideCodeBlock)
                             {
-                                actualEnd = lineInfo.StartOfNextLine;
+                                actualEnd = lineInfo.EndOfLine;
                                 break;
                             }
                             else
@@ -178,7 +178,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
 
                     // Update the end position.
-                    actualEnd = lineInfo.StartOfNextLine;
+                    actualEnd = lineInfo.EndOfLine;
                 }
 
                 if (code == null)

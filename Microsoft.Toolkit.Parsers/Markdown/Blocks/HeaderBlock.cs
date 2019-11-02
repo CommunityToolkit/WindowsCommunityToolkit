@@ -95,15 +95,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     return null;
                 }
-
+                var endOfHeader = endOfFirstLine;
                 // Ignore any hashes at the end of the line.
-                while (pos < endOfFirstLine && markdown[endOfFirstLine - 1] == '#')
+                while (pos < endOfHeader && markdown[endOfHeader - 1] == '#')
                 {
-                    endOfFirstLine--;
+                    endOfHeader--;
                 }
 
                 // Parse the inline content.
-                result.Inlines = document.ParseInlineChildren(markdown, pos, endOfFirstLine, Array.Empty<Type>());
+                result.Inlines = document.ParseInlineChildren(markdown, pos, endOfHeader, Array.Empty<Type>());
+                actualEnd = endOfFirstLine;
                 return result;
             }
         }
@@ -184,6 +185,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // paragraph by prematurely ending the current paragraph.
                 // We already made sure that there is a paragraph in progress.
                 paragraphText.Length -= paragraphText.Length - startOfHeader;
+
+                actualEnd = endOfFirstLine;
 
                 return result;
             }

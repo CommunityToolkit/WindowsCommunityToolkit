@@ -74,9 +74,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         return null;
                     }
                 }
+                actualEnd = endOfFirstLine;
 
                 // Hopefully there were at least 3 stars/dashes/underscores.
                 return hrCharCount >= 3 ? new HorizontalRuleBlock() : null;
+            }
+
+            /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.Before<ListBlock.Parser>();
             }
         }
     }
