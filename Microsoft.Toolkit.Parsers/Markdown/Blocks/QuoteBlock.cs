@@ -53,23 +53,50 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 var lines = new List<ReadOnlyMemory<char>>();
                 var newLine = startOfLine;
                 int endOfLine;
+                bool lastWasEmpty = false;
                 while (true)
                 {
                     endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, newLine, maxEnd, out var nextLine);
+                    if (newLine == nextLine)
+                    {
+                        break;
+                    }
 
                     nonSpace = Helpers.Common.FindNextNoneWhiteSpace(markdown, newLine, endOfLine, false);
 
                     if (nonSpace == -1)
                     {
-                        break;
+                        if (lastWasEmpty)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            lastWasEmpty = true;
+                        }
                     }
-
-                    if (markdown[nonSpace] != '>')
+                    else if (markdown[nonSpace] != '>')
                     {
-                        break;
+                        if (lastWasEmpty)
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            lastWasEmpty = true;
+                        }
+                    }
+                    else
+                    {
+                        lastWasEmpty = false;
                     }
 
-                    var actualStart = nonSpace + 1;
+                    var actualStart = nonSpace == -1 ? newLine : nonSpace;
+                    if (markdown[actualStart] == '>')
+                    {
+                        actualStart += 1;
+                    }
+
                     if (markdown.Length > actualStart && markdown[actualStart] == ' ')
                     {
                         actualStart++;
@@ -91,6 +118,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
 
                     newLine = nextLine;
+                }
+
+                if (lines.Last().Length == 0)
+                {
+                    lines.RemoveAt(lines.Count - 1);
                 }
 
                 actualEnd = endOfLine;

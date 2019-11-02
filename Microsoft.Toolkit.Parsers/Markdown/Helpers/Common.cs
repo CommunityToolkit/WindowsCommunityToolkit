@@ -201,10 +201,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             while (pos < end)
             {
                 int startOfLine = pos;
-                int nonSpacePos = pos;
 
                 // Find the end of the current line.
-                int endOfLine = FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
+                int endOfLine = FindNextSingleNewLine(markdown, startOfLine, end, out int startOfNextLine);
+                int nonSpacePos = Common.FindNextNoneWhiteSpace(markdown, pos, endOfLine, false);
+
+                if (nonSpacePos < 0)
+                {
+                    nonSpacePos = startOfLine;
+                }
 
                 // Return the line info to the caller.
                 yield return new LineInfo
