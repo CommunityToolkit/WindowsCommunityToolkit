@@ -14,9 +14,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// </summary>
     internal class Common
     {
-
-     
-
         /// <summary>
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
@@ -172,6 +169,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 
             return ifNotFoundReturnLength ? endingPos : -1;
         }
+
         /// <summary>
         /// Finds the next whitespace in a range.
         /// </summary>
@@ -196,75 +194,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// Parses lines.
         /// </summary>
         /// <returns>LineInfo</returns>
-        public static IEnumerable<LineInfo> ParseLines(string markdown, int start, int end, int quoteDepth)
+        public static IEnumerable<LineInfo> ParseLines(string markdown, int start, int end)
         {
             int pos = start;
-            bool lineStartsNewParagraph = true;
 
             while (pos < end)
             {
                 int startOfLine = pos;
-                int expectedQuotesRemaining = quoteDepth;
                 int nonSpacePos = pos;
-                char nonSpaceChar = '\0';
-                while (true)
-                {
-                    // Find the next non-space char.
-                    while (nonSpacePos < end)
-                    {
-                        char c = markdown[nonSpacePos];
-                        if (c == '\r' || c == '\n')
-                        {
-                            // The line is either entirely whitespace, or is empty.
-                            break;
-                        }
-
-                        if (c != ' ' && c != '\t')
-                        {
-                            // The line has content.
-                            nonSpaceChar = c;
-                            break;
-                        }
-
-                        nonSpacePos++;
-                    }
-
-                    // When parsing blocks in a blockquote context, we need to count the number of
-                    // quote characters ('>').  If there are less than expected AND this is the
-                    // start of a new paragraph, then stop parsing.
-                    if (expectedQuotesRemaining == 0)
-                    {
-                        break;
-                    }
-
-                    if (nonSpaceChar == '>')
-                    {
-                        // Expected block quote characters should be ignored.
-                        expectedQuotesRemaining--;
-                        nonSpacePos++;
-                        nonSpaceChar = '\0';
-                        startOfLine = nonSpacePos;
-
-                        // Ignore the first space after the quote character, if there is one.
-                        if (startOfLine < end && markdown[startOfLine] == ' ')
-                        {
-                            startOfLine++;
-                            nonSpacePos++;
-                        }
-                    }
-                    else
-                    {
-                        // There were less block quote characters than expected.
-                        // But it doesn't matter if this is not the start of a new paragraph.
-                        if (!lineStartsNewParagraph || nonSpaceChar == '\0')
-                        {
-                            break;
-                        }
-
-                        // This must be the end of the blockquote.  End the current paragraph, if any.
-                        yield break;
-                    }
-                }
 
                 // Find the end of the current line.
                 int endOfLine = FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
@@ -278,85 +215,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                     StartOfNextLine = startOfNextLine,
                 };
 
-                if (nonSpaceChar == '\0')
-                {
-                    // The line is empty or nothing but whitespace.
-                    lineStartsNewParagraph = true;
-                }
-
                 // Repeat.
                 pos = startOfNextLine;
             }
-        }
-
-        /// <summary>
-        /// Skips a certain number of quote characters (>).
-        /// </summary>
-        /// <returns>Skip Quote Chars</returns>
-        public static int SkipQuoteCharacters(string markdown, int start, int end, int quoteDepth)
-        {
-            if (quoteDepth == 0)
-            {
-                return start;
-            }
-
-            int startOfLine = start;
-            int nonSpacePos = start;
-            char nonSpaceChar = '\0';
-
-            while (true)
-            {
-                // Find the next non-space char.
-                while (nonSpacePos < end)
-                {
-                    char c = markdown[nonSpacePos];
-                    if (c == '\r' || c == '\n')
-                    {
-                        // The line is either entirely whitespace, or is empty.
-                        break;
-                    }
-
-                    if (c != ' ' && c != '\t')
-                    {
-                        // The line has content.
-                        nonSpaceChar = c;
-                        break;
-                    }
-
-                    nonSpacePos++;
-                }
-
-                // When parsing blocks in a blockquote context, we need to count the number of
-                // quote characters ('>').  If there are less than expected AND this is the
-                // start of a new paragraph, then stop parsing.
-                if (quoteDepth == 0)
-                {
-                    break;
-                }
-
-                if (nonSpaceChar == '>')
-                {
-                    // Expected block quote characters should be ignored.
-                    quoteDepth--;
-                    nonSpacePos++;
-                    nonSpaceChar = '\0';
-                    startOfLine = nonSpacePos;
-
-                    // Ignore the first space after the quote character, if there is one.
-                    if (startOfLine < end && markdown[startOfLine] == ' ')
-                    {
-                        startOfLine++;
-                        nonSpacePos++;
-                    }
-                }
-                else
-                {
-                    // There were less block quote characters than expected.
-                    break;
-                }
-            }
-
-            return startOfLine;
         }
 
         /// <summary>

@@ -30,7 +30,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parses paragraph text.
         /// </summary>
-        /// <param name="markdown"> The markdown text. </param>
+        /// <param name="markdown">The markdown text. </param>
+        /// <param name="document">The parsing Document</param>
         /// <returns> A parsed paragraph. </returns>
         internal static ParagraphBlock Parse(string markdown, MarkdownDocument document)
         {

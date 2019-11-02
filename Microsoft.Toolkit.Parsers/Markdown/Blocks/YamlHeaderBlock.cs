@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override YamlHeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override YamlHeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // As yaml header, must be start a line with "---"
                 // and end with a line "---"

@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var nonSpace = firstNonSpace;
                 if (markdown[nonSpace] != '>')
@@ -79,15 +79,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     {
                         int length;
                         if (endOfLine < markdown.Length)
+                        {
                             length = endOfLine - actualStart + 1;
+                        }
                         else
+                        {
                             length = endOfLine - actualStart;
+                        }
 
                         lines.Add(markdown.AsMemory(actualStart, length));
                     }
 
                     newLine = nextLine;
-
                 }
 
                 actualEnd = endOfLine;
@@ -96,7 +99,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 var result = new QuoteBlock();
 
                 // Recursively call into the markdown block parser.
-                result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, 0, out _);
+                result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, out _);
 
                 return result;
             }

@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            Blocks = Parse(markdownText, 0, markdownText.Length, quoteDepth: 0, actualEnd: out _);
+            Blocks = Parse(markdownText, 0, markdownText.Length, actualEnd: out _);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -141,12 +141,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The position to start parsing. </param>
         /// <param name="end"> The position to stop parsing. </param>
-        /// <param name="quoteDepth"> The current nesting level for block quoting. </param>
         /// <param name="actualEnd"> Set to the position at which parsing ended.  This can be
         /// different from <paramref name="end"/> when the parser is being called recursively.
         /// </param>
         /// <returns> A list of parsed blocks. </returns>
-        internal List<MarkdownBlock> Parse(string markdown, int start, int end, int quoteDepth, out int actualEnd)
+        internal List<MarkdownBlock> Parse(string markdown, int start, int end, out int actualEnd)
         {
             // We need to parse out the list of blocks.
             // Some blocks need to start on a new paragraph (code, lists and tables) while other
@@ -178,96 +177,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // actual start of line, including quote characters
                 int realStartOfLine = startOfLine;  // i.e. including quotes.
 
-                int expectedQuotesRemaining = quoteDepth;
-                while (true)
-                {
-                    while (nonSpacePos < end)
-                    {
-                        char c = markdown[nonSpacePos];
-                        if (c == '\r' || c == '\n')
-                        {
-                            // The line is either entirely whitespace, or is empty.
-                            break;
-                        }
-
-                        if (c != ' ' && c != '\t')
-                        {
-                            // The line has content.
-                            nonSpaceChar = c;
-                            break;
-                        }
-
-                        nonSpacePos++;
-                    }
-
-                    // When parsing blocks in a blockquote context, we need to count the number of
-                    // quote characters ('>').  If there are less than expected AND this is the
-                    // start of a new paragraph, then stop parsing.
-                    if (expectedQuotesRemaining == 0)
-                    {
-                        break;
-                    }
-
-                    if (nonSpaceChar == '>')
-                    {
-                        // Expected block quote characters should be ignored.
-                        expectedQuotesRemaining--;
-                        nonSpacePos++;
-                        nonSpaceChar = '\0';
-                        startOfLine = nonSpacePos;
-
-                        // Ignore the first space after the quote character, if there is one.
-                        if (startOfLine < end && markdown[startOfLine] == ' ')
-                        {
-                            startOfLine++;
-                            nonSpacePos++;
-                        }
-                    }
-                    else
-                    {
-                        int lastIndentation = 0;
-                        string lastline = null;
-
-                        // Determines how many Quote levels were in the last line.
-                        if (realStartOfLine > 0)
-                        {
-                            lastline = markdown.Substring(previousRealtStartOfLine, previousEndOfLine - previousRealtStartOfLine);
-                            lastIndentation = lastline.Count(c => c == '>');
-                        }
-
-                        var currentEndOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out _);
-                        var currentline = markdown.Substring(realStartOfLine, currentEndOfLine - realStartOfLine);
-                        var currentIndentation = currentline.Count(c => c == '>');
-                        var firstChar = markdown[realStartOfLine];
-
-                        // This is a quote that doesn't start with a Quote marker, but carries on from the last line.
-                        if (lastIndentation == 1)
-                        {
-                            if (nonSpaceChar != '\0' && firstChar != '>')
-                            {
-                                break;
-                            }
-                        }
-
-                        // Collapse down a level of quotes if the current indentation is greater than the last indentation.
-                        // Only if the last indentation is greater than 1, and the current indentation is greater than 0
-                        if (lastIndentation > 1 && currentIndentation > 0 && currentIndentation < lastIndentation)
-                        {
-                            break;
-                        }
-
-                        // This must be the end of the blockquote.  End the current paragraph, if any.
-                        actualEnd = realStartOfLine;
-
-                        if (paragraphText.Length > 0)
-                        {
-                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
-                        }
-
-                        return blocks;
-                    }
-                }
-
                 // Find the end of the current line.
                 int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
 
@@ -293,7 +202,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                     foreach (var parser in this.parsersBlock)
                     {
-                        newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, quoteDepth, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
+                        newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
                         {
                             startOfNextLine = endOfBlock;

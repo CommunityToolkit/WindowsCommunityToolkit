@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 using System;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 {
@@ -25,7 +25,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         {
             Type = type;
         }
-
 
         /// <summary>
         /// Serves as the default hash function.

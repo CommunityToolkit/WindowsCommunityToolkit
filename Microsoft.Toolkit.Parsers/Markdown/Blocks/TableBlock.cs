@@ -63,14 +63,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="markdown"> The markdown text. </param>
             /// <param name="startingPos"> The position of the start of the row. </param>
             /// <param name="maxEndingPos"> The maximum position of the end of the row </param>
-            /// <param name="quoteDepth"> The current nesting level for block quoting. </param>
             /// <param name="requireVerticalBar"> Indicates whether the line must contain a vertical bar. </param>
             /// <param name="contentParser"> Called for each cell. </param>
             /// <returns> The position of the start of the next line. </returns>
-            internal static int ParseContents(string markdown, int startingPos, int maxEndingPos, int quoteDepth, bool requireVerticalBar, Action<int, int> contentParser)
+            internal static int ParseContents(string markdown, int startingPos, int maxEndingPos, bool requireVerticalBar, Action<int, int> contentParser)
             {
                 // Skip quote characters.
-                int pos = Common.SkipQuoteCharacters(markdown, startingPos, maxEndingPos, quoteDepth);
+                int pos = startingPos;
 
                 // If the line starts with a '|' character, skip it.
                 bool lineHasVerticalBar = false;
@@ -170,14 +169,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
             /// <returns>the postiion parsed to</returns>
-            internal int Parse(string markdown, int startingPos, int maxEndingPos, int quoteDepth, MarkdownDocument document)
+            internal int Parse(string markdown, int startingPos, int maxEndingPos, MarkdownDocument document)
             {
                 Cells = new List<TableCell>();
                 return ParseContents(
                     markdown,
                     startingPos,
                     maxEndingPos,
-                    quoteDepth,
                     requireVerticalBar: true,
                     contentParser: (startingPos2, maxEndingPos2) =>
                     {
@@ -205,7 +203,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<TableBlock>
         {
             /// <inheritdoc/>
-            protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally
@@ -243,16 +241,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                realStartOfLine = firstRow.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth, document);
+                realStartOfLine = firstRow.Parse(markdown, (int)realStartOfLine, maxEnd, document);
                 rows.Add(firstRow);
 
                 // Parse the contents of the second row.
                 var secondRowContents = new List<string>();
                 realStartOfLine = TableRow.ParseContents(
                     markdown,
-(int)realStartOfLine,
+                    (int)realStartOfLine,
                     maxEnd,
-                    quoteDepth,
                     requireVerticalBar: false,
                     contentParser: (start2, end2) => secondRowContents.Add(markdown.Substring(start2, end2 - start2)));
 
@@ -315,7 +312,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 while (realStartOfLine < maxEnd)
                 {
                     var row = new TableRow();
-                    realStartOfLine = row.Parse(markdown, (int)realStartOfLine, maxEnd, quoteDepth, document);
+                    realStartOfLine = row.Parse(markdown, (int)realStartOfLine, maxEnd, document);
                     if (row.Cells.Count == 0)
                     {
                         break;

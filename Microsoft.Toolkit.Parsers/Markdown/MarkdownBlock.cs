@@ -126,13 +126,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="realStartOfLine">The position of the Start of the line including the qute characters.</param>
             /// <param name="endOfFirstLine">The position of the end of the line</param>
             /// <param name="maxEnd">The maximum position untill we parsed.</param>
-            /// <param name="quoteDepth">Current quote characters</param>
             /// <param name="actualEnd">The position untill this block was parsed.</param>
             /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            public abstract MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
+            public abstract MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
         }
 
         /// <summary>
@@ -151,16 +150,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <param name="realStartOfLine">The position of the Start of the line including the qute characters.</param>
             /// <param name="endOfFirstLine">The position of the end of the line</param>
             /// <param name="maxEnd">The maximum position untill we parsed.</param>
-            /// <param name="quoteDepth">Current quote characters</param>
             /// <param name="actualEnd">The position untill this block was parsed.</param>
             /// <param name="paragraphText">The text that was parsed before the block, but was not yed assigned a block</param>
             /// <param name="lineStartsNewParagraph">Specifies if a new paragraph will start.</param>
             /// <param name="document">The Document which is parsing</param>
             /// <returns>The Parsed block. <code>null</code> if the text does not this block.</returns>
-            protected abstract TBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
+            protected abstract TBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document);
 
             /// <inheritdoc/>
-            public sealed override MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startOfLine, firstNonSpace, realStartOfLine, endOfFirstLine, maxEnd, quoteDepth, out actualEnd, paragraphText, lineStartsNewParagraph, document);
+            public sealed override MarkdownBlock Parse(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startOfLine, firstNonSpace, realStartOfLine, endOfFirstLine, maxEnd, out actualEnd, paragraphText, lineStartsNewParagraph, document);
         }
     }
 }

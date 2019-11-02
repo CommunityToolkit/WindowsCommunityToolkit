@@ -33,26 +33,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// </summary>
         public int End { get; }
 
-        public static InlineParseResult<T> Create<T>(T parsedElement, int start, int end)
-            where T : MarkdownInline
-            => new InlineParseResult<T>(parsedElement, start, end);
-    }
-
-    /// <summary>
-    /// Represents the result of parsing an inline element.
-    /// </summary>
-    public class InlineParseResult<T> : InlineParseResult
-        where T : MarkdownInline
-    {
-
-        internal InlineParseResult(T parsedElement, int start, int end) : base(parsedElement, start, end)
-        {
-        }
-
         /// <summary>
-        /// Gets the element that was parsed (can be <c>null</c>).
+        /// Instanciates an InlineParserResult
         /// </summary>
-        public new T ParsedElement => (T)base.ParsedElement;
-
+        /// <typeparam name="T">The MarkdownInline type</typeparam>
+        /// <param name="markdownInline">The parsed inline.</param>
+        /// <param name="start">The start of the inline.</param>
+        /// <param name="end">The end of the inline.</param>
+        /// <returns>The InlineParseResult</returns>
+        public static InlineParseResult<T> Create<T>(T markdownInline, int start, int end)
+            where T : MarkdownInline
+            => new InlineParseResult<T>(markdownInline, start, end);
     }
 }

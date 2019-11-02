@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         {
                             // Parse the list item as a series of blocks.
                             int actualEnd;
-                            newBlockList.AddRange(document.Parse(blockText, 0, blockText.Length, quoteDepth: 0, actualEnd: out actualEnd));
+                            newBlockList.AddRange(document.Parse(blockText, 0, blockText.Length, actualEnd: out actualEnd));
                             usedBlockParser = true;
                         }
                         else
@@ -233,7 +233,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<ListBlock>
         {
             /// <inheritdoc/>
-            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, int quoteDepth, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var russianDolls = new List<NestedListInfo>();
                 int russianDollIndex = -1;
@@ -253,7 +253,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                foreach (var lineInfo in Common.ParseLines(markdown, realStartOfLine, maxEnd, quoteDepth))
+                foreach (var lineInfo in Common.ParseLines(markdown, realStartOfLine, maxEnd))
                 {
                     // Is this line blank?
                     if (lineInfo.IsLineBlank)
