@@ -170,15 +170,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             // Go line by line.
             while (startOfLine < end)
             {
-                // Find the first non-whitespace character.
-                int nonSpacePos = startOfLine;
                 char nonSpaceChar = '\0';
 
                 // actual start of line, including quote characters
                 int realStartOfLine = startOfLine;  // i.e. including quotes.
 
                 // Find the end of the current line.
-                int endOfLine = Common.FindNextSingleNewLine(markdown, nonSpacePos, end, out int startOfNextLine);
+                int endOfLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out int startOfNextLine);
+
+                // Find the first non-whitespace character.
+                var nonSpacePos = Common.FindNextNoneWhiteSpace(markdown, startOfLine, endOfLine, false);
+                if (nonSpacePos != -1)
+                {
+                    nonSpaceChar = markdown[nonSpacePos];
+                }
 
                 if (nonSpaceChar == '\0')
                 {
