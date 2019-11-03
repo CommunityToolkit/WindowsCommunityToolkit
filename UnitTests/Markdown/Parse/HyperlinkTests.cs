@@ -84,86 +84,51 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - inline")]
-        public void Hyperlink_MailtoLocalPart()
+        [DataRow("abcABC123@test.com", null, "mailto:abcABC123@test.com", "abcABC123@test.com", false, DisplayName = "abcABC123@test.com")]
+        [DataRow("a!b@test.com", "a!", "mailto:b@test.com", "b@test.com", false, DisplayName = "a!b@test.com")]
+        [DataRow("a#b@test.com", "a#", "mailto:b@test.com", "b@test.com", false, DisplayName = "a#b@test.com")]
+        [DataRow("a$b@test.com", "a$", "mailto:b@test.com", "b@test.com", false, DisplayName = "a$b@test.com")]
+        [DataRow("a%b@test.com", "a%", "mailto:b@test.com", "b@test.com", false, DisplayName = "a%b@test.com")]
+        [DataRow("a&b@test.com", "a&", "mailto:b@test.com", "b@test.com", false, DisplayName = "a&b@test.com")]
+        [DataRow("a*b@test.com", "a*", "mailto:b@test.com", "b@test.com", false, DisplayName = "a*b@test.com")]
+        [DataRow("a+b@test.com", null, "mailto:a+b@test.com", "a+b@test.com", false, DisplayName = "a+b@test.com")]
+        [DataRow("a-b@test.com", null, "mailto:a-b@test.com", "a-b@test.com", false, DisplayName = "a-b@test.com")]
+        [DataRow("a=b@test.com", "a=", "mailto:b@test.com", "b@test.com", false, DisplayName = "a=b@test.com")]
+        [DataRow("a/b@test.com", "a/", "mailto:b@test.com", "b@test.com", false, DisplayName = "a/b@test.com")]
+        [DataRow("a?b@test.com", "a?", "mailto:b@test.com", "b@test.com", false, DisplayName = "a?b@test.com")]
+        [DataRow("a^b@test.com", "a", "mailto:b@test.com", "b@test.com", true, DisplayName = "a^b@test.com")]
+        [DataRow("a_b@test.com", null, "mailto:a_b@test.com", "a_b@test.com", false, DisplayName = "a_b@test.com")]
+        [DataRow("a{b@test.com", "a{", "mailto:b@test.com", "b@test.com", false, DisplayName = "a{b@test.com")]
+        [DataRow("a}b@test.com", "a}", "mailto:b@test.com", "b@test.com", false, DisplayName = "a}b@test.com")]
+        [DataRow("a|b@test.com", "a|", "mailto:b@test.com", "b@test.com", false, DisplayName = "a|b@test.com")]
+        [DataRow("a`b@test.com", "a`", "mailto:b@test.com", "b@test.com", false, DisplayName = "a`b@test.com")]
+        [DataRow("a'b@test.com", "a'", "mailto:b@test.com", "b@test.com", false, DisplayName = "a'b@test.com")]
+        [DataRow("a~b@test.com", "a~", "mailto:b@test.com", "b@test.com", false, DisplayName = "a~b@test.com")]
+        [DataRow("a.b@test.com", null, "mailto:a.b@test.com", "a.b@test.com", false, DisplayName = "a.b@test.com")]
+        [DataRow("a..b@test.com", null, "mailto:a..b@test.com", "a..b@test.com", false, DisplayName = "a..b@test.com")]
+        [DataRow("ab.@test.com", null, "mailto:ab.@test.com", "ab.@test.com", false, DisplayName = "ab.@test.com")]
+        [DataRow(".ab@test.com", null, "mailto:.ab@test.com", ".ab@test.com", false, DisplayName = ".ab@test.com")]
+        public void Hyperlink_MailtoLocalPart(string input, string textRunText, string hyperLinkUrl, string hyperLinkText, bool linkInSuperScript)
         {
-            AssertEqual(CollapseWhitespace(@"
-                abcABC123@test.com
+            ParagraphBlock expected;
 
-                a!b@test.com
+            if (textRunText is null)
+            {
+                expected = new ParagraphBlock().AddChildren(new HyperlinkInline { Url = hyperLinkUrl, Text = hyperLinkText, LinkType = HyperlinkType.Email });
+            }
+            else
+            {
+                if (linkInSuperScript)
+                {
+                    expected = new ParagraphBlock().AddChildren(new TextRunInline { Text = textRunText }, new SuperscriptTextInline().AddChildren(new HyperlinkInline { Url = hyperLinkUrl, Text = hyperLinkText, LinkType = HyperlinkType.Email }));
+                }
+                else
+                {
+                    expected = new ParagraphBlock().AddChildren(new TextRunInline { Text = textRunText }, new HyperlinkInline { Url = hyperLinkUrl, Text = hyperLinkText, LinkType = HyperlinkType.Email });
+                }
+            }
 
-                a#b@test.com
-
-                a$b@test.com
-
-                a%b@test.com
-
-                a&b@test.com
-
-                a*b@test.com
-
-                a+b@test.com
-
-                a!b@test.com
-
-                a-b@test.com
-
-                a=b@test.com
-
-                a/b@test.com
-
-                a?b@test.com
-
-                a^b@test.com
-
-                a_b@test.com
-
-                a{b@test.com
-
-                a}b@test.com
-
-                a|b@test.com
-
-                a!b@test.com
-
-                a`b@test.com
-
-                a'b@test.com
-
-                a~b@test.com
-
-                a.b@test.com
-
-                a..b@test.com
-
-                ab.@test.com
-
-                .ab@test.com"),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abcABC123@test.com", Text = "abcABC123@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a!" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a#" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a$" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a%" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a&" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a*" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:a+b@test.com", Text = "a+b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a!" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:a-b@test.com", Text = "a-b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a=" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a/" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a?" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a" }, new SuperscriptTextInline().AddChildren(new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email })),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:a_b@test.com", Text = "a_b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a{" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a}" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a|" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a!" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a`" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a'" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "a~" }, new HyperlinkInline { Url = "mailto:b@test.com", Text = "b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:a.b@test.com", Text = "a.b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:a..b@test.com", Text = "a..b@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:ab.@test.com", Text = "ab.@test.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:.ab@test.com", Text = ".ab@test.com", LinkType = HyperlinkType.Email }));
+            AssertEqual(input, expected);
         }
 
         [TestMethod]
@@ -735,7 +700,7 @@ namespace UnitTests.Markdown.Parse
                     new HyperlinkInline { Text = "/r/news/blah", Url = "/r/news/blah", LinkType = HyperlinkType.Subreddit }));
         }
 
-        
+
 
         [TestMethod]
         [TestCategory("Parse - inline")]
