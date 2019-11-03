@@ -33,6 +33,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<BoldTextInline>
         {
             /// <inheritdoc/>
+            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            {
+                base.ConfigureDefaults(configuration);
+                configuration.After<BoldItalicTextInline.Parser>();
+                configuration.Before<ItalicTextInline.Parser>();
+            }
+
+            /// <inheritdoc/>
             protected override InlineParseResult<BoldTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 if (tripPos >= maxEnd - 1)
