@@ -44,16 +44,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var nonSpace = firstNonSpace;
+                actualEnd = startOfLine;
                 if (markdown[nonSpace] != '>')
                 {
-                    actualEnd = startOfLine;
                     return null;
                 }
 
                 var lines = new List<ReadOnlyMemory<char>>();
+                var temporaryLines = new List<ReadOnlyMemory<char>>();
                 var newLine = startOfLine;
                 int endOfLine;
                 bool lastWasEmpty = false;
+                bool lastDidNotContainedQuoteCharacter = false;
                 while (true)
                 {
                     endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, newLine, maxEnd, out var nextLine);
@@ -66,29 +68,28 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                     if (nonSpace == -1)
                     {
-                        if (lastWasEmpty)
-                        {
-                            break;
-                        }
-                        else
+                        if (!lastWasEmpty)
                         {
                             lastWasEmpty = true;
                         }
                     }
                     else if (markdown[nonSpace] != '>')
                     {
-                        if (lastWasEmpty)
+                        if (lastWasEmpty || lastDidNotContainedQuoteCharacter)
                         {
                             break;
                         }
                         else
                         {
-                            lastWasEmpty = true;
+                            lastDidNotContainedQuoteCharacter = true;
                         }
                     }
                     else
                     {
+                        lastDidNotContainedQuoteCharacter = false;
                         lastWasEmpty = false;
+                        lines.AddRange(temporaryLines);
+                        temporaryLines.Clear();
                     }
 
                     var actualStart = nonSpace == -1 ? newLine : nonSpace;
@@ -114,7 +115,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                             length = endOfLine - actualStart;
                         }
 
-                        lines.Add(markdown.AsMemory(actualStart, length));
+                        var memory = markdown.AsMemory(actualStart, length);
+                        if (lastWasEmpty)
+                        {
+                            temporaryLines.Add(memory);
+                        }
+                        else
+                        {
+                            actualEnd = endOfLine;
+                            lines.Add(memory);
+                        }
                     }
 
                     newLine = nextLine;
@@ -125,7 +135,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     lines.RemoveAt(lines.Count - 1);
                 }
 
-                actualEnd = endOfLine;
                 var filteredString = new StringFilter(lines);
 
                 var result = new QuoteBlock();
