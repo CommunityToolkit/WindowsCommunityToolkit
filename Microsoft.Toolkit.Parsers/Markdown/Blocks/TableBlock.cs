@@ -145,7 +145,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
 
                     // End of input?
-                    if (pos == maxEndingPos)
+                    // We need to use endOfCell her because pos maybe was decreased so we wouldnt notice the end of input.
+                    if (endOfCell == maxEndingPos)
                     {
                         break;
                     }
@@ -322,6 +323,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 actualEnd = realStartOfLine;
+                var textLength = markdown.Length;
+                if (actualEnd > 0)
+                {
+                    if (markdown[actualEnd - 1] == '\r')
+                    {
+                        actualEnd -= 2;
+                    }
+                    else
+                    {
+                        actualEnd -= 1;
+                    }
+                }
+
                 return new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
             }
         }
