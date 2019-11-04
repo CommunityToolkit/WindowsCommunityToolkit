@@ -98,6 +98,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parsing helper method.
         /// </summary>
+        /// <param name="listItem">The listItem to edit</param>
+        /// <param name="markdown">The markdown text</param>
+        /// <param name="start">The start position</param>
+        /// <param name="end">The end position</param>
+        /// <param name="newLine">True if the text is a new line. Prefixed whitespace is ignored then.</param>
         private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end, bool newLine = false)
         {
             ListItemBuilder listItemBuilder = null;
@@ -128,7 +133,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             if (newLine)
             {
-                builder.Append(Environment.NewLine);
+                start = Common.FindNextNoneWhiteSpace(markdown, start, end, true);
             }
 
             builder.Append(markdown.Substring(start, end - start));
