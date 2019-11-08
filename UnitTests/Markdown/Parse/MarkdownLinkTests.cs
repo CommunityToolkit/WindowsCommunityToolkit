@@ -142,35 +142,20 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - inline")]
-        public void MarkdownLink_OtherSchemes()
+        [DataRow("[text](http://reddit.com)", "http://reddit.com", "text", DisplayName = "[text](http://reddit.com)")]
+        [DataRow("[text](https://reddit.com)", "https://reddit.com", "text", DisplayName = "[text](https://reddit.com)")]
+        [DataRow("[text](ftp://reddit.com)", "ftp://reddit.com", "text", DisplayName = "[text](ftp://reddit.com)")]
+        [DataRow("[text](steam://reddit.com)", "steam://reddit.com", "text", DisplayName = "[text](steam://reddit.com)")]
+        [DataRow("[text](irc://reddit.com)", "irc://reddit.com", "text", DisplayName = "[text](irc://reddit.com)")]
+        [DataRow("[text](news://reddit.com)", "news://reddit.com", "text", DisplayName = "[text](news://reddit.com)")]
+        [DataRow("[text](mumble://reddit.com)", "mumble://reddit.com", "text", DisplayName = "[text](mumble://reddit.com)")]
+        [DataRow("[text](sip:1-999-123-4567@voip-provider.example.net)", "sip:1-999-123-4567@voip-provider.example.net", "text", DisplayName = "[text](sip:1-999-123-4567@voip-provider.example.net)")]
+        [DataRow("[text](ssh://reddit.com)", "ssh://reddit.com", "text", DisplayName = "[text](ssh://reddit.com)")]
+        public void MarkdownLink_OtherSchemes(string input, string url, string text)
         {
-            AssertEqual(CollapseWhitespace(@"
-                [text](http://reddit.com)
 
-                [text](https://reddit.com)
-
-                [text](ftp://reddit.com)
-
-                [text](steam://reddit.com)
-
-                [text](irc://reddit.com)
-
-                [text](news://reddit.com)
-
-                [text](mumble://reddit.com)
-
-                [text](sip:1-999-123-4567@voip-provider.example.net)
-
-                [text](ssh://reddit.com)"),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "https://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "ftp://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "steam://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "irc://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "news://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "mumble://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "sip:1-999-123-4567@voip-provider.example.net" }.AddChildren(new TextRunInline { Text = "text" })),
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "ssh://reddit.com" }.AddChildren(new TextRunInline { Text = "text" })));
+            AssertEqual(input,
+                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = url }.AddChildren(new TextRunInline { Text = text })));
         }
 
         [TestMethod]
@@ -381,6 +366,6 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "] " },
                     new MarkdownLinkInline { Url = "https://www.reddit.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
-        }   
+        }
     }
 }
