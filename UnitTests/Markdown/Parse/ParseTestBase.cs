@@ -33,5 +33,22 @@ namespace UnitTests.Markdown.Parse
 
             Assert.AreEqual(expected.ToString(), actual.ToString());
         }
+
+        internal void AssertEqual(MarkdownDocument document, params MarkdownBlock[] expectedAst)
+        {
+            var expected = new StringBuilder();
+            foreach (var block in expectedAst)
+            {
+                SerializeElement(expected, block, indentLevel: 0);
+            }
+
+            var actual = new StringBuilder();
+            foreach (var block in document.Blocks)
+            {
+                SerializeElement(actual, block, indentLevel: 0);
+            }
+
+            Assert.AreEqual(expected.ToString(), actual.ToString());
+        }
     }
 }
