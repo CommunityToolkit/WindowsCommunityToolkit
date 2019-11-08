@@ -13,6 +13,9 @@
         <TextBox extensions:TextBoxMask.Mask="+1999-9999"
                  extensions:TextBoxMask.PlaceHolder=" " />
 
+        <TextBox extensions:TextBoxMask.Mask="+\964 799 999 9999"
+                 extensions:TextBoxMask.PlaceHolder=" " />
+
         <TextBox extensions:TextBoxMask.CustomMask="5:[1-5],c:[a-c]"
                  extensions:TextBoxMask.Mask="a5c-5c*9" />
 

@@ -7,25 +7,38 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Page.Resources>
-        
-    </Page.Resources>
-
     <Grid>
-        <controls:TokenizingTextBox
-            x:Name="TokenBox"
-            PlaceholderText="Tags"
-            QueryIcon="Tag"
-            MaxHeight="104"
-            MaxWidth="400"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.HorizontalScrollMode="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
-            ScrollViewer.VerticalScrollMode="Enabled"
-            VerticalAlignment="Center"
-            TokenSpacing="4"
-            Padding="4"
-            Background="Blue"
-            TokenDelimiter="," />
+      <controls:TokenizingTextBox
+          x:Name="TokenBox"
+          PlaceholderText="Add Actions"
+          QueryIcon="Setting"
+          MaxHeight="104"
+          MaxWidth="400"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          ScrollViewer.HorizontalScrollMode="Disabled"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.VerticalScrollMode="Enabled"
+          TextMemberPath="Text"
+          VerticalAlignment="Center"
+          TokenSpacing="2"
+          Padding="4"
+          TokenDelimiter=",">
+        <controls:TokenizingTextBox.SuggestedItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.SuggestedItemTemplate>
+        <controls:TokenizingTextBox.TokenItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.TokenItemTemplate>
+      </controls:TokenizingTextBox>
     </Grid>
 </Page>

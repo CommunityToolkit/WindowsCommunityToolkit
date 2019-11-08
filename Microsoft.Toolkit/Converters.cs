@@ -2,19 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-namespace Microsoft.Toolkit.Uwp.UI.Controls
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Microsoft.Toolkit
 {
     /// <summary>
-    /// All common long extensions should go here
+    /// Set of helpers to convert between data types and notations.
     /// </summary>
-    internal static class Int64Extensions
+    public static class Converters
     {
         /// <summary>
-        /// Translate numeric file size to string format.
+        /// Translate numeric file size in bytes to a human-readable shorter string format.
         /// </summary>
-        /// <param name="size">file size in bytes.</param>
-        /// <returns>Returns file size string.</returns>
-        public static string ToFileSizeString(this long size)
+        /// <param name="size">File size in bytes.</param>
+        /// <returns>Returns file size short string.</returns>
+        public static string ToFileSizeString(long size)
         {
             if (size < 1024)
             {
