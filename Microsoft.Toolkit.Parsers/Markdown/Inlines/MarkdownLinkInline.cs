@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     string tooltip = null;
                     bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
                     int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
-                    if (tooltipStart == linkOpen)
+                    if (tooltipStart == linkOpen || markdown[linkOpen] == '\"')
                     {
                         return null;
                     }
