@@ -602,7 +602,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             internal DocumentBuilder()
             {
-
             }
 
             internal DocumentBuilder(MarkdownBlock.Parser[] parsersBlock, Dictionary<Type, HashSet<Type>> parserDependencysBlock, MarkdownInline.Parser[] parsersInline, Dictionary<Type, HashSet<Type>> parserDependencysInline)
