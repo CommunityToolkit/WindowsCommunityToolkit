@@ -71,6 +71,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// </summary>
         /// <param name="element"> The parsed block element to render. </param>
         /// <param name="context"> Persistent state. </param>
-        protected abstract void RenderOther(MarkdownBlock element, IRenderContext context);
+        protected virtual void RenderOther(MarkdownBlock element, IRenderContext context) { }
     }
 }
