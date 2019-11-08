@@ -3,12 +3,13 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides a set of extensions to the <see cref="o:Windows.UI.Xaml.Media.Matrix"/> struct.
+    /// Provides a set of extensions to the <see cref="o:Microsoft.UI.Xaml.Media.Matrix"/> struct.
     /// </summary>
     public static class MatrixExtensions
     {
@@ -99,6 +100,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return matrix.Multiply(CreateSkewRadians((skewX % 360) * (Math.PI / 180.0), (skewY % 360) * (Math.PI / 180.0)));
         }
 
+        internal static Matrix NewMatrix(double m11, double m12, double m21, double m22, double offsetX, double offsetY)
+        {
+            Matrix m;
+            m.M11 = m11;
+            m.M12 = m12;
+            m.M21 = m21;
+            m.M22 = m22;
+            m.OffsetX = offsetX;
+            m.OffsetY = offsetY;
+
+            return m;
+        }
+
+        static MatrixExtensions()
+        {
+            Matrix m;
+            m.M11 = 1;
+            m.M12 = 0;
+            m.M21 = 0;
+            m.M22 = 1;
+            m.OffsetX = 0;
+            m.OffsetY = 0;
+
+            Identity = m;
+        }
+
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+        public static Matrix Identity { get; }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+
         /// <summary>
         /// Translates the matrix by the given amount and returns the result.
         /// </summary>
@@ -108,7 +139,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Translated Matrix.</returns>
         public static Matrix Translate(this Matrix matrix, double offsetX, double offsetY)
         {
-            return new Matrix(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
+            return NewMatrix(matrix.M11, matrix.M12, matrix.M21, matrix.M22, matrix.OffsetX + offsetX, matrix.OffsetY + offsetY);
+        }
+
+        internal static Point Transform(this Matrix matrix, Point point)
+        {
+            Point newPoint = point;
+#pragma warning disable SA1407 // Arithmetic expressions must declare precedence
+            double xadd = newPoint.Y * matrix.M21 + matrix.OffsetX;
+            double yadd = newPoint.X * matrix.M12 + matrix.OffsetY;
+#pragma warning restore SA1407 // Arithmetic expressions must declare precedence
+            newPoint.X *= matrix.M11;
+            newPoint.X += xadd;
+            newPoint.Y *= matrix.M22;
+            newPoint.Y += yadd;
+            return newPoint;
         }
 
         internal static Matrix CreateRotationRadians(double angle)
@@ -124,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var dy = (centerY * (1.0 - cos)) - (centerX * sin);
 
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(cos, sin,
+            return NewMatrix(cos, sin,
                               -sin, cos,
                               dx, dy);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -133,7 +178,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateScaling(double scaleX, double scaleY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(scaleX, 0,
+            return NewMatrix(scaleX, 0,
                               0, scaleY,
                               0, 0);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -142,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateScaling(double scaleX, double scaleY, double centerX, double centerY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(scaleX, 0,
+            return NewMatrix(scaleX, 0,
                               0, scaleY,
                               centerX - (scaleX * centerX), centerY - (scaleY * centerY));
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines
@@ -151,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         internal static Matrix CreateSkewRadians(double skewX, double skewY)
         {
             #pragma warning disable SA1117 // Parameters must be on same line or separate lines
-            return new Matrix(1.0, Math.Tan(skewY),
+            return NewMatrix(1.0, Math.Tan(skewY),
                               Math.Tan(skewX), 1.0,
                               0.0, 0.0);
             #pragma warning restore SA1117 // Parameters must be on same line or separate lines

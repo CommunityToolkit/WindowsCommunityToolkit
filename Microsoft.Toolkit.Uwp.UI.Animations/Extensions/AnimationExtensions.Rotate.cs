@@ -4,8 +4,8 @@
 
 using System;
 using System.Numerics;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -87,7 +87,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = new DoubleAnimation
                 {
                     To = value,
-                    Duration = TimeSpan.FromMilliseconds(duration),
+                    Duration = new Duration
+                    {
+                        TimeSpan = TimeSpan.FromMilliseconds(duration),
+                        Type = DurationType.TimeSpan
+                    },
                     BeginTime = TimeSpan.FromMilliseconds(delay),
                     EasingFunction = GetEasingFunction(easingType, easingMode)
                 };

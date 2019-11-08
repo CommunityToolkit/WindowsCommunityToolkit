@@ -5,10 +5,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Fired when a user taps one of the image elements
         /// </summary>
-        private void NewImagelink_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void NewImagelink_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string hyperLink = (string)(sender as Image).GetValue(HyperlinkUrlProperty);
             bool isHyperLink = (bool)(sender as Image).GetValue(IsHyperlinkProperty);

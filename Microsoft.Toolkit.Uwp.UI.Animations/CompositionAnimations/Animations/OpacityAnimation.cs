@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.UI.Composition;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {

@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.Graphics.Printing;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Navigation;
+using Windows.Graphics.Printing;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

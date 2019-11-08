@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Graphics.Display;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -16,10 +16,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) => (d as PowerBIEmbedded).LoadAllAsync();
 
+        /*
         private void WebViewReportFrame_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
         {
             _webViewInitializedTask.TrySetResult(true);
         }
+        */
 
         private void DisplayInformation_OrientationChanged(DisplayInformation sender, object args)
         {

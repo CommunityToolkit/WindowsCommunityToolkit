@@ -11,11 +11,11 @@ using Microsoft.PowerBI.Api.V2;
 using Microsoft.PowerBI.Api.V2.Models;
 using Microsoft.Rest;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.Graphics.Display;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -23,13 +23,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.
     /// </summary>
     [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
-    [TemplatePart(Name = "WebViewReportFrame", Type = typeof(WebView))]
+
+    // [TemplatePart(Name = "WebViewReportFrame", Type = typeof(WebView))]
     public partial class PowerBIEmbedded : Control
     {
         private const string PowerBIResourceId = "https://analysis.windows.net/powerbi/api";
         private const string ApiUrl = "https://api.powerbi.com/";
         private MicrosoftGraphAuthenticationHelper _authentication;
-        private WebView _webViewReportFrame;
+
+        // private WebView _webViewReportFrame;
         private TaskCompletionSource<bool> _webViewInitializedTask = new TaskCompletionSource<bool>();
         private string _tokenForUser;
         private DateTimeOffset _expiration;
@@ -51,6 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             ApplyTemplate();
 
+            /*
             if (_webViewReportFrame != null)
             {
                 _webViewReportFrame.DOMContentLoaded -= WebViewReportFrame_DOMContentLoaded;
@@ -62,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             {
                 _webViewReportFrame.DOMContentLoaded += WebViewReportFrame_DOMContentLoaded;
             }
+            */
 
             if (_tokenExpirationRefreshTimer != null)
             {
@@ -217,9 +221,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
         {
             await WaitWebviewContentLoaded();
 
+            /*
             await _webViewReportFrame.InvokeScriptAsync(
                "eval",
                new string[] { script });
+            */
         }
     }
 }

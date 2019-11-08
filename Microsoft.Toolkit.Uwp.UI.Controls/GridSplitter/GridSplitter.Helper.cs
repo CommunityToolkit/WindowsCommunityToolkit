@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -14,12 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private static bool IsStarColumn(ColumnDefinition definition)
         {
-            return ((GridLength)definition.GetValue(ColumnDefinition.WidthProperty)).IsStar;
+            return ((GridLength)definition.GetValue(ColumnDefinition.WidthProperty)).IsStar();
         }
 
         private static bool IsStarRow(RowDefinition definition)
         {
-            return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar;
+            return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar();
         }
 
         private bool SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newWidth > ActualWidth)
             {
-                columnDefinition.Width = new GridLength(newWidth, unitType);
+                columnDefinition.Width = ControlHelpers.NewGridLength(newWidth, unitType);
                 return true;
             }
 
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newHeight > ActualHeight)
             {
-                rowDefinition.Height = new GridLength(newHeight, unitType);
+                rowDefinition.Height = ControlHelpers.NewGridLength(newHeight, unitType);
                 return true;
             }
 

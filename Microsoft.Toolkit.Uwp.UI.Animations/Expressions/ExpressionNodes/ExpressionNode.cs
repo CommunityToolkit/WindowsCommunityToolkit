@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
-using Windows.UI;
-using Windows.UI.Composition;
+using Microsoft.UI;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// </summary>
         /// <param name="parameterName">The string name of the parameter to be resolved.</param>
         /// <param name="value">The value that the parameter should resolve to.</param>
-        public void SetColorParameter(string parameterName, Color value)
+        public void SetColorParameter(string parameterName, Windows.UI.Color value)
         {
             _constParamMap[parameterName] = value;
         }
@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// </summary>
         /// <typeparam name="T">A class that derives from ExpressionNode</typeparam>
         /// <returns>T.</returns>
-        /// <exception cref="System.Exception">unexpected type</exception>
+        /// <exception cref="global::System.Exception">unexpected type</exception>
         internal static T CreateExpressionNode<T>()
             where T : ExpressionNode
         {
@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <typeparam name="T">A class that derives from ExpressionNode</typeparam>
         /// <param name="keywordKind">Kind of the keyword.</param>
         /// <returns>T.</returns>
-        /// <exception cref="System.Exception">Invalid ValueKeywordKind</exception>
+        /// <exception cref="global::System.Exception">Invalid ValueKeywordKind</exception>
         internal static T CreateValueKeyword<T>(ValueKeywordKind keywordKind)
             where T : ExpressionNode
         {
@@ -262,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <summary>
         /// Ensures the reference information.
         /// </summary>
-        /// <exception cref="System.Exception">Reference and paramName can't both be null</exception>
+        /// <exception cref="global::System.Exception">Reference and paramName can't both be null</exception>
         internal void EnsureReferenceInfo()
         {
             if (_objRefList == null)
@@ -354,9 +354,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
                 {
                     animation.SetVector4Parameter(constParam.Key, (Vector4)constParam.Value);
                 }
-                else if (constParam.Value.GetType() == typeof(Color))
+                else if (constParam.Value.GetType() == typeof(Windows.UI.Color))
                 {
-                    animation.SetColorParameter(constParam.Key, (Color)constParam.Value);
+                    animation.SetColorParameter(constParam.Key, (Windows.UI.Color)constParam.Value);
                 }
                 else if (constParam.Value.GetType() == typeof(Quaternion))
                 {

@@ -8,12 +8,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.UI;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Windows.Foundation;
 using Windows.Graphics;
 using Windows.Storage;
-using Windows.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -29,18 +29,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void ReDraw(Rect viewPort, float zoom)
         {
+            /*
             var toDraw = GetDrawingBoundaries(viewPort);
 
             var scale = _screenScale * zoom;
 
             using (var drawingSession = CanvasComposition.CreateDrawingSession(_drawingSurface, ScaleRect(toDraw, scale), BaseCanvasDPI * (float)scale))
             {
-                drawingSession.Clear(Colors.White);
-                foreach (var drawable in _visibleList)
-                {
-                    drawable.Draw(drawingSession, toDraw);
-                }
+               drawingSession.Clear(Colors.White);
+               foreach (var drawable in _visibleList)
+               {
+                   drawable.Draw(drawingSession, toDraw);
+               }
             }
+            */
+
+            throw new NotImplementedException("WinUI3");
         }
 
         private Rect ScaleRect(Rect rect, double scale)
@@ -59,7 +63,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _visibleList.Clear();
             ExecuteClearAll();
-            _drawingSurface.Trim(new RectInt32[0]);
+
+            // _drawingSurface.Trim(new RectInt32[0]);
+            throw new NotImplementedException("WinUI3");
         }
 
         internal string GetSerializedList()

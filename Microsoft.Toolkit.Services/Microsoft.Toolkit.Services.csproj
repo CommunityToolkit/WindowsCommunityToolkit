@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>uap10.0.16299;netstandard2.0;NET462</TargetFrameworks>
+    <TargetFrameworks>uap10.0.17134;netstandard2.0;NET462</TargetFrameworks>
     <Title>Windows Community Toolkit .NET Standard Services</Title>
     <Description>
       This .NET standard library enables access to different data sources such as Microsoft Graph, OneDrive, Twitter, Microsoft Translator, and LinkedIn. It is part of the Windows Community Toolkit.
@@ -16,7 +16,7 @@
     <NoWarn>CS8002</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
+  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.17134'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
@@ -32,7 +32,7 @@
     <PackageReference Include="System.Net.Http" Version="4.3.3" />
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
+  <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.17134'">
     <PackageReference Include="Microsoft.IdentityModel.Clients.ActiveDirectory" Version="3.13.7" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
@@ -69,7 +69,7 @@
     </Compile>
   </ItemGroup>
 
-  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0.16299')">
+  <ItemGroup Condition="!('$(TargetFramework)'=='uap10.0.17134')">
     <Compile Remove="Services\MicrosoftGraph\Platform\Uwp\**\*" />
     <Compile Remove="Services\OneDrive\Platform\Uwp\**\*" />
     <Compile Remove="PlatformSpecific\Uwp\**\*" />

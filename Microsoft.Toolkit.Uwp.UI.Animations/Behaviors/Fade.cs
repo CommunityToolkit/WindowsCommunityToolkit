@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -10,7 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// Performs an fade animation using composition.
     /// </summary>
     /// <seealso>
-    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
+    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}</cref>
     /// </seealso>
     public class Fade : CompositionBehaviorBase<UIElement>
     {

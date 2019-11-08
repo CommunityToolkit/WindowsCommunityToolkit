@@ -7,24 +7,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Windows.Media.Capture.Frames;
 using Windows.Media.Core;
 using Windows.Media.Playback;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Camera Control to preview video. Can subscribe to video frames, software bitmap when they arrive.
     /// </summary>
-    [TemplatePart(Name = Preview_MediaPlayerElementControl, Type =typeof(MediaPlayerElement))]
+    // [TemplatePart(Name = Preview_MediaPlayerElementControl, Type =typeof(MediaPlayerElement))]
     [TemplatePart(Name = Preview_FrameSourceGroupButton, Type = typeof(Button))]
     public partial class CameraPreview : Control
     {
         private CameraHelper _cameraHelper;
         private MediaPlayer _mediaPlayer;
-        private MediaPlayerElement _mediaPlayerElementControl;
+
+        // private MediaPlayerElement _mediaPlayerElementControl;
         private Button _frameSourceGroupButton;
 
         private IReadOnlyList<MediaFrameSourceGroup> _frameSourceGroups;
@@ -61,10 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _frameSourceGroups = await CameraHelper.GetFrameSourceGroupsAsync();
 
             // UI controls exist and are initialized
-            if (_mediaPlayerElementControl != null)
-            {
-                await InitializeAsync();
-            }
+            // if (_mediaPlayerElementControl != null)
+            // {
+            //    await InitializeAsync();
+            // }
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _frameSourceGroupButton.Click -= FrameSourceGroupButton_ClickAsync;
             }
 
-            _mediaPlayerElementControl = (MediaPlayerElement)GetTemplateChild(Preview_MediaPlayerElementControl);
+            // _mediaPlayerElementControl = (MediaPlayerElement)GetTemplateChild(Preview_MediaPlayerElementControl);
             _frameSourceGroupButton = (Button)GetTemplateChild(Preview_FrameSourceGroupButton);
 
             if (_frameSourceGroupButton != null)
@@ -148,7 +149,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.Media.Core.MediaSource", "CreateFromMediaFrameSource", 1))
                     {
                         _mediaPlayer.Source = MediaSource.CreateFromMediaFrameSource(frameSource);
-                        _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
+
+                        // _mediaPlayerElementControl.SetMediaPlayer(_mediaPlayer);
                     }
                     else
                     {
@@ -171,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                _mediaPlayerElementControl.SetMediaPlayer(null);
+                // _mediaPlayerElementControl.SetMediaPlayer(null);
             }
 
             _frameSourceGroupButton.IsEnabled = IsFrameSourceGroupButtonAvailable;
@@ -190,16 +192,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void Stop()
         {
-            if (_mediaPlayerElementControl != null)
-            {
-                _mediaPlayerElementControl.SetMediaPlayer(null);
-            }
-
+            // if (_mediaPlayerElementControl != null)
+            // {
+            //    _mediaPlayerElementControl.SetMediaPlayer(null);
+            // }
             if (_mediaPlayer != null)
             {
                 _mediaPlayer.Dispose();
                 _mediaPlayer = null;
             }
+
+            throw new NotImplementedException("WinUI3");
         }
     }
 }

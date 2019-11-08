@@ -15,9 +15,10 @@
     <IsTestProject>$(MSBuildProjectName.Contains('Test'))</IsTestProject>
     <IsUwpProject Condition="'$(IsDesignProject)' != 'true'">$(MSBuildProjectName.Contains('Uwp'))</IsUwpProject>
     <IsSampleProject>$(MSBuildProjectName.Contains('Sample'))</IsSampleProject>
-    <DefaultTargetPlatformVersion>17763</DefaultTargetPlatformVersion>
-    <DefaultTargetPlatformMinVersion>16299</DefaultTargetPlatformMinVersion>
+    <DefaultTargetPlatformVersion>18362</DefaultTargetPlatformVersion>
+    <DefaultTargetPlatformMinVersion>17134</DefaultTargetPlatformMinVersion>
     <PackageOutputPath>$(MSBuildThisFileDirectory)bin\nupkg</PackageOutputPath>
+    <NoWarn>CS8002;CS8305</NoWarn> <!-- Temporary since WinUI3 is not stable yet -->
   </PropertyGroup>
 
   <PropertyGroup>
@@ -74,15 +75,21 @@
     </When>
   </Choose>
 
-  <PropertyGroup Condition="'$(IsUwpProject)' == 'true'">
+  <PropertyGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true'">
 
-    <!-- 8002 is a strong named -> non-strong-named reference -->
-    <!-- This is valid for platforms other than .NET Framework (and is needed for the UWP targets -->
-    <NoWarn>$(NoWarn);8002</NoWarn>
+    <IsWinUIAlpha Condition="'$(IsWinUIAlpha)' == ''">true</IsWinUIAlpha>
+    <WindowsKitsPath Condition="'$(IsWinUIAlpha)' == 'true'">WinUI-Alpha-Projects-Don-t-Use-SDK-Xaml-Tools</WindowsKitsPath>
+	
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
+  </ItemGroup>
+  
+  <ItemGroup Condition="'$(IsUwpProject)' == 'true' or '$(IsDesignProject)' == 'true'">
+    <PackageReference Include="Microsoft.WinUI">
+      <Version>3.0.0-alpha.191101.0</Version>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

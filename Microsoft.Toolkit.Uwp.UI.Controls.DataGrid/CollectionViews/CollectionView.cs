@@ -6,13 +6,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Globalization;
-using System.Reflection;
 using Microsoft.Toolkit.Uwp.Utilities;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 {
@@ -41,22 +39,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             remove
             {
                 CollectionChanged -= value;
-            }
-        }
-
-        /// <summary>
-        /// PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
-        /// </summary>
-        event PropertyChangedEventHandler INotifyPropertyChanged.PropertyChanged
-        {
-            add
-            {
-                PropertyChanged += value;
-            }
-
-            remove
-            {
-                PropertyChanged -= value;
             }
         }
 
@@ -646,7 +628,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         protected virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        /// Raises a PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
+        /// Raises a PropertyChanged event (per <see cref="INotifyPropertyChanged" />).
         /// </summary>
         protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
         {
@@ -654,9 +636,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         /// <summary>
-        /// PropertyChanged event (per <see cref="System.ComponentModel.INotifyPropertyChanged" />).
+        /// PropertyChanged event (per <see cref="INotifyPropertyChanged" />).
         /// </summary>
-        protected virtual event PropertyChangedEventHandler PropertyChanged;
+        public virtual event Microsoft.UI.Xaml.Data.PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Re-create the view, using any SortDescriptions and/or Filter.

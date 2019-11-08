@@ -15,14 +15,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LayoutTransformControlMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.LayoutTransformControl),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(LayoutTransformControl.Child), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(LayoutTransformControl.Transform), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.LayoutTransformControl),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(LayoutTransformControl.Child), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(LayoutTransformControl.Transform), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

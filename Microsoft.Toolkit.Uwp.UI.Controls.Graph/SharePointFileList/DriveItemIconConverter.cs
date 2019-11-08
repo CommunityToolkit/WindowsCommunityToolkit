@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.Graph;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {

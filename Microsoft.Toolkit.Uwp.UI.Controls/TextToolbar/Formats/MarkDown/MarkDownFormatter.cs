@@ -7,11 +7,11 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
 {
@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// <param name="button">The button pressed</param>
         public void StyleHeader(ToolbarButton button)
         {
-            var list = new ListBox { Margin = new Thickness(0), Padding = new Thickness(0) };
+            var list = new ListBox { Margin = ControlHelpers.NewThickness(0), Padding = ControlHelpers.NewThickness(0) };
             headerFlyout = new Flyout { Content = list };
 
             string headerVal = "#";
@@ -52,8 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
-                    Padding = new Thickness(5, 2, 5, 2),
-                    Margin = new Thickness(0)
+                    Padding = ControlHelpers.NewThickness(5, 2, 5, 2),
+                    Margin = ControlHelpers.NewThickness(0)
                 };
                 item.Tapped += HeaderSelected;
                 list.Items.Add(item);
@@ -480,7 +480,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     {
                         Name = TextToolbar.CodeElement,
                         ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_CodeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = ControlHelpers.NewThickness(0, -5, 0, 0) },
                         Activation = FormatCode
                     },
                     QuoteButton,

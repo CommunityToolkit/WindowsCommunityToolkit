@@ -5,9 +5,9 @@
 //// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public class BackdropBlurBrush : XamlCompositionBrushBase
     {
+#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         /// <summary>
         /// Identifies the <see cref="Amount"/> dependency property.
         /// </summary>
@@ -94,5 +95,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = null;
             }
         }
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

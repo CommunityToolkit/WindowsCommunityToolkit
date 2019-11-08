@@ -10,11 +10,11 @@ using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -3596,9 +3596,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 DataGridRowGroupInfo info = this.RowGroupHeadersTable.GetValueAt(slot);
 #if FEATURE_ICOLLECTIONVIEW_GROUP
-                Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1} Slot:{2} Last:{3} Level:{4}", info.CollectionViewGroup.Name, info.Visibility.ToString(), slot, info.LastSubItemSlot, info.Level));
+                Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "{0} {1} Slot:{2} Last:{3} Level:{4}", info.CollectionViewGroup.Name, info.Visibility.ToString(), slot, info.LastSubItemSlot, info.Level));
 #else
-                Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} Slot:{1} Last:{2} Level:{3}", info.Visibility.ToString(), slot, info.LastSubItemSlot, info.Level));
+                Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "{0} Slot:{1} Last:{2} Level:{3}", info.Visibility.ToString(), slot, info.LastSubItemSlot, info.Level));
 #endif
             }
 

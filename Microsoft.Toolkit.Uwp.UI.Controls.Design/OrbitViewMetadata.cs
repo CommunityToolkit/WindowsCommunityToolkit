@@ -15,23 +15,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public OrbitViewMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.OrbitView),
-				b =>
-                {
-                    b.AddCustomAttributes(nameof(OrbitView.OrbitsEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(OrbitView.IsItemClickEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(OrbitView.AnchorsEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(OrbitView.MinItemSize), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(OrbitView.MaxItemSize), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(OrbitView.AnchorColor), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(nameof(OrbitView.OrbitColor), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(nameof(OrbitView.OrbitDashArray), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(OrbitView.AnchorThickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(OrbitView.OrbitThickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(OrbitView.CenterContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.OrbitView),
+			//	b =>
+   //             {
+   //                 b.AddCustomAttributes(nameof(OrbitView.OrbitsEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(OrbitView.IsItemClickEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(OrbitView.AnchorsEnabled), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(OrbitView.MinItemSize), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(nameof(OrbitView.MaxItemSize), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(nameof(OrbitView.AnchorColor), new CategoryAttribute(Properties.Resources.CategoryBrush));
+   //                 b.AddCustomAttributes(nameof(OrbitView.OrbitColor), new CategoryAttribute(Properties.Resources.CategoryBrush));
+   //                 b.AddCustomAttributes(nameof(OrbitView.OrbitDashArray), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(OrbitView.AnchorThickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(nameof(OrbitView.OrbitThickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(nameof(OrbitView.CenterContent), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

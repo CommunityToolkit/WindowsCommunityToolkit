@@ -2,25 +2,24 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
+using Windows.Foundation;
+using Windows.Foundation.Metadata;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Numerics;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
-    using Microsoft.Toolkit.Uwp.UI.Extensions;
-    using Windows.Foundation;
-    using Windows.Foundation.Metadata;
-    using Windows.UI.Composition;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Hosting;
-    using Windows.UI.Xaml.Media;
-    using Windows.UI.Xaml.Shapes;
-
     /// <summary>
     /// Orientation of the scroll
     /// </summary>

@@ -319,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI
 
         private static ulong CreateHash64(string str)
         {
-            byte[] utf8 = System.Text.Encoding.UTF8.GetBytes(str);
+            byte[] utf8 = global::System.Text.Encoding.UTF8.GetBytes(str);
 
             ulong value = (ulong)utf8.Length;
             for (int n = 0; n < utf8.Length; n++)
@@ -364,7 +364,7 @@ namespace Microsoft.Toolkit.Uwp.UI
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
+                global::System.Diagnostics.Debug.WriteLine(ex.Message);
                 if (throwOnError)
                 {
                     throw;

@@ -8,11 +8,11 @@ using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown.Render;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 {
@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
-                Padding = new Thickness(0, 0, 0, paragraph.FontSize * 0.2),
+                Padding = ControlHelpers.NewThickness(0, 0, 0, paragraph.FontSize * 0.2),
                 Child = richTextBlock
             };
 
@@ -512,7 +512,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
-                Margin = new Thickness(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
+                Margin = ControlHelpers.NewThickness(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
                 Child = richTextBlock
             };
 

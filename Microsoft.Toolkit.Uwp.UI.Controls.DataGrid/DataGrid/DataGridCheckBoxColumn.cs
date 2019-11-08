@@ -5,11 +5,11 @@
 using System;
 using System.Collections.Specialized;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -256,7 +256,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ConfigureCheckBox(CheckBox checkBox, Brush computedRowForeground)
         {
-            checkBox.Margin = new Thickness(DATAGRIDCHECKBOXCOLUMN_leftMargin, 0.0, 0.0, 0.0);
+            checkBox.Margin = UI.Utilities.Extensions.NewThickness(DATAGRIDCHECKBOXCOLUMN_leftMargin, 0.0, 0.0, 0.0);
             checkBox.HorizontalAlignment = HorizontalAlignment.Left;
             checkBox.VerticalAlignment = VerticalAlignment.Center;
             checkBox.IsThreeState = this.IsThreeState;

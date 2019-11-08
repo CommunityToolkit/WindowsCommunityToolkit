@@ -97,7 +97,7 @@ namespace Microsoft.Toolkit.Services.OneDrive.Uwp
             IRandomAccessStream contentStream = null;
             try
             {
-                System.IO.Stream content = null;
+                global::System.IO.Stream content = null;
                 content = await ((IDriveItemRequestBuilder)_oneDriveStorageFile.RequestBuilder).Content.Request().GetAsync(cancellationToken).ConfigureAwait(false);
                 if (content != null)
                 {

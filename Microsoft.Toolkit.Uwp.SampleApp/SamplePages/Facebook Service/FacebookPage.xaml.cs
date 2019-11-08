@@ -4,10 +4,10 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.Services.Facebook;
+using Windows.UI.Popups;
+using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using ColorCode.Styling;
 using Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Metadata;
 using Windows.UI.Text;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Documents;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

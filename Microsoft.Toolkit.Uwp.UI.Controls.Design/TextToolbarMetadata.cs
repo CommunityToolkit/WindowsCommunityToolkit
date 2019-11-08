@@ -15,18 +15,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TextToolbarMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.Format), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.Formatter), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.DefaultButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.CustomButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TextToolbar.ButtonModifications), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TextToolbar),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(TextToolbar.Editor), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TextToolbar.Format), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TextToolbar.Formatter), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TextToolbar.DefaultButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TextToolbar.CustomButtons), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TextToolbar.ButtonModifications), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

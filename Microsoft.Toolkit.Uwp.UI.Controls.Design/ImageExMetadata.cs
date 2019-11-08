@@ -15,13 +15,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ImageExMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.ImageEx),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(ImageEx.NineGrid), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.ImageEx),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(ImageEx.NineGrid), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

@@ -15,13 +15,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public InAppNotificationMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(InAppNotification.ShowDismissButton), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.InAppNotification),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(InAppNotification.ShowDismissButton), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

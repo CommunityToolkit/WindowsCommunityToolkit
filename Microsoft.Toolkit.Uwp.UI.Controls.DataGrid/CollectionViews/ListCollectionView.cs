@@ -2444,7 +2444,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// </summary>
         private void OnPropertyChanged(string propertyName)
         {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(propertyName));
         }
 
         //------------------------------------------------------

@@ -6,13 +6,13 @@ using System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
+using Microsoft.UI.StartScreen;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Navigation;
 using NotificationsVisualizerLibrary;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI.Notifications;
-using Windows.UI.StartScreen;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

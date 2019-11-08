@@ -5,13 +5,13 @@
 
 #include "GazeHidUsages.h"
 
-using namespace Windows::Devices::HumanInterfaceDevice;
-using namespace Windows::Devices::Input::Preview;
+using namespace winrt::Windows::Devices::HumanInterfaceDevice;
+using namespace winrt::Windows::Devices::Input::Preview;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
-    public ref class GazeHidPosition sealed
+    class GazeHidPosition sealed
     {
     public:
         property long long X;
@@ -19,55 +19,55 @@ namespace GazeHidParsers {
         property long long Z;
     };
 
-    public ref class GazeHidPositions sealed
+    class GazeHidPositions sealed
     {
     public:
-        property GazeHidPosition^ LeftEyePosition;
-        property GazeHidPosition^ RightEyePosition;
-        property GazeHidPosition^ HeadPosition;
-        property GazeHidPosition^ HeadRotation;
+        property GazeHidPosition LeftEyePosition;
+        property GazeHidPosition RightEyePosition;
+        property GazeHidPosition HeadPosition;
+        property GazeHidPosition HeadRotation;
     };
 
-    public ref class GazeHidPositionParser sealed
+    class GazeHidPositionParser sealed
     {
     public:
-        GazeHidPositionParser(GazeDevicePreview ^ gazeDevice, uint16 usage);
+        GazeHidPositionParser(GazeDevicePreview  gazeDevice, uint16 usage);
 
-        GazeHidPosition^ GetPosition(HidInputReport ^ report);
+        GazeHidPosition GetPosition(HidInputReport  report);
 
     private:
-        HidNumericControlDescription ^ _X = nullptr;
-        HidNumericControlDescription ^ _Y = nullptr;
-        HidNumericControlDescription ^ _Z = nullptr;
+        HidNumericControlDescription  _X = nullptr;
+        HidNumericControlDescription  _Y = nullptr;
+        HidNumericControlDescription  _Z = nullptr;
         uint16 _usage                     = 0x0000;
     };
 
-    public ref class GazeHidRotationParser sealed
+    class GazeHidRotationParser sealed
     {
     public:
-        GazeHidRotationParser(GazeDevicePreview ^ gazeDevice, uint16 usage);
+        GazeHidRotationParser(GazeDevicePreview  gazeDevice, uint16 usage);
 
-        GazeHidPosition^ GetRotation(HidInputReport^ report);
+        GazeHidPosition GetRotation(HidInputReport report);
 
     private:
-        HidNumericControlDescription ^ _X = nullptr;
-        HidNumericControlDescription ^ _Y = nullptr;
-        HidNumericControlDescription ^ _Z = nullptr;
+        HidNumericControlDescription  _X = nullptr;
+        HidNumericControlDescription  _Y = nullptr;
+        HidNumericControlDescription  _Z = nullptr;
         uint16 _usage                     = 0x0000;
     };
 
-    public ref class GazeHidPositionsParser sealed
+    class GazeHidPositionsParser sealed
     {
     public:
-        GazeHidPositionsParser(GazeDevicePreview ^ gazeDevice);
+        GazeHidPositionsParser(GazeDevicePreview  gazeDevice);
 
-        GazeHidPositions^ GetGazeHidPositions(HidInputReport ^ report);
+        GazeHidPositions GetGazeHidPositions(HidInputReport  report);
 
     private:
-        GazeHidPositionParser ^ _leftEyePositionParser;
-        GazeHidPositionParser ^ _rightEyePositionParser;
-        GazeHidPositionParser ^ _headPositionParser;
-        GazeHidRotationParser ^ _headRotationParser;
+        GazeHidPositionParser  _leftEyePositionParser;
+        GazeHidPositionParser  _rightEyePositionParser;
+        GazeHidPositionParser  _headPositionParser;
+        GazeHidRotationParser  _headRotationParser;
     };
 }
 

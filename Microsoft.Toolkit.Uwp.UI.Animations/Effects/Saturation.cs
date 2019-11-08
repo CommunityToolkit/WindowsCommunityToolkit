@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.UI.Composition;
 using Windows.Foundation.Metadata;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Effects
 {

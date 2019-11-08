@@ -15,40 +15,40 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public TabViewMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TabView),
-				b =>
-                {
-                    // Layout
-                    b.AddCustomAttributes(nameof(TabView.TabWidthBehavior), new CategoryAttribute(Properties.Resources.CategoryLayout));
-                    b.AddCustomAttributes(nameof(TabView.SelectedTabWidth), new CategoryAttribute(Properties.Resources.CategoryLayout));
-                    b.AddCustomAttributes(nameof(TabView.IsCloseButtonOverlay), new CategoryAttribute(Properties.Resources.CategoryLayout));
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.TabView),
+			//	b =>
+   //             {
+   //                 // Layout
+   //                 b.AddCustomAttributes(nameof(TabView.TabWidthBehavior), new CategoryAttribute(Properties.Resources.CategoryLayout));
+   //                 b.AddCustomAttributes(nameof(TabView.SelectedTabWidth), new CategoryAttribute(Properties.Resources.CategoryLayout));
+   //                 b.AddCustomAttributes(nameof(TabView.IsCloseButtonOverlay), new CategoryAttribute(Properties.Resources.CategoryLayout));
 
-                    // Interactions
-                    b.AddCustomAttributes(nameof(TabView.CanCloseTabs), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 // Interactions
+   //                 b.AddCustomAttributes(nameof(TabView.CanCloseTabs), new CategoryAttribute(Properties.Resources.CategoryCommon));
 
-                    // Templates
-                    b.AddCustomAttributes(nameof(TabView.ItemHeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                    );
-                    b.AddCustomAttributes(nameof(TabView.TabActionHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TabView.TabActionHeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                    );
-                    b.AddCustomAttributes(nameof(TabView.TabEndHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TabView.TabEndHeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                    );
-                    b.AddCustomAttributes(nameof(TabView.TabStartHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(TabView.TabStartHeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                    );
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+   //                 // Templates
+   //                 b.AddCustomAttributes(nameof(TabView.ItemHeaderTemplate),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+   //                 );
+   //                 b.AddCustomAttributes(nameof(TabView.TabActionHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TabView.TabActionHeaderTemplate),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+   //                 );
+   //                 b.AddCustomAttributes(nameof(TabView.TabEndHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TabView.TabEndHeaderTemplate),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+   //                 );
+   //                 b.AddCustomAttributes(nameof(TabView.TabStartHeader), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(TabView.TabStartHeaderTemplate),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+   //                 );
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

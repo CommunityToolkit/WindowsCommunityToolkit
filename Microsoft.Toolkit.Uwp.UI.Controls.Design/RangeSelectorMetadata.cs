@@ -15,16 +15,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RangeSelectorMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(RangeSelector.Minimum), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RangeSelector.Maximum), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RangeSelector.RangeMin), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(RangeSelector.RangeMax), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RangeSelector),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(RangeSelector.Minimum), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(RangeSelector.Maximum), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(RangeSelector.RangeMin), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(RangeSelector.RangeMax), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

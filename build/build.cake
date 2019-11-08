@@ -148,10 +148,20 @@ Task("Build")
     Information("\nBuilding Solution");
     var buildSettings = new MSBuildSettings
     {
-        MaxCpuCount = 0
+        MaxCpuCount = 0,
     }
     .SetConfiguration("Release")
     .WithTarget("Restore");
+	
+	// Workaround for https://github.com/cake-build/cake/issues/2128
+	var vsInstallation = VSWhereLatest(new VSWhereLatestSettings { Requires = "Microsoft.Component.MSBuild", IncludePrerelease = true });
+
+	if (vsInstallation != null)
+	{
+		buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\Current\Bin\MSBuild.exe");
+		if (!FileExists(buildSettings.ToolPath))
+			buildSettings.ToolPath = vsInstallation.CombineWithFilePath(@"MSBuild\15.0\Bin\MSBuild.exe");
+	}
 
     MSBuild(Solution, buildSettings);
 
@@ -214,25 +224,28 @@ Task("Package")
 
     MSBuild(Solution, buildSettings);
 
-    // Build and pack C++ packages
+	// Build and pack C++ packages
     buildSettings = new MSBuildSettings
     {
         MaxCpuCount = 0
     }
     .SetConfiguration("Native");
 
-    buildSettings.SetPlatformTarget(PlatformTarget.ARM);
-    MSBuild(Solution, buildSettings);
+	// Ignored for now since WinUI3 alpha does not support ARM
+    // buildSettings.SetPlatformTarget(PlatformTarget.ARM);
+    // MSBuild(Solution, buildSettings);
 	
-	buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
-    MSBuild(Solution, buildSettings);
+	// Ignored for now since WinUI3 alpha does not support ARM64
+	// buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
+    // MSBuild(Solution, buildSettings);
 
     buildSettings.SetPlatformTarget(PlatformTarget.x64);
     MSBuild(Solution, buildSettings);
 
     buildSettings.SetPlatformTarget(PlatformTarget.x86);
     MSBuild(Solution, buildSettings);
-
+	
+	// Ignored for now
     var nuGetPackSettings = new NuGetPackSettings
 	{
 		OutputDirectory = nupkgDir,

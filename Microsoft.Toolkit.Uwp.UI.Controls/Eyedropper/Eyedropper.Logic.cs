@@ -6,12 +6,12 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var right = Window.Current.Bounds.Width - WorkArea.Right;
                 var top = WorkArea.Top;
                 var bottom = Window.Current.Bounds.Height - WorkArea.Bottom;
-                _targetGrid.Margin = new Thickness(left, top, right, bottom);
+                _targetGrid.Margin = ControlHelpers.NewThickness(left, top, right, bottom);
             }
         }
 

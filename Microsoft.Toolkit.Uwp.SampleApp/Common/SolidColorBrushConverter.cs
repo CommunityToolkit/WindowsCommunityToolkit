@@ -5,9 +5,9 @@
 using System;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI;
+using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 {

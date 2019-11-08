@@ -6,11 +6,11 @@ using System;
 using System.Collections;
 using System.Collections.Specialized;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -208,7 +208,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var anim = new DoubleAnimation
                 {
-                    Duration = new Duration(TimeSpan.FromMilliseconds(500)),
+                    Duration = new Duration
+                    {
+                        TimeSpan = TimeSpan.FromMilliseconds(500),
+                        Type = DurationType.TimeSpan
+                    },
                     From = 0
                 };
                 if (Direction == RotateDirection.Up)
@@ -254,7 +258,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 // make sure DataContext on _currentElement has had a chance to update the binding
                 // avoids flicker on rotation
-                await System.Threading.Tasks.Task.Delay(50);
+                await global::System.Threading.Tasks.Task.Delay(50);
 
                 // Reset back and swap images, getting the next image ready
                 sb.Stop();

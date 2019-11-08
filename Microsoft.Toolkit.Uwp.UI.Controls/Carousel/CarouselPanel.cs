@@ -4,13 +4,13 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -472,7 +472,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DoubleAnimation timeline = new DoubleAnimation
             {
                 To = toValue,
-                Duration = TimeSpan.FromMilliseconds(duration)
+                Duration = new Duration
+                {
+                    TimeSpan = TimeSpan.FromMilliseconds(duration),
+                    Type = DurationType.TimeSpan
+                }
             };
 
             if (easingFunction != null)

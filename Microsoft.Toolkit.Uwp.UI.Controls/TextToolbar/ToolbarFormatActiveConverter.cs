@@ -4,7 +4,7 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {

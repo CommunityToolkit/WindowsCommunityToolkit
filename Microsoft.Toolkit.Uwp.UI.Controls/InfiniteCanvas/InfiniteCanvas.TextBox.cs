@@ -4,12 +4,12 @@
 
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -162,6 +162,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void InkScrollViewer_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
+            /*
             if (_enableTextButton.IsChecked ?? false)
             {
                 var point = e.GetCurrentPoint(_infiniteCanvasScrollViewer);
@@ -199,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 Canvas.SetLeft(_canvasTextBox, _lastInputPoint.X);
                 Canvas.SetTop(_canvasTextBox, _lastInputPoint.Y);
             }
+            */
         }
 
         private void ClearTextBoxValue()

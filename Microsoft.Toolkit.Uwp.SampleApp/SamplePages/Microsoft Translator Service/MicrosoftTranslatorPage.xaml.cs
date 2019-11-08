@@ -4,8 +4,8 @@
 
 using System;
 using Microsoft.Toolkit.Services.MicrosoftTranslator;
+using Microsoft.UI.Xaml;
 using Windows.System;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

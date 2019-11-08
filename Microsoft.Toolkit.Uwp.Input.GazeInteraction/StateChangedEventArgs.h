@@ -5,28 +5,29 @@
 
 #include "PointerState.h"
 
-using namespace Windows::UI::Xaml;
+using namespace winrt::Microsoft::UI::Xaml;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
 /// <summary>
 /// This parameter is passed to the StateChanged event.
 /// </summary>
-public ref struct StateChangedEventArgs sealed
+struct StateChangedEventArgs sealed
 {
+public:
     /// <summary>
     /// The state of user's gaze with respect to a control
     /// </summary>
-    property GazeInteraction::PointerState PointerState {GazeInteraction::PointerState get() { return _pointerState; }}
+    PointerState PointerState() { return _pointerState; }
 
     /// <summary>
     /// Elapsed time since the last state
     /// </summary>
-    property TimeSpan ElapsedTime {TimeSpan get() { return _elapsedTime; }}
+    TimeSpan ElapsedTime () { return _elapsedTime; }
 
-internal:
+    StateChangedEventArgs() { }
 
-    StateChangedEventArgs(UIElement^ target, GazeInteraction::PointerState state, TimeSpan elapsedTime)
+    StateChangedEventArgs(UIElement target, PointerState state, TimeSpan elapsedTime)
     {
         _hitTarget = target;
         _pointerState = state;
@@ -34,8 +35,8 @@ internal:
     }
 
 private:
-    UIElement ^ _hitTarget;
-    GazeInteraction::PointerState _pointerState;
+    UIElement _hitTarget;
+    PointerState _pointerState;
     TimeSpan _elapsedTime;
 };
 

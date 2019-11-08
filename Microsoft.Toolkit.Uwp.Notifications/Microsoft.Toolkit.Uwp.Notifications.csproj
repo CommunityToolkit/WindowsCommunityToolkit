@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard1.4;uap10.0;native;net461</TargetFrameworks>
+    <TargetFrameworks>netstandard1.4;uap10.0;net461</TargetFrameworks> <!-- Need help adding native again for WinUI3 -->
     <DefineConstants>$(DefineConstants);NETFX_CORE</DefineConstants>
     <Title>Windows Community Toolkit Notifications</Title>
     <Description>
@@ -45,14 +45,15 @@
     <OutputType>winmdobj</OutputType>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <NugetTargetMoniker>UAP,Version=v10.0</NugetTargetMoniker>
-    <PackageTargetFallback>uap10.0</PackageTargetFallback>
-    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.10240.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>$(AssetTargetFallback);uap10.0.17134</AssetTargetFallback>
+    <TargetPlatformVersion Condition="'$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion Condition="'$(TargetPlatformMinVersion)' == '' ">10.0.17134.0</TargetPlatformMinVersion>
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);NETFX_CORE;WINDOWS_UWP;WINRT</DefineConstants>
     <CopyLocalLockFileAssemblies Condition="'$(CopyLocalLockFileAssemblies)' == ''">false</CopyLocalLockFileAssemblies>
     <TargetFrameworkIdentifier>.NETCore</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <LanguageTargets>$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v16.0\Microsoft.Windows.UI.Xaml.CSharp.targets</LanguageTargets>
+    <NoWarn>NU1701</NoWarn> <!-- Temporary fix for WInUI3 -->
 
     <!-- Need to override the built-in implicit defines for UAP or it'll be NETCORE5_0 -->
     <!-- this makes it UAP10_0_10240_0 to match the rest -->

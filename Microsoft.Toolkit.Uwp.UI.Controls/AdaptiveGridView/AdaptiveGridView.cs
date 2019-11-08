@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // subtract the margin from the width so we place the correct width for placement
             var fallbackThickness = default(Thickness);
             var itemMargin = AdaptiveHeightValueConverter.GetItemMargin(this, fallbackThickness);
-            if (itemMargin == fallbackThickness)
+            if (itemMargin.Equals(fallbackThickness))
             {
                 // No style explicitly defined, or no items or no container for the items
                 // We need to get an actual margin for proper layout

@@ -5,12 +5,12 @@
 using System;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 {
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 DataGridRow row = element as DataGridRow;
                 if (row != null)
                 {
-                    Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} Visibility: {2} ", row.Slot, row.Index, row.Visibility));
+                    Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} Visibility: {2} ", row.Slot, row.Index, row.Visibility));
                 }
                 else
                 {
@@ -221,9 +221,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     if (groupHeader != null)
                     {
 #if FEATURE_ICOLLECTIONVIEW_GROUP
-                        Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} GroupHeader: {1} Visibility: {2}", groupHeader.RowGroupInfo.Slot, groupHeader.RowGroupInfo.CollectionViewGroup.Name, groupHeader.Visibility));
+                        Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} GroupHeader: {1} Visibility: {2}", groupHeader.RowGroupInfo.Slot, groupHeader.RowGroupInfo.CollectionViewGroup.Name, groupHeader.Visibility));
 #else
-                        Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Visibility: {1}", groupHeader.RowGroupInfo.Slot, groupHeader.Visibility));
+                        Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Visibility: {1}", groupHeader.RowGroupInfo.Slot, groupHeader.Visibility));
 #endif
                     }
                 }

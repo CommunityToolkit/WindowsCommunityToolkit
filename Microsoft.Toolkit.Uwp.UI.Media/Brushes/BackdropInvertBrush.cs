@@ -5,9 +5,9 @@
 //// Example brush from https://blogs.windows.com/buildingapps/2017/07/18/working-brushes-content-xaml-visual-layer-interop-part-one/#z70vPv1QMAvZsceo.97
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public class BackdropInvertBrush : XamlCompositionBrushBase
     {
+#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         /// <summary>
         /// Initializes a new instance of the <see cref="BackdropInvertBrush"/> class.
         /// </summary>
@@ -67,5 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = null;
             }
         }
+
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

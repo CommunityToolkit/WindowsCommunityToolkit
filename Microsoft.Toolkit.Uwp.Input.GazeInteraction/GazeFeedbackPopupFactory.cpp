@@ -7,37 +7,37 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-Popup^ GazeFeedbackPopupFactory::Get()
+Popup GazeFeedbackPopupFactory::Get()
 {
-    Popup^ popup;
-    ::Windows::UI::Xaml::Shapes::Rectangle^ rectangle;
+    Popup popup;
+    winrt::Microsoft::UI::Xaml::Shapes::Rectangle rectangle;
 
-    if (s_cache->Size != 0)
+    if (s_cache.size != 0)
     {
-        popup = s_cache->GetAt(0);
-        s_cache->RemoveAt(0);
+        popup = s_cache[0];
+        s_cache.erase(s_cache.begin());
 
-        rectangle = safe_cast<::Windows::UI::Xaml::Shapes::Rectangle^>(popup->Child);
+        rectangle = popup.Child;
     }
     else
     {
-        popup = ref new Popup();
+        popup = Popup();
 
-        rectangle = ref new ::Windows::UI::Xaml::Shapes::Rectangle();
-        rectangle->IsHitTestVisible = false;
+        rectangle = winrt::Microsoft::UI::Xaml::Shapes::Rectangle();
+        rectangle.IsHitTestVisible = false;
 
-        popup->Child = rectangle;
+        popup.Child = rectangle;
     }
 
-    rectangle->StrokeThickness = GazeInput::DwellStrokeThickness;
+    rectangle.StrokeThickness = GazeInput::DwellStrokeThickness;
 
     return popup;
 }
 
-void GazeFeedbackPopupFactory::Return(Popup^ popup)
+void GazeFeedbackPopupFactory::Return(Popup popup)
 {
-    popup->IsOpen = false;
-    s_cache->Append(popup);
+    popup.IsOpen = false;
+    s_cache.push_back(popup);
 }
 
 END_NAMESPACE_GAZE_INPUT

@@ -4,8 +4,8 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 {
@@ -362,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                 DataGridRow row = element as DataGridRow;
                 if (row != null)
                 {
-                    Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} ", row.Slot, row.Index));
+                    Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} ", row.Slot, row.Index));
                 }
                 else
                 {
@@ -371,13 +371,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     {
 #if FEATURE_ICOLLECTIONVIEW_GROUP
                         Debug.WriteLine(string.Format(
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            global::System.Globalization.CultureInfo.InvariantCulture,
                             "Slot: {0} GroupHeader: {1}",
                             groupHeader.RowGroupInfo.Slot,
                             groupHeader.RowGroupInfo.CollectionViewGroup.Name));
 #else
                         Debug.WriteLine(string.Format(
-                            System.Globalization.CultureInfo.InvariantCulture,
+                            global::System.Globalization.CultureInfo.InvariantCulture,
                             "Slot: {0} GroupHeader: {1}",
                             groupHeader.RowGroupInfo.Slot,
                             groupHeader.RowGroupInfo.ToString()));

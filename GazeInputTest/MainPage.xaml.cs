@@ -6,9 +6,9 @@ using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using System;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.ViewManagement;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace GazeInputTest
 {

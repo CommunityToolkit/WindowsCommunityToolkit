@@ -7,14 +7,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI
 {
@@ -218,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <summary>
         /// Occurs when the vector changes.
         /// </summary>
-        public event VectorChangedEventHandler<object> VectorChanged;
+        public event Windows.Foundation.Collections.VectorChangedEventHandler<object> VectorChanged;
 
         /// <summary>
         /// Move current index to item

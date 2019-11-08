@@ -9,10 +9,10 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Toolkit.Uwp.Utilities;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Utilities
 {
@@ -239,6 +239,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
                 _suspendedHandlers[obj] = new Dictionary<DependencyProperty, int>();
                 _suspendedHandlers[obj][dependencyProperty] = 1;
             }
+        }
+
+        internal static Thickness NewThickness(double left, double top, double right, double bottom)
+        {
+            Thickness t = default(Thickness);
+            t.Left = left;
+            t.Top = top;
+            t.Right = right;
+            t.Bottom = bottom;
+            return t;
         }
     }
 }

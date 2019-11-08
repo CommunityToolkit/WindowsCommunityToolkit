@@ -3,44 +3,38 @@
 
 #pragma once
 
-using namespace Platform::Collections;
+using namespace winrt::Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref class GazeStats sealed
+class GazeStats sealed
 {
 public:
     GazeStats(int maxHistoryLen);
     void Reset();
     void Update(float x, float y);
 
-    property Point Mean
+    Point Mean()
     {
-        Point get()
-        {
-            UINT count = _history->Size;
-            return Point((float)_sumX / count, (float)_sumY / count);
-        }
+        UINT count = _history->Size;
+        return Point((float)_sumX / count, (float)_sumY / count);
     }
 
     //
-    // StdDev = sqrt(Variance) = sqrt(E[X^2] – (E[X])^2)
+    // StdDev = sqrt(Variance) = sqrt(E[X2] – (E[X])2)
     //
-    property Point StandardDeviation
+    Point StandardDeviation()
     {
-        Point get()
+        UINT count = _history->Size;
+        if (count < _maxHistoryLen)
         {
-            UINT count = _history->Size;
-            if (count < _maxHistoryLen)
-            {
-                return Point(0.0f, 0.0f);
-            }
-            double meanX = _sumX / count;
-            double meanY = _sumY / count;
-            float stddevX = (float)sqrt((_sumSquaredX / count) - (meanX * meanX));
-            float stddevY = (float)sqrt((_sumSquaredY / count) - (meanY * meanY));
-            return Point(stddevX, stddevY);
+            return Point(0.0f, 0.0f);
         }
+        double meanX = _sumX / count;
+        double meanY = _sumY / count;
+        float stddevX = (float)sqrt((_sumSquaredX / count) - (meanX * meanX));
+        float stddevY = (float)sqrt((_sumSquaredY / count) - (meanY * meanY));
+        return Point(stddevX, stddevY);
     }
 
 private:
@@ -49,7 +43,7 @@ private:
     double          _sumY;
     double          _sumSquaredX;
     double          _sumSquaredY;
-    Vector<Point>^  _history;
+    Vector<Point>  _history;
 };
 
 END_NAMESPACE_GAZE_INPUT

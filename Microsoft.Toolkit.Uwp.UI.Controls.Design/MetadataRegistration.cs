@@ -22,10 +22,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 			// (or Default namespace in Project -> Properties -> Application tab)
 			// must be the same as runtime assembly's main namespace (t.Namespace)
 			// plus .Design.
-            Type t = typeof(Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter);
-			AssemblyName an = t.Assembly.GetName();
-			AssemblyFullName = ", " + an.FullName;
-			XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
+   //         Type t = typeof(Microsoft.Toolkit.Uwp.UI.Controls.GridSplitter);
+			//AssemblyName an = t.Assembly.GetName();
+			//AssemblyFullName = ", " + an.FullName;
+			//XmlResourceName = t.Namespace + ".Design." + an.Name + ".xml";
 		}
 
 		#region IProvideAttributeTable Members

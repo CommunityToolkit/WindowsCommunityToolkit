@@ -5,11 +5,11 @@
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-public ref struct GazeEventArgs sealed
+struct GazeEventArgs sealed
 {
-    property bool Handled;
-    property Point Location;
-    property TimeSpan Timestamp;
+    bool Handled;
+    Point Location;
+    TimeSpan Timestamp;
 
     GazeEventArgs()
     {

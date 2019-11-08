@@ -62,8 +62,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>
         ///   <paramref name="uri" /> as a <c>System.Uri</c> instance
         /// </returns>
-        /// <exception cref="System.ArgumentNullException">thrown if <paramref name="uri"/> is null</exception>
-        /// <exception cref="System.ArgumentException">Not a valid URI format</exception>
+        /// <exception cref="global::System.ArgumentNullException">thrown if <paramref name="uri"/> is null</exception>
+        /// <exception cref="global::System.ArgumentException">Not a valid URI format</exception>
         protected static Uri ValidateSourceUri(string uri)
         {
             if (uri == null)
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="DeepLinkParser" /> class.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs" /> instance containing the event data.</param>
-        /// <exception cref="System.ArgumentException">'args' is not an instance of ILaunchActivatedEventArgs or IProtocolActivatedEventArgs - args</exception>
+        /// <exception cref="global::System.ArgumentException">'args' is not an instance of ILaunchActivatedEventArgs or IProtocolActivatedEventArgs - args</exception>
         protected DeepLinkParser(IActivatedEventArgs args)
         {
             var launchArgs = args as ILaunchActivatedEventArgs;
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="DeepLinkParser" /> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="uri"/> is null</exception>
+        /// <exception cref="global::System.ArgumentNullException">Thrown if <paramref name="uri"/> is null</exception>
         protected DeepLinkParser(Uri uri)
             : this(uri?.OriginalString)
         {
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="DeepLinkParser" /> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="uri"/> is null, empty, or consists only of whitespace characters</exception>
+        /// <exception cref="global::System.ArgumentNullException">Thrown if <paramref name="uri"/> is null, empty, or consists only of whitespace characters</exception>
         protected DeepLinkParser(string uri)
         {
             if (string.IsNullOrWhiteSpace(uri))

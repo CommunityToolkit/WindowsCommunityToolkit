@@ -4,19 +4,19 @@
 
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.FrameworkElement"/>
+    /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.FrameworkElement"/>
     /// </summary>
     public static partial class FrameworkElementExtensions
     {
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for enabling actual size binding on any  <see cref="Windows.UI.Xaml.FrameworkElement"/>.
+        /// Attached <see cref="DependencyProperty"/> for enabling actual size binding on any  <see cref="Microsoft.UI.Xaml.FrameworkElement"/>.
         /// </summary>
         public static readonly DependencyProperty EnableActualSizeBindingProperty = DependencyProperty.RegisterAttached("EnableActualSizeBinding", typeof(bool), typeof(FrameworkElementExtensions), new PropertyMetadata(false, OnEnableActualSizeBindingPropertyChanged));
 

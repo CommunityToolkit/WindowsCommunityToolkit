@@ -5,12 +5,12 @@
 using System;
 using System.Collections.Generic;
 using System.Numerics;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -48,7 +48,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new DoubleAnimation()
             {
                 To = to,
-                Duration = duration,
+                Duration = new Duration
+                {
+                    TimeSpan = duration,
+                    Type = DurationType.TimeSpan
+                },
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -63,7 +67,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new PointAnimation()
             {
                 To = to,
-                Duration = duration,
+                Duration = new Duration
+                {
+                    TimeSpan = duration,
+                    Type = DurationType.TimeSpan
+                },
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -77,7 +85,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var animation = new ObjectAnimationUsingKeyFrames
             {
-                Duration = duration,
+                Duration = new Duration
+                {
+                    TimeSpan = duration,
+                    Type = DurationType.TimeSpan
+                },
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -117,14 +129,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {
-                    KeyTime = KeyTime.FromTimeSpan(time),
+                    KeyTime = new KeyTime
+                    {
+                        TimeSpan = time
+                    },
                     Value = new Rect(startPoint, endPoint)
                 });
             }
 
             rectKeyframes.Add(new DiscreteObjectKeyFrame
             {
-                KeyTime = duration,
+                KeyTime = new KeyTime
+                {
+                    TimeSpan = duration
+                },
                 Value = to
             });
             return rectKeyframes;

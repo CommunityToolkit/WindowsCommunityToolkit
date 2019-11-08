@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.UI.Helpers;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
 {
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
             base.OnApplyTemplate();
         }
 
-        private void IsEnabledWatcher_PropertyChanged(object sender, System.EventArgs e)
+        private void IsEnabledWatcher_PropertyChanged(object sender, global::System.EventArgs e)
         {
             CheckIsEnabled();
         }
@@ -60,12 +60,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarSymbols
                     {
                         isEnabledWatcher?.Dispose();
                     }
-                    catch (System.Exception)
+                    catch (global::System.Exception)
                     {
                     }
                 });
             }
-            catch (System.Exception)
+            catch (global::System.Exception)
             {
             }
         }

@@ -3,8 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -43,14 +43,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.NewValue is TimeSpan ts)
             {
-                var keyTimeFromAnimationDuration = KeyTime.FromTimeSpan(ts);
+                var keyTimeFromAnimationDuration = new KeyTime
+                {
+                    TimeSpan = ts
+                };
                 if (d is DoubleKeyFrame dkf)
                 {
-                    dkf.KeyTime = KeyTime.FromTimeSpan(ts);
+                    dkf.KeyTime = new KeyTime
+                    {
+                        TimeSpan = ts
+                    };
                 }
                 else if (d is ObjectKeyFrame okf)
                 {
-                    okf.KeyTime = KeyTime.FromTimeSpan(ts);
+                    okf.KeyTime = new KeyTime
+                    {
+                        TimeSpan = ts
+                    };
                 }
             }
         }

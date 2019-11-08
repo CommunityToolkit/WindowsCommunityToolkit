@@ -9,12 +9,12 @@ using System.Net.Http;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Newtonsoft.Json;
 using Windows.System;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             }
         }
 
-        private async void TaskViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void TaskViewModel_PropertyChanged(object sender, global::System.ComponentModel.PropertyChangedEventArgs e)
         {
             PlannerTaskViewModel plannerTaskViewModel = sender as PlannerTaskViewModel;
             if (Tasks.Contains(plannerTaskViewModel))
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                             {
                                 request.Method = new HttpMethod(HttpMethodPatch);
                                 string json = JsonConvert.SerializeObject(task);
-                                request.Content = new StringContent(json, System.Text.Encoding.UTF8, MediaTypeJson);
+                                request.Content = new StringContent(json, global::System.Text.Encoding.UTF8, MediaTypeJson);
                                 request.Headers.Add(HttpHeaderIfMatch, plannerTaskViewModel.ETag);
                                 await graphClient.AuthenticationProvider.AuthenticateRequestAsync(request);
                                 HttpResponseMessage response = await graphClient.HttpProvider.SendAsync(request);

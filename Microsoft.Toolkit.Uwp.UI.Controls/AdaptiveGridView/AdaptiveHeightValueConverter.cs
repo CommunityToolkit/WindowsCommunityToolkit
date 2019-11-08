@@ -4,15 +4,15 @@
 
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class AdaptiveHeightValueConverter : IValueConverter
     {
-        private Thickness thickness = new Thickness(0, 0, 4, 4);
+        private Thickness thickness = ControlHelpers.NewThickness(0, 0, 4, 4);
 
         public Thickness DefaultItemMargin
         {

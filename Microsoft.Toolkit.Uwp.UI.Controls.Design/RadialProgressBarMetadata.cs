@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         public override void InitializeDefaults(ModelItem item)
         {
-            item.Properties[nameof(RadialProgressBar.Value)].SetValue(0d);
+            //item.Properties[nameof(RadialProgressBar.Value)].SetValue(0d);
         }
     }
 
@@ -25,15 +25,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public RadialProgressBarMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar),
-				b =>
-				{
-                    b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));
-                    b.AddCustomAttributes(nameof(RadialProgressBar.Thickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
-                    b.AddCustomAttributes(nameof(RadialProgressBar.Outline), new CategoryAttribute(Properties.Resources.CategoryBrush));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.RadialProgressBar),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(new FeatureAttribute(typeof(RadialProgressBarDefaults)));
+   //                 b.AddCustomAttributes(nameof(RadialProgressBar.Thickness), new CategoryAttribute(Properties.Resources.CategoryAppearance));
+   //                 b.AddCustomAttributes(nameof(RadialProgressBar.Outline), new CategoryAttribute(Properties.Resources.CategoryBrush));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

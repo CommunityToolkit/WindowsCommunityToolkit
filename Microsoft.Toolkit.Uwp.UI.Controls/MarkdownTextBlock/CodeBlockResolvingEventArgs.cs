@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml.Documents;
+using Microsoft.UI.Xaml.Documents;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

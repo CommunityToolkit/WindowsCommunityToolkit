@@ -18,26 +18,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		public TabViewItemMetadata()
 			: base()
 		{
-            AddCallback(typeof(TabViewItem),
-                b =>
-                {
-                    b.AddCustomAttributes(nameof(TabViewItem.Header),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(TabViewItem.HeaderTemplate),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                    );
-                    b.AddCustomAttributes(nameof(TabViewItem.IsClosable),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(TabViewItem.Icon),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
+            //AddCallback(typeof(TabViewItem),
+            //    b =>
+            //    {
+            //        b.AddCustomAttributes(nameof(TabViewItem.Header),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(TabViewItem.HeaderTemplate),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon),
+            //            new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+            //        );
+            //        b.AddCustomAttributes(nameof(TabViewItem.IsClosable),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(TabViewItem.Icon),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
 
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-                }
-            );
+            //        b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+            //    }
+            //);
 		}
 	}
 }

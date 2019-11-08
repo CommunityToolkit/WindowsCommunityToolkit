@@ -4,8 +4,8 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Text;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
 {
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats
         /// </summary>
         /// <param name="sender">Editor</param>
         /// <param name="e">Args</param>
-        private void Editor_SelectionChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Editor_SelectionChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             OnSelectionChanged();
         }

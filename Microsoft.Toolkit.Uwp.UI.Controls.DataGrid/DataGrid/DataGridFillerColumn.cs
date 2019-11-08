@@ -4,7 +4,7 @@
 
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -45,9 +45,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DataGridColumnHeader headerCell = base.CreateHeader();
             if (headerCell != null)
             {
-                Windows.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(
+                Microsoft.UI.Xaml.Automation.AutomationProperties.SetAccessibilityView(
                     headerCell,
-                    Windows.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
+                    Microsoft.UI.Xaml.Automation.Peers.AccessibilityView.Raw);
                 headerCell.IsEnabled = false;
             }
 

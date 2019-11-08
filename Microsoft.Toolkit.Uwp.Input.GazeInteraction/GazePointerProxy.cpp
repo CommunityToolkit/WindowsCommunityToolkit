@@ -10,7 +10,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// <summary>
 /// The IsLoaded heuristic for testing whether a FrameworkElement is in the visual tree.
 /// </summary>
-static bool IsLoadedHeuristic(FrameworkElement^ element)
+static bool IsLoadedHeuristic(FrameworkElement element)
 {
     bool isLoaded;
 
@@ -24,22 +24,22 @@ static bool IsLoadedHeuristic(FrameworkElement^ element)
     else
     {
         // ...if the element is a dynamically created Popup that has been opened.
-        auto popup = dynamic_cast<Popup^>(element);
-        isLoaded = popup != nullptr && popup->IsOpen;
+        auto popup = Popup(element.as<Popup>());
+        isLoaded = popup != nullptr && popup.IsOpen;
     }
 
     return isLoaded;
 }
 
-DependencyProperty^ GazePointerProxy::GazePointerProxyProperty::get()
+DependencyProperty GazePointerProxy::GazePointerProxyProperty()
 {
     // The attached property registration.
-    static auto value = DependencyProperty::RegisterAttached("_GazePointerProxy", GazePointerProxy::typeid, GazePointerProxy::typeid,
-        ref new PropertyMetadata(nullptr));
+    auto value = DependencyProperty::RegisterAttached(L"_GazePointerProxy", winrt::xaml_typename<GazePointerProxy>(), winrt::xaml_typename<GazePointerProxy>(),
+        PropertyMetadata(nullptr));
     return value;
 }
 
-GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
+GazePointerProxy::GazePointerProxy(FrameworkElement element)
 {
     static int lastId = 0;
     lastId++;
@@ -48,25 +48,25 @@ GazePointerProxy::GazePointerProxy(FrameworkElement^ element)
     _isLoaded = IsLoadedHeuristic(element);
 
     // Start watching for the element to enter and leave the visual tree.
-    element->Loaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnLoaded);
-    element->Unloaded += ref new RoutedEventHandler(this, &GazePointerProxy::OnUnloaded);
+    element.Loaded += RoutedEventHandler(this, &GazePointerProxy::OnLoaded);
+    element.Unloaded += RoutedEventHandler(this, &GazePointerProxy::OnUnloaded);
 }
 
-void GazePointerProxy::SetInteraction(FrameworkElement^ element, Interaction value)
+void GazePointerProxy::SetInteraction(FrameworkElement element, Interaction value)
 {
     // Get or create a GazePointerProxy for element.
-    auto proxy = safe_cast<GazePointerProxy^>(element->GetValue(GazePointerProxyProperty));
-    if (proxy == nullptr)
+    GazePointerProxy proxy = nullptr;
+    if (!element.GetValue(GazePointerProxyProperty()).try_as<GazePointerProxy>(proxy))
     {
-        proxy = ref new GazePointerProxy(element);
-        element->SetValue(GazePointerProxyProperty, proxy);
+        proxy = GazePointerProxy(element);
+        element.SetValue(GazePointerProxyProperty(), proxy);
     }
 
     // Set the proxy's _isEnabled value.
-    proxy->SetIsEnabled(element, value == Interaction::Enabled);
+    proxy.SetIsEnabled(element, value == Interaction::Enabled);
 }
 
-void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
+void GazePointerProxy::SetIsEnabled(winrt::Windows::Foundation::IUnknown sender, bool value)
 {
     // If we have a new value...
     if (_isEnabled != value)
@@ -92,9 +92,9 @@ void GazePointerProxy::SetIsEnabled(Object^ sender, bool value)
     }
 }
 
-void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
+void GazePointerProxy::OnLoaded(winrt::Windows::Foundation::IUnknown sender, RoutedEventArgs args)
 {
-    assert(IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
+    assert(IsLoadedHeuristic(safe_cast<FrameworkElement>(sender)));
 
     if (!_isLoaded)
     {
@@ -114,9 +114,9 @@ void GazePointerProxy::OnLoaded(Object^ sender, RoutedEventArgs^ args)
     }
 }
 
-void GazePointerProxy::OnUnloaded(Object^ sender, RoutedEventArgs^ args)
+void GazePointerProxy::OnUnloaded(winrt::Windows::Foundation::IUnknown sender, RoutedEventArgs args)
 {
-    assert(!IsLoadedHeuristic(safe_cast<FrameworkElement^>(sender)));
+    assert(!IsLoadedHeuristic(safe_cast<FrameworkElement>(sender)));
 
     if (_isLoaded)
     {

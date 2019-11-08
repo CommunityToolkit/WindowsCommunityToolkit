@@ -4,7 +4,7 @@
 
 using System;
 using System.Linq;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -153,17 +153,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (available <= mintabwidth || Math.Abs(available - mintabwidth) < double.Epsilon)
                     {
-                        tabc.Width = new GridLength(mintabwidth);
+                        tabc.Width = ControlHelpers.NewGridLength(mintabwidth);
                     }
                     else if (required >= available)
                     {
                         // Fix size as we don't have enough space for all the tabs.
-                        tabc.Width = new GridLength(available);
+                        tabc.Width = ControlHelpers.NewGridLength(available);
                     }
                     else
                     {
                         // We haven't filled up our space, so we want to expand to take as much as needed.
-                        tabc.Width = GridLength.Auto;
+                        tabc.Width = ControlHelpers.GridLengthAuto;
                     }
                 }
             }

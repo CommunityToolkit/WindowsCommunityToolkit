@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -28,8 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private InkCanvas _inkCanvas;
         private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
         private InkSynchronizer _inkSync;
-        private InkToolbarCustomToolButton _enableTextButton;
-        private InkToolbarCustomToggleButton _enableTouchInkingButton;
+
+        // private Windows.UI.Xaml.Controls.InkToolbarCustomToolButton _enableTextButton;
+        // private Windows.UI.Xaml.Controls.InkToolbarCustomToggleButton _enableTouchInkingButton;
         private InfiniteCanvasTextBox _canvasTextBox;
         private StackPanel _canvasTextBoxTools;
         private ColorPicker _canvasTextBoxColorPicker;
@@ -41,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Button _redoButton;
         private Button _eraseAllButton;
 
-        private InkToolbar _inkCanvasToolBar;
+        // private Windows.UI.Xaml.Controls.InkToolbar _inkCanvasToolBar;
         private Canvas _mainContainer;
         private ScrollViewer _infiniteCanvasScrollViewer;
         private StackPanel _canvasToolbarContainer;
@@ -173,9 +174,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _infiniteCanvasScrollViewer = (ScrollViewer)GetTemplateChild("InfiniteCanvasScrollViewer");
             _eraseAllButton = (Button)GetTemplateChild("EraseAllButton");
             _canvasTextBox = (InfiniteCanvasTextBox)GetTemplateChild("CanvasTextBox");
-            _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
-            _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
-            _inkCanvasToolBar = (InkToolbar)GetTemplateChild("InkCanvasToolBar");
+
+            // _enableTextButton = (InkToolbarCustomToolButton)GetTemplateChild("EnableTextButton");
+            // _enableTouchInkingButton = (InkToolbarCustomToggleButton)GetTemplateChild("EnableTouchInkingButton");
+            // _inkCanvasToolBar = (InkToolbar)GetTemplateChild("InkCanvasToolBar");
             _canvasToolbarContainer = (StackPanel)GetTemplateChild("CanvasToolbarContainer");
 
             _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
@@ -207,10 +209,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxItlaicButton.Click -= CanvasTextBoxItlaicButton_Clicked;
             _canvasTextBoxBoldButton.Click -= CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged -= CanvasTextBoxColorPicker_ColorChanged;
-            _enableTouchInkingButton.Checked -= EnableTouchInkingButton_Checked;
-            _enableTouchInkingButton.Unchecked -= EnableTouchInkingButton_Unchecked;
-            _enableTextButton.Checked -= EnableTextButton_Checked;
-            _enableTextButton.Unchecked -= EnableTextButton_Unchecked;
+
+            // _enableTouchInkingButton.Checked -= EnableTouchInkingButton_Checked;
+            // _enableTouchInkingButton.Unchecked -= EnableTouchInkingButton_Unchecked;
+            // _enableTextButton.Checked -= EnableTextButton_Checked;
+            // _enableTextButton.Unchecked -= EnableTextButton_Unchecked;
             _eraseAllButton.Click -= EraseAllButton_Click;
             _infiniteCanvasScrollViewer.PointerPressed -= InkScrollViewer_PointerPressed;
             _infiniteCanvasScrollViewer.PreviewKeyDown -= InkScrollViewer_PreviewKeyDown;
@@ -231,10 +234,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _canvasTextBoxItlaicButton.Click += CanvasTextBoxItlaicButton_Clicked;
             _canvasTextBoxBoldButton.Click += CanvasTextBoxBoldButton_Clicked;
             _canvasTextBoxColorPicker.ColorChanged += CanvasTextBoxColorPicker_ColorChanged;
-            _enableTouchInkingButton.Checked += EnableTouchInkingButton_Checked;
-            _enableTouchInkingButton.Unchecked += EnableTouchInkingButton_Unchecked;
-            _enableTextButton.Checked += EnableTextButton_Checked;
-            _enableTextButton.Unchecked += EnableTextButton_Unchecked;
+
+            // _enableTouchInkingButton.Checked += EnableTouchInkingButton_Checked;
+            // _enableTouchInkingButton.Unchecked += EnableTouchInkingButton_Unchecked;
+            // _enableTextButton.Checked += EnableTextButton_Checked;
+            // _enableTextButton.Unchecked += EnableTextButton_Unchecked;
             _eraseAllButton.Click += EraseAllButton_Click;
             _infiniteCanvasScrollViewer.PointerPressed += InkScrollViewer_PointerPressed;
             _infiniteCanvasScrollViewer.PreviewKeyDown += InkScrollViewer_PreviewKeyDown;

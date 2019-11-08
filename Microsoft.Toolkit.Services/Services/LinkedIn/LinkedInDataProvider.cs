@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Services.LinkedIn
                         return parser.Parse(data);
                     }
 
-                    throw new RequestFailedException((System.Net.HttpStatusCode)response.StatusCode, data);
+                    throw new RequestFailedException((global::System.Net.HttpStatusCode)response.StatusCode, data);
                 }
             }
         }

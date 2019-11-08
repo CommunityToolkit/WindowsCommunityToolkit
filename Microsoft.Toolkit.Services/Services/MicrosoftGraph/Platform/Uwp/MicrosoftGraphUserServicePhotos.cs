@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph.Uwp
             IRandomAccessStream windowsPhotoStream = null;
             try
             {
-                System.IO.Stream photo = null;
+                global::System.IO.Stream photo = null;
                 photo = await _graphProvider.Me.Photo.Content.Request().GetAsync(cancellationToken);
                 if (photo != null)
                 {

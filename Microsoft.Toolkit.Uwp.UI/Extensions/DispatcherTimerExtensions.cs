@@ -4,7 +4,7 @@
 
 using System;
 using System.Collections.Concurrent;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {

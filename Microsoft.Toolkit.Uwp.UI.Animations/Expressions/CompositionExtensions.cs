@@ -2,8 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Composition;
-using Windows.UI.Composition.Interactions;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.Interactions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <typeparam name="T">A class that derives from PropertySetReferenceNode.</typeparam>
         /// <param name="ps">The ps.</param>
         /// <returns>T.</returns>
-        /// <exception cref="System.Exception">Invalid property set specialization</exception>
+        /// <exception cref="global::System.Exception">Invalid property set specialization</exception>
         public static T GetSpecializedReference<T>(this CompositionPropertySet ps)
             where T : PropertySetReferenceNode
         {
@@ -152,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             }
             else
             {
-                throw new System.Exception("Invalid property set specialization");
+                throw new global::System.Exception("Invalid property set specialization");
             }
         }
 

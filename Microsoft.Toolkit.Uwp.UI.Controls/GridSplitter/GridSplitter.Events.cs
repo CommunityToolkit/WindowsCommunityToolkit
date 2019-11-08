@@ -2,12 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Media;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -224,7 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (IsStarRow(rowDefinition))
                     {
-                        rowDefinition.Height = new GridLength(rowDefinition.ActualHeight, GridUnitType.Star);
+                        rowDefinition.Height = ControlHelpers.NewGridLength(rowDefinition.ActualHeight, GridUnitType.Star);
                     }
                 }
             }
@@ -290,7 +290,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     }
                     else if (IsStarColumn(columnDefinition))
                     {
-                        columnDefinition.Width = new GridLength(columnDefinition.ActualWidth, GridUnitType.Star);
+                        columnDefinition.Width = ControlHelpers.NewGridLength(columnDefinition.ActualWidth, GridUnitType.Star);
                     }
                 }
             }

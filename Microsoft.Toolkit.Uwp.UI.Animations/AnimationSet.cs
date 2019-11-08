@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -346,7 +346,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = timeline.Value as DoubleAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = duration;
+                    animation.Duration = new Duration
+                    {
+                        TimeSpan = duration,
+                        Type = DurationType.TimeSpan
+                    };
                 }
             }
 

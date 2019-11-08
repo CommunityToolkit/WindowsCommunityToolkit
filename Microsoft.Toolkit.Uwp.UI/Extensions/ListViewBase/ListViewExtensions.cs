@@ -3,42 +3,42 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Collections.Generic;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+    /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
     /// </summary>
     public static class ListViewExtensions
     {
-        private static Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Windows.UI.Xaml.Controls.ListViewBase>();
+        private static Dictionary<IObservableVector<object>, Microsoft.UI.Xaml.Controls.ListViewBase> _itemsForList = new Dictionary<IObservableVector<object>, Microsoft.UI.Xaml.Controls.ListViewBase>();
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="Brush"/> as an alternate background color to a <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty AlternateColorProperty = DependencyProperty.RegisterAttached("AlternateColor", typeof(Brush), typeof(ListViewExtensions), new PropertyMetadata(null, OnAlternateColorPropertyChanged));
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate template to a <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Attached <see cref="DependencyProperty"/> for binding a <see cref="DataTemplate"/> as an alternate template to a <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty AlternateItemTemplateProperty = DependencyProperty.RegisterAttached("AlternateItemTemplate", typeof(DataTemplate), typeof(ListViewExtensions), new PropertyMetadata(null, OnAlternateItemTemplatePropertyChanged));
 
         /// <summary>
-        /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Attached <see cref="DependencyProperty"/> for setting the container content stretch direction on the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
         public static readonly DependencyProperty StretchItemContainerDirectionProperty = DependencyProperty.RegisterAttached("StretchItemContainerDirection", typeof(StretchDirection), typeof(ListViewExtensions), new PropertyMetadata(null, OnStretchItemContainerDirectionPropertyChanged));
 
         /// <summary>
-        /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Gets the alternate <see cref="Brush"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="Brush"/> from</param>
-        /// <returns>The <see cref="Brush"/> associated with the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></returns>
-        public static Brush GetAlternateColor(Windows.UI.Xaml.Controls.ListViewBase obj)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="Brush"/> from</param>
+        /// <returns>The <see cref="Brush"/> associated with the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></returns>
+        public static Brush GetAlternateColor(Microsoft.UI.Xaml.Controls.ListViewBase obj)
         {
             return (Brush)obj.GetValue(AlternateColorProperty);
         }
@@ -46,56 +46,56 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <summary>
         /// Sets the alternate <see cref="Brush"/> associated with the specified <see cref="DependencyObject"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="Brush"/> with</param>
-        /// <param name="value">The <see cref="Brush"/> for binding to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
-        public static void SetAlternateColor(Windows.UI.Xaml.Controls.ListViewBase obj, Brush value)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="Brush"/> with</param>
+        /// <param name="value">The <see cref="Brush"/> for binding to the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
+        public static void SetAlternateColor(Microsoft.UI.Xaml.Controls.ListViewBase obj, Brush value)
         {
             obj.SetValue(AlternateColorProperty, value);
         }
 
         /// <summary>
-        /// Gets the <see cref="DataTemplate"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Gets the <see cref="DataTemplate"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="DataTemplate"/> from</param>
-        /// <returns>The <see cref="DataTemplate"/> associated with the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></returns>
-        public static DataTemplate GetAlternateItemTemplate(Windows.UI.Xaml.Controls.ListViewBase obj)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="DataTemplate"/> from</param>
+        /// <returns>The <see cref="DataTemplate"/> associated with the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></returns>
+        public static DataTemplate GetAlternateItemTemplate(Microsoft.UI.Xaml.Controls.ListViewBase obj)
         {
             return (DataTemplate)obj.GetValue(AlternateItemTemplateProperty);
         }
 
         /// <summary>
-        /// Sets the <see cref="DataTemplate"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Sets the <see cref="DataTemplate"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="DataTemplate"/> with</param>
-        /// <param name="value">The <see cref="DataTemplate"/> for binding to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
-        public static void SetAlternateItemTemplate(Windows.UI.Xaml.Controls.ListViewBase obj, DataTemplate value)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="DataTemplate"/> with</param>
+        /// <param name="value">The <see cref="DataTemplate"/> for binding to the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
+        public static void SetAlternateItemTemplate(Microsoft.UI.Xaml.Controls.ListViewBase obj, DataTemplate value)
         {
             obj.SetValue(AlternateItemTemplateProperty, value);
         }
 
         /// <summary>
-        /// Gets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Gets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="StretchDirection"/> from</param>
-        /// <returns>The <see cref="StretchDirection"/> associated with the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></returns>
-        public static StretchDirection GetStretchItemContainerDirection(Windows.UI.Xaml.Controls.ListViewBase obj)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to get the associated <see cref="StretchDirection"/> from</param>
+        /// <returns>The <see cref="StretchDirection"/> associated with the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></returns>
+        public static StretchDirection GetStretchItemContainerDirection(Microsoft.UI.Xaml.Controls.ListViewBase obj)
         {
             return (StretchDirection)obj.GetValue(StretchItemContainerDirectionProperty);
         }
 
         /// <summary>
-        /// Sets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Windows.UI.Xaml.Controls.ListViewBase"/>
+        /// Sets the stretch <see cref="StretchDirection"/> associated with the specified <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/>
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="StretchDirection"/> with</param>
-        /// <param name="value">The <see cref="StretchDirection"/> for binding to the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
-        public static void SetStretchItemContainerDirection(Windows.UI.Xaml.Controls.ListViewBase obj, StretchDirection value)
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> to associate the <see cref="StretchDirection"/> with</param>
+        /// <param name="value">The <see cref="StretchDirection"/> for binding to the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
+        public static void SetStretchItemContainerDirection(Microsoft.UI.Xaml.Controls.ListViewBase obj, StretchDirection value)
         {
             obj.SetValue(StretchItemContainerDirectionProperty, value);
         }
 
         private static void OnAlternateColorPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+            Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ColorContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void ColorContainerContentChanging(Microsoft.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as Control;
 
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnAlternateItemTemplatePropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+            Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -141,7 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void ItemTemplateContainerContentChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void ItemTemplateContainerContentChanging(Microsoft.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
 
@@ -157,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnStretchItemContainerDirectionPropertyChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
-            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+            Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
 
             if (listViewBase == null)
             {
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void StretchItemContainerDirectionChanging(Windows.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
+        private static void StretchItemContainerDirectionChanging(Microsoft.UI.Xaml.Controls.ListViewBase sender, ContainerContentChangingEventArgs args)
         {
             var itemContainer = args.ItemContainer as SelectorItem;
             var stretchDirection = GetStretchItemContainerDirection(sender);
@@ -192,7 +192,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
 
         private static void OnListViewBaseUnloaded(object sender, RoutedEventArgs e)
         {
-            Windows.UI.Xaml.Controls.ListViewBase listViewBase = sender as Windows.UI.Xaml.Controls.ListViewBase;
+            Microsoft.UI.Xaml.Controls.ListViewBase listViewBase = sender as Microsoft.UI.Xaml.Controls.ListViewBase;
             _itemsForList.Remove(listViewBase.Items);
 
             listViewBase.ContainerContentChanging -= StretchItemContainerDirectionChanging;
@@ -214,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             // ColorContainerContentChanging method
             if ((args.CollectionChange == CollectionChange.ItemInserted) || (args.CollectionChange == CollectionChange.ItemRemoved))
             {
-                _itemsForList.TryGetValue(sender, out Windows.UI.Xaml.Controls.ListViewBase listViewBase);
+                _itemsForList.TryGetValue(sender, out Microsoft.UI.Xaml.Controls.ListViewBase listViewBase);
                 if (listViewBase == null)
                 {
                     return;
@@ -232,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             }
         }
 
-        private static void SetItemContainerBackground(Windows.UI.Xaml.Controls.ListViewBase sender, Control itemContainer, int itemIndex)
+        private static void SetItemContainerBackground(Microsoft.UI.Xaml.Controls.ListViewBase sender, Control itemContainer, int itemIndex)
         {
             if (itemIndex % 2 == 0)
             {

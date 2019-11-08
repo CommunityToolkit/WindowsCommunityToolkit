@@ -8,6 +8,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     {
         public string ElementName { get; set; }
 
-        public Windows.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
+        public Microsoft.UI.Xaml.Controls.ListViewBase ListViewBase { get; set; }
     }
 }

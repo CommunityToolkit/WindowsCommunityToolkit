@@ -4,7 +4,7 @@
 
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 
-using Windows.UI.Xaml.Navigation;
+using Microsoft.UI.Xaml.Navigation;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

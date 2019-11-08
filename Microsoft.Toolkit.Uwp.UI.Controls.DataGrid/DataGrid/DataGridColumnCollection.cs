@@ -651,7 +651,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             foreach (DataGridColumn column in this.ItemsInternal)
             {
-                Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} {1} {2}", column.Header, column.Index, column.DisplayIndex));
+                Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "{0} {1} {2}", column.Header, column.Index, column.DisplayIndex));
             }
         }
 #endif

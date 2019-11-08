@@ -3,10 +3,10 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Uwp.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Windows.System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
 {
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons.Common
                 {
                     Name = TextToolbar.StrikethoughElement,
                     ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_StrikethroughLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = new Thickness(0, -5, 0, 0) },
+                    Icon = new FontIcon { Glyph = "\u0335a\u0335b\u0335c\u0335", FontFamily = new FontFamily("Segoe UI"), Margin = ControlHelpers.NewThickness(0, -5, 0, 0) },
                     Activation = MakeStrike,
                     ShortcutKey = VirtualKey.Subtract,
                     ShortcutFancyName = "-"

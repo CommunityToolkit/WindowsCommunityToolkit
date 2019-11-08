@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.Design.Common
 			return true;
 		}
 
-		private static bool IsBrowsable(System.Reflection.PropertyInfo pi)
+		private static bool IsBrowsable(global::System.Reflection.PropertyInfo pi)
 		{
             var attrs = pi.GetCustomAttributes(Types.PlatformTypes.EditorBrowsableAttributeType, false);
 			foreach (var attr in attrs)

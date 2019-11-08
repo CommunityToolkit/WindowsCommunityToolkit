@@ -10,8 +10,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Collections;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp
 {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (value != _isLoading)
                 {
                     _isLoading = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
+                    OnPropertyChanged(new global::System.ComponentModel.PropertyChangedEventArgs(nameof(IsLoading)));
 
                     if (_isLoading)
                     {
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Uwp
                 if (value != _hasMoreItems)
                 {
                     _hasMoreItems = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
+                    OnPropertyChanged(new global::System.ComponentModel.PropertyChangedEventArgs(nameof(HasMoreItems)));
                 }
             }
         }
@@ -185,7 +185,7 @@ namespace Microsoft.Toolkit.Uwp
         /// <returns>
         /// An object of the <see cref="LoadMoreItemsAsync(uint)"/> that specifies how many items have been actually retrieved.
         /// </returns>
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
+        public IAsyncOperation<Microsoft.UI.Xaml.Data.LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
             => LoadMoreItemsAsync(count, new CancellationToken(false)).AsAsyncOperation();
 
         /// <summary>

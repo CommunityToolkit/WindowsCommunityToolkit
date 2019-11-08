@@ -4,7 +4,7 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

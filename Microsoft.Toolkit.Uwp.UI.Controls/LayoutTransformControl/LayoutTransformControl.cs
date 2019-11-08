@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Markup;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Markup;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -156,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (transformGroup != null)
                 {
-                    var groupMatrix = Matrix.Identity;
+                    var groupMatrix = MatrixExtensions.Identity;
 
                     foreach (var child in transformGroup.Children)
                     {
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             // Fall back to no-op transformation
-            return Matrix.Identity;
+            return MatrixExtensions.Identity;
         }
 
         /// <summary>

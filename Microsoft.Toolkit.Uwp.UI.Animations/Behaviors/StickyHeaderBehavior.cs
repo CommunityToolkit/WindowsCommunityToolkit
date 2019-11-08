@@ -5,13 +5,13 @@
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Input;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// Performs an animation on a ListView or GridView Header to make it sticky using composition.
     /// </summary>
     /// <seealso>
-    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
+    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}</cref>
     /// </seealso>
     public class StickyHeaderBehavior : BehaviorBase<FrameworkElement>
     {
@@ -106,8 +106,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         {
             StopAnimation();
 
-            // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
-            if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
+            // Confirm that Microsoft.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
+            if (!ApiInformation.IsMethodPresent("Microsoft.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
             {
                 // Just return true since it's not supported
                 return true;
@@ -128,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
-            var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
+            var listView = AssociatedObject as Microsoft.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Microsoft.UI.Xaml.Controls.ListViewBase>();
 
             if (listView != null && listView.ItemsPanelRoot != null)
             {

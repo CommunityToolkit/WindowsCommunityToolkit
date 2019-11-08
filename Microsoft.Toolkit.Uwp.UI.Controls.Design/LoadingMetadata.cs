@@ -15,13 +15,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public LoadingMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Loading),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(Loading.IsLoading), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Loading),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(Loading.IsLoading), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

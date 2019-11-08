@@ -2,16 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Windows.Graphics;
 using Windows.Graphics.DirectX;
 using Windows.Graphics.Display;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -22,11 +23,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private Compositor _compositor;
         private CanvasDevice _win2DDevice;
-        private CompositionGraphicsDevice _comositionGraphicsDevice;
+
+        // private CompositionGraphicsDevice _comositionGraphicsDevice;
         private SpriteVisual _myDrawingVisual;
-        private CompositionVirtualDrawingSurface _drawingSurface;
-        private CompositionSurfaceBrush _surfaceBrush;
-        private double _screenScale;
+
+        // private CompositionVirtualDrawingSurface _drawingSurface;
+        // private CompositionSurfaceBrush _surfaceBrush;
+        // private double _screenScale;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InfiniteCanvasVirtualDrawingSurface"/> class.
@@ -46,20 +49,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _compositor = ElementCompositionPreview.GetElementVisual(this).Compositor;
             _win2DDevice = CanvasDevice.GetSharedDevice();
-            _comositionGraphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _win2DDevice);
+
+            // _compositionGraphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _win2DDevice);
             _myDrawingVisual = _compositor.CreateSpriteVisual();
             ElementCompositionPreview.SetElementChildVisual(this, _myDrawingVisual);
         }
 
         internal void ConfigureSpriteVisual(double width, double height, float zoomFactor)
         {
+            /*
             var size = new SizeInt32
             {
                 Height = (int)width,
                 Width = (int)height
             };
 
-            _drawingSurface = _comositionGraphicsDevice.CreateVirtualDrawingSurface(
+            _drawingSurface = _compositionGraphicsDevice.CreateVirtualDrawingSurface(
                 size,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
@@ -74,14 +79,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _myDrawingVisual.Brush = _surfaceBrush;
             _surfaceBrush.Offset = new Vector2(0, 0);
+            */
+
+            throw new NotImplementedException("WinUI3");
         }
 
         internal void SetScale(float zoomFactor)
         {
+            /*
             _screenScale = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
             var scale = _screenScale * zoomFactor;
             _surfaceBrush.Scale = new Vector2((float)(1 / scale));
             _surfaceBrush.BitmapInterpolationMode = CompositionBitmapInterpolationMode.NearestNeighbor;
+            */
+            throw new NotImplementedException("WinUI3");
         }
     }
 }

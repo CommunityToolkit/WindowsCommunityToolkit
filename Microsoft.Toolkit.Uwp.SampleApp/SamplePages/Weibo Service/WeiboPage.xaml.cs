@@ -6,10 +6,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using Microsoft.Toolkit.Services.Weibo;
+using Windows.UI.Popups;
+using Microsoft.UI.Xaml;
 using Windows.Storage;
 using Windows.Storage.Pickers;
-using Windows.UI.Popups;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

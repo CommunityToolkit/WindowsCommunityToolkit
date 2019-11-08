@@ -3,9 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -14,6 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public class BackdropSaturationBrush : XamlCompositionBrushBase
     {
+#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         /// <summary>
         /// Identifies the <see cref="Saturation"/> dependency property.
         /// </summary>
@@ -103,5 +104,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = null;
             }
         }
+
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

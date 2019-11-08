@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Automation.Peers;
+using Microsoft.UI.Xaml.Automation.Provider;
+using Microsoft.UI.Xaml.Data;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
-using Windows.UI.Xaml.Automation.Peers;
-using Windows.UI.Xaml.Automation.Provider;
-using Windows.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
 {
@@ -562,7 +562,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         {
             if (!_dataGridAutomationPeer.IsEnabled())
             {
-                throw new ElementNotEnabledException();
+                throw new Windows.UI.Xaml.Automation.ElementNotEnabledException();
             }
         }
     }

@@ -6,11 +6,11 @@
 
 using System;
 using Microsoft.Graphics.Canvas.Effects;
-using Windows.UI;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.UI;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public class ImageBlendBrush : XamlCompositionBrushBase
     {
+        /*
         private LoadedImageSurface _surface;
         private CompositionSurfaceBrush _surfaceBrush;
 
@@ -214,5 +215,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
             return CompositionStretch.None;
         }
+        */
     }
 }

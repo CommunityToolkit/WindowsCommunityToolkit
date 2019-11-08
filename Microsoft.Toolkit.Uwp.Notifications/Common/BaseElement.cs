@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
         {
             using (MemoryStream stream = new MemoryStream())
             {
-                using (System.Xml.XmlWriter writer = System.Xml.XmlWriter.Create(stream, new System.Xml.XmlWriterSettings()
+                using (global::System.Xml.XmlWriter writer = global::System.Xml.XmlWriter.Create(stream, new global::System.Xml.XmlWriterSettings()
                 {
                     Encoding = Encoding.UTF8, // Use UTF-8 encoding to save space (it defaults to UTF-16 which is 2x the size)
                     Indent = false,

@@ -10,7 +10,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// <summary>
 /// This parameter is passed to the GazeElement.DwellProgressFeedback event. The event is fired to inform the application of the user's progress towards completing dwelling on a control
 /// </summary>
-public ref class DwellProgressEventArgs : public RoutedEventArgs
+class DwellProgressEventArgs : public RoutedEventArgs
 {
 public:
 
@@ -29,7 +29,6 @@ public:
     /// </summary>
     property bool Handled;
 
-internal:
 	DwellProgressEventArgs(DwellProgressState state, TimeSpan elapsedDuration, TimeSpan triggerDuration)
 	{
         _state = state;

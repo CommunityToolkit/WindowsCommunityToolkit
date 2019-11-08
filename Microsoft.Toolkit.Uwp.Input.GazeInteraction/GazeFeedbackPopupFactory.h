@@ -3,22 +3,26 @@
 
 #pragma once
 
-using namespace Platform::Collections;
-using namespace Windows::UI::Xaml::Controls::Primitives;
+#include <winrt/Windows.Foundation.Collections.h>
+#include <winrt/Microsoft.UI.Xaml.Controls.Primitives.h>
+
+using namespace std;
+using namespace winrt::Windows::Foundation::Collections;
+using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-private ref class GazeFeedbackPopupFactory
+class GazeFeedbackPopupFactory
 {
 private:
 
-    Vector<Popup^>^ s_cache = ref new Vector<Popup^>();
+    std::vector<Popup> s_cache;
 
 public:
 
-    Popup^ Get();
+    Popup Get();
 
-    void Return(Popup^ popup);
+    void Return(Popup popup);
 };
 
 END_NAMESPACE_GAZE_INPUT

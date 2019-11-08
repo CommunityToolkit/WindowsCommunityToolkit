@@ -5,10 +5,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Windows.Foundation.Metadata;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             _nextParameter = parameter;
         }
 
-        private void Frame_Navigating(object sender, Windows.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
+        private void Frame_Navigating(object sender, Microsoft.UI.Xaml.Navigation.NavigatingCancelEventArgs e)
         {
             object parameter = null;
 
@@ -98,8 +98,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 if (animation != null &&
-                    e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back &&
-                    ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
+                    e.NavigationMode == Microsoft.UI.Xaml.Navigation.NavigationMode.Back &&
+                    ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
                 {
                     UseDirectConnectedAnimationConfiguration(animation);
                 }
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        private void Frame_Navigated(object sender, Microsoft.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             var navigatedPage = (sender as Frame).Content as Page;
 
@@ -127,7 +127,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 {
                     parameter = _nextParameter;
                 }
-                else if (e.NavigationMode == Windows.UI.Xaml.Navigation.NavigationMode.Back)
+                else if (e.NavigationMode == Microsoft.UI.Xaml.Navigation.NavigationMode.Back)
                 {
                     var sourcePage = (sender as Frame).ForwardStack.LastOrDefault();
                     parameter = sourcePage?.Parameter;

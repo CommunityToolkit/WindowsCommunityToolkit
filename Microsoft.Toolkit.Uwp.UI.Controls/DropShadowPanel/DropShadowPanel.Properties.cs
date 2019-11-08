@@ -2,11 +2,10 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.ApplicationModel;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
 using Windows.Foundation.Metadata;
 using Windows.UI;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -26,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the <see cref="Color"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty ColorProperty =
-            DependencyProperty.Register(nameof(Color), typeof(Color), typeof(DropShadowPanel), new PropertyMetadata(Colors.Black, OnColorChanged));
+            DependencyProperty.Register(nameof(Color), typeof(Color), typeof(DropShadowPanel), new PropertyMetadata(Windows.UI.Colors.Black, OnColorChanged));
 
         /// <summary>
         /// Identifies the <see cref="OffsetX"/> dependency property.

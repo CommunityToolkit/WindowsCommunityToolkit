@@ -15,35 +15,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public MenuItemMetadata()
 			: base()
 		{
-			AddCallback(typeof(MenuItem),
-				b =>
-				{   
-					b.AddCustomAttributes(nameof(MenuItem.Header),
-						new PropertyOrderAttribute(PropertyOrder.Early),
-						new CategoryAttribute(Properties.Resources.CategoryCommon)
-					);
-                    b.AddCustomAttributes(nameof(MenuItem.IsOpened),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                    );
-                    b.AddCustomAttributes(nameof(MenuItem.HeaderTemplate),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
-						new CategoryAttribute(Properties.Resources.CategoryCommon)
-                    );
-                    b.AddCustomAttributes(nameof(MenuItem.Items),
-                        new PropertyOrderAttribute(PropertyOrder.Early),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        //The following is necessary because this is a collection of an abstract type, so we help
-                        //the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(MenuItem),
-                        }),
-                        new AlternateContentPropertyAttribute()
-                    );
+			//AddCallback(typeof(MenuItem),
+			//	b =>
+			//	{   
+			//		b.AddCustomAttributes(nameof(MenuItem.Header),
+			//			new PropertyOrderAttribute(PropertyOrder.Early),
+			//			new CategoryAttribute(Properties.Resources.CategoryCommon)
+			//		);
+   //                 b.AddCustomAttributes(nameof(MenuItem.IsOpened),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon)
+   //                 );
+   //                 b.AddCustomAttributes(nameof(MenuItem.HeaderTemplate),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
+			//			new CategoryAttribute(Properties.Resources.CategoryCommon)
+   //                 );
+   //                 b.AddCustomAttributes(nameof(MenuItem.Items),
+   //                     new PropertyOrderAttribute(PropertyOrder.Early),
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     //The following is necessary because this is a collection of an abstract type, so we help
+   //                     //the designer with populating supported types that can be added to the collection
+   //                     new NewItemTypesAttribute(new System.Type[] {
+   //                         typeof(MenuItem),
+   //                     }),
+   //                     new AlternateContentPropertyAttribute()
+   //                 );
 
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-                    b.AddCustomAttributes(new ToolboxBrowsableAttribute(false));
-				}
-			);
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+   //                 b.AddCustomAttributes(new ToolboxBrowsableAttribute(false));
+			//	}
+			//);
 		}
 	}
 }

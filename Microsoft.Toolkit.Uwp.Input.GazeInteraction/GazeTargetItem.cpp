@@ -7,32 +7,33 @@
 
 #include "GazeElement.h"
 #include "GazeFeedbackPopupFactory.h"
+#include <winrt/Windows.UI.Xaml.Interop.h>
 
-using namespace Windows::UI::Xaml::Automation;
-using namespace Windows::UI::Xaml::Automation::Provider;
-using namespace Windows::UI::Xaml::Automation::Peers;
+using namespace winrt::Windows::UI::Xaml::Automation;
+using namespace winrt::Windows::UI::Xaml::Automation::Provider;
+using namespace winrt::Windows::UI::Xaml::Automation::Peers;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-static DependencyProperty^ GazeTargetItemProperty = DependencyProperty::RegisterAttached("_GazeTargetItem", GazeTargetItem::typeid, GazeTargetItem::typeid, ref new PropertyMetadata(nullptr));
+static DependencyProperty GazeTargetItemProperty = DependencyProperty::RegisterAttached(L"_GazeTargetItem", winrt::xaml_typename<GazeTargetItem>(), winrt::xaml_typename<GazeTargetItem>(), PropertyMetadata(nullptr));
 
 template<PatternInterface P, typename T>
-ref class PatternGazeTargetItem abstract : public GazeTargetItem
+class PatternGazeTargetItem abstract : public GazeTargetItem
 {
 internal:
 
-    PatternGazeTargetItem(UIElement^ element)
+    PatternGazeTargetItem(UIElement element)
         : GazeTargetItem(element)
     {
     }
 
-    static T^ GetPattern(AutomationPeer^ peer)
+    static T GetPattern(AutomationPeer peer)
     {
         auto pattern = peer->GetPattern(P);
-        return safe_cast<T^>(pattern);
+        return safe_cast<T>(pattern);
     }
 
-    static bool IsCandidate(AutomationPeer^ peer)
+    static bool IsCandidate(AutomationPeer peer)
     {
         auto provider = GetPattern(peer);
         return provider != nullptr;
@@ -45,64 +46,60 @@ internal:
         Invoke(provider);
     }
 
-    virtual void Invoke(T^ provider) = 0;
+    virtual void Invoke(T provider) = 0;
 };
 
-ref class InvokePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Invoke, IInvokeProvider>
+class InvokePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Invoke, IInvokeProvider>
 {
-internal:
 
-    InvokePatternGazeTargetItem(UIElement^ element)
+    InvokePatternGazeTargetItem(UIElement element)
         : PatternGazeTargetItem(element)
     {
     }
 
-    void Invoke(IInvokeProvider^ provider) override sealed
+    void Invoke(IInvokeProvider provider) override sealed
     {
         provider->Invoke();
     }
 };
 
-ref class TogglePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Toggle, IToggleProvider>
+class TogglePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::Toggle, IToggleProvider>
 {
-internal:
 
-    TogglePatternGazeTargetItem(UIElement^ element)
+    TogglePatternGazeTargetItem(UIElement element)
         : PatternGazeTargetItem(element)
     {
     }
 
-    void Invoke(IToggleProvider^ provider) override
+    void Invoke(IToggleProvider provider) override
     {
         provider->Toggle();
     }
 };
 
-ref class SelectionItemPatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::SelectionItem, ISelectionItemProvider>
+class SelectionItemPatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::SelectionItem, ISelectionItemProvider>
 {
-internal:
 
-    SelectionItemPatternGazeTargetItem(UIElement^ element)
+    SelectionItemPatternGazeTargetItem(UIElement element)
         : PatternGazeTargetItem(element)
     {
     }
 
-    void Invoke(ISelectionItemProvider^ provider) override
+    void Invoke(ISelectionItemProvider provider) override
     {
         provider->Select();
     }
 };
 
-ref class ExpandCollapsePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::ExpandCollapse, IExpandCollapseProvider>
+class ExpandCollapsePatternGazeTargetItem : public PatternGazeTargetItem<PatternInterface::ExpandCollapse, IExpandCollapseProvider>
 {
-internal:
 
-    ExpandCollapsePatternGazeTargetItem(UIElement^ element)
+    ExpandCollapsePatternGazeTargetItem(UIElement element)
         : PatternGazeTargetItem(element)
     {
     }
 
-    void Invoke(IExpandCollapseProvider^ provider) override
+    void Invoke(IExpandCollapseProvider provider) override
     {
         switch (provider->ExpandCollapseState)
         {
@@ -117,11 +114,10 @@ internal:
     }
 };
 
-ref class ComboBoxItemGazeTargetItem sealed : GazeTargetItem
+class ComboBoxItemGazeTargetItem sealed : GazeTargetItem
 {
-internal:
 
-    ComboBoxItemGazeTargetItem(UIElement^ element)
+    ComboBoxItemGazeTargetItem(UIElement element)
         : GazeTargetItem(element)
     {
     }
@@ -129,15 +125,15 @@ internal:
     void Invoke() override
     {
         auto peer = FrameworkElementAutomationPeer::FromElement(TargetElement);
-        auto comboBoxItemAutomationPeer = dynamic_cast<ComboBoxItemAutomationPeer^>(peer);
-        auto comboBoxItem = safe_cast<ComboBoxItem^>(comboBoxItemAutomationPeer->Owner);
+        auto comboBoxItemAutomationPeer = dynamic_cast<ComboBoxItemAutomationPeer>(peer);
+        auto comboBoxItem = safe_cast<ComboBoxItem>(comboBoxItemAutomationPeer->Owner);
 
-        AutomationPeer^ ancestor = comboBoxItemAutomationPeer;
-        auto comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+        AutomationPeer ancestor = comboBoxItemAutomationPeer;
+        auto comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer>(ancestor);
         while (comboBoxAutomationPeer == nullptr)
         {
-            ancestor = safe_cast<AutomationPeer^>(ancestor->Navigate(AutomationNavigationDirection::Parent));
-            comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer^>(ancestor);
+            ancestor = safe_cast<AutomationPeer>(ancestor->Navigate(AutomationNavigationDirection::Parent));
+            comboBoxAutomationPeer = dynamic_cast<ComboBoxAutomationPeer>(ancestor);
         }
 
         comboBoxItem->IsSelected = true;
@@ -145,43 +141,42 @@ internal:
     }
 };
 
-ref class PivotItemGazeTargetItem sealed : GazeTargetItem
+class PivotItemGazeTargetItem sealed : GazeTargetItem
 {
-internal:
 
-    PivotItemGazeTargetItem(UIElement^ element)
+    PivotItemGazeTargetItem(UIElement element)
         : GazeTargetItem(element)
     {
     }
 
     void Invoke() override
     {
-        auto headerItem = safe_cast<PivotHeaderItem^>(TargetElement);
-        auto headerPanel = safe_cast<PivotHeaderPanel^>(VisualTreeHelper::GetParent(headerItem));
+        auto headerItem = safe_cast<PivotHeaderItem>(TargetElement);
+        auto headerPanel = safe_cast<PivotHeaderPanel>(VisualTreeHelper::GetParent(headerItem));
         unsigned index;
         headerPanel->Children->IndexOf(headerItem, &index);
 
-        DependencyObject^ walker = headerPanel;
-        Pivot^ pivot;
+        DependencyObject walker = headerPanel;
+        Pivot pivot;
         do
         {
             walker = VisualTreeHelper::GetParent(walker);
-            pivot = dynamic_cast<Pivot^>(walker);
+            pivot = dynamic_cast<Pivot>(walker);
         } while (pivot == nullptr);
 
         pivot->SelectedIndex = index;
     }
 };
 
-GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
+GazeTargetItem GazeTargetItem::GetOrCreate(UIElement element)
 {
-    GazeTargetItem^ item;
+    GazeTargetItem item;
 
     auto value = element->ReadLocalValue(GazeTargetItemProperty);
 
     if (value != DependencyProperty::UnsetValue)
     {
-        item = safe_cast<GazeTargetItem^>(value);
+        item = safe_cast<GazeTargetItem>(value);
     }
     else
     {
@@ -189,7 +184,7 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 
         if (peer == nullptr)
         {
-            if (dynamic_cast<PivotHeaderItem^>(element) != nullptr)
+            if (dynamic_cast<PivotHeaderItem>(element) != nullptr)
             {
                 item = ref new PivotItemGazeTargetItem(element);
             }
@@ -214,7 +209,7 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
         {
             item = ref new ExpandCollapsePatternGazeTargetItem(element);
         }
-        else if (dynamic_cast<ComboBoxItemAutomationPeer^>(peer) != nullptr)
+        else if (dynamic_cast<ComboBoxItemAutomationPeer>(peer) != nullptr)
         {
             item = ref new ComboBoxItemGazeTargetItem(element);
         }
@@ -232,7 +227,7 @@ GazeTargetItem^ GazeTargetItem::GetOrCreate(UIElement^ element)
 void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
 {
     // TODO: We should eliminate non-invokable controls before we arrive here!
-    if (dynamic_cast<Page^>(TargetElement) != nullptr)
+    if (dynamic_cast<Page>(TargetElement) != nullptr)
     {
         return;
     }
@@ -254,12 +249,12 @@ void GazeTargetItem::RaiseProgressEvent(DwellProgressState state)
                 _feedbackPopup = GazePointer::Instance->_gazeFeedbackPopupFactory->Get();
             }
 
-            auto control = safe_cast<FrameworkElement^>(TargetElement);
+            auto control = safe_cast<FrameworkElement>(TargetElement);
 
             auto transform = control->TransformToVisual(_feedbackPopup);
             auto bounds = transform->TransformBounds(*ref new Rect(*ref new Point(0, 0),
                 *ref new Size(safe_cast<float>(control->ActualWidth), safe_cast<float>(control->ActualHeight))));
-            auto rectangle = safe_cast<::Windows::UI::Xaml::Shapes::Rectangle^>(_feedbackPopup->Child);
+            auto rectangle = safe_cast<::Windows::UI::Xaml::Shapes::Rectangle>(_feedbackPopup->Child);
 
             if (state == DwellProgressState::Progressing)
             {

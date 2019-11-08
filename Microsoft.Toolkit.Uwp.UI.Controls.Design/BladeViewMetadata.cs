@@ -18,31 +18,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		public BladeViewMetadata()
 			: base()
 		{
-            AddCallback(typeof(BladeView),
-                b =>
-                {
-                    b.AddCustomAttributes(nameof(BladeView.ActiveBlades),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(BladeView.BladeMode),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(BladeView.AutoCollapseCountThreshold),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(BladeView.Items),
-                        new PropertyOrderAttribute(PropertyOrder.Early),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        //The following is necessary because this is a collection of an abstract type, so we help
-                        //the designer with populating supported types that can be added to the collection
-                        new NewItemTypesAttribute(new System.Type[] {
-                            typeof(BladeItem),
-                        }),
-                        new AlternateContentPropertyAttribute()
-                    );
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-                }
-            );
+            //AddCallback(typeof(BladeView),
+            //    b =>
+            //    {
+            //        b.AddCustomAttributes(nameof(BladeView.ActiveBlades),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(BladeView.BladeMode),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(BladeView.AutoCollapseCountThreshold),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(BladeView.Items),
+            //            new PropertyOrderAttribute(PropertyOrder.Early),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon),
+            //            //The following is necessary because this is a collection of an abstract type, so we help
+            //            //the designer with populating supported types that can be added to the collection
+            //            new NewItemTypesAttribute(new System.Type[] {
+            //                typeof(BladeItem),
+            //            }),
+            //            new AlternateContentPropertyAttribute()
+            //        );
+            //        b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+            //    }
+            //);
 		}
 	}
 }

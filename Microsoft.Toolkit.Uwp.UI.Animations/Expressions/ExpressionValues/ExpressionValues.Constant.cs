@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System.Numerics;
-using Windows.UI;
+using Microsoft.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             /// <param name="paramName">The name that will be used to refer to the parameter at a later time.</param>
             /// <param name="value">The value of the parameter.</param>
             /// <returns>ColorNode.</returns>
-            public static ColorNode CreateConstantColor(string paramName, Color value)
+            public static ColorNode CreateConstantColor(string paramName, Windows.UI.Color value)
             {
                 return new ColorNode(paramName, value);
             }

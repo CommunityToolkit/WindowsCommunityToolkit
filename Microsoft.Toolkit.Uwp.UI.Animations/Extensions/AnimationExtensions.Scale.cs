@@ -4,8 +4,8 @@
 
 using System;
 using System.Numerics;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -94,7 +94,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 animationX.To = scaleX;
                 animationY.To = scaleY;
 
-                animationX.Duration = animationY.Duration = TimeSpan.FromMilliseconds(duration);
+                animationX.Duration = animationY.Duration = new Duration
+                {
+                    TimeSpan = TimeSpan.FromMilliseconds(duration),
+                    Type = DurationType.TimeSpan
+                };
                 animationX.BeginTime = animationY.BeginTime = TimeSpan.FromMilliseconds(delay);
                 animationX.EasingFunction = animationY.EasingFunction = GetEasingFunction(easingType, easingMode);
 

@@ -4,8 +4,8 @@
 
 using System.Collections.ObjectModel;
 using Microsoft.Graph;
+using Microsoft.UI.Xaml;
 using Windows.System.Profile;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {

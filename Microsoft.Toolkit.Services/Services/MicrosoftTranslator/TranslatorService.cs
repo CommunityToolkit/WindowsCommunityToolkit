@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftTranslator
             if (content != null)
             {
                 var jsonRequest = JsonConvert.SerializeObject(content);
-                var requestContent = new StringContent(jsonRequest, System.Text.Encoding.UTF8, JsonMediaType);
+                var requestContent = new StringContent(jsonRequest, global::System.Text.Encoding.UTF8, JsonMediaType);
                 request.Content = requestContent;
             }
 

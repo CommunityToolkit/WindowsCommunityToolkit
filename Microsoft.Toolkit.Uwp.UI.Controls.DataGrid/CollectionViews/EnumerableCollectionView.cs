@@ -8,7 +8,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
-using Windows.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 {
@@ -49,8 +49,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             INotifyCollectionChanged incc = _view as INotifyCollectionChanged;
             incc.CollectionChanged += new NotifyCollectionChangedEventHandler(EnumerableCollectionView_OnViewChanged);
 
-            INotifyPropertyChanged ipc = _view as INotifyPropertyChanged;
-            ipc.PropertyChanged += new PropertyChangedEventHandler(EnumerableCollectionView_OnPropertyChanged);
+            Microsoft.UI.Xaml.Data.INotifyPropertyChanged ipc = _view as Microsoft.UI.Xaml.Data.INotifyPropertyChanged;
+            ipc.PropertyChanged += new Microsoft.UI.Xaml.Data.PropertyChangedEventHandler(EnumerableCollectionView_OnPropertyChanged);
 
             _view.CurrentChanging += new CurrentChangingEventHandler(EnumerableCollectionView_OnCurrentChanging);
             _view.CurrentChanged += new EventHandler<object>(EnumerableCollectionView_OnCurrentChanged);
@@ -531,22 +531,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 
             if (IsCurrentAfterLast != oldIsCurrentAfterLast)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(IsCurrentAfterLastPropertyName));
+                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(IsCurrentAfterLastPropertyName));
             }
 
             if (IsCurrentBeforeFirst != oldIsCurrentBeforeFirst)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(IsCurrentBeforeFirstPropertyName));
+                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(IsCurrentBeforeFirstPropertyName));
             }
 
             if (oldCurrentPosition != CurrentPosition)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(CurrentPositionPropertyName));
+                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(CurrentPositionPropertyName));
             }
 
             if (oldCurrentItem != CurrentItem)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(CurrentItemPropertyName));
+                OnPropertyChanged(new Microsoft.UI.Xaml.Data.PropertyChangedEventArgs(CurrentItemPropertyName));
             }
         }
 
@@ -606,7 +606,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         }
 
         // forward events from the internal view to our own listeners
-        private void EnumerableCollectionView_OnPropertyChanged(object sender, PropertyChangedEventArgs args)
+        private void EnumerableCollectionView_OnPropertyChanged(object sender, Microsoft.UI.Xaml.Data.PropertyChangedEventArgs args)
         {
             if (_ignoreEventsLevel != 0)
             {

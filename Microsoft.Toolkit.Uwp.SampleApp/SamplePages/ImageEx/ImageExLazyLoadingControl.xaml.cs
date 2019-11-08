@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Windows.UI.Popups;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

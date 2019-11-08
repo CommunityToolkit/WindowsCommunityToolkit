@@ -5,10 +5,10 @@
 using System.Numerics;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Media;
 using Windows.Graphics.DirectX;
-using Windows.UI.Composition;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public abstract class CanvasBrushBase : XamlCompositionBrushBase
     {
-        private CompositionSurfaceBrush _surfaceBrush;
+        // private CompositionSurfaceBrush _surfaceBrush;
 
         /// <summary>
         /// Gets or sets the internal surface render width.  Modify during construction.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
         private CanvasDevice _device;
 
-        private CompositionGraphicsDevice _graphics;
+        // private CompositionGraphicsDevice _graphics;
 
         /// <summary>
         /// Implemented by parent class and called when canvas is being constructed for brush.
@@ -57,6 +57,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             _device = CanvasDevice.GetSharedDevice();
             _device.DeviceLost += CanvasDevice_DeviceLost;
 
+            /*
             if (_graphics != null)
             {
                 _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
@@ -91,13 +92,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
 
                 CompositionBrush = _surfaceBrush;
             }
+            */
         }
 
+        /*
         private void CanvasDevice_RenderingDeviceReplaced(CompositionGraphicsDevice sender, object args)
         {
             OnDisconnected();
             OnConnected();
         }
+        */
 
         private void CanvasDevice_DeviceLost(CanvasDevice sender, object args)
         {
@@ -118,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _device = null;
             }
 
+            /*
             if (_graphics != null)
             {
                 _graphics.RenderingDeviceReplaced -= CanvasDevice_RenderingDeviceReplaced;
@@ -136,6 +141,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 _surfaceBrush.Dispose();
                 _surfaceBrush = null;
             }
+            */
         }
     }
 }

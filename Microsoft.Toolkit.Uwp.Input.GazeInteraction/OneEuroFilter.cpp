@@ -28,7 +28,7 @@ OneEuroFilter::OneEuroFilter(float cutoff, float beta)
     VelocityCutoff = ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF;
 }
 
-GazeFilterArgs^ OneEuroFilter::Update(GazeFilterArgs^ args)
+GazeFilterArgs OneEuroFilter::Update(GazeFilterArgs args)
 {
     if (_lastTimestamp == TimeSpanZero)
     {
@@ -95,7 +95,7 @@ float OneEuroFilter::Alpha(float rate, float cutoff)
     float alpha = te / (te + tau);
     return alpha;
 }
-void OneEuroFilter::LoadSettings(ValueSet^ settings)
+void OneEuroFilter::LoadSettings(ValueSet settings)
 {
     if (settings->HasKey("OneEuroFilter.Beta"))
     {

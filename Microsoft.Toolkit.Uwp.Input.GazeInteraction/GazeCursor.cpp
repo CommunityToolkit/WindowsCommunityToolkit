@@ -3,76 +3,79 @@
 
 #include "pch.h"
 #include "GazeCursor.h"
+#include <winrt/Microsoft.UI.Xaml.Media.h>
+
+using namespace winrt::Microsoft::UI::Xaml::Media;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
 GazeCursor::GazeCursor()
 {
-    _gazePopup = ref new Popup();
-    _gazePopup->IsHitTestVisible = false;
+    _gazePopup = Popup();
+    _gazePopup.IsHitTestVisible = false;
 
-    auto gazeCursor = ref new Shapes::Ellipse();
-    gazeCursor->Fill = ref new SolidColorBrush(Colors::IndianRed);
-    gazeCursor->VerticalAlignment = Windows::UI::Xaml::VerticalAlignment::Top;
-    gazeCursor->HorizontalAlignment = Windows::UI::Xaml::HorizontalAlignment::Left;
-    gazeCursor->Width = 2 * CursorRadius;
-    gazeCursor->Height = 2 * CursorRadius;
-	gazeCursor->Margin = Thickness(-CursorRadius, -CursorRadius, 0, 0);
-    gazeCursor->IsHitTestVisible = false;
+    auto gazeCursor = Shapes::Ellipse();
+    gazeCursor.Fill = SolidColorBrush(Colors::IndianRed());
+    gazeCursor.VerticalAlignment = winrt::Microsoft::UI::Xaml::VerticalAlignment::Top;
+    gazeCursor.HorizontalAlignment = winrt::Microsoft::UI::Xaml::HorizontalAlignment::Left;
+    gazeCursor.Width = 2 * CursorRadius();
+    gazeCursor.Height = 2 * CursorRadius();
+	gazeCursor.Margin = ThicknessHelper::FromLengths(-CursorRadius(), -CursorRadius(), 0, 0);
+    gazeCursor.IsHitTestVisible = false;
 
-    _gazePopup->Child = gazeCursor;
+    _gazePopup.Child = gazeCursor;
 }
 
-void GazeCursor::CursorRadius::set(int value)
+void GazeCursor::CursorRadius(int const& value)
 {
     _cursorRadius = value;
-	auto gazeCursor = CursorElement;
+	auto gazeCursor = CursorElement();
 	if (gazeCursor != nullptr)
 	{
-		gazeCursor->Width = 2 * _cursorRadius;
-		gazeCursor->Height = 2 * _cursorRadius;
-		gazeCursor->Margin = Thickness(-_cursorRadius, -_cursorRadius, 0, 0);
+		gazeCursor.Width = 2 * _cursorRadius;
+		gazeCursor.Height = 2 * _cursorRadius;
+		gazeCursor.Margin = ThicknessHelper::FromLengths(-_cursorRadius, -_cursorRadius, 0, 0);
 	}
 }
 
-void GazeCursor::IsCursorVisible::set(bool value)
+void GazeCursor::IsCursorVisible(bool const& value)
 {
     _isCursorVisible = value;
     SetVisibility();
 }
 
-void GazeCursor::IsGazeEntered::set(bool value)
+void GazeCursor::IsGazeEntered(bool const& value)
 {
     _isGazeEntered = value;
     SetVisibility();
 }
 
-void GazeCursor::LoadSettings(ValueSet^ settings)
+void GazeCursor::LoadSettings(ValueSet const& settings)
 {
-    if (settings->HasKey("GazeCursor.CursorRadius"))
+    if (settings.HasKey(L"GazeCursor.CursorRadius"))
     {
-        CursorRadius = (int)(settings->Lookup("GazeCursor.CursorRadius"));
+        CursorRadius(winrt::unbox_value<int>(settings.Lookup(L"GazeCursor.CursorRadius")));
     }
-    if (settings->HasKey("GazeCursor.CursorVisibility"))
+    if (settings.HasKey(L"GazeCursor.CursorVisibility"))
     {
-        IsCursorVisible = (bool)(settings->Lookup("GazeCursor.CursorVisibility"));
+        IsCursorVisible((bool)(settings.Lookup(L"GazeCursor.CursorVisibility")));
     }
 }
 
 void GazeCursor::SetVisibility()
 {
     auto isOpen = _isCursorVisible && _isGazeEntered;
-    if (_gazePopup->IsOpen != isOpen)
+    if (_gazePopup.IsOpen != isOpen)
     {
-        _gazePopup->IsOpen = isOpen;
+        _gazePopup.IsOpen = isOpen;
     }
     else if (isOpen)
     {
-        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current)->First()->Current;
+        auto topmost = VisualTreeHelper::GetOpenPopups(Window::Current()).First().Current;
         if (_gazePopup != topmost)
         {
-            _gazePopup->IsOpen = false;
-            _gazePopup->IsOpen = true;
+            _gazePopup.IsOpen = false;
+            _gazePopup.IsOpen = true;
         }
     }
 }

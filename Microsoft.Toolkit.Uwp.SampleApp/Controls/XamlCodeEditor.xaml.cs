@@ -5,14 +5,14 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Microsoft.UI;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media;
 using Monaco;
 using Monaco.Editor;
 using Monaco.Helpers;
 using Windows.System.Threading;
-using Windows.UI;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {

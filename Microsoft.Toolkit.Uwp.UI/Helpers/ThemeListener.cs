@@ -4,10 +4,10 @@
 
 using System;
 using System.Diagnostics;
+using Microsoft.UI.Xaml;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.UI.ViewManagement;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {

@@ -281,10 +281,10 @@ namespace Microsoft.Toolkit.Uwp.Utilities
                 return indexer;
             }
 
-            if (typeof(System.Collections.IList).IsAssignableFrom(type))
+            if (typeof(global::System.Collections.IList).IsAssignableFrom(type))
             {
                 // If the object is of type IList, try to use its default indexer.
-                indexer = FindIndexerInMembers(typeof(System.Collections.IList).GetDefaultMembers(), stringIndex, out index);
+                indexer = FindIndexerInMembers(typeof(global::System.Collections.IList).GetDefaultMembers(), stringIndex, out index);
             }
 
             return indexer;

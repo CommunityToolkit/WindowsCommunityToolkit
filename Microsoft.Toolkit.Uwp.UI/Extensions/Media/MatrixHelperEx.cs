@@ -3,15 +3,15 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using Microsoft.UI.Xaml.Media;
 using Windows.Foundation;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     // TODO: Check if we can make these static extension methods of the MatrixHelper in C#8 or move to an operator extension.
 
     /// <summary>
-    /// Static helper methods for <see cref="o:Windows.UI.Xaml.Media.Matrix"/>.
+    /// Static helper methods for <see cref="o:Microsoft.UI.Xaml.Media.Matrix"/>.
     /// </summary>
     public static class MatrixHelperEx
     {
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             // WPF equivalent of following code:
             // return Matrix.Multiply(matrix1, matrix2);
-            return new Matrix(
+            return MatrixExtensions.NewMatrix(
                 (matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21),
                 (matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22),
                 (matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21),
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The rounded matrix.</returns>
         public static Matrix Round(Matrix matrix, int decimalsAfterRound)
         {
-            return new Matrix(
+            return MatrixExtensions.NewMatrix(
                 Math.Round(matrix.M11, decimalsAfterRound),
                 Math.Round(matrix.M12, decimalsAfterRound),
                 Math.Round(matrix.M21, decimalsAfterRound),

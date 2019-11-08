@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Composition;
+using Microsoft.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Gets the value.
         /// </summary>
         /// <returns>System.String.</returns>
-        /// <exception cref="System.NotImplementedException">GetValue is not implemented for ReferenceNode and shouldn't be called</exception>
+        /// <exception cref="global::System.NotImplementedException">GetValue is not implemented for ReferenceNode and shouldn't be called</exception>
         protected internal override string GetValue()
         {
             throw new NotImplementedException("GetValue is not implemented for ReferenceNode and shouldn't be called");

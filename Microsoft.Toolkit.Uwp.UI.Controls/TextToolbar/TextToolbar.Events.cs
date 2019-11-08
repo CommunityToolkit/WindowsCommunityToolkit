@@ -6,11 +6,11 @@ using System;
 using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -230,7 +230,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">Toolbar Button</param>
         /// <param name="e">Property Changed Event</param>
-        private void ToolbarItemPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void ToolbarItemPropertyChanged(object sender, global::System.ComponentModel.PropertyChangedEventArgs e)
         {
             var root = GetTemplateChild(RootControl) as CommandBar;
             if (root != null)

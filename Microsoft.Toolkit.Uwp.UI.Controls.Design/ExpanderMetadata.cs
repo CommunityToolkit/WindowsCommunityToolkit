@@ -15,19 +15,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ExpanderMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Expander),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(Expander.Header), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Expander.HeaderTemplate), 
-                        new CategoryAttribute(Properties.Resources.CategoryCommon),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
-                        );
-                    b.AddCustomAttributes(nameof(Expander.IsExpanded), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(nameof(Expander.ExpandDirection), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.Expander),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(Expander.Header), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(Expander.HeaderTemplate), 
+   //                     new CategoryAttribute(Properties.Resources.CategoryCommon),
+   //                     new EditorBrowsableAttribute(EditorBrowsableState.Advanced)
+   //                     );
+   //                 b.AddCustomAttributes(nameof(Expander.IsExpanded), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(nameof(Expander.ExpandDirection), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

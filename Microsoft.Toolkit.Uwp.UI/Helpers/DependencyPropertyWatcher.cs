@@ -5,14 +5,14 @@
 namespace Microsoft.Toolkit.Uwp.UI.Helpers
 {
     using System;
-    using Windows.UI.Xaml;
-    using Windows.UI.Xaml.Data;
+    using Microsoft.UI.Xaml;
+    using Microsoft.UI.Xaml.Data;
 
     /// <summary>
     /// Used to Track Changes of a Dependency Property
     /// </summary>
     /// <typeparam name="T">Value of Dependency Property</typeparam>
-    public class DependencyPropertyWatcher<T> : DependencyObject, IDisposable
+    public class DependencyPropertyWatcher<T> : DependencyObject, global::System.IDisposable
     {
         /// <summary>
         /// Value of Value Property
@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         /// <summary>
         /// Called when Property Changes.
         /// </summary>
-        public event EventHandler PropertyChanged;
+        public event global::System.EventHandler PropertyChanged;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DependencyPropertyWatcher{T}"/> class.
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
 
             if (source.PropertyChanged != null)
             {
-                source.PropertyChanged(source, EventArgs.Empty);
+                source.PropertyChanged(source, global::System.EventArgs.Empty);
             }
         }
 

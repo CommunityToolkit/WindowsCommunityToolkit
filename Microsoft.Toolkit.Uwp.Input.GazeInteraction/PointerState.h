@@ -8,7 +8,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// <summary>
 /// This enum reflects the states that a user's gaze through while interacting with a control using their eyes.
 /// </summary>
-public enum class PointerState
+enum class PointerState
 {
     /// <summary>
     /// User's gaze is no longer on the control

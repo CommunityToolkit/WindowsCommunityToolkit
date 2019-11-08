@@ -5,8 +5,8 @@
 #include "GazeSettingsHelper.h"
 
 using namespace concurrency;
-using namespace Windows::ApplicationModel::AppService;
-using namespace Windows::Foundation;
+using namespace winrt::Windows::ApplicationModel::AppService;
+using namespace winrt::Windows::Foundation;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -14,11 +14,11 @@ GazeSettingsHelper::GazeSettingsHelper()
 {
 }
 
-Windows::Foundation::IAsyncAction^ GazeSettingsHelper::RetrieveSharedSettings(ValueSet^ settings)
+Windows::Foundation::IAsyncAction GazeSettingsHelper::RetrieveSharedSettings(ValueSet settings)
 {
     return create_async([settings] {
         // Setup a new app service connection
-        AppServiceConnection^ connection = ref new AppServiceConnection();
+        AppServiceConnection connection = ref new AppServiceConnection();
         connection->AppServiceName = "com.microsoft.ectksettings";
         connection->PackageFamilyName = "Microsoft.EyeControlToolkitSettings_s9y1p3hwd5qda";
 
@@ -39,10 +39,10 @@ Windows::Foundation::IAsyncAction^ GazeSettingsHelper::RetrieveSharedSettings(Va
             case AppServiceConnectionStatus::AppServiceUnavailable:
             case AppServiceConnectionStatus::Unknown:
                 // All return paths need to return a task of type AppServiceResponse, so fake it
-                AppServiceResponse ^ response = nullptr;
+                AppServiceResponse  response = nullptr;
                 return task_from_result(response);
             }
-        }).then([settings](AppServiceResponse^ response)
+        }).then([settings](AppServiceResponse response)
         {
             if (response == nullptr)
             {

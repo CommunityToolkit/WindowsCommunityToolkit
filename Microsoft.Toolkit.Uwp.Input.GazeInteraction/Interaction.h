@@ -8,7 +8,7 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// <summary>
 /// This enum indicates the current state of gaze interaction. 
 /// </summary>
-public enum class Interaction
+enum class Interaction
 {
 
     /// <summary>

@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
     {
         public override void InitializeDefaults(ModelItem item)
         {
-            item.Properties[nameof(DropShadowPanel.BlurRadius)].SetValue(5d);
+            //item.Properties[nameof(DropShadowPanel.BlurRadius)].SetValue(5d);
         }
     }
 
@@ -26,38 +26,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		public DropShadowPanelMetadata()
 			: base()
 		{
-            AddCallback(typeof(DropShadowPanel),
-                b =>
-                {
-                    b.AddCustomAttributes(new FeatureAttribute(typeof(DropShadowPanelDefaults)));
+            //AddCallback(typeof(DropShadowPanel),
+            //    b =>
+            //    {
+            //        b.AddCustomAttributes(new FeatureAttribute(typeof(DropShadowPanelDefaults)));
 
-                    b.AddCustomAttributes(nameof(DropShadowPanel.BlurRadius),
-                        new PropertyOrderAttribute(PropertyOrder.Early),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                        );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.ShadowOpacity),
-                       new PropertyOrderAttribute(PropertyOrder.Early),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                       );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.Color),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                        );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.OffsetX),
-                       new PropertyOrderAttribute(PropertyOrder.Late),
-                        new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                        );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.OffsetY),
-                       new PropertyOrderAttribute(PropertyOrder.Late),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                       );
-                    b.AddCustomAttributes(nameof(DropShadowPanel.OffsetZ),
-                       new PropertyOrderAttribute(PropertyOrder.Late),
-                       new CategoryAttribute(Properties.Resources.CategoryDropShadow)
-                       );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.BlurRadius),
+            //            new PropertyOrderAttribute(PropertyOrder.Early),
+            //            new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //            );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.ShadowOpacity),
+            //           new PropertyOrderAttribute(PropertyOrder.Early),
+            //           new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //           );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.Color),
+            //            new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //            );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.OffsetX),
+            //           new PropertyOrderAttribute(PropertyOrder.Late),
+            //            new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //            );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.OffsetY),
+            //           new PropertyOrderAttribute(PropertyOrder.Late),
+            //           new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //           );
+            //        b.AddCustomAttributes(nameof(DropShadowPanel.OffsetZ),
+            //           new PropertyOrderAttribute(PropertyOrder.Late),
+            //           new CategoryAttribute(Properties.Resources.CategoryDropShadow)
+            //           );
 
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-                }
-            );
+            //        b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+            //    }
+            //);
 		}
 	}
 }

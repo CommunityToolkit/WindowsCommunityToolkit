@@ -4,17 +4,17 @@
 #include "pch.h"
 #include "GazeHidParsers.h"
 
-using namespace Windows::Foundation::Collections;
+using namespace winrt::Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
 namespace GazeHidParsers {
-    static HidNumericControlDescription ^ GetGazeUsageFromCollectionId(
-        GazeDevicePreview ^ gazeDevice,
+    static HidNumericControlDescription  GetGazeUsageFromCollectionId(
+        GazeDevicePreview  gazeDevice,
         uint16 childUsageId,
         uint16 parentUsageId)
     {
-        IVectorView<HidNumericControlDescription ^> ^ numericControls = gazeDevice->GetNumericControlDescriptions(
+        IVectorView<HidNumericControlDescription >  numericControls = gazeDevice->GetNumericControlDescriptions(
             (USHORT)GazeHidUsages::UsagePage_EyeHeadTracker, childUsageId);
 
         for (unsigned int i = 0; i < numericControls->Size; i++)
@@ -31,7 +31,7 @@ namespace GazeHidParsers {
     }
 
 #pragma region GazeHidPositionParser
-    GazeHidPositionParser::GazeHidPositionParser(GazeDevicePreview ^ gazeDevice, uint16 usage)
+    GazeHidPositionParser::GazeHidPositionParser(GazeDevicePreview  gazeDevice, uint16 usage)
     {
         _usage = usage;
 
@@ -42,9 +42,9 @@ namespace GazeHidParsers {
         _Z = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_PositionZ, _usage);
     }
 
-    GazeHidPosition^ GazeHidPositionParser::GetPosition(HidInputReport ^ report)
+    GazeHidPosition GazeHidPositionParser::GetPosition(HidInputReport  report)
     {
-        GazeHidPosition^ result = nullptr;
+        GazeHidPosition result = nullptr;
 
         if (_X != nullptr &&
             _Y != nullptr &&
@@ -79,7 +79,7 @@ namespace GazeHidParsers {
 #pragma endregion GazeHidPositionParser
 
 #pragma region GazeHidRotationParser
-    GazeHidRotationParser::GazeHidRotationParser(GazeDevicePreview ^ gazeDevice, uint16 usage)
+    GazeHidRotationParser::GazeHidRotationParser(GazeDevicePreview  gazeDevice, uint16 usage)
     {
         _usage = usage;
 
@@ -90,9 +90,9 @@ namespace GazeHidParsers {
         _Z = GetGazeUsageFromCollectionId(gazeDevice, (USHORT)GazeHidUsages::Usage_RotationZ, _usage);
     }
 
-    GazeHidPosition^ GazeHidRotationParser::GetRotation(HidInputReport ^ report)
+    GazeHidPosition GazeHidRotationParser::GetRotation(HidInputReport  report)
     {
-        GazeHidPosition^ result = nullptr;
+        GazeHidPosition result = nullptr;
 
         if (_X != nullptr &&
             _Y != nullptr &&
@@ -127,7 +127,7 @@ namespace GazeHidParsers {
 #pragma endregion GazeHidRotationParser
 
 #pragma region GazeHidPositionsParser
-    GazeHidPositionsParser::GazeHidPositionsParser(GazeDevicePreview ^ gazeDevice)
+    GazeHidPositionsParser::GazeHidPositionsParser(GazeDevicePreview  gazeDevice)
     {
         _leftEyePositionParser  = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_LeftEyePosition);
         _rightEyePositionParser = ref new GazeHidPositionParser(gazeDevice, (USHORT)GazeHidUsages::Usage_RightEyePosition);
@@ -135,7 +135,7 @@ namespace GazeHidParsers {
         _headRotationParser     = ref new GazeHidRotationParser(gazeDevice, (USHORT)GazeHidUsages::Usage_HeadDirectionPoint);
     }
 
-    GazeHidPositions ^ GazeHidPositionsParser::GetGazeHidPositions(HidInputReport ^ report)
+    GazeHidPositions  GazeHidPositionsParser::GetGazeHidPositions(HidInputReport  report)
     {
         auto retval = ref new GazeHidPositions();
 

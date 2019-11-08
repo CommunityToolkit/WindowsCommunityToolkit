@@ -11,20 +11,20 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.ApplicationModel.Core;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 using Windows.Devices.Enumeration;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.Connectivity
 {
     /// <summary>
     /// Wrapper around <see cref="BluetoothLEDevice" /> to make it bindable.
     /// </summary>
-    /// <seealso cref="System.ComponentModel.INotifyPropertyChanged" />
-    /// <seealso cref="System.IEquatable{ObservableBluetoothLEDevice}" />
+    /// <seealso cref="global::System.ComponentModel.INotifyPropertyChanged" />
+    /// <seealso cref="global::System.IEquatable{ObservableBluetoothLEDevice}" />
     public class ObservableBluetoothLEDevice : INotifyPropertyChanged, IEquatable<ObservableBluetoothLEDevice>
     {
         /// <summary>

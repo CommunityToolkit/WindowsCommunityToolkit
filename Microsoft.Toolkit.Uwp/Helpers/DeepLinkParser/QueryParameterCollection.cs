@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -29,7 +30,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     .Select(param =>
                     {
                         var kvp = param.Split('=');
-                        return new KeyValuePair<string, string>(System.Net.WebUtility.UrlDecode(kvp[0]), System.Net.WebUtility.UrlDecode(kvp[1]));
+                        return new KeyValuePair<string, string>(WebUtility.UrlDecode(kvp[0]), WebUtility.UrlDecode(kvp[1]));
                     }).ToList();
             }
             else

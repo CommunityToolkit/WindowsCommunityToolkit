@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI;
+using Microsoft.UI;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
 {
@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// Initializes a new instance of the <see cref="ColorNode"/> class.
         /// </summary>
         /// <param name="value">The value.</param>
-        internal ColorNode(Color value)
+        internal ColorNode(Windows.UI.Color value)
         {
             _value = value;
             NodeType = ExpressionNodeType.ConstantValue;
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// </summary>
         /// <param name="paramName">Name of the parameter.</param>
         /// <param name="value">The value.</param>
-        internal ColorNode(string paramName, Color value)
+        internal ColorNode(string paramName, Windows.UI.Color value)
         {
             ParamName = paramName;
             _value = value;
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The result of the conversion.</returns>
-        public static implicit operator ColorNode(Color value)
+        public static implicit operator ColorNode(Windows.UI.Color value)
         {
             return new ColorNode(value);
         }
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             return $"ColorRgb({_value.A},{_value.R},{_value.G},{_value.B})";
         }
 
-        private Color _value;
+        private Windows.UI.Color _value;
     }
 #pragma warning restore CS0660, CS0661
 }

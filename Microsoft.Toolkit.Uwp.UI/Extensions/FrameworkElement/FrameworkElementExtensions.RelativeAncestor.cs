@@ -3,12 +3,12 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Provides attached dependency properties for the <see cref="Windows.UI.Xaml.FrameworkElement"/>
+    /// Provides attached dependency properties for the <see cref="Microsoft.UI.Xaml.FrameworkElement"/>
     /// </summary>
     public static partial class FrameworkElementExtensions
     {

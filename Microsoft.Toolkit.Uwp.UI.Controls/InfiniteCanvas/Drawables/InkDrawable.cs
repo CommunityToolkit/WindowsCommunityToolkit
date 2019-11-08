@@ -7,10 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Microsoft.Graphics.Canvas;
+using Microsoft.UI.Xaml;
 using Newtonsoft.Json;
 using Windows.Foundation;
 using Windows.UI.Input.Inking;
-using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {

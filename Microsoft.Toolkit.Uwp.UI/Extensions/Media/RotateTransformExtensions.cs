@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Windows.UI.Xaml.Media;
+using Microsoft.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Matrix representing transform.</returns>
         public static Matrix GetMatrix(this RotateTransform transform)
         {
-            return Matrix.Identity.RotateAt(transform.Angle, transform.CenterX, transform.CenterY);
+            return MatrixExtensions.Identity.RotateAt(transform.Angle, transform.CenterX, transform.CenterY);
         }
     }
 }

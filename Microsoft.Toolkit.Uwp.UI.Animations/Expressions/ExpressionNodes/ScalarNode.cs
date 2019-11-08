@@ -255,7 +255,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         protected internal override string GetValue()
         {
             // Important to use invariant culture to make sure that floats are written using a .
-            return _value.ToString(System.Globalization.CultureInfo.InvariantCulture);
+            return _value.ToString(global::System.Globalization.CultureInfo.InvariantCulture);
         }
 
         private float _value;

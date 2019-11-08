@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets the connected animation key associated with the ListViewBase item being animated
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
         /// <returns>The connected animation key</returns>
         public static string GetListItemKey(DependencyObject obj)
         {
@@ -69,9 +69,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         }
 
         /// <summary>
-        /// Sets the connected animation key for the <see cref="Windows.UI.Xaml.Controls.ListViewBase"/> item being animated
+        /// Sets the connected animation key for the <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/> item being animated
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
         /// <param name="value">The connected animation key</param>
         public static void SetListItemKey(DependencyObject obj, string value)
         {
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets the name of the element in the <see cref="DataTemplate"/> that is animated
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
         /// <returns>The name of the element being animated</returns>
         public static string GetListItemElementName(DependencyObject obj)
         {
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Sets the name of the element in the <see cref="DataTemplate"/> that is animated
         /// </summary>
-        /// <param name="obj">The <see cref="Windows.UI.Xaml.Controls.ListViewBase"/></param>
+        /// <param name="obj">The <see cref="Microsoft.UI.Xaml.Controls.ListViewBase"/></param>
         /// <param name="value">The name of the element to animate</param>
         public static void SetListItemElementName(DependencyObject obj, string value)
         {
@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var element = d as Windows.UI.Xaml.Controls.ListViewBase;
+            var element = d as Microsoft.UI.Xaml.Controls.ListViewBase;
             if (element == null)
             {
                 return;
@@ -482,7 +482,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 return;
             }
 
-            var element = d as Windows.UI.Xaml.Controls.ListViewBase;
+            var element = d as Microsoft.UI.Xaml.Controls.ListViewBase;
             if (element == null)
             {
                 return;
@@ -533,7 +533,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             }
         }
 
-        private static void AddListViewBaseItemAnimationDetails(Page page, Windows.UI.Xaml.Controls.ListViewBase listViewBase)
+        private static void AddListViewBaseItemAnimationDetails(Page page, Microsoft.UI.Xaml.Controls.ListViewBase listViewBase)
         {
             if (ApiInformationHelper.IsCreatorsUpdateOrAbove && listViewBase != null)
             {

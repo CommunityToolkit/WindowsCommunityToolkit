@@ -17,29 +17,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
 		public CustomDialogMetadata()
 			: base()
 		{
-            AddCallback(typeof(AdaptiveGridView),
-                b =>
-                {
-                    b.AddCustomAttributes(nameof(AdaptiveGridView.DesiredWidth),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(AdaptiveGridView.ItemHeight),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(AdaptiveGridView.OneRowModeEnabled),
-                       new CategoryAttribute(Properties.Resources.CategoryCommon)
-                       );
-                    b.AddCustomAttributes(nameof(AdaptiveGridView.StretchContentForSingleRow),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
-                    b.AddCustomAttributes(nameof(AdaptiveGridView.ItemClickCommand),
-                        new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
-                        new CategoryAttribute(Properties.Resources.CategoryCommon)
-                        );
+            //AddCallback(typeof(AdaptiveGridView),
+            //    b =>
+            //    {
+            //        b.AddCustomAttributes(nameof(AdaptiveGridView.DesiredWidth),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(AdaptiveGridView.ItemHeight),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(AdaptiveGridView.OneRowModeEnabled),
+            //           new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //           );
+            //        b.AddCustomAttributes(nameof(AdaptiveGridView.StretchContentForSingleRow),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
+            //        b.AddCustomAttributes(nameof(AdaptiveGridView.ItemClickCommand),
+            //            new EditorBrowsableAttribute(EditorBrowsableState.Advanced),
+            //            new CategoryAttribute(Properties.Resources.CategoryCommon)
+            //            );
 
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-                }
-            );
+            //        b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+            //    }
+            //);
 		}
 	}
 }

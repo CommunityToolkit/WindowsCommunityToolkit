@@ -6,9 +6,9 @@ using System;
 using System.IO;
 using Microsoft.Graph;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Imaging;
 using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {

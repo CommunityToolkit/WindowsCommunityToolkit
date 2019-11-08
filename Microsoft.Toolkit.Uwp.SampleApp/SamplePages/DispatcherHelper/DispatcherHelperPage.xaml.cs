@@ -4,7 +4,7 @@
 
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI.Xaml;
+using Microsoft.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

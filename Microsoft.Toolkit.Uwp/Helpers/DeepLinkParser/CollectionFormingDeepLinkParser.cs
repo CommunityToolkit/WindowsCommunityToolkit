@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="CollectionFormingDeepLinkParser" /> class.
         /// </summary>
         /// <param name="args">The <see cref="IActivatedEventArgs"/> instance containing the event data.</param>
-        /// <exception cref="System.ArgumentException">'args' is not a LaunchActivatedEventArgs instance</exception>
+        /// <exception cref="global::System.ArgumentException">'args' is not a LaunchActivatedEventArgs instance</exception>
         protected CollectionFormingDeepLinkParser(IActivatedEventArgs args)
             : base(args)
         {
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="CollectionFormingDeepLinkParser" /> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="uri"/> is null</exception>
+        /// <exception cref="global::System.ArgumentNullException">Thrown if <paramref name="uri"/> is null</exception>
         protected CollectionFormingDeepLinkParser(Uri uri)
             : this(uri?.OriginalString)
         {
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Initializes a new instance of the <see cref="CollectionFormingDeepLinkParser" /> class.
         /// </summary>
         /// <param name="uri">The URI.</param>
-        /// <exception cref="System.ArgumentNullException">Thrown if <paramref name="uri"/> is null, empty, or consists only of whitespace characters</exception>
+        /// <exception cref="global::System.ArgumentNullException">Thrown if <paramref name="uri"/> is null, empty, or consists only of whitespace characters</exception>
         protected CollectionFormingDeepLinkParser(string uri)
             : base(uri)
         {

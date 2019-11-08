@@ -5,8 +5,8 @@
 
 #include "IGazeFilter.h"
 
-using namespace Windows::Foundation;
-using namespace Windows::Foundation::Collections;
+using namespace winrt::Windows::Foundation;
+using namespace winrt::Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
@@ -14,7 +14,7 @@ const float ONEEUROFILTER_DEFAULT_BETA = 5.0f;
 const float ONEEUROFILTER_DEFAULT_CUTOFF = 0.1f;
 const float ONEEUROFILTER_DEFAULT_VELOCITY_CUTOFF = 1.0f;
 
-private ref class LowpassFilter sealed
+class LowpassFilter sealed
 {
 public:
     LowpassFilter()
@@ -39,13 +39,13 @@ public:
     }
 };
 
-private ref class OneEuroFilter sealed : public IGazeFilter
+class OneEuroFilter sealed : public IGazeFilter
 {
 public:
     OneEuroFilter();
     OneEuroFilter(float cutoff, float beta);
-    virtual GazeFilterArgs^ Update(GazeFilterArgs^ args);
-    virtual void LoadSettings(ValueSet^ settings);
+    virtual GazeFilterArgs Update(GazeFilterArgs args);
+    virtual void LoadSettings(ValueSet settings);
 
 public:
     property float Beta;
@@ -57,8 +57,8 @@ private:
 
 private:
     TimeSpan       _lastTimestamp;
-    LowpassFilter^  _pointFilter;
-    LowpassFilter^  _deltaFilter;
+    LowpassFilter  _pointFilter;
+    LowpassFilter  _deltaFilter;
 
 };
 

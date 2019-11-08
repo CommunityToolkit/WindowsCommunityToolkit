@@ -5,10 +5,10 @@
 using Microsoft.Toolkit.Uwp.UI.Animations.Expressions;
 using Microsoft.Toolkit.Uwp.UI.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Hosting;
 using Windows.Foundation.Metadata;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Hosting;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
 {
@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
     /// Performs an fade animation on a ListView or GridView Header using composition.
     /// </summary>
     /// <seealso>
-    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Windows.UI.Xaml.UIElement}</cref>
+    ///     <cref>Microsoft.Xaml.Interactivity.Behavior{Microsoft.UI.Xaml.UIElement}</cref>
     /// </seealso>
     public class FadeHeaderBehavior : BehaviorBase<FrameworkElement>
     {
@@ -91,8 +91,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
         /// <returns><c>true</c> if the assignment was successful; otherwise, <c>false</c>.</returns>
         private bool AssignFadeAnimation()
         {
-            // Confirm that Windows.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
-            if (!ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
+            // Confirm that Microsoft.UI.Xaml.Hosting.ElementCompositionPreview is available (Windows 10 10586 or later).
+            if (!ApiInformation.IsMethodPresent("Microsoft.UI.Xaml.Hosting.ElementCompositionPreview", nameof(ElementCompositionPreview.GetScrollViewerManipulationPropertySet)))
             {
                 // Just return true since it's not supported
                 return true;
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Behaviors
                 return false;
             }
 
-            var listView = AssociatedObject as Windows.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Windows.UI.Xaml.Controls.ListViewBase>();
+            var listView = AssociatedObject as Microsoft.UI.Xaml.Controls.ListViewBase ?? AssociatedObject.FindDescendant<Microsoft.UI.Xaml.Controls.ListViewBase>();
 
             if (listView != null && listView.ItemsPanelRoot != null)
             {

@@ -5,8 +5,8 @@
 using System;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

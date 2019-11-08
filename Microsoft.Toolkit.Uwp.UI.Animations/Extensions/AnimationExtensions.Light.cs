@@ -7,12 +7,13 @@ using System.Collections.Generic;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI;
-using Windows.UI.Composition;
-using Windows.UI.Composition.Effects;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Hosting;
-using Windows.UI.Xaml.Media.Animation;
+using Microsoft.UI;
+using Microsoft.UI.Composition;
+using Microsoft.UI.Composition.Effects;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Hosting;
+using Microsoft.UI.Xaml.Media.Animation;
+using Color = Windows.UI.Color;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -39,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 bool lightingSupported = true;
 
-                if (!Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Windows.UI.Xaml.Hosting.ElementCompositionPreview", "SetElementChildVisual"))
+                if (!Windows.Foundation.Metadata.ApiInformation.IsMethodPresent("Microsoft.UI.Xaml.Hosting.ElementCompositionPreview", "SetElementChildVisual"))
                 {
                     lightingSupported = false;
                 }
@@ -144,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 if (!pointLights.ContainsKey(visual))
                 {
                     SurfaceLoader.Initialize(compositor);
-                    normalMap = SurfaceLoader.LoadText(string.Empty, new Windows.Foundation.Size(512, 512), new Graphics.Canvas.Text.CanvasTextFormat(), Colors.Transparent, Colors.Transparent);
+                    normalMap = SurfaceLoader.LoadText(string.Empty, new Windows.Foundation.Size(512, 512), new Graphics.Canvas.Text.CanvasTextFormat(), Microsoft.UI.Colors.Transparent, Microsoft.UI.Colors.Transparent);
                 }
 
                 if (pointLights.ContainsKey(visual))
@@ -166,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                     {
                         var lightEffect = new CompositeEffect()
                         {
-                            Mode = CanvasComposite.Add,
+                            Mode = Microsoft.Graphics.Canvas.CanvasComposite.Add,
                             Sources =
                             {
                                 new CompositionEffectSourceParameter("ImageSource"),
@@ -208,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 else
                 {
                     var diffuseAnimation = compositor.CreateVector3KeyFrameAnimation();
-                    diffuseAnimation.InsertKeyFrame(1f, new System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor, easingMode));
+                    diffuseAnimation.InsertKeyFrame(1f, new global::System.Numerics.Vector3(visual.Size.X / 2, visual.Size.Y / 2, (float)distance), GetCompositionEasingFunction(easingType, compositor, easingMode));
                     diffuseAnimation.Duration = durationTime;
                     diffuseAnimation.DelayTime = delayTime;
 
@@ -216,7 +217,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 pointLights[visual] = pointLight;
-            }, Windows.UI.Core.CoreDispatcherPriority.Normal);
+#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
+            }, Microsoft.System.DispatcherQueuePriority.Normal);
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
             animationSet.AddAnimationThroughTask(task);
             return animationSet;

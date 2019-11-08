@@ -9,20 +9,22 @@ BEGIN_NAMESPACE_GAZE_INPUT
 /// This parameter is passed to the GazeElement::Invoked event and allows 
 /// the application to prevent default invocation when the user dwells on a control
 /// </summary>
-public ref class DwellInvokedRoutedEventArgs : public RoutedEventArgs
+class DwellInvokedRoutedEventArgs : public RoutedEventArgs
 {
 public:
 
     /// <summary>
     /// The application should set this value to true to prevent invoking the control when the user dwells on a control
     /// </summary>
-    property bool Handled;
-
-internal:
+    bool Handled() { return _handled; }
+    void Handled(bool const& value) { _handled = value; }
 
     DwellInvokedRoutedEventArgs()
     {
     }
+
+private:
+    bool _handled;
 };
 
 END_NAMESPACE_GAZE_INPUT

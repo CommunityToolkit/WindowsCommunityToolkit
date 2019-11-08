@@ -6,8 +6,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Net.Http;
 using Microsoft.Toolkit.Parsers.Rss;
+using Microsoft.UI.Xaml.Controls;
 using Windows.System;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

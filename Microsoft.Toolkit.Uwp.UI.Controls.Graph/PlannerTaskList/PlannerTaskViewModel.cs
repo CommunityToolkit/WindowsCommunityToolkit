@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
             ETag = task.GetEtag();
         }
 
-        private void Assignments_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void Assignments_CollectionChanged(object sender, global::System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             AssignmentIds = Assignments.Select(s => s.Id).ToList();
         }

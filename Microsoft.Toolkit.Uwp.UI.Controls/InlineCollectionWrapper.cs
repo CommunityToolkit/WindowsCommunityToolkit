@@ -2,14 +2,14 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Documents;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using Windows.UI.Xaml.Controls;
-    using Windows.UI.Xaml.Documents;
-
     /// <inheritdoc />
     /// <summary>A wrapper class for <see cref="TextBlock.Inlines">TextBlock.Inlines</see> to
     /// hack the problem that <see cref="Windows.UI.Xaml.Documents.InlineCollection" />.

@@ -2,12 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.Toolkit.Uwp.UI.Animations.Behaviors;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using Microsoft.Xaml.Interactivity;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -61,7 +60,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateScrollHeaderBehavior()
         {
-            var targetListViewBase = this.FindAscendant<Windows.UI.Xaml.Controls.ListViewBase>();
+            var targetListViewBase = this.FindAscendant<Microsoft.UI.Xaml.Controls.ListViewBase>();
 
             if (targetListViewBase == null)
             {

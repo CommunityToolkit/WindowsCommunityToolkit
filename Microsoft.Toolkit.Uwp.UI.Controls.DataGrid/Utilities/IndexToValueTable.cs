@@ -888,7 +888,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         // End IEnumerable<Range<T>> Members
 
         // Begin IEnumerable Members
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        global::System.Collections.IEnumerator global::System.Collections.IEnumerable.GetEnumerator()
         {
             return _list.GetEnumerator();
         }
@@ -901,7 +901,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
             Debug.WriteLine(this.IndexCount + " indexes");
             foreach (Range<T> range in _list)
             {
-                Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", range.LowerBound, range.UpperBound));
+                Debug.WriteLine(string.Format(global::System.Globalization.CultureInfo.InvariantCulture, "{0} - {1}", range.LowerBound, range.UpperBound));
             }
         }
 

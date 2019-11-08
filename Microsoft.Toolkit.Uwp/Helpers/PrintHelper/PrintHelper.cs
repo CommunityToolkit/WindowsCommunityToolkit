@@ -6,11 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Printing;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Printing;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Printing;
+using Windows.System;
 
 namespace Microsoft.Toolkit.Uwp.Helpers
 {
@@ -506,7 +507,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 element.Height = newHeight;
             }
 
-            element.Margin = new Thickness(marginWidth / 2, marginHeight / 2, marginWidth / 2, marginHeight / 2);
+            var t = default(Thickness);
+            t.Left = marginWidth / 2;
+            t.Top = marginHeight / 2;
+            t.Right = marginWidth / 2;
+            t.Bottom = marginHeight / 2;
+            element.Margin = t;
+
             page.Content = element;
 
             return DispatcherHelper.ExecuteOnUIThreadAsync(
@@ -520,7 +527,9 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
-                }, Windows.UI.Core.CoreDispatcherPriority.High);
+#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
+                }, Microsoft.System.DispatcherQueuePriority.High);
+#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         }
 
         private Task ClearPageCache()

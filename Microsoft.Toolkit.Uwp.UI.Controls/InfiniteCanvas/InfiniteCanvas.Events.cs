@@ -4,12 +4,11 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Input;
 using Windows.System;
 using Windows.UI.Core;
 using Windows.UI.Input.Inking;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -128,13 +127,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UnprocessedInput_PointerMoved(InkUnprocessedInput sender, PointerEventArgs args)
         {
-            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(InkToolbarTool.Eraser) || args.CurrentPoint.Properties.IsEraser)
+            /*
+            if (_inkCanvasToolBar.ActiveTool == _inkCanvasToolBar.GetToolButton(Windows.UI.Xaml.Controls.InkToolbarTool.Eraser) || args.CurrentPoint.Properties.IsEraser)
             {
                 _drawingSurfaceRenderer.Erase(args.CurrentPoint.Position, ViewPort, _infiniteCanvasScrollViewer.ZoomFactor);
             }
+            */
         }
 
-        private void InkScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private void InkScrollViewer_ViewChanged(object sender, Microsoft.UI.Xaml.Controls.ScrollViewerViewChangedEventArgs e)
         {
             if (!e.IsIntermediate)
             {

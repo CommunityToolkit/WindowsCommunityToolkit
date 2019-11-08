@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
 {
     internal static class XmlWriterHelper
     {
-        public static void Write(System.Xml.XmlWriter writer, object element)
+        public static void Write(global::System.Xml.XmlWriter writer, object element)
         {
             NotificationXmlElementAttribute elAttr = GetElementAttribute(element.GetType());
 
@@ -150,7 +150,7 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                 if (dateTime.HasValue)
                 {
                     // ISO 8601 format
-                    return System.Xml.XmlConvert.ToString(dateTime.Value);
+                    return global::System.Xml.XmlConvert.ToString(dateTime.Value);
                 }
                 else
                 {

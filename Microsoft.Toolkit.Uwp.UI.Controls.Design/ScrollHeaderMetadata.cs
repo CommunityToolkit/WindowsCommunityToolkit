@@ -15,13 +15,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Design
         public ScrollHeaderMetadata()
 			: base()
 		{
-			AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader),
-				b =>
-				{
-                    b.AddCustomAttributes(nameof(ScrollHeader.Mode), new CategoryAttribute(Properties.Resources.CategoryCommon));
-                    b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
-				}
-			);
+			//AddCallback(typeof(Microsoft.Toolkit.Uwp.UI.Controls.ScrollHeader),
+			//	b =>
+			//	{
+   //                 b.AddCustomAttributes(nameof(ScrollHeader.Mode), new CategoryAttribute(Properties.Resources.CategoryCommon));
+   //                 b.AddCustomAttributes(new ToolboxCategoryAttribute(ToolboxCategoryPaths.Toolkit, false));
+			//	}
+			//);
 		}
 	}
 }

@@ -6,9 +6,9 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Identity.Client;
 using Microsoft.Toolkit.Services.MicrosoftGraph;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Automation;
-using Windows.UI.Xaml.Controls;
+using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Automation;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {

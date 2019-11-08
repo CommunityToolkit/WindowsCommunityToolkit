@@ -3,17 +3,17 @@
 
 #pragma once
 
-using namespace Windows::Foundation;
+using namespace winrt::Windows::Foundation;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-ref class GazeTargetItem;
+class GazeTargetItem;
 
-private ref struct GazeHistoryItem
+struct GazeHistoryItem
 {
-    property GazeTargetItem^ HitTarget;
-    property TimeSpan Timestamp;
-    property TimeSpan Duration;
+    GazeTargetItem HitTarget;
+    TimeSpan Timestamp;
+    TimeSpan Duration;
 };
 
 END_NAMESPACE_GAZE_INPUT

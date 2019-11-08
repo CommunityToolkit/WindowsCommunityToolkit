@@ -8,9 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System;
+using System.Reflection;
+
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Properties {
-    using System;
-    using System.Reflection;
     
     
     /// <summary>

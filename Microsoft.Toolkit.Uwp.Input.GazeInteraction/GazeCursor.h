@@ -3,86 +3,56 @@
 
 #pragma once
 
-using namespace Windows::Foundation::Collections;
-using namespace Windows::UI;
-using namespace Windows::UI::Xaml::Controls;
-using namespace Windows::UI::Xaml::Controls::Primitives;
+using namespace winrt::Windows::Foundation::Collections;
+using namespace winrt::Microsoft::UI;
+using namespace winrt::Microsoft::UI::Xaml;
+using namespace winrt::Microsoft::UI::Xaml::Controls;
+using namespace winrt::Microsoft::UI::Xaml::Controls::Primitives;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
-private ref class GazeCursor sealed
+class GazeCursor sealed
 {
 private:
-    const int DEFAULT_CURSOR_RADIUS = 5;
-    const bool DEFAULT_CURSOR_VISIBILITY = true;
+	const int DEFAULT_CURSOR_RADIUS = 5;
+	const bool DEFAULT_CURSOR_VISIBILITY = true;
 
 public:
-    void LoadSettings(ValueSet^ settings);
-    property int CursorRadius
-    {
-        int get() { return _cursorRadius; }
-        void set(int value);
-    }
+	void LoadSettings(ValueSet const& settings);
+	int CursorRadius() { return _cursorRadius; }
+	void CursorRadius(int const& value);
 
-    property bool IsCursorVisible
-    {
-        bool get() { return _isCursorVisible; }
-        void set(bool value);
-    }
+	bool IsCursorVisible() { return _isCursorVisible; }
+	void IsCursorVisible(bool const& value);
 
-    property bool IsGazeEntered
-    {
-        bool get() { return _isGazeEntered; }
-        void set(bool value);
-    }
+	bool IsGazeEntered() { return _isGazeEntered; }
+	void IsGazeEntered(bool const& value) { _isGazeEntered = value; }
 
-    property Point Position
-    {
-        Point get()
-        {
-            return _cursorPosition;
-        }
-
-        void set(Point value)
-        {
-            _cursorPosition = value;
-            _gazePopup->HorizontalOffset = value.X;
-            _gazePopup->VerticalOffset = value.Y;
-            SetVisibility();
-        }
-    }
-
-	property UIElement^ PopupChild
+	Point Position() { return _cursorPosition; }
+	void Position(Point const& value)
 	{
-		UIElement^ get()
-		{
-			return _gazePopup->Child;
-		}
-		void set(UIElement^ value)
-		{
-			_gazePopup->Child = value;
-		}
+		_cursorPosition = value;
+		_gazePopup.HorizontalOffset = value.X;
+		_gazePopup.VerticalOffset = value.Y;
+		SetVisibility();
 	}
 
-	property FrameworkElement^ CursorElement
-	{
-		FrameworkElement^ get()
-		{
-			return dynamic_cast<FrameworkElement^>(_gazePopup->Child);
-		}
-	}
+	UIElement PopupChild() { return _gazePopup.Child; };
+	void PopupChild(UIElement value) { _gazePopup.Child = value; }
 
-internal:
-    GazeCursor();
+
+	FrameworkElement CursorElement() { return _gazePopup.Child; }
+
+	GazeCursor();
 
 private:
-    void SetVisibility();
+	void SetVisibility();
 
-    Popup^              _gazePopup;
-    Point               _cursorPosition = {};
-    int                 _cursorRadius = DEFAULT_CURSOR_RADIUS;
-    bool                _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
-    bool _isGazeEntered;
+	Popup              _gazePopup;
+	Point               _cursorPosition = {};
+	int                 _cursorRadius = DEFAULT_CURSOR_RADIUS;
+	bool                _isCursorVisible = DEFAULT_CURSOR_VISIBILITY;
+	bool _isGazeEntered;
 
 };
 

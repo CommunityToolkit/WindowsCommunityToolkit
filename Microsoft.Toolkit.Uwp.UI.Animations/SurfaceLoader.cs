@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Composition;
+using Microsoft.UI;
+using Microsoft.UI.Composition;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
-using Windows.UI;
-using Windows.UI.Composition;
 
 namespace Microsoft.Toolkit.Uwp.UI.Animations
 {
@@ -58,9 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             {
                 _compositor = compositor;
                 _canvasDevice = new CanvasDevice();
-                _compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
 
+                // _compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
                 _intialized = true;
+
+                throw new NotImplementedException("WinUI3");
             }
         }
 
@@ -131,13 +133,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
+            /*
             using (var ds = CanvasComposition.CreateDrawingSession(surface))
             {
-                ds.Clear(Color.FromArgb(0, 0, 0, 0));
+                ds.Clear(Windows.UI.Color.FromArgb(0, 0, 0, 0));
                 ds.DrawImage(bitmap, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), new Rect(0, 0, sizeSource.Width, sizeSource.Height));
             }
+            */
+            throw new NotImplementedException("WinUI3");
 
-            return surface;
+            // return surface;
         }
 
         /// <summary>
@@ -149,20 +154,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="textColor">Color of the text.</param>
         /// <param name="bgColor">Color of the bg.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        public static CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Color textColor, Color bgColor)
+        public static CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Windows.UI.Color textColor, Windows.UI.Color bgColor)
         {
             CompositionDrawingSurface surface = _compositionDevice.CreateDrawingSurface(
                 sizeTarget,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
 
+            /*
             using (var ds = CanvasComposition.CreateDrawingSession(surface))
             {
                 ds.Clear(bgColor);
                 ds.DrawText(text, new Rect(0, 0, sizeTarget.Width, sizeTarget.Height), textColor, textFormat);
             }
+            */
 
-            return surface;
+            throw new NotImplementedException("WinUI3");
+
+            // return surface;
         }
 
         /// <summary>

@@ -4,14 +4,14 @@
 #include "pch.h"
 #include "GazeStats.h"
 
-using namespace Platform::Collections;
+using namespace winrt::Windows::Foundation::Collections;
 
 BEGIN_NAMESPACE_GAZE_INPUT
 
 GazeStats::GazeStats(int maxHistoryLen)
 {
     _maxHistoryLen = maxHistoryLen;
-    _history = ref new Vector<Point>();
+    _history = Vector<Point>();
 }
 
 void GazeStats::Reset()
