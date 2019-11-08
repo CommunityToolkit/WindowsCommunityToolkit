@@ -182,16 +182,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     }
 
                     // Check the URL is okay.
-                    if (!url.IsEmail())
+                    if (!Common.IsUrlValid(url))
                     {
-                        if (!Common.IsUrlValid(url))
+                        if (!url.IsEmail())
                         {
                             return null;
                         }
-                    }
-                    else
-                    {
-                        tooltip = url = string.Format("mailto:{0}", url);
+                        else
+                        {
+                            tooltip = url = string.Format("mailto:{0}", url);
+                        }
                     }
 
                     // We found a regular stand-alone link.
