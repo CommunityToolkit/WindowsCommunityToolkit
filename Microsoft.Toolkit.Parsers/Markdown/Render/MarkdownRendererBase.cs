@@ -82,6 +82,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
                     case MarkdownBlockType.YamlHeader:
                         RenderYamlHeader((YamlHeaderBlock)element, context);
                         break;
+
+                    case MarkdownBlockType.Other:
+                        RenderOther(element, context);
+                        break;
                 }
             }
         }
@@ -159,6 +163,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
 
                 case MarkdownInlineType.Emoji:
                     RenderEmoji((EmojiInline)element, context);
+                    break;
+
+                case MarkdownInlineType.Other:
+                    RenderOtherRun(element, context);
                     break;
             }
         }

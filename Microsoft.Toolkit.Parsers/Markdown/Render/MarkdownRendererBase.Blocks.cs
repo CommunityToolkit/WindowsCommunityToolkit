@@ -14,41 +14,63 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <summary>
         /// Renders a paragraph element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderParagraph(ParagraphBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a yaml header element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderYamlHeader(YamlHeaderBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a header element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderHeader(HeaderBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a list element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderListElement(ListBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a horizontal rule element.
         /// </summary>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderHorizontalRule(IRenderContext context);
 
         /// <summary>
         /// Renders a quote element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderQuote(QuoteBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a code element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderCode(CodeBlock element, IRenderContext context);
 
         /// <summary>
         /// Renders a table element.
         /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
         protected abstract void RenderTable(TableBlock element, IRenderContext context);
+
+        /// <summary>
+        /// Renders an element.
+        /// </summary>
+        /// <param name="element"> The parsed block element to render. </param>
+        /// <param name="context"> Persistent state. </param>
+        protected abstract void RenderOther(MarkdownBlock element, IRenderContext context);
     }
 }
