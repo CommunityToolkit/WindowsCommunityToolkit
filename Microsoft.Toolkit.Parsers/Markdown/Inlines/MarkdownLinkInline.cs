@@ -227,7 +227,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            private static readonly Type[] IgnoredSubParsers = new Type[] { typeof(MarkdownLinkInline.Parser), typeof(HyperlinkInline.AngleBracketLinkParser), typeof(HyperlinkInline.EmailAddressParser), typeof(HyperlinkInline.PartialLinkParser), typeof(HyperlinkInline.ReditLinkParser), typeof(HyperlinkInline.UrlParser) };
+            /// <summary>
+            /// This will ignore additional parsers when Parsing the text inside `[` and `]`
+            /// </summary>
+            /// <typeparam name="T">The Type of Inline parser that should not used.</typeparam>
+            public void IgnoreParserForBrackedText<T>()
+                where T : Inlines.MarkdownInline.Parser
+            {
+                IgnoredSubParsers.Add(typeof(T));
+            }
+
+            private static readonly HashSet<Type> IgnoredSubParsers = new HashSet<Type>() { typeof(MarkdownLinkInline.Parser), typeof(HyperlinkInline.AngleBracketLinkParser), typeof(HyperlinkInline.EmailAddressParser), typeof(HyperlinkInline.PartialLinkParser), typeof(HyperlinkInline.ReditLinkParser), typeof(HyperlinkInline.UrlParser) };
         }
 
         /// <summary>
