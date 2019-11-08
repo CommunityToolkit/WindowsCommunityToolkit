@@ -96,6 +96,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
+        /// Creates a new Builder
+        /// </summary>
+        /// <returns>A Builder</returns>
+        public static IDocumentBuilder CreateBuilder()
+        {
+            return new DocumentBuilder();
+        }
+
+        /// <summary>
         /// Gets or sets the list of block elements.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
@@ -590,6 +599,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             private readonly Dictionary<Type, MarkdownInline.Parser> parserInstancesInline = new Dictionary<Type, MarkdownInline.Parser>();
             private readonly Dictionary<Type, HashSet<Type>> aAfterBRelationInline = new Dictionary<Type, HashSet<Type>>();
+
+            internal DocumentBuilder()
+            {
+
+            }
 
             internal DocumentBuilder(MarkdownBlock.Parser[] parsersBlock, Dictionary<Type, HashSet<Type>> parserDependencysBlock, MarkdownInline.Parser[] parsersInline, Dictionary<Type, HashSet<Type>> parserDependencysInline)
             {
