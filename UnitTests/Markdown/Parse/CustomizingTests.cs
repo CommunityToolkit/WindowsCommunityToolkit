@@ -94,9 +94,12 @@ namespace UnitTests.Markdown.Parse
             }
         }
 
+        private class BlockParserA : BlockTestParser
+        {
+        }
 
-        private class BlockParserA : BlockTestParser { }
-        private class BlockParserB : BlockTestParser { }
-
+        private class BlockParserB : BlockTestParser
+        {
+        }
     }
 }
