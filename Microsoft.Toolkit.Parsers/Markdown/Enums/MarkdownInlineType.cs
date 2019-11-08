@@ -77,6 +77,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Link Reference
         /// </summary>
-        LinkReference
+        LinkReference,
+
+        /// <summary>
+        /// Any Other inline
+        /// </summary>
+        Other
     }
 }

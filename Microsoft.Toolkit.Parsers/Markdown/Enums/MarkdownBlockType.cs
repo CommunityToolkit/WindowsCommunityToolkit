@@ -62,6 +62,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// A Yaml header block
         /// </summary>
-        YamlHeader
+        YamlHeader,
+
+        /// <summary>
+        /// Any Other block
+        /// </summary>
+        Other
     }
 }
