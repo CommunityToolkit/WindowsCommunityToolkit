@@ -54,9 +54,11 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         protected string[] Scopes { get; set; }
 
+
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
+        #pragma warning disable CS0618 // Type or member is obsolete
         public MicrosoftGraphService Provider
         {
             get
@@ -69,6 +71,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
                 return MicrosoftGraphService.Instance;
             }
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
 
         /// <summary>
         /// Intializes OneDrive service.

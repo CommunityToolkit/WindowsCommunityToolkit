@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Services.MicrosoftGraph
     /// <summary>
     ///  Class for connecting to Office 365 Microsoft Graph
     /// </summary>
+    [Obsolete("Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt")]
     public class MicrosoftGraphService
     {
         private readonly SemaphoreSlim _readLock = new SemaphoreSlim(1, 1);

@@ -214,6 +214,7 @@
                                                         LinkForeground="{ThemeResource Brush-Link-Normal}"
                                                         ImageResolving="DocumentationTextblock_ImageResolving"
                                                         LinkClicked="DocumentationTextblock_OnLinkClicked"
+                                                        SchemeList="uwpct"
                                                         IsFocusEngagementEnabled="False"
                                                         ImageMaxWidth="500"
                                                         ImageMaxHeight="500" />

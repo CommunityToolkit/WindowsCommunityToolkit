@@ -14,12 +14,13 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Graph.Converters;
+using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
 using Microsoft.Toolkit.Uwp.UI.Media;
 using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
@@ -669,8 +670,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            // Search in Microsoft.Toolkit.Uwp.UI.Controls.Graph
-            var graphControlsProxyType = ViewType.EmailOnly;
+            // Search in Microsoft.Toolkit.Graph.Controls
+            var graphControlsProxyType = new UserToPersonConverter();
             assembly = graphControlsProxyType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
