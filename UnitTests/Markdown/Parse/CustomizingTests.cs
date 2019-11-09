@@ -8,6 +8,8 @@ using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 using Microsoft.Toolkit.Parsers.Markdown;
 using System.Text;
 using System.Collections.Generic;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
+using System;
 
 namespace UnitTests.Markdown.Parse
 {
@@ -70,12 +72,76 @@ namespace UnitTests.Markdown.Parse
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void TestCycle()
         {
-           MarkdownDocument.CreateBuilder()
-                .AddBlockParser<BlockParserA>()
-                .Before<BlockParserB>()
-                .AddBlockParser<BlockParserB>()
-                .Before<BlockParserA>()
+            MarkdownDocument.CreateBuilder()
+                 .AddBlockParser<BlockParserA>()
+                 .Before<BlockParserB>()
+                 .AddBlockParser<BlockParserB>()
+                 .Before<BlockParserA>()
+                 .Build();
+        }
+
+        [TestMethod]
+        public void TestAfterInline()
+        {
+            var document = MarkdownDocument.CreateBuilder()
+                .AddInlineParser<InlineParserA>()
+                .After<InlineParserB>()
+                .AddInlineParser<InlineParserB>()
                 .Build();
+
+            document.Parse("TEST");
+
+            AssertEqual(document, new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = nameof(InlineParserB) }));
+
+            document = MarkdownDocument.CreateBuilder()
+                .AddInlineParser<InlineParserA>()
+                .AddInlineParser<InlineParserB>()
+                .After<InlineParserA>()
+                .Build();
+
+            document.Parse("TEST");
+
+            AssertEqual(document, new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = nameof(InlineParserA) }));
+        }
+
+        [TestMethod]
+        public void TestBeforeInline()
+        {
+            var document = MarkdownDocument.CreateBuilder()
+                .AddInlineParser<InlineParserA>()
+                .Before<InlineParserB>()
+                .AddInlineParser<InlineParserB>()
+                .Build();
+
+            document.Parse("TEST");
+
+            AssertEqual(document, new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = nameof(InlineParserA) }));
+
+            document = MarkdownDocument.CreateBuilder()
+                .AddInlineParser<InlineParserA>()
+                .AddInlineParser<InlineParserB>()
+                .Before<InlineParserA>()
+                .Build();
+
+            document.Parse("TEST");
+
+            AssertEqual(document, new ParagraphBlock().AddChildren(
+                    new TextRunInline { Text = nameof(InlineParserB) }));
+        }
+        
+        [TestMethod]
+        [ExpectedException(typeof(System.InvalidOperationException))]
+        public void TestCycleInline()
+        {
+            MarkdownDocument.CreateBuilder()
+                 .AddInlineParser<InlineParserA>()
+                 .Before<InlineParserB>()
+                 .AddInlineParser<InlineParserB>()
+                 .Before<InlineParserA>()
+                 .Build();
         }
 
         private class BlockTestParser : MarkdownBlock.Parser<ParagraphBlock>
@@ -100,6 +166,22 @@ namespace UnitTests.Markdown.Parse
 
         private class BlockParserB : BlockTestParser
         {
+        }
+
+        private class InlineParserA : InlineTestParser
+        {
+        }
+
+        private class InlineParserB : InlineTestParser
+        {
+        }
+
+        private class InlineTestParser : MarkdownInline.Parser<TextRunInline>
+        {
+            protected override InlineParseResult<TextRunInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            {
+                return new InlineParseResult<TextRunInline>(new TextRunInline() { Text = this.GetType().Name }, minStart, maxEnd);
+            }
         }
     }
 }
