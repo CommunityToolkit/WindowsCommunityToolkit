@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                     foreach (var parser in this.parsersBlock)
                     {
-                        newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, realStartOfLine, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
+                        newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
                         if (newBlockElement != null)
                         {
                             startOfNextLine = endOfBlock + 1;

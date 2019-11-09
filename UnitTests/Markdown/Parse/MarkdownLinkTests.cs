@@ -153,9 +153,7 @@ namespace UnitTests.Markdown.Parse
         [DataRow("[text](ssh://reddit.com)", "ssh://reddit.com", "text", DisplayName = "[text](ssh://reddit.com)")]
         public void MarkdownLink_OtherSchemes(string input, string url, string text)
         {
-
-            AssertEqual(input,
-                new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = url }.AddChildren(new TextRunInline { Text = text })));
+            AssertEqual(input, new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = url }.AddChildren(new TextRunInline { Text = text })));
         }
 
         [TestMethod]

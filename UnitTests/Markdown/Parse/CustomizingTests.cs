@@ -146,7 +146,7 @@ namespace UnitTests.Markdown.Parse
 
         private class BlockTestParser : MarkdownBlock.Parser<ParagraphBlock>
         {
-            protected override ParagraphBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override ParagraphBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 actualEnd = maxEnd;
                 var paragraphBlock = new ParagraphBlock

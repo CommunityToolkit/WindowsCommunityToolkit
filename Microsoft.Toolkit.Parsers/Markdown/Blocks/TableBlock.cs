@@ -204,13 +204,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<TableBlock>
         {
             /// <inheritdoc/>
-            protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally
                 // vertical bars at the start and end.  The second line must have at least as many
                 // interior vertical bars as there are interior vertical bars on the first line.
-                actualEnd = realStartOfLine;
+                actualEnd = startOfLine;
 
                 if (!lineStartsNewParagraph)
                 {
@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // First thing to do is to check if there is a vertical bar on the line.
-                var barSections = markdown.Substring((int)realStartOfLine, (int)(endOfFirstLine - realStartOfLine)).Split('|');
+                var barSections = markdown.Substring((int)startOfLine, (int)(endOfFirstLine - startOfLine)).Split('|');
 
                 var allBarsEscaped = true;
 
@@ -242,14 +242,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                realStartOfLine = firstRow.Parse(markdown, (int)realStartOfLine, maxEnd, document);
+                startOfLine = firstRow.Parse(markdown, (int)startOfLine, maxEnd, document);
                 rows.Add(firstRow);
 
                 // Parse the contents of the second row.
                 var secondRowContents = new List<string>();
-                realStartOfLine = TableRow.ParseContents(
+                startOfLine = TableRow.ParseContents(
                     markdown,
-                    (int)realStartOfLine,
+                    (int)startOfLine,
                     maxEnd,
                     requireVerticalBar: false,
                     contentParser: (start2, end2) => secondRowContents.Add(markdown.Substring(start2, end2 - start2)));
@@ -310,10 +310,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // Parse additional rows.
-                while (realStartOfLine < maxEnd)
+                while (startOfLine < maxEnd)
                 {
                     var row = new TableRow();
-                    realStartOfLine = row.Parse(markdown, (int)realStartOfLine, maxEnd, document);
+                    startOfLine = row.Parse(markdown, (int)startOfLine, maxEnd, document);
                     if (row.Cells.Count == 0)
                     {
                         break;
@@ -322,7 +322,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     rows.Add(row);
                 }
 
-                actualEnd = realStartOfLine;
+                actualEnd = startOfLine;
                 var textLength = markdown.Length;
                 if (actualEnd > 0)
                 {

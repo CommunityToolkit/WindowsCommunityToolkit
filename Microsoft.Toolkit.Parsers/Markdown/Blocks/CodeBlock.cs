@@ -48,11 +48,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override CodeBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override CodeBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 StringBuilder code = null;
 
-                actualEnd = realStartOfLine;
+                actualEnd = startOfLine;
                 bool insideCodeBlock = false;
                 string codeLanguage = string.Empty;
 
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     Or the code block starts and ends with ```
                 */
 
-                foreach (var lineInfo in Common.ParseLines(markdown, realStartOfLine, maxEnd))
+                foreach (var lineInfo in Common.ParseLines(markdown, startOfLine, maxEnd))
                 {
                     int pos = lineInfo.StartOfLine;
                     if (pos < maxEnd && markdown[pos] == '`')
@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 if (code == null)
                 {
                     // Not a valid code block.
-                    actualEnd = realStartOfLine;
+                    actualEnd = startOfLine;
                     return null;
                 }
 

@@ -238,14 +238,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<ListBlock>
         {
             /// <inheritdoc/>
-            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int realStartOfLine, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var russianDolls = new List<NestedListInfo>();
                 int russianDollIndex = -1;
                 bool previousLineWasBlank = false;
                 bool inCodeBlock = false;
                 ListItemBlock currentListItem = null;
-                actualEnd = realStartOfLine; // using realStartOfLine will prevent qouting. So Why?
+                actualEnd = startOfLine; // using realStartOfLine will prevent qouting. So Why?
 
                 var nonSpaceChar = markdown[firstNonSpace];
                 if (!lineStartsNewParagraph)
@@ -258,7 +258,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                foreach (var lineInfo in Common.ParseLines(markdown, realStartOfLine, maxEnd))
+                foreach (var lineInfo in Common.ParseLines(markdown, startOfLine, maxEnd))
                 {
                     // Is this line blank?
                     if (lineInfo.IsLineBlank)
@@ -339,7 +339,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                             // Is there even a list in progress?
                             if (currentListItem == null)
                             {
-                                actualEnd = realStartOfLine;
+                                actualEnd = startOfLine;
                                 return null;
                             }
 
