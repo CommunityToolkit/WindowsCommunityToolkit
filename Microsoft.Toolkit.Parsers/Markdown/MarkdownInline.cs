@@ -76,23 +76,36 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public abstract class Parser
         {
+            private IEnumerable<Type> defaultBeforeParsers;
+            private IEnumerable<Type> defaultAfterParsers;
+
             internal Parser()
+            {
+            }
+
+            private IEnumerable<Type> InitBefore()
             {
                 var config = new DefaultParserConfiguration();
                 this.ConfigureDefaults(config);
-                this.DefaultBeforeParsers = config.BeforeParsers.AsReadOnly();
-                this.DefaultAfterParsers = config.AfterParsers.AsReadOnly();
+                return config.BeforeParsers.AsReadOnly();
+            }
+
+            private IEnumerable<Type> InitAfter()
+            {
+                var config = new DefaultParserConfiguration();
+                this.ConfigureDefaults(config);
+                return config.AfterParsers.AsReadOnly();
             }
 
             /// <summary>
             /// Gets the Default ordering of this Parser (ever parser that comes after this one)
             /// </summary>
-            public IEnumerable<Type> DefaultBeforeParsers { get; }
+            public IEnumerable<Type> DefaultBeforeParsers { get => defaultBeforeParsers ?? (defaultBeforeParsers = InitBefore()); }
 
             /// <summary>
             /// Gets the Default ordering of this Parser (ever parser that comes before this one)
             /// </summary>
-            public IEnumerable<Type> DefaultAfterParsers { get; }
+            public IEnumerable<Type> DefaultAfterParsers { get => defaultAfterParsers ?? (defaultAfterParsers = InitAfter()); }
 
             /// <summary>
             /// Override this Method to order this Parser relative to others.
