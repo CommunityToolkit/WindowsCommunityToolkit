@@ -508,12 +508,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             {
                 foreach (var item in parser.DefaultAfterParsers)
                 {
-                    AddRelation(parser.GetType(), item);
+                    AddRelation(item, parser.GetType());
                 }
 
                 foreach (var item in parser.DefaultBeforeParsers)
                 {
-                    AddRelation(item, parser.GetType());
+                    AddRelation(parser.GetType(), item);
                 }
             }
 
