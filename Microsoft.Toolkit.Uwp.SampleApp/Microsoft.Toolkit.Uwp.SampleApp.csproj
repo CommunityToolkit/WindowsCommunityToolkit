@@ -524,6 +524,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
     <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
       <DependentUpon>EyedropperPage.xaml</DependentUpon>
     </Compile>

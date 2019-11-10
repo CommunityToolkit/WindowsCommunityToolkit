@@ -239,7 +239,11 @@
                 <TextBlock Text="{Binding DeprecatedWarning}"
                            HorizontalAlignment="Center"
                            TextWrapping="WrapWholeWords"
-                           Foreground="White" />
+                           Foreground="White">
+                    <interactivity:Interaction.Behaviors>
+                        <common:TextBlockHyperlinkBehavior Foreground="White"/>
+                    </interactivity:Interaction.Behaviors>
+                </TextBlock>
             </Border>
 
             <controls:InAppNotification x:Name="ExceptionNotification"

@@ -378,7 +378,7 @@
         "XamlCodeFile": "LoginButtonXaml.bind",
         "Icon": "/SamplePages/LoginButton/LoginButton.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
-        "DeprecatedWarning": "The LoginButton control is in preview. Find out more at https://aka.ms/wgt.",
+        "DeprecatedWarning": "The LoginButton control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/LoginButton.md"
       },
       {
@@ -390,7 +390,7 @@
         "XamlCodeFile": "PersonViewXaml.bind",
         "Icon": "/SamplePages/PersonView/PersonView.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
-        "DeprecatedWarning": "The PersonView control is in preview. Find out more at https://aka.ms/wgt.",
+        "DeprecatedWarning": "The PersonView control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PersonView.md"
       },
       {
@@ -402,7 +402,7 @@
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
         "BadgeUpdateVersionRequired": "PREVIEW",
-        "DeprecatedWarning": "The PeoplePicker control is in preview. Find out more at https://aka.ms/wgt.",
+        "DeprecatedWarning": "The PeoplePicker control is in preview. Find out more here: https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PeoplePicker.md"
       },
       {
