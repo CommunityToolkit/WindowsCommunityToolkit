@@ -54,7 +54,6 @@ namespace Microsoft.Toolkit.Services.OneDrive
         /// </summary>
         protected string[] Scopes { get; set; }
 
-
         /// <summary>
         /// Gets a reference to an instance of the underlying data provider.
         /// </summary>
