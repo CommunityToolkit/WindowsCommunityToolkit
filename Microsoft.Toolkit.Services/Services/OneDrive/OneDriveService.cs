@@ -12,6 +12,7 @@ namespace Microsoft.Toolkit.Services.OneDrive
     /// <summary>
     ///  Class using OneDrive API
     /// </summary>
+    [Obsolete("Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt")]
     public class OneDriveService
     {
         /// <summary>
