@@ -359,6 +359,17 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
       },
       {
+        "Name": "Eyedropper",
+        "Type": "EyedropperPage",
+        "Subcategory": "Input",
+        "About": "Eyedropper can pick up a color from anywhere in your application.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Eyedropper",
+        "XamlCodeFile": "EyedropperXaml.bind",
+        "CodeFile": "EyedropperCode.bind",
+        "Icon": "/SamplePages/Eyedropper/Eyedropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Eyedropper.md"
+      },
+      {
         "Name": "AadLogin",
         "Type": "AadLoginPage",
         "Subcategory": "Graph",
@@ -367,6 +378,8 @@
         "CodeFile": "AadLoginCode.bind",
         "XamlCodeFile": "AadLoginXaml.bind",
         "Icon": "/SamplePages/AadLogin/AadLogin.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The AadLogin control has been replaced with the LoginButton control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
       },
       {
@@ -377,6 +390,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
         "XamlCodeFile": "ProfileCardXaml.bind",
         "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The ProfileCard control has been replaced with the PersonView control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
       },
       {
@@ -387,6 +402,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PeoplePicker control has been replaced with the new PeoplePicker control in Microsoft.Toolkit.Graph.Controls and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
       },
       {
@@ -417,6 +434,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
         "XamlCodeFile": "PlannerTaskListXaml.bind",
         "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "The PlannerTaskList control will be replaced with a new Task control and will be removed in a future update.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
       },
       {
@@ -438,6 +457,17 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
+      },
+      {
+        "Name": "TokenizingTextBox",
+        "Type": "TokenizingTextBoxPage",
+        "Subcategory": "Input",
+        "About": "A text input control that makes suggestions and keeps track of data token items",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
+        "CodeFile": "TokenizingTextBoxCode.bind",
+        "XamlCodeFile": "TokenizingTextBoxXaml.bind",
+        "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
       }
     ]
   },
@@ -839,6 +869,16 @@
         "CodeFile": "RemoteDeviceHelperCode.bind",
         "Icon": "/SamplePages/RemoteDeviceHelper/RemoteDeviceHelper.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/helpers/RemoteDeviceHelper.md"
+      },
+      {
+        "Name": "ViewportBehavior",
+        "Type": "ViewportBehaviorPage",
+        "About": "Behavior for listening element enter or exit viewport",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Animations/ViewportBehavior",
+        "CodeFile": "ViewportBehaviorCode.bind",
+        "XamlCodeFile": "ViewportBehaviorXaml.bind",
+        "Icon": "/SamplePages/ViewportBehavior/ViewportBehavior.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/animations/ViewportBehavior.md"
       },
       {
         "Name": "Markdown Parser",

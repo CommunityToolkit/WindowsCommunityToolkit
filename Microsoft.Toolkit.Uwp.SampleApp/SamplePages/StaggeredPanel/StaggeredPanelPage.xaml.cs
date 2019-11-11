@@ -23,6 +23,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             var gridView = control.FindChildByName("GridView") as ItemsControl;
 
+            if (gridView == null)
+            {
+                return;
+            }
+
             var items = await new Data.PhotosDataSource().GetItemsAsync();
             gridView.ItemsSource = items
                 .Select((p, i) => new

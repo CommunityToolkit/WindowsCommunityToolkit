@@ -4,10 +4,14 @@
     <TargetFramework>uap10.0.16299</TargetFramework>
     <Title>Windows Community Toolkit UI</Title>
     <Description>
-      This library provides UI components, such as XAML extensions, helpers, brushes, converters and more. It is part of the Windows Community Toolkit.
+      This library provides UI components, such as XAML extensions, helpers, converters and more. It is part of the Windows Community Toolkit.
 
       AdvancedCollectionView: It's a collection view implementation that support filtering, sorting and incremental loading. It's meant to be used in a viewmodel.
       
+      Behaviors:
+      - BehaviorBase: Helper for building Behaviors
+      - ViewportBehavior: Listening for element to enter or exit the ScrollViewer viewport
+
       CacheBase: Provides methods and tools to cache files in a folder.
       
       Converters: Commonly used converters that allow the data to be modified as it passes through the binding engine.
@@ -38,19 +42,8 @@
       - BindableValueHolder: Holds the value. Can be used to change several objects' properties at a time.
       - DependencyPropertyWatcher: Used to Track Changes of a Dependency Property
       - ThemeListener: Class which listens for changes to Application Theme or High Contrast Modes and Signals an Event when they occur.
-      
-      Media:
-      - BackdropBlurBrush: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
-      - BackdropGammaTransferBrush: A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
-      - BackdropInvertBrush: The BackdropInvertBrush is a Brush which inverts whatever is behind it in the application.
-      - BackdropSaturationBrush: Brush which applies a SaturationEffect to the Backdrop.
-      - BackdropSepiaBrush: Brush which applies a SepiaEffect to the Backdrop.
-      - CanvasBrushBase: Helper Brush class to interop with Win2D Canvas calls.
-      - ImageBlendBrush: Brush which blends a BitmapImage to the Backdrop in a given mode.
-      - RadialGradientBrush: This GradientBrush defines its Gradient as an interpolation within an Ellipse.
-
-    </Description>
-    <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers brushes blur</PackageTags>
+      </Description>
+    <PackageTags>UWP Toolkit Windows UI Converters XAML extensions helpers</PackageTags>
 
     <UseWindowsDesktopSdk>true</UseWindowsDesktopSdk>
     
@@ -59,7 +52,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Win2D.uwp" Version="1.21.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

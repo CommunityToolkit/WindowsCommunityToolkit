@@ -23,158 +23,101 @@ private async void PinTile()
 }
 
 public static TileContent GenerateTileContent(string username, string avatarLogoSource)
-{
-    return new TileContent()
-    {
-        Visual = new TileVisual()
-        {
-            TileMedium = GenerateTileBindingMedium(username, avatarLogoSource),
-            TileWide = GenerateTileBindingWide(username, avatarLogoSource),
-            TileLarge = GenerateTileBindingLarge(username, avatarLogoSource)
-        }
-    };
-}
+{        
+    var builder = new TileContentBuilder();        
 
-private static TileBinding GenerateTileBindingMedium(string username, string avatarLogoSource)
-{
-    return new TileBinding()
-    {
-        Content = new TileBindingContentAdaptive()
-        {
-            PeekImage = new TilePeekImage()
-            {
-                Source = avatarLogoSource,
-                HintCrop = TilePeekImageCrop.Circle
-            },
+	// Medium Tile built using only builder method.
+    builder.AddTile(Notifications.TileSize.Medium)        
+        .SetPeekImage(new Uri(avatarLogoSource, UriKind.Relative), Notifications.TileSize.Medium, hintCrop: TilePeekImageCrop.Circle)        
+        .SetTextStacking(TileTextStacking.Center, Notifications.TileSize.Medium)        
+        .AddText("Hi,", Notifications.TileSize.Medium, hintStyle: AdaptiveTextStyle.Base, hintAlign: AdaptiveTextAlign.Center)        
+        .AddText(username, Notifications.TileSize.Medium, hintStyle: AdaptiveTextStyle.CaptionSubtle, hintAlign: AdaptiveTextAlign.Center);        
 
-            TextStacking = TileTextStacking.Center,
+    // Wide Tile using custom-made layout.        
+    builder.AddTile(Notifications.TileSize.Wide)        
+        .AddAdaptiveTileVisualChild(GenerateWideTileContent(username, avatarLogoSource), Notifications.TileSize.Wide);        
 
-            Children =
-            {
-                new AdaptiveText()
-                {
-                    Text = "Hi,",
-                    HintAlign = AdaptiveTextAlign.Center,
-                    HintStyle = AdaptiveTextStyle.Base
-                },
+    // Large Tile using custom-made layout conjunction with builder helper method        
+    builder.AddTile(Notifications.TileSize.Large)        
+        .AddAdaptiveTileVisualChild(CreateLargeTileLogoPayload(avatarLogoSource), Notifications.TileSize.Large)        
+        .AddText("Hi,", Notifications.TileSize.Large, hintAlign: AdaptiveTextAlign.Center, hintStyle: AdaptiveTextStyle.Title)        
+        .AddText(username, Notifications.TileSize.Large, hintAlign: AdaptiveTextAlign.Center, hintStyle: AdaptiveTextStyle.SubtitleSubtle);        
 
-                new AdaptiveText()
-                {
-                    Text = username,
-                    HintAlign = AdaptiveTextAlign.Center,
-                    HintStyle = AdaptiveTextStyle.CaptionSubtle
-                }
-            }
-        }
-    };
-}
+    return builder.Content;           
+}        
 
-private static TileBinding GenerateTileBindingWide(string username, string avatarLogoSource)
-{
-    return new TileBinding()
-    {
-        Content = new TileBindingContentAdaptive()
-        {
-            Children =
-            {
-                new AdaptiveGroup()
-                {
-                    Children =
-                    {
-                        new AdaptiveSubgroup()
-                        {
-                            HintWeight = 33,
+private static ITileBindingContentAdaptiveChild GenerateWideTileContent(string username, string avatarLogoSource)        
+{        
+    return new AdaptiveGroup()        
+    {        
+        Children =        
+        {        
+            new AdaptiveSubgroup()        
+            {        
+                HintWeight = 33,        
 
-                            Children =
-                            {
-                                new AdaptiveImage()
-                                {
-                                    Source = avatarLogoSource,
-                                    HintCrop = AdaptiveImageCrop.Circle
-                                }
-                            }
-                        },
+                Children =        
+                {        
+                    new AdaptiveImage()        
+                    {        
+                        Source = avatarLogoSource,        
+                        HintCrop = AdaptiveImageCrop.Circle        
+                    }        
+                }        
+            },        
 
-                        new AdaptiveSubgroup()
-                        {
-                            HintTextStacking = AdaptiveSubgroupTextStacking.Center,
+            new AdaptiveSubgroup()        
+            {        
+                HintTextStacking = AdaptiveSubgroupTextStacking.Center,        
 
-                            Children =
-                            {
-                                new AdaptiveText()
-                                {
-                                    Text = "Hi,",
-                                    HintStyle = AdaptiveTextStyle.Title
-                                },
+                Children =        
+                {        
+                    new AdaptiveText()        
+                    {        
+                        Text = "Hi,",        
+                        HintStyle = AdaptiveTextStyle.Title        
+                    },        
 
-                                new AdaptiveText()
-                                {
-                                    Text = username,
-                                    HintStyle = AdaptiveTextStyle.SubtitleSubtle
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    };
-}
+                    new AdaptiveText()        
+                    {        
+                        Text = username,        
+                        HintStyle = AdaptiveTextStyle.SubtitleSubtle        
+                    }        
+                }        
+            }        
+        }        
+    };        
+}        
 
-private static TileBinding GenerateTileBindingLarge(string username, string avatarLogoSource)
-{
-    return new TileBinding()
-    {
-        Content = new TileBindingContentAdaptive()
-        {
-            TextStacking = TileTextStacking.Center,
+private static ITileBindingContentAdaptiveChild CreateLargeTileLogoPayload(string avatarLogoSource)        
+{        
+    return new AdaptiveGroup()        
+    {        
+        Children =        
+        {        
+            new AdaptiveSubgroup()        
+            {        
+                HintWeight = 1        
+            },        
 
-            Children =
-            {
-                new AdaptiveGroup()
-                {
-                    Children =
-                    {
-                        new AdaptiveSubgroup()
-                        {
-                            HintWeight = 1
-                        },
+            // We surround the image by two subgroups so that it doesn't take the full width        
+            new AdaptiveSubgroup()        
+            {        
+                HintWeight = 2,        
+                Children =        
+                {        
+                    new AdaptiveImage()        
+                    {        
+                        Source = avatarLogoSource,        
+                        HintCrop = AdaptiveImageCrop.Circle        
+                    }        
+                }        
+            },        
 
-                        // We surround the image by two subgroups so that it doesn't take the full width
-                        new AdaptiveSubgroup()
-                        {
-                            HintWeight = 2,
-                            Children =
-                            {
-                                new AdaptiveImage()
-                                {
-                                    Source = avatarLogoSource,
-                                    HintCrop = AdaptiveImageCrop.Circle
-                                }
-                            }
-                        },
-
-                        new AdaptiveSubgroup()
-                        {
-                            HintWeight = 1
-                        }
-                    }
-                },
-
-                new AdaptiveText()
-                {
-                    Text = "Hi,",
-                    HintAlign = AdaptiveTextAlign.Center,
-                    HintStyle = AdaptiveTextStyle.Title
-                },
-
-                new AdaptiveText()
-                {
-                    Text = username,
-                    HintAlign = AdaptiveTextAlign.Center,
-                    HintStyle = AdaptiveTextStyle.SubtitleSubtle
-                }
-            }
-        }
-    };
-}
+            new AdaptiveSubgroup()        
+            {        
+                HintWeight = 1        
+            }        
+        }        
+    };        
+}        

@@ -15,6 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     /// <summary>
     /// The AAD Login Control leverages MSAL libraries to support basic AAD sign-in processes for Microsoft Graph and beyond.
     /// </summary>
+    [Obsolete("This control will be removed in a future release of the toolkit. Please use the new Graph controls at https://aka.ms/wgt")]
     [TemplatePart(Name = "RootGrid", Type = typeof(Grid))]
     [TemplatePart(Name = "ContentPresenter", Type = typeof(ContentPresenter))]
     public partial class AadLogin : Button

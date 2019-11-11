@@ -1,7 +1,7 @@
-#module nuget:?package=Cake.LongPath.Module&version=0.5.0
+#module nuget:?package=Cake.LongPath.Module&version=0.7.0
 
-#addin "Cake.FileHelpers"
-#addin "Cake.Powershell"
+#addin nuget:?package=Cake.FileHelpers&version=3.2.1
+#addin nuget:?package=Cake.Powershell&version=0.4.8
 
 using System;
 using System.Linq;
@@ -53,7 +53,7 @@ void VerifyHeaders(bool Replace)
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
-    var files = GetFiles(baseDir + "/**/*.cs", exclude_objDir).Where(file =>
+    var files = GetFiles(baseDir + "/**/*.cs", new GlobberSettings { Predicate = exclude_objDir }).Where(file =>
     {
         var path = file.ToString();
         return !(path.EndsWith(".g.cs") || path.EndsWith(".i.cs") || System.IO.Path.GetFileName(path).Contains("TemporaryGeneratedFile"));
@@ -223,6 +223,9 @@ Task("Package")
 
     buildSettings.SetPlatformTarget(PlatformTarget.ARM);
     MSBuild(Solution, buildSettings);
+	
+	buildSettings.SetPlatformTarget(PlatformTarget.ARM64);
+    MSBuild(Solution, buildSettings);
 
     buildSettings.SetPlatformTarget(PlatformTarget.x64);
     MSBuild(Solution, buildSettings);
@@ -274,7 +277,7 @@ Task("StyleXaml")
     Func<IFileSystemInfo, bool> exclude_objDir =
         fileSystemInfo => !fileSystemInfo.Path.Segments.Contains("obj");
 
-    var files = GetFiles(baseDir + "/**/*.xaml", exclude_objDir);
+    var files = GetFiles(baseDir + "/**/*.xaml", new GlobberSettings { Predicate = exclude_objDir });
     Information("\nChecking " + files.Count() + " file(s) for XAML Structure");
     foreach(var file in files)
     {
