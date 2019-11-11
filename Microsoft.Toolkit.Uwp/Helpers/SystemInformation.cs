@@ -224,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// Launches the store app so the user can leave a review.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <remarks>This method needs to be called from your UI thread.</remarks>
         public static async Task LaunchStoreForReviewAsync()
         {
             await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
