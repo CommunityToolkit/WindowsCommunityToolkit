@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             InitializeComponent();
         }
 
-        public async void OnXamlRendered(FrameworkElement control)
+        public void OnXamlRendered(FrameworkElement control)
         {
         }
     }
