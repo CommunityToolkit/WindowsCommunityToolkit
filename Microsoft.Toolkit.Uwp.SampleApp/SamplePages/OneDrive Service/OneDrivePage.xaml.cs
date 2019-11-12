@@ -20,6 +20,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
+    #pragma warning disable CS0618 // Type or member is obsolete
     public sealed partial class OneDrivePage : Page
     {
         private OneDriveStorageFolder _graphRootFolder = null;
@@ -419,4 +420,5 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
     }
+    #pragma warning restore CS0618 // Type or member is obsolete
 }

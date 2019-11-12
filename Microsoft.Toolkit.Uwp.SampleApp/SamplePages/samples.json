@@ -643,7 +643,18 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "These helpers will be removed in the next release.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
+      },
+      {
+        "Name": "Graph Service",
+        "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
+        "Icon": "/Assets/mslogo.png",
+        "BadgeUpdateVersionRequired": "PREVIEW",
+        "DeprecatedWarning": "The Graph Providers are in preview. Find out more here: https://aka.ms/wgt",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/providers/InteractiveProviderBehavior.md",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls"
       },
       {
         "Name": "Twitter Service",
@@ -670,6 +681,8 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/OneDrive/",
         "CodeFile": "OneDriveCode.bind",
         "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/OneDrive.md"
       },
       {
