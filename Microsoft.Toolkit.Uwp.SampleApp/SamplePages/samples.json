@@ -676,10 +676,8 @@
       },
       {
         "Name": "OneDrive Service",
-        "Type": "OneDrivePage",
         "About": "The OneDrive service allows you to get your files from OneDrive using an Microsoft Account or OneDrive For Business using an Office 365 account",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/OneDrive/",
-        "CodeFile": "OneDriveCode.bind",
         "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
         "BadgeUpdateVersionRequired": "DEPRECATED",
         "DeprecatedWarning": "Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt",
