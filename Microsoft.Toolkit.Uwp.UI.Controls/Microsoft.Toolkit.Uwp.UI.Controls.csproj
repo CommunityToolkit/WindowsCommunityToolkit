@@ -44,7 +44,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ColorCode.UWP" Version="3.0.0" />
+    <PackageReference Include="ColorCode.UWP" Version="[3.0.0-*,3.0.0)" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />

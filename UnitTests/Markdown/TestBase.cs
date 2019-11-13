@@ -88,7 +88,9 @@ namespace UnitTests.Markdown
                 if (defaultValues.ContainsKey("TextAlignment"))
                     defaultValues["TextAlignment"] = TextAlignment.Left;
                 if (defaultValues.ContainsKey("Margin"))
-                    defaultValues["Margin"] = new Thickness(0, 12, 0, 0);
+                {
+                    defaultValues["Margin"] = Temp.Helpers.NewThickness(0, 12, 0, 0);
+                }
 
                 // Cache it.
                 defaultValueCache.TryAdd(type, defaultValues);

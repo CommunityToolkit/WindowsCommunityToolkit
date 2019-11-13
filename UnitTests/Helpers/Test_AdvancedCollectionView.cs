@@ -77,7 +77,7 @@ namespace UnitTests.Helpers
             // Check if subscribed to all items:
             foreach (var item in refList)
             {
-                Assert.IsTrue(item.GetPropertyChangedEventHandlerSubscriberLength() == 1);
+                Assert.AreEqual(1, item.GetPropertyChangedEventHandlerSubscriberLength());
             }
         }
 

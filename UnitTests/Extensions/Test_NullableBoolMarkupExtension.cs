@@ -134,7 +134,7 @@ namespace UnitTests.Extensions
         {
             // This is the failure case in the OS currently which causes us to need
             // this markup extension.
-            var exception = Assert.ThrowsException<XamlParseException>(
+            var exception = Assert.ThrowsException<Windows.UI.Xaml.Markup.XamlParseException>(
                 () =>
             {
                 var treeroot = XamlReader.Load(@"<Page

@@ -224,6 +224,7 @@ Task("Package")
 
     MSBuild(Solution, buildSettings);
 
+	/*
 	// Build and pack C++ packages
     buildSettings = new MSBuildSettings
     {
@@ -257,6 +258,7 @@ Task("Package")
     {
         NuGetPack(nuspec, nuGetPackSettings);
     }
+	*/
 });
 
 
