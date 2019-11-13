@@ -28,7 +28,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         private static async void DriveUrlPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            #pragma warning disable CS0618 // Type or member is obsolete
             if (MicrosoftGraphService.Instance.IsAuthenticated)
+            #pragma warning restore CS0618 // Type or member is obsolete
             {
                 SharePointFileList control = d as SharePointFileList;
                 GraphServiceClient graphClient = await GraphServiceHelper.GetGraphServiceClientAsync();

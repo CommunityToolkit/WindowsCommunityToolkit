@@ -12,7 +12,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
     {
         internal static async Task<GraphServiceClient> GetGraphServiceClientAsync()
         {
+            #pragma warning disable CS0618 // Type or member is obsolete
             MicrosoftGraphService graphService = MicrosoftGraphService.Instance;
+            #pragma warning restore CS0618 // Type or member is obsolete
             if (await graphService.TryLoginAsync())
             {
                 return graphService.GraphProvider;

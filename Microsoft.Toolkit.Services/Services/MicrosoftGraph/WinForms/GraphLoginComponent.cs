@@ -16,6 +16,7 @@ namespace Microsoft.Toolkit.Services.WinForms
     /// It is implemented as a Windows Forms Component for a drag and drop experience from the toolbox.
     /// </summary>
     /// <seealso cref="IComponent" />
+    [Obsolete("Please use the new LoginButton control through XAML Islands from https://aka.ms/wgt")]
     public partial class GraphLoginComponent : Component
     {
         /// <summary>
@@ -93,6 +94,7 @@ namespace Microsoft.Toolkit.Services.WinForms
             }
 
             // Initialize the MicrosoftGraphService
+            #pragma warning disable CS0618 // Type or member is obsolete
             if (!MicrosoftGraphService.Instance.Initialize(ClientId, delegatedPermissionScopes: Scopes))
             {
                 // error
@@ -128,6 +130,7 @@ namespace Microsoft.Toolkit.Services.WinForms
 
             // return Microsoft.Graph.GraphServiceClient from the MicrosoftGraphService.Instance.GraphProvider
             GraphServiceClient = MicrosoftGraphService.Instance.GraphProvider;
+            #pragma warning restore CS0618 // Type or member is obsolete
             return true;
         }
     }
