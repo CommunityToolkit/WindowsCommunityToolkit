@@ -648,7 +648,7 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
       },
       {
-        "Name": "Graph Service",
+        "Name": "Microsoft Graph Service",
         "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
         "Icon": "/Assets/mslogo.png",
         "BadgeUpdateVersionRequired": "PREVIEW",

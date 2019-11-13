@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
             // If you hit an issue here, please report repro steps along with all the info from the Exception object.
 #if DEBUG
-            ////Debugger.Break();
+            Debugger.Break();
 #endif
         }
 

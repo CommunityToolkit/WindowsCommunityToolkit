@@ -671,8 +671,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Graph.Controls
-            var graphControlsProxyType = new UserToPersonConverter();
-            assembly = graphControlsProxyType.GetType().GetTypeInfo().Assembly;
+            var graphControlsProxyType = typeof(UserToPersonConverter);
+            assembly = graphControlsProxyType.GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {
