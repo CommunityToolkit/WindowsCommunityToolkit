@@ -221,12 +221,4 @@
     <value>Close tab</value>
     <comment>Tooltip for TabView Close Button.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove" xml:space="preserve">
-    <value>Remove</value>
-    <comment>Label for TokenizingTextBox MenuFlyout 'Remove' option.</comment>
-  </data>
-  <data name="WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll" xml:space="preserve">
-    <value>Select All</value>
-    <comment>Label for TokenizingTextBox MenuFlyout 'Select All' option.</comment>
-  </data>
 </root>
