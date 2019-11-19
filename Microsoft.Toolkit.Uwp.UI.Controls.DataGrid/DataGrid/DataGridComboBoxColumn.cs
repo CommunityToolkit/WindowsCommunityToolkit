@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
+using Microsoft.Toolkit.Uwp.Utilities;
 using Windows.UI.Text;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -216,10 +217,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (dataItem != null)
             {
-                var value = GetDataItemProperty(dataItem);
+                var value = TypeHelper.GetNestedPropertyValue(dataItem, Binding.Path.Path);
 
                 var selection = !string.IsNullOrEmpty(DisplayMemberPath)
-                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value))
+                    ? ItemsSource?.Cast<object>().FirstOrDefault(x => TypeHelper.GetNestedPropertyValue(x, Binding.Path.Path).Equals(value))
                     : ItemsSource?.Cast<object>().FirstOrDefault(x => x.Equals(value));
 
                 comboBox.SelectedItem = selection;
@@ -269,18 +270,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (item != null)
                 {
                     var newValue = !string.IsNullOrEmpty(DisplayMemberPath)
-                        ? item.GetType().GetProperty(GetBindingPropertyName()).GetValue(item)
+                        ? item.GetType().GetProperty(Binding.GetBindingPropertyName())?.GetValue(item)
                         : item;
 
                     if (dataItem != null)
                     {
-                        SetDataItemProperty(dataItem, newValue);
+                        TypeHelper.SetNestedPropertyValue(ref dataItem, newValue, Binding.Path.Path);
                     }
                     else
                     {
                         var dataType = OwningGrid.ItemsSource.GetItemType();
                         var newDataItem = Activator.CreateInstance(dataType);
-                        SetDataItemProperty(newDataItem, newValue);
+                        TypeHelper.SetNestedPropertyValue(ref newDataItem, newValue, Binding.Path.Path);
                         dataItem = newDataItem;
                     }
                 }
@@ -356,8 +357,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var comboBox = editingElement as ComboBox;
             if (comboBox != null && uneditedValue != null)
             {
-                var value = GetDataItemProperty(uneditedValue);
-                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value));
+                var value = TypeHelper.GetNestedPropertyValue(uneditedValue, Binding.Path.Path);
+                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => TypeHelper.GetNestedPropertyValue(x, Binding.Path.Path).Equals(value));
 
                 comboBox.SelectedItem = selection;
             }
@@ -595,9 +596,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (Binding?.Path != null && dataItem != null)
             {
-                var value = this.GetDataItemProperty(dataItem);
+                var value = TypeHelper.GetNestedPropertyValue(dataItem, Binding.Path.Path);
 
-                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => GetBindingValue(x).Equals(value));
+                var item = ItemsSource?.Cast<object>().FirstOrDefault(x => TypeHelper.GetNestedPropertyValue(x, Binding.Path.Path).Equals(value));
 
                 var displayValue = item?.GetType().GetProperty(DisplayMemberPath).GetValue(item) ?? string.Empty;
 
@@ -619,7 +620,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw DataGridError.DataGridComboBoxColumn.UnsetBinding(GetType());
             }
 
-            if (GetDataItemProperty(dataItem)?.GetType().GetProperties().Any(x => x.Name.Equals(GetBindingPropertyName())) ?? false)
+            if (TypeHelper.GetNestedPropertyValue(dataItem, Binding.Path.Path)?.GetType().GetProperties().Any(x => x.Name.Equals(Binding.GetBindingPropertyName())) ?? false)
             {
                 throw DataGridError.DataGridComboBoxColumn.UnknownBindingPath(Binding, dataItem.GetType());
             }
@@ -644,7 +645,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var item = ItemsSource.Cast<object>().FirstOrDefault();
 
-                if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(GetBindingPropertyName())))
+                if (item != null && !item.GetType().GetProperties().Any(y => y.Name.Equals(Binding.GetBindingPropertyName())))
                 {
                     throw DataGridError.DataGridComboBoxColumn.UnknownItemsSourcePath(Binding);
                 }
@@ -709,59 +710,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     textBlockElement.Text = GetDisplayValue(dataItem);
                 }
             }
-        }
-
-        private void SetDataItemProperty(object dataItem, object newValue)
-        {
-            var propertyPathParts = Binding.Path.Path.Split('.');
-
-            if (propertyPathParts.Length == 1)
-            {
-                dataItem.GetType().GetProperty(Binding.Path.Path).SetValue(dataItem, newValue);
-            }
-            else
-            {
-                object item = dataItem;
-                object nextToLastItem = null;
-                System.Reflection.PropertyInfo propertyInfo = null;
-
-                for (var i = 0; i < propertyPathParts.Length; i++)
-                {
-                    propertyInfo = item?.GetType().GetProperty(propertyPathParts[i]);
-
-                    if (i == propertyPathParts.Length - 2)
-                    {
-                        nextToLastItem = propertyInfo?.GetValue(item);
-                    }
-
-                    item = propertyInfo?.GetValue(item);
-                }
-
-                propertyInfo?.SetValue(nextToLastItem, newValue);
-            }
-        }
-
-        private object GetDataItemProperty(object dataItem)
-        {
-            var propertyPathParts = Binding.Path.Path.Split('.');
-            var itemValue = dataItem;
-
-            foreach (var propertyPathPart in propertyPathParts)
-            {
-                itemValue = itemValue?.GetType().GetProperty(propertyPathPart).GetValue(itemValue);
-            }
-
-            return itemValue;
-        }
-
-        private string GetBindingPropertyName()
-        {
-            return Binding.Path.Path.Split('.').Last();
-        }
-
-        private object GetBindingValue(object property)
-        {
-            return property.GetType().GetProperty(GetBindingPropertyName()).GetValue(property);
         }
     }
 }
