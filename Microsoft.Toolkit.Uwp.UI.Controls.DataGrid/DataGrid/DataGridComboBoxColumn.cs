@@ -355,16 +355,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void CancelCellEdit(FrameworkElement editingElement, object uneditedValue)
         {
             var comboBox = editingElement as ComboBox;
-            if (comboBox != null && uneditedValue != null)
-            {
-                var value = TypeHelper.GetNestedPropertyValue(uneditedValue, Binding.Path.Path);
-                var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => TypeHelper.GetNestedPropertyValue(x, Binding.Path.Path).Equals(value));
 
-                comboBox.SelectedItem = selection;
-            }
-            else if (comboBox != null)
+            if (comboBox != null)
             {
-                comboBox.SelectedItem = null;
+                if (uneditedValue != null)
+                {
+                    var property = uneditedValue.GetType().GetNestedProperty(Binding.Path.Path);
+
+                    if (property == null)
+                    {
+                        comboBox.SelectedItem = uneditedValue;
+                    }
+                    else
+                    {
+                        var value = TypeHelper.GetNestedPropertyValue(uneditedValue, Binding.Path.Path);
+                        var selection = ItemsSource?.Cast<object>().FirstOrDefault(x => TypeHelper.GetNestedPropertyValue(x, Binding.Path.Path).Equals(value));
+
+                        comboBox.SelectedItem = selection;
+                    }
+                }
+                else
+                {
+                    comboBox.SelectedItem = null;
+                }
             }
         }
 
