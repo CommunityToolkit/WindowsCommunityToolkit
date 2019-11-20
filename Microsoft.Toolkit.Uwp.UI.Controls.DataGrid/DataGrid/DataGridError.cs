@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 
             public static ArgumentException BindingTypeMismatch(Type bindingType, Type itemSourceType)
             {
-                return new ArgumentException(Format("The DataGridComboBox ItemSource elements of type \'{0}\' do not match the Binding type \'{1}\'. Ensure that the paths have been set correctly and specify a DisplayMemberPath for non built-in types.", itemSourceType.FullName, bindingType.FullName));
+                return new ArgumentException(Format("The DataGridComboBoxColumn ItemSource elements of type \'{0}\' do not match the Binding type \'{1}\'. Ensure that the paths have been set correctly and specify a DisplayMemberPath for non built-in types.", itemSourceType.FullName, bindingType.FullName));
             }
         }
 

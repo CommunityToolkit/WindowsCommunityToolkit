@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             EnsureItemsSourceBinding();
 
-            this.EnsureColumnTypeAgreement(dataItem);
+            EnsureColumnTypeAgreement(dataItem);
 
             var comboBox = new ComboBox
             {
@@ -269,23 +269,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             comboBox.SelectionChanged += (sender, args) =>
             {
                 var item = args.AddedItems.FirstOrDefault();
+
                 if (item != null)
                 {
                     var newValue = !string.IsNullOrEmpty(DisplayMemberPath)
                         ? item.GetType().GetProperty(Binding.GetBindingPropertyName())?.GetValue(item)
                         : item;
 
-                    if (dataItem != null)
-                    {
-                        TypeHelper.SetNestedPropertyValue(ref dataItem, newValue, Binding.Path.Path);
-                    }
-                    else
-                    {
-                        var dataType = OwningGrid.ItemsSource.GetItemType();
-                        var newDataItem = Activator.CreateInstance(dataType);
-                        TypeHelper.SetNestedPropertyValue(ref newDataItem, newValue, Binding.Path.Path);
-                        dataItem = newDataItem;
-                    }
+                    TypeHelper.SetNestedPropertyValue(ref dataItem, newValue, Binding.Path.Path);
                 }
             };
 
@@ -301,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);
-            this.EnsureColumnTypeAgreement(dataItem);
+            EnsureColumnTypeAgreement(dataItem);
             EnsureDisplayMemberPathExists();
             EnsureItemsSourceBinding();
 
@@ -636,11 +627,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw DataGridError.DataGridComboBoxColumn.UnsetBinding(GetType());
             }
 
-            var property = dataItem.GetType().GetNestedProperty(Binding.Path.Path);
+            var property = dataItem?.GetType().GetNestedProperty(Binding?.Path?.Path);
 
-            if (property == null)
+            if (property == null && dataItem != null)
             {
-                throw DataGridError.DataGridComboBoxColumn.UnknownBindingPath(Binding, dataItem.GetType());
+                throw DataGridError.DataGridComboBoxColumn.UnknownBindingPath(Binding, dataItem?.GetType());
             }
         }
 
@@ -648,10 +639,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (string.IsNullOrEmpty(DisplayMemberPath))
             {
-                var itemsSourceType = ItemsSource.GetType().GetGenericArguments().First();
-                var dataItemType = dataItem.GetType().GetNestedPropertyType(Binding.Path.Path);
+                var itemsSourceType = ItemsSource?.GetType().GetEnumerableItemType();
+                var dataItemType = dataItem?.GetType().GetNestedPropertyType(Binding?.Path?.Path);
 
-                if (itemsSourceType != dataItemType)
+                if (dataItemType != null && itemsSourceType != null && itemsSourceType != dataItemType)
                 {
                     throw DataGridError.DataGridComboBoxColumn.BindingTypeMismatch(dataItemType, itemsSourceType);
                 }

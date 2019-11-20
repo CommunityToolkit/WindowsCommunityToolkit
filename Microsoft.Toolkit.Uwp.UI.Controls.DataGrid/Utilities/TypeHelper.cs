@@ -116,7 +116,7 @@ namespace Microsoft.Toolkit.Uwp.Utilities
 
         internal static string GetBindingPropertyName(this Binding binding)
         {
-            return binding.Path.Path.Split('.').Last();
+            return binding?.Path?.Path?.Split('.')?.LastOrDefault();
         }
 
         /// <summary>
@@ -367,39 +367,42 @@ namespace Microsoft.Toolkit.Uwp.Utilities
         /// </summary>
         /// <param name="item">Parent data item.</param>
         /// <param name="newValue">New child value</param>
-        /// <param name="propertyPath">Property path.</param>
+        /// <param name="propertyPath">Property path</param>
         internal static void SetNestedPropertyValue(ref object item, object newValue, string propertyPath)
         {
-            var propertyPathParts = SplitPropertyPath(propertyPath);
-
             if (string.IsNullOrEmpty(propertyPath))
             {
                 item = newValue;
             }
-            else if (propertyPathParts.Count == 1)
-            {
-                item.GetType().GetProperty(propertyPath)?.SetValue(item, newValue);
-            }
             else
             {
-                object temporaryItem = item;
-                object nextToLastItem = null;
+                var propertyPathParts = SplitPropertyPath(propertyPath);
 
-                PropertyInfo propertyInfo = null;
-
-                for (var i = 0; i < propertyPathParts.Count; i++)
+                if (propertyPathParts.Count == 1)
                 {
-                    propertyInfo = temporaryItem?.GetType().GetProperty(propertyPathParts[i]);
+                    item?.GetType().GetProperty(propertyPath)?.SetValue(item, newValue);
+                }
+                else
+                {
+                    object temporaryItem = item;
+                    object nextToLastItem = null;
 
-                    if (i == propertyPathParts.Count - 2)
+                    PropertyInfo propertyInfo = null;
+
+                    for (var i = 0; i < propertyPathParts.Count; i++)
                     {
-                        nextToLastItem = propertyInfo?.GetValue(temporaryItem);
+                        propertyInfo = temporaryItem?.GetType().GetProperty(propertyPathParts[i]);
+
+                        if (i == propertyPathParts.Count - 2)
+                        {
+                            nextToLastItem = propertyInfo?.GetValue(temporaryItem);
+                        }
+
+                        temporaryItem = propertyInfo?.GetValue(temporaryItem);
                     }
 
-                    temporaryItem = propertyInfo?.GetValue(temporaryItem);
+                    propertyInfo?.SetValue(nextToLastItem, newValue);
                 }
-
-                propertyInfo?.SetValue(nextToLastItem, newValue);
             }
         }
 
