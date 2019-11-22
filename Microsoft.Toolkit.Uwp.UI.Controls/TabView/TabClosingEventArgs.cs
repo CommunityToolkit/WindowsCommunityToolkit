@@ -3,13 +3,14 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.ComponentModel;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
     /// Event arguments for <see cref="TabView.TabClosing"/> event.
     /// </summary>
-    public class TabClosingEventArgs : EventArgs
+    public class TabClosingEventArgs : CancelEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TabClosingEventArgs"/> class.
@@ -31,10 +32,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Gets the Tab being closed.
         /// </summary>
         public TabViewItem Tab { get; private set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the notification should be closed.
-        /// </summary>
-        public bool Cancel { get; set; }
     }
 }

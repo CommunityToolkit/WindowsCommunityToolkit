@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Globalization;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -9,7 +10,7 @@ using System.Text.RegularExpressions;
 namespace Microsoft.Toolkit.Extensions
 {
     /// <summary>
-    /// Helpers for working with strings.
+    /// Helpers for working with strings and string representations.
     /// </summary>
     public static class StringExtensions
     {
@@ -104,6 +105,7 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <param name="value">The object to convert.</param>
         /// <returns>String representation of the object.</returns>
+        [Obsolete("Use value?.ToString() instead. This will be removed in the next release of the toolkit.")]
         public static string ToSafeString(this object value)
         {
             return value?.ToString();

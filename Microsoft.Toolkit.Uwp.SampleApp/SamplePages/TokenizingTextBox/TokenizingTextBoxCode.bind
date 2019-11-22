@@ -1,0 +1,25 @@
+private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+{
+    if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+    {
+        if (string.IsNullOrWhiteSpace(sender.Text))
+        {
+            _ttb.SuggestedItemsSource = Array.Empty<object>();
+        }
+        else
+        {
+            _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
+        }
+    }
+}
+
+private async void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
+{
+    // Take the user's text and convert it to our data type.
+    using (e.GetDeferral())
+    {
+		// Can do an async lookup here as well.
+
+        e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+    }
+}

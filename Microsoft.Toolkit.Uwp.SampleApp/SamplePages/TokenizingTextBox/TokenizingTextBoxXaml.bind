@@ -1,0 +1,44 @@
+﻿<Page xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:common="using:Microsoft.Toolkit.Uwp.SampleApp.Common"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
+
+    <Grid>
+      <controls:TokenizingTextBox
+          x:Name="TokenBox"
+          PlaceholderText="Add Actions"
+          QueryIcon="Setting"
+          MaxHeight="104"
+          MaxWidth="400"
+          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+          ScrollViewer.HorizontalScrollMode="Disabled"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.VerticalScrollMode="Enabled"
+          TextMemberPath="Text"
+          VerticalAlignment="Center"
+          TokenSpacing="2"
+          Padding="4"
+          TokenDelimiter=",">
+        <controls:TokenizingTextBox.SuggestedItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.SuggestedItemTemplate>
+        <controls:TokenizingTextBox.TokenItemTemplate>
+          <DataTemplate>
+            <StackPanel Orientation="Horizontal">
+              <SymbolIcon Symbol="{Binding Icon}"/>
+              <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
+            </StackPanel>
+          </DataTemplate>
+        </controls:TokenizingTextBox.TokenItemTemplate>
+      </controls:TokenizingTextBox>
+    </Grid>
+</Page>
