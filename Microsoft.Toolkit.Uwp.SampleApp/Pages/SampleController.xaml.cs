@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }));
         }
 
-        public async Task RefreshXamlRenderAsync()
+        public void RefreshXamlRender()
         {
             if (CurrentSample != null)
             {
@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
                 if (!string.IsNullOrWhiteSpace(code))
                 {
-                    await UpdateXamlRenderAsync(code);
+                    UpdateXamlRender(code);
                 }
             }
         }
@@ -358,7 +358,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 _lastRenderedProperties = true;
 
                 // Called to load the sample initially as we don't get an Item Pivot Selection Changed with Sample Loaded yet.
-                var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                UpdateXamlRender(CurrentSample.BindedXamlCode);
             }
         }
 
@@ -384,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     _lastRenderedProperties = true;
 
-                    var t = UpdateXamlRenderAsync(CurrentSample.BindedXamlCode);
+                    UpdateXamlRender(CurrentSample.BindedXamlCode);
                 }
 
                 return;
@@ -398,7 +398,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // If we switch to the Live Preview, then we want to use the Value based Text
                 XamlCodeEditor.Text = CurrentSample.UpdatedXamlCode;
 
-                var t = UpdateXamlRenderAsync(CurrentSample.UpdatedXamlCode);
+                UpdateXamlRender(CurrentSample.UpdatedXamlCode);
                 await XamlCodeEditor.ResetPosition();
 
                 XamlCodeEditor.Focus(FocusState.Programmatic);
@@ -432,7 +432,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () =>
             {
-                var t = UpdateXamlRenderAsync(XamlCodeEditor.Text);
+                UpdateXamlRender(XamlCodeEditor.Text);
             });
         }
 
@@ -500,7 +500,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private async Task UpdateXamlRenderAsync(string text)
+        private void UpdateXamlRender(string text)
         {
             // Hide any Previous Errors
             XamlCodeEditor.ClearErrors();

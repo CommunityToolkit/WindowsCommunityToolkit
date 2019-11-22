@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 SampleController.Current.RegisterNewCommand("Lazy loading sample (17763 or higher supported)", (sender, args) =>
                 {
                     var imageExLazyLoadingControl = new ImageExLazyLoadingControl();
-                    imageExLazyLoadingControl.CloseButtonClick += (_, __) =>
+                    imageExLazyLoadingControl.CloseButtonClick += (s, a) =>
                     {
                         if (lazyLoadingControlHost != null)
                         {
