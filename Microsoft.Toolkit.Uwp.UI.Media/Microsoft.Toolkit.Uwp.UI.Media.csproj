@@ -1,0 +1,28 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFramework>uap10.0.16299</TargetFramework>
+    <Title>Windows Community Toolkit UI Media</Title>
+    <Description>
+      This library provides UI brushes. It is part of the Windows Community Toolkit.
+
+      Media:
+      - BackdropBlurBrush: The BackdropBlurBrush is a Brush that blurs whatever is behind it in the application.
+      - BackdropGammaTransferBrush: A brush which alters the colors of whatever is behind it in the application by applying a per-channel gamma transfer function.
+      - BackdropInvertBrush: The BackdropInvertBrush is a Brush which inverts whatever is behind it in the application.
+      - BackdropSaturationBrush: Brush which applies a SaturationEffect to the Backdrop.
+      - BackdropSepiaBrush: Brush which applies a SepiaEffect to the Backdrop.
+      - CanvasBrushBase: Helper Brush class to interop with Win2D Canvas calls.
+      - ImageBlendBrush: Brush which blends a BitmapImage to the Backdrop in a given mode.
+      - RadialGradientBrush: This GradientBrush defines its Gradient as an interpolation within an Ellipse.
+
+    </Description>
+    <PackageTags>UWP Toolkit Windows UI XAML brushes blur</PackageTags>
+    
+    <UseUwpMetaPackage>true</UseUwpMetaPackage>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Win2D.uwp" Version="1.24.0" />
+  </ItemGroup>
+</Project>

@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(TokenDelimiter),
             typeof(string),
             typeof(TokenizingTextBox),
-            new PropertyMetadata(string.Empty));
+            new PropertyMetadata(" "));
 
         /// <summary>
         /// Identifies the <see cref="TokenSpacing"/> property.
@@ -109,15 +109,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public static readonly DependencyProperty QueryIconProperty = DependencyProperty.Register(
             nameof(QueryIcon),
-            typeof(object),
+            typeof(IconElement),
             typeof(TokenizingTextBox),
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="QueryText"/> property.
+        /// Identifies the <see cref="Text"/> property.
         /// </summary>
-        public static readonly DependencyProperty QueryTextProperty = DependencyProperty.Register(
-            nameof(QueryText),
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            nameof(Text),
             typeof(string),
             typeof(TokenizingTextBox),
             new PropertyMetadata(string.Empty));
@@ -185,10 +185,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             set => SetValue(DisplayMemberPathProperty, value);
         }
 
+        private IList<TokenizingTextBoxItem> SelectedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
+
         /// <summary>
         /// Gets the collection of currently selected token items.
         /// </summary>
-        public IList<object> SelectedItems { get; private set; } = new List<object>();
+        public IList<object> SelectedItems
+        {
+            get
+            {
+                IList<object> items = new List<object>();
+
+                foreach (var item in SelectedItemsInternal)
+                {
+                    items.Add(item.Content);
+                }
+
+                return items;
+            }
+        }
+
+        private IList<TokenizingTextBoxItem> TokenizedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
+
+        /// <summary>
+        /// Gets the collection of current token items.
+        /// </summary>
+        public IList<object> Items
+        {
+            get
+            {
+                IList<object> items = new List<object>();
+
+                foreach (var item in TokenizedItemsInternal)
+                {
+                    items.Add(item.Content);
+                }
+
+                return items;
+            }
+
+            //// TODO: Need to make this settable/changable
+        }
 
         /// <summary>
         /// Gets or sets the TextMemberPath of the AutoSuggestBox template part.
@@ -256,30 +293,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets the icon to display in the AutoSuggestBox template part.
         /// </summary>
-        public object QueryIcon
+        public IconElement QueryIcon
         {
-            get => GetValue(QueryIconProperty);
-            set
-            {
-                // Special case for parsing Symbol enum strings
-                if (value is string valueString && Enum.TryParse(valueString, out Symbol symbol))
-                {
-                    SetValue(QueryIconProperty, new SymbolIcon(symbol));
-                }
-                else
-                {
-                    SetValue(QueryIconProperty, value);
-                }
-            }
+            get => (IconElement)GetValue(QueryIconProperty);
+            set => SetValue(QueryIconProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the input text of the AutoSuggestBox template part.
         /// </summary>
-        public string QueryText
+        public string Text
         {
-            get => (string)GetValue(QueryTextProperty);
-            set => SetValue(QueryTextProperty, value);
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
 
         /// <summary>

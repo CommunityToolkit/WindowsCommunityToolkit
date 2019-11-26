@@ -11,14 +11,14 @@
     <AssemblyName>Microsoft.Toolkit.Uwp.SampleApp</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion>10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <Win32Resource>MiddleClickScrolling-CursorType.res</Win32Resource>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
   </PropertyGroup>
@@ -116,22 +116,22 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.1.5</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Services.Store.Engagement">
-      <Version>10.1711.28001</Version>
+      <Version>10.1901.28001</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Graph.Controls">
+      <Version>6.1.0-build.6</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.181011001</Version>
+      <Version>2.2.190917002</Version>
     </PackageReference>
     <PackageReference Include="Monaco.Editor">
       <Version>0.7.0-alpha</Version>
     </PackageReference>
     <PackageReference Include="StyleCop.Analyzers">
       <Version>1.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Graph">
-      <Version>1.8.1</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
       <Version>1.1.0</Version>
@@ -148,6 +148,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Content Include="Assets\mslogo.png" />
     <Content Include="Assets\NotificationAssets\Cloudy-Square.png" />
     <Content Include="Assets\NotificationAssets\Cloudy.png" />
     <Content Include="Assets\NotificationAssets\Drizzle-Square.png" />
@@ -281,14 +282,13 @@
     <Content Include="Icons\More.png" />
     <Content Include="Icons\Notifications.png" />
     <Content Include="Icons\Services.png" />
+    <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
-    <Content Include="SamplePages\PowerBIEmbedded\PowerBIEmbedded.png" />
-    <Content Include="SamplePages\ProfileCard\ProfileCard.png" />
-    <Content Include="SamplePages\PlannerTaskList\PlannerTaskList.png" />
+    <Content Include="SamplePages\PersonView\PersonView.png" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBox.png" />
     <Content Include="SamplePages\UniformGrid\UniformGrid.png" />
     <Content Include="SamplePages\AdaptiveGridView\AdaptiveGridView.png" />
@@ -308,7 +308,7 @@
     <Content Include="SamplePages\DispatcherHelper\DispatchHelper.png" />
     <Content Include="SamplePages\DockPanel\DockPanel.png" />
     <Content Include="SamplePages\Facebook Service\FacebookLogo.png" />
-    <Content Include="SamplePages\AadLogin\AadLogin.png" />
+    <Content Include="SamplePages\LoginButton\LoginButton.png" />
     <Content Include="SamplePages\FadeHeader\FadeHeaderBehavior.png" />
     <Content Include="SamplePages\Fade\FadeBehavior.png" />
     <Content Include="SamplePages\FocusTracker\FocusTracker.png" />
@@ -342,8 +342,6 @@
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.png" />
     <Content Include="SamplePages\MasterDetailsView\OneDriveLogo.png" />
     <Content Include="SamplePages\Menu\Menu.png" />
-    <Content Include="SamplePages\Microsoft Graph Service\mslogo.png" />
-    <Content Include="SamplePages\Microsoft Graph Service\user.png" />
     <Content Include="SamplePages\Microsoft Translator Service\TranslatorService.png" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelper.png" />
     <Content Include="SamplePages\Offset\OffsetBehavior.png" />
@@ -359,7 +357,6 @@
     <Content Include="SamplePages\OrbitView\OrbitView.png" />
     <Content Include="SamplePages\Scale\ScaleBehavior.png" />
     <Content Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsCode.bind" />
-    <Content Include="SamplePages\SharePointFileList\SharePointFileList.png" />
     <Content Include="SamplePages\StaggeredPanel\StaggeredPanel.png" />
     <Content Include="SamplePages\SystemInformation\SystemInformation.png" />
     <Content Include="SamplePages\TextBoxMask\TextBoxMask.png" />
@@ -429,7 +426,6 @@
     <Content Include="SamplePages\Toast\ToastCodeJavaScript.bind" />
     <Content Include="SamplePages\Object Storage\ObjectStorageCode.bind" />
     <Content Include="SamplePages\WeatherLiveTileAndToast\WeatherLiveTileAndToastCodeJavaScript.bind" />
-    <Content Include="SamplePages\Microsoft Graph Service\MicrosoftGraphCode.bind" />
     <Content Include="SamplePages\BackgroundTaskHelper\BackgroundTaskHelperCode.bind" />
     <Content Include="SamplePages\MasterDetailsView\MasterDetailsView.bind" />
     <Content Include="SamplePages\NetworkHelper\NetworkHelperCode.bind" />
@@ -456,7 +452,6 @@
     <Content Include="SamplePages\TextBoxRegex\TextBoxRegex.bind" />
     <Content Include="SamplePages\RadialProgressBar\RadialProgressBarCode.bind" />
     <Content Include="SamplePages\MarkdownTextBlock\MarkdownTextBlockCode.bind" />
-    <Content Include="SamplePages\OneDrive Service\OneDriveCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorCode.bind" />
     <Content Include="SamplePages\Blur\BlurBehaviorXaml.bind" />
     <Content Include="SamplePages\ViewExtensions\ViewExtensionsCode.bind">
@@ -510,12 +505,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\CameraPreview\CameraPreviewXaml.bind" />
-    <Content Include="SamplePages\AadLogin\AadLoginCode.bind" />
-    <Content Include="SamplePages\AadLogin\AadLoginXaml.bind" />
+    <Content Include="SamplePages\LoginButton\LoginButtonXaml.bind" />
     <Content Include="SamplePages\PeoplePicker\PeoplePickerXaml.bind" />
-    <Content Include="SamplePages\ProfileCard\ProfileCardXaml.bind" />
-    <Content Include="SamplePages\SharePointFileList\SharePointFileListCode.bind" />
-    <Content Include="SamplePages\SharePointFileList\SharePointFileListXaml.bind" />
+    <Content Include="SamplePages\PersonView\PersonViewXaml.bind" />
     <Content Include="SamplePages\GazeInteraction\GazeInteractionXaml.bind">
       <SubType>Designer</SubType>
     </Content>
@@ -523,13 +515,16 @@
     <Content Include="SamplePages\GazeTracing\GazeTracingCode.bind" />
     <Content Include="SamplePages\InfiniteCanvas\InfiniteCanvas.bind" />
     <Content Include="SamplePages\RemoteDevicePicker\RemoteDevicePickerCode.bind" />
-    <Content Include="SamplePages\PlannerTaskList\PlannerTaskListXaml.bind" />
     <Content Include="SamplePages\DataGrid\DataGridCode.bind" />
     <Content Include="SamplePages\ViewportBehavior\ViewportBehaviorCode.bind" />
     <Content Include="SamplePages\TabView\TabViewXaml.bind">
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SamplePages\Weibo Service\WeiboCode.bind" />
+    <Compile Include="Common\TextBlockHyperlinkBehavior.cs" />
+    <Compile Include="SamplePages\Eyedropper\EyedropperPage.xaml.cs">
+      <DependentUpon>EyedropperPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\ImageEx\ImageExLazyLoadingControl.xaml.cs">
       <DependentUpon>ImageExLazyLoadingControl.xaml</DependentUpon>
     </Compile>
@@ -543,6 +538,7 @@
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
     </Compile>
@@ -553,6 +549,9 @@
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelperCode.bind" />
     <Content Include="SamplePages\ImageCropper\ImageCropperXaml.bind" />
     <Content Include="SamplePages\ImageCropper\ImageCropperCode.bind" />
+    <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
+    <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
+    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -570,9 +569,6 @@
     <Compile Include="Common\SolidColorBrushConverter.cs" />
     <Compile Include="Common\DelegateCommand.cs" />
     <Compile Include="Common\Tools.cs" />
-    <Compile Include="Controls\AadAuthControl.xaml.cs">
-      <DependentUpon>AadAuthControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SampleAppMarkdownRenderer.cs" />
     <Compile Include="Controls\XamlCodeEditor.xaml.cs">
       <DependentUpon>XamlCodeEditor.xaml</DependentUpon>
@@ -592,12 +588,6 @@
     <Compile Include="SamplePages\TabView\TabViewPage.xaml.cs">
       <DependentUpon>TabViewPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedPage.xaml.cs">
-      <DependentUpon>PowerBIEmbeddedPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\PlannerTaskList\PlannerTaskListPage.xaml.cs">
-      <DependentUpon>PlannerTaskListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\UniformGrid\UniformGridPage.xaml.cs">
       <DependentUpon>UniformGridPage.xaml</DependentUpon>
     </Compile>
@@ -609,8 +599,8 @@
     <Compile Include="SamplePages\PeoplePicker\PeoplePickerPage.xaml.cs">
       <DependentUpon>PeoplePickerPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\ProfileCard\ProfileCardPage.xaml.cs">
-      <DependentUpon>ProfileCardPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\PersonView\PersonViewPage.xaml.cs">
+      <DependentUpon>PersonViewPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\AdvancedCollectionView\AdvancedCollectionViewPage.xaml.cs">
       <DependentUpon>AdvancedCollectionViewPage.xaml</DependentUpon>
@@ -652,8 +642,8 @@
     <Compile Include="SamplePages\BackdropBlurBrush\BackdropBlurBrushPage.xaml.cs">
       <DependentUpon>BackdropBlurBrushPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\AadLogin\AadLoginPage.xaml.cs">
-      <DependentUpon>AadLoginPage.xaml</DependentUpon>
+    <Compile Include="SamplePages\LoginButton\LoginButtonPage.xaml.cs">
+      <DependentUpon>LoginButtonPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\DataGrid\DataGridPage.xaml.cs">
       <DependentUpon>DataGridPage.xaml</DependentUpon>
@@ -721,9 +711,6 @@
     <Compile Include="SamplePages\ScrollViewerExtensions\ScrollViewerExtensionsPage.xaml.cs">
       <DependentUpon>ScrollViewerExtensionsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\SharePointFileList\SharePointFileListPage.xaml.cs">
-      <DependentUpon>SharePointFileListPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml.cs">
       <DependentUpon>StaggeredPanelPage.xaml</DependentUpon>
     </Compile>
@@ -787,14 +774,6 @@
     <Compile Include="SamplePages\Microsoft Translator Service\MicrosoftTranslatorPage.xaml.cs">
       <DependentUpon>MicrosoftTranslatorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDriveDataTemplateSelector.cs" />
-    <Compile Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml.cs">
-      <DependentUpon>FoldersPickerControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDrivePage.xaml.cs">
-      <DependentUpon>OneDrivePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\OneDrive Service\OneDriveSampleHelpers.cs" />
     <Compile Include="SamplePages\Saturation\SaturationBehaviorPage.xaml.cs">
       <DependentUpon>SaturationBehaviorPage.xaml</DependentUpon>
     </Compile>
@@ -829,14 +808,6 @@
     </Compile>
     <Compile Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml.cs">
       <DependentUpon>MasterDetailsViewPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml.cs">
-      <DependentUpon>MicrosoftGraphPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphSource.cs" />
-    <Compile Include="SamplePages\Microsoft Graph Service\MicrosoftGraphUIExtensions.cs" />
-    <Compile Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml.cs">
-      <DependentUpon>SendMessageContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="SamplePages\ImageCache\ImageCachePage.xaml.cs">
       <DependentUpon>ImageCachePage.xaml</DependentUpon>
@@ -951,10 +922,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\AadAuthControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\PropertyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -964,6 +931,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SampleController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\Eyedropper\EyedropperPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -991,11 +962,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\PowerBIEmbedded\PowerBIEmbeddedPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\ProfileCard\ProfileCardPage.xaml">
+    <Page Include="SamplePages\PersonView\PersonViewPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1023,15 +990,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\PlannerTaskList\PlannerTaskListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxXaml.bind">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1080,7 +1042,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\AadLogin\AadLoginPage.xaml">
+    <Page Include="SamplePages\LoginButton\LoginButtonPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1152,10 +1114,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SamplePages\SharePointFileList\SharePointFileListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\StaggeredPanel\StaggeredPanelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1224,14 +1182,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SamplePages\OneDrive Service\FoldersPickerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\OneDrive Service\OneDrivePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="SamplePages\Saturation\SaturationBehaviorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1279,14 +1229,6 @@
     <Page Include="SamplePages\MasterDetailsView\MasterDetailsViewPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SamplePages\Microsoft Graph Service\MicrosoftGraphPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SamplePages\Microsoft Graph Service\SendMessageContentDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SamplePages\ImageCache\ImageCachePage.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -1461,13 +1403,13 @@
       <Project>{daeb9cec-c817-33b2-74b2-bc379380db72}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Graph\Microsoft.Toolkit.Uwp.UI.Controls.Graph.csproj">
-      <Project>{d4d78cba-b238-4794-89a0-4f1a2d8fea97}</Project>
-      <Name>Microsoft.Toolkit.Uwp.UI.Controls.Graph</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj">
       <Project>{e9faabfb-d726-42c1-83c1-cb46a29fea81}</Project>
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Media\Microsoft.Toolkit.Uwp.UI.Media.csproj">
+      <Project>{75f9ee44-3efa-47bc-aedd-351b9834a0af}</Project>
+      <Name>Microsoft.Toolkit.Uwp.UI.Media</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj">
       <Project>{6fe128a8-cefa-4a61-a987-ec92de6b538e}</Project>
@@ -1494,9 +1436,35 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <NoWarn>;2008</NoWarn>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>microsoft.toolkit.uwp.sampleapp.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">

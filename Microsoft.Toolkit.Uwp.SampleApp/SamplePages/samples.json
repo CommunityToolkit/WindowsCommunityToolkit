@@ -359,65 +359,51 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/ImageCropper.md"
       },
       {
-        "Name": "AadLogin",
-        "Type": "AadLoginPage",
-        "Subcategory": "Graph",
-        "About": "The AadLogin Control leverages existing .NET login libraries to support basic AAD sign-in processes for Microsoft Graph.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/AadLogin",
-        "CodeFile": "AadLoginCode.bind",
-        "XamlCodeFile": "AadLoginXaml.bind",
-        "Icon": "/SamplePages/AadLogin/AadLogin.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/AadLogin.md"
+        "Name": "Eyedropper",
+        "Type": "EyedropperPage",
+        "Subcategory": "Input",
+        "About": "Eyedropper can pick up a color from anywhere in your application.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/Eyedropper",
+        "XamlCodeFile": "EyedropperXaml.bind",
+        "CodeFile": "EyedropperCode.bind",
+        "Icon": "/SamplePages/Eyedropper/Eyedropper.png",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/Eyedropper.md"
       },
       {
-        "Name": "ProfileCard",
-        "Type": "ProfileCardPage",
+        "Name": "LoginButton",
+        "Type": "LoginButtonPage",
         "Subcategory": "Graph",
-        "About": "The ProfileCard Control is a simple way to display a user in multiple different formats and mixes of name/image/e-mail.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/ProfileCard",
-        "XamlCodeFile": "ProfileCardXaml.bind",
-        "Icon": "/SamplePages/ProfileCard/ProfileCard.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/ProfileCard.md"
+        "About": "The LoginButton control is a button and flyout to facilitate Microsoft identity platform authentication for AAD or MSA accounts.",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/LoginButton",
+        "XamlCodeFile": "LoginButtonXaml.bind",
+        "Icon": "/SamplePages/LoginButton/LoginButton.png",
+        "BadgeUpdateVersionRequired": "PREVIEW",
+        "DeprecatedWarning": "The LoginButton control is in preview. Find out more here: https://aka.ms/wgt",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/LoginButton.md"
+      },
+      {
+        "Name": "PersonView",
+        "Type": "PersonViewPage",
+        "Subcategory": "Graph",
+        "About": "The PersonView control is used to display a person or contact by using their photo, name, and/or email address from Microsoft Graph.",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/PersonView",
+        "XamlCodeFile": "PersonViewXaml.bind",
+        "Icon": "/SamplePages/PersonView/PersonView.png",
+        "BadgeUpdateVersionRequired": "PREVIEW",
+        "DeprecatedWarning": "The PersonView control is in preview. Find out more here: https://aka.ms/wgt",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PersonView.md"
       },
       {
         "Name": "PeoplePicker",
         "Type": "PeoplePickerPage",
         "Subcategory": "Graph",
-        "About": "The PeoplePicker Control is a simple control that allows for selection of one or more users from an organizational AD.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PeoplePicker",
+        "About": "The PeoplePicker Control searchs for people and renders the list of results from Microsoft Graph. By default, the component will search for all people.",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls/tree/master/Microsoft.Toolkit.Graph.Controls/Controls/PeoplePicker",
         "XamlCodeFile": "PeoplePickerXaml.bind",
         "Icon": "/SamplePages/PeoplePicker/PeoplePicker.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PeoplePicker.md"
-      },
-      {
-        "Name": "SharePointFileList",
-        "Type": "SharePointFileListPage",
-        "Subcategory": "Graph",
-        "About": "The SharePointFileList Control displays a simple list of SharePoint Files.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/SharePointFileList",
-        "CodeFile": "SharePointFileListCode.bind",
-        "XamlCodeFile": "SharePointFileListXaml.bind",
-        "Icon": "/SamplePages/SharePointFileList/SharePointFileList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/SharePointFileList.md"
-      },
-      {
-        "Name": "PowerBIEmbedded",
-        "Type": "PowerBIEmbeddedPage",
-        "Subcategory": "Graph",
-        "About": "The PowerBI embedded control is a simple wrapper to an IFRAME for a PowerBI embed.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PowerBIEmbedded",
-        "Icon": "/SamplePages/PowerBIEmbedded/PowerBIEmbedded.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PowerBIEmbedded.md"
-      },
-      {
-        "Name": "PlannerTaskList",
-        "Type": "PlannerTaskListPage",
-        "Subcategory": "Graph",
-        "About": "The PlannerTaskList Control displays a simple list of Planner tasks.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Graph/PlannerTaskList",
-        "XamlCodeFile": "PlannerTaskListXaml.bind",
-        "Icon": "/SamplePages/PlannerTaskList/PlannerTaskList.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/PlannerTaskList.md"
+        "BadgeUpdateVersionRequired": "PREVIEW",
+        "DeprecatedWarning": "The PeoplePicker control is in preview. Find out more here: https://aka.ms/wgt",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/controls/PeoplePicker.md"
       },
       {
         "Name": "AlignmentGrid",
@@ -438,18 +424,18 @@
         "XamlCodeFile": "FocusTrackerXaml.bind",
         "Icon": "/SamplePages/FocusTracker/FocusTracker.png",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/developer-tools/FocusTracker.md"
-      },
-      {
-        "Name": "TokenizingTextBox",
-        "Type": "TokenizingTextBoxPage",
-        "Subcategory": "Input",
-        "About": "A text input control that makes suggestions and keeps track of data token items",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
-        "XamlCodeFile": "TokenizingTextBoxXaml.bind",
-        "CodeFile": "TokenizingTextBoxCode.bind",
-        "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
-      }
+      }//,
+      //{
+      //  "Name": "TokenizingTextBox",
+      //  "Type": "TokenizingTextBoxPage",
+      //  "Subcategory": "Input",
+      //  "About": "A text input control that makes suggestions and keeps track of data token items",
+      //  "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/TokenizingTextBox",
+      //  "CodeFile": "TokenizingTextBoxCode.bind",
+      //  "XamlCodeFile": "TokenizingTextBoxXaml.bind",
+      //  "Icon": "/SamplePages/TokenizingTextBox/TokenizingTextBox.png",
+      //  "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/TokenizingTextBox.md"
+      //}
     ]
   },
   {
@@ -657,7 +643,18 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Services/Services/Facebook",
         "CodeFile": "FacebookCode.bind",
         "Icon": "/SamplePages/Facebook Service/FacebookLogo.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "These helpers will be removed in the next release.",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Facebook.md"
+      },
+      {
+        "Name": "Microsoft Graph Service",
+        "About": "These providers help you easily authenticate and connect to the Microsoft Graph.",
+        "Icon": "/Assets/mslogo.png",
+        "BadgeUpdateVersionRequired": "PREVIEW",
+        "DeprecatedWarning": "The Graph Providers are in preview. Find out more here: https://aka.ms/wgt",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/graph/providers/InteractiveProviderBehavior.md",
+        "CodeUrl": "https://github.com/windows-toolkit/Graph-Controls"
       },
       {
         "Name": "Twitter Service",
@@ -678,21 +675,12 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/Weibo.md"
       },
       {
-        "Name": "Microsoft Graph Service",
-        "Type": "MicrosoftGraphPage",
-        "About": "The Microsoft Graph service allows you to connect to Microsoft Graph Office 365 API.",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/MicrosoftGraph",
-        "CodeFile": "MicrosoftGraphCode.bind",
-        "Icon": "/SamplePages/Microsoft Graph Service/mslogo.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/MicrosoftGraph.md"
-      },
-      {
         "Name": "OneDrive Service",
-        "Type": "OneDrivePage",
         "About": "The OneDrive service allows you to get your files from OneDrive using an Microsoft Account or OneDrive For Business using an Office 365 account",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Services/Services/OneDrive/",
-        "CodeFile": "OneDriveCode.bind",
         "Icon": "/SamplePages/OneDrive Service/OneDriveLogo.png",
+        "BadgeUpdateVersionRequired": "DEPRECATED",
+        "DeprecatedWarning": "Please use the Microsoft Graph SDK or our new providers at https://aka.ms/wgt",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/services/OneDrive.md"
       },
       {

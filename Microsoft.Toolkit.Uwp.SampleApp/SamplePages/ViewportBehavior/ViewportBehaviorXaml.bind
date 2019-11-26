@@ -3,7 +3,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
-      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+      xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Behaviors"
       xmlns:core="using:Microsoft.Xaml.Interactions.Core"
       mc:Ignorable="d">
     <Grid>

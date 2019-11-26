@@ -1,6 +1,6 @@
 {
   "new-section-title": "What's New",
-  "new-samples": [ "Lottie", "RemoteDevicePicker", "RemoteDeviceHelper", "ImageCropper", "OnDevice" ],
+  "new-samples": [ "EyeDropper", "ViewportBehavior", "LoginButton", "PeoplePicker", "PersonView" ],
   "resources": [
     {
       "title": "Toolkit",
@@ -93,8 +93,8 @@
           "url": "https://github.com/hawkerm/monaco-editor-uwp"
         },
         {
-          "title": "Background photo: Nordic sunset by Maarten Verstraete",
-          "url": "https://unsplash.com/photos/yJiPvuyhO4s"
+          "title": "Background photo: Large pumpkins in field by Aaron Burden",
+          "url": "https://unsplash.com/photos/Ik4Df7hISDQ"
         }
       ]
     }
