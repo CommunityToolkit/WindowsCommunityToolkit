@@ -245,58 +245,80 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             // Check the required structure of the Quote is correct. Determine if it is a DocFX Note.
             if (element.Blocks.First() is ParagraphBlock para)
             {
-                if (para.Inlines.First() is TextRunInline textinline)
+                var firstInline = para.Inlines.First();
+
+                if (firstInline is MarkdownLinkInline linkInline &&
+                    linkInline.Inlines.First() is TextRunInline textInline)
                 {
-                    // Find the matching DocFX note style and header.
-                    foreach (var style in styles)
+                    var key = textInline.Text.Trim();
+                    if (styles.TryGetValue(key, out var style))
                     {
-                        // Search between stylisticly matching notes with different headers.
-                        foreach (var identifier in style.Identifiers)
+                        noteType = style;
+                        header = style.IdentifierReplacement;
+                        symbolglyph = style.Glyph;
+
+                        // Removes the identifier from the text
+                        textInline.Text = textInline.Text.Replace(key, string.Empty);
+
+                        if (style.Ignore)
                         {
-                            // Match the identifier with the start of the Quote to match.
-                            if (textinline.Text.StartsWith(identifier.Key))
+                            linkInline.ReferenceId = string.Empty;
+                        }
+                    }
+                }
+                else if (firstInline is TextRunInline textinline)
+                {
+                    var key = textinline.Text.Split(' ').FirstOrDefault();
+                    if (styles.TryGetValue(key, out var style) && !style.Ignore)
+                    {
+                        noteType = style;
+                        header = style.IdentifierReplacement;
+                        symbolglyph = style.Glyph;
+
+                        // Removes the identifier from the text
+                        textinline.Text = textinline.Text.Replace(key, string.Empty);
+
+                        if (theme == ElementTheme.Light)
+                        {
+                            localforeground = style.LightForeground;
+                            localbackground = style.LightBackground;
+                        }
+                        else
+                        {
+                            localforeground = new SolidColorBrush(Colors.White);
+                            localbackground = style.DarkBackground;
+                        }
+
+                        // Apply special formatting context.
+                        if (noteType != null)
+                        {
+                            if (localContext?.Clone() is UIElementCollectionRenderContext newcontext)
                             {
-                                noteType = style;
-                                header = identifier.Value;
-                                symbolglyph = style.Glyph;
+                                localContext = newcontext;
 
-                                // Removes the identifier from the text
-                                textinline.Text = textinline.Text.Replace(identifier.Key, string.Empty);
-
-                                if (theme == ElementTheme.Light)
-                                {
-                                    localforeground = style.LightForeground;
-                                    localbackground = style.LightBackground;
-                                }
-                                else
-                                {
-                                    localforeground = new SolidColorBrush(Colors.White);
-                                    localbackground = style.DarkBackground;
-                                }
+                                localContext.TrimLeadingWhitespace = true;
+                                QuoteForeground = Foreground;
+                                LinkForeground = localforeground;
                             }
                         }
                     }
 
-                    // Apply special formatting context.
-                    if (noteType != null)
+                    if (style.Ignore)
                     {
-                        if (localContext?.Clone() is UIElementCollectionRenderContext newcontext)
-                        {
-                            localContext = newcontext;
-
-                            localContext.TrimLeadingWhitespace = true;
-                            QuoteForeground = Foreground;
-                            LinkForeground = localforeground;
-                        }
+                        // Blank entire block
+                        textinline.Text = string.Empty;
                     }
                 }
             }
 
             // Begins the standard rendering.
-            base.RenderQuote(element, localContext);
+            if (noteType == null || !noteType.Ignore)
+            {
+                base.RenderQuote(element, localContext);
+            }
 
             // Add styling to render if DocFX note.
-            if (noteType != null)
+            if (noteType != null && !noteType.Ignore)
             {
                 // Restore original formatting properties.
                 QuoteForeground = originalQuoteForeground;
@@ -397,41 +419,60 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         private LocalObjectStorageHelper storage = new LocalObjectStorageHelper();
 
         /// <summary>
-        /// DocFX note types and styling info.
+        /// DocFX note types and styling info, keyed by identifier.
         /// </summary>
-        private List<DocFXNote> styles = new List<DocFXNote>
+        private Dictionary<string, DocFXNote> styles = new Dictionary<string, DocFXNote>
         {
-            new DocFXNote
             {
-                Identifiers = new Dictionary<string, string> { { "[!NOTE]", "Note" } },
-                Glyph = NoteGlyph,
-                LightBackground = new SolidColorBrush(Color.FromArgb(255, 217, 246, 255)),
-                LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 109, 140)),
-                DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 69, 89))
+                "[!NOTE]",
+                new DocFXNote
+                {
+                    IdentifierReplacement = "Note",
+                    Glyph = NoteGlyph,
+                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 217, 246, 255)),
+                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 109, 140)),
+                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 69, 89))
+                }
             },
-            new DocFXNote
             {
-                Identifiers = new Dictionary<string, string> { { "[!TIP]", "Tip" } },
-                Glyph = "\uEA80",
-                LightBackground = new SolidColorBrush(Color.FromArgb(255, 233, 250, 245)),
-                LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 100, 73)),
-                DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 49, 36))
+                "[!TIP]",
+                new DocFXNote
+                {
+                    IdentifierReplacement = "Tip",
+                    Glyph = "\uEA80",
+                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 233, 250, 245)),
+                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 100, 73)),
+                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 49, 36))
+                }
             },
-            new DocFXNote
             {
-                Identifiers = new Dictionary<string, string> { { "[!WARNING]", "Warning" }, { "[!CAUTION]", "Caution" } },
-                Glyph = "\uEA39",
-                LightBackground = new SolidColorBrush(Color.FromArgb(255, 253, 237, 238)),
-                LightForeground = new SolidColorBrush(Color.FromArgb(255, 126, 17, 22)),
-                DarkBackground = new SolidColorBrush(Color.FromArgb(255, 67, 9, 12))
+                "[!WARNING]",
+                new DocFXNote
+                {
+                    IdentifierReplacement = "Warning",
+                    Glyph = "\uEA39",
+                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 253, 237, 238)),
+                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 126, 17, 22)),
+                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 67, 9, 12))
+                }
             },
-            new DocFXNote
             {
-                Identifiers = new Dictionary<string, string> { { "[!IMPORTANT]", "Important" } },
-                Glyph = NoteGlyph,
-                LightBackground = new SolidColorBrush(Color.FromArgb(255, 238, 233, 248)),
-                LightForeground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94)),
-                DarkBackground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94))
+                "[!IMPORTANT]",
+                new DocFXNote
+                {
+                    IdentifierReplacement = "Important",
+                    Glyph = NoteGlyph,
+                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 238, 233, 248)),
+                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94)),
+                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94))
+                }
+            },
+            {
+                "!div class=\"nextstepaction\"",
+                new DocFXNote
+                {
+                    Ignore = true
+                }
             }
         };
 
@@ -445,7 +486,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         /// </summary>
         private class DocFXNote
         {
-            public Dictionary<string, string> Identifiers { get; set; }
+            public string IdentifierReplacement { get; set; }
 
             public string Glyph { get; set; }
 
@@ -456,6 +497,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             public SolidColorBrush LightBackground { get; set; }
 
             public SolidColorBrush DarkBackground { get; set; }
+
+            public bool Ignore { get; set; }
         }
 
         /// <summary>

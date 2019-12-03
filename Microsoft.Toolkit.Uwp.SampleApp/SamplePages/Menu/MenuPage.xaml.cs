@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class MenuPage : IXamlRenderListener
     {
+        #pragma warning disable CS0618 // Type or member is obsolete
         private MenuItem fileMenu;
 
         public MenuPage()
@@ -23,6 +24,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             fileMenu = control.FindChildByName("FileMenu") as MenuItem;
         }
+        #pragma warning restore CS0618 // Type or member is obsolete
 
         private void Load()
         {

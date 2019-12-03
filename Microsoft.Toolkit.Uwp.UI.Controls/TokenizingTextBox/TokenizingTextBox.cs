@@ -4,13 +4,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.Deferred;
 using Microsoft.Toolkit.Uwp.Extensions;
-
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
+using Windows.UI.WebUI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -37,6 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private AutoSuggestBox _autoSuggestBox;
         private WrapPanel _wrapPanel;
+        private TextBox _autoSuggestTextBox;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
@@ -47,6 +49,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TokenizedItemsInternal.Clear();
         }
 
+        private void OnASBLoaded(object sender, RoutedEventArgs e)
+        {
+            if (_autoSuggestTextBox != null)
+            {
+                _autoSuggestTextBox.PreviewKeyDown -= this.AutoSuggestTextBox_PreviewKeyDown;
+            }
+
+            _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
+            _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
+        }
+
+        private async void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            int currentCursorPosition = _autoSuggestTextBox.SelectionStart;
+            if (currentCursorPosition == 0 && e.Key == VirtualKey.Back && TokenizedItemsInternal.Count > 0)
+            {
+                // The last item is the AutoSuggestBox. Get the second to last
+                UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
+
+                // And set focus to it
+                await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
+                e.Handled = true;
+            }
+        }
+
         /// <inheritdoc/>
         protected override void OnApplyTemplate()
         {
@@ -54,6 +81,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_autoSuggestBox != null)
             {
+                _autoSuggestBox.Loaded -= OnASBLoaded;
+
                 _autoSuggestBox.QuerySubmitted -= AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
@@ -71,6 +100,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (_autoSuggestBox != null)
             {
+                _autoSuggestBox.Loaded += OnASBLoaded;
+
                 _autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
@@ -117,20 +148,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             switch (e.Key)
             {
-                case VirtualKey.Back:
-                case VirtualKey.Delete:
-
-                    if (_autoSuggestBox.Text != string.Empty || _wrapPanel.Children.Count <= 1)
-                    {
-                        break;
-                    }
-
-                    // The last item is the AutoSuggestBox. Get the second to last.
-                    var lastTokenIndex = _wrapPanel.Children.Count - 2;
-                    var lastToken = _wrapPanel.Children[lastTokenIndex];
-                    RemoveToken(lastToken as TokenizingTextBoxItem);
-                    break;
-
                 case VirtualKey.Left:
                     break;
 
@@ -148,7 +165,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
                         if (controlPressed)
                         {
-                            CopySelectedToclipboard();
+                            CopySelectedToClipboard();
                         }
 
                         break;
@@ -156,23 +173,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            if (args.QueryText != string.Empty)
+            QuerySubmitted?.Invoke(sender, args);
+
+            if (args.ChosenSuggestion != null)
             {
-                AddToken(args.QueryText);
                 sender.Text = string.Empty;
+                await AddToken(args.ChosenSuggestion);
                 sender.Focus(FocusState.Programmatic);
             }
-
-            QuerySubmitted?.Invoke(sender, args);
+            else if (!string.IsNullOrWhiteSpace(args.QueryText))
+            {
+                sender.Text = string.Empty;
+                await AddToken(args.QueryText);
+                sender.Focus(FocusState.Programmatic);
+            }
         }
 
         private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
-            AddToken(args.SelectedItem);
-            sender.Text = string.Empty;
-            sender.Focus(FocusState.Programmatic);
             SuggestionChosen?.Invoke(sender, args);
         }
 
@@ -182,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             string t = sender.Text.Trim();
 
-            if (t.Contains(TokenDelimiter))
+            if (!string.IsNullOrEmpty(TokenDelimiter) && t.Contains(TokenDelimiter))
             {
                 bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
 
@@ -194,7 +214,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     token = token.Trim();
                     if (token.Length > 0)
                     {
-                        AddToken(token);
+                        _ = AddToken(token);
                     }
                 }
 
@@ -268,8 +288,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void AddToken(object data)
+        private async Task AddToken(object data)
         {
+            if (data is string str && TokenItemCreating != null)
+            {
+                var ticea = new TokenItemCreatingEventArgs(str);
+                await TokenItemCreating.InvokeAsync(this, ticea);
+
+                if (ticea.Cancel)
+                {
+                    return;
+                }
+
+                if (ticea.Item != null)
+                {
+                    data = ticea.Item; // Transformed by event implementor
+                }
+            }
+
             var item = new TokenizingTextBoxItem()
             {
                 Content = data,
@@ -285,7 +321,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
-            removeMenuItem.Click += (s, e) => RemoveToken(item);
+            removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(item, null);
+
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(removeMenuItem);
             item.ContextFlyout = menuFlyout;
@@ -339,7 +376,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
                         if (controlPressed)
                         {
-                            CopySelectedToclipboard();
+                            CopySelectedToClipboard();
                         }
 
                         break;
@@ -347,7 +384,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CopySelectedToclipboard()
+        private void CopySelectedToClipboard()
         {
             if (SelectedItemsInternal.Count > 0)
             {
@@ -413,7 +450,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Returns the string representation of each token item, concatenated and delimeted.
         /// </summary>
         /// <returns>Untokenized text string</returns>
-        public string GetUntokenizedText(string tokenDelimiter = " ,")
+        public string GetUntokenizedText(string tokenDelimiter = ", ")
         {
             var tokenStrings = new List<string>();
             foreach (var child in _wrapPanel.Children)
