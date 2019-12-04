@@ -13,10 +13,7 @@
     <!-- This is here to prevent a conflict in certain circumstances -->
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     
-    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />  
-    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
-    
   </ItemGroup>
 
 </Project>
