@@ -294,19 +294,41 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="end"> The location to stop parsing. </param>
-        /// <returns> A parsed text span. </returns>
-        internal static TextRunInline Parse(string markdown, int start, int end)
+        /// <param name="trimLeadingLineBreak">Will ignore whitespace and empty lines at the start of the text</param>
+        /// <param name="trimFollowingLineBreak">Will ignore whitespace and empty lines at the end of the text</param>
+        /// <returns> A parsed text span. Or <c>null</c> if no text could be parsed.</returns>
+        internal static TextRunInline Parse(string markdown, int start, int end, bool trimLeadingLineBreak, bool trimFollowingLineBreak)
         {
+
+            if (trimLeadingLineBreak)
+            {
+                // We want to start with the first line that does not only contains whitespace.
+                int firstNonWhiteSpacePos = start;
+                int firstLineBreakNotFollowedByOnlyWhitespace = start - 1;
+                while (firstNonWhiteSpacePos < end && char.IsWhiteSpace(markdown[firstNonWhiteSpacePos]))
+                {
+                    if (markdown[firstNonWhiteSpacePos] == '\n' || markdown[firstNonWhiteSpacePos] == '\r')
+                    {
+                        firstLineBreakNotFollowedByOnlyWhitespace = firstNonWhiteSpacePos;
+                    }
+
+                    firstNonWhiteSpacePos++;
+                }
+
+                start = firstLineBreakNotFollowedByOnlyWhitespace + 1;
+            }
+
             // Handle escape sequences and entities.
             // Note: this code is designed to be as fast as possible in the case where there are no
             // escape sequences and no entities (expected to be the common case).
             StringBuilder result = null;
             int textPos = start;
             int searchPos = start;
+
             while (searchPos < end)
             {
-                // Look for the next backslash.
-                int sequenceStartIndex = markdown.IndexOfAny(new char[] { '\\', '&' }, searchPos, end - searchPos);
+                // Look for the next escape sequence or linebreak.
+                int sequenceStartIndex = markdown.IndexOfAny(new char[] { '\\', '&', '\r', '\n' }, searchPos, end - searchPos);
                 if (sequenceStartIndex == -1)
                 {
                     break;
@@ -373,15 +395,81 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     result.Append((char)_entities[entityName]);
                     searchPos = textPos = semicolonIndex + 1;
                 }
+                else if (markdown[sequenceStartIndex] == '\n' || markdown[sequenceStartIndex] == '\r')
+                {
+                    char firstChar = markdown[sequenceStartIndex];
+                    char seccondChar = firstChar == '\n' ? '\r' : '\n';
+
+                    // we don't want to append space or linebreak for the last line break
+                    bool lastText;
+                    if (trimFollowingLineBreak
+                        && (sequenceStartIndex + 1 >= end
+                            || (sequenceStartIndex + 2 >= end && markdown[sequenceStartIndex + 1] == seccondChar)))
+                    {
+                        lastText = true;
+                    }
+                    else
+                    {
+                        lastText = false;
+                    }
+
+                    // we also don't want to add spaces for the linebreak that starts the text.
+                    bool firstText = trimLeadingLineBreak && sequenceStartIndex == start;
+
+                    if (result == null)
+                    {
+                        result = new StringBuilder(end - start);
+                    }
+
+                    if (sequenceStartIndex > 2 && markdown[sequenceStartIndex - 1] == ' ' && markdown[sequenceStartIndex - 2] == ' ')
+                    {
+                        // we need to add a linebreak
+                        result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos - 2/*for the two spaces*/));
+                        if (!lastText && !firstText)
+                        {
+                            result.AppendLine();
+                        }
+                    }
+                    else
+                    {
+                        result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
+                        if (!lastText && !firstText)
+                        {
+                            result.Append(' ');
+                        }
+                    }
+
+                    textPos = sequenceStartIndex + 1;
+                    searchPos = textPos;
+
+                    // Skip \r if it is the nex character
+                    if (searchPos < end && markdown[searchPos] == seccondChar)
+                    {
+                        searchPos++;
+                        textPos++;
+                    }
+                }
             }
 
+            string output;
             if (result != null)
             {
                 result.Append(markdown.Substring(textPos, end - textPos));
-                return new TextRunInline { Text = result.ToString() };
+                output = result.ToString();
+            }
+            else
+            {
+                output = markdown.Substring(start, end - start);
             }
 
-            return new TextRunInline { Text = markdown.Substring(start, end - start) };
+            if (string.IsNullOrEmpty(output))
+            {
+                return null;
+            }
+            else
+            {
+                return new TextRunInline { Text = output };
+            }
         }
 
         /// <summary>

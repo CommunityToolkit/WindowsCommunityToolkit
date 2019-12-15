@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Core;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
@@ -60,10 +61,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override LinkReferenceBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<LinkReferenceBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                actualEnd = startOfLine;
-
                 // Expect a '[' character.
                 if (startOfLine >= endOfFirstLine || markdown[startOfLine] != '[')
                 {
@@ -180,7 +179,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 result.Id = id;
                 result.Url = url;
                 result.Tooltip = tooltip;
-                return result;
+                return BlockParseResult.Create(result, startOfLine, endOfFirstLine);
             }
         }
     }

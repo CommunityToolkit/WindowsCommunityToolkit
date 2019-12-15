@@ -238,14 +238,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<ListBlock>
         {
             /// <inheritdoc/>
-            protected override ListBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ListBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var russianDolls = new List<NestedListInfo>();
                 int russianDollIndex = -1;
                 bool previousLineWasBlank = false;
                 bool inCodeBlock = false;
                 ListItemBlock currentListItem = null;
-                actualEnd = startOfLine; // using realStartOfLine will prevent qouting. So Why?
+                var actualEnd = startOfLine; // using realStartOfLine will prevent qouting. So Why?
 
                 var nonSpaceChar = markdown[firstNonSpace];
                 if (!lineStartsNewParagraph)
@@ -412,7 +412,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 var result = russianDolls[0].List;
                 ReplaceStringBuilders(result, document);
-                return result;
+                return BlockParseResult.Create(result, startOfLine, actualEnd);
             }
         }
     }

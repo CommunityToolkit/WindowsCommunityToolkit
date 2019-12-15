@@ -162,27 +162,36 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             // Text that is outside of any other block becomes a paragraph.
             var blocks = new List<MarkdownBlock>();
 
-            // Where the first character starts (without quote characters)
+            // Where the first character starts
             int startOfLine = start;
 
             // Is this the beginning of a paragraph
             bool lineStartsNewParagraph = true;
 
-            // text already "parsed" but not yet part of a block
-            var paragraphText = new StringBuilder();
+            // We need to remember what text is not yet part of a block
+            int startOfParagrapgh = start;
 
-            // These are needed to parse underline-style header blocks.
-            int previousRealtStartOfLine = start;
-            int previousStartOfLine = start;
-            int previousEndOfLine = start;
+            // text already "parsed" but not yet part of a block will be transformed to ParagraphBlock
+            void AddParagraph(int endOfText)
+            {
+                // End the current paragraph.
+                if (startOfParagrapgh < endOfText)
+                {
+                    var block = ParagraphBlock.Parse(markdown.Substring(startOfParagrapgh, endOfText - startOfParagrapgh), this);
+                    if (block != null)
+                    {
+                        blocks.Add(block);
+                    }
+                }
+
+                // We need to mark all text as parsed.
+                startOfParagrapgh = endOfText;
+            }
 
             // Go line by line.
             while (startOfLine < end)
             {
                 char nonSpaceChar = '\0';
-
-                // actual start of line, including quote characters
-                int realStartOfLine = startOfLine;  // i.e. including quotes.
 
                 // Find the end of the current line.
                 int endOfLine = Common.FindNextSingleNewLine(markdown, startOfLine, end, out int startOfNextLine);
@@ -198,90 +207,45 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 {
                     // The line is empty or nothing but whitespace.
                     lineStartsNewParagraph = true;
-
-                    // End the current paragraph.
-                    if (paragraphText.Length > 0)
-                    {
-                        blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
-                        paragraphText.Clear();
-                    }
+                    AddParagraph(startOfLine);
                 }
                 else
                 {
-                    // This is a header if the line starts with a hash character,
-                    // or if the line starts with '-' or a '=' character and has no other characters.
-                    // Or a quote if the line starts with a greater than character (optionally preceded by whitespace).
-                    // Or a horizontal rule if the line contains nothing but 3 '*', '-' or '_' characters (with optional whitespace).
-                    MarkdownBlock newBlockElement = null;
+                    BlockParseResult parsedBlock = null;
 
                     foreach (var parser in this.parsersBlock)
                     {
-                        newBlockElement = parser.Parse(markdown, startOfLine, nonSpacePos, endOfLine, end, out var endOfBlock, paragraphText, lineStartsNewParagraph, this);
-                        if (newBlockElement != null)
+                        parsedBlock = parser.Parse(markdown, startOfLine, nonSpacePos, endOfLine, startOfParagrapgh, end, lineStartsNewParagraph, this);
+                        if (parsedBlock != null)
                         {
-                            startOfNextLine = endOfBlock + 1;
+                            startOfNextLine = parsedBlock.End;
                             break;
                         }
                     }
 
                     // Block elements start new paragraphs.
-                    lineStartsNewParagraph = newBlockElement != null;
+                    lineStartsNewParagraph = parsedBlock != null;
 
-                    if (newBlockElement == null)
+                    if (parsedBlock == null)
                     {
-                        // The line contains paragraph text.
-                        if (paragraphText.Length > 0)
-                        {
-                            // If the previous two characters were both spaces, then append a line break.
-                            if (paragraphText.Length > 2 && paragraphText[paragraphText.Length - 1] == ' ' && paragraphText[paragraphText.Length - 2] == ' ')
-                            {
-                                // Replace the two spaces with a line break.
-                                paragraphText[paragraphText.Length - 2] = '\r';
-                                paragraphText[paragraphText.Length - 1] = '\n';
-                            }
-                            else
-                            {
-                                paragraphText.Append(" ");
-                            }
-                        }
-
                         // Add the last paragraph if we are at the end of the input text.
                         if (startOfNextLine >= end)
                         {
-                            if (paragraphText.Length == 0)
-                            {
-                                // Optimize for single line paragraphs.
-                                blocks.Add(ParagraphBlock.Parse(markdown.Substring(startOfLine, endOfLine - startOfLine), this));
-                            }
-                            else
-                            {
-                                // Slow path.
-                                paragraphText.Append(markdown.Substring(startOfLine, endOfLine - startOfLine));
-                                blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
-                            }
-                        }
-                        else
-                        {
-                            paragraphText.Append(markdown.Substring(startOfLine, endOfLine - startOfLine));
+                            AddParagraph(end);
                         }
                     }
                     else
                     {
-                        // The line contained a block.  End the current paragraph, if any.
-                        if (paragraphText.Length > 0)
-                        {
-                            blocks.Add(ParagraphBlock.Parse(paragraphText.ToString(), this));
-                            paragraphText.Clear();
-                        }
+                        AddParagraph(parsedBlock.Start);
 
-                        blocks.Add(newBlockElement);
+                        // Skip the paragraph text
+                        startOfParagrapgh = parsedBlock.End;
+
+                        blocks.Add(parsedBlock.ParsedElement);
                     }
                 }
 
                 // Repeat.
-                previousRealtStartOfLine = realStartOfLine;
-                previousStartOfLine = startOfLine;
-                previousEndOfLine = endOfLine;
                 startOfLine = startOfNextLine;
             }
 
@@ -304,13 +268,37 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // Find the next inline element.
                 var parseResult = FindNextInlineElement(markdown, currentParsePosition, maxEndingPos, ignoredParsers);
 
+                // there were no more inlines.
+                if (parseResult is null)
+                {
+                    // If we didn't find any elements we have a normal text block.
+                    // Let us consume the entire range.
+                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, maxEndingPos, inlines.Count == 0, true);
+
+                    // The textblock may contain only linebreaks.
+                    if (textRun != null)
+                    {
+                        parseResult = InlineParseResult.Create(textRun, currentParsePosition, maxEndingPos);
+                    }
+                }
+
+                // there where no inline to parse
+                if (parseResult is null)
+                {
+                    break;
+                }
+
                 // If the element we found doesn't start at the position we are looking for there
                 // is text between the element and the start of the parsed element. We need to wrap
                 // it into a text run.
                 if (parseResult.Start != currentParsePosition)
                 {
-                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, parseResult.Start);
-                    inlines.Add(textRun);
+                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, parseResult.Start, inlines.Count == 0, false);
+
+                    if (textRun != null)
+                    {
+                        inlines.Add(textRun);
+                    }
                 }
 
                 // Add the parsed element.
@@ -341,9 +329,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             var canUseTripChar = parsers.All(x => x.TripChar.Any());
 
-            return canUseTripChar
+            var foundInline = canUseTripChar
                 ? this.FindNextInlineWithTripChar(markdown, start, end, ignoredParsers, parsers)
                 : this.FindNextInlineSlow(markdown, start, end, ignoredParsers, parsers);
+
+            return foundInline;
         }
 
         private InlineParseResult FindNextInlineSlow(string markdown, int start, int end, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
@@ -372,9 +362,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            // If we didn't find any elements we have a normal text block.
-            // Let us consume the entire range.
-            return InlineParseResult.Create(TextRunInline.Parse(markdown, start, end), start, end);
+            return null;
         }
 
         private InlineParseResult FindNextInlineWithTripChar(string markdown, int start, int end, IEnumerable<Type> ignoredParsers, MarkdownInline.Parser[] parsers)
@@ -410,9 +398,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            // If we didn't find any elements we have a normal text block.
-            // Let us consume the entire range.
-            return InlineParseResult.Create(TextRunInline.Parse(markdown, start, end), start, end);
+            return null;
         }
 
         /// <summary>

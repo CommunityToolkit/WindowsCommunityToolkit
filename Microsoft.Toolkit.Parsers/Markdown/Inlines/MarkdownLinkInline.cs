@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     var result = new MarkdownLinkInline
                     {
                         Inlines = document.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoredParsers.Concat(IgnoredSubParsers)),
-                        Url = url.Replace(" ", "%20"),
+                        Url = url,
                         Tooltip = tooltip
                     };
                     return InlineParseResult.Create(result, tripPos, end);

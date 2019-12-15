@@ -204,21 +204,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<TableBlock>
         {
             /// <inheritdoc/>
-            protected override TableBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<TableBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A table is a line of text, with at least one vertical bar (|), followed by a line of
                 // of text that consists of alternating dashes (-) and vertical bars (|) and optionally
                 // vertical bars at the start and end.  The second line must have at least as many
                 // interior vertical bars as there are interior vertical bars on the first line.
-                actualEnd = startOfLine;
-
                 if (!lineStartsNewParagraph)
                 {
                     return null;
                 }
 
+                var startOfCurrentLine = startOfLine;
+
                 // First thing to do is to check if there is a vertical bar on the line.
-                var barSections = markdown.Substring((int)startOfLine, (int)(endOfFirstLine - startOfLine)).Split('|');
+                var barSections = markdown.Substring((int)startOfCurrentLine, (int)(endOfFirstLine - startOfCurrentLine)).Split('|');
 
                 var allBarsEscaped = true;
 
@@ -242,14 +242,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                startOfLine = firstRow.Parse(markdown, (int)startOfLine, maxEnd, document);
+                startOfCurrentLine = firstRow.Parse(markdown, (int)startOfCurrentLine, maxEnd, document);
                 rows.Add(firstRow);
 
                 // Parse the contents of the second row.
                 var secondRowContents = new List<string>();
-                startOfLine = TableRow.ParseContents(
+                startOfCurrentLine = TableRow.ParseContents(
                     markdown,
-                    (int)startOfLine,
+                    (int)startOfCurrentLine,
                     maxEnd,
                     requireVerticalBar: false,
                     contentParser: (start2, end2) => secondRowContents.Add(markdown.Substring(start2, end2 - start2)));
@@ -310,10 +310,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // Parse additional rows.
-                while (startOfLine < maxEnd)
+                while (startOfCurrentLine < maxEnd)
                 {
                     var row = new TableRow();
-                    startOfLine = row.Parse(markdown, (int)startOfLine, maxEnd, document);
+                    startOfCurrentLine = row.Parse(markdown, (int)startOfCurrentLine, maxEnd, document);
                     if (row.Cells.Count == 0)
                     {
                         break;
@@ -322,21 +322,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     rows.Add(row);
                 }
 
-                actualEnd = startOfLine;
+                var actualEnd = startOfCurrentLine;
                 var textLength = markdown.Length;
-                if (actualEnd > 0)
+                if (actualEnd > 1 && markdown[actualEnd - 2] == '\r' && markdown[actualEnd - 1] == '\n')
                 {
-                    if (markdown[actualEnd - 1] == '\r')
-                    {
-                        actualEnd -= 2;
-                    }
-                    else
-                    {
-                        actualEnd -= 1;
-                    }
+                    actualEnd -= 2;
+                }
+                else if (actualEnd > 1 && markdown[actualEnd - 1] == '\n')
+                {
+                    actualEnd -= 1;
                 }
 
-                return new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
+                var tableBlock = new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
+                return BlockParseResult.Create(tableBlock, startOfLine, actualEnd);
             }
         }
     }

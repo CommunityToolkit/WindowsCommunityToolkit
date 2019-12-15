@@ -48,9 +48,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
         /// <returns>the next single line</returns>
+        /// <remarks>
+        /// If startingPosition is already a linebreak cahracter, this will be ignored. We asume that the position was set to the end of the line (inclunding the linebreak) but we want to find the beginning.
+        /// </remarks>
         public static int FindPreviousSingleNewLine(string markdown, int startingPos, int endingPos, out int startOfNextLine)
         {
             // A line can end with CRLF (\r\n) or just LF (\n).
+            // We ignore the the first linefeed if we start there.
+            // We were set to the end of the line and wan't the beginning.
+            if (startingPos > 0 && markdown[startingPos] == '\n')
+            {
+                startingPos--;
+                if (startingPos > 0 && markdown[startingPos] == '\r')
+                {
+                    startingPos--;
+                }
+            }
+
             int lineFeedPos = markdown.LastIndexOf('\n', startingPos);
             if (lineFeedPos == -1)
             {
@@ -58,6 +72,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
                 lineFeedPos = markdown.LastIndexOf('\r', startingPos);
                 if (lineFeedPos == -1)
                 {
+                    // we haven't fonud anything, so we return the first postion possible.
                     startOfNextLine = endingPos;
                     return endingPos;
                 }
@@ -235,7 +250,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             // URLs can be relative.
             if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
             {
-                return true;
+                // it is relative when the url starts with an / or #
+                // "ha" is not an relative url and may not pass according to tests
+                return url.StartsWith("/") || url.StartsWith("#");
             }
 
             // Check the scheme is allowed.

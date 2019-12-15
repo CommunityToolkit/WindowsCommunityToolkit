@@ -131,7 +131,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(document, new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = nameof(InlineParserB) }));
         }
-        
+
         [TestMethod]
         [ExpectedException(typeof(System.InvalidOperationException))]
         public void TestCycleInline()
@@ -146,9 +146,8 @@ namespace UnitTests.Markdown.Parse
 
         private class BlockTestParser : MarkdownBlock.Parser<ParagraphBlock>
         {
-            protected override ParagraphBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ParagraphBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                actualEnd = maxEnd;
                 var paragraphBlock = new ParagraphBlock
                 {
                     Inlines = new List<MarkdownInline>
@@ -156,7 +155,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline() { Text = this.GetType().Name }
                     }
                 };
-                return paragraphBlock;
+                return BlockParseResult.Create(paragraphBlock, startOfLine, maxEnd);
             }
         }
 

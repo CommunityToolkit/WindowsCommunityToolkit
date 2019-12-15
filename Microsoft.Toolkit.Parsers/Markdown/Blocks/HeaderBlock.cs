@@ -71,11 +71,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public class HashParser : Parser<HeaderBlock>
         {
             /// <inheritdoc/>
-            protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with one or more '#' characters, followed by the header
                 // text, optionally followed by any number of hash characters.
-                actualEnd = startOfLine;
                 if (markdown[firstNonSpace] != '#' || firstNonSpace != startOfLine)
                 {
                     return null;
@@ -106,8 +105,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the inline content.
                 result.Inlines = document.ParseInlineChildren(markdown, pos, endOfHeader, Array.Empty<Type>());
-                actualEnd = endOfFirstLine;
-                return result;
+
+                return BlockParseResult.Create(result, startOfLine, endOfFirstLine);
             }
         }
 
@@ -124,24 +123,40 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override HeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
+                // Check the second line is valid.
+                if (endOfFirstLine <= startOfLine)
+                {
+                    return null;
+                }
+
                 // This type of header starts with some text on the first line, followed by one or more
                 // underline characters ('=' or '-') on the second line.
                 // The second line can have whitespace after the underline characters, but not before
                 // or between each character.
                 var nonSpaceChar = markdown[firstNonSpace];
-                actualEnd = startOfLine;
-                if ((nonSpaceChar != '-' && nonSpaceChar != '=') || firstNonSpace != startOfLine || paragraphText.Length == 0)
+
+                if ((nonSpaceChar != '-' && nonSpaceChar != '=') || firstNonSpace != startOfLine || maxStart >= startOfLine)
                 {
                     return null;
                 }
 
-                Common.FindPreviousSingleNewLine(paragraphText.ToString(), paragraphText.Length - 1, 0, out var startOfHeader);
-
-                // Check the second line is valid.
-                if (endOfFirstLine <= startOfLine)
+                Common.FindPreviousSingleNewLine(markdown, startOfLine - 1, maxStart, out var startOfHeader);
+                var endOfHeader = startOfLine - startOfHeader;
+                bool headerHasOnlyWhiteSpace = true;
+                for (int i = startOfHeader; i < endOfHeader; i++)
                 {
+                    if (!char.IsWhiteSpace(markdown[i]))
+                    {
+                        headerHasOnlyWhiteSpace = false;
+                        break;
+                    }
+                }
+
+                if (headerHasOnlyWhiteSpace)
+                {
+                    // header must contain at least one non whitespace character
                     return null;
                 }
 
@@ -181,16 +196,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 result.HeaderLevel = underlineChar == '=' ? 1 : 2;
 
                 // Parse the inline content.
-                result.Inlines = document.ParseInlineChildren(paragraphText.ToString(), startOfHeader, paragraphText.Length - startOfHeader, Array.Empty<Type>());
+                result.Inlines = document.ParseInlineChildren(markdown, startOfHeader, endOfHeader, Array.Empty<Type>());
 
                 // We're going to have to remove the header text from the pending
                 // paragraph by prematurely ending the current paragraph.
                 // We already made sure that there is a paragraph in progress.
-                paragraphText.Length -= paragraphText.Length - startOfHeader;
-
-                actualEnd = endOfFirstLine;
-
-                return result;
+                return BlockParseResult.Create(result, startOfHeader, endOfFirstLine);
             }
         }
     }

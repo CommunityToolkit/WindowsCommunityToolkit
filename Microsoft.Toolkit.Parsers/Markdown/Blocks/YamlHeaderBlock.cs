@@ -68,11 +68,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override YamlHeaderBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<YamlHeaderBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // As yaml header, must be start a line with "---"
                 // and end with a line "---"
-                actualEnd = startOfLine;
                 int lineStart = startOfLine;
 
                 if (markdown[firstNonSpace] != '-' && firstNonSpace == startOfLine)
@@ -101,7 +100,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // if current line not contain the ": ", check it is end of parse, if not, exit
                 // if next line is the end, exit
                 int pos = startOfNextLine;
-                List<string> elements = new List<string>();
+                var elements = new List<string>();
+                var actualEnd = startOfLine;
                 while (pos < maxEnd)
                 {
                     int nextUnderLineIndex = Common.FindNextSingleNewLine(markdown, pos, maxEnd, out startOfNextLine);
@@ -142,8 +142,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 var result = new YamlHeaderBlock();
-                var keys = new List<string>();
-                var values = new List<string>();
                 result.Children = new Dictionary<string, string>();
                 foreach (var item in elements)
                 {
@@ -171,7 +169,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                return result;
+                return BlockParseResult.Create(result, startOfLine, actualEnd);
             }
         }
     }

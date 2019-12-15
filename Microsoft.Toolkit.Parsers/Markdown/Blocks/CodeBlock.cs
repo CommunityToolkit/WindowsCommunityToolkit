@@ -48,11 +48,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<CodeBlock>
         {
             /// <inheritdoc/>
-            protected override CodeBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<CodeBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 StringBuilder code = null;
 
-                actualEnd = startOfLine;
+                var actualEnd = startOfLine;
                 bool insideCodeBlock = false;
                 string codeLanguage = string.Empty;
 
@@ -184,16 +184,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 if (code == null)
                 {
                     // Not a valid code block.
-                    actualEnd = startOfLine;
                     return null;
                 }
 
                 // Blank lines should be trimmed from the start and end.
-                return new CodeBlock()
+                var markdownBlock = new CodeBlock()
                 {
                     Text = code.ToString().Trim('\r', '\n'),
                     CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage.Trim() : null
                 };
+                return BlockParseResult.Create(markdownBlock, startOfLine, actualEnd);
             }
         }
     }

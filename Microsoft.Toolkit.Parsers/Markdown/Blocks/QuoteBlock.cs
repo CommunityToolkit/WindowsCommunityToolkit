@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 {
@@ -41,10 +41,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override QuoteBlock ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxEnd, out int actualEnd, StringBuilder paragraphText, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<QuoteBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var nonSpace = firstNonSpace;
-                actualEnd = startOfLine;
                 if (markdown[nonSpace] != '>')
                 {
                     return null;
@@ -56,6 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 int endOfLine;
                 bool lastWasEmpty = false;
                 bool lastDidNotContainedQuoteCharacter = false;
+                var actualEnd = startOfLine;
                 while (true)
                 {
                     endOfLine = Helpers.Common.FindNextSingleNewLine(markdown, newLine, maxEnd, out var nextLine);
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // Recursively call into the markdown block parser.
                 result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, out _);
 
-                return result;
+                return BlockParseResult.Create(result, startOfLine, actualEnd);
             }
         }
     }
