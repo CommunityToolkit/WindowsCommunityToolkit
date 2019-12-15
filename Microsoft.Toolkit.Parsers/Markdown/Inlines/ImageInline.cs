@@ -220,14 +220,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return;
             }
 
+            var url = reference.Url;
+
             // The reference was found. Check the URL is valid.
-            if (!Common.IsUrlValid(reference.Url))
+            if (!Common.IsUrlValid(ref url))
             {
                 return;
             }
 
             // Everything is cool when you're part of a team.
-            RenderUrl = reference.Url;
+            RenderUrl = url;
             ReferenceId = null;
         }
 

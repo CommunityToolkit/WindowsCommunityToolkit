@@ -245,7 +245,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// </summary>
         /// <param name="url"> The URL to check. </param>
         /// <returns> <c>true</c> if the URL is valid; <c>false</c> otherwise. </returns>
-        public static bool IsUrlValid(string url)
+        public static bool IsUrlValid(ref string url)
         {
             // URLs can be relative.
             if (!Uri.TryCreate(url, UriKind.Absolute, out Uri result))
@@ -260,6 +260,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
             {
                 if (result.Scheme.Equals(scheme))
                 {
+                    url = result.AbsoluteUri;
                     return true;
                 }
             }

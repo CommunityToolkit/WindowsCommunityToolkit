@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     }
 
                     // Check the URL is okay.
-                    if (!Common.IsUrlValid(url))
+                    if (!Common.IsUrlValid(ref url))
                     {
                         if (!url.IsEmail())
                         {
@@ -263,14 +263,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return;
             }
 
+            var url = reference.Url;
+
             // The reference was found. Check the URL is valid.
-            if (!Common.IsUrlValid(reference.Url))
+            if (!Common.IsUrlValid(ref url))
             {
                 return;
             }
 
             // Everything is cool when you're part of a team.
-            Url = reference.Url;
+            Url = url;
             Tooltip = reference.Tooltip;
             ReferenceId = null;
         }
