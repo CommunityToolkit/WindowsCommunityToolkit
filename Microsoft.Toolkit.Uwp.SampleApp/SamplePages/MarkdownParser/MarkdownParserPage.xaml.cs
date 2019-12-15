@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Parsers.Markdown;
+using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Windows.UI.Xaml.Controls;
@@ -14,29 +15,85 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class MarkdownParserPage : Page
     {
+        public MarkdownParserViewmodel Viewmodel { get; }
+
         public MarkdownParserPage()
         {
+            this.Viewmodel = new MarkdownParserViewmodel();
             this.InitializeComponent();
-            this.Loaded += MarkdownParserPage_Loaded;
+            MarkdownResult.Text = this.Viewmodel.Output;
+            this.Viewmodel.PropertyChanged += this.Viewmodel_PropertyChanged;
         }
 
-        private void MarkdownParserPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Viewmodel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            UpdateMDResult();
+            if (e.PropertyName == nameof(this.Viewmodel.Output))
+            {
+                MarkdownResult.Text = this.Viewmodel.Output;
+            }
+        }
+    }
+
+    public class MarkdownParserViewmodel : BindableBase
+    {
+        private string input;
+
+        public string Input
+        {
+            get { return input; }
+            set { Set(ref input, value); }
         }
 
-        private void RawMarkdown_TextChanged(object sender, TextChangedEventArgs e)
+        private string output;
+
+        public string Output
         {
-            UpdateMDResult();
+            get { return output; }
+            private set { Set(ref output, value); }
         }
 
-        private void UpdateMDResult()
+        private bool useTables = true;
+
+        public bool UseTables
         {
-            var document = new MarkdownDocument();
-            document.Parse(RawMarkdown.Text);
+            get { return useTables; }
+            set { Set(ref useTables, value); }
+        }
+
+        public MarkdownParserViewmodel()
+        {
+            this.PropertyChanged += this.MarkdownParserViewmodel_PropertyChanged;
+            this.Input = @"This is **Markdown**
+
+| With | an | Table |
+|-----:|:--:|:------|";
+        }
+
+        private void MarkdownParserViewmodel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Output))
+            {
+                return;
+            }
+
+            var document = ParseText(this.Input);
 
             var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
-            MarkdownResult.Text = json;
+            Output = json;
+        }
+
+        private MarkdownDocument ParseText(string input)
+        {
+            var documentBuilder = new MarkdownDocument().GetBuilder();
+
+            if (!this.UseTables)
+            {
+                documentBuilder.RemoveBlockParser<Parsers.Markdown.Blocks.TableBlock.Parser>();
+            }
+
+            var document = documentBuilder.Build();
+            document.Parse(input ?? string.Empty);
+            return document;
         }
     }
 }

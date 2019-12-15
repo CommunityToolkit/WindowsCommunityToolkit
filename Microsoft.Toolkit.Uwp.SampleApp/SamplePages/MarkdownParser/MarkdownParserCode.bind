@@ -1,0 +1,13 @@
+private MarkdownDocument ParseText(string input)
+{
+    var documentBuilder = new MarkdownDocument().GetBuilder();
+
+    if (!this.UseTables)
+    {
+        documentBuilder.RemoveBlockParser<Parsers.Markdown.Blocks.TableBlock.Parser>();
+    }
+
+    var document = documentBuilder.Build();
+    document.Parse(input ?? string.Empty);
+    return document;
+}

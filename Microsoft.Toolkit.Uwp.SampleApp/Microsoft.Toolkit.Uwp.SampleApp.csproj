@@ -561,6 +561,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperXaml.bind" />
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
+    <Content Include="SamplePages\MarkdownParser\MarkdownParserCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
