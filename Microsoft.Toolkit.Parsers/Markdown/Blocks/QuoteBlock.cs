@@ -49,6 +49,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
+                // For Tests to pass this needs to be true. The Sample in the App suggests this must be false :(
+                bool quoteCanSpannMultipleBlankLines = true;
+
                 var lines = new List<ReadOnlyMemory<char>>();
                 var temporaryLines = new List<ReadOnlyMemory<char>>();
                 var newLine = startOfLine;
@@ -68,6 +71,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                     if (nonSpace == -1)
                     {
+                        if (!quoteCanSpannMultipleBlankLines)
+                        {
+                            break;
+                        }
+
                         if (!lastWasEmpty)
                         {
                             lastWasEmpty = true;
