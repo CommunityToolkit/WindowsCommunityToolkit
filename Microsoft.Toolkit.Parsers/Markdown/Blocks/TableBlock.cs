@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                         if (c == '\r')
                         {
-                            if (pos < maxEndingPos && markdown[pos + 1] == '\n')
+                            if (pos + 1 < maxEndingPos && markdown[pos + 1] == '\n')
                             {
                                 pos++; // Swallow the complete linefeed.
                             }
