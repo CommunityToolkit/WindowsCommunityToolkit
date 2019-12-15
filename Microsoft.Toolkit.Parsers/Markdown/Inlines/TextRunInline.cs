@@ -359,7 +359,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                         result = new StringBuilder(end - start);
                     }
 
-                    result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
+                    result.Append(markdown, textPos, sequenceStartIndex - textPos);
                     result.Append(decodedChar);
                     searchPos = textPos = sequenceStartIndex + 2;
                 }
@@ -391,7 +391,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                         result = new StringBuilder(end - start);
                     }
 
-                    result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
+                    result.Append(markdown, textPos, sequenceStartIndex - textPos);
                     result.Append((char)_entities[entityName]);
                     searchPos = textPos = semicolonIndex + 1;
                 }
@@ -424,7 +424,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     if (sequenceStartIndex > 2 && markdown[sequenceStartIndex - 1] == ' ' && markdown[sequenceStartIndex - 2] == ' ')
                     {
                         // we need to add a linebreak
-                        result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos - 2/*for the two spaces*/));
+                        result.Append(markdown, textPos, sequenceStartIndex - textPos - 2/*for the two spaces*/);
                         if (!lastText && !firstText)
                         {
                             result.AppendLine();
@@ -432,7 +432,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     }
                     else
                     {
-                        result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
+                        result.Append(markdown, textPos, sequenceStartIndex - textPos);
                         if (!lastText && !firstText)
                         {
                             result.Append(' ');
@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             string output;
             if (result != null)
             {
-                result.Append(markdown.Substring(textPos, end - textPos));
+                result.Append(markdown, textPos, end - textPos);
                 output = result.ToString();
             }
             else
@@ -518,7 +518,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     result = new StringBuilder(end - start);
                 }
 
-                result.Append(markdown.Substring(textPos, sequenceStartIndex - textPos));
+                result.Append(markdown,textPos, sequenceStartIndex - textPos);
                 result.Append(decodedChar);
                 searchPos = textPos = sequenceStartIndex + 2;
             }

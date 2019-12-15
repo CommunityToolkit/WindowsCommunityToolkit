@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 // We found something!
                 var result = new CodeInline();
-                result.Text = markdown.Substring(innerStart, innerEnd - innerStart).Trim(' ', '\t', '\r', '\n');
+                result.Text = markdown.AsSpan(innerStart, innerEnd - innerStart).Trim(" \t\r\n".AsSpan()).ToString();
                 return InlineParseResult.Create(result, tripPos, end);
             }
 

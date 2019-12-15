@@ -36,19 +36,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Check the start sequence.
-                string startSequence = markdown.Substring(tripPos, 1);
-                if (startSequence != ":")
+                var startSequence = markdown.AsSpan(tripPos, 1);
+                if (!startSequence.StartsWith(":".AsSpan()))
                 {
                     return null;
                 }
 
                 // Find the end of the span.
                 var innerStart = tripPos + 1;
-                int innerEnd = Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
-                if (innerEnd == -1)
+                int innerLength = markdown.AsSpan(innerStart, maxEnd - innerStart).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
+                if (innerLength == -1)
                 {
                     return null;
                 }
+
+                var innerEnd = innerStart + innerLength;
+
 
                 // The span must contain at least one character.
                 if (innerStart == innerEnd)

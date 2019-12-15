@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                if (lineStart != 0 || markdown.Substring(startOfLine, 3) != "---")
+                if (lineStart != 0 || markdown.AsSpan(startOfLine, 3).StartsWith("---".AsSpan()))
                 {
                     return null;
                 }
@@ -100,17 +100,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // if current line not contain the ": ", check it is end of parse, if not, exit
                 // if next line is the end, exit
                 int pos = startOfNextLine;
-                var elements = new List<string>();
+                var elements = new List<ReadOnlyMemory<char>>();
                 var actualEnd = startOfLine;
                 while (pos < maxEnd)
                 {
                     int nextUnderLineIndex = Common.FindNextSingleNewLine(markdown, pos, maxEnd, out startOfNextLine);
-                    bool haveSeparator = markdown.Substring(pos, nextUnderLineIndex - pos).Contains(": ");
+                    bool haveSeparator = markdown.AsSpan(pos, nextUnderLineIndex - pos).Contains(": ".AsSpan(), StringComparison.InvariantCulture);
                     if (haveSeparator)
                     {
-                        elements.Add(markdown.Substring(pos, nextUnderLineIndex - pos));
+                        elements.Add(markdown.AsMemory(pos, nextUnderLineIndex - pos));
                     }
-                    else if (maxEnd - pos >= 3 && markdown.Substring(pos, 3) == "---")
+                    else if (maxEnd - pos >= 3 && markdown.AsSpan(pos, 3).StartsWith("---".AsSpan()))
                     {
                         lockedFinalUnderline = true;
                         actualEnd = pos + 3;
@@ -143,23 +143,24 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 var result = new YamlHeaderBlock();
                 result.Children = new Dictionary<string, string>();
-                foreach (var item in elements)
+                var splitString = ": ".AsSpan();
+                for (var i = 0; i < elements.Count; i++)
                 {
-                    string[] splits = item.Split(new string[] { ": " }, StringSplitOptions.None);
-                    if (splits.Length < 2)
+                    var item = elements[i].Span;
+                    var indexOfSplit = item.IndexOf(splitString);
+                    if (indexOfSplit < 1)
                     {
                         continue;
                     }
                     else
                     {
-                        string key = splits[0];
-                        string value = splits[1];
-                        if (key.Trim().Length == 0)
+                        string key = item.Slice(0, indexOfSplit).Trim().ToString();
+                        string value = item.Slice(indexOfSplit + splitString.Length).Trim().ToString();
+                        if (key.Length == 0)
                         {
                             continue;
                         }
 
-                        value = string.IsNullOrEmpty(value.Trim()) ? string.Empty : value;
                         result.Children.Add(key, value);
                     }
                 }

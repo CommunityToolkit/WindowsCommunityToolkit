@@ -42,8 +42,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Check the start sequence.
-                string startSequence = markdown.Substring(tripPos, 3);
-                if (startSequence != "***" && startSequence != "___")
+                var startSequence = markdown.AsSpan(tripPos, 3);
+                if (!startSequence.StartsWith("***".AsSpan()) && !startSequence.StartsWith("___".AsSpan()))
                 {
                     return null;
                 }
@@ -51,11 +51,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // Find the end of the span.  The end sequence (either '***' or '___') must be the same
                 // as the start sequence.
                 var innerStart = tripPos + 3;
-                int innerEnd = Common.IndexOf(markdown, startSequence, innerStart, maxEnd);
-                if (innerEnd == -1)
+                int innerLength = markdown.AsSpan(innerStart, maxEnd - innerStart).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
+                if (innerLength == -1)
                 {
                     return null;
                 }
+
+                var innerEnd = innerStart + innerLength;
+
 
                 // The span must contain at least one character.
                 if (innerStart == innerEnd)

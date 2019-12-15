@@ -39,8 +39,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                string startSequence = markdown.Substring(tripPos);
-                if (!startSequence.StartsWith("<!--"))
+                var startSequence = markdown.AsSpan(tripPos);
+                if (!startSequence.StartsWith("<!--".AsSpan()))
                 {
                     return null;
                 }

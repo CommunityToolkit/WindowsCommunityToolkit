@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                if (markdown.Substring(tripPos, 5) != "<sub>")
+                if (!markdown.AsSpan(tripPos, 5).StartsWith("<sub>".AsSpan()))
                 {
                     return null;
                 }

@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 start = Common.FindNextNoneWhiteSpace(markdown, start, end, true);
             }
 
-            builder.Append(markdown.Substring(start, end - start));
+            builder.Append(markdown, start, end - start);
         }
 
         /// <summary>

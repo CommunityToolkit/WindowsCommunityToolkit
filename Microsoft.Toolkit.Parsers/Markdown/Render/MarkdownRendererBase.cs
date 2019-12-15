@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
                     {
                         if (result == null)
                         {
-                            result = new StringBuilder(text.Substring(0, i), text.Length);
+                            result = new StringBuilder(text, 0, i, text.Length);
                         }
                     }
                     else

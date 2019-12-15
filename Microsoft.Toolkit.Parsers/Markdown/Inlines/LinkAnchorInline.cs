@@ -46,8 +46,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Check the start sequence.
-                string startSequence = markdown.Substring(minStart, 2);
-                if (startSequence != "<a")
+                var startSequence = markdown.AsSpan(minStart, 2);
+                if (startSequence.StartsWith("<a".AsSpan()))
                 {
                     return null;
                 }

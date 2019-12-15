@@ -57,7 +57,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 int pos = -1;
                 foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
-                    if (maxEnd - innerStart >= scheme.Length && string.Equals(markdown.Substring(innerStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                    if (maxEnd - innerStart >= scheme.Length && markdown.AsSpan(innerStart, scheme.Length).StartsWith(scheme.AsSpan(), StringComparison.OrdinalIgnoreCase))
                     {
                         // URL scheme found.
                         pos = innerStart + scheme.Length;
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
                     int schemeStart = tripPos - scheme.Length;
-                    if (schemeStart >= minStart && schemeStart <= maxEnd - scheme.Length && string.Equals(markdown.Substring(schemeStart, scheme.Length), scheme, StringComparison.OrdinalIgnoreCase))
+                    if (schemeStart >= minStart && schemeStart <= maxEnd - scheme.Length && markdown.AsSpan(schemeStart, scheme.Length).StartsWith(scheme.AsSpan(), StringComparison.OrdinalIgnoreCase))
                     {
                         // URL scheme found.
                         start = schemeStart;

@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     {
                         return null;
                     }
-                    else if (markdown.Substring(tripPos, 5) != "<sup>")
+                    else if (!markdown.AsSpan(tripPos, 5).StartsWith("<sup>".AsSpan()))
                     {
                         return null;
                     }

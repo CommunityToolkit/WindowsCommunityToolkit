@@ -164,13 +164,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                         }
                         else
                         {
-                            var dimensions = markdown.Substring(imageDimensionsPos + 2, pos - imageDimensionsPos - 2).Split('x');
+                            var span = markdown.AsSpan(imageDimensionsPos + 2, pos - imageDimensionsPos - 2);
+                            var index = span.IndexOf('x');
 
                             // got width and height
-                            if (dimensions.Length == 2)
+                            if (index >= 0 && span.Slice(index + 1).IndexOf('x') != 1)
                             {
-                                int.TryParse(dimensions[0], out imageWidth);
-                                int.TryParse(dimensions[1], out imageHeight);
+                                int.TryParse(span.Slice(0, index).ToString(), out imageWidth);
+                                int.TryParse(span.Slice(index + 1).ToString(), out imageHeight);
                             }
                         }
                     }

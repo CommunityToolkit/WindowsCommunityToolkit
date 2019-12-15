@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             protected override InlineParseResult<StrikethroughTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 // Check the start sequence.
-                if (tripPos >= maxEnd - 1 || markdown.Substring(tripPos, 2) != "~~")
+                if (tripPos >= maxEnd - 1 || !markdown.AsSpan(tripPos, 2).StartsWith("~~".AsSpan()))
                 {
                     return null;
                 }

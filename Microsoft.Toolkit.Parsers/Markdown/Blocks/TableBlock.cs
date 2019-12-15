@@ -218,7 +218,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 var startOfCurrentLine = startOfLine;
 
                 // First thing to do is to check if there is a vertical bar on the line.
-                var barSections = markdown.Substring((int)startOfCurrentLine, (int)(endOfFirstLine - startOfCurrentLine)).Split('|');
+                var barSections = markdown.Substring(startOfCurrentLine, endOfFirstLine - startOfCurrentLine).Split('|');
 
                 var allBarsEscaped = true;
 
@@ -242,17 +242,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                startOfCurrentLine = firstRow.Parse(markdown, (int)startOfCurrentLine, maxEnd, document);
+                startOfCurrentLine = firstRow.Parse(markdown, startOfCurrentLine, maxEnd, document);
                 rows.Add(firstRow);
 
                 // Parse the contents of the second row.
-                var secondRowContents = new List<string>();
+                var secondRowContents = new List<ReadOnlyMemory<char>>();
                 startOfCurrentLine = TableRow.ParseContents(
                     markdown,
-                    (int)startOfCurrentLine,
+                    startOfCurrentLine,
                     maxEnd,
                     requireVerticalBar: false,
-                    contentParser: (start2, end2) => secondRowContents.Add(markdown.Substring(start2, end2 - start2)));
+                    contentParser: (start2, end2) => secondRowContents.Add(markdown.AsMemory(start2, end2 - start2)));
 
                 // There must be at least as many columns in the second row as in the first row.
                 if (secondRowContents.Count < firstRow.Cells.Count)
@@ -265,7 +265,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 var columnDefinitions = new List<TableColumnDefinition>(firstRow.Cells.Count);
                 for (int i = 0; i < firstRow.Cells.Count; i++)
                 {
-                    var cellContent = secondRowContents[i];
+                    var cellContent = secondRowContents[i].Span;
                     if (cellContent.Length == 0)
                     {
                         return null;
@@ -313,7 +313,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 while (startOfCurrentLine < maxEnd)
                 {
                     var row = new TableRow();
-                    startOfCurrentLine = row.Parse(markdown, (int)startOfCurrentLine, maxEnd, document);
+                    startOfCurrentLine = row.Parse(markdown, startOfCurrentLine, maxEnd, document);
                     if (row.Cells.Count == 0)
                     {
                         break;

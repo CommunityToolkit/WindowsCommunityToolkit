@@ -813,6 +813,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="StringFilter"/> class.
+        /// </summary>
+        /// <param name="str">The string that will construct the filter.</param>
+        public StringFilter(string str)
+        {
+            this.str = str;
+        }
+
+        /// <summary>
         /// Creates a string from the filterd string.
         /// </summary>
         /// <returns>A String</returns>
@@ -825,7 +834,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Creates a filter from String.
         /// </summary>
         /// <param name="str">The string</param>
-        public static implicit operator StringFilter(string str) => new StringFilter(new ReadOnlyMemory<char>[] { str.AsMemory() });
+        public static implicit operator StringFilter(string str) => new StringFilter(str);
 
         /// <summary>
         /// Creates a string from StringFilter.
