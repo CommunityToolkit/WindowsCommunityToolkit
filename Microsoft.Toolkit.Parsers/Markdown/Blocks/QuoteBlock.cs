@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // For Tests to pass this needs to be true. The Sample in the App suggests this must be false :(
-                bool quoteCanSpannMultipleBlankLines = true;
+                bool quoteCanSpannMultipleBlankLines = false;
 
                 var lines = new List<ReadOnlyMemory<char>>();
                 var temporaryLines = new List<ReadOnlyMemory<char>>();
@@ -106,17 +106,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         actualStart += 1;
                     }
 
-                    if (markdown.Length > actualStart && markdown[actualStart] == ' ')
+                    if (actualStart < maxEnd && markdown[actualStart] == ' ')
                     {
                         actualStart++;
                     }
 
-                    if (markdown.Length > actualStart)
+                    if (actualStart < maxEnd)
                     {
                         int length;
-                        if (endOfLine < markdown.Length)
+                        if (endOfLine < maxEnd)
                         {
-                            length = endOfLine - actualStart + 1;
+                            // nextline includes the line break no matter if it is 1 or 2 characters.
+                            length = nextLine - actualStart;
                         }
                         else
                         {
@@ -130,25 +131,44 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         }
                         else
                         {
-                            actualEnd = endOfLine;
+                            actualEnd = nextLine;
                             lines.Add(memory);
+                        }
+                    }
+                    else
+                    {
+                        if (lastWasEmpty)
+                        {
+                            temporaryLines.Add(Array.Empty<char>().AsMemory());
+                        }
+                        else
+                        {
+                            lines.Add(Array.Empty<char>().AsMemory());
+                            actualEnd = nextLine;
                         }
                     }
 
                     newLine = nextLine;
                 }
 
-                if (lines.Last().Length == 0)
-                {
-                    lines.RemoveAt(lines.Count - 1);
-                }
-
-                var filteredString = new StringFilter(lines);
-
                 var result = new QuoteBlock();
 
-                // Recursively call into the markdown block parser.
-                result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, out _);
+                if (lines.Count != 0)
+                {
+                    if (lines.Last().Length == 0)
+                    {
+                        lines.RemoveAt(lines.Count - 1);
+                    }
+
+                    var filteredString = new StringFilter(lines);
+
+                    // Recursively call into the markdown block parser.
+                    result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, out _);
+                }
+                else
+                {
+                    result.Blocks = Array.Empty<MarkdownBlock>();
+                }
 
                 return BlockParseResult.Create(result, startOfLine, actualEnd);
             }
