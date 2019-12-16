@@ -434,3 +434,4 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1507:Code must not contain multiple blank lines in a row", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.MarkdownLinkTests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1028:Code must not contain trailing whitespace", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.MarkdownLinkTests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1508:A closing brace must not be preceded by a blank line.", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.TableTests")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1116:The parameters must begin on the line after the declaration, whenever the parameter span across multiple lines", Justification = "UnitTest", Scope = "namespaceanddescendants", Target = "UnitTests.Markdown.Parse")]
