@@ -40,13 +40,36 @@ namespace UnitTests.Markdown.Parse
                 normal text"),
                 new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = "Single line" }),
+                        new TextRunInline { Text = "Single line" })),
+                new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = "Quote\r\nwith line break" }),
+                        new TextRunInline { Text = "Quote\r\nwith line break" })),
+                new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
                         new TextRunInline { Text = "Spaces and line continuation" })),
                 new ParagraphBlock().AddChildren(
                         new TextRunInline { Text = "normal text" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_MultiLine_2()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                > Single line
+                >"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Single line" })));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Empty()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >"),
+                new QuoteBlock() { Blocks = System.Array.Empty<MarkdownBlock>() });
         }
 
         [TestMethod]
@@ -91,22 +114,181 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - block")]
-        public void Quote_Nested()
+        public void Quote_Nested_1()
         {
             AssertEqual(CollapseWhitespace(@"
-                >Quoted
-                >>Nested quote
-                >Still nested
-                
-                >Not nested"),
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >Quote1.Nest1.2"),
                 new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = "Quoted" }),
+                        new TextRunInline { Text = "Quote1.1" }),
                     new QuoteBlock().AddChildren(
                         new ParagraphBlock().AddChildren(
-                            new TextRunInline { Text = "Nested quote Still nested" })),
+                            new TextRunInline { Text = "Quote1.Nest1.1 Quote1.Nest1.2" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_2()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >
+                >Quote1.2"),
+                new QuoteBlock().AddChildren(
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = "Not nested" })));
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" })),
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.2" })));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_3()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >>
+                >Quote1.Nest1.2"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" }),
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.2" }))));
+        }
+
+        // This was the previous behavior that is different from CommonMark
+        [Ignore]
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_6_NonBreaking()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >
+                >>Quote1.Nest1.2"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" }),
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.2" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_6()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >
+                >>Quote1.Nest2.1"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" })),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest2.1" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_5()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >
+                >
+                >>Quote1.Nest2.1"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" })),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest2.1" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_4()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                >
+
+                >>Quote2.Nest1.1"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" }))),
+                new QuoteBlock().AddChildren(
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote2.Nest1.1" }))));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_7()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                
+                >Quote2.1"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" }))),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote2.1" })));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - block")]
+        public void Quote_Nested_8()
+        {
+            AssertEqual(CollapseWhitespace(@"
+                >Quote1.1
+                >>Quote1.Nest1.1
+                
+                >>Quote2.Nest1.1"),
+                new QuoteBlock().AddChildren(
+                    new ParagraphBlock().AddChildren(
+                        new TextRunInline { Text = "Quote1.1" }),
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote1.Nest1.1" }))),
+                new QuoteBlock().AddChildren(
+                    new QuoteBlock().AddChildren(
+                        new ParagraphBlock().AddChildren(
+                            new TextRunInline { Text = "Quote2.Nest1.1" }))));
         }
 
         [TestMethod]
@@ -176,28 +358,23 @@ namespace UnitTests.Markdown.Parse
         public void Quote_WithCode()
         {
             AssertEqual(CollapseWhitespace(@"
-                >     code, line 1
+                >     code, line 1.1
                 >
+                >     code, line 1.3
                 
-                >     code, line 4"),
+                >     code, line 2.1
+                >"),
 
                 new QuoteBlock().AddChildren(
-                    new CodeBlock { Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
+                    new CodeBlock { Text = "code, line 1.1\r\n\r\ncode, line 1.3" }),
+                new QuoteBlock().AddChildren(
+                    new CodeBlock { Text = "code, line 2.1" }));
         }
 
         [TestMethod]
         [TestCategory("Parse - block")]
         public void Quote_WithList()
         {
-            AssertEqual(CollapseWhitespace(@"
-                >     code, line 1
-                >
-                
-                >     code, line 4"),
-
-                new QuoteBlock().AddChildren(
-                    new CodeBlock { Text = "code, line 1\r\n\r\n\r\ncode, line 4" }));
-
             AssertEqual(CollapseWhitespace(@"
                 > + List item 1
                 > + List item 2
