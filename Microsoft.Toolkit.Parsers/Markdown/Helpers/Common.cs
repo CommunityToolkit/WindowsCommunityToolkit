@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 
             return reverseSearch ? markdown.LastIndexOf(search, endingPos, count, StringComparison.OrdinalIgnoreCase) : markdown.IndexOf(search, startingPos, count, StringComparison.OrdinalIgnoreCase);
         }
-        
+
         /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>

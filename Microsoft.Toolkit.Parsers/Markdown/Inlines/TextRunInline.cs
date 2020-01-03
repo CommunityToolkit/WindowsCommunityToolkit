@@ -299,7 +299,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <returns> A parsed text span. Or <c>null</c> if no text could be parsed.</returns>
         internal static TextRunInline Parse(string markdown, int start, int end, bool trimLeadingLineBreak, bool trimFollowingLineBreak)
         {
-
             if (trimLeadingLineBreak)
             {
                 // We want to start with the first line that does not only contains whitespace.
@@ -518,7 +517,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     result = new StringBuilder(end - start);
                 }
 
-                result.Append(markdown,textPos, sequenceStartIndex - textPos);
+                result.Append(markdown, textPos, sequenceStartIndex - textPos);
                 result.Append(decodedChar);
                 searchPos = textPos = sequenceStartIndex + 2;
             }

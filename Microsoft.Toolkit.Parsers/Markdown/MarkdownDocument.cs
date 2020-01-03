@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // End the current paragraph.
                 if (startOfParagrapgh < endOfText)
                 {
-                    var block = ParagraphBlock.Parse(markdown, startOfParagrapgh, endOfText , this);
+                    var block = ParagraphBlock.Parse(markdown, startOfParagrapgh, endOfText, this);
                     if (block != null)
                     {
                         blocks.Add(block);

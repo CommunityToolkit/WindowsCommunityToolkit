@@ -52,7 +52,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 var innerEnd = innerStart + innerLength;
 
-
                 // The span must contain at least one character.
                 if (innerStart == innerEnd)
                 {
