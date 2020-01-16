@@ -16,7 +16,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
 
-        internal ListItemBlock()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListItemBlock"/> class.
+        /// </summary>
+        public ListItemBlock()
         {
         }
     }

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span containing bold italic text.
     /// </summary>
-    internal class BoldItalicTextInline : MarkdownInline, IInlineContainer
+    public class BoldItalicTextInline : MarkdownInline, IInlineContainer
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BoldItalicTextInline"/> class.
@@ -27,6 +27,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public IList<MarkdownInline> Inlines { get; set; }
 
+        /// <summary>
+        /// Attempts to parse a bold text span.
+        /// </summary>
         public new class Parser : Parser<BoldTextInline>
         {
             protected override InlineParseResult<BoldTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)

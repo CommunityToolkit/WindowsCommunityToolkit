@@ -14,7 +14,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// </summary>
     public class LinkAnchorInline : MarkdownInline
     {
-        internal LinkAnchorInline()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkAnchorInline"/> class.
+        /// </summary>
+        public LinkAnchorInline()
             : base(MarkdownInlineType.LinkReference)
         {
         }

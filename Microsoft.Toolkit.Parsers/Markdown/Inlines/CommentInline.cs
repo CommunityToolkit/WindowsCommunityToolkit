@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
     /// <summary>
     /// Represents a span that contains comment.
     /// </summary>
-    internal class CommentInline : MarkdownInline, IInlineLeaf
+    public class CommentInline : MarkdownInline, IInlineLeaf
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentInline"/> class.
