@@ -27,6 +27,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownInline"/> class with Type <see cref="MarkdownInlineType.Other"/>.
+        /// </summary>
+        public MarkdownInline()
+            : this(MarkdownInlineType.Other)
+        {
+        }
+
+        /// <summary>
         /// Serves as the default hash function.
         /// </summary>
         /// <returns> A hash code for the current object. </returns>
