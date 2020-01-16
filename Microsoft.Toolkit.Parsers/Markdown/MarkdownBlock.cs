@@ -27,6 +27,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="MarkdownBlock"/> class with Type <see cref="MarkdownBlockType.Other"/>.
+        /// </summary>
+        public MarkdownBlock()
+            : this(MarkdownBlockType.Other)
+        {
+        }
+
+        /// <summary>
         /// Determines whether the specified object is equal to the current object.
         /// </summary>
         /// <param name="obj"> The object to compare with the current object. </param>
