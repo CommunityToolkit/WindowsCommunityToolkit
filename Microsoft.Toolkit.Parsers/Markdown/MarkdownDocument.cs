@@ -519,7 +519,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var orderedSource = nodes.OrderBy(x => x.GetType().FullName).ToArray();
 
             // We will manipulate edges. So we make a copy
-            edges = new Dictionary<Type, HashSet<Type>>(edges);
+            edges = edges.ToDictionary(x => x.Key, x => new HashSet<Type>(x.Value));
 
             // Kahn's algorithm [from Wikipedia](https://en.wikipedia.org/w/index.php?title=Topological_sorting&oldid=917759838)
             // L ← Empty list that will contain the sorted elements
