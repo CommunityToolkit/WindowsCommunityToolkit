@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public new class Parser : Parser<BoldTextInline>
         {
+            /// <inheritdoc/>
             protected override InlineParseResult<BoldTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 if (tripPos >= maxEnd - 1)
@@ -94,6 +95,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return InlineParseResult.Create(bold, tripPos, innerEnd + 3);
             }
 
+            /// <inheritdoc/>
             public override IEnumerable<char> TripChar => "*_";
         }
 
