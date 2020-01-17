@@ -43,6 +43,18 @@ namespace UnitTests.Markdown.Parse
         }
 
         [TestMethod]
+        public void TestBuilderFromDocument()
+        {
+            var document = MarkdownDocument.CreateBuilder()
+                .AddBlockParser<BlockParserA>()
+                .After<BlockParserB>()
+                .AddBlockParser<BlockParserB>()
+                .Build();
+
+            document.GetBuilder().Build();
+        }
+
+        [TestMethod]
         public void TestBefore()
         {
             var document = MarkdownDocument.CreateBuilder()
