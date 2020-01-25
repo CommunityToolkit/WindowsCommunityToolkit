@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Media.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions.Windows.UI.Composition;
 using Windows.Graphics.Effects;
@@ -182,6 +183,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             }
 
             return visual;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="XamlCompositionBrush"/> from the current effects pipeline
+        /// </summary>
+        /// <returns>A <see cref="XamlCompositionBrush"/> instance ready to be displayed</returns>
+        [Pure]
+        public XamlCompositionBrush AsBrush()
+        {
+            return new XamlCompositionBrush(this);
         }
     }
 }
