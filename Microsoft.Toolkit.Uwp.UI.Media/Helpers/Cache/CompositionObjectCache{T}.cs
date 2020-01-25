@@ -5,7 +5,6 @@
 using System;
 using System.Runtime.CompilerServices;
 using Windows.UI.Composition;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
 {
@@ -24,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
         /// <summary>
         /// Tries to retrieve a valid <typeparamref name="T"/> instance from the cache, and uses the provided factory if an existing item is not found
         /// </summary>
-        /// <param name="compositor">The current <see cref="CoreDispatcher"/> instance to get the value for</param>
+        /// <param name="compositor">The current <see cref="Compositor"/> instance to get the value for</param>
         /// <param name="producer">A <see cref="Func{TResult}"/> instance used to produce a <typeparamref name="T"/> instance</param>
         /// <returns>A <typeparamref name="T"/> instance that is linked to <paramref name="compositor"/></returns>
         public T GetValue(Compositor compositor, Func<Compositor, T> producer)

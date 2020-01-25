@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -42,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         /// <summary>
         /// Gets the local cache mapping for previously loaded Win2D images
         /// </summary>
-        private static readonly ThreadSafeCompositionMapCache<Uri, CompositionSurfaceBrush> Cache = new ThreadSafeCompositionMapCache<Uri, CompositionSurfaceBrush>();
+        private static readonly CompositionObjectCache<Uri, CompositionSurfaceBrush> Cache = new CompositionObjectCache<Uri, CompositionSurfaceBrush>();
 
         /// <summary>
         /// Loads a <see cref="CompositionSurfaceBrush"/> instance with the target image from the shared <see cref="CanvasDevice"/> instance
@@ -67,19 +66,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
         public static Task<CompositionSurfaceBrush> LoadImageAsync(this CanvasControl canvas, Uri uri, DpiMode dpiMode, CacheMode cacheMode = CacheMode.Default)
         {
             return LoadImageAsync(Window.Current.Compositor, canvas, uri, dpiMode, cacheMode);
-        }
-
-        /// <summary>
-        /// Clears the internal cache of Win2D images
-        /// </summary>
-        /// <returns>A sequence of the <see cref="CompositionBrush"/> objects that were present in the cache</returns>
-        /// <remarks>The returned items should be manually disposed after checking that they are no longer in use in other effect pipelines</remarks>
-        public static async Task<IReadOnlyList<CompositionBrush>> ClearCacheAsync()
-        {
-            using (await Win2DMutex.LockAsync())
-            {
-                return Cache.Clear();
-            }
         }
 
         /// <summary>
@@ -152,9 +138,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
             finally
             {
                 bitmap?.Dispose();
-
-                // Cleanup leftover references
-                Cache.Cleanup();
             }
         }
 
@@ -222,7 +205,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
             using (await Win2DMutex.LockAsync())
             {
                 if (cacheMode == CacheMode.Default &&
-                    Cache.TryGetInstance(uri, out var cached))
+                    Cache.TryGetValue(compositor, uri, out var cached))
                 {
                     return cached;
                 }
@@ -251,16 +234,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
                 var brush = tcs.Task.Result;
 
                 // Cache when needed and return the result
-                if (brush != null)
+                if (brush != null &&
+                    cacheMode != CacheMode.Disabled)
                 {
-                    if (cacheMode == CacheMode.Default)
-                    {
-                        Cache.Add(uri, brush);
-                    }
-                    else if (cacheMode == CacheMode.Overwrite)
-                    {
-                        Cache.Overwrite(uri, brush);
-                    }
+                    Cache.AddOrUpdate(compositor, uri, brush);
                 }
 
                 return brush;
@@ -285,7 +262,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
             using (await Win2DMutex.LockAsync())
             {
                 uri = uri.ToAppxUri();
-                if (cacheMode == CacheMode.Default && Cache.TryGetInstance(uri, out var cached))
+
+                if (cacheMode == CacheMode.Default &&
+                    Cache.TryGetValue(compositor, uri, out var cached))
                 {
                     return cached;
                 }
@@ -305,16 +284,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
                 }
 
                 // Cache when needed and return the result
-                if (brush != null)
+                if (brush != null &&
+                    cacheMode != CacheMode.Disabled)
                 {
-                    if (cacheMode == CacheMode.Default)
-                    {
-                        Cache.Add(uri, brush);
-                    }
-                    else if (cacheMode == CacheMode.Overwrite)
-                    {
-                        Cache.Overwrite(uri, brush);
-                    }
+                    Cache.AddOrUpdate(compositor, uri, brush);
                 }
 
                 return brush;
