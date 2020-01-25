@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using FluentExtensions.UI.Brushes.Brushes.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Media.Brushes;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces
 {
