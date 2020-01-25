@@ -4,8 +4,6 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Threading.Tasks;
 using Windows.UI.Composition;
 using Windows.UI.Core;
 
@@ -19,34 +17,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
         where T : CompositionObject
     {
         /// <summary>
-        /// The cache of weak references, to avoid memory leaks
+        /// The cache of weak references of type <typeparamref name="T"/>, to avoid memory leaks
         /// </summary>
         private readonly ConditionalWeakTable<Compositor, WeakReference<T>> cache = new ConditionalWeakTable<Compositor, WeakReference<T>>();
 
         /// <summary>
-        /// The <see cref="AsyncMutex"/> instance used to synchronize concurrent operations on the cache
-        /// </summary>
-        private readonly AsyncMutex mutex = new AsyncMutex();
-
-        /// <summary>
         /// Tries to retrieve a valid <typeparamref name="T"/> instance from the cache, and uses the provided factory if an existing item is not found
         /// </summary>
-        /// <param name="dispatcher">The current <see cref="CoreDispatcher"/> instance to get the value for</param>
+        /// <param name="compositor">The current <see cref="CoreDispatcher"/> instance to get the value for</param>
         /// <param name="producer">A <see cref="Func{TResult}"/> instance used to produce a <typeparamref name="T"/> instance</param>
-        /// <returns>A <see cref="Task{T}"/> that returns a <typeparamref name="T"/> instance that is linked to <paramref name="dispatcher"/></returns>
-        public async Task<T> TryGetInstanceAsync(Compositor dispatcher, Func<Compositor, T> producer)
+        /// <returns>A <typeparamref name="T"/> instance that is linked to <paramref name="compositor"/></returns>
+        public T GetValue(Compositor compositor, Func<Compositor, T> producer)
         {
-            using (await this.mutex.LockAsync())
+            lock (cache)
             {
-                if (this.cache.TryGetValue(dispatcher, out var reference) &&
+                if (this.cache.TryGetValue(compositor, out var reference) &&
                     reference.TryGetTarget(out var instance))
                 {
                     return instance;
                 }
 
                 // Create a new instance when needed
-                var fallback = producer(dispatcher);
-                this.cache.AddOrUpdate(dispatcher, new WeakReference<T>(fallback));
+                var fallback = producer(compositor);
+                this.cache.AddOrUpdate(compositor, new WeakReference<T>(fallback));
 
                 return fallback;
             }

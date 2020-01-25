@@ -40,7 +40,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromBackdropBrush()
         {
-            return new PipelineBuilder(() => BackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor, c => c.CreateBackdropBrush()));
+            Task<CompositionBrush> Factory()
+            {
+                var brush = BackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateBackdropBrush());
+
+                return Task.FromResult(brush);
+            }
+
+            return new PipelineBuilder(Factory);
         }
 
         /// <summary>
@@ -50,7 +57,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromHostBackdropBrush()
         {
-            return new PipelineBuilder(() => HostBackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor, c => c.CreateHostBackdropBrush()));
+            Task<CompositionBrush> Factory()
+            {
+                var brush = HostBackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateHostBackdropBrush());
+
+                return Task.FromResult(brush);
+            }
+
+            return new PipelineBuilder(Factory);
         }
 
         /// <summary>
