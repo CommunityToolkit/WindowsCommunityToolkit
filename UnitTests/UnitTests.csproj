@@ -134,6 +134,7 @@
     <Compile Include="Converters\Test_StringFormatConverter.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
     <Compile Include="Extensions\Test_ArrayExtensions.cs" />
+    <Compile Include="Extensions\Test_FontIconExtensionMarkupExtension.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Helpers\Test_AdvancedCollectionView.cs" />
