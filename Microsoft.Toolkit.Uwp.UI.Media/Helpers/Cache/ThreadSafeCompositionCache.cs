@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions.Windows.UI.Composition;
 using Windows.UI.Composition;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
 {
@@ -41,8 +40,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
                 // Try to retrieve an valid instance from the cache
                 foreach (var value in this.cache)
                 {
-                    if (value.TryGetTarget(out T instance) &&
-                        instance.TryGetDispatcher(out CoreDispatcher dispatcher) && dispatcher.HasThreadAccess)
+                    if (value.TryGetTarget(out var instance) &&
+                        instance.TryGetDispatcher(out var dispatcher) && dispatcher.HasThreadAccess)
                     {
                         return instance;
                     }

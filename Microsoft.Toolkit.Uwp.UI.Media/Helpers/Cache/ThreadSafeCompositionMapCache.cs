@@ -7,7 +7,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions.Windows.UI.Composition;
 using Windows.UI.Composition;
-using Windows.UI.Core;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
 {
@@ -37,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
             {
                 foreach (var value in values)
                 {
-                    if (value.TryGetTarget(out TValue instance) && instance.TryGetDispatcher(out CoreDispatcher dispatcher) && dispatcher.HasThreadAccess)
+                    if (value.TryGetTarget(out var instance) && instance.TryGetDispatcher(out var dispatcher) && dispatcher.HasThreadAccess)
                     {
                         result = instance;
                         return true;
@@ -108,7 +107,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache
 
             foreach (var reference in this.cache.Values.SelectMany(list => list))
             {
-                if (reference.TryGetTarget(out TValue value))
+                if (reference.TryGetTarget(out var value))
                 {
                     values.Add(value);
                 }
