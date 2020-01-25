@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
@@ -9,11 +10,11 @@ using Windows.UI.Xaml.Media;
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
     /// <summary>
-    /// Custom <see cref="MarkupExtension"/> which can provide <see cref="Windows.UI.Xaml.Controls.FontIcon"/> values.
+    /// Custom <see cref="MarkupExtension"/> which can provide <see cref="FontIcon"/> values.
     /// </summary>
     [Bindable]
-    [MarkupExtensionReturnType(ReturnType = typeof(Windows.UI.Xaml.Controls.FontIcon))]
-    public class FontIcon : MarkupExtension
+    [MarkupExtensionReturnType(ReturnType = typeof(FontIcon))]
+    public class FontIconExtension : MarkupExtension
     {
         /// <summary>
         /// Gets or sets the <see cref="string"/> representing the icon to display.
@@ -28,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <inheritdoc/>
         protected override object ProvideValue()
         {
-            return new Windows.UI.Xaml.Controls.FontIcon
+            return new FontIcon
             {
                 Glyph = Glyph,
                 FontFamily = FontFamily ?? new FontFamily("Segoe MDL2 Assets")
