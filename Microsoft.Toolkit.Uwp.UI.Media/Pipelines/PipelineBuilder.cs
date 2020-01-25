@@ -156,10 +156,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 effectBrush.SetSourceParameter(pair.Key, await pair.Value());
             }
 
-            // Cleanup
-            BackdropBrushCache.Cleanup();
-            HostBackdropBrushCache.Cleanup();
-
             return effectBrush;
         }
 

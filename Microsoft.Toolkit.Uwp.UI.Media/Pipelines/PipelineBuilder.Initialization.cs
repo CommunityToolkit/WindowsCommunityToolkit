@@ -26,12 +26,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// The cache manager for backdrop brushes
         /// </summary>
-        private static readonly ThreadSafeCompositionCache<CompositionBrush> BackdropBrushCache = new ThreadSafeCompositionCache<CompositionBrush>();
+        private static readonly CompositionObjectCache<CompositionBrush> BackdropBrushCache = new CompositionObjectCache<CompositionBrush>();
 
         /// <summary>
         /// The cache manager for host backdrop brushes
         /// </summary>
-        private static readonly ThreadSafeCompositionCache<CompositionBrush> HostBackdropBrushCache = new ThreadSafeCompositionCache<CompositionBrush>();
+        private static readonly CompositionObjectCache<CompositionBrush> HostBackdropBrushCache = new CompositionObjectCache<CompositionBrush>();
 
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the <see cref="CompositionBrush"/> returned by <see cref="Compositor.CreateBackdropBrush"/>
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromBackdropBrush()
         {
-            return new PipelineBuilder(() => BackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor.CreateBackdropBrush));
+            return new PipelineBuilder(() => BackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor, c => c.CreateBackdropBrush()));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromHostBackdropBrush()
         {
-            return new PipelineBuilder(() => HostBackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor.CreateHostBackdropBrush));
+            return new PipelineBuilder(() => HostBackdropBrushCache.TryGetInstanceAsync(Window.Current.Compositor, c => c.CreateHostBackdropBrush()));
         }
 
         /// <summary>
