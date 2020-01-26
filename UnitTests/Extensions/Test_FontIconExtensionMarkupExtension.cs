@@ -22,7 +22,7 @@ namespace UnitTests.Extensions
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&xE105;}""/>
+        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChildByName("Check") as AppBarButton;
@@ -45,7 +45,7 @@ namespace UnitTests.Extensions
     xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation""
     xmlns:x=""http://schemas.microsoft.com/winfx/2006/xaml""
     xmlns:ex=""using:Microsoft.Toolkit.Uwp.UI.Extensions"">
-        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&xE105;, FontFamily='Segoe UI'}""/>
+        <AppBarButton x:Name=""Check"" Icon=""{ex:FontIcon Glyph=&#xE14D;, FontFamily='Segoe UI'}""/>
 </Page>") as FrameworkElement;
 
             var button = treeroot.FindChildByName("Check") as AppBarButton;
