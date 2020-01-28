@@ -90,6 +90,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 result.HeaderLevel = pos - startOfLine;
+
+                // space between hash an start of header text is ignored.
+                while (pos < endOfFirstLine && markdown[pos] == ' ')
+                {
+                    pos++;
+                }
+
                 if (result.HeaderLevel == 0)
                 {
                     return null;
@@ -99,6 +106,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Ignore any hashes at the end of the line.
                 while (pos < endOfHeader && markdown[endOfHeader - 1] == '#')
+                {
+                    endOfHeader--;
+                }
+
+                // Ignore any space at the end of the line.
+                while (pos < endOfHeader && markdown[endOfHeader - 1] == ' ')
                 {
                     endOfHeader--;
                 }

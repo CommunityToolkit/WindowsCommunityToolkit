@@ -106,7 +106,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("###### Header 6 ######",
                 new HeaderBlock { HeaderLevel = 6 }.AddChildren(
-                    new TextRunInline { Text = " Header 6 " }));
+                    new TextRunInline { Text = "Header 6" }));
         }
 
         [TestMethod]
@@ -132,7 +132,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("## # # ##",
                 new HeaderBlock { HeaderLevel = 2 }.AddChildren(
-                    new TextRunInline { Text = " # # " }));
+                    new TextRunInline { Text = "# #" }));
         }
 
         [TestMethod]
