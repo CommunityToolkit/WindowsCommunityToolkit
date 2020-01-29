@@ -52,9 +52,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             switch (effect)
             {
                 case BackdropEffect backdrop when backdrop.Source == AcrylicBackgroundSource.Backdrop:
-                    return PipelineBuilder.FromBackdropBrush();
+                    return PipelineBuilder.FromBackdrop();
                 case BackdropEffect backdrop when backdrop.Source == AcrylicBackgroundSource.HostBackdrop:
-                    return PipelineBuilder.FromHostBackdropBrush();
+                    return PipelineBuilder.FromHostBackdrop();
                 case SolidColorEffect color:
                     return PipelineBuilder.FromColor(color.Color);
                 case ImageEffect image:
@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                 case OpacityEffect opacity:
                     return builder.Opacity((float)opacity.Value);
                 case LuminanceToAlphaEffect _:
-                    return builder.LuminanceToAlphaEffect();
+                    return builder.LuminanceToAlpha();
                 case TintEffect tint:
                     return builder.Tint(tint.Color, (float)tint.Opacity);
                 case BlurEffect blur:

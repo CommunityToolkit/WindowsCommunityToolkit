@@ -53,14 +53,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Blends two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
         /// </summary>
-        /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to blend</param>
+        /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects</param>
         /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Mix(PipelineBuilder pipeline, float factor = 0.5f, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor = 0.5f, Placement placement = Placement.Foreground)
         {
             if (factor < 0 || factor > 1)
             {
@@ -90,16 +90,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
-        /// Blends two pipelines using an <see cref="CrossFadeEffect"/> instance
+        /// Cross fades two pipelines using an <see cref="CrossFadeEffect"/> instance
         /// </summary>
-        /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to blend</param>
+        /// <param name="pipeline">The second <see cref="PipelineBuilder"/> instance to cross fade</param>
         /// <param name="factor">The cross fade factor to blend the input effects</param>
         /// <param name="animation">The optional blur animation for the effect</param>
         /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Mix(PipelineBuilder pipeline, float factor, out EffectAnimation animation, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation animation, Placement placement = Placement.Foreground)
         {
             if (factor < 0 || factor > 1)
             {
@@ -349,7 +349,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Tint(Color color, float mix)
         {
-            return FromColor(color).Mix(this, mix);
+            return FromColor(color).CrossFade(this, mix);
         }
 
         /// <summary>
@@ -363,7 +363,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Tint(Color color, float mix, out EffectAnimation animation)
         {
-            return FromColor(color).Mix(this, mix, out animation);
+            return FromColor(color).CrossFade(this, mix, out animation);
         }
 
         /// <summary>
@@ -371,7 +371,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder LuminanceToAlphaEffect()
+        public PipelineBuilder LuminanceToAlpha()
         {
             async Task<IGraphicsEffectSource> Factory() => new LuminanceToAlphaEffect
             {
