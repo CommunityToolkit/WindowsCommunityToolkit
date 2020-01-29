@@ -5,11 +5,11 @@ using Windows.UI.Xaml.Media;
 
 Brush brush =
   PipelineBuilder
-    .FromBackdropBrush()
-    .LuminanceToAlphaEffect()
+    .FromBackdrop()
+    .LuminanceToAlpha()
     .Opacity(0.4f)
     .Blend(
-      PipelineBuilder.FromBackdropBrush(),
+      PipelineBuilder.FromBackdrop(),
       BlendEffectMode.Multiply)
     .Blur(16)
     .Tint("#FF222222".ToColor(), 0.4f)

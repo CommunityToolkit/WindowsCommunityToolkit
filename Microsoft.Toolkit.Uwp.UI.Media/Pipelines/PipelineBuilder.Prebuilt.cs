@@ -41,10 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, Uri noiseUri, CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromHostBackdropBrush()
+                FromHostBackdrop()
                 .Effect(source => new LuminanceToAlphaEffect { Source = source })
                 .Opacity(0.4f)
-                .Blend(FromHostBackdropBrush(), BlendEffectMode.Multiply)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
                 .Tint(tint, mix)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
         }
@@ -77,10 +77,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, out EffectAnimation tintAnimation, Uri noiseUri, CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromHostBackdropBrush()
+                FromHostBackdrop()
                 .Effect(source => new LuminanceToAlphaEffect { Source = source })
                 .Opacity(0.4f)
-                .Blend(FromHostBackdropBrush(), BlendEffectMode.Multiply)
+                .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
                 .Tint(tint, mix, out tintAnimation)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
         }
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromBackdropAcrylic(Color tint, float mix, float blur, Uri noiseUri, CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromBackdropBrush()
+                FromBackdrop()
                 .Tint(tint, mix)
                 .Blur(blur)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromBackdropBrush()
+                FromBackdrop()
                 .Tint(tint, mix, out tintAnimation)
                 .Blur(blur)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromBackdropBrush()
+                FromBackdrop()
                 .Tint(tint, mix)
                 .Blur(blur, out blurAnimation)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
@@ -261,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             CacheMode cacheMode = CacheMode.Default)
         {
             return
-                FromBackdropBrush()
+                FromBackdrop()
                 .Tint(tint, mix, out tintAnimation)
                 .Blur(blur, out blurAnimation)
                 .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);

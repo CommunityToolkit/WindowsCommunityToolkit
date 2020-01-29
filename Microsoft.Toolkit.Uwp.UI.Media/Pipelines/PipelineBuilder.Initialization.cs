@@ -7,6 +7,7 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Windows.Graphics.Effects;
@@ -14,7 +15,6 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromBackdropBrush()
+        public static PipelineBuilder FromBackdrop()
         {
             Task<CompositionBrush> Factory()
             {
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromHostBackdropBrush()
+        public static PipelineBuilder FromHostBackdrop()
         {
             Task<CompositionBrush> Factory()
             {
