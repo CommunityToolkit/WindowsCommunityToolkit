@@ -5,7 +5,7 @@
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 using Windows.UI;
 
-namespace FluentExtensions.UI.Brushes.Brushes.Effects
+namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
     /// A tint effect with a customizable opacity

@@ -16,7 +16,7 @@ using BlendEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.BlendEffect;
 using OpacityEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.OpacityEffect;
 using SaturationEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.SaturationEffect;
 using TileEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TileEffect;
-using TintEffect = FluentExtensions.UI.Brushes.Brushes.Effects.TintEffect;
+using TintEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TintEffect;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 {
