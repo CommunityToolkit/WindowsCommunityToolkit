@@ -5,8 +5,8 @@
 using System;
 using System.Diagnostics.Contracts;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System;
 using Windows.UI;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {

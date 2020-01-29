@@ -8,12 +8,11 @@ using System.Diagnostics.Contracts;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Brushes;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Collections.Generic;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions.Windows.UI.Composition;
 using Windows.Graphics.Effects;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {

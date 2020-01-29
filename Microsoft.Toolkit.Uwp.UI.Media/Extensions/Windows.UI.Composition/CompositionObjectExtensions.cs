@@ -9,7 +9,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions.Windows.UI.Composition
+namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="CompositionObject"/> type

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Threading.Tasks
+namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
 {
     /// <summary>
     /// An <see langword="async"/> <see cref="AsyncMutex"/> implementation that can be easily used inside a <see langword="using"/> block

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 
-namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions.System.Collections.Generic
+namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
 {
     /// <summary>
     /// An extension <see langword="class"/> for the <see cref="System.Collections.Generic"/> <see langword="namespace"/>

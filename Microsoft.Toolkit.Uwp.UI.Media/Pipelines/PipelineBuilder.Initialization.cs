@@ -7,7 +7,6 @@ using System.Diagnostics.Contracts;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions.System;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Windows.Graphics.Effects;
@@ -15,6 +14,7 @@ using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
