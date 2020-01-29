@@ -988,6 +988,17 @@
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/RadialGradientBrush.md"
+      },
+      {
+        "Name": "PipelineBrush",
+        "Type": "PipelineBrushPage",
+        "About": "A composition brush which can render any custom Win2D/Composition effects chain.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
+        "XamlCodeFile": "PipelineBrushXaml.bind",
+        "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       }
     ]
   },
