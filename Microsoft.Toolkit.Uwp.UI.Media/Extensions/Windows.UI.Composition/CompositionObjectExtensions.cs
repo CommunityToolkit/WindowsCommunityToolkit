@@ -5,7 +5,6 @@
 using System;
 using System.Threading.Tasks;
 using Windows.UI.Composition;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
 
@@ -30,28 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
 
             // Start the animation
             source.StartAnimation("Size", bindSizeAnimation);
-        }
-
-        /// <summary>
-        /// Tries to retrieve the <see cref="CoreDispatcher"/> instance of the input <see cref="CompositionObject"/>
-        /// </summary>
-        /// <param name="source">The source <see cref="CompositionObject"/> instance</param>
-        /// <param name="dispatcher">The resulting <see cref="CoreDispatcher"/>, if existing</param>
-        /// <returns><see langword="true"/> if the <see cref="CoreDispatcher"/> has been retrieved, <see langword="false"/> otherwise</returns>
-        public static bool TryGetDispatcher(this CompositionObject source, out CoreDispatcher dispatcher)
-        {
-            try
-            {
-                dispatcher = source.Dispatcher;
-
-                return true;
-            }
-            catch (ObjectDisposedException)
-            {
-                dispatcher = null;
-
-                return false;
-            }
         }
 
         /// <summary>

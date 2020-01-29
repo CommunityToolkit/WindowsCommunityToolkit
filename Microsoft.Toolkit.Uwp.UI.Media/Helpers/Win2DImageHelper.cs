@@ -10,6 +10,7 @@ using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.UI;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Microsoft.Graphics.Canvas.UI.Xaml;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Media.Helpers.Cache;
 using Windows.Foundation;
 using Windows.Graphics.DirectX;
@@ -18,7 +19,6 @@ using Windows.Graphics.Imaging;
 using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
 {
