@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A luminance effect which directly replicates <see cref="Microsoft.Graphics.Canvas.Effects.LuminanceToAlphaEffect"/>
     /// </summary>
-    public sealed class LuminanceEffect : IPipelineEffect
+    public sealed class LuminanceToAlphaEffect : IPipelineEffect
     {
     }
 }

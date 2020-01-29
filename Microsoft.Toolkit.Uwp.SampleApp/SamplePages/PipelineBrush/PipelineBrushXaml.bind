@@ -23,7 +23,7 @@
           <brushes:PipelineBrush>
             <brushes:PipelineBrush.Effects>
               <effects:BackdropEffect Source="Backdrop"/>
-              <effects:LuminanceEffect/>
+              <effects:LuminanceToAlphaEffect/>
               <effects:OpacityEffect Value="0.4"/>
               <effects:BlendEffect Mode="Multiply">
                 <effects:BlendEffect.Input>

@@ -8,10 +8,10 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 using Windows.Graphics.Effects;
 using Windows.UI;
 using Windows.UI.Composition;
-using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
@@ -364,6 +364,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public PipelineBuilder Tint(Color color, float mix, out EffectAnimation animation)
         {
             return FromColor(color).Mix(this, mix, out animation);
+        }
+
+        /// <summary>
+        /// Applies a luminance to alpha effect on the current pipeline
+        /// </summary>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder LuminanceToAlphaEffect()
+        {
+            async Task<IGraphicsEffectSource> Factory() => new LuminanceToAlphaEffect
+            {
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
         }
 
         /// <summary>

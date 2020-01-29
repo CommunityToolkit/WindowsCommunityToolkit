@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
-using Microsoft.Graphics.Canvas.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Brushes.Base;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects;
 using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Xaml.Media;
 using BlendEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.BlendEffect;
+using LuminanceToAlphaEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.LuminanceToAlphaEffect;
 using OpacityEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.OpacityEffect;
 using SaturationEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.SaturationEffect;
 using TileEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TileEffect;
@@ -82,8 +82,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
             {
                 case OpacityEffect opacity:
                     return builder.Opacity((float)opacity.Value);
-                case LuminanceEffect _:
-                    return builder.Effect(source => new LuminanceToAlphaEffect { Source = source });
+                case LuminanceToAlphaEffect _:
+                    return builder.LuminanceToAlphaEffect();
                 case TintEffect tint:
                     return builder.Tint(tint.Color, (float)tint.Opacity);
                 case BlurEffect blur:
