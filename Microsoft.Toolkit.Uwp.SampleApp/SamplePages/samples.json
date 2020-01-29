@@ -994,6 +994,7 @@
         "Type": "PipelineBrushPage",
         "About": "A composition brush which can render any custom Win2D/Composition effects chain.",
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
+        "CodeFile": "PipelineBrushCode.bind",
         "XamlCodeFile": "PipelineBrushXaml.bind",
         "Icon": "/SamplePages/PipelineBrush/PipelineBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",

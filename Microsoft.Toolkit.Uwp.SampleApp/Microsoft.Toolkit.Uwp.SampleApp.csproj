@@ -558,6 +558,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\PipelineBrush\PipelineBrushXaml.bind" />
+    <Content Include="SamplePages\PipelineBrush\PipelineBrushCode.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
