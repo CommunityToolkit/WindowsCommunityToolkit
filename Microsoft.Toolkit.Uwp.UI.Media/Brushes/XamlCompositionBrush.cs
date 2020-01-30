@@ -11,6 +11,12 @@ using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 {
     /// <summary>
+    /// A <see langword="delegate"/> that represents a custom effect setter that can be applied to a <see cref="XamlCompositionBrush"/> instance
+    /// </summary>
+    /// <param name="value">The effect target value</param>
+    public delegate void XamlEffectSetter(float value);
+
+    /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect animation that can be applied to a <see cref="XamlCompositionBrush"/> instance
     /// </summary>
     /// <param name="value">The animation target value</param>
@@ -33,6 +39,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// </summary>
         /// <param name="pipeline">The <see cref="PipelineBuilder"/> instance to create the effect</param>
         public XamlCompositionBrush(PipelineBuilder pipeline) => this.Pipeline = pipeline;
+
+        /// <summary>
+        /// Binds an <see cref="EffectSetter"/> to the composition brush in the current instance
+        /// </summary>
+        /// <param name="setter">The input setter</param>
+        /// <param name="bound">The resulting setter</param>
+        /// <returns>The current <see cref="XamlCompositionBrush"/> instance</returns>
+        [Pure]
+        public XamlCompositionBrush Bind(EffectSetter setter, out XamlEffectSetter bound)
+        {
+            bound = value => setter(this.CompositionBrush, value);
+
+            return this;
+        }
 
         /// <summary>
         /// Binds an <see cref="EffectAnimation"/> to the composition brush in the current instance

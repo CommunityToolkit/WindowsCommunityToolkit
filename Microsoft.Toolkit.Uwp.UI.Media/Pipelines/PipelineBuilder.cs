@@ -16,7 +16,14 @@ using Windows.UI.Xaml.Hosting;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
 {
     /// <summary>
-    /// A <see langword="delegate"/> that represents a custom effect animation that can be applied to a <see cref="CompositionBrush"/>
+    /// A <see langword="delegate"/> that represents a custom effect property setter that can be applied to a <see cref="CompositionBrush"/>
+    /// </summary>
+    /// <param name="brush">The target <see cref="CompositionBrush"/> instance to target</param>
+    /// <param name="value">The property value to set</param>
+    public delegate void EffectSetter(CompositionBrush brush, float value);
+
+    /// <summary>
+    /// A <see langword="delegate"/> that represents a custom effect property animation that can be applied to a <see cref="CompositionBrush"/>
     /// </summary>
     /// <param name="brush">The target <see cref="CompositionBrush"/> instance to use to start the animation</param>
     /// <param name="value">The animation target value</param>
