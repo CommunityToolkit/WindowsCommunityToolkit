@@ -548,6 +548,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Applies an invert effect on the current pipeline
+        /// </summary>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Invert()
+        {
+            async Task<IGraphicsEffectSource> Factory() => new InvertEffect
+            {
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
         /// Applies a custom effect to the current pipeline
         /// </summary>
         /// <param name="factory">A <see cref="Func{T, TResult}"/> that takes the current <see cref="IGraphicsEffectSource"/> instance and produces a new effect to display</param>
