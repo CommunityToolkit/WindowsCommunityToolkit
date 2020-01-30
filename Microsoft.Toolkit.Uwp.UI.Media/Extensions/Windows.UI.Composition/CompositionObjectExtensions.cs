@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
         /// <summary>
         /// Starts an animation on the given property of a <see cref="CompositionObject"/>
         /// </summary>
-        /// <typeparam name="T">The type of the property to animate (can be <see cref="float"/> or <see cref="Color"/>)</typeparam>
+        /// <typeparam name="T">The type of the property to animate (can be <see cref="float"/> or <see cref="Windows.UI.Color"/>)</typeparam>
         /// <param name="target">The target <see cref="CompositionObject"/></param>
         /// <param name="property">The name of the property to animate</param>
         /// <param name="value">The final value of the property</param>

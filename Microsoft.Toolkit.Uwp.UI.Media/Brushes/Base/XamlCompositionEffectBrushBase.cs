@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes.Base
 
         /// <summary>
         /// A method that builds and returns the <see cref="PipelineBuilder"/> pipeline to use in the current instance.<para/>
-        /// This method can also be used to store any needed <see cref="EffectAnimation"/> instances in local fields, for later use (they will need to be called upon <see cref="XamlCompositionBrushBase.CompositionBrush"/>).
+        /// This method can also be used to store any needed <see cref="EffectSetter{T}"/> or <see cref="EffectAnimation{T}"/> instances in local fields, for later use (they will need to be called upon <see cref="XamlCompositionBrushBase.CompositionBrush"/>).
         /// </summary>
         /// <returns>A <see cref="PipelineBuilder"/> instance to create the brush to display</returns>
         protected abstract PipelineBuilder OnBrushRequested();
