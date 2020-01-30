@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation animation, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation<float> animation, Placement placement = Placement.Foreground)
         {
             if (factor < 0 || factor > 1)
             {
@@ -288,7 +288,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="optimization">The <see cref="EffectOptimization"/> parameter to use, defaults to <see cref="EffectOptimization.Balanced"/></param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Blur(float blur, out EffectAnimation animation, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
+        public PipelineBuilder Blur(float blur, out EffectAnimation<float> animation, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
@@ -371,7 +371,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animation">The optional saturation animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Saturation(float saturation, out EffectAnimation animation)
+        public PipelineBuilder Saturation(float saturation, out EffectAnimation<float> animation)
         {
             if (saturation < 0 || saturation > 1)
             {
@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animation">The optional opacity animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Opacity(float opacity, out EffectAnimation animation)
+        public PipelineBuilder Opacity(float opacity, out EffectAnimation<float> animation)
         {
             if (opacity < 0 || opacity > 1)
             {
@@ -527,7 +527,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animation">The optional tint mix animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Tint(Color color, float mix, out EffectAnimation animation)
+        public PipelineBuilder Tint(Color color, float mix, out EffectAnimation<float> animation)
         {
             return FromColor(color).CrossFade(this, mix, out animation);
         }

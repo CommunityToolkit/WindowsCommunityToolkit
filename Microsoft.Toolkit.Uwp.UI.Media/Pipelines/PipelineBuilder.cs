@@ -27,11 +27,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect property animation that can be applied to a <see cref="CompositionBrush"/>
     /// </summary>
+    /// <typeparam name="T">The type of property value to animate</typeparam>
     /// <param name="brush">The target <see cref="CompositionBrush"/> instance to use to start the animation</param>
     /// <param name="value">The animation target value</param>
     /// <param name="duration">The animation duration</param>
     /// <returns>A <see cref="Task"/> that completes when the target animation completes</returns>
-    public delegate Task EffectAnimation(CompositionBrush brush, float value, TimeSpan duration);
+    public delegate Task EffectAnimation<in T>(CompositionBrush brush, T value, TimeSpan duration)
+        where T : unmanaged;
 
     /// <summary>
     /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="CompositionBrush"/> instances from them

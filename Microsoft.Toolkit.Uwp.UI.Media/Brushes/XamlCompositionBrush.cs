@@ -21,10 +21,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect animation that can be applied to a <see cref="XamlCompositionBrush"/> instance
     /// </summary>
+    /// <typeparam name="T">The type of property value to animate</typeparam>
     /// <param name="value">The animation target value</param>
     /// <param name="duration">The animation duration</param>
     /// <returns>A <see cref="Task"/> that completes when the target animation completes</returns>
-    public delegate Task XamlEffectAnimation(float value, TimeSpan duration);
+    public delegate Task XamlEffectAnimation<in T>(T value, TimeSpan duration)
+        where T : unmanaged;
 
     /// <summary>
     /// A simple <see langword="class"/> that can be used to quickly create XAML brushes from arbitrary <see cref="PipelineBuilder"/> pipelines
@@ -59,13 +61,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         }
 
         /// <summary>
-        /// Binds an <see cref="EffectAnimation"/> to the composition brush in the current instance
+        /// Binds an <see cref="EffectAnimation{T}"/> to the composition brush in the current instance
         /// </summary>
+        /// <typeparam name="T">The type of property value to animate</typeparam>
         /// <param name="animation">The input animation</param>
         /// <param name="bound">The resulting animation</param>
         /// <returns>The current <see cref="XamlCompositionBrush"/> instance</returns>
         [Pure]
-        public XamlCompositionBrush Bind(EffectAnimation animation, out XamlEffectAnimation bound)
+        public XamlCompositionBrush Bind<T>(EffectAnimation<T> animation, out XamlEffectAnimation<T> bound)
+            where T : unmanaged
         {
             bound = (value, duration) => animation(this.CompositionBrush, value, duration);
 

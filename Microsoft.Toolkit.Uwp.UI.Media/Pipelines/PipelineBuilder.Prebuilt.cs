@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, out EffectAnimation tintAnimation, string noiseRelativePath, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, out EffectAnimation<float> tintAnimation, string noiseRelativePath, CacheMode cacheMode = CacheMode.Default)
         {
             return FromHostBackdropAcrylic(tint, mix, out tintAnimation, noiseRelativePath.ToAppxUri(), cacheMode);
         }
@@ -74,7 +74,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="cacheMode">The cache mode to use to load the image</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, out EffectAnimation tintAnimation, Uri noiseUri, CacheMode cacheMode = CacheMode.Default)
+        public static PipelineBuilder FromHostBackdropAcrylic(Color tint, float mix, out EffectAnimation<float> tintAnimation, Uri noiseUri, CacheMode cacheMode = CacheMode.Default)
         {
             return
                 FromHostBackdrop()
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromBackdropAcrylic(
             Color tint,
             float mix,
-            out EffectAnimation tintAnimation,
+            out EffectAnimation<float> tintAnimation,
             float blur,
             string noiseRelativePath,
             CacheMode cacheMode = CacheMode.Default)
@@ -155,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromBackdropAcrylic(
             Color tint,
             float mix,
-            out EffectAnimation tintAnimation,
+            out EffectAnimation<float> tintAnimation,
             float blur,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
@@ -182,7 +182,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Color tint,
             float mix,
             float blur,
-            out EffectAnimation blurAnimation,
+            out EffectAnimation<float> blurAnimation,
             string noiseRelativePath,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Color tint,
             float mix,
             float blur,
-            out EffectAnimation blurAnimation,
+            out EffectAnimation<float> blurAnimation,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -230,9 +230,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromBackdropAcrylic(
             Color tint,
             float mix,
-            out EffectAnimation tintAnimation,
+            out EffectAnimation<float> tintAnimation,
             float blur,
-            out EffectAnimation blurAnimation,
+            out EffectAnimation<float> blurAnimation,
             string noiseRelativePath,
             CacheMode cacheMode = CacheMode.Default)
         {
@@ -254,9 +254,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         public static PipelineBuilder FromBackdropAcrylic(
             Color tint,
             float mix,
-            out EffectAnimation tintAnimation,
+            out EffectAnimation<float> tintAnimation,
             float blur,
-            out EffectAnimation blurAnimation,
+            out EffectAnimation<float> blurAnimation,
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
