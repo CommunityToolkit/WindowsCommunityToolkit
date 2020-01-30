@@ -62,11 +62,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor = 0.5f, Placement placement = Placement.Foreground)
         {
-            if (factor < 0 || factor > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(factor), "The factor must be in the [0,1] range");
-            }
-
             PipelineBuilder foreground, background;
             if (placement == Placement.Foreground)
             {
@@ -100,11 +95,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter<float> setter, Placement placement = Placement.Foreground)
         {
-            if (factor < 0 || factor > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(factor), "The factor must be in the [0,1] range");
-            }
-
             PipelineBuilder foreground, background;
             if (placement == Placement.Foreground)
             {
@@ -127,17 +117,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The factor must be in the [0,1] range");
-                }
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value);
 
-                brush.Properties.InsertScalar($"{id}.CrossFade", value);
-            };
-
-            return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.CrossFade" });
+            return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>
@@ -151,11 +133,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation<float> animation, Placement placement = Placement.Foreground)
         {
-            if (factor < 0 || factor > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(factor), "The factor must be in the [0,1] range");
-            }
-
             PipelineBuilder foreground, background;
             if (placement == Placement.Foreground)
             {
@@ -178,17 +155,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The factor must be in the [0,1] range");
-                }
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(CrossFadeEffect.CrossFade)}", value, duration);
 
-                return brush.StartAnimationAsync($"{id}.CrossFade", value, duration);
-            };
-
-            return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.CrossFade" });
+            return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.{nameof(CrossFadeEffect.CrossFade)}" });
         }
 
         /// <summary>
@@ -274,9 +243,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.BlurAmount", value);
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(GaussianBlurEffect.BlurAmount)}", value);
 
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.BlurAmount" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(GaussianBlurEffect.BlurAmount)}" });
         }
 
         /// <summary>
@@ -301,9 +270,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.BlurAmount", value, duration);
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(GaussianBlurEffect.BlurAmount)}", value, duration);
 
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.BlurAmount" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(GaussianBlurEffect.BlurAmount)}" });
         }
 
         /// <summary>
@@ -314,11 +283,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Saturation(float saturation)
         {
-            if (saturation < 0 || saturation > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(saturation), "The saturation must be in the [0,1] range");
-            }
-
             async Task<IGraphicsEffectSource> Factory() => new SaturationEffect
             {
                 Saturation = saturation,
@@ -337,11 +301,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Saturation(float saturation, out EffectSetter<float> setter)
         {
-            if (saturation < 0 || saturation > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(saturation), "The saturation must be in the [0,1] range");
-            }
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async Task<IGraphicsEffectSource> Factory() => new SaturationEffect
@@ -351,17 +310,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The saturation must be in the [0,1] range");
-                }
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(SaturationEffect.Saturation)}", value);
 
-                brush.Properties.InsertScalar($"{id}.Saturation", value);
-            };
-
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Saturation" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(SaturationEffect.Saturation)}" });
         }
 
         /// <summary>
@@ -373,11 +324,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Saturation(float saturation, out EffectAnimation<float> animation)
         {
-            if (saturation < 0 || saturation > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(saturation), "The saturation must be in the [0,1] range");
-            }
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async Task<IGraphicsEffectSource> Factory() => new SaturationEffect
@@ -387,17 +333,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The saturation must be in the [0,1] range");
-                }
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(SaturationEffect.Saturation)}", value, duration);
 
-                return brush.StartAnimationAsync($"{id}.Saturation", value, duration);
-            };
-
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Saturation" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(SaturationEffect.Saturation)}" });
         }
 
         /// <summary>
@@ -435,9 +373,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.Intensity", value);
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(SepiaEffect.Intensity)}", value);
 
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Intensity" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(SepiaEffect.Intensity)}" });
         }
 
         /// <summary>
@@ -458,9 +396,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.Intensity", value, duration);
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(SepiaEffect.Intensity)}", value, duration);
 
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Intensity" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(SepiaEffect.Intensity)}" });
         }
 
         /// <summary>
@@ -471,11 +409,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Opacity(float opacity)
         {
-            if (opacity < 0 || opacity > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(opacity), "The opacity must be in the [0,1] range");
-            }
-
             async Task<IGraphicsEffectSource> Factory() => new OpacityEffect
             {
                 Opacity = opacity,
@@ -494,11 +427,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Opacity(float opacity, out EffectSetter<float> setter)
         {
-            if (opacity < 0 || opacity > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(opacity), "The opacity must be in the [0,1] range");
-            }
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async Task<IGraphicsEffectSource> Factory() => new OpacityEffect
@@ -508,17 +436,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            setter = (brush, value) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The opacity must be in the [0,1] range");
-                }
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(OpacityEffect.Opacity)}", value);
 
-                brush.Properties.InsertScalar($"{id}.Opacity", value);
-            };
-
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Opacity" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(OpacityEffect.Opacity)}" });
         }
 
         /// <summary>
@@ -530,11 +450,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Opacity(float opacity, out EffectAnimation<float> animation)
         {
-            if (opacity < 0 || opacity > 1)
-            {
-                throw new ArgumentOutOfRangeException(nameof(opacity), "The opacity must be in the [0,1] range");
-            }
-
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             async Task<IGraphicsEffectSource> Factory() => new OpacityEffect
@@ -544,17 +459,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, duration) =>
-            {
-                if (value < 0 || value > 1)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(value), "The opacity must be in the [0,1] range");
-                }
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(OpacityEffect.Opacity)}", value, duration);
 
-                return brush.StartAnimationAsync($"{id}.Opacity", value, duration);
-            };
-
-            return new PipelineBuilder(this, Factory, new[] { $"{id}.Opacity" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(OpacityEffect.Opacity)}" });
         }
 
         /// <summary>
