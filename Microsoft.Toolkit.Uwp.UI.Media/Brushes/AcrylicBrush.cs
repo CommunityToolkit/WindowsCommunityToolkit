@@ -15,6 +15,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// </summary>
     public sealed class AcrylicBrush : XamlCompositionEffectBrushBase
     {
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            switch (this.Source)
+            {
+                case AcrylicBackgroundSource.Backdrop: return PipelineBuilder.FromBackdropAcrylic(this.Tint, (float)this.TintMix, (float)this.BlurAmount, this.TextureUri);
+                case AcrylicBackgroundSource.HostBackdrop: return PipelineBuilder.FromHostBackdropAcrylic(this.Tint, (float)this.TintMix, this.TextureUri);
+                default: throw new ArgumentOutOfRangeException(nameof(this.Source), $"Invalid acrylic source: {this.Source}");
+            }
+        }
+
         /// <summary>
         /// Gets or sets the source mode for the effect
         /// </summary>
@@ -40,16 +51,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         /// Gets or sets the <see cref="Uri"/> to the texture to use
         /// </summary>
         public Uri TextureUri { get; set; }
-
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
-        {
-            switch (this.Source)
-            {
-                case AcrylicBackgroundSource.Backdrop: return PipelineBuilder.FromBackdropAcrylic(this.Tint, (float)this.TintMix, (float)this.BlurAmount, this.TextureUri);
-                case AcrylicBackgroundSource.HostBackdrop: return PipelineBuilder.FromHostBackdropAcrylic(this.Tint, (float)this.TintMix, this.TextureUri);
-                default: throw new ArgumentOutOfRangeException(nameof(this.Source), $"Invalid acrylic source: {this.Source}");
-            }
-        }
     }
 }

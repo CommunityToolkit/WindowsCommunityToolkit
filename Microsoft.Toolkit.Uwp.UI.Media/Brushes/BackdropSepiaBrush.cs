@@ -15,6 +15,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public class BackdropSepiaBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
+        /// </summary>
+        private EffectSetter<float> setter;
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Intensity
+        {
+            get => (double)GetValue(IntensityProperty);
+            set => SetValue(IntensityProperty, value);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Intensity"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty IntensityProperty = DependencyProperty.Register(
@@ -24,14 +44,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.5, new PropertyChangedCallback(OnIntensityChanged)));
 
         /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// Updates the UI when <see cref="Intensity"/> changes
         /// </summary>
-        public double Intensity
-        {
-            get { return (double)GetValue(IntensityProperty); }
-            set { SetValue(IntensityProperty, value); }
-        }
-
+        /// <param name="d">The current <see cref="BackdropSepiaBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="IntensityProperty"/></param>
         private static void OnIntensityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (BackdropSepiaBrush)d;
@@ -52,17 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             {
                 brush.setter?.Invoke(target, (float)brush.Intensity);
             }
-        }
-
-        /// <summary>
-        /// The <see cref="EffectSetter{T}"/> instance currently in use
-        /// </summary>
-        private EffectSetter<float> setter;
-
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
-        {
-            return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
         }
     }
 }

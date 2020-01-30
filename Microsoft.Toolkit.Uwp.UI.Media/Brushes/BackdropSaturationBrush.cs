@@ -15,6 +15,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public class BackdropSaturationBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
+        /// </summary>
+        private EffectSetter<float> setter;
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            return PipelineBuilder.FromBackdrop().Saturation((float)Saturation, out setter);
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Saturation
+        {
+            get => (double)GetValue(SaturationProperty);
+            set => SetValue(SaturationProperty, value);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Saturation"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty SaturationProperty = DependencyProperty.Register(
@@ -24,14 +44,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.5, new PropertyChangedCallback(OnSaturationChanged)));
 
         /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// Updates the UI when <see cref="Saturation"/> changes
         /// </summary>
-        public double Saturation
-        {
-            get { return (double)GetValue(SaturationProperty); }
-            set { SetValue(SaturationProperty, value); }
-        }
-
+        /// <param name="d">The current <see cref="BackdropSaturationBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="SaturationProperty"/></param>
         private static void OnSaturationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var brush = (BackdropSaturationBrush)d;
@@ -52,17 +68,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             {
                 brush.setter?.Invoke(target, (float)brush.Saturation);
             }
-        }
-
-        /// <summary>
-        /// The <see cref="EffectSetter{T}"/> instance currently in use
-        /// </summary>
-        private EffectSetter<float> setter;
-
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
-        {
-            return PipelineBuilder.FromBackdrop().Saturation((float)Saturation, out setter);
         }
     }
 }

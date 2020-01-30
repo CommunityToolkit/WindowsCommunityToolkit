@@ -4,6 +4,8 @@
 
 //// Composition supported version of http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
 
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member - see http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
+
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
@@ -12,12 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public enum ImageBlendMode
     {
-        #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member - see http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_BlendEffectMode.htm.
         Multiply = 0,
         Screen = 1,
         Darken = 2,
         Lighten = 3,
-        ////Dissolve = 4, // Not Supported
+
+        // Dissolve = 4, // Not Supported
         ColorBurn = 5,
         LinearBurn = 6,
         DarkerColor = 7,
@@ -55,6 +57,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         Luminosity = 23,
         Subtract = 24,
         Division = 25,
-        #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

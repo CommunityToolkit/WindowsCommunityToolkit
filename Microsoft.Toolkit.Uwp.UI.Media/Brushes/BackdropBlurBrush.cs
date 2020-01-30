@@ -18,6 +18,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     public class BackdropBlurBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
+        /// </summary>
+        private EffectSetter<float> setter;
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out setter);
+        }
+
+        /// <summary>
+        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// </summary>
+        public double Amount
+        {
+            get => (double)GetValue(AmountProperty);
+            set => SetValue(AmountProperty, value);
+        }
+
+        /// <summary>
         /// Identifies the <see cref="Amount"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty AmountProperty = DependencyProperty.Register(
@@ -27,33 +47,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             new PropertyMetadata(0.0, new PropertyChangedCallback(OnAmountChanged)));
 
         /// <summary>
-        /// Gets or sets the amount of gaussian blur to apply to the background.
+        /// Updates the UI when <see cref="Amount"/> changes
         /// </summary>
-        public double Amount
-        {
-            get { return (double)GetValue(AmountProperty); }
-            set { SetValue(AmountProperty, value); }
-        }
-
+        /// <param name="d">The current <see cref="BackdropBlurBrush"/> instance</param>
+        /// <param name="e">The <see cref="DependencyPropertyChangedEventArgs"/> instance for <see cref="AmountProperty"/></param>
         private static void OnAmountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var brush = (BackdropBlurBrush)d;
-
-            if (brush.CompositionBrush is CompositionBrush target)
+            if (d is BackdropBlurBrush brush &&
+                brush.CompositionBrush is CompositionBrush target)
             {
                 brush.setter?.Invoke(target, (float)brush.Amount);
             }
-        }
-
-        /// <summary>
-        /// The <see cref="EffectSetter{T}"/> instance currently in use
-        /// </summary>
-        private EffectSetter<float> setter;
-
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
-        {
-            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out setter);
         }
     }
 }
