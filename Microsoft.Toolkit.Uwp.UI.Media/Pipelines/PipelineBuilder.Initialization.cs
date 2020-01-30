@@ -41,11 +41,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromBackdrop()
         {
-            Task<CompositionBrush> Factory()
+            ValueTask<CompositionBrush> Factory()
             {
                 var brush = BackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateBackdropBrush());
 
-                return Task.FromResult(brush);
+                return new ValueTask<CompositionBrush>(brush);
             }
 
             return new PipelineBuilder(Factory);
@@ -58,11 +58,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromHostBackdrop()
         {
-            Task<CompositionBrush> Factory()
+            ValueTask<CompositionBrush> Factory()
             {
                 var brush = HostBackdropBrushCache.GetValue(Window.Current.Compositor, c => c.CreateHostBackdropBrush());
 
-                return Task.FromResult(brush);
+                return new ValueTask<CompositionBrush>(brush);
             }
 
             return new PipelineBuilder(Factory);
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromColor(Color color)
         {
-            return new PipelineBuilder(() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect { Color = color }));
+            return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect { Color = color }));
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            ValueTask<IGraphicsEffectSource> Factory() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect
             {
                 Color = color,
                 Name = id
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            ValueTask<IGraphicsEffectSource> Factory() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect
             {
                 Color = color,
                 Name = id
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromHdrColor(Vector4 color)
         {
-            return new PipelineBuilder(() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect { ColorHdr = color }));
+            return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect { ColorHdr = color }));
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            ValueTask<IGraphicsEffectSource> Factory() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect
             {
                 ColorHdr = color,
                 Name = id
@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            ValueTask<IGraphicsEffectSource> Factory() => new ValueTask<IGraphicsEffectSource>(new ColorSourceEffect
             {
                 ColorHdr = color,
                 Name = id
@@ -181,12 +181,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="CompositionBrush"/> instance
         /// </summary>
+        /// <param name="brush">A <see cref="CompositionBrush"/> instance to start the pipeline</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromBrush(CompositionBrush brush)
+        {
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(brush));
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="CompositionBrush"/> instance
+        /// </summary>
         /// <param name="factory">A <see cref="Func{TResult}"/> that synchronously returns a <see cref="CompositionBrush"/> instance to start the pipeline</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public static PipelineBuilder FromBrush(Func<CompositionBrush> factory)
         {
-            return new PipelineBuilder(() => Task.FromResult(factory()));
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(factory()));
         }
 
         /// <summary>
@@ -197,7 +208,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromBrush(Func<Task<CompositionBrush>> factory)
         {
-            return new PipelineBuilder(factory);
+            async ValueTask<CompositionBrush> Factory() => await factory();
+
+            return new PipelineBuilder(Factory);
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from the input <see cref="IGraphicsEffectSource"/> instance
+        /// </summary>
+        /// <param name="effect">A <see cref="IGraphicsEffectSource"/> instance to start the pipeline</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromEffect(IGraphicsEffectSource effect)
+        {
+            return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(effect));
         }
 
         /// <summary>
@@ -208,7 +232,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromEffect(Func<IGraphicsEffectSource> factory)
         {
-            return new PipelineBuilder(() => Task.FromResult(factory()));
+            return new PipelineBuilder(() => new ValueTask<IGraphicsEffectSource>(factory()));
         }
 
         /// <summary>
@@ -219,7 +243,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromEffect(Func<Task<IGraphicsEffectSource>> factory)
         {
-            return new PipelineBuilder(factory);
+            async ValueTask<IGraphicsEffectSource> Factory() => await factory();
+
+            return new PipelineBuilder(Factory);
         }
 
         /// <summary>
@@ -273,7 +299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var image = FromImage(uri, dpiMode, cacheMode);
 
-            async Task<IGraphicsEffectSource> Factory() => new BorderEffect
+            async ValueTask<IGraphicsEffectSource> Factory() => new BorderEffect
             {
                 ExtendX = CanvasEdgeBehavior.Wrap,
                 ExtendY = CanvasEdgeBehavior.Wrap,
@@ -291,7 +317,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromUIElement(UIElement element)
         {
-            return new PipelineBuilder(() => Task.FromResult<CompositionBrush>(ElementCompositionPreview.GetElementVisual(element).Compositor.CreateBackdropBrush()));
+            return new PipelineBuilder(() => new ValueTask<CompositionBrush>(ElementCompositionPreview.GetElementVisual(element).Compositor.CreateBackdropBrush()));
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// The <see cref="Func{TResult}"/> instance used to produce the output <see cref="IGraphicsEffectSource"/> for this pipeline
         /// </summary>
-        private readonly Func<Task<IGraphicsEffectSource>> sourceProducer;
+        private readonly Func<ValueTask<IGraphicsEffectSource>> sourceProducer;
 
         /// <summary>
         /// The collection of animation properties present in the current pipeline
@@ -53,30 +53,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// The collection of info on the parameters that need to be initialized after creating the final <see cref="CompositionBrush"/>
         /// </summary>
-        private readonly IReadOnlyDictionary<string, Func<Task<CompositionBrush>>> lazyParameters;
+        private readonly IReadOnlyDictionary<string, Func<ValueTask<CompositionBrush>>> lazyParameters;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
         /// </summary>
         /// <param name="factory">A <see cref="Func{TResult}"/> instance that will return the initial <see cref="CompositionBrush"/></param>
-        private PipelineBuilder(Func<Task<CompositionBrush>> factory)
+        private PipelineBuilder(Func<ValueTask<CompositionBrush>> factory)
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
-            this.sourceProducer = () => Task.FromResult<IGraphicsEffectSource>(new CompositionEffectSourceParameter(id));
+            this.sourceProducer = () => new ValueTask<IGraphicsEffectSource>(new CompositionEffectSourceParameter(id));
             this.animationProperties = Array.Empty<string>();
-            this.lazyParameters = new Dictionary<string, Func<Task<CompositionBrush>>> { { id, factory } };
+            this.lazyParameters = new Dictionary<string, Func<ValueTask<CompositionBrush>>> { { id, factory } };
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
         /// </summary>
         /// <param name="factory">A <see cref="Func{TResult}"/> instance that will return the initial <see cref="IGraphicsEffectSource"/></param>
-        private PipelineBuilder(Func<Task<IGraphicsEffectSource>> factory)
+        private PipelineBuilder(Func<ValueTask<IGraphicsEffectSource>> factory)
             : this(
                 factory,
                 Array.Empty<string>(),
-                new Dictionary<string, Func<Task<CompositionBrush>>>())
+                new Dictionary<string, Func<ValueTask<CompositionBrush>>>())
         {
         }
 
@@ -86,12 +86,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="factory">A <see cref="Func{TResult}"/> instance that will produce the new <see cref="IGraphicsEffectSource"/> to add to the pipeline</param>
         /// <param name="animations">The collection of animation properties for the new effect</param>
         private PipelineBuilder(
-            Func<Task<IGraphicsEffectSource>> factory,
+            Func<ValueTask<IGraphicsEffectSource>> factory,
             IReadOnlyCollection<string> animations)
             : this(
                 factory,
                 animations,
-                new Dictionary<string, Func<Task<CompositionBrush>>>())
+                new Dictionary<string, Func<ValueTask<CompositionBrush>>>())
         {
         }
 
@@ -102,9 +102,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animations">The collection of animation properties for the new effect</param>
         /// <param name="lazy">The collection of <see cref="CompositionBrush"/> instances that needs to be initialized for the new effect</param>
         private PipelineBuilder(
-            Func<Task<IGraphicsEffectSource>> factory,
+            Func<ValueTask<IGraphicsEffectSource>> factory,
             IReadOnlyCollection<string> animations,
-            IReadOnlyDictionary<string, Func<Task<CompositionBrush>>> lazy)
+            IReadOnlyDictionary<string, Func<ValueTask<CompositionBrush>>> lazy)
         {
             this.sourceProducer = factory;
             this.animationProperties = animations;
@@ -120,9 +120,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="lazy">The collection of <see cref="CompositionBrush"/> instances that needs to be initialized for the new effect</param>
         private PipelineBuilder(
             PipelineBuilder source,
-            Func<Task<IGraphicsEffectSource>> factory,
+            Func<ValueTask<IGraphicsEffectSource>> factory,
             IReadOnlyCollection<string> animations = null,
-            IReadOnlyDictionary<string, Func<Task<CompositionBrush>>> lazy = null)
+            IReadOnlyDictionary<string, Func<ValueTask<CompositionBrush>>> lazy = null)
             : this(
                 factory,
                 animations?.Merge(source.animationProperties) ?? source.animationProperties,
@@ -139,11 +139,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animations">The collection of animation properties for the new effect</param>
         /// <param name="lazy">The collection of <see cref="CompositionBrush"/> instances that needs to be initialized for the new effect</param>
         private PipelineBuilder(
-            Func<Task<IGraphicsEffectSource>> factory,
+            Func<ValueTask<IGraphicsEffectSource>> factory,
             PipelineBuilder a,
             PipelineBuilder b,
             IReadOnlyCollection<string> animations = null,
-            IReadOnlyDictionary<string, Func<Task<CompositionBrush>>> lazy = null)
+            IReadOnlyDictionary<string, Func<ValueTask<CompositionBrush>>> lazy = null)
             : this(
                 factory,
                 animations?.Merge(a.animationProperties.Merge(b.animationProperties)) ?? a.animationProperties.Merge(b.animationProperties),

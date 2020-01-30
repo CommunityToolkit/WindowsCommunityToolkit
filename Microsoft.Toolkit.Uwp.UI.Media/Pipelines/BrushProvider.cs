@@ -22,14 +22,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Gets the stored effect initializer
         /// </summary>
-        internal Func<Task<CompositionBrush>> Initializer { get; }
+        internal Func<ValueTask<CompositionBrush>> Initializer { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BrushProvider"/> class.
         /// </summary>
         /// <param name="name">The name of the target <see cref="CompositionEffectSourceParameter"/></param>
         /// <param name="initializer">The stored effect initializer</param>
-        private BrushProvider(string name, Func<Task<CompositionBrush>> initializer)
+        private BrushProvider(string name, Func<ValueTask<CompositionBrush>> initializer)
         {
             this.Name = name;
             this.Initializer = initializer;
@@ -39,18 +39,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Creates a new instance with the info on a given <see cref="CompositionEffectSourceParameter"/> to initialize
         /// </summary>
         /// <param name="name">The target effect name</param>
-        /// <param name="initializer">A <see cref="Func{TResult}"/> instance that will produce the <see cref="CompositionBrush"/> to use to initialize the effect</param>
+        /// <param name="brush">A <see cref="CompositionBrush"/> to use to initialize the effect</param>
         /// <returns>A <see cref="BrushProvider"/> instance with the input initializer</returns>
         [Pure]
-        public static BrushProvider New(string name, Func<CompositionBrush> initializer) => new BrushProvider(name, () => Task.FromResult(initializer()));
+        public static BrushProvider New(string name, CompositionBrush brush) => new BrushProvider(name, () => new ValueTask<CompositionBrush>(brush));
 
         /// <summary>
         /// Creates a new instance with the info on a given <see cref="CompositionEffectSourceParameter"/> to initialize
         /// </summary>
         /// <param name="name">The target effect name</param>
-        /// <param name="initializer">An asynchronous <see cref="Func{TResult}"/> instance that will produce the <see cref="CompositionBrush"/> to use to initialize the effect</param>
+        /// <param name="factory">A <see cref="Func{TResult}"/> instance that will produce the <see cref="CompositionBrush"/> to use to initialize the effect</param>
         /// <returns>A <see cref="BrushProvider"/> instance with the input initializer</returns>
         [Pure]
-        public static BrushProvider New(string name, Func<Task<CompositionBrush>> initializer) => new BrushProvider(name, initializer);
+        public static BrushProvider New(string name, Func<CompositionBrush> factory) => new BrushProvider(name, () => new ValueTask<CompositionBrush>(factory()));
+
+        /// <summary>
+        /// Creates a new instance with the info on a given <see cref="CompositionEffectSourceParameter"/> to initialize
+        /// </summary>
+        /// <param name="name">The target effect name</param>
+        /// <param name="factory">An asynchronous <see cref="Func{TResult}"/> instance that will produce the <see cref="CompositionBrush"/> to use to initialize the effect</param>
+        /// <returns>A <see cref="BrushProvider"/> instance with the input initializer</returns>
+        [Pure]
+        public static BrushProvider New(string name, Func<Task<CompositionBrush>> factory) => new BrushProvider(name, () => new ValueTask<CompositionBrush>(factory()));
     }
 }
