@@ -96,7 +96,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="factor">The cross fade factor to blend the input effects</param>
         /// <param name="setter">The optional blur setter for the effect</param>
         /// <param name="placement">The placement to use with the two input pipelines</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter setter, Placement placement = Placement.Foreground)
@@ -148,7 +147,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="factor">The cross fade factor to blend the input effects</param>
         /// <param name="animation">The optional blur animation for the effect</param>
         /// <param name="placement">The placement to use with the two input pipelines</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectAnimation animation, Placement placement = Placement.Foreground)
@@ -261,7 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="setter">The optional blur setter for the effect</param>
         /// <param name="mode">The <see cref="EffectBorderMode"/> parameter for the effect, defaults to <see cref="EffectBorderMode.Hard"/></param>
         /// <param name="optimization">The <see cref="EffectOptimization"/> parameter to use, defaults to <see cref="EffectOptimization.Balanced"/></param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Blur(float blur, out EffectSetter setter, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
@@ -289,7 +286,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="animation">The optional blur animation for the effect</param>
         /// <param name="mode">The <see cref="EffectBorderMode"/> parameter for the effect, defaults to <see cref="EffectBorderMode.Hard"/></param>
         /// <param name="optimization">The <see cref="EffectOptimization"/> parameter to use, defaults to <see cref="EffectOptimization.Balanced"/></param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Blur(float blur, out EffectAnimation animation, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
@@ -337,7 +333,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="saturation">The initial saturation amount for the new effect</param>
         /// <param name="setter">The optional saturation setter for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Saturation(float saturation, out EffectSetter setter)
@@ -374,7 +369,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="saturation">The initial saturation amount for the new effect</param>
         /// <param name="animation">The optional saturation animation for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Saturation(float saturation, out EffectAnimation animation)
@@ -433,7 +427,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="opacity">The opacity value to apply to the pipeline</param>
         /// <param name="setter">The optional opacity setter for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Opacity(float opacity, out EffectSetter setter)
@@ -470,7 +463,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// </summary>
         /// <param name="opacity">The opacity value to apply to the pipeline</param>
         /// <param name="animation">The optional opacity animation for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Opacity(float opacity, out EffectAnimation animation)
@@ -520,7 +512,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="color">The tint color to use</param>
         /// <param name="mix">The initial amount of tint to apply over the current effect</param>
         /// <param name="setter">The optional tint mix setter for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Tint(Color color, float mix, out EffectSetter setter)
@@ -534,7 +525,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="color">The tint color to use</param>
         /// <param name="mix">The initial amount of tint to apply over the current effect</param>
         /// <param name="animation">The optional tint mix animation for the effect</param>
-        /// <remarks>Note that each pipeline can only contain a single instance of any of the built-in effects with animation support</remarks>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
         public PipelineBuilder Tint(Color color, float mix, out EffectAnimation animation)
