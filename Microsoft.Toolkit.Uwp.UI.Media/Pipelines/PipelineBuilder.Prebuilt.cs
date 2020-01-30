@@ -29,13 +29,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, mix)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Tint(tint, mix);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
 
         /// <summary>
@@ -57,13 +63,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, out tintSetter, mix, out mixSetter)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Tint(tint, out tintSetter, mix, out mixSetter);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
 
         /// <summary>
@@ -85,13 +97,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromHostBackdrop()
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, out tintAnimation, mix, out mixAnimation)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Tint(tint, out tintAnimation, mix, out mixAnimation);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
 
         /// <summary>
@@ -111,11 +129,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromBackdrop()
                 .Tint(tint, mix)
-                .Blur(blur)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Blur(blur);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
 
         /// <summary>
@@ -141,11 +165,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromBackdrop()
                 .Tint(tint, out tintSetter, mix, out mixSetter)
-                .Blur(blur, out blurSetter)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Blur(blur, out blurSetter);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
 
         /// <summary>
@@ -171,11 +201,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Uri noiseUri,
             CacheMode cacheMode = CacheMode.Default)
         {
-            return
+            var pipeline =
                 FromBackdrop()
                 .Tint(tint, out tintAnimation, mix, out mixAnimation)
-                .Blur(blur, out blurAnimation)
-                .Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+                .Blur(blur, out blurAnimation);
+
+            if (noiseUri != null)
+            {
+                return pipeline.Blend(FromTiles(noiseUri, cacheMode: cacheMode), BlendEffectMode.Overlay, Placement.Background);
+            }
+
+            return pipeline;
         }
     }
 }
