@@ -96,9 +96,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             });
 
-            setter = (brush, value) => brush.Properties.InsertColor($"{id}.Color", value);
+            setter = (brush, value) => brush.Properties.InsertColor($"{id}.{nameof(ColorSourceEffect.Color)}", value);
 
-            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+            return new PipelineBuilder(Factory, new[] { $"{id}.{nameof(ColorSourceEffect.Color)}" });
         }
 
         /// <summary>
@@ -118,9 +118,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             });
 
-            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.Color", value, duration);
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(ColorSourceEffect.Color)}", value, duration);
 
-            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+            return new PipelineBuilder(Factory, new[] { $"{id}.{nameof(ColorSourceEffect.Color)}" });
         }
 
         /// <summary>
@@ -151,9 +151,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             });
 
-            setter = (brush, value) => brush.Properties.InsertVector4($"{id}.Color", value);
+            setter = (brush, value) => brush.Properties.InsertVector4($"{id}.{nameof(ColorSourceEffect.ColorHdr)}", value);
 
-            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+            return new PipelineBuilder(Factory, new[] { $"{id}.{nameof(ColorSourceEffect.ColorHdr)}" });
         }
 
         /// <summary>
@@ -173,9 +173,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             });
 
-            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.Color", value, duration);
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(ColorSourceEffect.ColorHdr)}", value, duration);
 
-            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+            return new PipelineBuilder(Factory, new[] { $"{id}.{nameof(ColorSourceEffect.ColorHdr)}" });
         }
 
         /// <summary>
