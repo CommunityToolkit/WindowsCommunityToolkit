@@ -543,26 +543,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// Applies a tint color on the current pipeline
         /// </summary>
         /// <param name="color">The tint color to use</param>
+        /// <param name="colorSetter">The optional tint color setter for the effect</param>
         /// <param name="mix">The initial amount of tint to apply over the current effect</param>
-        /// <param name="setter">The optional tint mix setter for the effect</param>
+        /// <param name="mixSetter">The optional tint mix setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Tint(Color color, float mix, out EffectSetter<float> setter)
+        public PipelineBuilder Tint(Color color, out EffectSetter<Color> colorSetter, float mix, out EffectSetter<float> mixSetter)
         {
-            return FromColor(color).CrossFade(this, mix, out setter);
+            return FromColor(color, out colorSetter).CrossFade(this, mix, out mixSetter);
         }
 
         /// <summary>
         /// Applies a tint color on the current pipeline
         /// </summary>
         /// <param name="color">The tint color to use</param>
+        /// <param name="colorAnimation">The optional tint color animation for the effect</param>
         /// <param name="mix">The initial amount of tint to apply over the current effect</param>
-        /// <param name="animation">The optional tint mix animation for the effect</param>
+        /// <param name="mixAnimation">The optional tint mix animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Tint(Color color, float mix, out EffectAnimation<float> animation)
+        public PipelineBuilder Tint(Color color, out EffectAnimation<Color> colorAnimation, float mix, out EffectAnimation<float> mixAnimation)
         {
-            return FromColor(color).CrossFade(this, mix, out animation);
+            return FromColor(color, out colorAnimation).CrossFade(this, mix, out mixAnimation);
         }
 
         /// <summary>
