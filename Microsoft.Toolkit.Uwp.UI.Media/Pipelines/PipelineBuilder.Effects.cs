@@ -411,6 +411,89 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Applies a temperature and tint effect on the current pipeline
+        /// </summary>
+        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="tint">The tint value to use</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder TemperatureAndTint(float temperature, float tint)
+        {
+            async ValueTask<IGraphicsEffectSource> Factory() => new TemperatureAndTintEffect
+            {
+                Temperature = temperature,
+                Tint = tint,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
+        /// Applies a temperature and tint effect on the current pipeline
+        /// </summary>
+        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperatureSetter">The optional temperature setter for the effect</param>
+        /// <param name="tint">The tint value to use</param>
+        /// <param name="tintSetter">The optional tint setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder TemperatureAndTint(
+            float temperature,
+            out EffectSetter<float> temperatureSetter,
+            float tint,
+            out EffectSetter<float> tintSetter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new TemperatureAndTintEffect
+            {
+                Temperature = temperature,
+                Tint = tint,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            temperatureSetter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(TemperatureAndTintEffect.Temperature)}", value);
+
+            tintSetter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(TemperatureAndTintEffect.Tint)}", value);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(TemperatureAndTintEffect.Temperature)}", $"{id}.{nameof(TemperatureAndTintEffect.Tint)}" });
+        }
+
+        /// <summary>
+        /// Applies a temperature and tint effect on the current pipeline
+        /// </summary>
+        /// <param name="temperature">The temperature value to use</param>
+        /// <param name="temperatureAnimation">The optional temperature animation for the effect</param>
+        /// <param name="tint">The tint value to use</param>
+        /// <param name="tintAnimation">The optional tint animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder TemperatureAndTint(
+            float temperature,
+            out EffectAnimation<float> temperatureAnimation,
+            float tint,
+            out EffectAnimation<float> tintAnimation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new TemperatureAndTintEffect
+            {
+                Temperature = temperature,
+                Tint = tint,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            temperatureAnimation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(TemperatureAndTintEffect.Temperature)}", value, duration);
+
+            tintAnimation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(TemperatureAndTintEffect.Tint)}", value, duration);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(TemperatureAndTintEffect.Temperature)}", $"{id}.{nameof(TemperatureAndTintEffect.Tint)}" });
+        }
+
+        /// <summary>
         /// Applies a shade effect on the current pipeline
         /// </summary>
         /// <param name="color">The color to use</param>

@@ -95,6 +95,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                     return builder.Shade(shade.Color, (float)shade.Intensity);
                 case TintEffect tint:
                     return builder.Tint(tint.Color);
+                case TemperatureAndTintEffect temperatureAndTint:
+                    return builder.TemperatureAndTint((float)temperatureAndTint.Temperature, (float)temperatureAndTint.Tint);
                 case BlurEffect blur:
                     return builder.Blur((float)blur.Value);
                 case SaturationEffect saturation:
