@@ -465,6 +465,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Applies an exposure effect on the current pipeline
+        /// </summary>
+        /// <param name="amount">The amount of exposure to apply over the current effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Exposure(float amount)
+        {
+            async Task<IGraphicsEffectSource> Factory() => new ExposureEffect
+            {
+                Exposure = amount,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
+        /// Applies an exposure effect on the current pipeline
+        /// </summary>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="setter">The optional amount setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Exposure(float amount, out EffectSetter<float> setter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async Task<IGraphicsEffectSource> Factory() => new ExposureEffect
+            {
+                Exposure = amount,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(ExposureEffect.Exposure)}", value);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(ExposureEffect.Exposure)}" });
+        }
+
+        /// <summary>
+        /// Applies an exposure effect on the current pipeline
+        /// </summary>
+        /// <param name="amount">The initial exposure of tint to apply over the current effect</param>
+        /// <param name="animation">The optional amount animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Exposure(float amount, out EffectAnimation<float> animation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async Task<IGraphicsEffectSource> Factory() => new ExposureEffect
+            {
+                Exposure = amount,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(ExposureEffect.Exposure)}", value, duration);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(ExposureEffect.Exposure)}" });
+        }
+
+        /// <summary>
         /// Applies a tint color on the current pipeline
         /// </summary>
         /// <param name="color">The tint color to use</param>
