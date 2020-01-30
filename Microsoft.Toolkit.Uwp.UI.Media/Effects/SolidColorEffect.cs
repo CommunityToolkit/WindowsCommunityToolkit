@@ -8,7 +8,7 @@ using Windows.UI;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// A simple effect that renders a solid color on the available surface
+    /// An effect that renders a standard 8bit SDR color on the available surface
     /// </summary>
     public sealed class SolidColorEffect : IPipelineEffect
     {

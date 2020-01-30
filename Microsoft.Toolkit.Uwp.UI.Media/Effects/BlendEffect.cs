@@ -11,6 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A blend effect that merges the current pipeline with an input one
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.BlendEffect"/> effect</remarks>
     public sealed class BlendEffect : IPipelineEffect
     {
         /// <summary>

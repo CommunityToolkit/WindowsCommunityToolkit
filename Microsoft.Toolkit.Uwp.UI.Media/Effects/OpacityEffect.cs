@@ -7,8 +7,9 @@ using Microsoft.Toolkit.Uwp.UI.Media.Effects.Abstract;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// A simple opacity effect
+    /// An opacity effect
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.OpacityEffect"/> effect</remarks>
     public sealed class OpacityEffect : ValueEffectBase
     {
     }

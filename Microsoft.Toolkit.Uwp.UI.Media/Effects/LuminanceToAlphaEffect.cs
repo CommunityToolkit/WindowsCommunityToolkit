@@ -7,8 +7,9 @@ using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// A luminance effect which directly replicates <see cref="Graphics.Canvas.Effects.LuminanceToAlphaEffect"/>
+    /// A luminance to alpha effect
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.LuminanceToAlphaEffect"/> effect</remarks>
     public sealed class LuminanceToAlphaEffect : IPipelineEffect
     {
     }

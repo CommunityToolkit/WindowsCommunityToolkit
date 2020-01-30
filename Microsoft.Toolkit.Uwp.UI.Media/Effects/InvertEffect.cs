@@ -7,8 +7,9 @@ using Microsoft.Toolkit.Uwp.UI.Media.Effects.Interfaces;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// A luminance effect which directly replicates <see cref="Graphics.Canvas.Effects.InvertEffect"/>
+    /// An color inversion effect
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.InvertEffect"/> effect</remarks>
     public sealed class InvertEffect : IPipelineEffect
     {
     }

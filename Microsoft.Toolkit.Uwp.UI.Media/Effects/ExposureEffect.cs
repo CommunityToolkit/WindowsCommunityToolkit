@@ -9,6 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// An exposure effect
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.ExposureEffect"/> effect</remarks>
     public sealed class ExposureEffect : ValueEffectBase
     {
     }

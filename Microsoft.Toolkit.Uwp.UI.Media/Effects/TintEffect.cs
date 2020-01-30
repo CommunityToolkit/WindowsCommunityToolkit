@@ -10,6 +10,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A tint effect with a customizable opacity
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
     public sealed class TintEffect : IPipelineEffect
     {
         /// <summary>

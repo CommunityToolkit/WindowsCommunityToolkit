@@ -9,6 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
     /// <summary>
     /// A saturation effect
     /// </summary>
+    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.SaturationEffect"/> effect</remarks>
     public sealed class SaturationEffect : ValueEffectBase
     {
     }
