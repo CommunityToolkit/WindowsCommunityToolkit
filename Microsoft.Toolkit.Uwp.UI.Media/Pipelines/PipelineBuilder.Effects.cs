@@ -401,6 +401,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Adds a new <see cref="SepiaEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="intensity">The sepia effect intensity for the new effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Sepia(float intensity)
+        {
+            async Task<IGraphicsEffectSource> Factory() => new SepiaEffect
+            {
+                Intensity = intensity,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="SepiaEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="intensity">The sepia effect intensity for the new effect</param>
+        /// <param name="setter">The optional sepia intensity setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Sepia(float intensity, out EffectSetter<float> setter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async Task<IGraphicsEffectSource> Factory() => new SepiaEffect
+            {
+                Intensity = intensity,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.Intensity", value);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.Intensity" });
+        }
+
+        /// <summary>
+        /// Adds a new <see cref="SepiaEffect"/> to the current pipeline
+        /// </summary>
+        /// <param name="intensity">The sepia effect intensity for the new effect</param>
+        /// <param name="animation">The sepia intensity animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Sepia(float intensity, out EffectAnimation<float> animation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async Task<IGraphicsEffectSource> Factory() => new SepiaEffect
+            {
+                Intensity = intensity,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.Intensity", value, duration);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.Intensity" });
+        }
+
+        /// <summary>
         /// Adds a new <see cref="OpacityEffect"/> to the current pipeline
         /// </summary>
         /// <param name="opacity">The opacity value to apply to the pipeline</param>

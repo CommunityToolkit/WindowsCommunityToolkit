@@ -86,6 +86,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                     return builder.LuminanceToAlpha();
                 case InvertEffect _:
                     return builder.Invert();
+                case SepiaEffect sepia:
+                    return builder.Sepia((float)sepia.Value);
                 case TintEffect tint:
                     return builder.Tint(tint.Color, (float)tint.Opacity);
                 case BlurEffect blur:
