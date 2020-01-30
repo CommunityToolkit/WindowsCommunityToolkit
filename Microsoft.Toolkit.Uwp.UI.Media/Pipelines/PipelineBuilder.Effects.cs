@@ -128,14 +128,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, ms) =>
+            animation = (brush, value, duration) =>
             {
                 if (value < 0 || value > 1)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "The factor must be in the [0,1] range");
                 }
 
-                return brush.StartAnimationAsync("Fade.CrossFade", value, TimeSpan.FromMilliseconds(ms));
+                return brush.StartAnimationAsync("Fade.CrossFade", value, duration);
             };
 
             return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.CrossFade" });
@@ -225,7 +225,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, ms) => brush.StartAnimationAsync($"{id}.BlurAmount", value, TimeSpan.FromMilliseconds(ms));
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.BlurAmount", value, duration);
 
             return new PipelineBuilder(this, Factory, new[] { $"{id}.BlurAmount" });
         }
@@ -276,14 +276,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, ms) =>
+            animation = (brush, value, duration) =>
             {
                 if (value < 0 || value > 1)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "The saturation must be in the [0,1] range");
                 }
 
-                return brush.StartAnimationAsync($"{id}.Saturation", value, TimeSpan.FromMilliseconds(ms));
+                return brush.StartAnimationAsync($"{id}.Saturation", value, duration);
             };
 
             return new PipelineBuilder(this, Factory, new[] { $"{id}.Saturation" });
@@ -335,14 +335,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 Name = id
             };
 
-            animation = (brush, value, ms) =>
+            animation = (brush, value, duration) =>
             {
                 if (value < 0 || value > 1)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "The opacity must be in the [0,1] range");
                 }
 
-                return brush.StartAnimationAsync($"{id}.Opacity", value, TimeSpan.FromMilliseconds(ms));
+                return brush.StartAnimationAsync($"{id}.Opacity", value, duration);
             };
 
             return new PipelineBuilder(this, Factory, new[] { $"{id}.Opacity" });

@@ -14,9 +14,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// A <see langword="delegate"/> that represents a custom effect animation that can be applied to a <see cref="XamlCompositionBrush"/> instance
     /// </summary>
     /// <param name="value">The animation target value</param>
-    /// <param name="ms">The animation duration, in milliseconds</param>
+    /// <param name="duration">The animation duration</param>
     /// <returns>A <see cref="Task"/> that completes when the target animation completes</returns>
-    public delegate Task XamlEffectAnimation(float value, int ms);
+    public delegate Task XamlEffectAnimation(float value, TimeSpan duration);
 
     /// <summary>
     /// A simple <see langword="class"/> that can be used to quickly create XAML brushes from arbitrary <see cref="PipelineBuilder"/> pipelines
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         [Pure]
         public XamlCompositionBrush Bind(EffectAnimation animation, out XamlEffectAnimation bound)
         {
-            bound = (value, ms) => animation(this.CompositionBrush, value, ms);
+            bound = (value, duration) => animation(this.CompositionBrush, value, duration);
 
             return this;
         }

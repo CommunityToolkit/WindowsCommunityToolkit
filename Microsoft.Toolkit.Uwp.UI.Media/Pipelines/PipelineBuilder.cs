@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Media.Brushes;
 using Microsoft.Toolkit.Uwp.UI.Media.Extensions;
@@ -21,9 +20,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
     /// </summary>
     /// <param name="brush">The target <see cref="CompositionBrush"/> instance to use to start the animation</param>
     /// <param name="value">The animation target value</param>
-    /// <param name="ms">The animation duration, in milliseconds</param>
+    /// <param name="duration">The animation duration</param>
     /// <returns>A <see cref="Task"/> that completes when the target animation completes</returns>
-    public delegate Task EffectAnimation(CompositionBrush brush, float value, int ms);
+    public delegate Task EffectAnimation(CompositionBrush brush, float value, TimeSpan duration);
 
     /// <summary>
     /// A <see langword="class"/> that allows to build custom effects pipelines and create <see cref="CompositionBrush"/> instances from them
