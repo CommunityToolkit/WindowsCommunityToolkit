@@ -348,6 +348,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Applies a tint effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Tint(Color color)
+        {
+            async ValueTask<IGraphicsEffectSource> Factory() => new TintEffect
+            {
+                Color = color,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
+        /// Applies a tint effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <param name="setter">The optional color setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Tint(Color color, out EffectSetter<Color> setter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new TintEffect
+            {
+                Color = color,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            setter = (brush, value) => brush.Properties.InsertColor($"{id}.{nameof(TintEffect.Color)}", value);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(TintEffect.Color)}" });
+        }
+
+        /// <summary>
+        /// Applies a tint effect on the current pipeline
+        /// </summary>
+        /// <param name="color">The color to use</param>
+        /// <param name="animation">The optional color animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder Tint(Color color, out EffectAnimation<Color> animation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new TintEffect
+            {
+                Color = color,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(TintEffect.Color)}", value, duration);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(TintEffect.Color)}" });
+        }
+
+        /// <summary>
         /// Applies a shade effect on the current pipeline
         /// </summary>
         /// <param name="color">The color to use</param>

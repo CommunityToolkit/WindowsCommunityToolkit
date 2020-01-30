@@ -91,8 +91,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                     return builder.Exposure((float)exposure.Value);
                 case SepiaEffect sepia:
                     return builder.Sepia((float)sepia.Value);
-                case ShadeEffect tint:
-                    return builder.Shade(tint.Color, (float)tint.Intensity);
+                case ShadeEffect shade:
+                    return builder.Shade(shade.Color, (float)shade.Intensity);
+                case TintEffect tint:
+                    return builder.Tint(tint.Color);
                 case BlurEffect blur:
                     return builder.Blur((float)blur.Value);
                 case SaturationEffect saturation:
