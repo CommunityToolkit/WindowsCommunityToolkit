@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, mix);
+                .Shade(tint, mix);
 
             if (noiseUri != null)
             {
@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, out tintSetter, mix, out mixSetter);
+                .Shade(tint, out tintSetter, mix, out mixSetter);
 
             if (noiseUri != null)
             {
@@ -102,7 +102,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 .LuminanceToAlpha()
                 .Opacity(0.4f)
                 .Blend(FromHostBackdrop(), BlendEffectMode.Multiply)
-                .Tint(tint, out tintAnimation, mix, out mixAnimation);
+                .Shade(tint, out tintAnimation, mix, out mixAnimation);
 
             if (noiseUri != null)
             {
@@ -131,7 +131,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var pipeline =
                 FromBackdrop()
-                .Tint(tint, mix)
+                .Shade(tint, mix)
                 .Blur(blur);
 
             if (noiseUri != null)
@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var pipeline =
                 FromBackdrop()
-                .Tint(tint, out tintSetter, mix, out mixSetter)
+                .Shade(tint, out tintSetter, mix, out mixSetter)
                 .Blur(blur, out blurSetter);
 
             if (noiseUri != null)
@@ -203,7 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         {
             var pipeline =
                 FromBackdrop()
-                .Tint(tint, out tintAnimation, mix, out mixAnimation)
+                .Shade(tint, out tintAnimation, mix, out mixAnimation)
                 .Blur(blur, out blurAnimation);
 
             if (noiseUri != null)

@@ -12,7 +12,7 @@ Brush brush =
       PipelineBuilder.FromBackdrop(),
       BlendEffectMode.Multiply)
     .Blur(16)
-    .Tint("#FF222222".ToColor(), 0.4f)
+    .Shade("#FF222222".ToColor(), 0.4f)
     .Blend(
       PipelineBuilder.FromTiles("/Assets/BrushAssets/NoiseTexture.png"),
       BlendEffectMode.Overlay,

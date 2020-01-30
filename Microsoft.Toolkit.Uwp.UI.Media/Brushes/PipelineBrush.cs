@@ -16,7 +16,6 @@ using LuminanceToAlphaEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.LuminanceT
 using OpacityEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.OpacityEffect;
 using SaturationEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.SaturationEffect;
 using TileEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TileEffect;
-using TintEffect = Microsoft.Toolkit.Uwp.UI.Media.Effects.TintEffect;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
 {
@@ -92,8 +91,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                     return builder.Exposure((float)exposure.Value);
                 case SepiaEffect sepia:
                     return builder.Sepia((float)sepia.Value);
-                case TintEffect tint:
-                    return builder.Tint(tint.Color, (float)tint.Opacity);
+                case ShadeEffect tint:
+                    return builder.Shade(tint.Color, (float)tint.Intensity);
                 case BlurEffect blur:
                     return builder.Blur((float)blur.Value);
                 case SaturationEffect saturation:

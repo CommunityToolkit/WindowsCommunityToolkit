@@ -8,19 +8,18 @@ using Windows.UI;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Effects
 {
     /// <summary>
-    /// A tint effect with a customizable opacity
+    /// An effect that overlays a color layer over the current pipeline, with a specified intensity
     /// </summary>
-    /// <remarks>This effect maps to the Win2D <see cref="Graphics.Canvas.Effects.TintEffect"/> effect</remarks>
-    public sealed class TintEffect : IPipelineEffect
+    public sealed class ShadeEffect : IPipelineEffect
     {
         /// <summary>
-        /// Gets or sets the tint color to use
+        /// Gets or sets the color to use
         /// </summary>
         public Color Color { get; set; }
 
         /// <summary>
-        /// Gets or sets the opacity of the tint effect
+        /// Gets or sets the intensity of the color layer
         /// </summary>
-        public double Opacity { get; set; }
+        public double Intensity { get; set; }
     }
 }
