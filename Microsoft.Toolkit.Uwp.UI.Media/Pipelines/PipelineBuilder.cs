@@ -18,9 +18,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect property setter that can be applied to a <see cref="CompositionBrush"/>
     /// </summary>
+    /// <typeparam name="T">The type of property value to set</typeparam>
     /// <param name="brush">The target <see cref="CompositionBrush"/> instance to target</param>
     /// <param name="value">The property value to set</param>
-    public delegate void EffectSetter(CompositionBrush brush, float value);
+    public delegate void EffectSetter<in T>(CompositionBrush brush, T value)
+        where T : unmanaged;
 
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect property animation that can be applied to a <see cref="CompositionBrush"/>
@@ -60,8 +62,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             this.sourceProducer = () => Task.FromResult<IGraphicsEffectSource>(new CompositionEffectSourceParameter(id));
+            this.animationProperties = Array.Empty<string>();
             this.lazyParameters = new Dictionary<string, Func<Task<CompositionBrush>>> { { id, factory } };
-            this.animationProperties = new string[0];
         }
 
         /// <summary>
@@ -87,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         private PipelineBuilder(Func<Task<IGraphicsEffectSource>> factory)
             : this(
                 factory,
-                new string[0],
+                Array.Empty<string>(),
                 new Dictionary<string, Func<Task<CompositionBrush>>>())
         {
         }

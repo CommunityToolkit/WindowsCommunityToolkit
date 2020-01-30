@@ -98,7 +98,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="placement">The placement to use with the two input pipelines</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter setter, Placement placement = Placement.Foreground)
+        public PipelineBuilder CrossFade(PipelineBuilder pipeline, float factor, out EffectSetter<float> setter, Placement placement = Placement.Foreground)
         {
             if (factor < 0 || factor > 1)
             {
@@ -261,7 +261,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="optimization">The <see cref="EffectOptimization"/> parameter to use, defaults to <see cref="EffectOptimization.Balanced"/></param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Blur(float blur, out EffectSetter setter, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
+        public PipelineBuilder Blur(float blur, out EffectSetter<float> setter, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
         {
             string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
@@ -335,7 +335,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="setter">The optional saturation setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Saturation(float saturation, out EffectSetter setter)
+        public PipelineBuilder Saturation(float saturation, out EffectSetter<float> setter)
         {
             if (saturation < 0 || saturation > 1)
             {
@@ -429,7 +429,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="setter">The optional opacity setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Opacity(float opacity, out EffectSetter setter)
+        public PipelineBuilder Opacity(float opacity, out EffectSetter<float> setter)
         {
             if (opacity < 0 || opacity > 1)
             {
@@ -514,7 +514,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="setter">The optional tint mix setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Tint(Color color, float mix, out EffectSetter setter)
+        public PipelineBuilder Tint(Color color, float mix, out EffectSetter<float> setter)
         {
             return FromColor(color).CrossFade(this, mix, out setter);
         }

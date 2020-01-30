@@ -13,8 +13,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect setter that can be applied to a <see cref="XamlCompositionBrush"/> instance
     /// </summary>
+    /// <typeparam name="T">The type of property value to set</typeparam>
     /// <param name="value">The effect target value</param>
-    public delegate void XamlEffectSetter(float value);
+    public delegate void XamlEffectSetter<in T>(T value)
+        where T : unmanaged;
 
     /// <summary>
     /// A <see langword="delegate"/> that represents a custom effect animation that can be applied to a <see cref="XamlCompositionBrush"/> instance
@@ -41,13 +43,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         public XamlCompositionBrush(PipelineBuilder pipeline) => this.Pipeline = pipeline;
 
         /// <summary>
-        /// Binds an <see cref="EffectSetter"/> to the composition brush in the current instance
+        /// Binds an <see cref="EffectSetter{T}"/> to the composition brush in the current instance
         /// </summary>
+        /// <typeparam name="T">The type of property value to set</typeparam>
         /// <param name="setter">The input setter</param>
         /// <param name="bound">The resulting setter</param>
         /// <returns>The current <see cref="XamlCompositionBrush"/> instance</returns>
         [Pure]
-        public XamlCompositionBrush Bind(EffectSetter setter, out XamlEffectSetter bound)
+        public XamlCompositionBrush Bind<T>(EffectSetter<T> setter, out XamlEffectSetter<T> bound)
+            where T : unmanaged
         {
             bound = value => setter(this.CompositionBrush, value);
 
