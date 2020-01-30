@@ -19,12 +19,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         /// </summary>
         private EffectSetter<float> setter;
 
-        /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested()
-        {
-            return PipelineBuilder.FromBackdrop().Saturation((float)Saturation, out setter);
-        }
-
         /// <summary>
         /// Gets or sets the amount of gaussian blur to apply to the background.
         /// </summary>
@@ -68,6 +62,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             {
                 brush.setter?.Invoke(target, (float)brush.Saturation);
             }
+        }
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            return PipelineBuilder.FromBackdrop().Saturation((float)Saturation, out setter);
         }
     }
 }
