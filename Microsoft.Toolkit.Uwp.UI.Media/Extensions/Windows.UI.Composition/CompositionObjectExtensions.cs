@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Numerics;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Composition;
@@ -60,6 +61,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
                     var colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
                     colorAnimation.InsertKeyFrame(1f, c);
                     animation = colorAnimation;
+                    break;
+                case Vector4 v4:
+                    var vector4Animation = target.Compositor.CreateVector4KeyFrameAnimation();
+                    vector4Animation.InsertKeyFrame(1f, v4);
+                    animation = vector4Animation;
                     break;
                 default: throw new ArgumentException($"Invalid animation type: {typeof(T)}", nameof(value));
             }

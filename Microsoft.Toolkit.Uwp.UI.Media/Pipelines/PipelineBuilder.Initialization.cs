@@ -4,6 +4,7 @@
 
 using System;
 using System.Diagnostics.Contracts;
+using System.Numerics;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Effects;
@@ -114,6 +115,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
             {
                 Color = color,
+                Name = id
+            });
+
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.Color", value, duration);
+
+            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from a solid <see cref="CompositionBrush"/> with the specified color
+        /// </summary>
+        /// <param name="color">The desired color for the initial <see cref="CompositionBrush"/></param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromHdrColor(Vector4 color)
+        {
+            return new PipelineBuilder(() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect { ColorHdr = color }));
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from a solid <see cref="CompositionBrush"/> with the specified color
+        /// </summary>
+        /// <param name="color">The desired color for the initial <see cref="CompositionBrush"/></param>
+        /// <param name="setter">The optional color setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromHdrColor(Vector4 color, out EffectSetter<Vector4> setter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            {
+                ColorHdr = color,
+                Name = id
+            });
+
+            setter = (brush, value) => brush.Properties.InsertVector4($"{id}.Color", value);
+
+            return new PipelineBuilder(Factory, new[] { $"{id}.Color" });
+        }
+
+        /// <summary>
+        /// Starts a new <see cref="PipelineBuilder"/> pipeline from a solid <see cref="CompositionBrush"/> with the specified color
+        /// </summary>
+        /// <param name="color">The desired color for the initial <see cref="CompositionBrush"/></param>
+        /// <param name="animation">The optional color animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public static PipelineBuilder FromHdrColor(Vector4 color, out EffectAnimation<Vector4> animation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            Task<IGraphicsEffectSource> Factory() => Task.FromResult<IGraphicsEffectSource>(new ColorSourceEffect
+            {
+                ColorHdr = color,
                 Name = id
             });
 
