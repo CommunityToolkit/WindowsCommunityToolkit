@@ -4,6 +4,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Hosting;
@@ -34,19 +35,35 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Extensions
         /// <summary>
         /// Starts an animation on the given property of a <see cref="CompositionObject"/>
         /// </summary>
+        /// <typeparam name="T">The type of the property to animate (can be <see cref="float"/> or <see cref="Color"/>)</typeparam>
         /// <param name="target">The target <see cref="CompositionObject"/></param>
         /// <param name="property">The name of the property to animate</param>
         /// <param name="value">The final value of the property</param>
         /// <param name="duration">The animation duration</param>
         /// <returns>A <see cref="Task"/> that completes when the created animation completes</returns>
-        public static Task StartAnimationAsync(this CompositionObject target, string property, float value, TimeSpan duration)
+        public static Task StartAnimationAsync<T>(this CompositionObject target, string property, T value, TimeSpan duration)
+            where T : unmanaged
         {
             // Stop previous animations
             target.StopAnimation(property);
 
-            // Setup the animation
-            var animation = target.Compositor.CreateScalarKeyFrameAnimation();
-            animation.InsertKeyFrame(1f, value);
+            // Setup the animation to run
+            KeyFrameAnimation animation;
+            switch (value)
+            {
+                case float f:
+                    var scalarAnimation = target.Compositor.CreateScalarKeyFrameAnimation();
+                    scalarAnimation.InsertKeyFrame(1f, f);
+                    animation = scalarAnimation;
+                    break;
+                case Color c:
+                    var colorAnimation = target.Compositor.CreateColorKeyFrameAnimation();
+                    colorAnimation.InsertKeyFrame(1f, c);
+                    animation = colorAnimation;
+                    break;
+                default: throw new ArgumentException($"Invalid animation type: {typeof(T)}", nameof(value));
+            }
+
             animation.Duration = duration;
 
             // Get the batch and start the animations

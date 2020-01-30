@@ -71,6 +71,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <summary>
         /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
         /// </summary>
+        /// <param name="factory">A <see cref="Func{TResult}"/> instance that will return the initial <see cref="IGraphicsEffectSource"/></param>
+        private PipelineBuilder(Func<Task<IGraphicsEffectSource>> factory)
+            : this(
+                factory,
+                Array.Empty<string>(),
+                new Dictionary<string, Func<Task<CompositionBrush>>>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
+        /// </summary>
+        /// <param name="factory">A <see cref="Func{TResult}"/> instance that will produce the new <see cref="IGraphicsEffectSource"/> to add to the pipeline</param>
+        /// <param name="animations">The collection of animation properties for the new effect</param>
+        private PipelineBuilder(
+            Func<Task<IGraphicsEffectSource>> factory,
+            IReadOnlyCollection<string> animations)
+            : this(
+                factory,
+                animations,
+                new Dictionary<string, Func<Task<CompositionBrush>>>())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
+        /// </summary>
         /// <param name="factory">A <see cref="Func{TResult}"/> instance that will produce the new <see cref="IGraphicsEffectSource"/> to add to the pipeline</param>
         /// <param name="animations">The collection of animation properties for the new effect</param>
         /// <param name="lazy">The collection of <see cref="CompositionBrush"/> instances that needs to be initialized for the new effect</param>
@@ -82,18 +109,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
             this.sourceProducer = factory;
             this.animationProperties = animations;
             this.lazyParameters = lazy;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PipelineBuilder"/> class.
-        /// </summary>
-        /// <param name="factory">A <see cref="Func{TResult}"/> instance that will return the initial <see cref="IGraphicsEffectSource"/></param>
-        private PipelineBuilder(Func<Task<IGraphicsEffectSource>> factory)
-            : this(
-                factory,
-                Array.Empty<string>(),
-                new Dictionary<string, Func<Task<CompositionBrush>>>())
-        {
         }
 
         /// <summary>
