@@ -4,7 +4,8 @@
 
 //// Example brush from https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.media.xamlcompositionbrushbase
 
-using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Brushes.Base;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -14,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// <summary>
     /// The <see cref="BackdropBlurBrush"/> is a <see cref="Brush"/> that blurs whatever is behind it in the application.
     /// </summary>
-    public class BackdropBlurBrush : XamlCompositionBrushBase
+    public class BackdropBlurBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
         /// Identifies the <see cref="Amount"/> dependency property.
@@ -38,61 +39,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
         {
             var brush = (BackdropBlurBrush)d;
 
-            // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Blur.BlurAmount", (float)(double)e.NewValue);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropBlurBrush"/> class.
-        /// </summary>
-        public BackdropBlurBrush()
-        {
-        }
-
-        /// <summary>
-        /// Initializes the Composition Brush.
-        /// </summary>
-        protected override void OnConnected()
-        {
-            // Delay creating composition resources until they're required.
-            if (CompositionBrush == null)
+            if (brush.CompositionBrush is CompositionBrush target)
             {
-                // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
-                {
-                    return;
-                }
-
-                var backdrop = Window.Current.Compositor.CreateBackdropBrush();
-
-                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new GaussianBlurEffect
-                {
-                    Name = "Blur",
-                    BlurAmount = (float)Amount,
-                    Source = new CompositionEffectSourceParameter("backdrop")
-                };
-
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Blur.BlurAmount" });
-                var effectBrush = effectFactory.CreateBrush();
-
-                effectBrush.SetSourceParameter("backdrop", backdrop);
-
-                CompositionBrush = effectBrush;
+                brush.setter?.Invoke(target, (float)brush.Amount);
             }
         }
 
         /// <summary>
-        /// Deconstructs the Composition Brush.
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
         /// </summary>
-        protected override void OnDisconnected()
+        private EffectSetter<float> setter;
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
         {
-            // Dispose of composition resources when no longer in use.
-            if (CompositionBrush != null)
-            {
-                CompositionBrush.Dispose();
-                CompositionBrush = null;
-            }
+            return PipelineBuilder.FromBackdrop().Blur((float)Amount, out setter);
         }
     }
 }
