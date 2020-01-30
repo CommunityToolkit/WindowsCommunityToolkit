@@ -118,12 +118,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 background = this;
             }
 
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
             async Task<IGraphicsEffectSource> Factory() => new CrossFadeEffect
             {
                 CrossFade = factor,
                 Source1 = await foreground.sourceProducer(),
                 Source2 = await background.sourceProducer(),
-                Name = "Fade"
+                Name = id
             };
 
             animation = (brush, value, ms) =>
@@ -136,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 return brush.StartAnimationAsync("Fade.CrossFade", value, TimeSpan.FromMilliseconds(ms));
             };
 
-            return new PipelineBuilder(Factory, foreground, background, new[] { "Fade.CrossFade" });
+            return new PipelineBuilder(Factory, foreground, background, new[] { $"{id}.CrossFade" });
         }
 
         /// <summary>
@@ -212,18 +214,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public PipelineBuilder Blur(float blur, out EffectAnimation animation, EffectBorderMode mode = EffectBorderMode.Hard, EffectOptimization optimization = EffectOptimization.Balanced)
         {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
             async Task<IGraphicsEffectSource> Factory() => new GaussianBlurEffect
             {
                 BlurAmount = blur,
                 BorderMode = mode,
                 Optimization = optimization,
                 Source = await this.sourceProducer(),
-                Name = "Blur"
+                Name = id
             };
 
-            animation = (brush, value, ms) => brush.StartAnimationAsync("Blur.BlurAmount", value, TimeSpan.FromMilliseconds(ms));
+            animation = (brush, value, ms) => brush.StartAnimationAsync($"{id}.BlurAmount", value, TimeSpan.FromMilliseconds(ms));
 
-            return new PipelineBuilder(this, Factory, new[] { "Blur.BlurAmount" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.BlurAmount" });
         }
 
         /// <summary>
@@ -263,11 +267,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 throw new ArgumentOutOfRangeException(nameof(saturation), "The saturation must be in the [0,1] range");
             }
 
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
             async Task<IGraphicsEffectSource> Factory() => new SaturationEffect
             {
                 Saturation = saturation,
                 Source = await this.sourceProducer(),
-                Name = "Saturation"
+                Name = id
             };
 
             animation = (brush, value, ms) =>
@@ -277,10 +283,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                     throw new ArgumentOutOfRangeException(nameof(value), "The saturation must be in the [0,1] range");
                 }
 
-                return brush.StartAnimationAsync("Saturation.Saturation", value, TimeSpan.FromMilliseconds(ms));
+                return brush.StartAnimationAsync($"{id}.Saturation", value, TimeSpan.FromMilliseconds(ms));
             };
 
-            return new PipelineBuilder(this, Factory, new[] { "Saturation.Saturation" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.Saturation" });
         }
 
         /// <summary>
@@ -320,11 +326,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                 throw new ArgumentOutOfRangeException(nameof(opacity), "The opacity must be in the [0,1] range");
             }
 
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
             async Task<IGraphicsEffectSource> Factory() => new OpacityEffect
             {
                 Opacity = opacity,
                 Source = await this.sourceProducer(),
-                Name = "Opacity"
+                Name = id
             };
 
             animation = (brush, value, ms) =>
@@ -334,10 +342,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
                     throw new ArgumentOutOfRangeException(nameof(value), "The opacity must be in the [0,1] range");
                 }
 
-                return brush.StartAnimationAsync("Opacity.Opacity", value, TimeSpan.FromMilliseconds(ms));
+                return brush.StartAnimationAsync($"{id}.Opacity", value, TimeSpan.FromMilliseconds(ms));
             };
 
-            return new PipelineBuilder(this, Factory, new[] { "Opacity.Opacity" });
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.Opacity" });
         }
 
         /// <summary>

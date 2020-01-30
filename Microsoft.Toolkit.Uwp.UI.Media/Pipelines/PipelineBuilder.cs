@@ -51,9 +51,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="factory">A <see cref="Func{TResult}"/> instance that will return the initial <see cref="CompositionBrush"/></param>
         private PipelineBuilder(Func<Task<CompositionBrush>> factory)
         {
-            string
-                guid = Guid.NewGuid().ToString("N"),
-                id = Regex.Replace(guid, @"\d", m => ((char)('g' + m.Value[0] - '0')).ToString());
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
 
             this.sourceProducer = () => Task.FromResult<IGraphicsEffectSource>(new CompositionEffectSourceParameter(id));
             this.lazyParameters = new Dictionary<string, Func<Task<CompositionBrush>>> { { id, factory } };
