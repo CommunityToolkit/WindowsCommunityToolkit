@@ -2,17 +2,17 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Graphics.Canvas.Effects;
+using Microsoft.Toolkit.Uwp.UI.Media.Brushes.Base;
+using Microsoft.Toolkit.Uwp.UI.Media.Pipelines;
 using Windows.UI.Composition;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Media;
 
 namespace Microsoft.Toolkit.Uwp.UI.Media
 {
     /// <summary>
     /// Brush which applies a SepiaEffect to the Backdrop. http://microsoft.github.io/Win2D/html/T_Microsoft_Graphics_Canvas_Effects_SepiaEffect.htm
     /// </summary>
-    public class BackdropSepiaBrush : XamlCompositionBrushBase
+    public class BackdropSepiaBrush : XamlCompositionEffectBrushBase
     {
         /// <summary>
         /// Identifies the <see cref="Intensity"/> dependency property.
@@ -48,60 +48,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
             }
 
             // Unbox and set a new blur amount if the CompositionBrush exists.
-            brush.CompositionBrush?.Properties.InsertScalar("Sepia.Intensity", (float)brush.Intensity);
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BackdropSepiaBrush"/> class.
-        /// </summary>
-        public BackdropSepiaBrush()
-        {
-        }
-
-        /// <summary>
-        /// Initializes the Composition Brush.
-        /// </summary>
-        protected override void OnConnected()
-        {
-            // Delay creating composition resources until they're required.
-            if (CompositionBrush == null)
+            if (brush.CompositionBrush is CompositionBrush target)
             {
-                // Abort if effects aren't supported.
-                if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
-                {
-                    return;
-                }
-
-                var backdrop = Window.Current.Compositor.CreateBackdropBrush();
-
-                // Use a Win2D blur affect applied to a CompositionBackdropBrush.
-                var graphicsEffect = new SepiaEffect
-                {
-                    Name = "Sepia",
-                    Intensity = (float)Intensity,
-                    Source = new CompositionEffectSourceParameter("backdrop")
-                };
-
-                var effectFactory = Window.Current.Compositor.CreateEffectFactory(graphicsEffect, new[] { "Sepia.Intensity" });
-                var effectBrush = effectFactory.CreateBrush();
-
-                effectBrush.SetSourceParameter("backdrop", backdrop);
-
-                CompositionBrush = effectBrush;
+                brush.setter?.Invoke(target, (float)brush.Intensity);
             }
         }
 
         /// <summary>
-        /// Deconstructs the Composition Brush.
+        /// The <see cref="EffectSetter{T}"/> instance currently in use
         /// </summary>
-        protected override void OnDisconnected()
+        private EffectSetter<float> setter;
+
+        /// <inheritdoc/>
+        protected override PipelineBuilder OnBrushRequested()
         {
-            // Dispose of composition resources when no longer in use.
-            if (CompositionBrush != null)
-            {
-                CompositionBrush.Dispose();
-                CompositionBrush = null;
-            }
+            return PipelineBuilder.FromBackdrop().Sepia((float)Intensity, out setter);
         }
     }
 }
