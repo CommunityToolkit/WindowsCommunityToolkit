@@ -7,14 +7,14 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     /// <summary>
-    /// A page that shows how to use the acrylic brushe.
+    /// A page that shows how to use the tiles brushe.
     /// </summary>
-    public sealed partial class AcrylicBrushPage : Page
+    public sealed partial class TilesBrushPage : Page
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AcrylicBrushPage"/> class.
+        /// Initializes a new instance of the <see cref="TilesBrushPage"/> class.
         /// </summary>
-        public AcrylicBrushPage()
+        public TilesBrushPage()
         {
             this.InitializeComponent();
         }

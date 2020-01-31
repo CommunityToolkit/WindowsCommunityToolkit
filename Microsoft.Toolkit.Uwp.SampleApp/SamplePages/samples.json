@@ -1011,6 +1011,17 @@
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
+      },
+      {
+        "Name": "TilesBrush",
+        "Type": "TilesBrushPage",
+        "About": "A composition brush that provides the ability to display a repeated image on its render surface.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
+        "XamlCodeFile": "TilesBrushXaml.bind",
+        "Icon": "/SamplePages/TilesBrush/TilesBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       }
     ]
   },

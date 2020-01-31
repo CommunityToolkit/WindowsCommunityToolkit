@@ -20,11 +20,7 @@
               Grid.Column="2"
               Height="400">
         <Border.Background>
-          <brushes:AcrylicBrush Source="@[Source:Enum:AcrylicBackgroundSource.Backdrop]"
-                                Tint="@[Tint:Brush:DarkCyan]"
-                                TintMix="@[TintMix:DoubleSlider:0.2:0.0-1.0]"
-                                BlurAmount="@[BlurAmount:DoubleSlider:12:0.0-32.0]"
-                                TextureUri="ms-appx:///Assets/BrushAssets/NoiseTexture.png"/>
+          <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/MicrosoftSquareLogo.png"/>
         </Border.Background>
       </Border>
     </Grid>

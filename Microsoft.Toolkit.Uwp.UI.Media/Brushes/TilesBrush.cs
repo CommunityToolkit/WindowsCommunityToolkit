@@ -48,6 +48,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         }
 
         /// <inheritdoc/>
-        protected override PipelineBuilder OnBrushRequested() => PipelineBuilder.FromTiles(this.TextureUri);
+        protected override PipelineBuilder OnBrushRequested()
+        {
+            if (TextureUri is Uri uri)
+            {
+                return PipelineBuilder.FromTiles(uri);
+            }
+
+            return PipelineBuilder.FromColor(default);
+        }
     }
 }
