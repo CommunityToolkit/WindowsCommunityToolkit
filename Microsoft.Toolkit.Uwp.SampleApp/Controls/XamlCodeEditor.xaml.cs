@@ -5,14 +5,17 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Monaco;
-using Monaco.Editor;
-using Monaco.Helpers;
 using Windows.System.Threading;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+
+#if !HAS_UNO
+using Monaco;
+using Monaco.Editor;
+using Monaco.Helpers;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
@@ -28,11 +31,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public async Task ResetPosition()
         {
+#if !HAS_UNO
             await XamlCodeRenderer.RevealPositionAsync(new Position(1, 1));
-        }
+#endif
+		}
 
         public async void ReportError(XamlExceptionRange error)
         {
+#if !HAS_UNO
             XamlCodeRenderer.Options.GlyphMargin = true;
 
             var range = new Range(error.StartLine, 1, error.EndLine, await XamlCodeRenderer.GetModel().GetLineMaxColumnAsync(error.EndLine));
@@ -46,12 +52,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
                 range,
                 new IModelDecorationOptions() { IsWholeLine = true, GlyphMarginClassName = _errorIconStyle, GlyphMarginHoverMessage = new string[] { error.Message }.ToMarkdownString() }));
-        }
+#endif
+		}
 
-        public void ClearErrors()
+		public void ClearErrors()
         {
-            XamlCodeRenderer.Decorations.Clear();
+#if !HAS_UNO
+           XamlCodeRenderer.Decorations.Clear();
             XamlCodeRenderer.Options.GlyphMargin = false;
+#endif
         }
 
         public void ResetTimer()
@@ -61,9 +70,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private void XamlCodeRenderer_Loading(object sender, RoutedEventArgs e)
         {
-            XamlCodeRenderer.Options.Folding = true;
+#if !HAS_UNO
+        XamlCodeRenderer.Options.Folding = true;
+#endif
         }
 
+#if !HAS_UNO
         private void XamlCodeRenderer_InternalException(CodeEditor sender, Exception args)
         {
             TrackingManager.TrackException(args);
@@ -110,6 +122,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     }, TimeSpan.FromSeconds(0.5));
             }
         }
+#endif
 
         public string Text
         {
@@ -121,6 +134,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         public DateTime TimeSampleEditedLast { get; private set; } = DateTime.MinValue;
 
+#if !HAS_UNO
         private CssLineStyle _errorStyle = new CssLineStyle()
         {
             BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
@@ -130,6 +144,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             GlyphImage = new Uri("ms-appx-web:///Icons/Error.png")
         };
+#endif
+
 
         private ThreadPoolTimer _autocompileTimer;
 

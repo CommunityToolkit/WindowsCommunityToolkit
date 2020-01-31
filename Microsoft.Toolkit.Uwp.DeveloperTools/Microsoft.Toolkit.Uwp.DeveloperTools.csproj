@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
     <Title>Windows Community Toolkit Developer Tools</Title>
     <Description>This library provides XAML user controls and services to help developers build their app. It is part of the Windows Community Toolkit.
       
@@ -12,7 +12,17 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Developer Tools Accessibility AlignmentGrid</PackageTags>
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
-  
+	
+  <PropertyGroup>
+    <TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+    <NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+    <PackageId>Uno.Microsoft.Toolkit.Uwp.DeveloperTools</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="Uno.UI" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>

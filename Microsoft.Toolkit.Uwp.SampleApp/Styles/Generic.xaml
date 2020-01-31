@@ -1,11 +1,15 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.SampleApp.Controls"
     xmlns:toolkitControls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-    xmlns:winui="using:Microsoft.UI.Xaml.Controls">
+    xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="ms-appx:///Controls/CodeRenderer.xaml" />
@@ -689,7 +693,7 @@
                                 <Setter Property="FontSize" Value="{ThemeResource PivotTitleFontSize}" />
                             </Style>
 
-                            <Style BasedOn="{StaticResource PivotHeaderItemUnderlineStyle}" TargetType="PivotHeaderItem" />
+                            <win:Style BasedOn="{StaticResource PivotHeaderItemUnderlineStyle}" TargetType="PivotHeaderItem" />
                         </Grid.Resources>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />

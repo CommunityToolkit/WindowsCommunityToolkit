@@ -62,9 +62,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 if (loadingContentControl != null)
                 {
                     loadingContentControl.ContentTemplate = resources["LogoTemplate"] as DataTemplate;
+#if !HAS_UNO
                     await loadingContentControl.Blur(2, 100).StartAsync();
+#endif
                     await ShowLoadingDialogAsync();
+#if !HAS_UNO
                     await loadingContentControl.Blur(0, 0).StartAsync();
+#endif
                 }
             });
         }

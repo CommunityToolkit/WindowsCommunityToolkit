@@ -11,6 +11,14 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
+#if HAS_UNO
+using NavigationView = Windows.UI.Xaml.Controls.NavigationView;
+using NavigationViewItemInvokedEventArgs = Windows.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs;
+#else
+using NavigationView = Microsoft.UI.Xaml.Controls.NavigationView;
+using NavigationViewItemInvokedEventArgs = Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs;
+#endif
+
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
     public sealed partial class Shell
@@ -100,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             NavView.Loaded += (s, args) => NavView.InvalidateMeasure();
         }
 
-        private void NavView_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
         {
             if (NavigationFrame.CanGoBack)
             {

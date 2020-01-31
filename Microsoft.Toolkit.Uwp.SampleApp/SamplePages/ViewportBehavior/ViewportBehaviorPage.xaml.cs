@@ -39,7 +39,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (control.FindChildByName("EffectElement") is Image effectElement)
             {
                 _effectElement = effectElement;
+#if !HAS_UNO
                 _effectElement.Blur(value: 10, duration: 0).Start();
+#endif
             }
 
             if (control.FindChildByName("EffectElementHost") is FrameworkElement effectElementHost)

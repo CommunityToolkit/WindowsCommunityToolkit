@@ -89,12 +89,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             var deferral = args.TaskInstance.GetDeferral();
 
+#if !HAS_UNO
             switch (args.TaskInstance.Task.Name)
             {
                 case Constants.TestBackgroundTaskName:
                     new TestBackgroundTask().Run(args.TaskInstance);
                     break;
             }
+#endif
 
             deferral.Complete();
         }

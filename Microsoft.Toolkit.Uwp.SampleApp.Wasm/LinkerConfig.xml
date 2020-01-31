@@ -1,0 +1,26 @@
+﻿<linker>
+	<assembly fullname="Uno.Foundation"/>
+	<assembly fullname="Uno.Xaml"/>
+  <assembly fullname="Microsoft.Toolkit.Uwp.SampleApp.Wasm"/>
+	<assembly fullname="ColorCode.UWP"/>
+	<assembly fullname="ColorCode.Core"/>
+	<assembly fullname="Microsoft.Toolkit"/>
+	<assembly fullname="Microsoft.Toolkit.Parsers"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp.DeveloperTools"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp" />
+	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Animations"/>
+  <assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls" />
+	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp.UI.Controls.Graph"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp.UI"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp"/>
+	<assembly fullname="Microsoft.Toolkit.Uwp"/>
+	<assembly fullname="Newtonsoft.Json" />
+	<assembly fullname="WebAssembly.Net.Http" />
+
+  <assembly fullname="System.Core">
+		<!-- This is required by JSon.NET and any expression.Compile caller -->
+		<type fullname="System.Linq.Expressions*" />
+	</assembly>
+</linker>

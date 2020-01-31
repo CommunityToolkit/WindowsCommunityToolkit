@@ -1,0 +1,436 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					xmlns:local="using:Microsoft.Toolkit.Uwp.SampleApp"
+					mc:Ignorable="d">
+
+	<!-- Colors -->
+	<Color x:Key="Color01">#FF242424</Color>
+	<Color x:Key="Color02">#FFFFFFFF</Color>
+	<Color x:Key="Color03">#FF9b9b9b</Color>
+
+	<SolidColorBrush x:Key="Color01Brush"
+					 Color="{StaticResource Color01}" />
+	<SolidColorBrush x:Key="Color02Brush"
+					 Color="{StaticResource Color02}" />
+	<SolidColorBrush x:Key="Color03Brush"
+					 Color="{StaticResource Color03}" />
+	<SolidColorBrush x:Key="TransparentColorBrush"
+					 Color="Transparent" />
+
+	<!-- Empty Button Style -->
+	<Style x:Key="BasicEmptyButtonStyle"
+		   TargetType="Button">
+
+		<Setter Property="Background"
+				Value="{StaticResource TransparentColorBrush}" />
+		<Setter Property="BorderThickness"
+				Value="0" />
+		<Setter Property="Padding"
+				Value="0" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+
+					<Grid x:Name="RootGrid"
+						  Background="{TemplateBinding Background}">
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver" />
+
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Opacity"
+												Value="0.6" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="RootGrid.Opacity"
+												Value="0.6" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<ContentPresenter x:Name="ContentPresenter"
+										  AutomationProperties.AccessibilityView="Raw"
+										  ContentTemplate="{TemplateBinding ContentTemplate}"
+										  ContentTransitions="{TemplateBinding ContentTransitions}"
+										  Content="{TemplateBinding Content}"
+										  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+										  Margin="{TemplateBinding Padding}"
+										  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- Primary Button Style -->
+	<Style x:Key="PrimaryButtonStyle"
+		   TargetType="Button">
+
+		<Setter Property="Background"
+				Value="Transparent" />
+		<Setter Property="BorderThickness"
+				Value="0" />
+		<Setter Property="Padding"
+				Value="16" />
+		<Setter Property="HorizontalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalAlignment"
+				Value="Stretch" />
+		<Setter Property="VerticalContentAlignment"
+				Value="Stretch" />
+		<Setter Property="HorizontalContentAlignment"
+				Value="Stretch" />
+
+		<!-- TextBlock Styling -->
+		<Setter Property="Foreground"
+				Value="{StaticResource Color03Brush}" />
+		<Setter Property="FontSize"
+				Value="12" />
+		<Setter Property="FontWeight"
+				Value="SemiBold" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="Button">
+
+					<Grid x:Name="RootGrid"
+						  Background="{TemplateBinding Background}">
+
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal" />
+								<VisualState x:Name="PointerOver" />
+								<VisualState x:Name="Pressed">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Opacity"
+												Value="0.6" />
+									</VisualState.Setters>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<VisualState.Setters>
+										<Setter Target="ContentPresenter.Opacity"
+												Value="0.6" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<!-- Label -->
+						<TextBlock x:Name="ContentPresenter"
+								   Text="{TemplateBinding Content}"
+								   FontSize="{TemplateBinding FontSize}"
+								   VerticalAlignment="Center"
+								   HorizontalAlignment="Center"
+								   Margin="{TemplateBinding Padding}" />
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<!-- UnoPlatformShell -->
+	<Style TargetType="local:UnoPlatformShell">
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="local:UnoPlatformShell">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup>
+
+								<VisualState x:Name="narrow">
+									<VisualState.StateTriggers>
+										<AdaptiveTrigger MinWindowWidth="0" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RegularUnoPlatformLogo.Visibility"
+												Value="Collapsed" />
+										<Setter Target="SmallUnoPlatformLogo.Visibility"
+												Value="Visible" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="medium">
+									<VisualState.StateTriggers>
+										<AdaptiveTrigger MinWindowWidth="600" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="RegularUnoPlatformLogo.Visibility"
+												Value="Visible" />
+										<Setter Target="SmallUnoPlatformLogo.Visibility"
+												Value="Collapsed" />
+										<Setter Target="AppInfo.Orientation"
+												Value="Vertical" />
+									</VisualState.Setters>
+								</VisualState>
+
+								<VisualState x:Name="wide">
+									<VisualState.StateTriggers>
+										<AdaptiveTrigger MinWindowWidth="700" />
+									</VisualState.StateTriggers>
+									<VisualState.Setters>
+										<Setter Target="AppInfo.Orientation"
+												Value="Horizontal" />
+									</VisualState.Setters>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="auto" />
+								<RowDefinition Height="*" />
+							</Grid.RowDefinitions>
+
+							<!-- Header -->
+							<Grid Background="{StaticResource Color01Brush}"
+								  Height="90"
+								  Grid.Row="0">
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="Auto" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition Width="Auto" />
+								</Grid.ColumnDefinitions>
+
+								<!-- Uno Button -->
+								<Button x:Name="UnoButton"
+										Style="{StaticResource BasicEmptyButtonStyle}"
+										VerticalAlignment="Center"
+										Margin="23,0,0,0"
+										Grid.Column="0">
+
+									<Grid>
+										<!-- Icon -->
+										<Image x:Name="RegularUnoPlatformLogo"
+											   Source="ms-appx:///Assets/UnoLogo.png"
+											   Height="42"
+											   Width="107" />
+
+										<!-- Icon small -->
+										<Image x:Name="SmallUnoPlatformLogo"
+											   Source="ms-appx:///Assets/UnoLogo_small.png"
+											   Height="42"
+											   Width="44"
+											   Visibility="Collapsed" />
+									</Grid>
+								</Button>
+
+								<!-- App Name and Author -->
+								<StackPanel x:Name="AppInfo"
+											VerticalAlignment="Center"
+											Grid.Column="1"
+											Margin="20,0,16,0">
+
+									<!-- App Button  -->
+									<Button x:Name="appButton"
+											Style="{StaticResource BasicEmptyButtonStyle}"
+											Margin="0,0,4,0">
+
+										<!-- App Name -->
+										<TextBlock Text="{TemplateBinding AppName}"
+												   Foreground="{StaticResource Color02Brush}"
+												   TextTrimming="CharacterEllipsis"
+												   TextWrapping="NoWrap"
+												   FontSize="16"
+												   FontWeight="Bold" />
+									</Button>
+
+									<!-- Author Button  -->
+									<Button x:Name="authorButton"
+											Style="{StaticResource BasicEmptyButtonStyle}">
+
+										<StackPanel Orientation="Horizontal">
+
+											<!-- by -->
+											<TextBlock Text="by"
+													   Foreground="{StaticResource Color02Brush}"
+													   FontSize="16"
+													   Margin="0,0,4,0" />
+
+											<!-- App Author -->
+											<TextBlock Text="{TemplateBinding AppAuthor}"
+													   Foreground="{StaticResource Color02Brush}"
+													   FontSize="16" />
+										</StackPanel>
+									</Button>
+								</StackPanel>
+
+								<StackPanel Orientation="Horizontal"
+											VerticalAlignment="Center"
+											Margin="0,0,20,0"
+											Grid.Column="2">
+
+									<!-- About Button -->
+									<Button x:Name="openAboutButton"
+											Content="ABOUT"
+											Style="{StaticResource PrimaryButtonStyle}"
+											Click="OnAbout" />
+
+									<!-- GitHub Button -->
+									<Button x:Name="GithubButton"
+											Style="{StaticResource BasicEmptyButtonStyle}"
+											VerticalAlignment="Center"
+											Margin="14,0,0,0">
+
+										<!-- Icon -->
+										<Image Source="ms-appx:///Assets/GithubLogo.png"
+											   Height="24"
+											   Width="25" />
+									</Button>
+
+									<!-- Twitter Button -->
+									<Button x:Name="TwitterButton"
+											Style="{StaticResource BasicEmptyButtonStyle}"
+											VerticalAlignment="Center"
+											Margin="26,0,0,0">
+
+										<!-- Icon -->
+										<Image Source="ms-appx:///Assets/TwitterLogo.png"
+											   Height="22"
+											   Width="27" />
+									</Button>
+								</StackPanel>
+							</Grid>
+
+							<!-- App Content -->
+							<ContentPresenter x:Name="ContentPresenter"
+											  Content="{TemplateBinding AppContent}"
+											  Grid.Row="1" />
+
+							<!-- About Popup -->
+							<Grid Visibility="{TemplateBinding AboutVisibility}"
+								  Grid.Row="0"
+								  Grid.RowSpan="2">
+
+								<!-- Soft Dismiss Button -->
+								<Button x:Name="softDismissAboutButton"
+										Style="{StaticResource BasicEmptyButtonStyle}"
+										Click="OnCloseAbout" />
+
+								<!-- Popup -->
+								<Grid Background="{StaticResource Color01Brush}"
+									  CornerRadius="4"
+									  MaxWidth="580"
+									  HorizontalAlignment="Center"
+									  VerticalAlignment="Top"
+									  Margin="16,170,16,0">
+
+									<!-- Close Button -->
+									<Button x:Name="closeAboutButton"
+											Style="{StaticResource BasicEmptyButtonStyle}"
+											Click="OnCloseAbout"
+											VerticalAlignment="Top"
+											HorizontalAlignment="Right"
+											Padding="0">
+
+										<!-- Icon -->
+										<Path Data="M14 1.41 12.59 0 7 5.59 1.41 0 0 1.41 5.59 7 0 12.59 1.41 14 7 8.41 12.59 14 14 12.59 8.41 7"
+											  Fill="{StaticResource Color02Brush}"
+											  Stretch="Uniform"
+											  Height="14"
+											  Width="14"
+											  Margin="16" />
+									</Button>
+
+									<StackPanel Margin="40,40,40,65">
+
+										<!-- Header -->
+										<TextBlock TextWrapping="Wrap"
+												   Foreground="{StaticResource Color02Brush}"
+												   FontWeight="Bold"
+												   FontSize="24">
+					
+											Welcome to
+										
+											<Run Text="{TemplateBinding AppAuthor}" />'s
+					
+											<!-- Link to Original Fork -->
+											<Hyperlink NavigateUri="{TemplateBinding LinkToOriginalApp}"
+													   Foreground="{StaticResource Color02Brush}">
+												<Underline>
+													<Run Text="{TemplateBinding AppName}" />
+												</Underline>
+											</Hyperlink> 
+					
+											running on 
+											
+											<!-- Link to Uno Fork -->
+											<Hyperlink NavigateUri="{TemplateBinding LinkToUnoPlatformApp}"
+													   Foreground="{StaticResource Color02Brush}">
+												<Underline>
+													WebAssembly
+												</Underline>
+											</Hyperlink>
+										</TextBlock>
+
+										<!-- About Content -->
+										<ContentPresenter x:Name="AboutContent"
+														  Content="{TemplateBinding AboutContent}"
+														  Margin="0,24,0,0" />
+
+										<!-- Version -->
+										<TextBlock Text="{TemplateBinding VersionNumber}"
+												   Foreground="{StaticResource Color02Brush}"
+												   FontSize="12"
+												   Margin="0,16,0,0">
+
+										</TextBlock>
+									</StackPanel>
+
+									<!-- Uno website Button -->
+									<Button x:Name="visitUnoWebsiteButton"
+											Style="{StaticResource BasicEmptyButtonStyle}"
+											Click="OnVisitUnoPlatformWebsite"
+											VerticalAlignment="Bottom"
+											HorizontalAlignment="Right"
+											Margin="0,0,16,26"
+											Padding="0">
+
+										<StackPanel Orientation="Horizontal"
+													Margin="16">
+
+											<!-- Label -->
+											<TextBlock Text="VISIT UNO PLATFORM WEBSITE"
+													   Foreground="{StaticResource Color02Brush}"
+													   FontWeight="SemiBold"
+													   FontSize="14" />
+
+											<!-- Icon -->
+											<Path Data="M0.5632 1.3568 5.6064 6.4 0.5632 11.4432 1.92 12.8 8 6.4 1.92 0"
+												  Fill="{StaticResource Color02Brush}"
+												  Stretch="Uniform"
+												  Height="14"
+												  Width="14"
+												  VerticalAlignment="Center"
+												  Margin="8,1,0,0" />
+										</StackPanel>
+									</Button>
+								</Grid>
+							</Grid>
+						</Grid>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>
+

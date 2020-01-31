@@ -1,13 +1,23 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
     <Title>Windows Community Toolkit Devices</Title>
     <Description>This library enables easier consumption of connectivity Devices/Peripherals and handle its connection to Windows devices. It contains BluetoothLE and Network connectivity helpers.</Description>
     <PackageTags>UWP Toolkit Windows Devices Bluetooth BluetoothLE BLE Networking</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+		<NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.Connectivity</PackageId>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+		<PackageReference Include="Uno.UI" />
+	</ItemGroup>
+
+	<ItemGroup>
 
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
 

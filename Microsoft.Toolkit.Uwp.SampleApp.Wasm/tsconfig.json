@@ -1,0 +1,14 @@
+﻿{
+  "compilerOptions": {
+    "module": "none",
+    "declaration": true,
+    "diagnostics": true,
+    "noImplicitAny": true,
+    "outDir": "WasmScripts",
+    "locale": "en-US",
+    "target": "es2015"
+  },
+  "include": [
+    "ts/**/*"
+  ]
+}

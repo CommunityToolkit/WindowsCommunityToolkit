@@ -1,0 +1,192 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+    <WasmHead>true</WasmHead>
+    <WasmPWAManifestFile Condition="'$(Configuration)'=='Release'">manifest.json</WasmPWAManifestFile>
+    <NoWarn>$(NoWarm);Uno0001</NoWarn>
+    <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
+    <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.SampleApp.Wasm" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="System.Xml" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Newtonsoft.Json" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Parsers" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.DeveloperTools" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Animations" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI.Controls.Graph" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.UI" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Services" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Toolkit.Uwp.Services" />
+    <MonoRuntimeMixedModeExcludedAssembly Include="Microsoft.Identity.Client" />
+  </ItemGroup>
+      
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
+    <PackageReference Include="Microsoft.TypeScript.Compiler" Version="2.8.3" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="2.8.3" />
+    <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.23" />
+    <Reference Include="System.Net.Http" />
+    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Services\Microsoft.Toolkit.Services.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.Connectivity\Microsoft.Toolkit.Uwp.Connectivity.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.DeveloperTools\Microsoft.Toolkit.Uwp.DeveloperTools.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid\Microsoft.Toolkit.Uwp.UI.Controls.DataGrid.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls.Graph\Microsoft.Toolkit.Uwp.UI.Controls.Graph.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Controls\Microsoft.Toolkit.Uwp.UI.Controls.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="WasmCSS\**\*.css" />
+    <EmbeddedResource Include="WasmScripts\**\*.js" />
+
+    <UpToDateCheckInput Include="ts\**\*" />
+    <UpToDateCheckInput Include="WasmCSS\**\*" />
+    <UpToDateCheckInput Include="WasmScripts\**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="tsconfig.json" />
+    <None Remove="web.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <LinkerDescriptor Include="LinkerConfig.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\pwa-images\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\pwa-images\android\android-launchericon-144-144.png" />
+    <None Include="wwwroot\pwa-images\android\android-launchericon-192-192.png" />
+    <None Include="wwwroot\pwa-images\android\android-launchericon-48-48.png" />
+    <None Include="wwwroot\pwa-images\android\android-launchericon-512-512.png" />
+    <None Include="wwwroot\pwa-images\android\android-launchericon-72-72.png" />
+    <None Include="wwwroot\pwa-images\android\android-launchericon-96-96.png" />
+    <None Include="wwwroot\pwa-images\chrome\chrome-extensionmanagementpage-48-48.png" />
+    <None Include="wwwroot\pwa-images\chrome\chrome-favicon-16-16.png" />
+    <None Include="wwwroot\pwa-images\chrome\chrome-installprocess-128-128.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-128-128.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-16-16.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-256-256.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-32-32.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-48-48.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-64-64.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-general-90-90.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-marketplace-128-128.png" />
+    <None Include="wwwroot\pwa-images\firefox\firefox-marketplace-512-512.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-appicon-1024-1024.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-appicon-120-120.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-appicon-152-152.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-appicon-180-180.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-appicon-76-76.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-1024-768.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-1242-2368.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-1334-750.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-1536-2048.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-2048-1536.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-2368-1242.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-640-1136.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-640-960.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-750-1334.png" />
+    <None Include="wwwroot\pwa-images\ios\ios-launchimage-768-1024.png" />
+    <None Include="wwwroot\pwa-images\windows10\SplashScreen.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\SplashScreen.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\SplashScreen.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\SplashScreen.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\SplashScreen.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square150x150Logo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square150x150Logo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square150x150Logo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square150x150Logo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square150x150Logo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square310x310Logo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square310x310Logo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square310x310Logo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square310x310Logo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square310x310Logo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-16.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-16_altform-unplated.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-24.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-256.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-256_altform-unplated.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-48.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square44x44Logo.targetsize-48_altform-unplated.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square71x71Logo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square71x71Logo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square71x71Logo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square71x71Logo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\Square71x71Logo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\StoreLogo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows10\Wide310x150Logo.scale-100.png" />
+    <None Include="wwwroot\pwa-images\windows10\Wide310x150Logo.scale-125.png" />
+    <None Include="wwwroot\pwa-images\windows10\Wide310x150Logo.scale-150.png" />
+    <None Include="wwwroot\pwa-images\windows10\Wide310x150Logo.scale-200.png" />
+    <None Include="wwwroot\pwa-images\windows10\Wide310x150Logo.scale-400.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-smallsquare-24-24.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-smallsquare-30-30.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-smallsquare-42-42.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-smallsquare-54-54.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-splashscreen-1116-540.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-splashscreen-620-300.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-splashscreen-868-420.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-squarelogo-120-120.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-squarelogo-150-150.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-squarelogo-210-210.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-squarelogo-270-270.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-storelogo-50-50.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-storelogo-70-70.png" />
+    <None Include="wwwroot\pwa-images\windows\windows-storelogo-90-90.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-appicon-106-106.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-appicon-44-44.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-appicon-62-62.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-mediumtile-150-150.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-mediumtile-210-210.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-mediumtile-360-360.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-smalltile-170-170.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-smalltile-71-71.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-smalltile-99-99.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-storelogo-120-120.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-storelogo-50-50.png" />
+    <None Include="wwwroot\pwa-images\windows\windowsphone-storelogo-70-70.png" />
+  </ItemGroup>
+
+  <Import Project="..\Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.Shared.projitems" Label="Shared" />
+
+  <Import Project="..\Microsoft.Toolkit.Uwp.SampleApp.iOS\Exclusions.props" />
+
+</Project>

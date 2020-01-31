@@ -1,0 +1,53 @@
+<Project>
+
+  <Target Name="RemoveUnsupported" BeforeTargets="ResolveReferences">
+    <ItemGroup>
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackdropBlurBrush\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Blur\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Fade\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Light\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Offset\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Rotate\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Scale\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Saturation\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\AadLogin\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BluetoothLEHelper\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Facebook Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\GazeInteraction\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\GazeTracing\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\LinkedIn Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\LiveTile\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Microsoft Graph Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Microsoft Translator Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\PowerBIEmbedded\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\NetworkHelper\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\OneDrive Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\PeoplePicker\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ProfileCard\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\SharePointFileList\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Toast\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Twitter Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\WeatherLiveTileAndToast\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\InfiniteCanvas\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackdropGammaTransferBrush\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackdropSaturationBrush\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackdropSepiaBrush\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackdropInvertBrush\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\BackgroundTaskHelper\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Connected Animations\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Bing Service\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Implicit Animations\**" />
+      <_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\RadialGradientBrush\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ImageBlendBrush\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\LoginButton\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ImageCropper\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\EyeDropper\**" />
+
+			<!-- This is required under linux where evaluated paths are not compared the same way as windows -->
+      <_AbsoluteUnsupportedSamples Include="@(_UnsupportedSamples->'$([System.IO.Path]::GetFullPath('%(_UnsupportedSamples.Identity)'))')"/>
+      
+      <Page Remove="@(_AbsoluteUnsupportedSamples)" />
+      <Compile Remove="@(_AbsoluteUnsupportedSamples)" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -14,19 +14,24 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Microsoft.Toolkit.Graph.Converters;
-using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Microsoft.Toolkit.Uwp.UI.Media;
 using Newtonsoft.Json;
 using Windows.Foundation.Metadata;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Xaml;
+
+#if !HAS_UNO
+using Microsoft.Toolkit.Uwp.UI.Controls.Graph;
+using Microsoft.Toolkit.Uwp.UI.Media;
+using Microsoft.Toolkit.Graph.Converters;
+using Microsoft.Toolkit.Graph.Providers;
+using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+using Microsoft.Toolkit.Uwp.UI.Media;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -39,7 +44,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public static async void EnsureCacheLatest()
         {
-            var settingsStorage = new LocalObjectStorageHelper();
+#if !HAS_UNO
+			var settingsStorage = new LocalObjectStorageHelper();
 
             var onlineDocsSHA = await GetDocsSHA();
             var cacheSHA = settingsStorage.Read<string>(_cacheSHAKey);
@@ -64,6 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Update Cache Version info.
                 settingsStorage.Save(_cacheSHAKey, onlineDocsSHA);
             }
+#endif
         }
 
         private string _cachedDocumentation = string.Empty;
@@ -180,7 +187,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetCSharpSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{CodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), $"SamplePages.{Name}.{CodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -191,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public async Task<string> GetJavaScriptSourceAsync()
         {
-            using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{JavaScriptCodeFile}"))
+            using (var codeStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), $"SamplePages.{Name}.{JavaScriptCodeFile}"))
             {
                 using (var streamreader = new StreamReader(codeStream.AsStream()))
                 {
@@ -269,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             {
                 try
                 {
-                    using (var localDocsStream = await StreamHelper.GetPackagedFileStreamAsync($"docs/{filepath}"))
+                    using (var localDocsStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), $"docs.{filepath}"))
                     {
                         var result = await localDocsStream.ReadTextAsync(Encoding.UTF8);
                         _cachedDocumentation = ProcessDocs(result);
@@ -303,7 +310,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             var localpath = $"{uri.Host}/{uri.LocalPath}";
 
             // Cache only in Release
-#if !DEBUG
+#if !DEBUG && !HAS_UNO
             try
             {
                 imageStream = await StreamHelper.GetLocalCacheFileStreamAsync(localpath, Windows.Storage.FileAccessMode.Read);
@@ -451,8 +458,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (_propertyDescriptor == null)
             {
-                // Get Xaml code
-                using (var codeStream = await StreamHelper.GetPackagedFileStreamAsync($"SamplePages/{Name}/{XamlCodeFile}"))
+				var manifestName = typeof(Samples).GetTypeInfo().Assembly
+					.GetManifestResourceNames()
+					.FirstOrDefault(n => n.EndsWith($"{Name}.{XamlCodeFile}".Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+
+				if(manifestName == null)
+				{
+					throw new InvalidOperationException($"Failed to find resource [{Name}.{XamlCodeFile}]");
+				}
+
+				// Get Xaml code
+				using (var codeStream = typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName))
                 {
                     XamlCode = await codeStream.ReadTextAsync(Encoding.UTF8);
 
@@ -551,8 +567,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to extract slider info from {value}({ex.Message})");
-                                        TrackingManager.TrackException(ex);
-                                        continue;
+#if NETFX_CORE // UNO TODO
+                                       TrackingManager.TrackException(ex);
+#endif
+										continue;
                                     }
 
                                     break;
@@ -564,13 +582,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                         var split = value.Split('.');
                                         var typeName = string.Join(".", split.Take(split.Length - 1));
                                         var enumType = LookForTypeByName(typeName);
-                                        options.DefaultValue = Enum.Parse(enumType, split.Last());
+                                        if (enumType != null)
+                                        {
+                                            options.DefaultValue = Enum.Parse(enumType, split.Last());
+                                        }
                                     }
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to parse enum from {value}({ex.Message})");
+#if NETFX_CORE // UNO TODO
                                         TrackingManager.TrackException(ex);
-                                        continue;
+#endif
+										continue;
                                     }
 
                                     break;
@@ -596,8 +619,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                     catch (Exception ex)
                                     {
                                         Debug.WriteLine($"Unable to parse bool from {value}({ex.Message})");
+#if NETFX_CORE // UNO TODO
                                         TrackingManager.TrackException(ex);
-                                        continue;
+#endif
+										continue;
                                     }
 
                                     break;
@@ -670,6 +695,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
+#if NETFX_CORE
             // Search in Microsoft.Toolkit.Graph.Controls
             var graphControlsProxyType = typeof(UserToPersonConverter);
             assembly = graphControlsProxyType.GetTypeInfo().Assembly;
@@ -681,6 +707,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     return typeInfo;
                 }
             }
+#endif
 
             // Search in Microsoft.Toolkit.Uwp.UI.Animations
             var animationsProxyType = EasingType.Default;
@@ -694,8 +721,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Uwp.UI
-            var uiProxyType = ImageBlendMode.Multiply;
-            assembly = uiProxyType.GetType().GetTypeInfo().Assembly;
+            assembly = typeof(UI.Helpers.BindableValueHolder).GetTypeInfo().Assembly;
             foreach (var typeInfo in assembly.ExportedTypes)
             {
                 if (typeInfo.Name == typeName)
@@ -704,8 +730,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
             }
 
-            // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
-            var gazeType = Interaction.Enabled;
+#if NETFX_CORE
+			// Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
+			var gazeType = Interaction.Enabled;
             assembly = gazeType.GetType().GetTypeInfo().Assembly;
             foreach (var typeInfo in assembly.ExportedTypes)
             {
@@ -714,6 +741,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     return typeInfo;
                 }
             }
+#endif
 
             // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
             var dataGridProxyType = DataGridGridLinesVisibility.None;

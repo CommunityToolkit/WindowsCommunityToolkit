@@ -33,10 +33,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _toolbar = control.FindChildByName("Toolbar") as TextToolbar;
 
+#if !HAS_UNO
             if (control.FindChildByName("EditZone") is RichEditBox editZone)
             {
                 editZone.TextChanged += EditZone_TextChanged;
             }
+#endif
 
             if (control.FindChildByName("Previewer") is MarkdownTextBlock previewer)
             {
