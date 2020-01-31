@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
     /// <summary>
     /// A <see langword="class"/> that can load and draw images and other objects to Win2D surfaces and brushes
     /// </summary>
-    public static class SurfaceLoader
+    public sealed partial class SurfaceLoader
     {
         /// <summary>
         /// Synchronization mutex to access the cache and load Win2D images concurrently

@@ -1,19 +1,20 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.Graphics.Canvas;
 using Microsoft.Graphics.Canvas.Text;
 using Microsoft.Graphics.Canvas.UI.Composition;
 using Windows.Foundation;
-using Windows.Foundation.Metadata;
 using Windows.Graphics.DirectX;
 using Windows.UI;
 using Windows.UI.Composition;
+using Windows.UI.Xaml;
 
-namespace Microsoft.Toolkit.Uwp.UI.Animations
+namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
 {
     /// <summary>
     /// A delegate for load time effects.
@@ -25,81 +26,64 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
     public delegate CompositionDrawingSurface LoadTimeEffectHandler(CanvasBitmap bitmap, CompositionGraphicsDevice device, Size sizeTarget);
 
     /// <summary>
-    /// The SurfaceLoader is responsible to loading images into Composition Objects.
+    /// A <see langword="class"/> that can load and draw images and other objects to Win2D surfaces and brushes
     /// </summary>
-    [Deprecated("This class is deprecated, please use the SurfaceLoader class from the Microsoft.Toolkit.Uwp.UI.Media package.", DeprecationType.Deprecate, 6)]
-    public class SurfaceLoader
+    public sealed partial class SurfaceLoader
     {
         /// <summary>
-        /// A flag to store the intialized state.
+        /// The cache of <see cref="SurfaceLoader"/> instances currently available
         /// </summary>
-        private static bool _intialized;
+        private static readonly ConditionalWeakTable<Compositor, SurfaceLoader> Instances = new ConditionalWeakTable<Compositor, SurfaceLoader>();
 
         /// <summary>
-        /// The compositor
+        /// Gets a <see cref="SurfaceLoader"/> instance for the <see cref="Compositor"/> of the current window
         /// </summary>
-        private static Compositor _compositor;
-
-        /// <summary>
-        /// The canvas device
-        /// </summary>
-        private static CanvasDevice _canvasDevice;
-
-        /// <summary>
-        /// The composition graphic device to determinde which GPU is handling the request.
-        /// </summary>
-        private static CompositionGraphicsDevice _compositionDevice;
-
-        /// <summary>
-        /// Initializes the specified compositor.
-        /// </summary>
-        /// <param name="compositor">The compositor.</param>
-        public static void Initialize(Compositor compositor)
+        /// <returns>A <see cref="SurfaceLoader"/> instance to use in the current window</returns>
+        public static SurfaceLoader GetInstance()
         {
-            if (!_intialized)
-            {
-                _compositor = compositor;
-                _canvasDevice = new CanvasDevice();
-                _compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(_compositor, _canvasDevice);
+            return GetInstance(Window.Current.Compositor);
+        }
 
-                _intialized = true;
+        /// <summary>
+        /// Gets a <see cref="SurfaceLoader"/> instance for a given <see cref="Compositor"/>
+        /// </summary>
+        /// <param name="compositor">The input <see cref="Compositor"/> object to use</param>
+        /// <returns>A <see cref="SurfaceLoader"/> instance associated with <paramref name="compositor"/></returns>
+        public static SurfaceLoader GetInstance(Compositor compositor)
+        {
+            lock (Instances)
+            {
+                if (Instances.TryGetValue(compositor, out var instance))
+                {
+                    return instance;
+                }
+
+                instance = new SurfaceLoader(compositor);
+
+                Instances.Add(compositor, instance);
+
+                return instance;
             }
         }
 
         /// <summary>
-        /// Uninitializes this instance.
+        /// The <see cref="CanvasDevice"/> instance in use
         /// </summary>
-        public static void Uninitialize()
-        {
-            _compositor = null;
-
-            if (_compositionDevice != null)
-            {
-                _compositionDevice.Dispose();
-                _compositionDevice = null;
-            }
-
-            if (_canvasDevice != null)
-            {
-                _canvasDevice.Dispose();
-                _canvasDevice = null;
-            }
-
-            _intialized = false;
-        }
+        private readonly CanvasDevice canvasDevice;
 
         /// <summary>
-        /// Gets a value indicating whether this instance is initialized.
+        /// The <see cref="CompositionGraphicsDevice"/> instance to determinde which GPU is handling the request
         /// </summary>
-        /// <value>
-        /// <c>true</c> if this instance is initialized; otherwise, <c>false</c>.
-        /// </value>
-        public static bool IsInitialized
+        private readonly CompositionGraphicsDevice compositionDevice;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SurfaceLoader"/> class.
+        /// </summary>
+        /// <param name="compositor">The <see cref="Compositor"/> instance to use</param>
+        private SurfaceLoader(Compositor compositor)
         {
-            get
-            {
-                return _intialized;
-            }
+            this.canvasDevice = new CanvasDevice();
+            this.compositionDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, this.canvasDevice);
         }
 
         /// <summary>
@@ -107,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         /// <param name="uri">The URI.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        public static async Task<CompositionDrawingSurface> LoadFromUri(Uri uri)
+        public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri)
         {
             return await LoadFromUri(uri, Size.Empty);
         }
@@ -118,17 +102,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="uri">The URI.</param>
         /// <param name="sizeTarget">The size target.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        public static async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget)
+        public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget)
         {
-            CanvasBitmap bitmap = await CanvasBitmap.LoadAsync(_canvasDevice, uri);
-            Size sizeSource = bitmap.Size;
+            var bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri);
+            var sizeSource = bitmap.Size;
 
             if (sizeTarget.IsEmpty)
             {
                 sizeTarget = sizeSource;
             }
 
-            CompositionDrawingSurface surface = _compositionDevice.CreateDrawingSurface(
+            var surface = compositionDevice.CreateDrawingSurface(
                 sizeTarget,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
@@ -151,9 +135,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="textColor">Color of the text.</param>
         /// <param name="bgColor">Color of the bg.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        public static CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Color textColor, Color bgColor)
+        public CompositionDrawingSurface LoadText(string text, Size sizeTarget, CanvasTextFormat textFormat, Color textColor, Color bgColor)
         {
-            CompositionDrawingSurface surface = _compositionDevice.CreateDrawingSurface(
+            var surface = compositionDevice.CreateDrawingSurface(
                 sizeTarget,
                 DirectXPixelFormat.B8G8R8A8UIntNormalized,
                 DirectXAlphaMode.Premultiplied);
@@ -174,17 +158,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <param name="sizeTarget">The size target.</param>
         /// <param name="loadEffectHandler">The load effect handler callback.</param>
         /// <returns><see cref="CompositionDrawingSurface"/></returns>
-        public static async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget, LoadTimeEffectHandler loadEffectHandler)
+        public async Task<CompositionDrawingSurface> LoadFromUri(Uri uri, Size sizeTarget, LoadTimeEffectHandler loadEffectHandler)
         {
             if (loadEffectHandler != null)
             {
-                var bitmap = await CanvasBitmap.LoadAsync(_canvasDevice, uri);
-                return loadEffectHandler(bitmap, _compositionDevice, sizeTarget);
+                var bitmap = await CanvasBitmap.LoadAsync(canvasDevice, uri);
+                return loadEffectHandler(bitmap, compositionDevice, sizeTarget);
             }
-            else
-            {
-                return await LoadFromUri(uri, sizeTarget);
-            }
+
+            return await LoadFromUri(uri, sizeTarget);
         }
     }
 }
