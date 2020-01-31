@@ -96,6 +96,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes.Base
 
                 if (this.CompositionBrush != null)
                 {
+                    // Abort if effects aren't supported
+                    if (!CompositionCapabilities.GetForCurrentView().AreEffectsSupported())
+                    {
+                        return;
+                    }
+
                     if (this._isEnabled)
                     {
                         this.CompositionBrush = await this.OnBrushRequested().BuildAsync();
