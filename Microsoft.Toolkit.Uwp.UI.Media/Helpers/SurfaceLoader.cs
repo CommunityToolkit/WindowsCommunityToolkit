@@ -20,9 +20,9 @@ using Windows.UI.Xaml;
 namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
 {
     /// <summary>
-    /// A helper <see langword="class"/> that loads Win2D images and manages an internal cache of <see cref="CompositionBrush"/> instances with the loaded images
+    /// A <see langword="class"/> that can load and draw images and other objects to Win2D surfaces and brushes
     /// </summary>
-    public static class Win2DImageHelper
+    public static class SurfaceLoader
     {
         /// <summary>
         /// Synchronization mutex to access the cache and load Win2D images concurrently
