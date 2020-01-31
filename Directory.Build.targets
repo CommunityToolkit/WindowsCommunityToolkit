@@ -30,6 +30,5 @@
 
 	<ItemGroup>
 		<PackageReference Update="Uno.UI" Version="2.1.0-dev.971" />
-		<PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All" />
 	</ItemGroup>
 </Project>
