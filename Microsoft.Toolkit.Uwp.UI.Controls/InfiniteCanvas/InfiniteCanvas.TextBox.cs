@@ -184,7 +184,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
                     _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
-                    _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsBold;
+                    _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsItalic;
 
                     return;
                 }
