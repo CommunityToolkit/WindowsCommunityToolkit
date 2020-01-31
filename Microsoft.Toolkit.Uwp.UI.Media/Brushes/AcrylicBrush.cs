@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         }
 
         /// <summary>
-        /// Identifies the <see cref="Source"/> dependency property.
+        /// Identifies the <see cref="TextureUri"/> dependency property.
         /// </summary>
         public static readonly DependencyProperty TextureUriProperty = DependencyProperty.Register(
             nameof(TextureUri),
