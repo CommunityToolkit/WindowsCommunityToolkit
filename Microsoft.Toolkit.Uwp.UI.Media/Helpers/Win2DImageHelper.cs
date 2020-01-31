@@ -115,14 +115,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Helpers
                 // Get the device and the target surface
                 using (var graphicsDevice = CanvasComposition.CreateCompositionGraphicsDevice(compositor, canvasDevice))
                 {
-                    var drawingSurface = graphicsDevice.CreateDrawingSurface(default, DirectXPixelFormat.B8G8R8A8UIntNormalized, DirectXAlphaMode.Premultiplied);
-
                     // Calculate the surface size
                     Size
                         size = bitmap.Size,
                         sizeInPixels = new Size(bitmap.SizeInPixels.Width, bitmap.SizeInPixels.Height);
 
-                    CanvasComposition.Resize(drawingSurface, sizeInPixels);
+                    // Create the drawing surface
+                    var drawingSurface = graphicsDevice.CreateDrawingSurface(
+                        sizeInPixels,
+                        DirectXPixelFormat.B8G8R8A8UIntNormalized,
+                        DirectXAlphaMode.Premultiplied);
 
                     // Create a drawing session for the target surface
                     using (var drawingSession = CanvasComposition.CreateDrawingSession(drawingSurface, new Rect(0, 0, sizeInPixels.Width, sizeInPixels.Height), dpi))
