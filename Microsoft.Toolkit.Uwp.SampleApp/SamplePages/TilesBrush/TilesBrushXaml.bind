@@ -20,7 +20,7 @@
               Grid.Column="2"
               Height="400">
         <Border.Background>
-          <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/MicrosoftSquareLogo.png"/>
+          <brushes:TilesBrush TextureUri="ms-appx:///Assets/BrushAssets/TileTexture.png"/>
         </Border.Background>
       </Border>
     </Grid>
