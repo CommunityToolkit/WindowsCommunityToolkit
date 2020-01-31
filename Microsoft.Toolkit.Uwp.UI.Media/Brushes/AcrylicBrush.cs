@@ -132,7 +132,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         }
 
         /// <summary>
-        /// Gets or sets the color for the tint effect
+        /// Gets or sets the tint mix factor for the effect
         /// </summary>
         public double TintMix { get; set; }
 
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="Uri"/> to the texture to use
+        /// Gets or sets the <see cref="Uri"/> for the texture to use
         /// </summary>
         public Uri TextureUri
         {
