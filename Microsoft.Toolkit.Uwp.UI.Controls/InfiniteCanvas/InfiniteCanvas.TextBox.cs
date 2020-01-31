@@ -83,11 +83,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CanvasTextBoxItlaicButton_Clicked(object sender, RoutedEventArgs e)
+        private void CanvasTextBoxItalicButton_Clicked(object sender, RoutedEventArgs e)
         {
             if (SelectedTextDrawable != null)
             {
-                _drawingSurfaceRenderer.ExecuteUpdateTextBoxStyle(_canvasTextBoxItlaicButton.IsChecked ?? false);
+                _drawingSurfaceRenderer.ExecuteUpdateTextBoxStyle(_canvasTextBoxItalicButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontStyle(SelectedTextDrawable.IsItalic);
                 ReDrawCanvas();
             }
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 text,
                 _canvasTextBoxColorPicker.Color,
                 _canvasTextBoxBoldButton.IsChecked ?? false,
-                _canvasTextBoxItlaicButton.IsChecked ?? false);
+                _canvasTextBoxItalicButton.IsChecked ?? false);
 
             ReDrawCanvas();
             _drawingSurfaceRenderer.UpdateSelectedTextDrawable();
@@ -184,13 +184,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _canvasTextBoxColorPicker.Color = SelectedTextDrawable.TextColor;
                     _canvasTextBoxFontSizeTextBox.Text = SelectedTextDrawable.FontSize.ToString();
                     _canvasTextBoxBoldButton.IsChecked = SelectedTextDrawable.IsBold;
-                    _canvasTextBoxItlaicButton.IsChecked = SelectedTextDrawable.IsBold;
+                    _canvasTextBoxItalicButton.IsChecked = SelectedTextDrawable.IsBold;
 
                     return;
                 }
 
                 _canvasTextBox.UpdateFontSize(TextFontSize);
-                _canvasTextBox.UpdateFontStyle(_canvasTextBoxItlaicButton.IsChecked ?? false);
+                _canvasTextBox.UpdateFontStyle(_canvasTextBoxItalicButton.IsChecked ?? false);
                 _canvasTextBox.UpdateFontWeight(_canvasTextBoxBoldButton.IsChecked ?? false);
 
                 _inkCanvas.Visibility = Visibility.Collapsed;
