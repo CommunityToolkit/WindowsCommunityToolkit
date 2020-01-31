@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
     <Title>Windows Community Toolkit Animations</Title>
     <Description>
       This library provides helpers and extensions on top of Windows Composition and XAML storyboards. It is part of the Windows Community Toolkit.
@@ -19,11 +19,47 @@
     <PackageTags>UWP Toolkit Windows Animations Composition Connected Implicit XAML</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
-    <PackageReference Include="Win2D.uwp" Version="1.24.0" />
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
-    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
-  </ItemGroup>
+	<ItemGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
+		<PackageReference Include="System.ValueTuple" Version="4.4.0" />
+		<PackageReference Include="Win2D.uwp" Version="1.24.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+		<NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Animations</PackageId>
+	</PropertyGroup>
+
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+		<PackageReference Include="Uno.UI" />
+		<PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+
+		<Compile Remove="Effects\Blur.cs" />
+		<Compile Remove="Effects\Saturation.cs" />
+		<Compile Remove="Extensions\AnimationExtensions.Light.cs" />
+		<Compile Remove="SurfaceLoader.cs" />
+	  <Compile Remove="Extensions\AnimationExtensions.Blur.cs" />
+	  <Compile Remove="Extensions\AnimationExtensions.Saturation.cs" />
+	  <Compile Remove="Behaviors\Blur.cs" />
+	  <Compile Remove="Behaviors\Light.cs" />
+	  <Compile Remove="Behaviors\Saturation.cs" />
+		<None Include="Effects\Blur.cs" />
+		<None Include="Effects\Saturation.cs" />
+		<None Include="Extensions\AnimationExtensions.Light.cs" />
+		<None Include="SurfaceLoader.cs" />
+		<None Include="Extensions\AnimationExtensions.Blur.cs" />
+		<None Include="Extensions\AnimationExtensions.Saturation.cs" />
+		<None Include="Behaviors\Blur.cs" />
+		<None Include="Behaviors\Light.cs" />
+		<None Include="Behaviors\Saturation.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
+	</ItemGroup>
 
 </Project>

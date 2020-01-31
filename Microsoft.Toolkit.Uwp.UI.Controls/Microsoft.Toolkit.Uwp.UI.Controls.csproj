@@ -1,7 +1,7 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
     <Title>Windows Community Toolkit Controls</Title>
     <Description>
       This library provides XAML templated controls. It is part of the Windows Community Toolkit.
@@ -42,11 +42,39 @@
     <PackageTags>UWP Toolkit Windows Controls XAML Range WrapPanel Adaptive Markdown BladeView Blade CameraPreview Camera Carousel DockPanel DropShadow Expander GridSplitter HeaderedContent ImageEx InAppNotification InfiniteCanvas Master Details MasterDetails Orbit Radial Gauge RadiaGauge RadialProgressBar Scroll ScrollHeader StaggeredPanel Staggered Tile Tokenizing TextBox UniformGrid Uniform Grid</PackageTags>
   </PropertyGroup>
 
-  <ItemGroup>
+
+  <PropertyGroup>
+    <TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+    <NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+    <PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Controls</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="Uno.UI" />
+    <PackageReference Include="Uno.Microsoft.Xaml.Behaviors.Uwp.Managed" Version="2.0.1-uno.28" />
+    <PackageReference Include="Uno.ColorCode.UWP" Version="2.0.5-gd0f1a63314" />
+
+		<Page Remove="Eyedropper/**/*.xaml" />
+		<Page Remove="InfiniteCanvas/**/*.xaml" />
+		<Page Remove="ImageCropper/**/*.xaml" />
+		<Compile Remove="Eyedropper/**/*.cs" />
+		<Compile Remove="InfiniteCanvas/**/*.cs" />
+		<Compile Remove="ImageCropper/**/*.cs" />
+
+		<None Include="Eyedropper/**/*.*" />
+		<None Include="InfiniteCanvas/**/*.*" />
+		<None Include="ImageCropper/**/*.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'uap10.0' or '$(TargetFramework)' == 'uap10.0.16299'">
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+	
+  <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI\Microsoft.Toolkit.Uwp.UI.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
  

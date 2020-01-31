@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnKeyDown(KeyRoutedEventArgs e)
         {
             var step = 1;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var ctrl = Windows.UI.Xaml.Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = 5;
@@ -118,17 +118,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void OnManipulationStarted(ManipulationStartedRoutedEventArgs e)
         {
             // saving the previous state
-            PreviousCursor = Window.Current.CoreWindow.PointerCursor;
+            PreviousCursor = Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor;
             _resizeDirection = GetResizeDirection();
             _resizeBehavior = GetResizeBehavior();
 
             if (_resizeDirection == GridResizeDirection.Columns)
             {
-                Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
+                Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor = ColumnsSplitterCursor;
             }
             else if (_resizeDirection == GridResizeDirection.Rows)
             {
-                Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
+                Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor = RowSplitterCursor;
             }
 
             base.OnManipulationStarted(e);
@@ -137,7 +137,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void OnManipulationCompleted(ManipulationCompletedRoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerCursor = PreviousCursor;
+            Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor = PreviousCursor;
 
             base.OnManipulationCompleted(e);
         }

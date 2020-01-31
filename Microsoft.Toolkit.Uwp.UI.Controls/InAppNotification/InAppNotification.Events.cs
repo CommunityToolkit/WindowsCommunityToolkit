@@ -54,11 +54,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _openAnimationTimer.Stop();
                 Opened?.Invoke(this, EventArgs.Empty);
                 SetValue(AutomationProperties.NameProperty, StringExtensions.GetLocalized("WindowsCommunityToolkit_InAppNotification_NameProperty", "/Microsoft.Toolkit.Uwp.UI.Controls/Resources"));
+
+#if !HAS_UNO
                 peer = FrameworkElementAutomationPeer.CreatePeerForElement(ContentTemplateRoot);
                 if (Content?.GetType() == typeof(string))
                 {
                     AutomateTextNotification(Content.ToString());
                 }
+#endif
             }
         }
 

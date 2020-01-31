@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine("Error while parsing and rendering: " + ex.Message);
+                    System.Diagnostics.Debug.WriteLine("Error while parsing and rendering: " + ex.Message);
                     if (Debugger.IsAttached)
                     {
                         Debugger.Break();
@@ -185,7 +185,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
                 else if (link is Image image)
                 {
+#if !HAS_UNO // UNO TODO
                     image.Tapped -= NewImagelink_Tapped;
+#endif
                 }
             }
 
@@ -213,8 +215,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void RegisterNewHyperLink(Image newImagelink, string linkUrl, bool isHyperLink)
         {
-            // Setup a listener for clicks.
+#if !HAS_UNO // UNO TODO
+           // Setup a listener for clicks.
             newImagelink.Tapped += NewImagelink_Tapped;
+#endif
 
             // Associate the URL with the hyperlink.
             newImagelink.SetValue(HyperlinkUrlProperty, linkUrl);

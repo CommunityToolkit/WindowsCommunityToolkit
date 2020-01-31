@@ -23,7 +23,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class CameraPreview : Control
     {
         private CameraHelper _cameraHelper;
-        private MediaPlayer _mediaPlayer;
+        private Windows.Media.Playback.MediaPlayer _mediaPlayer;
         private MediaPlayerElement _mediaPlayerElementControl;
         private Button _frameSourceGroupButton;
 
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     if (_mediaPlayer == null)
                     {
-                        _mediaPlayer = new MediaPlayer
+                        _mediaPlayer = new Windows.Media.Playback.MediaPlayer
                         {
                             AutoPlay = true,
                             RealTimePlayback = true

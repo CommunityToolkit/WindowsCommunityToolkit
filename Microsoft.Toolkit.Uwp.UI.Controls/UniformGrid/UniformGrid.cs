@@ -30,7 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override Size MeasureOverride(Size availableSize)
         {
             // Get all Visible FrameworkElement Children
-            var visible = Children.Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
+            // UNO TODO
+            var visible = Children.OfType<UIElement>().Where(item => item.Visibility != Visibility.Collapsed && item is FrameworkElement).Select(item => item as FrameworkElement).ToArray();
 
 #pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
             var (rows, columns) = GetDimensions(visible, Rows, Columns, FirstColumn);

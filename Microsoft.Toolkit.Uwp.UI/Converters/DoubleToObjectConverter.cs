@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Converters
     /// The ConverterParameter can be used to invert the logic.
     /// </summary>
     [Bindable]
-    public class DoubleToObjectConverter : DependencyObject, IValueConverter
+    public partial class DoubleToObjectConverter : DependencyObject, IValueConverter
     {
         /// <summary>
         /// Identifies the <see cref="TrueValue"/> property.

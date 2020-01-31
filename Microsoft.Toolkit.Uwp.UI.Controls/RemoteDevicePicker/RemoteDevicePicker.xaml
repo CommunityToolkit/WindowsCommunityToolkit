@@ -1,8 +1,12 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
 
     <converters:RemoteSystemKindToSymbolConverter x:Key="KindToImageConverter" />
 
@@ -112,13 +116,14 @@
                                                 <TextBlock Text="Device User Type: " VerticalAlignment="Center" Grid.Row="2"/>
                                                 <ComboBox x:Name="AuthorizationType" Margin="10,4" VerticalAlignment="Center" HorizontalAlignment="Stretch" Grid.Column="1" Grid.Row="2"/>
                                             </Grid>
+                                            <!-- UNO TODO -->
                                             <ScrollContentPresenter x:Name="Content"
-                                                FontSize="{ThemeResource ControlContentThemeFontSize}"
-                                                FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+                                                win:FontSize="{ThemeResource ControlContentThemeFontSize}"
+                                                win:FontFamily="{ThemeResource ContentControlThemeFontFamily}"
                                                 Margin="{ThemeResource ContentDialogContentMargin}"
                                                 Foreground="{TemplateBinding Foreground}"
                                                 Grid.Row="3">
-                                                <ContentPresenter.Content>
+                                                <win:ContentPresenter.Content>
                                                     <ListView x:Name="PART_ListDevices" IsItemClickEnabled="True" IsDoubleTapEnabled="True" IsMultiSelectCheckBoxEnabled="True">
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
@@ -140,7 +145,7 @@
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
                                                     </ListView>
-                                                </ContentPresenter.Content>
+                                                </win:ContentPresenter.Content>
                                             </ScrollContentPresenter>
                                         </Grid>
                                     </ScrollViewer>

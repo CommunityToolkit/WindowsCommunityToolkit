@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = ScalePartName, Type = typeof(Path))]
     [TemplatePart(Name = TrailPartName, Type = typeof(Path))]
     [TemplatePart(Name = ValueTextPartName, Type = typeof(TextBlock))]
-    public class RadialGauge : RangeBase
+    public partial class RadialGauge : RangeBase
     {
         /// <summary>
         /// Identifies the optional StepSize property.
@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void RadialGauge_KeyDown(object sender, KeyRoutedEventArgs e)
         {
             double step = SmallChange;
-            var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+            var ctrl = Windows.UI.Xaml.Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
             if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
             {
                 step = LargeChange;

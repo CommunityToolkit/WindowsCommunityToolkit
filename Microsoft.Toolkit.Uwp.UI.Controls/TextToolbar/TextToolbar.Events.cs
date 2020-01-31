@@ -39,12 +39,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (oldEditor != null)
                 {
+#if !HAS_UNO
                     oldEditor.RemoveHandler(KeyDownEvent, bar.KeyEventHandler);
+#endif
                 }
 
                 if (newEditor != null)
                 {
+#if !HAS_UNO
                     newEditor.AddHandler(KeyDownEvent, bar.KeyEventHandler, handledEventsToo: true);
+#endif
                     bar.CreateFormatter();
                 }
 

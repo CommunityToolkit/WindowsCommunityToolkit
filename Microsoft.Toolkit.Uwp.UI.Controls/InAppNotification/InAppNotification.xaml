@@ -35,7 +35,10 @@
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" />
     </contract7NotPresent:Style>
 
-    <contract7Present:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
+	<!-- UNO TODO -->
+    <!--
+	<contract7Present:Style TargetType="local:InAppNotification" BasedOn="{StaticResource BaseInAppNotificationsStyle}">
         <Setter Property="Background" Value="{ThemeResource SystemControlChromeMediumLowAcrylicElementMediumBrush}" />
     </contract7Present:Style>
+	-->
 </ResourceDictionary>

@@ -135,7 +135,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (image != null)
             {
+#if __WASM__ // UNO TODO
+                // image.ImageFailed += handler;
+#else
                 image.ImageFailed += handler;
+#endif
             }
             else if (brush != null)
             {
@@ -154,7 +158,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (image != null)
             {
+#if __WASM__ // UNO TODO
+                // image.ImageFailed -= handler;
+#else
                 image.ImageFailed -= handler;
+#endif
             }
             else if (brush != null)
             {

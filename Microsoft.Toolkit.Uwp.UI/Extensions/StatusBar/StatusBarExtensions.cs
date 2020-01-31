@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Color</returns>
         public static Color GetBackgroundColor(Page page)
         {
-            Color color;
+            Color color = default(Color);
 
             var statusBar = GetStatusBar();
             if (statusBar != null)
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Color</returns>
         public static Color GetForegroundColor(Page page)
         {
-            Color color;
+            Color color = default(Color);
 
             var statusBar = GetStatusBar();
             if (statusBar != null)

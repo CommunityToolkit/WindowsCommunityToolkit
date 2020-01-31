@@ -138,47 +138,52 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
 
-            foreach (var child in Children)
+            foreach (var nativeChild in Children)
             {
-                child.Measure(availableSize);
-                var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
-                if (currentMeasure.U == 0)
+                // UNO TODO
+                if (nativeChild is UIElement child)
                 {
-                    continue; // ignore collapsed items
-                }
 
-                // if this is the first item, do not add spacing. Spacing is added to the "left"
-                double uChange = lineMeasure.U == 0
-                    ? currentMeasure.U
-                    : currentMeasure.U + spacingMeasure.U;
-                if (parentMeasure.U >= uChange + lineMeasure.U)
-                {
-                    lineMeasure.U += uChange;
-                    lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
-                }
-                else
-                {
-                    // new line should be added
-                    // to get the max U to provide it correctly to ui width ex: ---| or -----|
-                    totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V + spacingMeasure.V;
-
-                    // if the next new row still can handle more controls
-                    if (parentMeasure.U > currentMeasure.U)
+                    child.Measure(availableSize);
+                    var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                    if (currentMeasure.U == 0)
                     {
-                        // set lineMeasure initial values to the currentMeasure to be calculated later on the new loop
-                        lineMeasure = currentMeasure;
+                        continue; // ignore collapsed items
                     }
 
-                    // the control will take one row alone
+                    // if this is the first item, do not add spacing. Spacing is added to the "left"
+                    double uChange = lineMeasure.U == 0
+                        ? currentMeasure.U
+                        : currentMeasure.U + spacingMeasure.U;
+                    if (parentMeasure.U >= uChange + lineMeasure.U)
+                    {
+                        lineMeasure.U += uChange;
+                        lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
+                    }
                     else
                     {
-                        // validate the new control measures
-                        totalMeasure.U = Math.Max(currentMeasure.U, totalMeasure.U);
-                        totalMeasure.V += currentMeasure.V;
+                        // new line should be added
+                        // to get the max U to provide it correctly to ui width ex: ---| or -----|
+                        totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
+                        totalMeasure.V += lineMeasure.V + spacingMeasure.V;
 
-                        // add new empty line
-                        lineMeasure = UvMeasure.Zero;
+                        // if the next new row still can handle more controls
+                        if (parentMeasure.U > currentMeasure.U)
+                        {
+                            // set lineMeasure initial values to the currentMeasure to be calculated later on the new loop
+                            lineMeasure = currentMeasure;
+                        }
+
+                        // the control will take one row alone
+                        else
+                        {
+                            // validate the new control measures
+                            totalMeasure.U = Math.Max(currentMeasure.U, totalMeasure.U);
+                            totalMeasure.V += currentMeasure.V;
+
+                            // add new empty line
+                            lineMeasure = UvMeasure.Zero;
+                        }
                     }
                 }
             }
@@ -248,10 +253,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var lastIndex = Children.Count - 1;
                 for (var i = 0; i < lastIndex; i++)
                 {
-                    arrange(Children[i]);
+                    // UNO TODO
+                    if (Children[i] is UIElement outerChild)
+                    {
+                        arrange(outerChild);
+                    }
                 }
 
-                arrange(Children[lastIndex], StretchChild == StretchChild.Last);
+                // UNO TODO
+                if (Children[lastIndex] is UIElement outerChild2)
+                {
+                    arrange(outerChild2, StretchChild == StretchChild.Last);
+                }
             }
 
             return finalSize;

@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Arranges child elements into a staggered grid pattern where items are added to the column that has used least amount of space.
     /// </summary>
-    public class StaggeredPanel : Panel
+    public partial class StaggeredPanel : Panel
     {
         private double _columnWidth;
 
@@ -144,11 +144,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
-                var child = Children[i];
-                child.Measure(new Size(_columnWidth, availableHeight));
-                var elementSize = child.DesiredSize;
-                columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
-                itemsPerColumn[columnIndex]++;
+                var nativeChild = Children[i];
+
+                // UNO TODO
+                if (nativeChild is UIElement child)
+                {
+                    child.Measure(new Size(_columnWidth, availableHeight));
+                    var elementSize = child.DesiredSize;
+                    columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
+                    itemsPerColumn[columnIndex]++;
+                }
             }
 
             double desiredHeight = columnHeights.Max();
@@ -189,22 +194,33 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
-                var child = Children[i];
-                var elementSize = child.DesiredSize;
+                var nativeChild = Children[i];
 
-                double elementHeight = elementSize.Height;
+                // UNO TODO
+                if (nativeChild is UIElement child)
+                {
+                    var elementSize = child.DesiredSize;
 
-                double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
-                double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
+                    double elementHeight = elementSize.Height;
 
-                Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, elementHeight);
-                child.Arrange(bounds);
+                    double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
+                    double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
 
-                columnHeights[columnIndex] += elementSize.Height;
-                itemsPerColumn[columnIndex]++;
+                    Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, elementHeight);
+                    child.Arrange(bounds);
+
+                    columnHeights[columnIndex] += elementSize.Height;
+                    itemsPerColumn[columnIndex]++;
+                }
             }
 
+#if !HAS_UNO
             return base.ArrangeOverride(finalSize);
+#else
+            // Calling base.ArrangeOverride on a Panel should do nothing, but does in Uno. The first 
+            // item is force arrange to fill the available space.
+            return finalSize;
+#endif
         }
 
         private static void OnDesiredColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

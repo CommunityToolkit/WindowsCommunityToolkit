@@ -11,8 +11,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
     /// <summary>
     /// Used to Track Changes of a Dependency Property
     /// </summary>
+    public partial class DependencyPropertyWatcher : DependencyObject
+    {
+    }
+
+    /// <summary>
+    /// Used to Track Changes of a Dependency Property
+    /// </summary>
     /// <typeparam name="T">Value of Dependency Property</typeparam>
-    public class DependencyPropertyWatcher<T> : DependencyObject, IDisposable
+    public partial class DependencyPropertyWatcher<T> : DependencyPropertyWatcher, IDisposable
     {
         /// <summary>
         /// Value of Value Property

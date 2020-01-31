@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             UpdateMenuItemsFlyoutPlacement();
 
+#if !HAS_UNO // UNO TODO
             Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             LostFocus -= Menu_LostFocus;
             LostFocus += Menu_LostFocus;
@@ -43,13 +44,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             Dispatcher.AcceleratorKeyActivated += Dispatcher_AcceleratorKeyActivated;
             Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
             Window.Current.CoreWindow.PointerMoved += CoreWindow_PointerMoved;
+#endif
         }
 
         private void Menu_Unloaded(object sender, RoutedEventArgs e)
         {
-            Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
+            Windows.UI.Xaml.Window.Current.CoreWindow.PointerMoved -= CoreWindow_PointerMoved;
             Dispatcher.AcceleratorKeyActivated -= Dispatcher_AcceleratorKeyActivated;
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+            Windows.UI.Xaml.Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
 
             // Clear Cache
             foreach (MenuItem menuItem in Items)
@@ -87,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void CoreWindow_KeyDown(CoreWindow sender, KeyEventArgs args)
+        private void CoreWindow_KeyDown(CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
         {
             if (IsInTransitionState)
             {

@@ -48,39 +48,44 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             for (var index = 0; index < childrenCount; index++)
             {
-                var child = Children[index];
-                var dock = (Dock)child.GetValue(DockProperty);
-                double width, height;
-                switch (dock)
+                var nativeChild = Children[index];
+
+                // UNO TODO
+                if (nativeChild is UIElement child)
                 {
-                    case Dock.Left:
+                    var dock = (Dock)child.GetValue(DockProperty);
+                    double width, height;
+                    switch (dock)
+                    {
+                        case Dock.Left:
 
-                        width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
-                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
-                        currentBounds.X += width;
+                            width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
+                            child.Arrange(new Rect(currentBounds.X, currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
+                            currentBounds.X += width;
 
-                        break;
-                    case Dock.Top:
+                            break;
+                        case Dock.Top:
 
-                        height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
-                        child.Arrange(new Rect(currentBounds.X, currentBounds.Y, GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
-                        currentBounds.Y += height;
+                            height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
+                            child.Arrange(new Rect(currentBounds.X, currentBounds.Y, GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
+                            currentBounds.Y += height;
 
-                        break;
-                    case Dock.Right:
+                            break;
+                        case Dock.Right:
 
-                        width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
-                        child.Arrange(new Rect(GetPositiveOrZero(currentBounds.Width - width), currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
-                        currentBounds.Width -= (currentBounds.Width - width) > 0 ? width : 0;
+                            width = Math.Min(child.DesiredSize.Width, GetPositiveOrZero(currentBounds.Width - currentBounds.X));
+                            child.Arrange(new Rect(GetPositiveOrZero(currentBounds.Width - width), currentBounds.Y, width, GetPositiveOrZero(currentBounds.Height - currentBounds.Y)));
+                            currentBounds.Width -= (currentBounds.Width - width) > 0 ? width : 0;
 
-                        break;
-                    case Dock.Bottom:
+                            break;
+                        case Dock.Bottom:
 
-                        height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
-                        child.Arrange(new Rect(currentBounds.X, GetPositiveOrZero(currentBounds.Height - height), GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
-                        currentBounds.Height -= (currentBounds.Height - height) > 0 ? height : 0;
+                            height = Math.Min(child.DesiredSize.Height, GetPositiveOrZero(currentBounds.Height - currentBounds.Y));
+                            child.Arrange(new Rect(currentBounds.X, GetPositiveOrZero(currentBounds.Height - height), GetPositiveOrZero(currentBounds.Width - currentBounds.X), height));
+                            currentBounds.Height -= (currentBounds.Height - height) > 0 ? height : 0;
 
-                        break;
+                            break;
+                    }
                 }
             }
 
@@ -88,9 +93,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var width = GetPositiveOrZero(currentBounds.Width - currentBounds.X);
                 var height = GetPositiveOrZero(currentBounds.Height - currentBounds.Y);
-                var child = Children[Children.Count - 1];
-                child.Arrange(
-                    new Rect(currentBounds.X, currentBounds.Y, width, height));
+                var nativeChild = Children[Children.Count - 1];
+
+                // UNO TODO
+                if (nativeChild is UIElement child)
+                {
+                    child.Arrange(
+                        new Rect(currentBounds.X, currentBounds.Y, width, height));
+                }
             }
 
             return finalSize;
@@ -104,28 +114,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var accumulatedWidth = Padding.Left + Padding.Right;
             var accumulatedHeight = Padding.Top + Padding.Bottom;
 
-            foreach (var child in Children)
+            foreach (var nativeChild in Children)
             {
-                var childConstraint = new Size(
+                // UNO TODO
+                if (nativeChild is UIElement child)
+                {
+                    var childConstraint = new Size(
                     GetPositiveOrZero(availableSize.Width - accumulatedWidth),
                     GetPositiveOrZero(availableSize.Height - accumulatedHeight));
 
-                child.Measure(childConstraint);
-                var childDesiredSize = child.DesiredSize;
+                    child.Measure(childConstraint);
+                    var childDesiredSize = child.DesiredSize;
 
-                switch ((Dock)child.GetValue(DockProperty))
-                {
-                    case Dock.Left:
-                    case Dock.Right:
-                        parentHeight = Math.Max(parentHeight, accumulatedHeight + childDesiredSize.Height);
-                        accumulatedWidth += childDesiredSize.Width;
-                        break;
+                    switch ((Dock)child.GetValue(DockProperty))
+                    {
+                        case Dock.Left:
+                        case Dock.Right:
+                            parentHeight = Math.Max(parentHeight, accumulatedHeight + childDesiredSize.Height);
+                            accumulatedWidth += childDesiredSize.Width;
+                            break;
 
-                    case Dock.Top:
-                    case Dock.Bottom:
-                        parentWidth = Math.Max(parentWidth, accumulatedWidth + childDesiredSize.Width);
-                        accumulatedHeight += childDesiredSize.Height;
-                        break;
+                        case Dock.Top:
+                        case Dock.Bottom:
+                            parentWidth = Math.Max(parentWidth, accumulatedWidth + childDesiredSize.Width);
+                            accumulatedHeight += childDesiredSize.Height;
+                            break;
+                    }
                 }
             }
 

@@ -14,11 +14,13 @@
                                 <StackPanel.RenderTransform>
                                     <TranslateTransform x:Name="Translate" Y="0" />
                                 </StackPanel.RenderTransform>
-                                <ContentPresenter x:Name="Current"
+								<!-- UNO TODO -->
+                                <ContentControl x:Name="Current"
                                                   Content="{Binding}"
                                                   ContentTemplate="{TemplateBinding ItemTemplate}"
                                                   DataContext="{x:Null}" />
-                                <ContentPresenter x:Name="Next"
+								<!-- UNO TODO -->
+                                <ContentControl x:Name="Next"
                                                   Content="{Binding}"
                                                   ContentTemplate="{TemplateBinding ItemTemplate}"
                                                   DataContext="{x:Null}" />

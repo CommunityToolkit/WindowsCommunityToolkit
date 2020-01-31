@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Or "Ctrl + Alt + Left click"
                 if (pointerPoint.Properties.IsLeftButtonPressed)
                 {
-                    var ctrl = Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
+                    var ctrl = Windows.UI.Xaml.Window.Current.CoreWindow.GetKeyState(VirtualKey.Control);
                     if (ctrl.HasFlag(CoreVirtualKeyStates.Down))
                     {
                         // return here so the event won't be picked up by the base class

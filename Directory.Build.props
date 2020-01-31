@@ -81,7 +81,7 @@
     <NoWarn>$(NoWarn);8002</NoWarn>
   </PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup Condition="!$([MSBuild]::IsOsUnixLike())">
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
 
@@ -90,4 +90,26 @@
       <Link>stylecop.json</Link>
     </AdditionalFiles>
   </ItemGroup>
+
+	<!-- BEGIN Uno Specific -->
+
+	<PropertyGroup>
+		<TargetFrameworksOverride>uap10.0.16299;MonoAndroid80;xamarinios10;netstandard2.0</TargetFrameworksOverride>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+		<DefineConstants>$(DefineConstants);__WASM__</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' or '$(TargetFramework)' == 'MonoAndroid80' or '$(TargetFramework)' == 'xamarinios10' ">
+		<NoWarn>$(NoWarn);CS0649;CS0067;CS1998</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<!-- Workaround for android build using the Uno Source Generators: https://github.com/nventive/Uno.SourceGeneration/issues/109 -->
+		<JavaSdkDirectory Condition="'$(JavaSdkDirectory)'=='' and '$(JAVA_HOME_8_X64)'!=''">$(JAVA_HOME_8_X64)</JavaSdkDirectory>
+	</PropertyGroup>
+	
+	<!-- END Uno Specific -->
+
 </Project>

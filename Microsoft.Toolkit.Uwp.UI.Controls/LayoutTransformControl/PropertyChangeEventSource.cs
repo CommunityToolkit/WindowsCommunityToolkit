@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Allows raise an event when the value of a dependency property changes when a view model is otherwise not necessary.
     /// </summary>
     /// <typeparam name="TPropertyType">Type of the DependencyProperty</typeparam>
-    internal class PropertyChangeEventSource<TPropertyType> : FrameworkElement
+    internal partial class PropertyChangeEventSource<TPropertyType> : FrameworkElement
     {
         private readonly DependencyObject _source;
 

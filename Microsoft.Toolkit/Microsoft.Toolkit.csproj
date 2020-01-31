@@ -13,5 +13,10 @@
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
+	
+  <PropertyGroup>
+    <NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+    <PackageId>Uno.Microsoft.Toolkit</PackageId>
+  </PropertyGroup>
 
 </Project>

@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A panel used by the <see cref="OrbitView"/> control
     /// </summary>
-    public class OrbitViewPanel : Panel
+    public partial class OrbitViewPanel : Panel
     {
         private OrbitView _orbitView;
 
@@ -64,19 +64,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (double.IsInfinity(width))
             {
-                width = Window.Current.Bounds.Width;
+                width = Windows.UI.Xaml.Window.Current.Bounds.Width;
             }
 
             if (double.IsInfinity(height))
             {
-                height = Window.Current.Bounds.Height;
+                height = Windows.UI.Xaml.Window.Current.Bounds.Height;
             }
 
             var finalSize = new Size(width, height);
 
-            foreach (var child in Children)
+            foreach (var nativeChild in Children)
             {
-                child.Measure(finalSize);
+                // UNO TODO
+                if (nativeChild is UIElement child)
+                {
+                    child.Measure(finalSize);
+                }
             }
 
             return finalSize;
@@ -98,43 +102,45 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             for (var i = 0; i < Children.Count; i++)
             {
-                var element = Children.ElementAt(i);
-
-                OrbitViewDataItem orbitViewDataItem = null;
-                if (element is FrameworkElement)
+                // UNO TODO
+                if (Children.ElementAt(i) is UIElement element)
                 {
-                    orbitViewDataItem = ((FrameworkElement)element).DataContext as OrbitViewDataItem;
-                }
-
-                var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5;
-                d = Math.Min(d, 1d);
-
-                var distance = (d * (maxDistance - minDistance)) + minDistance;
-                var x = distance * Math.Cos((angle * i) + (angle / 2));
-                var y = distance * Math.Sin((angle * i) + (angle / 2));
-
-                var x_normalized = (finalSize.Width / 2) + x - (element.DesiredSize.Width / 2);
-                var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);
-                var point = new Point(x_normalized, y_normalized);
-
-                element.Arrange(new Rect(point, element.DesiredSize));
-
-                var elementProperties = new OrbitViewElementProperties()
-                {
-                    XYFromCenter = new Point(x, y),
-                    DistanceFromCenter = distance,
-                    Element = element
-                };
-                elementsProperties.Add(elementProperties);
-
-                if (ItemArranged != null)
-                {
-                    var args = new OrbitViewPanelItemArrangedArgs()
+                    OrbitViewDataItem orbitViewDataItem = null;
+                    if (element is FrameworkElement)
                     {
-                        ElementProperties = elementProperties,
-                        ItemIndex = i
+                        orbitViewDataItem = ((FrameworkElement)element).DataContext as OrbitViewDataItem;
+                    }
+
+                    var d = orbitViewDataItem != null && orbitViewDataItem.Distance >= 0 ? orbitViewDataItem.Distance : 0.5;
+                    d = Math.Min(d, 1d);
+
+                    var distance = (d * (maxDistance - minDistance)) + minDistance;
+                    var x = distance * Math.Cos((angle * i) + (angle / 2));
+                    var y = distance * Math.Sin((angle * i) + (angle / 2));
+
+                    var x_normalized = (finalSize.Width / 2) + x - (element.DesiredSize.Width / 2);
+                    var y_normalized = (finalSize.Height / 2) - y - (element.DesiredSize.Height / 2);
+                    var point = new Point(x_normalized, y_normalized);
+
+                    element.Arrange(new Rect(point, element.DesiredSize));
+
+                    var elementProperties = new OrbitViewElementProperties()
+                    {
+                        XYFromCenter = new Point(x, y),
+                        DistanceFromCenter = distance,
+                        Element = element
                     };
-                    ItemArranged.Invoke(this, args);
+                    elementsProperties.Add(elementProperties);
+
+                    if (ItemArranged != null)
+                    {
+                        var args = new OrbitViewPanelItemArrangedArgs()
+                        {
+                            ElementProperties = elementProperties,
+                            ItemIndex = i
+                        };
+                        ItemArranged.Invoke(this, args);
+                    }
                 }
             }
 
