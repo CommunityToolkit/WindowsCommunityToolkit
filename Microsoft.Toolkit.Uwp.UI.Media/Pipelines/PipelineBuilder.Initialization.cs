@@ -271,7 +271,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         [Pure]
         public static PipelineBuilder FromImage(Uri uri, DpiMode dpiMode = DpiMode.DisplayDpiWith96AsLowerBound, CacheMode cacheMode = CacheMode.Default)
         {
-            return new PipelineBuilder(async () => await Win2DImageHelper.LoadImageAsync(Window.Current.Compositor, uri, dpiMode, cacheMode));
+            return new PipelineBuilder(async () => await Win2DImageHelper.LoadImageAsync(uri, dpiMode, cacheMode));
         }
 
         /// <summary>
