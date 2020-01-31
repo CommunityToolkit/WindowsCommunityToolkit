@@ -1000,6 +1000,17 @@
         "BadgeUpdateVersionRequired": "Creators Update required",
         "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
+      },
+      {
+        "Name": "AcrylicBrush",
+        "Type": "AcrylicBrushPage",
+        "About": "A composition brush that provides a custom implementation of the official acrylic brush.",
+        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI/Media/BackdropSepiaBrush.cs",
+        "XamlCodeFile": "AcrylicBrushXaml.bind",
+        "Icon": "/SamplePages/AcrylicBrush/AcrylicBrush.png",
+        "BadgeUpdateVersionRequired": "Creators Update required",
+        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       }
     ]
   },

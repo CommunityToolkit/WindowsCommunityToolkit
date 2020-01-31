@@ -285,6 +285,7 @@
     <Content Include="Icons\Services.png" />
     <Content Include="SamplePages\Eyedropper\Eyedropper.png" />
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
+    <Content Include="SamplePages\AcrylicBrush\AcrylicBrush.png" />
     <Content Include="SamplePages\PipelineBrush\PipelineBrush.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
@@ -533,6 +534,9 @@
     <Compile Include="SamplePages\OnDevice\OnDevicePage.xaml.cs">
       <DependentUpon>OnDevicePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\AcrylicBrush\AcrylicBrushPage.xaml.cs">
+      <DependentUpon>AcrylicBrushPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\PipelineBrush\PipelineBrushPage.xaml.cs">
       <DependentUpon>PipelineBrushPage.xaml</DependentUpon>
     </Compile>
@@ -559,6 +563,7 @@
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\PipelineBrush\PipelineBrushXaml.bind" />
     <Content Include="SamplePages\PipelineBrush\PipelineBrushCode.bind" />
+    <Content Include="SamplePages\AcrylicBrush\AcrylicBrushXaml.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -950,6 +955,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\OnDevice\OnDevicePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SamplePages\AcrylicBrush\AcrylicBrushPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
