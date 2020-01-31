@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
-    internal class SingleCalendarView : CalendarView
+    internal partial class SingleCalendarView : CalendarView
     {
         public static readonly DependencyProperty DateProperty =
             DependencyProperty.Register(nameof(Date), typeof(DateTimeOffset?), typeof(SingleCalendarView), new PropertyMetadata(null, DatePropertyChanged));

@@ -1,8 +1,8 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
-    <Title>Windows Community Toolkit Graph Controls</Title>
+		<TargetFrameworks>uap10.0.16299</TargetFrameworks>
+		<Title>Windows Community Toolkit Graph Controls</Title>
     <Description>
       This library provides Microsoft Graph XAML controls. It is part of the Windows Community Toolkit.
 
@@ -22,15 +22,26 @@
     <PackageTags>UWP Toolkit Windows Controls Microsoft Graph AadLogin ProfileCard PeoplePicker SharePointFiles</PackageTags>
 
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+		<NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Controls.Graph</PackageId>
+	</PropertyGroup>
 
-  <ItemGroup>
+	<ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+		<PackageReference Include="Uno.UI" />
+		
+	  <Compile Remove="PowerBIEmbedded\**" />
+	  <EmbeddedResource Remove="PowerBIEmbedded\**" />
+	  <Page Remove="PowerBIEmbedded\**" />
+	</ItemGroup>
+
+	<ItemGroup>
     <Content Include="Assets\folder.svg" />
     <Content Include="Assets\genericfile.png" />
     <Content Include="Assets\person.png" />
     <Content Include="Assets\photo.png" />
-    <Content Include="PowerBIEmbedded\Embed\EmbedReportFrame.html" />
-    <Content Include="PowerBIEmbedded\Embed\powerbi.min.js" />
-    <Content Include="PowerBIEmbedded\Embed\ReportContainer.html" />
   </ItemGroup>
 
   <ItemGroup>

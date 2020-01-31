@@ -184,7 +184,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
                         task.Add(TaskDueDateTimeJsonName, plannerTaskViewModel.DueDateTime);
                         if (_list.ContainerFromItem(plannerTaskViewModel) is ListViewItem taskContainer)
                         {
-                            var flyout = taskContainer.ContentTemplateRoot.FindDescendants<Button>().FirstOrDefault(s => s.Flyout != null)?.Flyout;
+                            // UNO TODO
+                            var flyout = (taskContainer.ContentTemplateRoot as UIElement).FindDescendants<Button>().FirstOrDefault(s => s.Flyout != null)?.Flyout;
                             if (flyout != null)
                             {
                                 flyout.Hide();
