@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     /// Used within the template of a <see cref="DataGrid"/>
     /// to specify the location in the control's visual tree where the cells are to be added.
     /// </summary>
-    public sealed class DataGridCellsPresenter : Panel
+    public sealed partial class DataGridCellsPresenter : Panel
     {
         private double _fillerLeftEdge;
 
@@ -79,8 +79,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             foreach (DataGridColumn column in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
             {
                 DataGridCell cell = this.OwningRow.Cells[column.Index];
-                Debug.Assert(cell.OwningColumn == column, "Expected column owner.");
-                Debug.Assert(column.IsVisible, "Expected visible column.");
+                System.Diagnostics.Debug.Assert(cell.OwningColumn == column, "Expected column owner.");
+                System.Diagnostics.Debug.Assert(column.IsVisible, "Expected visible column.");
 
                 if (column.IsFrozen)
                 {
@@ -318,9 +318,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
         private bool ShouldDisplayCell(DataGridColumn column, double frozenLeftEdge, double scrollingLeftEdge)
         {
-            Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
-            Debug.Assert(this.OwningGrid.HorizontalAdjustment >= 0, "Expected owning positive DataGrid.HorizontalAdjustment.");
-            Debug.Assert(this.OwningGrid.HorizontalAdjustment <= this.OwningGrid.HorizontalOffset, "Expected owning DataGrid.HorizontalAdjustment smaller than or equal to DataGrid.HorizontalOffset.");
+            System.Diagnostics.Debug.Assert(this.OwningGrid != null, "Expected non-null owning DataGrid.");
+            System.Diagnostics.Debug.Assert(this.OwningGrid.HorizontalAdjustment >= 0, "Expected owning positive DataGrid.HorizontalAdjustment.");
+            System.Diagnostics.Debug.Assert(this.OwningGrid.HorizontalAdjustment <= this.OwningGrid.HorizontalOffset, "Expected owning DataGrid.HorizontalAdjustment smaller than or equal to DataGrid.HorizontalOffset.");
 
             if (column.Visibility != Visibility.Visible)
             {

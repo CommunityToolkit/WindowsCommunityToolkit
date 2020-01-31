@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     /// Used within the template of a <see cref="DataGrid"/> to specify the
     /// location in the control's visual tree where the column headers are to be added.
     /// </summary>
-    public sealed class DataGridColumnHeadersPresenter : Panel
+    public sealed partial class DataGridColumnHeadersPresenter : Panel
     {
         private Control _dragIndicator;
         private Control _dropLocationIndicator;
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             foreach (DataGridColumn dataGridColumn in this.OwningGrid.ColumnsInternal.GetVisibleColumns())
             {
                 DataGridColumnHeader columnHeader = dataGridColumn.HeaderCell;
-                Debug.Assert(columnHeader.OwningColumn == dataGridColumn, "Expected columnHeader owned by dataGridColumn.");
+                System.Diagnostics.Debug.Assert(columnHeader.OwningColumn == dataGridColumn, "Expected columnHeader owned by dataGridColumn.");
 
                 if (dataGridColumn.IsFrozen)
                 {
@@ -382,7 +382,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             DataGridFillerColumn fillerColumn = this.OwningGrid.ColumnsInternal.FillerColumn;
             if (!fillerColumn.IsRepresented)
             {
-                Debug.Assert(!this.Children.Contains(fillerColumn.HeaderCell), "Unexpected parent for filler column header cell.");
+                System.Diagnostics.Debug.Assert(!this.Children.Contains(fillerColumn.HeaderCell), "Unexpected parent for filler column header cell.");
                 fillerColumn.HeaderCell.SeparatorVisibility = Visibility.Collapsed;
                 this.Children.Insert(this.OwningGrid.ColumnsInternal.Count, fillerColumn.HeaderCell);
                 fillerColumn.IsRepresented = true;

@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [StyleTypedProperty(Property = "CellStyle", StyleTargetType = typeof(DataGridCell))]
     [StyleTypedProperty(Property = "DragIndicatorStyle", StyleTargetType = typeof(ContentControl))]
     [StyleTypedProperty(Property = "HeaderStyle", StyleTargetType = typeof(DataGridColumnHeader))]
-    public abstract class DataGridColumn : DependencyObject
+    public abstract partial class DataGridColumn : DependencyObject
     {
         private const bool DATAGRIDCOLUMN_defaultCanUserReorder = true;
         private const bool DATAGRIDCOLUMN_defaultCanUserResize = true;

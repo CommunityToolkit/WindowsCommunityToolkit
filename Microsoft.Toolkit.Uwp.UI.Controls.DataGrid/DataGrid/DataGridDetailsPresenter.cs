@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     /// Used within the template of a <see cref="DataGrid"/> to specify the location in the control's visual tree
     /// where the row details are to be added.
     /// </summary>
-    public sealed class DataGridDetailsPresenter : Panel
+    public sealed partial class DataGridDetailsPresenter : Panel
     {
         /// <summary>
         /// Gets or sets the height of the content.

@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     [TemplatePart(Name = DATAGRIDROWGROUPHEADER_propertyNameElement, Type = typeof(TextBlock))]
     [TemplatePart(Name = DATAGRIDROWGROUPHEADER_propertyValueElement, Type = typeof(TextBlock))]
     [StyleTypedProperty(Property = "HeaderStyle", StyleTargetType = typeof(DataGridRowHeader))]
-    public class DataGridRowGroupHeader : Control
+    public partial class DataGridRowGroupHeader : Control
     {
         private const string DATAGRIDROWGROUPHEADER_bottomGridLine = "BottomGridLine";
         private const string DATAGRIDROWGROUPHEADER_expanderButton = "ExpanderButton";
@@ -281,7 +281,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get
             {
-                Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
+                System.Diagnostics.Debug.Assert(this.OwningGrid != null, "Expected non-null OwningGrid.");
                 return this.RowGroupInfo.Slot == this.OwningGrid.CurrentSlot;
             }
         }
@@ -459,7 +459,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!e.Handled && this.OwningGrid.IsTabStop)
                 {
                     bool success = this.OwningGrid.Focus(FocusState.Programmatic);
-                    Debug.Assert(success, "Expected successful focus change.");
+                    System.Diagnostics.Debug.Assert(success, "Expected successful focus change.");
                 }
 
                 e.Handled = this.OwningGrid.UpdateStateOnTapped(e, this.OwningGrid.CurrentColumnIndex, this.RowGroupInfo.Slot, false /*allowEdit*/);

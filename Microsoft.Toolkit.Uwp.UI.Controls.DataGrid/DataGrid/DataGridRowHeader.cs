@@ -368,7 +368,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 }
 
                 byte stateCode = _idealStateMapping[idealStateMappingIndex];
-                Debug.Assert(stateCode != DATAGRIDROWHEADER_stateNullCode, "Expected stateCode other than DATAGRIDROWHEADER_stateNullCode.");
+                System.Diagnostics.Debug.Assert(stateCode != DATAGRIDROWHEADER_stateNullCode, "Expected stateCode other than DATAGRIDROWHEADER_stateNullCode.");
 
                 string storyboardName;
                 while (stateCode != DATAGRIDROWHEADER_stateNullCode)
@@ -426,13 +426,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 if (!e.Handled && this.OwningGrid.IsTabStop)
                 {
                     bool success = this.OwningGrid.Focus(FocusState.Programmatic);
-                    Debug.Assert(success, "Expected successful focus change.");
+                    System.Diagnostics.Debug.Assert(success, "Expected successful focus change.");
                 }
 
                 if (this.OwningRow != null)
                 {
-                    Debug.Assert(sender is DataGridRowHeader, "Expected sender is DataGridRowHeader.");
-                    Debug.Assert(sender == this, "Expected sender is this.");
+                    System.Diagnostics.Debug.Assert(sender is DataGridRowHeader, "Expected sender is DataGridRowHeader.");
+                    System.Diagnostics.Debug.Assert(sender == this, "Expected sender is this.");
 
                     e.Handled = this.OwningGrid.UpdateStateOnTapped(e, -1, this.Slot, false /*allowEdit*/);
                     this.OwningGrid.UpdatedStateOnTapped = true;

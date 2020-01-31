@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFramework>uap10.0.16299</TargetFramework>
+    <TargetFrameworks>uap10.0.16299</TargetFrameworks>
     <Title>Windows Community Toolkit Controls DataGrid</Title>
     <Description>
       This library provides a XAML DataGrid control. It is part of the Windows Community Toolkit.
@@ -11,7 +11,21 @@
     <UseUwpMetaPackage>true</UseUwpMetaPackage>
   </PropertyGroup>
 
-  <ItemGroup>
+  <PropertyGroup>
+    <TargetFrameworks>$(TargetFrameworksOverride)</TargetFrameworks>
+    <NoWarn>$(NoWarn);Uno0001;NU1701</NoWarn>
+    <PackageId>Uno.Microsoft.Toolkit.Uwp.UI.Controls.DataGrid</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkIdentifier)' == 'MonoAndroid' or '$(TargetFrameworkIdentifier)' == 'Xamarin.iOS' or '$(TargetFrameworkIdentifier)' == '.NETStandard'">
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.5.0" />
+    <PackageReference Include="Uno.UI" />
+  </ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'monoandroid80' or '$(TargetFramework)' == 'xamarinios10'">
+		<Reference Include="System.ComponentModel.DataAnnotations" />
+	</ItemGroup>
+	<ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>

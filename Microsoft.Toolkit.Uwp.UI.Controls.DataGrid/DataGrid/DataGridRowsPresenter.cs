@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     /// Used within the template of a <see cref="DataGrid"/> to specify the
     /// location in the control's visual tree where the rows are to be added.
     /// </summary>
-    public sealed class DataGridRowsPresenter : Panel
+    public sealed partial class DataGridRowsPresenter : Panel
     {
         private double _preManipulationHorizontalOffset;
         private double _preManipulationVerticalOffset;
@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 DataGridRow row = element as DataGridRow;
                 if (row != null)
                 {
-                    Debug.Assert(row.Index != -1, "Expected Index other than -1."); // A displayed row should always have its index
+                    System.Diagnostics.Debug.Assert(row.Index != -1, "Expected Index other than -1."); // A displayed row should always have its index
 
                     // Visibility for all filler cells needs to be set in one place.  Setting it individually in
                     // each CellsPresenter causes an NxN layout cycle (see DevDiv Bugs 211557)
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
         {
             if (this.OwningGrid != null)
             {
-                Debug.Assert(this.OwningGrid.IsEnabled, "Expected OwningGrid.IsEnabled is true.");
+                System.Diagnostics.Debug.Assert(this.OwningGrid.IsEnabled, "Expected OwningGrid.IsEnabled is true.");
 
                 _preManipulationHorizontalOffset = this.OwningGrid.HorizontalOffset;
                 _preManipulationVerticalOffset = this.OwningGrid.VerticalOffset;
@@ -213,7 +213,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 DataGridRow row = element as DataGridRow;
                 if (row != null)
                 {
-                    Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} Visibility: {2} ", row.Slot, row.Index, row.Visibility));
+                    System.Diagnostics.Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Row: {1} Visibility: {2} ", row.Slot, row.Index, row.Visibility));
                 }
                 else
                 {
@@ -221,9 +221,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                     if (groupHeader != null)
                     {
 #if FEATURE_ICOLLECTIONVIEW_GROUP
-                        Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} GroupHeader: {1} Visibility: {2}", groupHeader.RowGroupInfo.Slot, groupHeader.RowGroupInfo.CollectionViewGroup.Name, groupHeader.Visibility));
+                        System.Diagnostics.Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} GroupHeader: {1} Visibility: {2}", groupHeader.RowGroupInfo.Slot, groupHeader.RowGroupInfo.CollectionViewGroup.Name, groupHeader.Visibility));
 #else
-                        Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Visibility: {1}", groupHeader.RowGroupInfo.Slot, groupHeader.Visibility));
+                        System.Diagnostics.Debug.WriteLine(string.Format(System.Globalization.CultureInfo.InvariantCulture, "Slot: {0} Visibility: {1}", groupHeader.RowGroupInfo.Slot, groupHeader.Visibility));
 #endif
                     }
                 }

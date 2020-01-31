@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
     /// <summary>
     /// Represents a non-scrollable grid that contains <see cref="DataGrid"/> row headers.
     /// </summary>
-    public class DataGridFrozenGrid : Grid
+    public partial class DataGridFrozenGrid : Grid
     {
         /// <summary>
         /// A dependency property that indicates whether the grid is frozen.
