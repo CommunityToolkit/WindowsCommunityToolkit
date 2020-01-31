@@ -348,6 +348,69 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         }
 
         /// <summary>
+        /// Applies a hue rotation effect on the current pipeline
+        /// </summary>
+        /// <param name="angle">The angle to rotate the hue, in radians</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder HueRotation(float angle)
+        {
+            async ValueTask<IGraphicsEffectSource> Factory() => new HueRotationEffect
+            {
+                Angle = angle,
+                Source = await this.sourceProducer()
+            };
+
+            return new PipelineBuilder(this, Factory);
+        }
+
+        /// <summary>
+        /// Applies a hue rotation effect on the current pipeline
+        /// </summary>
+        /// <param name="angle">The angle to rotate the hue, in radians</param>
+        /// <param name="setter">The optional rotation angle setter for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder HueRotation(float angle, out EffectSetter<float> setter)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new HueRotationEffect
+            {
+                Angle = angle,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            setter = (brush, value) => brush.Properties.InsertScalar($"{id}.{nameof(HueRotationEffect.Angle)}", value);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(HueRotationEffect.Angle)}" });
+        }
+
+        /// <summary>
+        /// Applies a hue rotation effect on the current pipeline
+        /// </summary>
+        /// <param name="angle">The angle to rotate the hue, in radians</param>
+        /// <param name="animation">The optional rotation angle animation for the effect</param>
+        /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
+        [Pure]
+        public PipelineBuilder HueRotation(float angle, out EffectAnimation<float> animation)
+        {
+            string id = Guid.NewGuid().ToUppercaseAsciiLetters();
+
+            async ValueTask<IGraphicsEffectSource> Factory() => new HueRotationEffect
+            {
+                Angle = angle,
+                Source = await this.sourceProducer(),
+                Name = id
+            };
+
+            animation = (brush, value, duration) => brush.StartAnimationAsync($"{id}.{nameof(HueRotationEffect.Angle)}", value, duration);
+
+            return new PipelineBuilder(this, Factory, new[] { $"{id}.{nameof(HueRotationEffect.Angle)}" });
+        }
+
+        /// <summary>
         /// Applies a tint effect on the current pipeline
         /// </summary>
         /// <param name="color">The color to use</param>
@@ -514,7 +577,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="mixSetter">The optional mix setter for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Shade(Color color, out EffectSetter<Color> colorSetter, float mix, out EffectSetter<float> mixSetter)
+        public PipelineBuilder Shade(
+            Color color,
+            out EffectSetter<Color> colorSetter,
+            float mix,
+            out EffectSetter<float> mixSetter)
         {
             return FromColor(color, out colorSetter).CrossFade(this, mix, out mixSetter);
         }
@@ -528,7 +595,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Pipelines
         /// <param name="mixAnimation">The optional mix animation for the effect</param>
         /// <returns>A new <see cref="PipelineBuilder"/> instance to use to keep adding new effects</returns>
         [Pure]
-        public PipelineBuilder Shade(Color color, out EffectAnimation<Color> colorAnimation, float mix, out EffectAnimation<float> mixAnimation)
+        public PipelineBuilder Shade(
+            Color color,
+            out EffectAnimation<Color> colorAnimation,
+            float mix,
+            out EffectAnimation<float> mixAnimation)
         {
             return FromColor(color, out colorAnimation).CrossFade(this, mix, out mixAnimation);
         }

@@ -93,6 +93,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Media.Brushes
                     return builder.Sepia((float)sepia.Value);
                 case ShadeEffect shade:
                     return builder.Shade(shade.Color, (float)shade.Intensity);
+                case HueRotationEffect hueRotation:
+                    return builder.HueRotation((float)hueRotation.Angle);
                 case TintEffect tint:
                     return builder.Tint(tint.Color);
                 case TemperatureAndTintEffect temperatureAndTint:
