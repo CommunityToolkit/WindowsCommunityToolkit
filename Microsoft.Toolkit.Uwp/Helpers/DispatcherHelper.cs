@@ -15,50 +15,26 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     public static class DispatcherHelper
     {
         /// <summary>
-        /// Executes the given function asynchronously on UI thread of the main view.
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
-        /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        /// <returns>Awaitable Task/></returns>
+        public static Task ExecuteOnUIThreadAsync(Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return ExecuteOnUIThreadAsync<T>(CoreApplication.MainView, function, priority);
+            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
         }
 
         /// <summary>
         /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
         /// <typeparam name="T">Returned data type of the function</typeparam>
-        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
-        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="function">Synchronous function to be executed on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        /// <returns>Awaitable Task </returns>
+        public static Task<T> ExecuteOnUIThreadAsync<T>(Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (viewToExecuteOn == null)
-            {
-                throw new ArgumentNullException(nameof(viewToExecuteOn));
-            }
-
-            return viewToExecuteOn.Dispatcher.AwaitableRunAsync<T>(function, priority);
-        }
-
-        /// <summary>
-        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
-        /// </summary>
-        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
-        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
-        /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task</returns>
-        public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
-        {
-            if (viewToExecuteOn == null)
-            {
-                throw new ArgumentNullException(nameof(viewToExecuteOn));
-            }
-
-            return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
+            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
         }
 
         /// <summary>
@@ -68,6 +44,18 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
         /// <returns>Awaitable Task</returns>
         public static Task ExecuteOnUIThreadAsync(Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
+        }
+
+        /// <summary>
+        /// Executes the given function asynchronously on UI thread of the main view.
+        /// </summary>
+        /// <typeparam name="T">Returned data type of the function</typeparam>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public static Task<T> ExecuteOnUIThreadAsync<T>(Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
         }
@@ -92,17 +80,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
-        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
-        /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task/></returns>
-        public static Task ExecuteOnUIThreadAsync(Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
-        {
-            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
-        }
-
-        /// <summary>
-        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
-        /// </summary>
         /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
         /// <param name="function">Synchronous function with return type <typeparamref name="T"/> to be executed on UI thread</param>
@@ -115,19 +92,81 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
 
-            return viewToExecuteOn.Dispatcher.AwaitableRunAsync<T>(function, priority);
+            return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
+        }
+
+        /// <summary>
+        /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
+        /// </summary>
+        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task</returns>
+        public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            if (viewToExecuteOn == null)
+            {
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
+            }
+
+            return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
         }
 
         /// <summary>
         /// Executes the given function asynchronously on given view's UI thread. Default view is the main view.
         /// </summary>
         /// <typeparam name="T">Returned data type of the function</typeparam>
-        /// <param name="function">Synchronous function to be executed on UI thread</param>
+        /// <param name="viewToExecuteOn">View for the <paramref name="function"/>  to be executed on </param>
+        /// <param name="function">Asynchronous function to be executed asynchronously on UI thread</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task </returns>
-        public static Task<T> ExecuteOnUIThreadAsync<T>(Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return ExecuteOnUIThreadAsync(CoreApplication.MainView, function, priority);
+            if (viewToExecuteOn == null)
+            {
+                throw new ArgumentNullException(nameof(viewToExecuteOn));
+            }
+
+            return viewToExecuteOn.Dispatcher.AwaitableRunAsync(function, priority);
+        }
+
+        /// <summary>
+        /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
+        /// </summary>
+        /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
+        /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
+        /// <param name="priority">Dispatcher execution priority, default is normal</param>
+        /// <returns>Awaitable Task</returns>
+        public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        {
+            if (function == null)
+            {
+                throw new ArgumentNullException(nameof(function));
+            }
+
+            if (dispatcher.HasThreadAccess)
+            {
+                function();
+
+                return Task.CompletedTask;
+            }
+
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            _ = dispatcher.RunAsync(priority, () =>
+            {
+                try
+                {
+                    function();
+                    taskCompletionSource.SetResult(null);
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
+            });
+
+            return taskCompletionSource.Task;
         }
 
         /// <summary>
@@ -135,34 +174,30 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
-        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
+        /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
-        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        /// <returns>Awaitable Task</returns>
+        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (function == null)
             {
                 throw new ArgumentNullException(nameof(function));
             }
 
+            if (dispatcher.HasThreadAccess)
+            {
+                var result = function();
+
+                return Task.FromResult(result);
+            }
+
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            _ = dispatcher.RunAsync(priority, async () =>
+            _ = dispatcher.RunAsync(priority, () =>
             {
                 try
                 {
-                    var awaitableResult = function();
-
-                    if (awaitableResult != null)
-                    {
-                        var result = await awaitableResult.ConfigureAwait(false);
-
-                        taskCompletionSource.SetResult(result);
-                    }
-                    else
-                    {
-                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
-                    }
+                    taskCompletionSource.SetResult(function());
                 }
                 catch (Exception e)
                 {
@@ -220,69 +255,34 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         /// <typeparam name="T">Returned data type of the function</typeparam>
         /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
-        /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
+        /// <param name="function">Asynchrounous function to be executed asynchrounously on the given dispatcher</param>
         /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task</returns>
-        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
+        /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
+        public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
             if (function == null)
             {
                 throw new ArgumentNullException(nameof(function));
-            }
-
-            if (dispatcher.HasThreadAccess)
-            {
-                var result = function();
-
-                return Task.FromResult(result);
             }
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            _ = dispatcher.RunAsync(priority, () =>
+            _ = dispatcher.RunAsync(priority, async () =>
             {
                 try
                 {
-                    taskCompletionSource.SetResult(function());
-                }
-                catch (Exception e)
-                {
-                    taskCompletionSource.SetException(e);
-                }
-            });
+                    var awaitableResult = function();
 
-            return taskCompletionSource.Task;
-        }
+                    if (awaitableResult != null)
+                    {
+                        var result = await awaitableResult.ConfigureAwait(false);
 
-        /// <summary>
-        /// Extension method for CoreDispatcher. Offering an actual awaitable Task with optional result that will be executed on the given dispatcher
-        /// </summary>
-        /// <param name="dispatcher">Dispatcher of a thread to run <paramref name="function"/></param>
-        /// <param name="function"> Function to be executed asynchrounously on the given dispatcher</param>
-        /// <param name="priority">Dispatcher execution priority, default is normal</param>
-        /// <returns>Awaitable Task</returns>
-        public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
-        {
-            if (function == null)
-            {
-                throw new ArgumentNullException(nameof(function));
-            }
-
-            if (dispatcher.HasThreadAccess)
-            {
-                function();
-
-                return Task.CompletedTask;
-            }
-
-            var taskCompletionSource = new TaskCompletionSource<object>();
-
-            _ = dispatcher.RunAsync(priority, () =>
-            {
-                try
-                {
-                    function();
-                    taskCompletionSource.SetResult(null);
+                        taskCompletionSource.SetResult(result);
+                    }
+                    else
+                    {
+                        taskCompletionSource.SetException(new InvalidOperationException("The Task returned by function cannot be null."));
+                    }
                 }
                 catch (Exception e)
                 {
