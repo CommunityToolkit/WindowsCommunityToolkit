@@ -147,14 +147,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            var ignored = dispatcher.RunAsync(priority, async () =>
+            _ = dispatcher.RunAsync(priority, async () =>
             {
                 try
                 {
                     var awaitableResult = function();
+
                     if (awaitableResult != null)
                     {
                         var result = await awaitableResult.ConfigureAwait(false);
+
                         taskCompletionSource.SetResult(result);
                     }
                     else
@@ -187,14 +189,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             var taskCompletionSource = new TaskCompletionSource<object>();
 
-            var ignored = dispatcher.RunAsync(priority, async () =>
+            _ = dispatcher.RunAsync(priority, async () =>
             {
                 try
                 {
                     var awaitableResult = function();
+
                     if (awaitableResult != null)
                     {
                         await awaitableResult.ConfigureAwait(false);
+
                         taskCompletionSource.SetResult(null);
                     }
                     else
@@ -226,9 +230,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 throw new ArgumentNullException(nameof(function));
             }
 
+            if (dispatcher.HasThreadAccess)
+            {
+                var result = function();
+
+                return Task.FromResult(result);
+            }
+
             var taskCompletionSource = new TaskCompletionSource<T>();
 
-            var ignored = dispatcher.RunAsync(priority, () =>
+            _ = dispatcher.RunAsync(priority, () =>
             {
                 try
                 {
@@ -252,12 +263,34 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            return dispatcher.AwaitableRunAsync(
-                () =>
+            if (function == null)
+            {
+                throw new ArgumentNullException(nameof(function));
+            }
+
+            if (dispatcher.HasThreadAccess)
+            {
+                function();
+
+                return Task.CompletedTask;
+            }
+
+            var taskCompletionSource = new TaskCompletionSource<object>();
+
+            _ = dispatcher.RunAsync(priority, () =>
+            {
+                try
                 {
                     function();
-                    return (object)null;
-                }, priority);
+                    taskCompletionSource.SetResult(null);
+                }
+                catch (Exception e)
+                {
+                    taskCompletionSource.SetException(e);
+                }
+            });
+
+            return taskCompletionSource.Task;
         }
     }
 }
