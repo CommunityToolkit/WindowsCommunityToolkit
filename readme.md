@@ -73,13 +73,16 @@ Once you do a search, you should see a list similar to the one below (versions m
 * [Scale](https://docs.microsoft.com/windows/uwpcommunitytoolkit/animations/Scale)
 
 ### Brushes
+* [AcrylicBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/AcrylicBrush)
 * [BackdropBlurBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropBlurBrush)
 * [BackdropGammaTransferBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropGammaTransferBrush)
 * [BackdropInvertBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropInvertBrush)
 * [BackdropSaturationBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSaturationBrush)
 * [BackdropSepiaBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/BackdropSepiaBrush)
 * [ImageBlendBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/ImageBlendBrush)
+* [PipelineBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/PipelineBrush)
 * [RadialGradientBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/RadialGradientBrush)
+* [TilesBrush](https://docs.microsoft.com/windows/uwpcommunitytoolkit/brushes/TilesBrush)
 
 ### Controls
 * [AdaptiveGridView](https://docs.microsoft.com/windows/uwpcommunitytoolkit/controls/AdaptiveGridView)
