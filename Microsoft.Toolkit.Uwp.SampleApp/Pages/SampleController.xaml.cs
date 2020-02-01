@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             return theme;
         }
 
-        public void OpenClosePane()
+        public void OpenClosePane(object sender, object args)
         {
             if (CanChangePaneState)
             {
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        public void ExpandCollapsePane()
+        public void ExpandCollapsePane(object sender, object args)
         {
             if (CanChangePaneState)
             {

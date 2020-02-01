@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void SwitchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            if (_itemControl.FindDescendant<WrapPanel>() is var sampleWrapPanel)
+            if (_itemControl.FindDescendant<UI.Controls.WrapPanel>() is var sampleWrapPanel)
             {
                 if (sampleWrapPanel.Orientation == Orientation.Horizontal)
                 {

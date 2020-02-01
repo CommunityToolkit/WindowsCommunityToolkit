@@ -74,7 +74,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             AddLog("Entered viewport");
 
+#if !HAS_UNO
             await _effectElement.Blur(value: 0, duration: 1500).StartAsync();
+#endif
         }
 
         private void EffectElementHost_EnteringViewport(object sender, EventArgs e)
@@ -89,7 +91,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             AddLog("Exited viewport");
 
             _effectElement.Source = null;
+
+#if !HAS_UNO
             await _effectElement.Blur(value: 8, duration: 0).StartAsync();
+#endif
         }
 
         private void EffectElementHost_ExitingViewport(object sender, EventArgs e)

@@ -18,12 +18,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public RssParserPage()
         {
             this.InitializeComponent();
-            ParseRSS();
+            ParseRSS(null, null);
         }
 
         public string Url { get; set; } = "https://visualstudiomagazine.com/rss-feeds/news.aspx";
 
-        public async void ParseRSS()
+        // UNO TODO
+        public async void ParseRSS(object sender, object args)
         {
             string feed = null;
             RSSFeed.Clear();

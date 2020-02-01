@@ -200,6 +200,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     : DateTime.MinValue;
             }
 
+#if !HAS_UNO
             void App_VisibilityChanged(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.VisibilityChangedEventArgs e)
             {
                 if (e.Visible)
@@ -216,15 +217,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 }
             }
 
-            Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
+			Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged -= App_VisibilityChanged;
             Windows.UI.Core.CoreWindow.GetForCurrentThread().VisibilityChanged += App_VisibilityChanged;
+#else
+            _sessionStart = DateTime.UtcNow;
+#endif
         }
 
         /// <summary>
         /// Launches the store app so the user can leave a review.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-        /// <remarks>This method needs to be called from your UI thread.</remarks>
         public static async Task LaunchStoreForReviewAsync()
         {
             await Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store://review/?PFN={0}", Package.Current.Id.FamilyName)));
@@ -258,7 +261,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         static SystemInformation()
         {
-            ApplicationName = Package.Current.DisplayName;
+#if !HAS_UNO
+			ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
             try
             {
@@ -288,9 +292,12 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             FirstUseTime = DetectFirstUseTime();
             FirstVersionInstalled = DetectFirstVersionInstalled();
             InitializeValuesSetWithTrackAppUse();
-        }
+#else
+			ApplicationName = "Unknown";
+#endif
+		}
 
-        private static bool DetectIfFirstUse()
+		private static bool DetectIfFirstUse()
         {
             if (_localObjectStorageHelper.KeyExists(nameof(IsFirstRun)))
             {

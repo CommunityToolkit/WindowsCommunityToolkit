@@ -86,11 +86,12 @@
                     </StackPanel>
                 </StackPanel>
 
-                <AppBarButton x:Name="NarrowInfoButton"
+  			  <!-- UNO TODO -->
+              <AppBarButton x:Name="NarrowInfoButton"
                               Grid.Column="1"
                               Width="50"
                               Visibility="Collapsed"
-                              Click="{x:Bind OpenClosePane}">
+                              Click="OpenClosePane">
                     <AppBarButton.Icon>
                         <FontIcon FontFamily="Segoe MDL2 Assets" Glyph="&#xE946;" />
                     </AppBarButton.Icon>
@@ -162,11 +163,12 @@
                        HeaderTemplate="{StaticResource PivotHeaderTemplate}"
                        SelectionChanged="InfoAreaPivot_OnSelectionChanged">
                     <Pivot.LeftHeader>
+						<!-- UNO TODO -->
                         <AppBarButton x:Name="ExpandPane"
                                       Visibility="{x:Bind CanChangePaneState}"
                                       Icon="ClosePane"
                                       Width="50"
-                                      Click="{x:Bind ExpandCollapsePane}" />
+                                      Click="ExpandCollapsePane" />
                     </Pivot.LeftHeader>
 
                     <PivotItem x:Name="PropertiesPivotItem"

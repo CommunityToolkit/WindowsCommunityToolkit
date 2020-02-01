@@ -1190,7 +1190,9 @@
                                         VerticalContentAlignment="Stretch"
                                         HorizontalContentAlignment="Stretch"
                                         Grid.Column="7" />
-                                    <winui:NavigationViewItem x:Name="SettingsTopNavPaneItem" Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}" Grid.Column="8" Icon="Home" />
+									<!-- UNO TODO -->
+                                    <winui:NavigationViewItem x:Name="SettingsTopNavPaneItem" Grid.Column="8" Icon="Home" />
+                                    <!--<winui:NavigationViewItem x:Name="SettingsTopNavPaneItem" Style="{ThemeResource MUX_NavigationViewSettingsItemStyleWhenOnTopPane}" Grid.Column="8" Icon="Home" />-->
 
                                 </Grid>
 

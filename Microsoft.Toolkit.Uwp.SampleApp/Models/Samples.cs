@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
@@ -51,20 +52,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         public static async Task<List<SampleCategory>> GetCategoriesAsync()
         {
             await _semaphore.WaitAsync();
-            if (_samplesCategories == null)
-            {
-                List<SampleCategory> allCategories;
-                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("SamplePages/samples.json"))
-                {
-                    var jsonString = await jsonStream.ReadTextAsync();
-                    allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
-                }
+			if (_samplesCategories == null)
+			{
+				List<SampleCategory> allCategories;
 
-                // Check API
-                var supportedCategories = new List<SampleCategory>();
-                foreach (var category in allCategories)
-                {
-                    var finalSamples = new List<Sample>();
+				var manifestName = typeof(Samples).GetTypeInfo().Assembly
+					.GetManifestResourceNames()
+					.FirstOrDefault(n => n.EndsWith("samples.json", StringComparison.OrdinalIgnoreCase));
+
+				if (manifestName != null)
+				{
+					var jsonString = await typeof(Samples).GetTypeInfo().Assembly.GetManifestResourceStream(manifestName).ReadTextAsync();
+					allCategories = JsonConvert.DeserializeObject<List<SampleCategory>>(jsonString);
+
+					// Check API
+					var supportedCategories = new List<SampleCategory>();
+					foreach (var category in allCategories)
+					{
+						var finalSamples = new List<Sample>();
 
                     foreach (var sample in category.Samples)
                     {
@@ -77,15 +82,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                         }
                     }
 
-                    if (finalSamples.Count > 0)
-                    {
-                        supportedCategories.Add(category);
-                        category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
-                    }
-                }
+						if (finalSamples.Count > 0)
+						{
+							supportedCategories.Add(category);
+							category.Samples = finalSamples.OrderBy(s => s.Name).ToArray();
+						}
+					}
 
-                _samplesCategories = supportedCategories.ToList();
-            }
+					_samplesCategories = supportedCategories.ToList();
+				}
+				else
+				{
+					throw new Exception("samples.json cannot be found in resources");
+				}
+			}
 
             _semaphore.Release();
             return _samplesCategories;

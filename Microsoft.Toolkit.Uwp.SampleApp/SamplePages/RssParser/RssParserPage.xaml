@@ -17,10 +17,11 @@
                  Header="Url"
                  Text="{x:Bind Url, Mode=TwoWay}" />
 
-            <Button
+            <!-- UNO TODO -->
+           <Button
                 Content="Load"
                 Margin="0,10,0,0"
-                Click="{x:Bind ParseRSS}" />
+                Click="ParseRSS" />
 
             <TextBlock Text="Feed" Margin="0,10,0,0" />
         </StackPanel>

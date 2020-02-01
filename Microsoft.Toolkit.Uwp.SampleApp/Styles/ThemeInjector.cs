@@ -17,6 +17,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
 
         public static void InjectThemeResources(ResourceDictionary dict)
         {
+#if !HAS_UNO
             var themes = dict.MergedDictionaries[0];
             darkTheme = themes.ThemeDictionaries["Dark"] as ResourceDictionary;
             lightTheme = themes.ThemeDictionaries["Light"] as ResourceDictionary;
@@ -61,6 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
                     }
                 });
             }
+#endif
         }
 
         private static void AddAcrylic(ThemeAcrylic resource)

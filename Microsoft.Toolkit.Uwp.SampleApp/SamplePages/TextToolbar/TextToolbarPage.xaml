@@ -14,7 +14,7 @@
 
     <Grid>
         <controls:TextToolbar />
-        <RichEditBox />
+        <!-- UNO TODO <RichEditBox />-->
         <controls:MarkdownTextBlock />
     </Grid>
 </Page>

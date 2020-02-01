@@ -8,11 +8,13 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Name="NormalTemplate">
+		<!-- UNO TODO -->
+        <DataTemplate x:Key="NormalTemplate">
             <TextBlock Text="{Binding Title}" Foreground="Green"></TextBlock>
         </DataTemplate>
 
-        <DataTemplate x:Name="AlternateTemplate">
+		<!-- UNO TODO -->
+        <DataTemplate x:Key="AlternateTemplate">
             <TextBlock Text="{Binding Title}" Foreground="Red"></TextBlock>
         </DataTemplate>
     </Page.Resources>

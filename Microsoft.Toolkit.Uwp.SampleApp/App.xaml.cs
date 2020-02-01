@@ -14,6 +14,10 @@ using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Extensions.Logging;
+using Uno.Extensions;
+using Uno.Logging;
+using Windows.Foundation.Metadata;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -29,6 +33,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// </summary>
         public App()
         {
+#if DEBUG
+            ConfigureFilters(LogExtensionPoint.AmbientLoggerFactory);
+#endif
+
             InitializeComponent();
             Suspending += OnSuspending;
         }
@@ -111,11 +119,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 Windows.UI.ViewManagement.ApplicationView.GetForCurrentView().SetDesiredBoundsMode(ApplicationViewBoundsMode.UseCoreWindow);
             }
 
+#if !HAS_UNO
             // Initialize the constant for the app display name, used for tile and toast previews
             if (Constants.ApplicationDisplayName == null)
             {
                 Constants.ApplicationDisplayName = (await Package.Current.GetAppListEntriesAsync())[0].DisplayInfo.DisplayName;
             }
+#endif
 
             // Check if the Cache is Latest, wipe if not.
             Sample.EnsureCacheLatest();
@@ -154,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <param name="e">Details about the navigation failure</param>
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+            throw new Exception($"Failed to load Page {e.SourcePageType}: {e.Exception}");
         }
 
         /// <summary>
@@ -170,6 +180,40 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+        static void ConfigureFilters(ILoggerFactory factory)
+        {
+            factory
+                .WithFilter(new FilterLoggerSettings
+                    {
+                        { "Uno", LogLevel.Warning },
+                        { "Windows", LogLevel.Warning },
+                        //{ "SampleControl.Presentation", LogLevel.Debug },
+
+					// Generic Xaml events
+					// { "Windows.UI.Xaml", LogLevel.Debug },
+
+					// { "Uno.UI.Controls.AsyncValuePresenter", LogLevel.Debug },
+					// { "Uno.UI.Controls.IfDataContext", LogLevel.Debug },
+					 //{ "Windows.UI.Xaml.FrameworkElement", LogLevel.Debug },
+      //               { "Windows.UI.Xaml.UIElement", LogLevel.Debug },
+      //               { "Windows.UI.Xaml.Controls.SinglelineTextBoxView", LogLevel.Debug },
+
+					// Layouter specific messages
+					// { "Windows.UI.Xaml.Controls", LogLevel.Debug },
+					//{ "Windows.UI.Xaml.Controls.Layouter", LogLevel.Debug },
+					//{ "Windows.UI.Xaml.Controls.Panel", LogLevel.Debug },
+
+					// Binding related messages
+					 // { "Windows.UI.Xaml.Data", LogLevel.Debug },
+					//{ "Windows.UI.Xaml.DependencyObjectStore", LogLevel.Debug },
+					 //{ "Uno.UI.DataBinding.BindingPropertyHelper", LogLevel.Debug },
+
+					//  Binder memory references tracking
+					// { "ReferenceHolder", LogLevel.Debug },
+				}
+                )
+                .AddConsole(LogLevel.Debug);
         }
     }
 }
