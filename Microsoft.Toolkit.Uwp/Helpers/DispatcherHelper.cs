@@ -146,6 +146,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (dispatcher.HasThreadAccess)
             {
+                /* There is no need to manually handle the exceptions in this case.
+                 * Since we're not scheduling a callback, exceptions thrown by the
+                 * function in this path will correctly end up in the stack trace
+                 * when the returned task is awaited anyway.
+                 * This also saves a heap allocation, as the returned task is reused. */
                 function();
 
                 return Task.CompletedTask;
@@ -158,6 +163,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                 try
                 {
                     function();
+
                     taskCompletionSource.SetResult(null);
                 }
                 catch (Exception e)
@@ -186,6 +192,10 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (dispatcher.HasThreadAccess)
             {
+                /* Just like with a simple action, we don't need to manually
+                 * handle failures here. As we're not in a dispatched callback,
+                 * exceptions thrown at this point will just show up correctly
+                 * in the stack trace when the returned task is awaited. */
                 var result = function();
 
                 return Task.FromResult(result);
