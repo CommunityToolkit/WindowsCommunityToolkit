@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             };
 
             // Prevent Pop in on wider screens.
-            if (((FrameworkElement)Window.Current.Content).ActualWidth > 700)
+            if (((FrameworkElement)Windows.UI.Xaml.Window.Current.Content).ActualWidth > 700)
             {
                 SidePaneState = PaneState.Normal;
             }
@@ -218,6 +218,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     if (SamplePage != null)
                     {
                         SamplePage.Loaded += SamplePage_Loaded;
+
+                        // UNO TODO 
+                        if (SamplePage.IsLoaded)
+                        {
+                            SamplePage_Loaded(SamplePage, new RoutedEventArgs());
+                        }
                     }
                 }
                 else
@@ -541,7 +547,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // Tell the page we've finished with an update to the XAML contents, after the control has rendered.
                 if (element is FrameworkElement fe)
                 {
-                    fe.Loaded += XamlFrameworkElement_Loaded;
+                    fe.Loaded += XamlFrameworkElement_Loaded; 
+                    
+                    // UNO TODO
+                    Console.WriteLine($"UpdateXamlRenderAsync attach loaded fe.IsLoaded:{fe.IsLoaded}");
+
+                    if (fe.IsLoaded)
+                    {
+                        XamlFrameworkElement_Loaded(fe, new RoutedEventArgs());
+                    }
                 }
             }
             else if (_xamlRenderer.Errors.Count > 0)

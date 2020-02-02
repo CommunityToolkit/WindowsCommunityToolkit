@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // Check if the Cache is Latest, wipe if not.
             Sample.EnsureCacheLatest();
 
-            Frame rootFrame = Window.Current.Content as Frame;
+            Frame rootFrame = Windows.UI.Xaml.Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
                 // Place the frame in the current Window
-                Window.Current.Content = rootFrame;
+                Windows.UI.Xaml.Window.Current.Content = rootFrame;
             }
 
             if (rootFrame.Content == null)
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Ensure the current window is active
-            Window.Current.Activate();
+            Windows.UI.Xaml.Window.Current.Activate();
         }
 
         /// <summary>
@@ -181,8 +181,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
         static void ConfigureFilters(ILoggerFactory factory)
         {
+#if HAS_UNO
+            System.Threading.Tasks.TaskScheduler.UnobservedTaskException += (s, e) => typeof(App).Log().Error("UnobservedTaskException", e.Exception);
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => typeof(App).Log().Error("UnhandledException", e.ExceptionObject as Exception);
+#endif
+
             factory
                 .WithFilter(new FilterLoggerSettings
                     {

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
@@ -29,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             InitializeComponent();
             Current = this;
+            NavigationFrame.NavigationFailed += (s, args) => Console.WriteLine($"Navigation failed {args.SourcePageType}: {args.Exception}");
         }
 
         /// <summary>
@@ -54,7 +56,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         {
             if (sample == null)
             {
+                System.Console.WriteLine($"Navigating to about");
                 NavigationFrame.Navigate(typeof(About), null, new SuppressNavigationTransitionInfo());
+                System.Console.WriteLine($"Navigated to about");
             }
             else
             {
@@ -88,6 +92,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             // Get list of samples
             var sampleCategories = await Samples.GetCategoriesAsync();
+            System.Console.WriteLine($"Got {sampleCategories.Count} categories");
             NavView.MenuItemsSource = sampleCategories;
 
             SetAppTitle(string.Empty);
@@ -106,6 +111,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             // NavView goes into a weird size on load unless the window size changes
             // Needs a gentle push to update layout
             NavView.Loaded += (s, args) => NavView.InvalidateMeasure();
+            System.Console.WriteLine($"Done navigating");
+
         }
 
         private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)

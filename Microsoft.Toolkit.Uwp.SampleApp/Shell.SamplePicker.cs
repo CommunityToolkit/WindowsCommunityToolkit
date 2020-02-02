@@ -74,7 +74,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
-        {
+        {         
+            // UNO TODO
+            // force materialization
+            FindName("SamplePickerGrid");
+
             if (samples == null && _currentSample != null)
             {
                 var category = await Samples.GetCategoryBySample(_currentSample);
@@ -132,7 +136,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         }
 
         private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
-        {
+        {           
+            // force materialization
+            FindName("SamplePickerGrid");
+
             if (args.InvokedItem is SampleCategory category)
             {
                 if (SamplePickerGrid.Visibility != Visibility.Collapsed && _selectedCategory == category)
@@ -316,10 +323,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideMoreInfo()
         {
+#if !HAS_UNO
             if (MoreInfoImage != null && MoreInfoContent.DataContext != null)
             {
                 ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("sample_icon", MoreInfoImage);
             }
+#endif
 
             MoreInfoCanvas.Visibility = Visibility.Collapsed;
 

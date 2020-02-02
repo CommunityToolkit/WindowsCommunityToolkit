@@ -33,14 +33,14 @@
       
   <ItemGroup>
     <PackageReference Include="Uno.UI" />
-    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.8" />
+    <PackageReference Include="Uno.Wasm.Bootstrap" Version="1.0.10" />
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Filter" Version="1.1.1" />
     <PackageReference Include="Microsoft.TypeScript.Compiler" Version="2.8.3" />
     <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="2.8.3" />
     <PackageReference Include="Uno.UI.Sample.Banner" Version="1.44.0-dev.23" />
     <Reference Include="System.Net.Http" />
-    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.8" />
+    <DotNetCliToolReference Include="Uno.Wasm.Bootstrap.Cli" Version="1.0.10" />
   </ItemGroup>
 
   <ItemGroup>

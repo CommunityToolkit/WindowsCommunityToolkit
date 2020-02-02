@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
-    public class CodeRenderer : Control
+    public partial class CodeRenderer : Control
     {
         private RichTextBlockFormatter _formatter;
         private RichTextBlock _codeView;

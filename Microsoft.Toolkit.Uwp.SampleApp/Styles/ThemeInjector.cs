@@ -65,6 +65,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
 #endif
         }
 
+#if !HAS_UNO
         private static void AddAcrylic(ThemeAcrylic resource)
         {
             var light = resource?.LightAcrylic;
@@ -110,5 +111,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
 
             public AcrylicBrush DarkAcrylic { get; set; }
         }
+#endif
     }
 }

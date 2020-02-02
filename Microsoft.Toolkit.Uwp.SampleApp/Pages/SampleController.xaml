@@ -277,6 +277,12 @@
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="WindowStates"
                               CurrentStateChanged="WindowStates_CurrentStateChanged">
+ 			    <!-- UNO TODO StateTrigger precedence is incorrect -->
+               <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="700" />
+                    </VisualState.StateTriggers>
+                </VisualState>
                 <VisualState x:Name="NarrowState">
                     <VisualState.Setters>
                         <Setter Target="NarrowInfoButton.Visibility" Value="Visible" />
@@ -293,11 +299,6 @@
                     </VisualState.Setters>
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="700" />
                     </VisualState.StateTriggers>
                 </VisualState>
             </VisualStateGroup>

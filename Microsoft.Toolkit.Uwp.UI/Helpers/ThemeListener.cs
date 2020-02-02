@@ -56,13 +56,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Helpers
         public ThemeListener()
         {
             CurrentTheme = Application.Current.RequestedTheme;
-            IsHighContrast = _accessible.HighContrast;
 
-            _accessible.HighContrastChanged += Accessible_HighContrastChanged;
-            _settings.ColorValuesChanged += Settings_ColorValuesChanged;
+            if (ApiInformation.IsPropertyPresent("Windows.UI.ViewManagement.AccessibilitySettings", "HighContrast"))
+            {
+                IsHighContrast = _accessible.HighContrast;
 
-            // Fallback in case either of the above fail, we'll check when we get activated next.
-            Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+                _accessible.HighContrastChanged += Accessible_HighContrastChanged;
+                _settings.ColorValuesChanged += Settings_ColorValuesChanged;
+
+                // Fallback in case either of the above fail, we'll check when we get activated next.
+                Window.Current.CoreWindow.Activated += CoreWindow_Activated;
+            }
         }
 
         private void Accessible_HighContrastChanged(AccessibilitySettings sender, object args)

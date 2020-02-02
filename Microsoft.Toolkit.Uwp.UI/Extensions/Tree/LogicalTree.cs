@@ -257,7 +257,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var contentpropname = ContentPropertySearch(element.GetType());
             if (contentpropname != null)
             {
+#if HAS_UNO
+				return element.GetType()?.GetProperties().FirstOrDefault(p => p.Name == contentpropname)?.GetValue(element) as UIElement;
+#else
                 return element.GetType()?.GetProperty(contentpropname)?.GetValue(element) as UIElement;
+#endif
             }
 
             return null;

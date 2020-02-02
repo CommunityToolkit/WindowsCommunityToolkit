@@ -25,14 +25,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             {
                 try
                 {
-                    using (var client = new HttpClient())
-                    {
-                        client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
+                    // UNO TODO
+                    //using (var client = new System.Net.Http.HttpClient())
+                    //{
+                    //    client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
 
-                        var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
-                        var result = await client.GetStringAsync(new Uri(uri));
-                        _releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
-                    }
+                    //    var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
+                    //    var result = await client.GetStringAsync(new Uri(uri));
+                    //    _releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
+                    //}
                 }
                 catch (Exception)
                 {

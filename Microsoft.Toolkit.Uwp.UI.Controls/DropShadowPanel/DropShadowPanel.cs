@@ -50,19 +50,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-            if (!IsSupported)
+            // UNO TODO
+            if (IsSupported)
             {
+                _border = GetTemplateChild(PartShadow) as Border;
+
+                if (_border != null)
+                {
+                    ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
+                }
+
+                ConfigureShadowVisualForCastingElement();
+
                 return;
             }
-
-            _border = GetTemplateChild(PartShadow) as Border;
-
-            if (_border != null)
-            {
-                ElementCompositionPreview.SetElementChildVisual(_border, _shadowVisual);
-            }
-
-            ConfigureShadowVisualForCastingElement();
 
             base.OnApplyTemplate();
         }
@@ -162,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            if (Content != null && IsMasked)
+            if (Content != null)
             {
                 CompositionBrush mask = null;
 

@@ -108,13 +108,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
             var t = Init();
 
-            Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
+            Windows.UI.Xaml.Window.Current.CoreWindow.KeyDown += CoreWindow_KeyDown;
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            base.OnNavigatingFrom(e);
-            Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
+           base.OnNavigatingFrom(e);
+            Windows.UI.Xaml.Window.Current.CoreWindow.KeyDown -= CoreWindow_KeyDown;
         }
 
         private void CoreWindow_KeyDown(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
@@ -128,20 +128,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
 
         private async Task Init()
         {
-            var loadDataTask = UpdateSections();
-            var recentSamplesTask = Samples.GetRecentSamples();
-            var gitHubTask = Data.GitHub.GetPublishedReleases();
-
-            await Task.WhenAll(loadDataTask, recentSamplesTask, gitHubTask);
-
-            RecentSamples = recentSamplesTask.Result;
-            GitHubReleases = gitHubTask.Result;
-
-            var counter = 1;
-            var delay = 70;
-
-            foreach (var child in InnerGrid.Children)
+            try
             {
+                var loadDataTask = UpdateSections();
+                var recentSamplesTask = Samples.GetRecentSamples();
+                var gitHubTask = Data.GitHub.GetPublishedReleases();
+
+                await Task.WhenAll(loadDataTask, recentSamplesTask, gitHubTask);
+
+                RecentSamples = recentSamplesTask.Result;
+                GitHubReleases = gitHubTask.Result;
+
+                var counter = 1;
+                var delay = 70;
+
+                foreach (var child in InnerGrid.Children)
+                {
+#if !HAS_UNO
                 if (child is ItemsControl itemsControl == false)
                 {
                     Implicit.GetShowAnimations(child).Add(new OpacityAnimation()
@@ -153,9 +156,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                         SetInitialValueBeforeDelay = true
                     });
                 }
+#endif
+                }
             }
-
-            Root.Visibility = Visibility.Visible;
+            finally
+            {
+                Root.Visibility = Visibility.Visible;
+            }
         }
 
         private void RecentSample_Click(object sender, RoutedEventArgs e)
@@ -200,7 +207,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
         {
             if (LandingPageLinks == null)
             {
-                using (var jsonStream = await StreamHelper.GetPackagedFileStreamAsync("landingPageLinks.json"))
+                using (var jsonStream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), "landingPageLinks.json"))
                 {
                     var jsonString = await jsonStream.ReadTextAsync();
                     var links = JsonConvert.DeserializeObject<LandingPageLinks>(jsonString);

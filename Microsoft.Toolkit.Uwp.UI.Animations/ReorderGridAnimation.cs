@@ -27,7 +27,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </remarks>
         public static bool IsSupported =>
             Windows.ApplicationModel.DesignMode.DesignModeEnabled ? false :
+#if HAS_UNO
+            false;
+#else
             ApiInformation.IsApiContractPresent("Windows.Foundation.UniversalApiContract", 3); // SDK >= 14393
+#endif
 
         /// <summary>
         /// Identifies the Duration attached dependency property.

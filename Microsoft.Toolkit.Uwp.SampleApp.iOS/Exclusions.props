@@ -44,6 +44,8 @@
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\EyeDropper\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\Weibo Service\**" />
 			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\PersonView\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\CameraPreview\**" />
+			<_UnsupportedSamples Include="$(MSBuildThisFileDirectory)..\Microsoft.Toolkit.Uwp.SampleApp\SamplePages\ViewportBehavior\**" />
 
 			<!-- This is required under linux where evaluated paths are not compared the same way as windows -->
       <_AbsoluteUnsupportedSamples Include="@(_UnsupportedSamples->'$([System.IO.Path]::GetFullPath('%(_UnsupportedSamples.Identity)'))')"/>
