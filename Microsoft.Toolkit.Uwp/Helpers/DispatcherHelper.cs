@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task/></returns>
         public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (viewToExecuteOn == null)
+            if (viewToExecuteOn is null)
             {
                 throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
         public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (viewToExecuteOn == null)
+            if (viewToExecuteOn is null)
             {
                 throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task ExecuteOnUIThreadAsync(this CoreApplicationView viewToExecuteOn, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (viewToExecuteOn == null)
+            if (viewToExecuteOn is null)
             {
                 throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
         public static Task<T> ExecuteOnUIThreadAsync<T>(this CoreApplicationView viewToExecuteOn, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (viewToExecuteOn == null)
+            if (viewToExecuteOn is null)
             {
                 throw new ArgumentNullException(nameof(viewToExecuteOn));
             }
@@ -139,16 +139,16 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Action function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (function == null)
+            if (function is null)
             {
                 throw new ArgumentNullException(nameof(function));
             }
 
+            /* Run the function directly when we have thread access.
+             * Also reuse Task.CompletedTask in case of success,
+             * to skip an unnecessary heap allocation for every invocation. */
             if (dispatcher.HasThreadAccess)
             {
-                /* Run the function directly when we have thread access.
-                 * Also reuse Task.CompletedTask in case of success,
-                 * to skip an unnecessary heap allocation for every invocation. */
                 try
                 {
                     function();
@@ -190,19 +190,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<T> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (function == null)
+            if (function is null)
             {
                 throw new ArgumentNullException(nameof(function));
             }
 
+            // Skip the dispatch, if posssible
             if (dispatcher.HasThreadAccess)
             {
-                // Skip the dispatch, if posssible
                 try
                 {
-                    var result = function();
-
-                    return Task.FromResult(result);
+                    return Task.FromResult(function());
                 }
                 catch (Exception e)
                 {
@@ -236,9 +234,30 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task</returns>
         public static Task AwaitableRunAsync(this CoreDispatcher dispatcher, Func<Task> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (function == null)
+            if (function is null)
             {
                 throw new ArgumentNullException(nameof(function));
+            }
+
+            /* If we have thread access, we can retrieve the task directly.
+             * We don't use ConfigureAwait(false) in this case, in order
+             * to let the caller continue its execution on the same thread
+             * after awaiting the task returned by this function. */
+            if (dispatcher.HasThreadAccess)
+            {
+                try
+                {
+                    if (function() is Task awaitableResult)
+                    {
+                        return awaitableResult;
+                    }
+
+                    return Task.FromException(new InvalidOperationException("The Task returned by function cannot be null."));
+                }
+                catch (Exception e)
+                {
+                    return Task.FromException(e);
+                }
             }
 
             var taskCompletionSource = new TaskCompletionSource<object>();
@@ -247,9 +266,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 try
                 {
-                    var awaitableResult = function();
-
-                    if (awaitableResult != null)
+                    if (function() is Task awaitableResult)
                     {
                         await awaitableResult.ConfigureAwait(false);
 
@@ -279,9 +296,27 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <returns>Awaitable Task with type <typeparamref name="T"/></returns>
         public static Task<T> AwaitableRunAsync<T>(this CoreDispatcher dispatcher, Func<Task<T>> function, CoreDispatcherPriority priority = CoreDispatcherPriority.Normal)
         {
-            if (function == null)
+            if (function is null)
             {
                 throw new ArgumentNullException(nameof(function));
+            }
+
+            // Skip the dispatch, if posssible
+            if (dispatcher.HasThreadAccess)
+            {
+                try
+                {
+                    if (function() is Task<T> awaitableResult)
+                    {
+                        return awaitableResult;
+                    }
+
+                    return Task.FromException<T>(new InvalidOperationException("The Task returned by function cannot be null."));
+                }
+                catch (Exception e)
+                {
+                    return Task.FromException<T>(e);
+                }
             }
 
             var taskCompletionSource = new TaskCompletionSource<T>();
@@ -290,9 +325,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             {
                 try
                 {
-                    var awaitableResult = function();
-
-                    if (awaitableResult != null)
+                    if (function() is Task<T> awaitableResult)
                     {
                         var result = await awaitableResult.ConfigureAwait(false);
 
