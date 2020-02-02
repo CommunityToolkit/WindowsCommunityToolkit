@@ -146,14 +146,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (dispatcher.HasThreadAccess)
             {
-                /* There is no need to manually handle the exceptions in this case.
-                 * Since we're not scheduling a callback, exceptions thrown by the
-                 * function in this path will correctly end up in the stack trace
-                 * when the returned task is awaited anyway.
-                 * This also saves a heap allocation, as the returned task is reused. */
-                function();
+                /* Run the function directly when we have thread access.
+                 * Also reuse Task.CompletedTask in case of success,
+                 * to skip an unnecessary heap allocation for every invocation. */
+                try
+                {
+                    function();
 
-                return Task.CompletedTask;
+                    return Task.CompletedTask;
+                }
+                catch (Exception e)
+                {
+                    return Task.FromException(e);
+                }
             }
 
             var taskCompletionSource = new TaskCompletionSource<object>();
@@ -192,13 +197,17 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
             if (dispatcher.HasThreadAccess)
             {
-                /* Just like with a simple action, we don't need to manually
-                 * handle failures here. As we're not in a dispatched callback,
-                 * exceptions thrown at this point will just show up correctly
-                 * in the stack trace when the returned task is awaited. */
-                var result = function();
+                // Skip the dispatch, if posssible
+                try
+                {
+                    var result = function();
 
-                return Task.FromResult(result);
+                    return Task.FromResult(result);
+                }
+                catch (Exception e)
+                {
+                    return Task.FromException<T>(e);
+                }
             }
 
             var taskCompletionSource = new TaskCompletionSource<T>();
