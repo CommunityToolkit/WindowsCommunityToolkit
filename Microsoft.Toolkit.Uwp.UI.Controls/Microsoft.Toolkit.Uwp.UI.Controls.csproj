@@ -78,10 +78,13 @@
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
   </ItemGroup>
  
-  <ItemGroup>
+  <!--
+	UNO TODO
+	<ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
+	-->
  
   <ItemGroup>
     <Page Update="ImageCropper\ImageCropper.xaml">
