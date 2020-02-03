@@ -293,7 +293,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             FirstVersionInstalled = DetectFirstVersionInstalled();
             InitializeValuesSetWithTrackAppUse();
 #else
-			ApplicationName = "Unknown";
+            ApplicationName = "Unknown";
 #endif
         }
 

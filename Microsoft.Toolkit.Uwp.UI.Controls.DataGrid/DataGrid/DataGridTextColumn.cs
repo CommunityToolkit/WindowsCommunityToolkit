@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextBlock textBlockElement = new TextBlock();
             textBlockElement.Margin = new Thickness(DATAGRIDTEXTCOLUMN_leftMargin, 0.0, DATAGRIDTEXTCOLUMN_rightMargin, 0.0);
             textBlockElement.VerticalAlignment = VerticalAlignment.Center;
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
+            if (ReadLocalValue(DataGridTextColumn.FontFamilyProperty) != DependencyProperty.UnsetValue)
             {
                 textBlockElement.FontFamily = this.FontFamily;
             }

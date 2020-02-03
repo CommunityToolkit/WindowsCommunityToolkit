@@ -139,19 +139,19 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return GetFileRandomAccessStreamAsync(fileName, accessMode, workingFolder);
         }
 #else
-		/// <summary>
-		/// Return a stream to a specified file from the installation folder.
-		/// </summary>
-		/// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-		/// <param name="accessMode">File access mode. Default is read.</param>
-		/// <returns>File stream</returns>
-		public static Task<Stream> GetPackagedFileStreamAsync(
-			string fileName,
-			FileAccessMode accessMode = FileAccessMode.Read)
-		{
-			StorageFolder workingFolder = Package.Current.InstalledLocation;
-			return GetFileStreamAsync(fileName, accessMode, workingFolder);
-		}
+        /// <summary>
+        /// Return a stream to a specified file from the installation folder.
+        /// </summary>
+        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <param name="accessMode">File access mode. Default is read.</param>
+        /// <returns>File stream</returns>
+        public static Task<Stream> GetPackagedFileStreamAsync(
+            string fileName,
+            FileAccessMode accessMode = FileAccessMode.Read)
+        {
+            StorageFolder workingFolder = Package.Current.InstalledLocation;
+            return GetFileStreamAsync(fileName, accessMode, workingFolder);
+        }
 
         /// <summary>
         /// Gets a stream to a specified file from the application local folder.

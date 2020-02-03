@@ -2,11 +2,6 @@ trigger:
 - master
 - rel/*
 
-resources:
-  containers:
-  - container: nv-bionic-wasm
-    image: nventive/wasm-build:1.4.1
-
 jobs:
 - job: Windows
 
@@ -68,7 +63,7 @@ jobs:
 
 - job: linux
 
-  container: nv-bionic-wasm
+  container: unoplatform/wasm-build:2.0
 
   pool:
     vmImage: 'ubuntu-16.04'
