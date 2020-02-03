@@ -20,8 +20,6 @@
                         <Border x:Name="ShadowElement" 
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
-						
-						<!-- UNO TODO -->
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" 
                                           Content="{TemplateBinding Content}"/>

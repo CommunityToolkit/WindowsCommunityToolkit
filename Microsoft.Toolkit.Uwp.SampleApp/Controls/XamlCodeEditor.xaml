@@ -12,14 +12,18 @@
     d:DesignWidth="400">
 
 	<win:Grid>
-        <monaco:CodeEditor x:Name="XamlCodeRenderer"
-                           CodeLanguage="xml"
-                           Text="{x:Bind Text, Mode=TwoWay}"
-                           KeyDown="XamlCodeRenderer_KeyDown"
-                           Loading="XamlCodeRenderer_Loading"
-                           InternalException="XamlCodeRenderer_InternalException" />
+		<monaco:CodeEditor x:Name="XamlCodeRenderer"
+										   CodeLanguage="xml"
+										   Text="{x:Bind Text, Mode=TwoWay}"
+										   KeyDown="XamlCodeRenderer_KeyDown"
+										   Loading="XamlCodeRenderer_Loading"
+										   InternalException="XamlCodeRenderer_InternalException" />
 	</win:Grid>
-	<xamarin:Grid>
-		<TextBlock Text="{x:Bind Text, Mode=TwoWay}" />
+	<xamarin:Grid Background="White">
+    <ScrollViewer HorizontalScrollBarVisibility="Visible">
+		  <TextBlock x:Name="XamlCodeRenderer"
+                 FontFamily="Courier New"
+										     Text="{x:Bind Text, Mode=TwoWay}" /> 
+    </ScrollViewer>
 	</xamarin:Grid>
 </UserControl>

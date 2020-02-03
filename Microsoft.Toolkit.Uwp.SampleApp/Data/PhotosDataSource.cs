@@ -75,12 +75,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 
         private static async Task<IEnumerable<PhotoDataItem>> GetPhotosAsync(bool online)
         {
-            var prefix = online ? "Online" : string.Empty;
-            var uri = new Uri($"ms-appx:///Assets/Photos/{prefix}Photos.json");
-            StorageFile file = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            IRandomAccessStreamWithContentType randomStream = await file.OpenReadAsync();
+			var prefix = online ? "Online" : string.Empty;
+			var uri = $"Photos.{prefix}Photos.json";
 
-            using (StreamReader r = new StreamReader(randomStream.AsStreamForRead()))
+            using (StreamReader r = new StreamReader(await Helpers.StreamHelper.GetEmbeddedFileStreamAsync(typeof(PhotosDataSource), uri)))
             {
                 return Parse(await r.ReadToEndAsync());
             }

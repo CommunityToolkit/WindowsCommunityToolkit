@@ -214,9 +214,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         {
             List<DependencyProperty> dependencyProperties = new List<DependencyProperty>();
 
+#pragma warning disable CS0184 // UNO TODO
             bool isBlocklisted = useBlockList &&
                 (element is Panel || element is Button || element is Image || element is ScrollViewer || element is TextBlock ||
                  element is Border || element is Shape || element is ContentPresenter);
+#pragma warning restore CS0184 // UNO TODO
 
             if (!isBlocklisted)
             {

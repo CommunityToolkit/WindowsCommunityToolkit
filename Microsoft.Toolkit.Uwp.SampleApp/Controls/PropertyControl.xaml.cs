@@ -38,8 +38,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             InitializeComponent();
         }
 
-        // UNO TODO
-        private void PropertyControl_OnDataContextChanged(object sender, DataContextChangedEventArgs args)
+        private void PropertyControl_OnDataContextChanged(/* UNO TODO */DependencyObject sender, DataContextChangedEventArgs args)
         {
             if (args.NewValue == _currentSample)
             {
@@ -132,7 +131,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
                         case PropertyKind.Brush:
                             var colorComboBox = new ComboBox();
+#if HAS_UNO
+                            var dataSource = typeof(Colors).GetTypeInfo().DeclaredFields.Select(p => p.Name).ToList();
+#else
                             var dataSource = typeof(Colors).GetTypeInfo().DeclaredProperties.Select(p => p.Name).ToList();
+#endif
                             colorComboBox.ItemsSource = dataSource;
 
                             if ((propertyDict[option.Name] as ValueHolder).Value is SolidColorBrush brush &&

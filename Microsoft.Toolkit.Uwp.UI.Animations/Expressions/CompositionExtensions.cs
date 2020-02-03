@@ -176,9 +176,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
         /// <param name="easing">The easing function to use when interpolating between frames.</param>
         public static void InsertExpressionKeyFrame(this KeyFrameAnimation keyframeAnimation, float normalizedProgressKey, ExpressionNode expressionNode, CompositionEasingFunction easing = null)
         {
+#if NETFX_CORE // UNO TODO
             keyframeAnimation.InsertExpressionKeyFrame(normalizedProgressKey, expressionNode.ToExpressionString(), easing);
+#endif
 
-            expressionNode.SetAllParameters(keyframeAnimation);
+			expressionNode.SetAllParameters(keyframeAnimation);
         }
 
         /// <summary>

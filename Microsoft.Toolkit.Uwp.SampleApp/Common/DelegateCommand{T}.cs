@@ -45,9 +45,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
             {
                 return commandCanExecute(ConvertParameterValue(parameter));
             }
-            catch
+            catch(Exception e)
             {
-                return false;
+				Console.WriteLine($"Action failed {e}");
+				return false;
             }
         }
 
@@ -66,11 +67,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
             try
             {
-                commandExecuteAction(ConvertParameterValue(parameter));
+				commandExecuteAction(ConvertParameterValue(parameter));
             }
-            catch
+            catch(Exception e)
             {
-                Debugger.Break();
+				Console.WriteLine($"Action failed {e}");
+				Debugger.Break();
             }
         }
 

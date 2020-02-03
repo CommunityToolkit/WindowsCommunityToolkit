@@ -1104,7 +1104,8 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" MinWidth="48" />
+                                        <!-- removed MinWidth to work around https://github.com/unoplatform/uno/issues/1535 -->
+                                        <ColumnDefinition Width="*" /> <!-- MinWidth="48" -->
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="Auto" />
@@ -1126,7 +1127,8 @@
                                     <winui:NavigationViewList AutomationProperties.LandmarkType="Navigation" x:Name="TopNavMenuItemsHost" Grid.Column="3" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{TemplateBinding MenuItemTemplate}" ItemTemplateSelector="{TemplateBinding MenuItemTemplateSelector}" ItemContainerStyle="{TemplateBinding MenuItemContainerStyle}" ItemContainerStyleSelector="{TemplateBinding MenuItemContainerStyleSelector}" ScrollViewer.HorizontalScrollMode="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Hidden" ScrollViewer.VerticalScrollMode="Disabled" ScrollViewer.VerticalScrollBarVisibility="Hidden" SingleSelectionFollowsFocus="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.SingleSelectionFollowsFocus}">
                                         <ListView.ItemsPanel>
                                             <ItemsPanelTemplate>
-                                                <ItemsStackPanel Orientation="Horizontal" />
+												<!--Use a StackPanel instead of a ItemsStackPanel to workaround https://github.com/unoplatform/uno/issues/2136-->
+												<StackPanel Orientation="Horizontal" />
                                             </ItemsPanelTemplate>
                                         </ListView.ItemsPanel>
                                         <ListView.ItemContainerTransitions>

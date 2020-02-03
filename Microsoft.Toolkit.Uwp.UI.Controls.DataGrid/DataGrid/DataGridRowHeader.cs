@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
             this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(DataGridRowHeader_Tapped), true /*handledEventsToo*/);
 
-            DefaultStyleKey = typeof(DataGridRowHeader);
+			DefaultStyleKey = typeof(DataGridRowHeader);
         }
 
         /// <summary>

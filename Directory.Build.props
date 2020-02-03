@@ -81,7 +81,7 @@
     <NoWarn>$(NoWarn);8002</NoWarn>
   </PropertyGroup>
 
-	<ItemGroup Condition="!$([MSBuild]::IsOsUnixLike())">
+	<ItemGroup Condition="!$([MSBuild]::IsOsUnixLike()) and '$(BuildingInsideVisualStudio)'=='' ">
     <PackageReference Include="Nerdbank.GitVersioning" Version=" 2.1.65" PrivateAssets="all" />
   </ItemGroup>
 

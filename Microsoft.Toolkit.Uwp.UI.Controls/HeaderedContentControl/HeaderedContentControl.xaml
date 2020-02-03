@@ -1,7 +1,11 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:xamarin="http://uno/xamarin" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d xamarin">
     <Style TargetType="controls:HeaderedContentControl">
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="VerticalContentAlignment" Value="Top"/>
@@ -25,6 +29,9 @@
                         <ContentPresenter x:Name="ContentPresenter" 
                                           Grid.ColumnSpan="2"
                                           Grid.Row="1" 
+                                          xamarin:Content="{TemplateBinding Content}"
+                                          xamarin:ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          xamarin:ContentTemplateSelector="{TemplateBinding ContentTemplateSelector}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         <VisualStateManager.VisualStateGroups>

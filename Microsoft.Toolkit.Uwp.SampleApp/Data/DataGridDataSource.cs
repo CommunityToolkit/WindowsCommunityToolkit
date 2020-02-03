@@ -26,42 +26,42 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 
         // Loading data
         public async Task<IEnumerable<DataGridDataItem>> GetDataAsync()
-        {
-            using (var stream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), "mtns.csv"))
-            {
-                var list = new List<DataGridDataItem>();
+		{
+			using (var stream = await StreamHelper.GetEmbeddedFileStreamAsync(GetType(), "mtns.csv"))
+			{
+				var list = new List<DataGridDataItem>();
 
-                using (var sr = new StreamReader(stream))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        string line = sr.ReadLine();
-                        string[] values = line.Split(',');
+				using (var sr = new StreamReader(stream))
+				{
+					while (!sr.EndOfStream)
+					{
+						string line = sr.ReadLine();
+						string[] values = line.Split(',');
 
-                        list.Add(
-                            new DataGridDataItem()
-                            {
-                                Rank = uint.Parse(values[0]),
-                                Mountain = values[1],
-                                Height_m = uint.Parse(values[2]),
-                                Range = values[3],
-                                Coordinates = values[4],
-                                Prominence = uint.Parse(values[5]),
-                                Parent_mountain = values[6],
-                                First_ascent = uint.Parse(values[7]),
-                                Ascents = values[8]
-                            });
-                    }
-                }
+						list.Add(
+							new DataGridDataItem()
+							{
+								Rank = uint.Parse(values[0]),
+								Mountain = values[1],
+								Height_m = uint.Parse(values[2]),
+								Range = values[3],
+								Coordinates = values[4],
+								Prominence = uint.Parse(values[5]),
+								Parent_mountain = values[6],
+								First_ascent = uint.Parse(values[7]),
+								Ascents = values[8]
+							});
+					}
+				}
 
-                _items = new ObservableCollection<DataGridDataItem>(
-                    list
+				_items = new ObservableCollection<DataGridDataItem>(
+					list
 #if true //__WASM__
-                    .Take(2)
+					.Take(2)
 #endif
-                );
-                return _items;
-            }
+				);
+				return _items;
+			}
         }
 
         // Load mountains into separate collection for use in combobox column

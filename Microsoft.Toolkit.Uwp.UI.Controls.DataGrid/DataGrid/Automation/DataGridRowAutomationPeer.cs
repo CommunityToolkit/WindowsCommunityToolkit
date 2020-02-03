@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
                 return itemType;
             }
 
-            return UI.Controls.Properties.Resources.DataGridRowAutomationPeer_ItemType;
+            return Controls.DG.Properties.Resources.DataGridRowAutomationPeer_ItemType;
         }
     }
 }

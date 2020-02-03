@@ -27,8 +27,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Common
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
+#if HAS_UNO
+            // Check if what we're getting back is a named color so that we can keep it as its name if it is.
+            var prop = typeof(Colors).GetTypeInfo().GetDeclaredField(value.ToString());
+#else
             // Check if what we're getting back is a named color so that we can keep it as its name if it is.
             var prop = typeof(Colors).GetTypeInfo().GetDeclaredProperty(value.ToString());
+#endif
 
             if (prop != null)
             {

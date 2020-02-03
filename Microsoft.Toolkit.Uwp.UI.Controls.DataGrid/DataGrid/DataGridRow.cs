@@ -174,9 +174,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this.Cells.CellAdded += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellAdded);
             this.Cells.CellRemoved += new EventHandler<DataGridCellEventArgs>(DataGridCellCollection_CellRemoved);
 
-            this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(DataGridRow_Tapped), true /*handledEventsToo*/);
+			this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(DataGridRow_Tapped), true /*handledEventsToo*/);
 
-            this.PointerCanceled += new PointerEventHandler(DataGridRow_PointerCanceled);
+			this.PointerCanceled += new PointerEventHandler(DataGridRow_PointerCanceled);
             this.PointerCaptureLost += new PointerEventHandler(DataGridRow_PointerCaptureLost);
             this.PointerPressed += new PointerEventHandler(DataGridRow_PointerPressed);
             this.PointerReleased += new PointerEventHandler(DataGridRow_PointerReleased);
@@ -778,27 +778,32 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return base.MeasureOverride(availableSize);
             }
 
-            // Allow the DataGrid specific componets to adjust themselves based on new values
-            if (_headerElement != null)
-            {
-                _headerElement.InvalidateMeasure();
-            }
+#if !HAS_UNO
+			// This section is commented out for uno until the measure
+			// infinite loop is fixed.
 
-            if (_cellsElement != null)
-            {
-                _cellsElement.InvalidateMeasure();
-            }
+			// Allow the DataGrid specific componets to adjust themselves based on new values
+			if (_headerElement != null)
+			{
+				_headerElement.InvalidateMeasure();
+			}
 
-            if (_detailsElement != null)
-            {
-                _detailsElement.InvalidateMeasure();
-            }
+			if (_cellsElement != null)
+			{
+				_cellsElement.InvalidateMeasure();
+			}
 
-            bool currentAddItemIsDataContext = false;
+			if (_detailsElement != null)
+			{
+				_detailsElement.InvalidateMeasure();
+			}
+#endif
+
+			bool currentAddItemIsDataContext = false;
 #if FEATURE_IEDITABLECOLLECTIONVIEW
             currentAddItemIsDataContext = this.OwningGrid.DataConnection.EditableCollectionView.CurrentAddItem == this.DataContext;
 #endif
-            Size desiredSize = default(Size);
+            Size desiredSize = Size.Empty;
             try
             {
                 desiredSize = base.MeasureOverride(availableSize);

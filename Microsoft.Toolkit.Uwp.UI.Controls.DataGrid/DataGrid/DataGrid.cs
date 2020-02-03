@@ -407,7 +407,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _loadedRows = new List<DataGridRow>();
             _lostFocusActions = new Queue<Action>();
             _selectedItems = new DataGridSelectedItemsCollection(this);
-            _rowGroupHeaderPropertyNameAlternative = Properties.Resources.DefaultRowGroupHeaderPropertyNameAlternative;
+            _rowGroupHeaderPropertyNameAlternative = Controls.DG.Properties.Resources.DefaultRowGroupHeaderPropertyNameAlternative;
             _rowGroupHeaderStyles = new ObservableCollection<Style>();
             _rowGroupHeaderStyles.CollectionChanged += RowGroupHeaderStyles_CollectionChanged;
             _rowGroupHeaderStylesOld = new List<Style>();
@@ -3334,16 +3334,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                if (_rowsPresenter != null)
-                {
-                    _rowsPresenter.InvalidateMeasure();
-                }
+#if !HAS_UNO
+				// This section is commented out in Uno until the measure
+				// loop in uno is adressed
 
-                InvalidateColumnHeadersMeasure();
+				if (_rowsPresenter != null)
+				{
+					_rowsPresenter.InvalidateMeasure();
+				}
 
-                desiredSize = base.MeasureOverride(availableSize);
+				 InvalidateColumnHeadersMeasure();
+#endif
 
-                ComputeScrollBarsLayout();
+				desiredSize = base.MeasureOverride(availableSize);
+
+#if !HAS_UNO
+               ComputeScrollBarsLayout();
+#endif
             }
 
             return desiredSize;

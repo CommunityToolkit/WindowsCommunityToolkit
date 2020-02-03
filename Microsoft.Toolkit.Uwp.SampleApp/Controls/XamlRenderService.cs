@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 
@@ -68,6 +69,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             }
             catch (Exception e)
             {
+				if(e is TargetInvocationException tie)
+				{
+					e = e.InnerException;
+				}
+
                 // Highlight Error (we'll only get one at a time).
                 string msg = e.Message;
 
@@ -88,6 +94,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     column = uint.Parse(msg.Substring(pl + 9, msg.IndexOf("]", pl) - pl - 9));
                 }
+
+				Console.WriteLine($"Failed to parse xaml {e}");
 
                 // TODO: Should I just throw this nicely parsed message?
                 Errors.Add(new XamlExceptionRange(msg, e, line, column, line, column + 8)); // TODO: Inspect Content at this position and go until space / EOL

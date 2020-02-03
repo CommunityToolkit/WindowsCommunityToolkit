@@ -17,8 +17,7 @@
                  Header="Url"
                  Text="{x:Bind Url, Mode=TwoWay}" />
 
-            <!-- UNO TODO -->
-           <Button
+            <Button
                 Content="Load"
                 Margin="0,10,0,0"
                 Click="ParseRSS" />

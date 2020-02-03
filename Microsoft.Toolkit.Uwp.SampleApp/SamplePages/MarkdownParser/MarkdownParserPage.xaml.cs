@@ -1,7 +1,10 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
+using System.Diagnostics;
+using System.Threading;
 using Microsoft.Toolkit.Parsers.Markdown;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -21,22 +24,27 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         }
 
         private void MarkdownParserPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
+		{
             UpdateMDResult();
         }
 
         private void RawMarkdown_TextChanged(object sender, TextChangedEventArgs e)
         {
-            UpdateMDResult();
+			UpdateMDResult();
         }
 
         private void UpdateMDResult()
         {
-            var document = new MarkdownDocument();
-            document.Parse(RawMarkdown.Text);
 
-            var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
-            MarkdownResult.Text = json;
+			// UNO TODO: The materialization of the scrollviewer template is performed lazily.
+			if (MarkdownResult != null)
+			{
+				var document = new MarkdownDocument();
+				document.Parse(RawMarkdown.Text);
+
+				var json = JsonConvert.SerializeObject(document, Formatting.Indented, new StringEnumConverter());
+				MarkdownResult.Text = json;
+			}
         }
     }
 }

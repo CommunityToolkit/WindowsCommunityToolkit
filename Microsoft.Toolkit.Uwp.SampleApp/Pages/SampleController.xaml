@@ -168,6 +168,7 @@
                                       Visibility="{x:Bind CanChangePaneState}"
                                       Icon="ClosePane"
                                       Width="50"
+								      Height="50"
                                       Click="ExpandCollapsePane" />
                     </Pivot.LeftHeader>
 

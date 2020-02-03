@@ -15,7 +15,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class MasterDetailsViewPage : Page, IXamlRenderListener
     {
-        private double _previousWidth = Windows.UI.Xaml.Window.Current.Bounds.Width;
+		// UNO TODO
+		private double _previousWidth = Windows.UI.Xaml.Window.Current.Bounds.Width;
 
         public MasterDetailsViewPage()
         {

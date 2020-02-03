@@ -7,7 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+
+#if !HAS_UNO
 using Windows.Web.Http;
+#else
+using System.Net.Http;
+#endif
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
@@ -25,15 +30,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             {
                 try
                 {
-                    // UNO TODO
-                    //using (var client = new System.Net.Http.HttpClient())
-                    //{
-                    //    client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko");
+					using (var client = new HttpClient())
+					{
+						const string userAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko";
 
-                    //    var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
-                    //    var result = await client.GetStringAsync(new Uri(uri));
-                    //    _releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
-                    //}
+#if HAS_UNO
+						client.DefaultRequestHeaders.Add("User-Agent", userAgent);
+#else
+						client.DefaultRequestHeaders.TryAppendWithoutValidation("User-Agent", userAgent);
+#endif
+
+						var uri = $"{_root}/repos/{_repoOwner}/{_repoName}/releases";
+						var result = await client.GetStringAsync(new Uri(uri));
+						_releases = JsonConvert.DeserializeObject<List<GitHubRelease>>(result).Take(5).ToList();
+					}
                 }
                 catch (Exception)
                 {
