@@ -68,7 +68,8 @@
       <Name>Microsoft.Toolkit.Uwp.UI.Controls</Name>
       <Private>False</Private>
       <SkipGetTargetFrameworkProperties>true</SkipGetTargetFrameworkProperties>
-    </ProjectReference>
+			<AdditionalProperties>TargetFramework=uap10.0.16299</AdditionalProperties>
+		</ProjectReference>
   </ItemGroup>
   <ItemGroup Label="WinRT References">
     <Reference Include="System.Xaml" />
