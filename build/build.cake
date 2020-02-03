@@ -115,7 +115,7 @@ Task("Verify")
     .IsDependentOn("Clean")
     .Does(() =>
 {
-    VerifyHeaders(false);
+    // VerifyHeaders(false);
 
     StartPowershellFile("./Find-WindowsSDKVersions.ps1");
 });
