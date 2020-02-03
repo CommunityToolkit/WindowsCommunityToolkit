@@ -439,30 +439,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void DataGridCell_PointerTapped(object sender, TappedRoutedEventArgs e)
         {
-			try
-			{
-				// OwningGrid is null for TopLeftHeaderCell and TopRightHeaderCell because they have no OwningRow
-				if (this.OwningGrid != null && !this.OwningGrid.HasColumnUserInteraction)
-				{
-					if (!e.Handled && this.OwningGrid.IsTabStop)
-					{
-						bool success = this.OwningGrid.Focus(FocusState.Programmatic);
-						System.Diagnostics.Debug.Assert(success, "Expected successful focus change.");
-					}
+            try
+            {
+                // OwningGrid is null for TopLeftHeaderCell and TopRightHeaderCell because they have no OwningRow
+                if (this.OwningGrid != null && !this.OwningGrid.HasColumnUserInteraction)
+                {
+                    if (!e.Handled && this.OwningGrid.IsTabStop)
+                    {
+                        bool success = this.OwningGrid.Focus(FocusState.Programmatic);
+                        System.Diagnostics.Debug.Assert(success, "Expected successful focus change.");
+                    }
 
-					if (this.OwningRow != null)
-					{
-						System.Diagnostics.Debug.Assert(sender is DataGridCell, "Expected sender is DataGridCell.");
-						System.Diagnostics.Debug.Assert(sender == this, "Expected sender is this.");
-						e.Handled = this.OwningGrid.UpdateStateOnTapped(e, this.ColumnIndex, this.OwningRow.Slot, !e.Handled /*allowEdit*/);
-						this.OwningGrid.UpdatedStateOnTapped = true;
-					}
-				}
-			}
-			catch(Exception ex)
-			{
-				System.Console.WriteLine(ex);
-			}
+                    if (this.OwningRow != null)
+                    {
+                        System.Diagnostics.Debug.Assert(sender is DataGridCell, "Expected sender is DataGridCell.");
+                        System.Diagnostics.Debug.Assert(sender == this, "Expected sender is this.");
+                        e.Handled = this.OwningGrid.UpdateStateOnTapped(e, this.ColumnIndex, this.OwningRow.Slot, !e.Handled /*allowEdit*/);
+                        this.OwningGrid.UpdatedStateOnTapped = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Console.WriteLine(ex);
+            }
         }
 
         private void UpdateIsPointerOver(bool isPointerOver)

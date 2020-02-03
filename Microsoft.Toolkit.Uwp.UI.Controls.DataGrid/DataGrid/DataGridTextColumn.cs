@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             textBox.VerticalAlignment = VerticalAlignment.Stretch;
             textBox.Background = new SolidColorBrush(Colors.Transparent);
 
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridTextColumn.FontFamilyProperty))
+            if (ReadLocalValue(DataGridTextColumn.FontFamilyProperty) != DependencyProperty.UnsetValue)
             {
                 textBox.FontFamily = this.FontFamily;
             }
@@ -244,7 +244,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 textBlockElement.SetBinding(TextBlock.TextProperty, this.Binding);
             }
 
-			// UNO TODO
+            // UNO TODO
             return new Border { Child = textBlockElement };
         }
 
@@ -292,7 +292,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TextBox textBox = element as TextBox;
             if (textBox == null)
             {
-				// UNO TODO
+                // UNO TODO
                 TextBlock textBlock = (element as Border)?.Child as TextBlock;
                 if (textBlock == null)
                 {
@@ -381,7 +381,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-				// UNO TODO
+                // UNO TODO
                 TextBlock textBlock = (element as Border)?.Child as TextBlock;
                 if (textBlock != null)
                 {

@@ -3335,21 +3335,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else
             {
 #if !HAS_UNO
-				// This section is commented out in Uno until the measure
-				// loop in uno is adressed
+                // This section is commented out in Uno until the measure
+                // loop in uno is adressed
+                if (_rowsPresenter != null)
+                {
+                    _rowsPresenter.InvalidateMeasure();
+                }
 
-				if (_rowsPresenter != null)
-				{
-					_rowsPresenter.InvalidateMeasure();
-				}
-
-				 InvalidateColumnHeadersMeasure();
+                InvalidateColumnHeadersMeasure();
 #endif
 
-				desiredSize = base.MeasureOverride(availableSize);
+                desiredSize = base.MeasureOverride(availableSize);
 
 #if !HAS_UNO
-               ComputeScrollBarsLayout();
+                ComputeScrollBarsLayout();
 #endif
             }
 

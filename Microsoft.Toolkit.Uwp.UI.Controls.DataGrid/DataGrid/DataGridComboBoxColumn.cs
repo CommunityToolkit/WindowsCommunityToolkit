@@ -241,7 +241,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             comboBox.SetBinding(ComboBox.DisplayMemberPathProperty, displayMemberPathBinding);
 
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
+            if (ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty) != DependencyProperty.UnsetValue)
             {
                 comboBox.FontFamily = FontFamily;
             }
@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 VerticalAlignment = VerticalAlignment.Center
             };
 
-            if (DependencyProperty.UnsetValue != ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty))
+            if (ReadLocalValue(DataGridComboBoxColumn.FontFamilyProperty) != DependencyProperty.UnsetValue)
             {
                 textBlockElement.FontFamily = FontFamily;
             }

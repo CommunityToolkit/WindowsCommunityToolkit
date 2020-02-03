@@ -21,9 +21,14 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class StreamHelper
     {
+        private static HttpClient client = new HttpClient();
 
-		public static Stream AsStream(this Stream s) => s;
-		private static HttpClient client = new HttpClient();
+        /// <summary>
+        /// AsStream helper for uno compatibility
+        /// </summary>
+        /// <param name="s">The source stream</param>
+        /// <returns>The stream</returns>
+        public static Stream AsStream(this Stream s) => s;
 
         /// <summary>
         /// Gets the response stream returned by a HTTP get request.
@@ -89,7 +94,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             StorageFolder workingFolder = Package.Current.InstalledLocation;
             return GetFileRandomAccessStreamAsync(fileName, accessMode, workingFolder);
         }
-
 
         /// <summary>
         /// Return a stream to a specified file from the application local folder.
@@ -195,35 +199,35 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
 #endif
 
-		/// <summary>
-		/// Return a stream to a specified file from the installation folder.
-		/// </summary>
-		/// <param name="assemblyType">The owner type for the embedded file</param>
-		/// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
-		/// <returns>File stream</returns>
-		public static async Task<Stream> GetEmbeddedFileStreamAsync(Type assemblyType, string fileName)
-		{
+        /// <summary>
+        /// Return a stream to a specified file from the installation folder.
+        /// </summary>
+        /// <param name="assemblyType">The owner type for the embedded file</param>
+        /// <param name="fileName">Relative name of the file to open. Can contains subfolders.</param>
+        /// <returns>File stream</returns>
+        public static async Task<Stream> GetEmbeddedFileStreamAsync(Type assemblyType, string fileName)
+        {
             await Task.Yield();
 
-			var manifestName = assemblyType.GetTypeInfo().Assembly
-				.GetManifestResourceNames()
-				.FirstOrDefault(n => n.EndsWith(fileName.Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
+            var manifestName = assemblyType.GetTypeInfo().Assembly
+                .GetManifestResourceNames()
+                .FirstOrDefault(n => n.EndsWith(fileName.Replace(" ", "_"), StringComparison.OrdinalIgnoreCase));
 
-			if (manifestName == null)
-			{
-				throw new InvalidOperationException($"Failed to find resource [{fileName}]");
-			}
+            if (manifestName == null)
+            {
+                throw new InvalidOperationException($"Failed to find resource [{fileName}]");
+            }
 
-			return assemblyType.GetTypeInfo().Assembly.GetManifestResourceStream(manifestName);
-		}
+            return assemblyType.GetTypeInfo().Assembly.GetManifestResourceStream(manifestName);
+        }
 
-		/// <summary>
-		/// Read stream content as a string.
-		/// </summary>
-		/// <param name="stream">Stream to read from.</param>
-		/// <param name="encoding">Encoding to use. Can be set to null (ASCII will be used in this case).</param>
-		/// <returns>Stream content.</returns>
-		public static async Task<string> ReadTextAsync(
+        /// <summary>
+        /// Read stream content as a string.
+        /// </summary>
+        /// <param name="stream">Stream to read from.</param>
+        /// <param name="encoding">Encoding to use. Can be set to null (ASCII will be used in this case).</param>
+        /// <returns>Stream content.</returns>
+        public static async Task<string> ReadTextAsync(
             this IRandomAccessStream stream,
             Encoding encoding = null)
         {
@@ -255,13 +259,13 @@ namespace Microsoft.Toolkit.Uwp.Helpers
             return await file.OpenAsync(accessMode);
         }
 
-		/// <summary>
-		/// Read stream content as a string.
-		/// </summary>
-		/// <param name="stream">Stream to read from.</param>
-		/// <param name="encoding">Encoding to use. Can be set to null (ASCII will be used in this case).</param>
-		/// <returns>Stream content.</returns>
-		public static async Task<string> ReadTextAsync(
+        /// <summary>
+        /// Read stream content as a string.
+        /// </summary>
+        /// <param name="stream">Stream to read from.</param>
+        /// <param name="encoding">Encoding to use. Can be set to null (ASCII will be used in this case).</param>
+        /// <returns>Stream content.</returns>
+        public static async Task<string> ReadTextAsync(
             this Stream stream,
             Encoding encoding = null)
         {

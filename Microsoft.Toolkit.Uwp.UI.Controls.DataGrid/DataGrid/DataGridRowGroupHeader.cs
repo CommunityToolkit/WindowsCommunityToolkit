@@ -61,10 +61,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             DefaultStyleKey = typeof(DataGridRowGroupHeader);
 
-			this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(DataGridRowGroupHeader_Tapped), true /*handledEventsToo*/);
+            this.AddHandler(UIElement.TappedEvent, new TappedEventHandler(DataGridRowGroupHeader_Tapped), true /*handledEventsToo*/);
             this.AddHandler(UIElement.DoubleTappedEvent, new DoubleTappedEventHandler(DataGridRowGroupHeader_DoubleTapped), true /*handledEventsToo*/);
 
-			this.PointerCanceled += new PointerEventHandler(DataGridRowGroupHeader_PointerCanceled);
+            this.PointerCanceled += new PointerEventHandler(DataGridRowGroupHeader_PointerCanceled);
             this.PointerEntered += new PointerEventHandler(DataGridRowGroupHeader_PointerEntered);
             this.PointerExited += new PointerEventHandler(DataGridRowGroupHeader_PointerExited);
             this.PointerMoved += new PointerEventHandler(DataGridRowGroupHeader_PointerMoved);

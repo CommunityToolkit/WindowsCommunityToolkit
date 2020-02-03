@@ -166,7 +166,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
 
 #pragma warning disable CS0114 // Xamarin.iOS provides this property
         private bool HasFocus
-#pragma warning restore CS0114 
+#pragma warning restore CS0114
         {
             get
             {
@@ -1109,7 +1109,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
                 {
                     interactionInfo.OriginalCursor = Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor;
                     interactionInfo.ResizePointerId = pointer.PointerId;
-					Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
+                    Windows.UI.Xaml.Window.Current.CoreWindow.PointerCursor = new CoreCursor(CoreCursorType.SizeWestEast, 0);
                 }
             }
             else if (interactionInfo.ResizePointerId == pointer.PointerId)
