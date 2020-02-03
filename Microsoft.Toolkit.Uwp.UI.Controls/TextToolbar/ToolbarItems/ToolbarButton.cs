@@ -164,7 +164,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
             set
             {
                 _position = value;
+
+#if !HAS_UNO || (HAS_UNO && __WASM__)
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Position)));
+#else
+                RaisePropertyChanged(nameof(Position));
+#endif
             }
         }
 
@@ -210,7 +215,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
 
         private int _position = -1;
 
+#if !HAS_UNO || (HAS_UNO && __WASM__)
         /// <inheritdoc/>
         public event PropertyChangedEventHandler PropertyChanged;
+#endif
     }
 }

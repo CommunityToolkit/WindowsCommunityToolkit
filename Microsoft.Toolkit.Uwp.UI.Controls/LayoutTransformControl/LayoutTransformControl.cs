@@ -156,8 +156,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 if (transformGroup != null)
                 {
-					// UNO TODO
-					var groupMatrix = Windows.UI.Xaml.Media.Matrix.Identity;
+                    // UNO TODO
+                    var groupMatrix = Windows.UI.Xaml.Media.Matrix.Identity;
 
                     foreach (var child in transformGroup.Children)
                     {
@@ -206,9 +206,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // TranslateTransform has no effect in LayoutTransform
             }
 
-			// Fall back to no-op transformation
-			// UNO TODO
-			return Windows.UI.Xaml.Media.Matrix.Identity;
+            // Fall back to no-op transformation
+            // UNO TODO
+            return Windows.UI.Xaml.Media.Matrix.Identity;
         }
 
         /// <summary>

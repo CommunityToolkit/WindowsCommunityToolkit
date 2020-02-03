@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     [TemplatePart(Name = PartShadow, Type = typeof(Border))]
     public partial class DropShadowPanel : ContentControl
-    { 
+    {
         private const string PartShadow = "ShadowElement";
 
         private readonly DropShadow _dropShadow;
@@ -50,10 +50,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         protected override void OnApplyTemplate()
         {
-			// UNO TODO
-			if (IsSupported)
-			{
-				_border = GetTemplateChild(PartShadow) as Border;
+            // UNO TODO
+            if (IsSupported)
+            {
+                _border = GetTemplateChild(PartShadow) as Border;
 
                 if (_border != null)
                 {

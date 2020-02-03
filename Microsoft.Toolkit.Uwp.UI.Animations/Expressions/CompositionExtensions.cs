@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations.Expressions
             keyframeAnimation.InsertExpressionKeyFrame(normalizedProgressKey, expressionNode.ToExpressionString(), easing);
 #endif
 
-			expressionNode.SetAllParameters(keyframeAnimation);
+            expressionNode.SetAllParameters(keyframeAnimation);
         }
 
         /// <summary>

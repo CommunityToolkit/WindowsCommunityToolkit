@@ -9,6 +9,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.Graph
 {
+    /// <summary>
+    /// SingleCalendarView
+    /// </summary>
     internal partial class SingleCalendarView : CalendarView
     {
         public static readonly DependencyProperty DateProperty =

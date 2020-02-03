@@ -119,7 +119,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         private static void ShowAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
 #if !HAS_UNO
-			if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -137,12 +137,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ElementCompositionPreview.SetImplicitShowAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
             }
 #endif
-		}
+        }
 
         private static void HideAnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
- #if !HAS_UNO
-           if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
+#if !HAS_UNO
+            if (!ApiInformationHelper.IsCreatorsUpdateOrAbove)
             {
                 return;
             }
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 ElementCompositionPreview.SetImplicitHideAnimation(element, GetCompositionAnimationGroup(animationCollection, element));
             }
 #endif
-		}
+        }
 
         private static void AnimationsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -172,7 +172,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
             if (e.NewValue is AnimationCollection animationCollection && d is UIElement element)
             {
 #if !HAS_UNO
-				animationCollection.Parent = element;
+                animationCollection.Parent = element;
                 animationCollection.AnimationCollectionChanged -= AnimationsCollectionChanged;
                 animationCollection.AnimationCollectionChanged += AnimationsCollectionChanged;
                 ElementCompositionPreview.GetElementVisual(element).ImplicitAnimations = GetImplicitAnimationCollection(animationCollection, element);
