@@ -93,6 +93,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public string Type { get; set; }
 
+        public bool? IsUno { get; set; }
+
         public string Subcategory { get; set; }
 
         public string About { get; set; }

@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Metadata;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -53,7 +54,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // Container Generation Hooks
             RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
-            ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+
+            if (ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.ItemsControl", "ItemContainerGenerator"))
+            {
+                ItemContainerGenerator.ItemsChanged += ItemContainerGenerator_ItemsChanged;
+            }
 
             // Drag and Layout Hooks
             DragItemsStarting += TabView_DragItemsStarting;

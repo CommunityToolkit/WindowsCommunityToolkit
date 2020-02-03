@@ -1,10 +1,13 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
-                    xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
-                    xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls">
-
-    <ResourceDictionary.ThemeDictionaries>
+					xmlns:win="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+					xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
+					xmlns:ex="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+					xmlns:local="using:Microsoft.Toolkit.Uwp.UI.Controls"
+					xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+					xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+					mc:Ignorable="d">
+	<ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Light">
             <SolidColorBrush x:Key="TabViewBackground"
                              Color="{StaticResource SystemChromeLowColor}" />
@@ -705,7 +708,7 @@
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
-                                          Style="{StaticResource RepeatButtonRevealStyle}"
+                                          win:Style="{StaticResource RepeatButtonRevealStyle}"
                                           Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76B;
                             </RepeatButton>
@@ -723,7 +726,7 @@
                                           Delay="50"
                                           FontFamily="Segoe MDL2 Assets"
                                           Interval="100"
-                                          Style="{StaticResource RepeatButtonRevealStyle}"
+                                          win:Style="{StaticResource RepeatButtonRevealStyle}"
                                           Visibility="{Binding ScrollableWidth, Converter={StaticResource GreaterThanToleranceVisibilityConverter}, RelativeSource={RelativeSource TemplatedParent}, FallbackValue=Collapsed, TargetNullValue=Collapsed}">
                                 &#xE76C;
                             </RepeatButton>

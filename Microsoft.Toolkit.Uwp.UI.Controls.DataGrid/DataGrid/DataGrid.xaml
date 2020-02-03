@@ -102,7 +102,28 @@
     <StaticResource x:Key="DataGridCellFocusVisualPrimaryBrush" ResourceKey="SystemControlFocusVisualPrimaryBrush"/>
     <StaticResource x:Key="DataGridCellFocusVisualSecondaryBrush" ResourceKey="SystemControlFocusVisualSecondaryBrush"/>
     <StaticResource x:Key="DataGridCellInvalidBrush" ResourceKey="InvalidBrush"/>
+	
+    <!--Start: TopLeftHeaderTemplate-->
+    <ControlTemplate x:Key="TopLeftHeaderTemplate" TargetType="localprimitives:DataGridColumnHeader">
+        <Grid x:Name="TopLeftHeaderRoot">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Border BorderThickness="0,0,1,0" BorderBrush="{ThemeResource GridLinesBrush}" Grid.RowSpan="2"/>
+            <Rectangle VerticalAlignment="Bottom" Width="Auto" StrokeThickness="1" Height="1" Fill="{ThemeResource GridLinesBrush}" Grid.RowSpan="2"/>
+        </Grid>
+    </ControlTemplate>
+    <!--End: TopLeftHeaderTemplate-->
 
+    <!--Start: TopRightHeaderTemplate-->
+    <ControlTemplate x:Key="TopRightHeaderTemplate" TargetType="localprimitives:DataGridColumnHeader">
+        <Grid x:Name="RootElement"/>
+    </ControlTemplate>
+    <!--End: TopRightHeaderTemplate-->
+
+	
     <Style TargetType="local:DataGrid">
         <Setter Property="DragIndicatorStyle">
             <Setter.Value>
@@ -372,27 +393,6 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid Background="{TemplateBinding Background}">
-                            <Grid.Resources>
-                                <!--Start: TopLeftHeaderTemplate-->
-                                <ControlTemplate x:Key="TopLeftHeaderTemplate" TargetType="localprimitives:DataGridColumnHeader">
-                                    <Grid x:Name="TopLeftHeaderRoot">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        <Border BorderThickness="0,0,1,0" BorderBrush="{ThemeResource GridLinesBrush}" Grid.RowSpan="2"/>
-                                        <Rectangle VerticalAlignment="Bottom" Width="Auto" StrokeThickness="1" Height="1" Fill="{ThemeResource GridLinesBrush}" Grid.RowSpan="2"/>
-                                    </Grid>
-                                </ControlTemplate>
-                                <!--End: TopLeftHeaderTemplate-->
-
-                                <!--Start: TopRightHeaderTemplate-->
-                                <ControlTemplate x:Key="TopRightHeaderTemplate" TargetType="localprimitives:DataGridColumnHeader">
-                                    <Grid x:Name="RootElement"/>
-                                </ControlTemplate>
-                                <!--End: TopRightHeaderTemplate-->
-                            </Grid.Resources>
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>

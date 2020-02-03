@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         sample.CategoryName = category.Name;
 
-                        if (sample.IsSupported)
+                        if (sample.IsSupported && (sample.IsUno ?? false))
                         {
                             finalSamples.Add(sample);
                             await sample.PreparePropertyDescriptorAsync();
