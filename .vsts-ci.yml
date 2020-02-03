@@ -1,0 +1,111 @@
+trigger:
+- master
+- rel/*
+
+resources:
+  containers:
+  - container: nv-bionic-wasm
+    image: nventive/wasm-build:1.4.1
+
+jobs:
+- job: Windows
+
+  pool:
+    vmImage: 'windows-2019'
+
+  variables: 
+    BuildConfiguration: Release
+    ANDROID_NDK_HOME: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+    ANDROID_NDK_PATH: C:\Microsoft\AndroidNDK64\android-ndk-r16b
+    AndroidNdkDirectory: C:\Microsoft\AndroidNDK64\android-ndk-r16b 
+
+  steps:
+  - task: BatchScript@1
+    inputs:
+      filename: "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\Common7\\Tools\\VsDevCmd.bat"
+      arguments: -no_logo
+      modifyEnvironment: true
+    displayName: Setup Environment Variables
+    
+  - task: NuGetToolInstaller@0
+    displayName: Use NuGet 5.0.0
+    inputs:
+      versionSpec: 5.0.0
+
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.0.100'
+    displayName: Use .NET Core sdk
+
+  - task: DotNetCoreCLI@2  
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install --tool-path . nbgv
+    displayName: Install NBGV tool
+  
+  - script: nbgv cloud
+    displayName: Set Version
+    
+  - powershell: .\build\build.ps1 -target=Package
+    displayName: Build 
+
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Package Artifacts
+    inputs:
+      pathToPublish: .\Microsoft.Toolkit.Uwp.SampleApp.Wasm\bin\Release\netstandard2.0\dist
+      artifactType: container
+      artifactName: Wasm
+  
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Package Artifacts
+    inputs:
+      pathToPublish: .\bin\nupkg
+      artifactType: container
+      artifactName: WCT-Packages
+    condition: always()
+
+- job: linux
+
+  container: nv-bionic-wasm
+
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  variables:
+    NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
+
+  steps:
+  - checkout: self
+    clean: true
+
+  - bash: |
+      sudo chmod -R 777 /emsdk
+      cd /emsdk
+      sudo ./emsdk activate sdk-1.38.31-64bit
+
+    displayName: 'Setup Emscripten'
+
+  - bash: |
+      source /emsdk/emsdk_env.sh
+      cd $(build.sourcesdirectory)/Microsoft.Toolkit.Uwp.SampleApp.Wasm
+      msbuild /r /p:Configuration=Release $(build.sourcesdirectory)/Microsoft.Toolkit.Uwp.SampleApp.Wasm/Microsoft.Toolkit.Uwp.SampleApp.Wasm.csproj /p:TargetFrameworksOverride=netstandard2.0 /bl:$(build.artifactstagingdirectory)\build.binlog
+
+  - task: CopyFiles@2
+    displayName: 'Publish Wasm Binaries'
+    inputs:
+      SourceFolder: $(build.sourcesdirectory)/Microsoft.Toolkit.Uwp.SampleApp.Wasm/bin/Release/netstandard2.0/dist
+      Contents: '**/*.*'
+      TargetFolder: $(build.artifactstagingdirectory)
+      CleanTargetFolder: false
+      OverWrite: false
+      flattenFolders: false
+
+  - task: PublishBuildArtifacts@1
+    # https://developercommunity.visualstudio.com/content/problem/284991/public-vsts-previouw-cant-set-build-number-of-pr-b.html
+    condition: eq(variables['System.PullRequest.IsFork'], 'False')
+    inputs:
+      PathtoPublish: $(build.artifactstagingdirectory)
+      ArtifactName: wct-aot-drop
+      ArtifactType: Container
