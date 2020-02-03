@@ -80,6 +80,12 @@ jobs:
   - checkout: self
     clean: true
 
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '3.0.100'
+    displayName: Use .NET Core sdk
+
   - bash: |
       sudo chmod -R 777 /emsdk
       cd /emsdk
