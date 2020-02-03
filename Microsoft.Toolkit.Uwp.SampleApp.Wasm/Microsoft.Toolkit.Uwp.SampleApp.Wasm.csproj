@@ -10,6 +10,7 @@
     <NoWarn>$(NoWarm);Uno0001</NoWarn>
     <MonoRuntimeDebuggerEnabled Condition="'$(Configuration)'=='Debug'">true</MonoRuntimeDebuggerEnabled>
     <WasmShellMonoRuntimeExecutionMode Condition="$([MSBuild]::IsOsUnixLike())">InterpreterAndAOT</WasmShellMonoRuntimeExecutionMode>
+		<WasmShellEnableLongPathSupport>false</WasmShellEnableLongPathSupport>
   </PropertyGroup>
   
   <ItemGroup>
