@@ -48,7 +48,10 @@
     <ProjectName>Microsoft.Toolkit.Uwp.Input.GazeInteraction</ProjectName>
     <TargetFrameworks>UAP,Version=v10.0</TargetFrameworks>
   </PropertyGroup>
-  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.Input.GazeInteraction</PackageId>
+	</PropertyGroup>
+	<Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>

@@ -15,5 +15,9 @@
     
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
   </ItemGroup>
+	
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.Services</PackageId>
+	</PropertyGroup>
 
 </Project>

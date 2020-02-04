@@ -11,6 +11,10 @@
     <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
     <DebugType>Full</DebugType>
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.PlatformSpecificAnalyzer</PackageId>
+	</PropertyGroup>
 
   <ItemGroup>
     <None Remove="Differences-6.0.0.0.gz" />

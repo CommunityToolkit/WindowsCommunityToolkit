@@ -20,5 +20,9 @@
     <None Include="Microsoft.Toolkit.Uwp.Notifications.JavaScript.targets" PackagePath="build\Windows" Pack="true" />
     <None Include="..\Microsoft.Toolkit.Uwp.Notifications\bin\$(Configuration)\native\*.*" PackagePath="lib\Windows" Pack="true" />
   </ItemGroup>
-  
+
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.Notifications.JavaScript</PackageId>
+	</PropertyGroup>
+
 </Project>

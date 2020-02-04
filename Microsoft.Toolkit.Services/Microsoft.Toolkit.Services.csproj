@@ -15,8 +15,12 @@
     <DebugType>Full</DebugType>
     <NoWarn>CS8002;CS0618</NoWarn>
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Services</PackageId>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
+	<PropertyGroup Condition="'$(TargetFramework)' == 'uap10.0.16299'">
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 

@@ -59,5 +59,9 @@
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageId>Uno.Microsoft.Toolkit.Uwp.Notifications</PackageId>
+	</PropertyGroup>
 
 </Project>
