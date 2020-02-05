@@ -49,7 +49,7 @@
 					<!-- UNO TODO -->
                     <TextBlock HorizontalAlignment="Right"
                                Opacity="0.5"
-                               Text="{x:Bind sys:String.Format('MMM d', Published)}"></TextBlock>
+                               Text="{x:Bind sys:String.Format('{0:MMM d}', Published)}"></TextBlock>
                 </Grid>
             </HyperlinkButton>
         </DataTemplate>

@@ -90,9 +90,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             NavigationFrame.Navigated += NavigationFrameOnNavigated;
             NavView.BackRequested += NavView_BackRequested;
 
+#if HAS_UNO
+            if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
+            {
+                var parser = DeepLinkParser.Create(e.Parameter.ToString());
+                System.Console.WriteLine($"Deeplink Root:{parser.Root}, Keys: {string.Join(",", parser.Keys)}");
+
+                if (parser.TryGetValue("ShowUnoUnsupported", out var showUnoUnsupportedString)
+                    && bool.TryParse(showUnoUnsupportedString, out bool showUnoUnsupported))
+                {
+                    Console.WriteLine($"");
+                    Samples.ShowUnoUnsupported = showUnoUnsupported;
+                }
+            }
+#endif
+
             // Get list of samples
             var sampleCategories = await Samples.GetCategoriesAsync();
-            System.Console.WriteLine($"Got {sampleCategories.Count} categories");
+            System.Console.WriteLine($"Got {sampleCategories.Count} categorie (p: {e.Parameter})");
             NavView.MenuItemsSource = sampleCategories;
 
             SetAppTitle(string.Empty);
@@ -101,10 +116,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (!string.IsNullOrWhiteSpace(e?.Parameter?.ToString()))
             {
                 var parser = DeepLinkParser.Create(e.Parameter.ToString());
-                var targetSample = await Sample.FindAsync(parser.Root, parser["sample"]);
-                if (targetSample != null)
+
+                if (parser.TryGetValue("sample", out var sample))
                 {
-                    NavigateToSample(targetSample);
+                    var targetSample = await Sample.FindAsync(parser.Root, sample);
+                    if (targetSample != null)
+                    {
+                        NavigateToSample(targetSample);
+                    }
                 }
             }
 
