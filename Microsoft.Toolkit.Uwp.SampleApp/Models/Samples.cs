@@ -23,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static LinkedList<Sample> _recentSamples;
         private static RoamingObjectStorageHelper _roamingObjectStorageHelper = new RoamingObjectStorageHelper();
 
+        public static bool ShowUnoUnsupported { get; set; } = false;
+
         public static async Task<SampleCategory> GetCategoryBySample(Sample sample)
         {
             return (await GetCategoriesAsync()).FirstOrDefault(c => c.Samples.Contains(sample));
@@ -75,7 +77,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                     {
                         sample.CategoryName = category.Name;
 
-                        if (sample.IsSupported && (sample.IsUno ?? false))
+                        if (sample.IsSupported && (sample.IsUno ?? ShowUnoUnsupported))
                         {
                             finalSamples.Add(sample);
                             await sample.PreparePropertyDescriptorAsync();

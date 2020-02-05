@@ -150,6 +150,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+#if HAS_UNO
+                if (!string.IsNullOrEmpty(launchParameters))
+                {
+                    launchParameters = "?" + launchParameters;
+                }
+#endif
+
                 rootFrame.Navigate(typeof(Shell), launchParameters);
             }
 
