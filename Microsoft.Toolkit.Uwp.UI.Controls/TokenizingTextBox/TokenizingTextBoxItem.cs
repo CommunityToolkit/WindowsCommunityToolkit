@@ -5,6 +5,7 @@
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -12,8 +13,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A control that manages as the item logic for the <see cref="TokenizingTextBox"/> control.
     /// </summary>
-    [TemplatePart(Name = PART_ClearButton, Type = typeof(Button))]
-    public class TokenizingTextBoxItem : Button
+    [TemplatePart(Name = PART_ClearButton, Type = typeof(ButtonBase))]
+    public class TokenizingTextBoxItem : ListViewItem
     {
         private const string PART_ClearButton = "PART_ClearButton";
 
@@ -25,15 +26,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearClicked;
 
         /// <summary>
-        /// Identifies the <see cref="IsSelected"/> property.
-        /// </summary>
-        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(
-            nameof(IsSelected),
-            typeof(bool),
-            typeof(TokenizingTextBoxItem),
-            new PropertyMetadata(false, new PropertyChangedCallback(TokenizingTextBoxItem_IsSelectedChanged)));
-
-        /// <summary>
         /// Identifies the <see cref="ClearButtonStyle"/> property.
         /// </summary>
         public static readonly DependencyProperty ClearButtonStyleProperty = DependencyProperty.Register(
@@ -41,15 +33,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(Style),
             typeof(TokenizingTextBoxItem),
             new PropertyMetadata(Visibility.Collapsed));
-
-        /// <summary>
-        /// Gets or sets a value indicating whether this item is currently in a selected state.
-        /// </summary>
-        public bool IsSelected
-        {
-            get => (bool)GetValue(IsSelectedProperty);
-            set => SetValue(IsSelectedProperty, value);
-        }
 
         /// <summary>
         /// Gets or sets the Style for the 'Clear' Button
@@ -65,10 +48,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public TokenizingTextBoxItem()
         {
+            // TODO: Check if the ListView ItemClick event works still...
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
             var pointerEventHandler = new PointerEventHandler((s, e) => UpdateVisualState());
             var dependencyPropertyChangedEventHandler = new DependencyPropertyChangedEventHandler((d, e) => UpdateVisualState());
+
+            RegisterPropertyChangedCallback(IsSelectedProperty, TokenizingTextBoxItem_IsSelectedChanged);
 
             PointerEntered += pointerEventHandler;
             PointerExited += pointerEventHandler;
@@ -80,9 +66,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             KeyDown += TokenizingTextBoxItem_KeyDown;
         }
 
-        private static void TokenizingTextBoxItem_IsSelectedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private void TokenizingTextBoxItem_IsSelectedChanged(DependencyObject sender, DependencyProperty dp)
         {
-            if (d is TokenizingTextBoxItem item)
+            if (sender is TokenizingTextBoxItem item)
             {
                 if (item.IsSelected)
                 {
@@ -140,14 +126,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, "Disabled", useTransitions);
             }
-            else if (IsPressed)
-            {
-                VisualStateManager.GoToState(this, "Pressed", useTransitions);
-            }
-            else if (IsPointerOver)
-            {
-                VisualStateManager.GoToState(this, "PointerOver", useTransitions);
-            }
+            //// TODO?
+            //else if (IsPressed)
+            //{
+            //    VisualStateManager.GoToState(this, "Pressed", useTransitions);
+            //}
+            //else if (IsPointerOver)
+            //{
+            //    VisualStateManager.GoToState(this, "PointerOver", useTransitions);
+            //}
             else
             {
                 VisualStateManager.GoToState(this, "Normal", useTransitions);

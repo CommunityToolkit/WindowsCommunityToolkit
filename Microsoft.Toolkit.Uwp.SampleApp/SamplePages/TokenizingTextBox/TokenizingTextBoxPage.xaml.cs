@@ -83,6 +83,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else
                 {
+                    // TODO: Filter out existing selected items...
                     _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
                 }
             }
@@ -94,16 +95,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
         }
 
-        private void TokenItemAdded(TokenizingTextBox sender, TokenizingTextBoxItem args)
+        private void TokenItemAdded(TokenizingTextBox sender, object data)
         {
             // TODO: Add InApp Notification?
-            if (args.Content is SampleDataType sample)
+            if (data is SampleDataType sample)
             {
                 Debug.WriteLine("Added Token: " + sample.Text);
             }
             else
             {
-                Debug.WriteLine("Added Token: " + args.Content);
+                Debug.WriteLine("Added Token: " + data);
             }
         }
 

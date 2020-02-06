@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A text input control that auto-suggests and displays token items.
     /// </summary>
-    public partial class TokenizingTextBox : Control
+    public partial class TokenizingTextBox : ListViewBase
     {
         /// <summary>
         /// Identifies the <see cref="AutoSuggestBoxStyle"/> property.
@@ -29,15 +29,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public static readonly DependencyProperty AutoSuggestBoxTextBoxStyleProperty = DependencyProperty.Register(
             nameof(AutoSuggestBoxTextBoxStyle),
             typeof(Style),
-            typeof(TokenizingTextBox),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="DisplayMemberPath"/> property.
-        /// </summary>
-        public static readonly DependencyProperty DisplayMemberPathProperty = DependencyProperty.Register(
-            nameof(DisplayMemberPath),
-            typeof(string),
             typeof(TokenizingTextBox),
             new PropertyMetadata(null));
 
@@ -174,57 +165,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get => (Style)GetValue(AutoSuggestBoxStyleProperty);
             set => SetValue(AutoSuggestBoxStyleProperty, value);
-        }
-
-        /// <summary>
-        /// Gets or sets the DisplayMemberPath of the AutoSuggestBox template part.
-        /// </summary>
-        public string DisplayMemberPath
-        {
-            get => (string)GetValue(DisplayMemberPathProperty);
-            set => SetValue(DisplayMemberPathProperty, value);
-        }
-
-        private IList<TokenizingTextBoxItem> SelectedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
-
-        /// <summary>
-        /// Gets the collection of currently selected token items.
-        /// </summary>
-        public IList<object> SelectedItems
-        {
-            get
-            {
-                IList<object> items = new List<object>();
-
-                foreach (var item in SelectedItemsInternal)
-                {
-                    items.Add(item.Content);
-                }
-
-                return items;
-            }
-        }
-
-        private IList<TokenizingTextBoxItem> TokenizedItemsInternal { get; set; } = new List<TokenizingTextBoxItem>();
-
-        /// <summary>
-        /// Gets the collection of current token items.
-        /// </summary>
-        public IList<object> Items
-        {
-            get
-            {
-                IList<object> items = new List<object>();
-
-                foreach (var item in TokenizedItemsInternal)
-                {
-                    items.Add(item.Content);
-                }
-
-                return items;
-            }
-
-            //// TODO: Need to make this settable/changable
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// A text input control that auto-suggests and displays token items.
     /// </summary>
-    public partial class TokenizingTextBox : Control
+    public partial class TokenizingTextBox : ListViewBase
     {
         /// <summary>
         /// Event raised when the text input value has changed.
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Event raised when a new token item has been added.
         /// </summary>
-        public event TypedEventHandler<TokenizingTextBox, TokenizingTextBoxItem> TokenItemAdded;
+        public event TypedEventHandler<TokenizingTextBox, object> TokenItemAdded;
 
         /// <summary>
         /// Event raised before a new token item is created from a string, can be used to transform data type from text user entered.

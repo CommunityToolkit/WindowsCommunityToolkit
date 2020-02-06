@@ -22,22 +22,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// A text input control that auto-suggests and displays token items.
     /// </summary>
     [TemplatePart(Name = PART_AutoSuggestBox, Type = typeof(AutoSuggestBox))]
-    [TemplatePart(Name = PART_WrapPanel, Type = typeof(WrapPanel))]
     [TemplatePart(Name = PART_NormalState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_PointerOverState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_FocusedState, Type = typeof(VisualState))]
     [TemplatePart(Name = PART_UnfocusedState, Type = typeof(VisualState))]
-    public partial class TokenizingTextBox : Control
+    public partial class TokenizingTextBox : ListViewBase
     {
         private const string PART_AutoSuggestBox = "PART_AutoSuggestBox";
-        private const string PART_WrapPanel = "PART_WrapPanel";
         private const string PART_NormalState = "Normal";
         private const string PART_PointerOverState = "PointerOver";
         private const string PART_FocusedState = "Focused";
         private const string PART_UnfocusedState = "Unfocused";
 
         private AutoSuggestBox _autoSuggestBox;
-        private WrapPanel _wrapPanel;
         private TextBox _autoSuggestTextBox;
 
         /// <summary>
@@ -46,7 +43,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public TokenizingTextBox()
         {
             DefaultStyleKey = typeof(TokenizingTextBox);
-            TokenizedItemsInternal.Clear();
+
+            // TODO: Do we want to support ItemsSource better? Need to investigate how that works with adding...
+            ////RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
         }
 
         private void OnASBLoaded(object sender, RoutedEventArgs e)
@@ -63,15 +62,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private async void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             int currentCursorPosition = _autoSuggestTextBox.SelectionStart;
-            if (currentCursorPosition == 0 && e.Key == VirtualKey.Back && TokenizedItemsInternal.Count > 0)
+            if (currentCursorPosition == 0 && e.Key == VirtualKey.Back && Items.Count > 0)
             {
+                //// TODO
                 // The last item is the AutoSuggestBox. Get the second to last
-                UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
+                ////UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
 
-                // And set focus to it
-                await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
+                //// And set focus to it
+                ////await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
                 e.Handled = true;
             }
+        }
+
+        /// <inheritdoc/>
+        protected override DependencyObject GetContainerForItemOverride() => new TokenizingTextBoxItem();
+
+        /// <inheritdoc/>
+        protected override bool IsItemItsOwnContainerOverride(object item)
+        {
+            return item is TokenizingTextBoxItem;
         }
 
         /// <inheritdoc/>
@@ -96,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _autoSuggestBox = (AutoSuggestBox)GetTemplateChild(PART_AutoSuggestBox);
-            _wrapPanel = (WrapPanel)GetTemplateChild(PART_WrapPanel);
+            ////_wrapPanel = (WrapPanel)GetTemplateChild(PART_WrapPanel);
 
             if (_autoSuggestBox != null)
             {
@@ -229,10 +238,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+        {
+            base.PrepareContainerForItemOverride(element, item);
+
+            var tokenitem = element as TokenizingTextBoxItem;
+
+            tokenitem.ContentTemplateSelector = TokenItemTemplateSelector;
+            tokenitem.ContentTemplate = TokenItemTemplate;
+            tokenitem.Style = TokenItemStyle;
+
+            tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
+            tokenitem.KeyUp -= TokenizingTextBoxItem_KeyUp;
+
+            tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
+            tokenitem.KeyUp += TokenizingTextBoxItem_KeyUp;
+
+            var removeMenuItem = new MenuFlyoutItem
+            {
+                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+            };
+            removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
+
+            var menuFlyout = new MenuFlyout();
+            menuFlyout.Items.Add(removeMenuItem);
+            tokenitem.ContextFlyout = menuFlyout;
+        }
+
         private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
             bool removeMulti = false;
-            foreach (var item in SelectedItemsInternal)
+            foreach (var item in SelectedItems)
             {
                 if (item == sender)
                 {
@@ -243,48 +279,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (removeMulti)
             {
-                while (SelectedItemsInternal.Count > 0)
+                foreach (var item in SelectedItems)
                 {
-                    var b = SelectedItemsInternal[0] as TokenizingTextBoxItem;
-                    RemoveToken(b);
+                    RemoveToken(item as TokenizingTextBoxItem);
                 }
             }
             else
             {
                 RemoveToken(sender);
-            }
-        }
-
-        private void TokenizingTextBoxItem_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is TokenizingTextBoxItem item)
-            {
-                bool isControlDown = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                if (!item.IsSelected && !isControlDown)
-                {
-                    foreach (var child in _wrapPanel.Children)
-                    {
-                        if (child is TokenizingTextBoxItem childItem)
-                        {
-                            childItem.IsSelected = false;
-                        }
-                    }
-
-                    SelectedItemsInternal.Clear();
-                }
-
-                item.IsSelected = !item.IsSelected;
-
-                if (item.IsSelected)
-                {
-                    SelectedItemsInternal.Add(item);
-                }
-                else
-                {
-                    SelectedItemsInternal.Remove(item);
-                }
-
-                TokenItemClicked?.Invoke(this, item); // TODO: Do we want to use EventArgs here to have the OriginalSource like ItemClickEventArgs?
             }
         }
 
@@ -306,33 +308,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            var item = new TokenizingTextBoxItem()
-            {
-                Content = data,
-                ContentTemplateSelector = TokenItemTemplateSelector,
-                ContentTemplate = TokenItemTemplate,
-                Style = TokenItemStyle
-            };
-            item.Click += TokenizingTextBoxItem_Click; // TODO: Wonder if this needs to be in a PrepareContainerForItemOverride?
-            item.ClearClicked += TokenizingTextBoxItem_ClearClicked;
-            item.KeyUp += TokenizingTextBoxItem_KeyUp;
+            Items.Add(data);
 
-            var removeMenuItem = new MenuFlyoutItem
-            {
-                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
-            };
-            removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(item, null);
-
-            var menuFlyout = new MenuFlyout();
-            menuFlyout.Items.Add(removeMenuItem);
-            item.ContextFlyout = menuFlyout;
-
-            var i = _wrapPanel.Children.Count - 1;
-            _wrapPanel.Children.Insert(i, item);
-
-            TokenizedItemsInternal.Add(item);
-
-            TokenItemAdded?.Invoke(this, item);
+            TokenItemAdded?.Invoke(this, data);
         }
 
         private void TokenizingTextBoxItem_KeyUp(object sender, KeyRoutedEventArgs e)
@@ -386,14 +364,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CopySelectedToClipboard()
         {
-            if (SelectedItemsInternal.Count > 0)
+            if (SelectedItems.Count > 0)
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
 
                 string tokenString = string.Empty;
                 bool addSeparator = false;
-                foreach (TokenizingTextBoxItem item in SelectedItemsInternal)
+                foreach (TokenizingTextBoxItem item in SelectedItems)
                 {
                     if (addSeparator)
                     {
@@ -422,28 +400,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            SelectedItemsInternal.Remove(item);
-            TokenizedItemsInternal.Remove(item);
+            this.DeselectItem(item); // TODO: Bug? Why do I need this to use Extension?
+            Items.Remove(ItemFromContainer(item));
 
-            var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
-            _wrapPanel.Children.Remove(item);
+            // TODO
+            //var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
+            //_wrapPanel.Children.Remove(item);
 
-            if (_wrapPanel.Children[itemIndex] is Control control)
-            {
-                control.Focus(FocusState.Programmatic);
-            }
-        }
-
-        private void SelectAll()
-        {
-            foreach (var child in _wrapPanel.Children)
-            {
-                if (child is TokenizingTextBoxItem item)
-                {
-                    item.IsSelected = true;
-                    SelectedItemsInternal.Add(item);
-                }
-            }
+            //if (_wrapPanel.Children[itemIndex] is Control control)
+            //{
+            //    control.Focus(FocusState.Programmatic);
+            //}
         }
 
         /// <summary>
@@ -453,12 +420,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public string GetUntokenizedText(string tokenDelimiter = ", ")
         {
             var tokenStrings = new List<string>();
-            foreach (var child in _wrapPanel.Children)
+            foreach (var item in Items)
             {
-                if (child is TokenizingTextBoxItem item)
-                {
-                    tokenStrings.Add(item.Content.ToString());
-                }
+                tokenStrings.Add(item.ToString());
             }
 
             return string.Join(tokenDelimiter, tokenStrings);
