@@ -378,7 +378,7 @@
         <Setter Property="BorderBrush" Value="{ThemeResource TextControlBorderBrush}" />
         <Setter Property="BorderThickness" Value="{StaticResource TokenizingTextBoxBorderThickness}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="TabNavigation" Value="Once" />
+        <Setter Property="TabNavigation" Value="Local" />
         <Setter Property="IsSwipeEnabled" Value="False" />
         <Setter Property="Padding" Value="{StaticResource TokenizingTextBoxPadding}" />
         <Setter Property="SelectionMode" Value="Extended" />

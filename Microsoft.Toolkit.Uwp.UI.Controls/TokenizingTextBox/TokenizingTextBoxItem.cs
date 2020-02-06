@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Windows.Foundation;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -113,10 +114,36 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             switch (e.Key)
             {
-                case Windows.System.VirtualKey.Back:
-                case Windows.System.VirtualKey.Delete:
+                case VirtualKey.Back:
+                case VirtualKey.Delete:
+                {
                     ClearButton_Click(sender, e);
                     break;
+                }
+
+                case VirtualKey.Left:
+                {
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                    break;
+                }
+
+                case VirtualKey.Right:
+                {
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
+                    break;
+                }
+
+                case VirtualKey.Up:
+                {
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
+                    break;
+                }
+
+                case VirtualKey.Down:
+                {
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                    break;
+                }
             }
         }
 

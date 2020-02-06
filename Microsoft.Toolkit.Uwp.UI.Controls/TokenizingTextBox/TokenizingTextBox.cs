@@ -37,6 +37,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private AutoSuggestBox _autoSuggestBox;
         private TextBox _autoSuggestTextBox;
 
+        private bool CaretAtStart => _autoSuggestTextBox?.SelectionStart == 0 && Items.Count > 0;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TokenizingTextBox"/> class.
         /// </summary>
@@ -46,6 +48,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             // TODO: Do we want to support ItemsSource better? Need to investigate how that works with adding...
             ////RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
+
+            PreviewKeyDown += this.TokenizingTextBox_PreviewKeyDown;
+        }
+
+        private void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case VirtualKey.C:
+                {
+                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                    if (controlPressed)
+                    {
+                        CopySelectedToClipboard();
+                    }
+
+                    break;
+                }
+            }
         }
 
         private void OnASBLoaded(object sender, RoutedEventArgs e)
@@ -59,17 +80,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
         }
 
-        private async void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            int currentCursorPosition = _autoSuggestTextBox.SelectionStart;
-            if (currentCursorPosition == 0 && e.Key == VirtualKey.Back && Items.Count > 0)
+            if (CaretAtStart && 
+                (e.Key == VirtualKey.Back ||
+                 e.Key == VirtualKey.Left))
             {
-                //// TODO
-                // The last item is the AutoSuggestBox. Get the second to last
-                ////UIElement itemToFocus = _wrapPanel.Children[_wrapPanel.Children.Count - 2];
-
-                //// And set focus to it
-                ////await FocusManager.TryFocusAsync(itemToFocus, FocusState.Keyboard);
+                // Select last token item (if there is one)
+                FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
                 e.Handled = true;
             }
         }
@@ -95,7 +113,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.QuerySubmitted -= AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen -= AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged -= AutoSuggestBox_TextChanged;
-                _autoSuggestBox.KeyDown -= AutoSuggestBox_KeyDown;
                 _autoSuggestBox.PointerEntered -= AutoSuggestBox_PointerEntered;
                 _autoSuggestBox.PointerExited -= AutoSuggestBox_PointerExited;
                 _autoSuggestBox.PointerCanceled -= AutoSuggestBox_PointerExited;
@@ -105,7 +122,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _autoSuggestBox = (AutoSuggestBox)GetTemplateChild(PART_AutoSuggestBox);
-            ////_wrapPanel = (WrapPanel)GetTemplateChild(PART_WrapPanel);
 
             if (_autoSuggestBox != null)
             {
@@ -114,7 +130,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _autoSuggestBox.QuerySubmitted += AutoSuggestBox_QuerySubmitted;
                 _autoSuggestBox.SuggestionChosen += AutoSuggestBox_SuggestionChosen;
                 _autoSuggestBox.TextChanged += AutoSuggestBox_TextChanged;
-                _autoSuggestBox.KeyDown += AutoSuggestBox_KeyDown;
                 _autoSuggestBox.PointerEntered += AutoSuggestBox_PointerEntered;
                 _autoSuggestBox.PointerExited += AutoSuggestBox_PointerExited;
                 _autoSuggestBox.PointerCanceled += AutoSuggestBox_PointerExited;
@@ -151,35 +166,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, PART_FocusedState, true);
-        }
-
-        private void AutoSuggestBox_KeyDown(object sender, KeyRoutedEventArgs e)
-        {
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                    break;
-
-                case VirtualKey.Right:
-                    break;
-
-                case VirtualKey.Up:
-                    break;
-
-                case VirtualKey.Down:
-                    break;
-
-                case VirtualKey.C:
-                    {
-                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                        if (controlPressed)
-                        {
-                            CopySelectedToClipboard();
-                        }
-
-                        break;
-                    }
-            }
         }
 
         private async void AutoSuggestBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -238,6 +224,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc/>
         protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
         {
             base.PrepareContainerForItemOverride(element, item);
@@ -249,10 +236,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tokenitem.Style = TokenItemStyle;
 
             tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
-            tokenitem.KeyUp -= TokenizingTextBoxItem_KeyUp;
-
             tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
-            tokenitem.KeyUp += TokenizingTextBoxItem_KeyUp;
 
             var removeMenuItem = new MenuFlyoutItem
             {
@@ -313,65 +297,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             TokenItemAdded?.Invoke(this, data);
         }
 
-        private void TokenizingTextBoxItem_KeyUp(object sender, KeyRoutedEventArgs e)
-        {
-            TokenizingTextBoxItem ttbi = sender as TokenizingTextBoxItem;
-
-            switch (e.Key)
-            {
-                case VirtualKey.Left:
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Left);
-                        break;
-                    }
-
-                case VirtualKey.Right:
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Right);
-                        break;
-                    }
-
-                case VirtualKey.Up:
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
-                        break;
-                    }
-
-                case VirtualKey.Down:
-                    {
-                        FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
-                        break;
-                    }
-
-                case VirtualKey.Space:
-                    {
-                        ttbi.IsSelected = !ttbi.IsSelected;
-                        break;
-                    }
-
-                case VirtualKey.C:
-                    {
-                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                        if (controlPressed)
-                        {
-                            CopySelectedToClipboard();
-                        }
-
-                        break;
-                    }
-            }
-        }
-
         private void CopySelectedToClipboard()
         {
-            if (SelectedItems.Count > 0)
+            if (Items.Count > 0)
             {
                 DataPackage dataPackage = new DataPackage();
                 dataPackage.RequestedOperation = DataPackageOperation.Copy;
 
                 string tokenString = string.Empty;
                 bool addSeparator = false;
-                foreach (TokenizingTextBoxItem item in SelectedItems)
+
+                // Copy all items if none selected
+                foreach (var item in SelectedItems.Count > 0 ? SelectedItems : Items)
                 {
                     if (addSeparator)
                     {
@@ -382,7 +319,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         addSeparator = true;
                     }
 
-                    tokenString += item.Content;
+                    tokenString += item.ToString();
                 }
 
                 dataPackage.SetText(tokenString);
@@ -402,15 +339,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             this.DeselectItem(item); // TODO: Bug? Why do I need this to use Extension?
             Items.Remove(ItemFromContainer(item));
-
-            // TODO
-            //var itemIndex = Math.Max(_wrapPanel.Children.IndexOf(item) - 1, 0);
-            //_wrapPanel.Children.Remove(item);
-
-            //if (_wrapPanel.Children[itemIndex] is Control control)
-            //{
-            //    control.Focus(FocusState.Programmatic);
-            //}
         }
 
         /// <summary>
