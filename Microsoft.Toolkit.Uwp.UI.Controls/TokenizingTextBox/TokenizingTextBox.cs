@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             bool removeMulti = false;
             foreach (var item in SelectedItems)
             {
-                if (item == sender)
+                if (item != sender)
                 {
                     removeMulti = true;
                     break;
@@ -266,9 +266,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (removeMulti)
             {
-                foreach (var item in SelectedItems)
+                for (int i = SelectedItems.Count - 1; i >= 0; i--)
                 {
-                    RemoveToken(item as TokenizingTextBoxItem);
+                    RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
                 }
             }
             else
@@ -340,7 +340,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return;
             }
 
-            this.DeselectItem(item); // TODO: Bug? Why do I need this to use Extension?
+            this.DeselectItem(item);
             Items.Remove(ItemFromContainer(item));
         }
 
