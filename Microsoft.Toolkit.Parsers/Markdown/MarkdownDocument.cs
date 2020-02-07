@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdownText"> The markdown text. </param>
         public void Parse(string markdownText)
         {
-            Blocks = Parse(markdownText, 0, markdownText.Length, actualEnd: out _);
+            Blocks = ParseBlocks(markdownText, 0, markdownText.Length, actualEnd: out _);
 
             // Remove any references from the list of blocks, and add them to a dictionary.
             for (int i = Blocks.Count - 1; i >= 0; i--)
@@ -145,7 +145,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
-        /// Parses a markdown document.
+        /// Parses text to Bloks.
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The position to start parsing. </param>
@@ -154,7 +154,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// different from <paramref name="end"/> when the parser is being called recursively.
         /// </param>
         /// <returns> A list of parsed blocks. </returns>
-        internal List<MarkdownBlock> Parse(string markdown, int start, int end, out int actualEnd)
+        public List<MarkdownBlock> ParseBlocks(string markdown, int start, int end, out int actualEnd)
         {
             // We need to parse out the list of blocks.
             // Some blocks need to start on a new paragraph (code, lists and tables) while other

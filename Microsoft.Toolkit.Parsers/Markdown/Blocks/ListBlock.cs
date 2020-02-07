@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         {
                             // Parse the list item as a series of blocks.
                             int actualEnd;
-                            newBlockList.AddRange(document.Parse(blockText, 0, blockText.Length, actualEnd: out actualEnd));
+                            newBlockList.AddRange(document.ParseBlocks(blockText, 0, blockText.Length, actualEnd: out actualEnd));
                             usedBlockParser = true;
                         }
                         else

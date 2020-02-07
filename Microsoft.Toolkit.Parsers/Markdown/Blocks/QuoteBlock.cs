@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     var filteredString = new StringFilter(lines);
 
                     // Recursively call into the markdown block parser.
-                    result.Blocks = document.Parse(filteredString.ToString(), 0, filteredString.Length, out _);
+                    result.Blocks = document.ParseBlocks(filteredString.ToString(), 0, filteredString.Length, out _);
                 }
                 else
                 {
