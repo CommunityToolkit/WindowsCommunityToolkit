@@ -4,19 +4,84 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
+
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener
+    public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener, INotifyPropertyChanged
     {
         private TokenizingTextBox _ttb;
+        private TokenizingTextBox _ttbEmail;
+
+        /// <summary>
+        /// Change notification event
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Gets an observable List of names for the suppressed suggestion list control
+        /// </summary>
+        public ObservableCollection<SampleEmailDataType> EmailSelectionList
+        {
+            get
+            {
+                if (_ttbEmail != null)
+                {
+                    List<SampleEmailDataType> removeList = new List<SampleEmailDataType>();
+
+                    // add the tokens in the token list already
+                    var listitems = _ttbEmail.Items.Cast<SampleEmailDataType>();
+                    removeList.AddRange(listitems);
+                    if (!string.IsNullOrWhiteSpace(_ttbEmail.Text))
+                    {
+                        removeList.AddRange(_emailSamples.Where((item) => !item.DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase)));
+                    }
+
+                    return new ObservableCollection<SampleEmailDataType>(_emailSamples.Except(removeList).OrderBy(item => item.DisplayName));
+                }
+                else
+                {
+                    return new ObservableCollection<SampleEmailDataType>(_emailSamples.OrderBy(item => item.DisplayName));
+                }
+            }
+        }
+
+        private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
+        {
+            new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman", Icon = Symbol.Account },
+            new SampleEmailDataType() { FirstName = "Ian", FamilyName = "Smith", Icon = Symbol.AddFriend },
+            new SampleEmailDataType() { FirstName = "Peter", FamilyName = "Strange", Icon = Symbol.Attach },
+            new SampleEmailDataType() { FirstName = "Alex", FamilyName = "Wilber", Icon = Symbol.AttachCamera },
+            new SampleEmailDataType() { FirstName = "Allan", FamilyName = "Deyoung", Icon = Symbol.Audio },
+            new SampleEmailDataType() { FirstName = "Adele", FamilyName = "Vance", Icon = Symbol.BlockContact },
+            new SampleEmailDataType() { FirstName = "Grady", FamilyName = "Archie", Icon = Symbol.Calculator },
+            new SampleEmailDataType() { FirstName = "Megan", FamilyName = "Bowen", Icon = Symbol.Calendar },
+            new SampleEmailDataType() { FirstName = "Ben", FamilyName = "Walters", Icon = Symbol.Camera },
+            new SampleEmailDataType() { FirstName = "Debra", FamilyName = "Berger", Icon = Symbol.Contact },
+            new SampleEmailDataType() { FirstName = "Emily", FamilyName = "Braun", Icon = Symbol.Favorite },
+            new SampleEmailDataType() { FirstName = "Christine", FamilyName = "Cline", Icon = Symbol.Link },
+            new SampleEmailDataType() { FirstName = "Enrico", FamilyName = "Catteneo", Icon = Symbol.Mail },
+            new SampleEmailDataType() { FirstName = "Davit", FamilyName = "Badalyan", Icon = Symbol.Map },
+            new SampleEmailDataType() { FirstName = "Diego", FamilyName = "Siciliani", Icon = Symbol.Phone },
+            new SampleEmailDataType() { FirstName = "Raul", FamilyName = "Razo", Icon = Symbol.Pin },
+            new SampleEmailDataType() { FirstName = "Miriam", FamilyName = "Graham", Icon = Symbol.Rotate },
+            new SampleEmailDataType() { FirstName = "Lynne", FamilyName = "Robbins", Icon = Symbol.RotateCamera },
+            new SampleEmailDataType() { FirstName = "Lydia", FamilyName = "Holloway", Icon = Symbol.Send },
+            new SampleEmailDataType() { FirstName = "Nestor", FamilyName = "Wilke", Icon = Symbol.Tag },
+            new SampleEmailDataType() { FirstName = "Patti", FamilyName = "Fernandez", Icon = Symbol.UnFavorite },
+            new SampleEmailDataType() { FirstName = "Pradeep", FamilyName = "Gupta", Icon = Symbol.UnPin },
+            new SampleEmailDataType() { FirstName = "Joni", FamilyName = "Sherman", Icon = Symbol.Zoom },
+            new SampleEmailDataType() { FirstName = "Isaiah", FamilyName = "Langer", Icon = Symbol.ZoomIn },
+            new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
+        };
 
         private List<SampleDataType> _samples = new List<SampleDataType>()
         {
@@ -50,6 +115,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         public TokenizingTextBoxPage()
         {
             InitializeComponent();
+            Loaded += (sernder, e) => { this.OnXamlRendered(this); };
         }
 
         public void OnXamlRendered(FrameworkElement control)
@@ -71,6 +137,26 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb.TextChanged += TextChanged;
                 _ttb.TokenItemCreating += TokenItemCreating;
             }
+
+            // For the Email Selection control
+            if (_ttbEmail != null)
+            {
+                _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
+                _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
+                _ttbEmail.TextChanged -= EmailTextChanged;
+            }
+
+            if (control.FindChildByName("TokenBoxWhatsApp") is TokenizingTextBox ttbEmail)
+            {
+                _ttbEmail = ttbEmail;
+
+                _ttbEmail.DataContext = this;
+
+                _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
+                _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
+                _ttbEmail.TextChanged += EmailTextChanged;
+            }
+
         }
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -118,6 +204,54 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Debug.WriteLine("Removed Token: " + args.Item);
             }
+        }
+
+        private void EmailTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+            }
+        }
+
+        private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Added Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Added Token: " + args);
+            }
+        }
+
+        private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Removed Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Removed Token: " + args);
+            }
+
+            // Refresh the list of suggestions
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+        }
+
+        private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+             _ttbEmail.Items.Add(e.ClickedItem);
+            _ttbEmail.Text = string.Empty;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+        }
+
+        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            _ttbEmail.Items.Clear();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
         }
     }
 }

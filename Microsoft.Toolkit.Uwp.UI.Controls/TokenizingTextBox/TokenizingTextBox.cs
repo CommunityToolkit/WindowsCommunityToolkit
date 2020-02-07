@@ -88,6 +88,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 // Select last token item (if there is one)
                 FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+
+                // Clear the selection content
+                _autoSuggestTextBox.SelectedText = string.Empty;
                 e.Handled = true;
             }
         }
@@ -193,9 +196,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            TextChanged?.Invoke(sender, args);
-
             string t = sender.Text.Trim();
+            Text = t;
+            TextChanged?.Invoke(sender, args);
 
             if (!string.IsNullOrEmpty(TokenDelimiter) && t.Contains(TokenDelimiter))
             {

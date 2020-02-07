@@ -462,7 +462,7 @@
                                     QueryIcon="{TemplateBinding QueryIcon}"
                                     Style="{TemplateBinding AutoSuggestBoxStyle}"
                                     Template="{StaticResource TokenizingTextBoxAutoSuggestBoxTemplate}"
-                                    Text="{TemplateBinding Text}"
+                                    Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     TextBoxStyle="{TemplateBinding AutoSuggestBoxTextBoxStyle}"
                                     TextMemberPath="{TemplateBinding TextMemberPath}" />
                 </controls:WrapPanel>

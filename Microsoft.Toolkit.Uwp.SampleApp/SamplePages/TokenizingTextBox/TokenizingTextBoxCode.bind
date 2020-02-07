@@ -1,25 +1,95 @@
-private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
-{
-    if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
-    {
-        if (string.IsNullOrWhiteSpace(sender.Text))
-        {
-            _ttb.SuggestedItemsSource = Array.Empty<object>();
-        }
-        else
-        {
-            _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
-        }
-    }
-}
 
-private async void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
-{
-    // Take the user's text and convert it to our data type.
-    using (e.GetDeferral())
-    {
-		// Can do an async lookup here as well.
+        private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                if (string.IsNullOrWhiteSpace(sender.Text))
+                {
+                    _ttb.SuggestedItemsSource = Array.Empty<object>();
+                }
+                else
+                {
+                    // TODO: Filter out existing selected items...
+                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
+                }
+            }
+        }
 
-        e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
-    }
-}
+        private void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
+        {
+            // Take the user's text and convert it to our data type.
+            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        private void TokenItemAdded(TokenizingTextBox sender, object data)
+        {
+            // TODO: Add InApp Notification?
+            if (data is SampleDataType sample)
+            {
+                Debug.WriteLine("Added Token: " + sample.Text);
+            }
+            else
+            {
+                Debug.WriteLine("Added Token: " + data);
+            }
+        }
+
+        private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovedEventArgs args)
+        {
+            if (args.Item is SampleDataType sample)
+            {
+                Debug.WriteLine("Removed Token: " + sample.Text);
+            }
+            else
+            {
+                Debug.WriteLine("Removed Token: " + args.Item);
+            }
+        }
+
+        private void EmailTextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+            }
+        }
+
+        private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Added Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Added Token: " + args);
+            }
+        }
+
+        private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
+        {
+            if (args is SampleEmailDataType sample)
+            {
+                Debug.WriteLine("Removed Email: " + sample.DisplayName);
+            }
+            else
+            {
+                Debug.WriteLine("Removed Token: " + args);
+            }
+
+            // Refresh the list of suggestions
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+        }
+
+        private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+             _ttbEmail.Items.Add(e.ClickedItem);
+            _ttbEmail.Text = string.Empty;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+        }
+
+        private void ClearButtonClick(object sender, RoutedEventArgs e)
+        {
+            _ttbEmail.Items.Clear();
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+        }
