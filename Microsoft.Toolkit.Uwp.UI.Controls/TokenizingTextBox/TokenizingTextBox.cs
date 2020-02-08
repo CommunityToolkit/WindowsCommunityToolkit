@@ -54,6 +54,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            // Global handlers on control regardless if focused on item or in textbox.
             switch (e.Key)
             {
                 case VirtualKey.C:
@@ -82,6 +83,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            // Handlers for the textbox only
+            // Handlers for items in TokenizingTextBoxItem
             if (CaretAtStart && 
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
@@ -92,6 +95,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Clear the selection content
                 _autoSuggestTextBox.SelectedText = string.Empty;
                 e.Handled = true;
+            }
+            else if (e.Key == VirtualKey.A && CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
+            {
+                // Need to provide this shortcut from the textbox only, as ListViewBase will do it for us on token.
+                // Need to Dispatch or ListView doesn't process request.
+                _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    this.SelectAllSafe();
+                });
             }
         }
 
@@ -145,7 +157,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
-            selectAllMenuItem.Click += (s, e) => SelectAll();
+            selectAllMenuItem.Click += (s, e) => this.SelectAllSafe();
             var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(selectAllMenuItem);
             ContextFlyout = menuFlyout;

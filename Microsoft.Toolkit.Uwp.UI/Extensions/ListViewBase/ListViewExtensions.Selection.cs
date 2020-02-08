@@ -55,5 +55,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     break;
             }
         }
+
+        /// <summary>
+        /// Selects all items in the list (or first one), if possible.
+        /// </summary>
+        /// <param name="list"><see cref="ListViewBase"/></param>
+        public static void SelectAllSafe(this ListViewBase list)
+        {
+            switch (list.SelectionMode)
+            {
+                case ListViewSelectionMode.Single:
+                    list.SelectedItem = list.Items.FirstOrDefault();
+                    break;
+                case ListViewSelectionMode.Multiple:
+                case ListViewSelectionMode.Extended:
+                    list.SelectRange(new ItemIndexRange(0, (uint)list.Items.Count));
+                    break;
+            }
+        }
     }
 }
