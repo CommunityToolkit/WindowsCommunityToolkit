@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             get
             {
-                return string.Format("{0} <{1}.{2}@contoso.com", DisplayName, FirstName, FamilyName);
+                return string.Format("{0} <{1}.{2}@contoso.com>", DisplayName, FirstName, FamilyName);
             }
         }
 

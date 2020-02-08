@@ -113,6 +113,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_ttbEmail != null)
             {
                 _ttbEmail.ItemClick -= EmailList_ItemClick;
+                _ttbEmail.TokenItemAdding -= EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
                 _ttbEmail.TextChanged -= EmailTextChanged;
@@ -123,6 +124,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail = ttbEmail;
 
                 _ttbEmail.ItemClick += EmailList_ItemClick;
+                _ttbEmail.TokenItemAdding += EmailTokenItemAdding;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
                 _ttbEmail.TextChanged += EmailTextChanged;
@@ -241,6 +243,23 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     .Except(_ttbEmail.Items.Cast<SampleEmailDataType>())
                     .OrderBy(item => item.DisplayName);
             }
+        }
+
+        private void EmailTokenItemAdding(TokenizingTextBox sender, TokenItemAddingEventArgs args)
+        {
+            // Search our list for a matching person
+            foreach (var person in _emailSamples)
+            {
+                if (args.TokenText.Contains(person.EmailAddress) ||
+                    args.TokenText.Contains(person.DisplayName, StringComparison.CurrentCultureIgnoreCase))
+                {
+                    args.Item = person;
+                    return;
+                }
+            }
+
+            // Otherwise don't create a token.
+            args.Cancel = true;
         }
 
         private void EmailTokenItemAdded(TokenizingTextBox sender, object args)
