@@ -123,9 +123,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             if (_ttb != null)
             {
                 _ttb.TokenItemAdded -= TokenItemAdded;
-                _ttb.TokenItemRemoved -= TokenItemRemoved;
+                _ttb.TokenItemRemoving -= TokenItemRemoved;
                 _ttb.TextChanged -= TextChanged;
-                _ttb.TokenItemCreating -= TokenItemCreating;
+                _ttb.TokenItemAdding -= TokenItemCreating;
             }
 
             if (control.FindChildByName("TokenBox") is TokenizingTextBox ttb)
@@ -133,9 +133,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb = ttb;
 
                 _ttb.TokenItemAdded += TokenItemAdded;
-                _ttb.TokenItemRemoved += TokenItemRemoved;
+                _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
-                _ttb.TokenItemCreating += TokenItemCreating;
+                _ttb.TokenItemAdding += TokenItemCreating;
             }
 
             // For the Email Selection control
@@ -175,10 +175,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
+        private void TokenItemCreating(object sender, TokenItemAddingEventArgs e)
         {
-            // Take the user's text and convert it to our data type.
+            // Take the user's text and convert it to our data type (if we have a matching one).
             e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+
+            // Otherwise, create a new version of our data type
+            if (e.Item == null)
+            {
+                e.Item = new SampleDataType()
+                {
+                    Text = e.TokenText,
+                    Icon = Symbol.OutlineStar
+                };
+            }
         }
 
         private void TokenItemAdded(TokenizingTextBox sender, object data)
@@ -194,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovedEventArgs args)
+        private void TokenItemRemoved(TokenizingTextBox sender, TokenItemRemovingEventArgs args)
         {
             if (args.Item is SampleDataType sample)
             {

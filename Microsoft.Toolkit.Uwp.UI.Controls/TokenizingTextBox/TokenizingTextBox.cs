@@ -208,10 +208,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            string t = sender.Text.Trim();
-            Text = t;
+            var t = sender.Text.Trim();
             TextChanged?.Invoke(sender, args);
 
+            // Look for Token Delimiters to create new tokens when text changes.
             if (!string.IsNullOrEmpty(TokenDelimiter) && t.Contains(TokenDelimiter))
             {
                 bool lastDelimited = t[t.Length - 1] == TokenDelimiter[0];
@@ -291,19 +291,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task AddToken(object data)
         {
-            if (data is string str && TokenItemCreating != null)
+            if (data is string str && TokenItemAdding != null)
             {
-                var ticea = new TokenItemCreatingEventArgs(str);
-                await TokenItemCreating.InvokeAsync(this, ticea);
+                var tiaea = new TokenItemAddingEventArgs(str);
+                await TokenItemAdding.InvokeAsync(this, tiaea);
 
-                if (ticea.Cancel)
+                if (tiaea.Cancel)
                 {
                     return;
                 }
 
-                if (ticea.Item != null)
+                if (tiaea.Item != null)
                 {
-                    data = ticea.Item; // Transformed by event implementor
+                    data = tiaea.Item; // Transformed by event implementor
                 }
             }
 
@@ -342,18 +342,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        private void RemoveToken(TokenizingTextBoxItem item)
+        private async Task RemoveToken(TokenizingTextBoxItem item)
         {
-            var tirea = new TokenItemRemovedEventArgs(item?.Content, item);
-            TokenItemRemoved?.Invoke(this, tirea);
-
-            if (tirea.Cancel)
+            if (TokenItemRemoving != null)
             {
-                return;
+                var tirea = new TokenItemRemovingEventArgs(ItemFromContainer(item), item);
+                await TokenItemRemoving.InvokeAsync(this, tirea);
+
+                if (tirea.Cancel)
+                {
+                    return;
+                }
             }
 
             this.DeselectItem(item);
-            Items.Remove(ItemFromContainer(item));
+
+            var data = ItemFromContainer(item);
+            Items.Remove(data);
+
+            TokenItemRemoved?.Invoke(this, data);
         }
 
         /// <summary>
