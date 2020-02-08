@@ -13,47 +13,12 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
-    public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener, INotifyPropertyChanged
+    public sealed partial class TokenizingTextBoxPage : Page, IXamlRenderListener
     {
-        private TokenizingTextBox _ttb;
-        private TokenizingTextBox _ttbEmail;
-
-        /// <summary>
-        /// Change notification event
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// Gets an observable List of names for the suppressed suggestion list control
-        /// </summary>
-        public ObservableCollection<SampleEmailDataType> EmailSelectionList
-        {
-            get
-            {
-                if (_ttbEmail != null)
-                {
-                    List<SampleEmailDataType> removeList = new List<SampleEmailDataType>();
-
-                    // add the tokens in the token list already
-                    var listitems = _ttbEmail.Items.Cast<SampleEmailDataType>();
-                    removeList.AddRange(listitems);
-                    if (!string.IsNullOrWhiteSpace(_ttbEmail.Text))
-                    {
-                        removeList.AddRange(_emailSamples.Where((item) => !item.DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase)));
-                    }
-
-                    return new ObservableCollection<SampleEmailDataType>(_emailSamples.Except(removeList).OrderBy(item => item.DisplayName));
-                }
-                else
-                {
-                    return new ObservableCollection<SampleEmailDataType>(_emailSamples.OrderBy(item => item.DisplayName));
-                }
-            }
-        }
-
+        #region Sample Data
+        //// TODO: We should use images here.
         private readonly List<SampleEmailDataType> _emailSamples = new List<SampleEmailDataType>()
         {
             new SampleEmailDataType() { FirstName = "Marcus", FamilyName = "Perryman", Icon = Symbol.Account },
@@ -83,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
         };
 
-        private List<SampleDataType> _samples = new List<SampleDataType>()
+        private readonly List<SampleDataType> _samples = new List<SampleDataType>()
         {
             new SampleDataType() { Text = "Account", Icon = Symbol.Account },
             new SampleDataType() { Text = "Add Friend", Icon = Symbol.AddFriend },
@@ -111,6 +76,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             new SampleDataType() { Text = "ZoomIn", Icon = Symbol.ZoomIn },
             new SampleDataType() { Text = "ZoomOut", Icon = Symbol.ZoomOut },
         };
+        #endregion
+
+        private TokenizingTextBox _ttb;
+        private TokenizingTextBox _ttbEmail;
+        private ListView _ttbEmailSuggestions;
+        private Button _ttbEmailClear;
 
         public TokenizingTextBoxPage()
         {
@@ -141,22 +112,47 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             // For the Email Selection control
             if (_ttbEmail != null)
             {
+                _ttbEmail.ItemClick -= EmailList_ItemClick;
                 _ttbEmail.TokenItemAdded -= EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved -= EmailTokenItemRemoved;
                 _ttbEmail.TextChanged -= EmailTextChanged;
             }
 
-            if (control.FindChildByName("TokenBoxWhatsApp") is TokenizingTextBox ttbEmail)
+            if (control.FindChildByName("TokenBoxEmail") is TokenizingTextBox ttbEmail)
             {
                 _ttbEmail = ttbEmail;
 
-                _ttbEmail.DataContext = this;
-
+                _ttbEmail.ItemClick += EmailList_ItemClick;
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
                 _ttbEmail.TextChanged += EmailTextChanged;
             }
 
+            if (_ttbEmailSuggestions != null)
+            {
+                _ttbEmailSuggestions.ItemClick -= EmailList_ItemClick;
+            }
+
+            if (control.FindChildByName("EmailList") is ListView ttbList)
+            {
+                _ttbEmailSuggestions = ttbList;
+
+                _ttbEmailSuggestions.ItemClick += EmailList_ItemClick;
+
+                UpdateSuggestions();
+            }
+
+            if (_ttbEmailClear != null)
+            {
+                _ttbEmailClear.Click -= ClearButtonClick;
+            }
+
+            if (control.FindChildByName("ClearButton") is Button btn)
+            {
+                _ttbEmailClear = btn;
+
+                _ttbEmailClear.Click += ClearButtonClick;
+            }
         }
 
         private void TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -169,8 +165,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else
                 {
-                    // TODO: Filter out existing selected items...
-                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
+                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase))
+                        .Except(_ttb.Items.Cast<SampleDataType>())
+                        .OrderByDescending(item => item.Text);
                 }
             }
         }
@@ -220,7 +217,29 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+                UpdateSuggestions();
+            }
+        }
+
+        private void UpdateSuggestions()
+        {
+            if (_ttbEmail == null || _ttbEmailSuggestions == null)
+            {
+                return;
+            }
+
+            // TODO: Test out AdvancedCollectionView Filter here instead?
+            if (string.IsNullOrWhiteSpace(_ttbEmail.Text))
+            {
+                _ttbEmailSuggestions.ItemsSource = _emailSamples
+                    .Except(_ttbEmail.Items.Cast<SampleEmailDataType>())
+                    .OrderBy(item => item.DisplayName);
+            }
+            else
+            {
+                _ttbEmailSuggestions.ItemsSource = _emailSamples.Where((item) => item.DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase))
+                    .Except(_ttbEmail.Items.Cast<SampleEmailDataType>())
+                    .OrderBy(item => item.DisplayName);
             }
         }
 
@@ -234,6 +253,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             {
                 Debug.WriteLine("Added Token: " + args);
             }
+
+            UpdateSuggestions();
         }
 
         private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
@@ -247,21 +268,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Debug.WriteLine("Removed Token: " + args);
             }
 
-            // Refresh the list of suggestions
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+            UpdateSuggestions();
         }
 
         private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
         {
-             _ttbEmail.Items.Add(e.ClickedItem);
+            _ttbEmail.Items.Add(e.ClickedItem);
             _ttbEmail.Text = string.Empty;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+
+            UpdateSuggestions();
         }
 
         private void ClearButtonClick(object sender, RoutedEventArgs e)
         {
             _ttbEmail.Items.Clear();
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("EmailSelectionList"));
+
+            UpdateSuggestions();
         }
     }
 }

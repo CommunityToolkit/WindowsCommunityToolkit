@@ -6,92 +6,9 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Visibility="Visible">
-        <!--<SymbolIcon Symbol="Accept"/>
-        <controls:TokenizingTextBox />-->
-        <Grid Margin="40,40,40,40">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <StackPanel>
-                <TextBlock FontSize="32" Text="Select Actions"/>
-                <controls:TokenizingTextBox
-          x:Name="TokenBox"
-          PlaceholderText="Add Actions"
-          QueryIcon="Setting"
-          MaxHeight="104"
-          HorizontalAlignment="Stretch"
-          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-          ScrollViewer.HorizontalScrollMode="Disabled"
-          ScrollViewer.VerticalScrollBarVisibility="Auto"
-          ScrollViewer.VerticalScrollMode="Enabled"
-          TextMemberPath="Text"
-          TokenSpacing="2"
-          Padding="4"
-          TokenDelimiter=",">
-                    <controls:TokenizingTextBox.SuggestedItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="{Binding Icon}"/>
-                                <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </controls:TokenizingTextBox.SuggestedItemTemplate>
-                    <controls:TokenizingTextBox.TokenItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="{Binding Icon}"/>
-                                <TextBlock Text="{Binding Text}" Padding="4,0,0,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </controls:TokenizingTextBox.TokenItemTemplate>
-                </controls:TokenizingTextBox>
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Width="auto">
-                <TextBlock FontSize="32" Text="Select Email addresses"/>
-                <controls:TokenizingTextBox
-          Width="Auto"
-              x:Name="TokenBoxWhatsApp"
-              PlaceholderText="Select Names"
-              MaxHeight="104"
-              HorizontalAlignment="Stretch"
-              QueryIcon="Find"
-              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-              ScrollViewer.HorizontalScrollMode="Disabled"
-              ScrollViewer.VerticalScrollBarVisibility="Auto"
-              ScrollViewer.VerticalScrollMode="Enabled"
-              TextMemberPath="Text"
-              TokenSpacing="2"
-              Padding="4"
-              TokenDelimiter=",">
-                    <controls:TokenizingTextBox.TokenItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <SymbolIcon Symbol="{Binding Icon}"/>
-                                <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </controls:TokenizingTextBox.TokenItemTemplate>
-                </controls:TokenizingTextBox>
-
-                <Border BorderThickness="1" BorderBrush="Black" HorizontalAlignment="Stretch">
-                    <ListView x:Name="EmailList" Height="200" ItemsSource="{x:Bind EmailSelectionList, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="EmailList_ItemClick">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel Orientation="Horizontal">
-                                    <SymbolIcon Symbol="{Binding Icon}"/>
-                                    <TextBlock Text="{Binding DisplayName}" Padding="4,0,0,0"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </Border>
-
-                <Button Content="Clear All Tokens" Click="ClearButtonClick"/>
-            </StackPanel>
-
-        </Grid>
+    <Grid Visibility="Collapsed">
+        <SymbolIcon Symbol="Accept"/>
+        <controls:TokenizingTextBox />
+        <controls:TokenizingTextBoxItem />
     </Grid>
 </Page>
