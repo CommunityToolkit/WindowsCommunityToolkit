@@ -253,18 +253,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
             tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
+            var menuFlyout = new MenuFlyout();
+
             var removeMenuItem = new MenuFlyoutItem
             {
                 Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBoxItem_MenuFlyout_Remove", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
             };
             removeMenuItem.Click += (s, e) => TokenizingTextBoxItem_ClearClicked(tokenitem, null);
 
-            var menuFlyout = new MenuFlyout();
             menuFlyout.Items.Add(removeMenuItem);
+
+            var selectAllMenuItem = new MenuFlyoutItem
+            {
+                Text = StringExtensions.GetLocalized("WindowsCommunityToolkit_TokenizingTextBox_MenuFlyout_SelectAll", "Microsoft.Toolkit.Uwp.UI.Controls/Resources")
+            };
+            selectAllMenuItem.Click += (s, e) => this.SelectAllSafe();
+
+            menuFlyout.Items.Add(selectAllMenuItem);
+
             tokenitem.ContextFlyout = menuFlyout;
         }
 
-        private void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
             bool removeMulti = false;
             foreach (var item in SelectedItems)
@@ -280,12 +290,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 for (int i = SelectedItems.Count - 1; i >= 0; i--)
                 {
-                    RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
+                    await RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
                 }
             }
             else
             {
-                RemoveToken(sender);
+                await RemoveToken(sender);
             }
         }
 
