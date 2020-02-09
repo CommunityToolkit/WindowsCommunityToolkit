@@ -78,7 +78,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             _autoSuggestTextBox = _autoSuggestBox.FindDescendant<TextBox>() as TextBox;
-            _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
+
+            if (_autoSuggestTextBox != null)
+            {
+                _autoSuggestTextBox.PreviewKeyDown += this.AutoSuggestTextBox_PreviewKeyDown;
+            }
         }
 
         private void AutoSuggestTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)

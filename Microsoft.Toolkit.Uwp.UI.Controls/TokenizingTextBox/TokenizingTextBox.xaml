@@ -406,10 +406,7 @@
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
-                    <controls:WrapPanel Name="PART_WrapPanel"
-                                        HorizontalSpacing="{TemplateBinding TokenSpacing}"
-                                        StretchChild="Last"
-                                        VerticalSpacing="{TemplateBinding TokenSpacing}"/>
+                    <controls:InsetPanel/>
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
@@ -445,7 +442,9 @@
                 IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                 BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
                 AutomationProperties.AccessibilityView="Raw">
-                <controls:WrapPanel StretchChild="Last">
+                <controls:CoordinatedWrapPanel HorizontalSpacing="{TemplateBinding TokenSpacing}"
+                                               StretchChild="Last"
+                                               VerticalSpacing="{TemplateBinding TokenSpacing}">
                     <ItemsPresenter Header="{TemplateBinding Header}"
                                     HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                     HeaderTransitions="{TemplateBinding HeaderTransitions}"
@@ -465,7 +464,7 @@
                                     Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     TextBoxStyle="{TemplateBinding AutoSuggestBoxTextBoxStyle}"
                                     TextMemberPath="{TemplateBinding TextMemberPath}" />
-                </controls:WrapPanel>
+                </controls:CoordinatedWrapPanel>
             </ScrollViewer>
 
             <VisualStateManager.VisualStateGroups>

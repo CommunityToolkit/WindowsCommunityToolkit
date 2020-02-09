@@ -3,6 +3,8 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -12,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width / max height is reached a new row (in case of horizontal) or column (in case of vertical) is created to fit new controls.
     /// </summary>
-    public partial class WrapPanel : Panel
+    public partial class WrapPanel : Panel //// TODO: Implement Interface for Coordinated Panels
     {
         /// <summary>
         /// Gets or sets a uniform Horizontal distance (in pixels) between items when <see cref="Orientation"/> is set to Horizontal,
@@ -131,6 +133,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(Size availableSize)
         {
+            return MeasureOverrideInternal(availableSize, Children);
+        }
+
+        /// <summary>
+        /// MeasureOverride Internal measure.
+        /// </summary>
+        /// <param name="availableSize"></param>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        protected Size MeasureOverrideInternal(Size availableSize, IEnumerable<UIElement> elements)
+        {
             availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
             availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
             var totalMeasure = UvMeasure.Zero;
@@ -138,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var lineMeasure = UvMeasure.Zero;
 
-            foreach (var child in Children)
+            foreach (var child in elements)
             {
                 child.Measure(availableSize);
                 var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
@@ -199,7 +212,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size ArrangeOverride(Size finalSize)
         {
-            if (Children.Count > 0)
+            return ArrangeOverrideInternal(finalSize, Children);
+        }
+
+        /// <summary>
+        /// ArrangeOverride Internal Arranging.
+        /// </summary>
+        /// <param name="finalSize"></param>
+        /// <param name="elements"></param>
+        /// <returns></returns>
+        protected Size ArrangeOverrideInternal(Size finalSize, IEnumerable<UIElement> elements)
+        {
+            if (elements.Any())
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
                 var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
@@ -245,13 +269,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     currentV = Math.Max(desiredMeasure.V, currentV);
                 }
 
-                var lastIndex = Children.Count - 1;
-                for (var i = 0; i < lastIndex; i++)
+                var last = elements.Last();
+                foreach (var child in elements)
                 {
-                    arrange(Children[i]);
+                    arrange(child, child == last && StretchChild == StretchChild.Last);
                 }
-
-                arrange(Children[lastIndex], StretchChild == StretchChild.Last);
             }
 
             return finalSize;
