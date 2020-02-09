@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 throw new InvalidOperationException("Must have parent CoordinatedPanel.");
             }
 
-            _parentPanel.ChildPanel = this; // TODO: Should I provide a register method?
+            _parentPanel.RegisterCoordinatedChild(this);
         }
 
         /// <inheritdoc>

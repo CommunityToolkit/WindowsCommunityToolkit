@@ -20,6 +20,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         bool IsCoordinating { get; set; }
 
         /// <summary>
+        /// Called by child <see cref="InsetPanel"/> to register themselves for layout coordination.
+        /// </summary>
+        /// <param name="insetPanel"><see cref="InsetPanel"/> to coordinate with.</param>
+        void RegisterCoordinatedChild(InsetPanel insetPanel);
+
+        /// <summary>
         /// Provides an abstracted version of <see cref="FrameworkElement.MeasureOverride"/> for use by parent coordinated panel.
         /// </summary>
         /// <param name="availableSize">Size available to the control.</param>
