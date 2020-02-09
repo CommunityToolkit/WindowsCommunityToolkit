@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             // Handlers for the textbox only
             // Handlers for items in TokenizingTextBoxItem
-            if (CaretAtStart && 
+            if (CaretAtStart &&
                 (e.Key == VirtualKey.Back ||
                  e.Key == VirtualKey.Left))
             {

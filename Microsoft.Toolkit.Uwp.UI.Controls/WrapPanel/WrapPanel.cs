@@ -198,7 +198,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
 
-        /// <inheritdocs/>
+        /// <inheritdoc/>
         public override Size ArrangeElements(Size finalSize, IEnumerable<UIElement> elements)
         {
             if (elements.Any())

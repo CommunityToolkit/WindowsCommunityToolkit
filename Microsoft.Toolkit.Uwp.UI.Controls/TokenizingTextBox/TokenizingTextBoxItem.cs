@@ -153,15 +153,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 VisualStateManager.GoToState(this, "Disabled", useTransitions);
             }
+
             //// TODO?
-            //else if (IsPressed)
-            //{
-            //    VisualStateManager.GoToState(this, "Pressed", useTransitions);
-            //}
-            //else if (IsPointerOver)
-            //{
-            //    VisualStateManager.GoToState(this, "PointerOver", useTransitions);
-            //}
+            ////else if (IsPressed)
+            ////{
+            ////    VisualStateManager.GoToState(this, "Pressed", useTransitions);
+            ////}
+            ////else if (IsPointerOver)
+            ////{
+            ////    VisualStateManager.GoToState(this, "PointerOver", useTransitions);
+            ////}
             else
             {
                 VisualStateManager.GoToState(this, "Normal", useTransitions);

@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _parentPanel.RegisterCoordinatedChild(this);
         }
 
-        /// <inheritdoc>
+        /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
             // Whenever the ItemsPresenter modifies it's item, we'll be called here.
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return _parentPanel?.DesiredSize ?? availableSize;
         }
 
-        /// <inheritdoc>
+        /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
             return _parentPanel?.RenderSize ?? finalSize;
