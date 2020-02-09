@@ -11,12 +11,13 @@ using Windows.UI.Xaml.Controls;
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Controls the layout for a set of controls along with an <see cref="InsetPanel"/>.
+    /// Merges this panel's layout process with the contents of an inner <see cref="ItemsPresenter"/> control's items. The parent <see cref="ItemsControl.ItemsPanel"/> must be set to <see cref="InsetPanel"/>.
     /// </summary>
     internal class CoordinatedWrapPanel : WrapPanel
     {
         internal InsetPanel ChildPanel { get; set; }
 
+        // TODO: Does it make sense to have multiple ItemsPresenters supported?
         private ItemsPresenter _presenter; // TODO: Need to listen to collection change and re-do layout as the presenter itself won't change size to trigger it.
 
         protected override Size MeasureOverride(Size availableSize)
@@ -36,26 +37,29 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return ArrangeOverrideInternal(finalSize, elements);
         }
 
+        // TODO: Optimize for watching changes to Children of parent/child?
         private IEnumerable<UIElement> GetElements()
         {
             var elements = new List<UIElement>();
-            if (ChildPanel != null)
-            {
-                foreach (var child in ChildPanel.Children)
-                {
-                    elements.Add(child);
-                }
-            }
 
             foreach (var child in Children)
             {
-                if (!(child is ItemsPresenter))
+                if (child is ItemsPresenter)
                 {
-                    elements.Add(child);
+                    // TODO: Check that we only ever have one ItemsPresenter?
+                    _presenter = child as ItemsPresenter;
+
+                    if (ChildPanel != null)
+                    {
+                        foreach (var innerChild in ChildPanel.Children)
+                        {
+                            elements.Add(innerChild);
+                        }
+                    }
                 }
                 else
                 {
-                    _presenter = child as ItemsPresenter;
+                    elements.Add(child);
                 }
             }
 
