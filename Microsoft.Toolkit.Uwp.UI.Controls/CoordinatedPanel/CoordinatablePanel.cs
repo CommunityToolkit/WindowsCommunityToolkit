@@ -1,40 +1,49 @@
-﻿using System;
+﻿// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-//// TODO: Make this generic based off an interface that WrapPanel implements, then wrap that generic class for XAML usage.
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Merges this panel's layout process with the contents of an inner <see cref="ItemsPresenter"/> control's items. The parent <see cref="ItemsControl.ItemsPanel"/> must be set to <see cref="InsetPanel"/>.
+    /// Merges this panel's layout process with the contents of an inner <see cref="ItemsPresenter"/> control's items. The parent <see cref="ItemsControl.ItemsPanel"/> must be set to an <see cref="InsetPanel"/> and this panels <see cref="IsCoordinating"/> property must be set to true.
     /// </summary>
-    internal class CoordinatedWrapPanel : WrapPanel
+    public abstract class CoordinatablePanel : Panel, ICoordinatingPanel
     {
         internal InsetPanel ChildPanel { get; set; }
+
+        /// <inheritdoc/>
+        public bool IsCoordinating { get; set; }
 
         // TODO: Does it make sense to have multiple ItemsPresenters supported?
         private ItemsPresenter _presenter; // TODO: Need to listen to collection change and re-do layout as the presenter itself won't change size to trigger it.
 
+        /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
-            return MeasureOverrideInternal(availableSize, GetElements());
+            return MeasureElements(availableSize, IsCoordinating ? GetElements() : Children);
         }
 
+        /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var elements = GetElements();
-
-            if (_presenter != null)
+            if (IsCoordinating)
             {
-                _presenter.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+                var elements = GetElements();
+
+                if (_presenter != null)
+                {
+                    _presenter.Arrange(new Rect(0, 0, finalSize.Width, finalSize.Height));
+                }
+
+                return ArrangeElements(finalSize, elements);
             }
 
-            return ArrangeOverrideInternal(finalSize, elements);
+            return ArrangeElements(finalSize, Children);
         }
 
         // TODO: Optimize for watching changes to Children of parent/child?
@@ -65,5 +74,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return elements;
         }
+
+        /// <inheritdoc/>
+        public abstract Size MeasureElements(Size availableSize, IEnumerable<UIElement> elements);
+
+        /// <inheritdoc/>
+        public abstract Size ArrangeElements(Size finalSize, IEnumerable<UIElement> elements);
     }
 }

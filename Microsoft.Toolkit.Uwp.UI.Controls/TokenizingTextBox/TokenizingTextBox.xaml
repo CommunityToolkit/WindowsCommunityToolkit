@@ -442,9 +442,10 @@
                 IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                 BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
                 AutomationProperties.AccessibilityView="Raw">
-                <controls:CoordinatedWrapPanel HorizontalSpacing="{TemplateBinding TokenSpacing}"
-                                               StretchChild="Last"
-                                               VerticalSpacing="{TemplateBinding TokenSpacing}">
+                <controls:WrapPanel IsCoordinating="True"
+                                    HorizontalSpacing="{TemplateBinding TokenSpacing}"
+                                    StretchChild="Last"
+                                    VerticalSpacing="{TemplateBinding TokenSpacing}">
                     <ItemsPresenter Header="{TemplateBinding Header}"
                                     HeaderTemplate="{TemplateBinding HeaderTemplate}"
                                     HeaderTransitions="{TemplateBinding HeaderTransitions}"
@@ -464,7 +465,7 @@
                                     Text="{Binding Text, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     TextBoxStyle="{TemplateBinding AutoSuggestBoxTextBoxStyle}"
                                     TextMemberPath="{TemplateBinding TextMemberPath}" />
-                </controls:CoordinatedWrapPanel>
+                </controls:WrapPanel>
             </ScrollViewer>
 
             <VisualStateManager.VisualStateGroups>

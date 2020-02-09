@@ -14,7 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// WrapPanel is a panel that position child control vertically or horizontally based on the orientation and when max width / max height is reached a new row (in case of horizontal) or column (in case of vertical) is created to fit new controls.
     /// </summary>
-    public partial class WrapPanel : Panel //// TODO: Implement Interface for Coordinated Panels
+    public partial class WrapPanel : CoordinatablePanel
     {
         /// <summary>
         /// Gets or sets a uniform Horizontal distance (in pixels) between items when <see cref="Orientation"/> is set to Horizontal,
@@ -130,19 +130,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
-        /// <inheritdoc />
-        protected override Size MeasureOverride(Size availableSize)
-        {
-            return MeasureOverrideInternal(availableSize, Children);
-        }
-
-        /// <summary>
-        /// MeasureOverride Internal measure.
-        /// </summary>
-        /// <param name="availableSize"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
-        protected Size MeasureOverrideInternal(Size availableSize, IEnumerable<UIElement> elements)
+        /// <inheritdoc/>
+        public override Size MeasureElements(Size availableSize, IEnumerable<UIElement> elements)
         {
             availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
             availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
@@ -209,19 +198,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return Orientation == Orientation.Horizontal ? new Size(totalMeasure.U, totalMeasure.V) : new Size(totalMeasure.V, totalMeasure.U);
         }
 
-        /// <inheritdoc />
-        protected override Size ArrangeOverride(Size finalSize)
-        {
-            return ArrangeOverrideInternal(finalSize, Children);
-        }
-
-        /// <summary>
-        /// ArrangeOverride Internal Arranging.
-        /// </summary>
-        /// <param name="finalSize"></param>
-        /// <param name="elements"></param>
-        /// <returns></returns>
-        protected Size ArrangeOverrideInternal(Size finalSize, IEnumerable<UIElement> elements)
+        /// <inheritdocs/>
+        public override Size ArrangeElements(Size finalSize, IEnumerable<UIElement> elements)
         {
             if (elements.Any())
             {
