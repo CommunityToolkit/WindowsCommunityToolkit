@@ -213,7 +213,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (item.Top <= context.RealizationRect.Bottom)
                     {
-
                         double itemHorizontalOffset = horizontalOffset + (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
                         double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
 
@@ -222,6 +221,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         columnHeights[columnIndex] += item.Height;
                         itemsPerColumn[columnIndex]++;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }
