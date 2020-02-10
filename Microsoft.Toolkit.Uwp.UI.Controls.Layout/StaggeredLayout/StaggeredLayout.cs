@@ -163,6 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 item.Top = columnHeights[columnIndex];
                 columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
                 itemsPerColumn[columnIndex]++;
+                state.AddItemToColumn(item, columnIndex);
 
                 if (item.Top > context.RealizationRect.Bottom)
                 {
@@ -205,23 +206,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
 
-            for (int i = 0; i < context.ItemCount; i++)
+            var state = (StaggeredLayoutState)context.LayoutState;
+            for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
             {
-                var columnIndex = GetColumnIndex(columnHeights);
+                double top = verticalOffset;
+                StaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
+                for (int i = 0; i < layout.Count; i++)
+                {
+                    StaggeredItem item = state.GetItemAt(i);
 
-                var child = context.GetOrCreateElementAt(i);
-                var elementSize = child.DesiredSize;
+                    if ((item.Top + item.Height) < context.RealizationRect.Top)
+                    {
+                        // element is above the realization bounds
+                        continue;
+                    }
 
-                double elementHeight = elementSize.Height;
+                    if (item.Top <= context.RealizationRect.Bottom)
+                    {
 
-                double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
-                double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
+                        double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
+                        double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
 
-                Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, elementHeight);
-                child.Arrange(bounds);
+                        Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, item.Height);
+                        item.Arrange(bounds);
 
-                columnHeights[columnIndex] += elementSize.Height;
-                itemsPerColumn[columnIndex]++;
+                        columnHeights[columnIndex] += item.Height;
+                        itemsPerColumn[columnIndex]++;
+                    }
+                }
             }
 
             return base.Arrange(context, finalSize);

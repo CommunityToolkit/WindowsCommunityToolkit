@@ -23,6 +23,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public double Top { get; internal set; }
 
+        public double Height { get; internal set; }
+
         internal Size Measure(double columnWidth, double availableHeight)
         {
             if (_size == null)
@@ -31,6 +33,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 element.Measure(new Size(columnWidth, availableHeight));
                 _size = element.DesiredSize;
+                Height = _size.Value.Height;
             }
 
             return _size.Value;
@@ -39,6 +42,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private UIElement GetElement()
         {
             return _context.GetOrCreateElementAt(_index);
+        }
+
+        internal void Arrange(Rect bounds)
+        {
+            UIElement element = GetElement();
+            element.Arrange(bounds);
         }
     }
 }

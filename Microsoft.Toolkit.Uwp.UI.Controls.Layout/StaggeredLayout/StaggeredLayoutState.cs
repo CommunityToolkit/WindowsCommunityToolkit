@@ -12,10 +12,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private List<StaggeredItem> _items = new List<StaggeredItem>();
         private VirtualizingLayoutContext _context;
+        private Dictionary<int, StaggeredColumnLayout> _columnLayout = new Dictionary<int, StaggeredColumnLayout>();
 
         public StaggeredLayoutState(VirtualizingLayoutContext context)
         {
             _context = context;
+        }
+
+        internal void AddItemToColumn(StaggeredItem item, int columnIndex)
+        {
+            if (_columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout) == false)
+            {
+                columnLayout = new StaggeredColumnLayout();
+                _columnLayout[columnIndex] = columnLayout;
+            }
+            if (columnLayout.Contains(item) == false)
+            {
+                columnLayout.Add(item);
+            }
         }
 
         internal StaggeredItem GetItemAt(int index)
@@ -34,5 +48,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        internal StaggeredColumnLayout GetColumnLayout(int columnIndex)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
