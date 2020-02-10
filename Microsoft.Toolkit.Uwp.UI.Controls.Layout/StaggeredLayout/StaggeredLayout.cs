@@ -115,6 +115,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
+            if (context.ItemCount == 0)
+            {
+                return new Size(availableSize.Width, 0);
+            }
+
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
@@ -137,11 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //    availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
             //    _columnWidth = availableWidth / numColumns;
             //}
-
-            if (context.ItemCount == 0)
-            {
-                return new Size(0, 0);
-            }
 
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
