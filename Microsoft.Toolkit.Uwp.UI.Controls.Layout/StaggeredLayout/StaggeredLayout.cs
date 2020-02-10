@@ -15,8 +15,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// </summary>
     public class StaggeredLayout : VirtualizingLayout
     {
-        private double _columnWidth;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="StaggeredLayout"/> class.
         /// </summary>
@@ -130,11 +128,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
-            _columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
-            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / _columnWidth));
+            state.ColumnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / state.ColumnWidth));
 
             // adjust for column spacing on all columns expect the first
-            double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+            double totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             if (totalWidth > availableWidth)
             {
                 numColumns--;
@@ -147,7 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             //if (HorizontalAlignment == HorizontalAlignment.Stretch)
             //{
             //    availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
-            //    _columnWidth = availableWidth / numColumns;
+            //    state.ColumnWidth = availableWidth / numColumns;
             //}
 
             var columnHeights = new double[numColumns];
@@ -158,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var columnIndex = GetColumnIndex(columnHeights);
 
                 StaggeredItem item = state.GetItemAt(i);
-                Size elementSize = item.Measure(_columnWidth, availableHeight);
+                Size elementSize = item.Measure(state.ColumnWidth, availableHeight);
 
                 double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
                 item.Top = columnHeights[columnIndex] + spacing;
@@ -181,18 +179,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size ArrangeOverride(VirtualizingLayoutContext context, Size finalSize)
         {
+            var state = (StaggeredLayoutState)context.LayoutState;
+
             double horizontalOffset = Padding.Left;
             double verticalOffset = Padding.Top;
-            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / _columnWidth));
+            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / state.ColumnWidth));
 
             // adjust for horizontal spacing on all columns expect the first
-            double totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+            double totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             if (totalWidth > finalSize.Width)
             {
                 numColumns--;
 
                 // Need to recalculate the totalWidth for a correct horizontal offset
-                totalWidth = _columnWidth + ((numColumns - 1) * (_columnWidth + ColumnSpacing));
+                totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             }
 
             //if (HorizontalAlignment == HorizontalAlignment.Right)
@@ -207,7 +207,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
 
-            var state = (StaggeredLayoutState)context.LayoutState;
             for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
             {
                 double top = verticalOffset;
@@ -225,10 +224,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (item.Top <= context.RealizationRect.Bottom)
                     {
 
-                        double itemHorizontalOffset = horizontalOffset + (_columnWidth * columnIndex) + (ColumnSpacing * columnIndex);
+                        double itemHorizontalOffset = horizontalOffset + (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
                         double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
 
-                        Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, _columnWidth, item.Height);
+                        Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, state.ColumnWidth, item.Height);
                         item.Arrange(bounds);
 
                         columnHeights[columnIndex] += item.Height;

@@ -19,6 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _context = context;
         }
 
+        public double ColumnWidth { get; internal set; }
+
         internal void AddItemToColumn(StaggeredItem item, int columnIndex)
         {
             if (_columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout) == false)
