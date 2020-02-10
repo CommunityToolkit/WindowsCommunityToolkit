@@ -4,13 +4,35 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class StaggeredLayoutState
     {
+        private List<StaggeredItem> _items = new List<StaggeredItem>();
+        private VirtualizingLayoutContext _context;
+
+        public StaggeredLayoutState(VirtualizingLayoutContext context)
+        {
+            _context = context;
+        }
+
+        internal StaggeredItem GetItemAt(int index)
+        {
+            if (index < 0) throw new IndexOutOfRangeException();
+
+            if (index <= (_items.Count - 1))
+            {
+                return _items[index];
+            }
+            else
+            {
+                StaggeredItem item = new StaggeredItem(_context, index);
+                _items.Add(item);
+                return item;
+            }
+        }
+
     }
 }

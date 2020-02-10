@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override void InitializeForContextCore(VirtualizingLayoutContext context)
         {
-            context.LayoutState = new StaggeredLayoutState();
+            context.LayoutState = new StaggeredLayoutState(context);
             base.InitializeForContextCore(context);
         }
 
@@ -119,10 +119,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return new Size(availableSize.Width, 0);
             }
+
             if ((context.RealizationRect.Width == 0) && (context.RealizationRect.Height == 0))
             {
                 return new Size(availableSize.Width, 0.0);
             }
+
+            var state = (StaggeredLayoutState)context.LayoutState;
 
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
@@ -154,9 +157,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
-                var child = context.GetOrCreateElementAt(i);
-                child.Measure(new Size(_columnWidth, availableHeight));
-                var elementSize = child.DesiredSize;
+                StaggeredItem item = state.GetItemAt(i);
+                Size elementSize = item.Measure(_columnWidth, availableHeight);
+
                 columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
                 itemsPerColumn[columnIndex]++;
             }
