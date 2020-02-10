@@ -142,12 +142,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 availableWidth = totalWidth;
             }
 
-            //if (HorizontalAlignment == HorizontalAlignment.Stretch)
-            //{
-            //    availableWidth = availableWidth - ((numColumns - 1) * ColumnSpacing);
-            //    state.ColumnWidth = availableWidth / numColumns;
-            //}
-
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
 
@@ -194,15 +188,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // Need to recalculate the totalWidth for a correct horizontal offset
                 totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             }
-
-            //if (HorizontalAlignment == HorizontalAlignment.Right)
-            //{
-            //    horizontalOffset += finalSize.Width - totalWidth;
-            //}
-            //else if (HorizontalAlignment == HorizontalAlignment.Center)
-            //{
-            //    horizontalOffset += (finalSize.Width - totalWidth) / 2;
-            //}
 
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
