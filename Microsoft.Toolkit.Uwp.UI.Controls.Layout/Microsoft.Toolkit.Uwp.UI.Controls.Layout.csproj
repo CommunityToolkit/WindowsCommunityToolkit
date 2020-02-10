@@ -11,13 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="StaggeredLayout\**" />
-    <EmbeddedResource Remove="StaggeredLayout\**" />
-    <None Remove="StaggeredLayout\**" />
-    <Page Remove="StaggeredLayout\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="VisualStudioToolsManifest.xml" Pack="true" PackagePath="tools" />
   </ItemGroup>
 
