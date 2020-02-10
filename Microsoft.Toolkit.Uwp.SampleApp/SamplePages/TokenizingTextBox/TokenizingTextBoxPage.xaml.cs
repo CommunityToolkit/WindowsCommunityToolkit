@@ -292,10 +292,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
         private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            _ttbEmail.Items.Add(e.ClickedItem);
-            _ttbEmail.Text = string.Empty;
+            // TODO: not sure how this is getting to be null, need to make simple repro and file platform issue?
+            if (e.ClickedItem != null)
+            {
+                _ttbEmail.Items.Add(e.ClickedItem);
+                _ttbEmail.Text = string.Empty;
 
-            UpdateSuggestions();
+                UpdateSuggestions();
+            }
         }
 
         private void ClearButtonClick(object sender, RoutedEventArgs e)
