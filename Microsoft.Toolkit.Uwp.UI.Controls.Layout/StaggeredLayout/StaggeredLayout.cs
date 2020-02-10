@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
@@ -144,6 +145,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new double[numColumns];
+            var deadColumns = new HashSet<int>();
 
             for (int i = 0; i < context.ItemCount; i++)
             {
@@ -161,6 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
+                    deadColumns.Add(columnIndex);
+                }
+
+                if (deadColumns.Count == numColumns)
+                {
                     break;
                 }
             }
