@@ -203,8 +203,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 StaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
                 for (int i = 0; i < layout.Count; i++)
                 {
-                    StaggeredItem item = state.GetItemAt(i);
-
+                    StaggeredItem item = layout[i];
                     if ((item.Top + item.Height) < context.RealizationRect.Top)
                     {
                         // element is above the realization bounds
