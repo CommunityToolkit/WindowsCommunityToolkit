@@ -129,6 +129,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
 
+            double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
+            if (columnWidth != state.ColumnWidth)
+            {
+                state.ClearColumns();
+            }
+
             state.ColumnWidth = Math.Min(DesiredColumnWidth, availableWidth);
             int numColumns = Math.Max(1, (int)Math.Floor(availableWidth / state.ColumnWidth));
 

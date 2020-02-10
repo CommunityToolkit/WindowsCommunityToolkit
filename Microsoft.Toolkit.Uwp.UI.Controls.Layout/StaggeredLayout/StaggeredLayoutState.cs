@@ -55,5 +55,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout);
             return columnLayout;
         }
+
+        internal void ClearColumns()
+        {
+            _columnLayout.Clear();
+            _items.Clear();
+        }
     }
 }
