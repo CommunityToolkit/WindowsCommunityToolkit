@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            return base.Arrange(context, finalSize);
+            return finalSize;
         }
 
         private static void OnDesiredColumnWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
