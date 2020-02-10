@@ -160,8 +160,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 StaggeredItem item = state.GetItemAt(i);
                 Size elementSize = item.Measure(_columnWidth, availableHeight);
 
-                item.Top = columnHeights[columnIndex];
-                columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
+                double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
+                item.Top = columnHeights[columnIndex] + spacing;
+                columnHeights[columnIndex] = item.Top + item.Height;
                 itemsPerColumn[columnIndex]++;
                 state.AddItemToColumn(item, columnIndex);
 
