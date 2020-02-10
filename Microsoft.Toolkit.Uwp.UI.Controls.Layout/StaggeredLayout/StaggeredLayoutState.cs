@@ -52,7 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal StaggeredColumnLayout GetColumnLayout(int columnIndex)
         {
-            throw new NotImplementedException();
+            _columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout);
+            return columnLayout;
         }
     }
 }
