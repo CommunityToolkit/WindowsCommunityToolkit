@@ -160,11 +160,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 StaggeredItem item = state.GetItemAt(i);
                 Size elementSize = item.Measure(_columnWidth, availableHeight);
 
-                double top = columnHeights[columnIndex];
+                item.Top = columnHeights[columnIndex];
                 columnHeights[columnIndex] += elementSize.Height + (itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0);
                 itemsPerColumn[columnIndex]++;
 
-                if (top > context.RealizationRect.Bottom)
+                if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
                     break;

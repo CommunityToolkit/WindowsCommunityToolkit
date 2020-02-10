@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             this._index = index;
         }
 
+        public double Top { get; internal set; }
+
         internal Size Measure(double columnWidth, double availableHeight)
         {
             if (_size == null)
