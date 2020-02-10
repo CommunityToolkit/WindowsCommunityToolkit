@@ -106,6 +106,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(0d, OnPaddingChanged));
 
         /// <inheritdoc/>
+        protected override void InitializeForContextCore(VirtualizingLayoutContext context)
+        {
+            context.LayoutState = new StaggeredLayoutState();
+            base.InitializeForContextCore(context);
+        }
+
+        /// <inheritdoc/>
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
