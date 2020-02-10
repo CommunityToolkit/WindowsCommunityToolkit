@@ -173,6 +173,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size ArrangeOverride(VirtualizingLayoutContext context, Size finalSize)
         {
+            if ((context.RealizationRect.Width == 0) && (context.RealizationRect.Height == 0))
+            {
+                return finalSize;
+            }
+
             var state = (StaggeredLayoutState)context.LayoutState;
 
             double horizontalOffset = Padding.Left;
