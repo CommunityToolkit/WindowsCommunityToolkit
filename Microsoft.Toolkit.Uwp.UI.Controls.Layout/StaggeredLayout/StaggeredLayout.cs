@@ -162,13 +162,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
                 item.Top = columnHeights[columnIndex] + spacing;
-                columnHeights[columnIndex] = item.Top + item.Height;
+                double bottom = item.Top + elementSize.Height;
+                columnHeights[columnIndex] = bottom;
                 itemsPerColumn[columnIndex]++;
                 state.AddItemToColumn(item, columnIndex);
 
-                if (item.Top > context.RealizationRect.Bottom)
+                if (bottom < context.RealizationRect.Top)
+                {
+                    // The bottom of the element is above the realization area
+                    item.RecycleElement();
+                }
+                else if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
+                    item.RecycleElement();
                     deadColumns.Add(columnIndex);
                 }
 

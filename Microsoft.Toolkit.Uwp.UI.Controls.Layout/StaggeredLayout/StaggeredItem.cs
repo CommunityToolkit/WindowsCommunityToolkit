@@ -49,5 +49,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UIElement element = GetElement();
             element.Arrange(bounds);
         }
+
+        internal void RecycleElement()
+        {
+            UIElement element = GetElement();
+            _context.RecycleElement(element);
+        }
     }
 }
