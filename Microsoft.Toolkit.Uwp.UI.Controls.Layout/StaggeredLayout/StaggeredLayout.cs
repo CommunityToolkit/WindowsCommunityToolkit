@@ -119,6 +119,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return new Size(availableSize.Width, 0);
             }
+            if ((context.RealizationRect.Width == 0) && (context.RealizationRect.Height == 0))
+            {
+                return new Size(availableSize.Width, 0.0);
+            }
 
             double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
             double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
