@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
         /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
         {

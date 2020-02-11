@@ -49,12 +49,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 /// <summary>
                 /// The source <see cref="ReadOnlySpan{T}"/> instance.
                 /// </summary>
-                private readonly ReadOnlySpan<T> Span;
+                private readonly ReadOnlySpan<T> span;
 
                 /// <summary>
-                /// The current index within <see cref="Span"/>.
+                /// The current index within <see cref="span"/>.
                 /// </summary>
-                private int _Index;
+                private int index;
 
                 /// <summary>
                 /// Initializes a new instance of the <see cref="Enumerator"/> struct.
@@ -63,8 +63,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public Enumerator(ReadOnlySpan<T> span)
                 {
-                    Span = span;
-                    _Index = -1;
+                    this.span = span;
+                    this.index = -1;
                 }
 
                 /// <summary>
@@ -74,11 +74,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
                 public bool MoveNext()
                 {
-                    int index = _Index + 1;
+                    int newIndex = this.index + 1;
 
-                    if (index < Span.Length)
+                    if (newIndex < this.span.Length)
                     {
-                        _Index = index;
+                        this.index = newIndex;
 
                         return true;
                     }
@@ -95,10 +95,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                     [MethodImpl(MethodImplOptions.AggressiveInlining)]
                     get
                     {
-                        int index = _Index;
-                        T value = Unsafe.Add(ref MemoryMarshal.GetReference(Span), index);
+                        int currentIndex = this.index;
+                        T value = Unsafe.Add(ref MemoryMarshal.GetReference(this.span), currentIndex);
 
-                        return (index, value);
+                        return (currentIndex, value);
                     }
                 }
             }

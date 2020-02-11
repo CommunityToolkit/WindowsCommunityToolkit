@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="i">The index of the element to retrieve within <paramref name="span"/>.</param>
         /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly T DangerousGetReferenceAt<T>(this ReadOnlySpan<T> span, int i)
         {
@@ -45,6 +47,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> to enumerate</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="span"/></returns>
         /// <remarks>The returned <see cref="__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static __ReadOnlySpanEnumerator<T> Enumerate<T>(this ReadOnlySpan<T> span)
         {
