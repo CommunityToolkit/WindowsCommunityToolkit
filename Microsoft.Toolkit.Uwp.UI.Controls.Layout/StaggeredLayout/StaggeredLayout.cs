@@ -162,12 +162,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (bottom < context.RealizationRect.Top)
                 {
                     // The bottom of the element is above the realization area
-                    //item.RecycleElement();
+                    // item.RecycleElement();
                 }
                 else if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
-                    //item.RecycleElement();
+                    // item.RecycleElement();
                     deadColumns.Add(columnIndex);
                 }
                 else
@@ -224,8 +224,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     double bottom = top + item.Height;
                     if (bottom < context.RealizationRect.Top)
                     {
-                        top += item.Height;
                         // element is above the realization bounds
+                        top += item.Height;
                         continue;
                     }
 

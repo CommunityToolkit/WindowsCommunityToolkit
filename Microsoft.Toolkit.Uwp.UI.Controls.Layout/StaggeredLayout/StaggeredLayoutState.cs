@@ -32,6 +32,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 columnLayout = new StaggeredColumnLayout();
                 _columnLayout[columnIndex] = columnLayout;
             }
+
             if (columnLayout.Contains(item) == false)
             {
                 columnLayout.Add(item);
@@ -40,7 +41,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal StaggeredItem GetItemAt(int index)
         {
-            if (index < 0) throw new IndexOutOfRangeException();
+            if (index < 0)
+            {
+                throw new IndexOutOfRangeException();
+            }
 
             if (index <= (_items.Count - 1))
             {
