@@ -219,20 +219,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var state = (StaggeredLayoutState)context.LayoutState;
 
-            int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / state.ColumnWidth));
-
-            // adjust for horizontal spacing on all columns expect the first
-            double totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
-            if (totalWidth > finalSize.Width)
-            {
-                numColumns--;
-
-                // Need to recalculate the totalWidth for a correct horizontal offset
-                totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
-            }
-
             // Cycle through each column and arrange the items that are within the realization bounds
-            for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
+            for (int columnIndex = 0; columnIndex < state.NumberOfColumns; columnIndex++)
             {
                 StaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
                 for (int i = 0; i < layout.Count; i++)
