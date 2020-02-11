@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -10,6 +11,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class ArrayExtensions
     {
+        /// <summary>
+        /// Counts the number of occurrences of a given character into a target <typeparamref name="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="array"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Count<T>(this T[] array, T value)
+            where T : struct, IEquatable<T>
+        {
+            return ReadOnlySpanExtensions.Count(array, value);
+        }
+
         /// <summary>
         /// Enumerates the items in the input <typeparamref name="T"/> array instance, as pairs of value/index values.
         /// This extension should be used directly within a <see langword="foreach"/> loop:
@@ -26,7 +42,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
         /// </summary>
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
-        /// <param name="array">The source <typeparamref name="T"/> array to enumerate</param>
+        /// <param name="array">The source <typeparamref name="T"/> array to enumerate.</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="array"/></returns>
         /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]

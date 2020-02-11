@@ -12,12 +12,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static partial class ReadOnlySpanExtensions
     {
         /// <summary>
-        /// Counts the number of occurrences of a given character into a target <see cref="ReadOnlySpan{T}"/> instance
+        /// Counts the number of occurrences of a given character into a target <see cref="ReadOnlySpan{T}"/> instance.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance</typeparam>
-        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read</param>
-        /// <param name="value">The <typeparamref name="T"/> value to look for</param>
-        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/></returns>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
         public static int Count<T>(this ReadOnlySpan<T> span, T value)
             where T : struct, IEquatable<T>

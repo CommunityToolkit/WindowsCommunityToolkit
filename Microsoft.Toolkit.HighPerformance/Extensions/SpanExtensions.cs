@@ -11,6 +11,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class SpanExtensions
     {
         /// <summary>
+        /// Counts the number of occurrences of a given character into a target <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance to read.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Count<T>(this Span<T> span, T value)
+            where T : struct, IEquatable<T>
+        {
+            return ReadOnlySpanExtensions.Count(span, value);
+        }
+
+        /// <summary>
         /// Returns a reference to an element at a specified index within a given <see cref="Span{T}"/>, with no bounds checks.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input <see cref="Span{T}"/> instance.</typeparam>

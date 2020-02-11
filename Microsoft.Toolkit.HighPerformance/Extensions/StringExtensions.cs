@@ -9,6 +9,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static class StringExtensions
     {
         /// <summary>
+        /// Counts the number of occurrences of a given character into a target <see cref="string"/> instance.
+        /// </summary>
+        /// <param name="text">The input <see cref="string"/> instance to read.</param>
+        /// <param name="c">The character to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="c"/> in <paramref name="text"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Count(this string text, char c)
+        {
+            return ReadOnlySpanExtensions.Count(text, c);
+        }
+
+        /// <summary>
         /// Enumerates the items in the input <see cref="string"/> instance, as pairs of value/index values.
         /// This extension should be used directly within a <see langword="foreach"/> loop:
         /// <code>
