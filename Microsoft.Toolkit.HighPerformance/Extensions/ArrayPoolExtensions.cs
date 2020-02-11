@@ -6,20 +6,20 @@ using System.Buffers;
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
-    /// Helpers for working with the <see cref="ArrayPool{T}"/> type
+    /// Helpers for working with the <see cref="ArrayPool{T}"/> type.
     /// </summary>
     public static class ArrayPoolExtensions
     {
         /// <summary>
-        /// Changes the number of elements of a rented one-dimensional array to the specified new size
+        /// Changes the number of elements of a rented one-dimensional array to the specified new size.
         /// </summary>
-        /// <typeparam name="T">The type of items into the target array to resize</typeparam>
-        /// <param name="pool">The target <see cref="ArrayPool{T}"/> instance to use to resize the array</param>
-        /// <param name="array">The rented <typeparamref name="T"/> array to resize, or <see langword="null"/> to create a new array</param>
-        /// <param name="newSize">The size of the new array</param>
-        /// <param name="clearArray">Indicates whether the contents of the array should be cleared before reuse</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="newSize"/> is less than 0</exception>
-        /// <remarks>When this method returns, the caller must not use any references to the old array anymore</remarks>
+        /// <typeparam name="T">The type of items into the target array to resize.</typeparam>
+        /// <param name="pool">The target <see cref="ArrayPool{T}"/> instance to use to resize the array.</param>
+        /// <param name="array">The rented <typeparamref name="T"/> array to resize, or <see langword="null"/> to create a new array.</param>
+        /// <param name="newSize">The size of the new array.</param>
+        /// <param name="clearArray">Indicates whether the contents of the array should be cleared before reuse.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="newSize"/> is less than 0.</exception>
+        /// <remarks>When this method returns, the caller must not use any references to the old array anymore.</remarks>
         public static void Resize<T>(this ArrayPool<T> pool, ref T[]? array, int newSize, bool clearArray = false)
         {
             if (newSize < 0)
@@ -57,15 +57,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Changes the number of elements of an <see cref="IMemoryOwner{T}"/> instance to the specified new size
+        /// Changes the number of elements of an <see cref="IMemoryOwner{T}"/> instance to the specified new size.
         /// </summary>
-        /// <typeparam name="T">The type of items into the target buffer to resize</typeparam>
-        /// <param name="pool">The target <see cref="MemoryPool{T}"/> instance to use to resize the buffer</param>
-        /// <param name="memoryOwner">The rented <see cref="IMemoryOwner{T}"/> instance to resize, or <see langword="null"/> to create a new one</param>
-        /// <param name="newSize">The size of the new buffer</param>
-        /// <param name="clearBuffer">Indicates whether the contents of the buffer should be cleared before reuse</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="newSize"/> is less than 0</exception>
-        /// <remarks>When this method returns, the caller must not use any references to the old buffer anymore</remarks>
+        /// <typeparam name="T">The type of items into the target buffer to resize.</typeparam>
+        /// <param name="pool">The target <see cref="MemoryPool{T}"/> instance to use to resize the buffer.</param>
+        /// <param name="memoryOwner">The rented <see cref="IMemoryOwner{T}"/> instance to resize, or <see langword="null"/> to create a new one.</param>
+        /// <param name="newSize">The size of the new buffer.</param>
+        /// <param name="clearBuffer">Indicates whether the contents of the buffer should be cleared before reuse.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="newSize"/> is less than 0.</exception>
+        /// <remarks>When this method returns, the caller must not use any references to the old buffer anymore.</remarks>
         public static void Resize<T>(this MemoryPool<T> pool, ref IMemoryOwner<T>? memoryOwner, int newSize, bool clearBuffer = false)
         {
             if (newSize < 0)
