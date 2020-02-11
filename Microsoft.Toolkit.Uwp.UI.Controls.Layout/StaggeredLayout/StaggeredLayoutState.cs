@@ -21,6 +21,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public double ColumnWidth { get; internal set; }
 
+        public int NumberOfColumns { get { return _columnLayout.Count; } }
+
         internal void AddItemToColumn(StaggeredItem item, int columnIndex)
         {
             if (_columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout) == false)
@@ -60,6 +62,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             _columnLayout.Clear();
             _items.Clear();
+        }
+
+        internal void ClearColumns()
+        {
+            _columnLayout.Clear();
         }
     }
 }

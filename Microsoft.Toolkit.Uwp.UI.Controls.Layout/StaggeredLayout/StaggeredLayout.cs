@@ -139,6 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
             {
+                // The items will need to be remeasured
                 state.Clear();
             }
 
@@ -154,6 +155,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             else if (double.IsInfinity(availableWidth))
             {
                 availableWidth = totalWidth;
+            }
+            if (numColumns != state.NumberOfColumns)
+            {
+                // The items will not need to be remeasured, but they will need to go into new columns
+                state.ClearColumns();
             }
 
             var columnHeights = new double[numColumns];
