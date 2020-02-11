@@ -112,6 +112,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <inheritdoc/>
+        protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
+        {
+            context.LayoutState = null;
+            base.UninitializeForContextCore(context);
+        }
+
+        /// <inheritdoc/>
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
             if (context.ItemCount == 0)
