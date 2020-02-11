@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
             where T : notnull
         {
-            int hash = 5381;
+            var hash = 5381;
 
             foreach (var item in span)
             {
