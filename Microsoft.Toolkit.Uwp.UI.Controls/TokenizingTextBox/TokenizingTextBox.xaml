@@ -414,7 +414,7 @@
 
     <ControlTemplate x:Key="TokenizingTextBoxTemplate"
                      TargetType="controls:TokenizingTextBox">
-        <Grid Name="RootPanel" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+        <Grid Name="RootPanel">
 
             <Border x:Name="BackgroundVisual"
                                 Background="{TemplateBinding Background}"
