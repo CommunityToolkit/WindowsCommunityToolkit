@@ -23,7 +23,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </code>
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
         /// </summary>
-        /// <typeparam name="T">The type of items to enumerate.</typeparam>
         /// <param name="text">The source <see cref="string"/> to enumerate</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="text"/></returns>
         /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
@@ -32,6 +31,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char> Enumerate(this string text)
         {
             return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char>(text);
+        }
+
+        /// <summary>
+        /// Gets a content hash from the input <see cref="string"/> instance using the Djb2 algorithm.
+        /// </summary>
+        /// <param name="text">The source <see cref="string"/> to enumerate.</param>
+        /// <returns>The Djb2 value for the input <see cref="string"/> instance.</returns>
+        /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetDjb2HashCode(this string text)
+        {
+            return ReadOnlySpanExtensions.GetDjb2HashCode<char>(text);
         }
     }
 }

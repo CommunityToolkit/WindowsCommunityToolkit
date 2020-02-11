@@ -53,5 +53,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<T>(span);
         }
+
+        /// <summary>
+        /// Gets a content hash from the input <see cref="Span{T}"/> instance using the Djb2 algorithm.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="Span{T}"/> instance.</param>
+        /// <returns>The Djb2 value for the input <see cref="Span{T}"/> instance.</returns>
+        /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int GetDjb2HashCode<T>(this Span<T> span)
+            where T : notnull
+        {
+            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(span);
+        }
     }
 }
