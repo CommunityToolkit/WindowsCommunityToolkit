@@ -30,12 +30,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
         /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> to enumerate.</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="span"/>.</returns>
-        /// <remarks>The returned <see cref="__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="__Enumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __ReadOnlySpanEnumerator<T> Enumerate<T>(this ReadOnlySpan<T> span)
+        public static __Enumerator<T> Enumerate<T>(this ReadOnlySpan<T> span)
         {
-            return new __ReadOnlySpanEnumerator<T>(span);
+            return new __Enumerator<T>(span);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-        public readonly ref struct __ReadOnlySpanEnumerator<T>
+        public readonly ref struct __Enumerator<T>
         {
             /// <summary>
             /// The source <see cref="ReadOnlySpan{T}"/> instance
@@ -52,11 +52,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             private readonly ReadOnlySpan<T> span;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="__ReadOnlySpanEnumerator{T}"/> struct.
+            /// Initializes a new instance of the <see cref="__Enumerator{T}"/> struct.
             /// </summary>
             /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> to enumerate.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __ReadOnlySpanEnumerator(ReadOnlySpan<T> span)
+            public __Enumerator(ReadOnlySpan<T> span)
             {
                 this.span = span;
             }

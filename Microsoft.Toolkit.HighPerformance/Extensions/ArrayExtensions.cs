@@ -99,12 +99,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
         /// <param name="array">The source <typeparamref name="T"/> array to enumerate.</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="array"/>.</returns>
-        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__Enumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<T> Enumerate<T>(this T[] array)
+        public static ReadOnlySpanExtensions.__Enumerator<T> Enumerate<T>(this T[] array)
         {
-            return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<T>(array);
+            return new ReadOnlySpanExtensions.__Enumerator<T>(array);
         }
 
         /// <summary>

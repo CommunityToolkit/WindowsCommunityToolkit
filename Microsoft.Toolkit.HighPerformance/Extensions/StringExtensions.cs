@@ -88,12 +88,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="text">The source <see cref="string"/> to enumerate.</param>
         /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="text"/>.</returns>
-        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__Enumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char> Enumerate(this string text)
+        public static ReadOnlySpanExtensions.__Enumerator<char> Enumerate(this string text)
         {
-            return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char>(text);
+            return new ReadOnlySpanExtensions.__Enumerator<char>(text);
         }
 
         /// <summary>
