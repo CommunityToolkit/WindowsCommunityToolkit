@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.UI.Xaml;
@@ -48,6 +49,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             new SampleEmailDataType() { FirstName = "Irvin", FamilyName = "Sayers", Icon = Symbol.ZoomOut },
         };
 
+        // TODO: Setup ACV for this collection as well.
         private readonly List<SampleDataType> _samples = new List<SampleDataType>()
         {
             new SampleDataType() { Text = "Account", Icon = Symbol.Account },
@@ -83,9 +85,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private ListView _ttbEmailSuggestions;
         private Button _ttbEmailClear;
 
+        private AdvancedCollectionView _acvEmail;
+
         public TokenizingTextBoxPage()
         {
             InitializeComponent();
+
+            _acvEmail = new AdvancedCollectionView(_emailSamples, false);
+
+            _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
+
             Loaded += (sernder, e) => { this.OnXamlRendered(this); };
         }
 
@@ -128,6 +137,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail.TokenItemAdded += EmailTokenItemAdded;
                 _ttbEmail.TokenItemRemoved += EmailTokenItemRemoved;
                 _ttbEmail.TextChanged += EmailTextChanged;
+
+                _acvEmail.Filter = item => !_ttbEmail.Items.Contains(item) && (item as SampleEmailDataType).DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase);
             }
 
             if (_ttbEmailSuggestions != null)
@@ -141,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 _ttbEmailSuggestions.ItemClick += EmailList_ItemClick;
 
-                UpdateSuggestions();
+                _ttbEmailSuggestions.ItemsSource = _acvEmail;
             }
 
             if (_ttbEmailClear != null)
@@ -219,29 +230,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                UpdateSuggestions();
-            }
-        }
-
-        private void UpdateSuggestions()
-        {
-            if (_ttbEmail == null || _ttbEmailSuggestions == null)
-            {
-                return;
-            }
-
-            // TODO: Test out AdvancedCollectionView Filter here instead?
-            if (string.IsNullOrWhiteSpace(_ttbEmail.Text))
-            {
-                _ttbEmailSuggestions.ItemsSource = _emailSamples
-                    .Except(_ttbEmail.Items.Cast<SampleEmailDataType>())
-                    .OrderBy(item => item.DisplayName);
-            }
-            else
-            {
-                _ttbEmailSuggestions.ItemsSource = _emailSamples.Where((item) => item.DisplayName.Contains(_ttbEmail.Text, System.StringComparison.CurrentCultureIgnoreCase))
-                    .Except(_ttbEmail.Items.Cast<SampleEmailDataType>())
-                    .OrderBy(item => item.DisplayName);
+                _acvEmail.RefreshFilter();
             }
         }
 
@@ -273,7 +262,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Debug.WriteLine("Added Token: " + args);
             }
 
-            UpdateSuggestions();
+            _acvEmail.RefreshFilter();
         }
 
         private void EmailTokenItemRemoved(TokenizingTextBox sender, object args)
@@ -287,7 +276,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 Debug.WriteLine("Removed Token: " + args);
             }
 
-            UpdateSuggestions();
+            _acvEmail.RefreshFilter();
         }
 
         private void EmailList_ItemClick(object sender, ItemClickEventArgs e)
@@ -298,7 +287,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttbEmail.Items.Add(e.ClickedItem);
                 _ttbEmail.Text = string.Empty;
 
-                UpdateSuggestions();
+                _acvEmail.RefreshFilter();
             }
         }
 
@@ -306,7 +295,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             _ttbEmail.Items.Clear();
 
-            UpdateSuggestions();
+            _acvEmail.RefreshFilter();
         }
     }
 }
