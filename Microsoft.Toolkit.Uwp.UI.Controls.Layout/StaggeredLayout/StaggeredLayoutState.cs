@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return columnLayout;
         }
 
-        internal void ClearColumns()
+        internal void Clear()
         {
             _columnLayout.Clear();
             _items.Clear();

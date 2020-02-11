@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
             {
-                state.ClearColumns();
+                state.Clear();
             }
 
             state.ColumnWidth = Math.Min(DesiredColumnWidth, availableWidth);
