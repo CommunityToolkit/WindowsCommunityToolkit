@@ -259,11 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             panel.InvalidateMeasure();
         }
 
-        private void OnHorizontalAlignmentChanged(DependencyObject sender, DependencyProperty dp)
-        {
-            InvalidateMeasure();
-        }
-
         private int GetColumnIndex(double[] columnHeights)
         {
             int columnIndex = 0;
