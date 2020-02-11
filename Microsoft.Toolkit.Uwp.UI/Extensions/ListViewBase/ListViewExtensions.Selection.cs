@@ -30,6 +30,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
                     {
                         list.SelectedItem = null;
                     }
+
                     break;
                 case ListViewSelectionMode.Multiple:
                 case ListViewSelectionMode.Extended:

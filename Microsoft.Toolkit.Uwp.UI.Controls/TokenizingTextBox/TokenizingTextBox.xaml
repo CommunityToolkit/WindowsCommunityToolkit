@@ -395,10 +395,10 @@
         <Setter Property="ItemContainerTransitions">
             <Setter.Value>
                 <TransitionCollection>
-                    <AddDeleteThemeTransition />
+                    <!--<AddDeleteThemeTransition />
                     <ContentThemeTransition />
                     <ReorderThemeTransition />
-                    <EntranceThemeTransition IsStaggeringEnabled="False" />
+                    <EntranceThemeTransition IsStaggeringEnabled="False" />-->
                 </TransitionCollection>
             </Setter.Value>
         </Setter>
