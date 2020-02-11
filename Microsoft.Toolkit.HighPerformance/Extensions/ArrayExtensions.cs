@@ -64,11 +64,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         // points at the number of components, skipping over these two pointer-sized fields.
         private sealed class RawArrayData
         {
-            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Definition from CoreCLR source")]
+#pragma warning disable CS0649 // Unassigned fields
+#pragma warning disable SA1401 // Fields should be private
             public IntPtr Length;
-
-            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Needs access to this field from parent class")]
             public byte Data;
+#pragma warning restore CS0649
+#pragma warning restore SA1401
         }
 
         /// <summary>

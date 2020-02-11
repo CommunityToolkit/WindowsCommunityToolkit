@@ -57,11 +57,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         // string, skipping over the sync block, method table and string length.
         private sealed class RawStringData
         {
-            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Definition from CoreCLR source")]
+#pragma warning disable CS0649 // Unassigned fields
+#pragma warning disable SA1401 // Fields should be private
             public int Length;
-
-            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Needs access to this field from parent class")]
             public char Data;
+#pragma warning restore CS0649
+#pragma warning restore SA1401
         }
 
         /// <summary>
