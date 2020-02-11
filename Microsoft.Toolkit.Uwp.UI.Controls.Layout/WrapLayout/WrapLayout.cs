@@ -118,6 +118,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
+            var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
             var lineMeasure = UvMeasure.Zero;
 
             for (int i = 0; i < context.ItemCount; i++)
@@ -162,6 +163,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                         // add new empty line
                         lineMeasure = UvMeasure.Zero;
+                    }
+
+                    if (totalMeasure.V > realizationBounds.VMax)
+                    {
+                        break;
                     }
                 }
             }
