@@ -101,13 +101,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The source <see cref="Span{T}"/> to tokenize.</param>
         /// <param name="separator">The separator <typeparamref name="T"/> item to use.</param>
         /// <returns>A wrapper type that will handle the tokenization for <paramref name="span"/>.</returns>
-        /// <remarks>The returned <see cref="ReadOnlySpanTokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="SpanTokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ReadOnlySpanTokenizer<T> Tokenize<T>(this Span<T> span, T separator)
+        public static SpanTokenizer<T> Tokenize<T>(this Span<T> span, T separator)
             where T : IEquatable<T>
         {
-            return new ReadOnlySpanTokenizer<T>(span, separator);
+            return new SpanTokenizer<T>(span, separator);
         }
 
         /// <summary>
