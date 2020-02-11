@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -46,29 +47,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(250d, OnDesiredColumnWidthChanged));
 
         /// <summary>
-        /// Gets or sets the distance between the border and its child object.
-        /// </summary>
-        /// <returns>
-        /// The dimensions of the space between the border and its child as a Thickness value.
-        /// Thickness is a structure that stores dimension values using pixel measures.
-        /// </returns>
-        public Thickness Padding
-        {
-            get { return (Thickness)GetValue(PaddingProperty); }
-            set { SetValue(PaddingProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the Padding dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="Padding"/> dependency property.</returns>
-        public static readonly DependencyProperty PaddingProperty = DependencyProperty.Register(
-            nameof(Padding),
-            typeof(Thickness),
-            typeof(StaggeredLayout),
-            new PropertyMetadata(default(Thickness), OnPaddingChanged));
-
-        /// <summary>
         /// Gets or sets the spacing between columns of items.
         /// </summary>
         public double ColumnSpacing
@@ -84,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(ColumnSpacing),
             typeof(double),
             typeof(StaggeredLayout),
-            new PropertyMetadata(0d, OnPaddingChanged));
+            new PropertyMetadata(0d, OnSpacingChanged));
 
         /// <summary>
         /// Gets or sets the spacing between rows of items.
@@ -102,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(RowSpacing),
             typeof(double),
             typeof(StaggeredLayout),
-            new PropertyMetadata(0d, OnPaddingChanged));
+            new PropertyMetadata(0d, OnSpacingChanged));
 
         /// <inheritdoc/>
         protected override void InitializeForContextCore(VirtualizingLayoutContext context)
@@ -133,8 +111,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var state = (StaggeredLayoutState)context.LayoutState;
 
-            double availableWidth = availableSize.Width - Padding.Left - Padding.Right;
-            double availableHeight = availableSize.Height - Padding.Top - Padding.Bottom;
+            double availableWidth = availableSize.Width;
+            double availableHeight = availableSize.Height;
 
             double columnWidth = Math.Min(DesiredColumnWidth, availableWidth);
             if (columnWidth != state.ColumnWidth)
@@ -219,8 +197,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var state = (StaggeredLayoutState)context.LayoutState;
 
-            double horizontalOffset = Padding.Left;
-            double verticalOffset = Padding.Top;
             int numColumns = Math.Max(1, (int)Math.Floor(finalSize.Width / state.ColumnWidth));
 
             // adjust for horizontal spacing on all columns expect the first
@@ -235,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
             {
-                double top = verticalOffset;
+                double top = 0;
                 StaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
                 for (int i = 0; i < layout.Count; i++)
                 {
@@ -255,7 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                     if (top <= context.RealizationRect.Bottom)
                     {
-                        double itemHorizontalOffset = horizontalOffset + (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
+                        double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
 
                         Rect bounds = new Rect(itemHorizontalOffset, top, state.ColumnWidth, item.Height);
                         item.Arrange(bounds);
@@ -277,7 +253,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             panel.InvalidateMeasure();
         }
 
-        private static void OnPaddingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSpacingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var panel = (StaggeredLayout)d;
             panel.InvalidateMeasure();
