@@ -123,6 +123,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         internal void RemoveFromIndex(int index)
         {
+            if (index > _items.Count)
+            {
+                // Item was added/removed but we haven't realized that far yet
+                return;
+            }
+
             int numToRemove = _items.Count - index;
             _items.RemoveRange(index, numToRemove);
 
