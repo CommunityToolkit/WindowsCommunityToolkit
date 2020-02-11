@@ -72,6 +72,32 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Tokenizes the values in the input <see cref="ReadOnlySpan{T}"/> instance using a specified separator.
+        /// This extension should be used directly within a <see langword="foreach"/> loop:
+        /// <code>
+        /// ReadOnlySpan&lt;char&gt; text = "Hello, world!";
+        ///
+        /// foreach (var token in text.Tokenize(','))
+        /// {
+        ///     // Access the tokens here...
+        /// }
+        /// </code>
+        /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the <see cref="ReadOnlySpan{T}"/> to tokenize.</typeparam>
+        /// <param name="span">The source <see cref="ReadOnlySpan{T}"/> to tokenize.</param>
+        /// <param name="separator">The separator <typeparamref name="T"/> item to use.</param>
+        /// <returns>A wrapper type that will handle the tokenization for <paramref name="span"/>.</returns>
+        /// <remarks>The returned <see cref="ReadOnlySpanTokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpanTokenizer<T> Tokenize<T>(this ReadOnlySpan<T> span, T separator)
+            where T : IEquatable<T>
+        {
+            return new ReadOnlySpanTokenizer<T>(span, separator);
+        }
+
+        /// <summary>
         /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the Djb2 algorithm.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>

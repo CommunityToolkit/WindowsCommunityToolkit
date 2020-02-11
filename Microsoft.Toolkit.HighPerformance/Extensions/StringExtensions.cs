@@ -113,12 +113,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="text">The source <see cref="string"/> to tokenize.</param>
         /// <param name="separator">The separator character to use.</param>
         /// <returns>A wrapper type that will handle the tokenization for <paramref name="text"/>.</returns>
-        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__Tokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        /// <remarks>The returned <see cref="ReadOnlySpanTokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ReadOnlySpanExtensions.__Tokenizer<char> Tokenize(this string text, char separator)
+        public static ReadOnlySpanTokenizer<char> Tokenize(this string text, char separator)
         {
-            return new ReadOnlySpanExtensions.__Tokenizer<char>(text, separator);
+            return new ReadOnlySpanTokenizer<char>(text, separator);
         }
 
         /// <summary>
