@@ -13,6 +13,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static partial class ReadOnlySpanExtensions
     {
         /// <summary>
+        /// Returns a reference to the first element within a given <see cref="ReadOnlySpan{T}"/>, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
+        /// <returns>A reference to the first element within <paramref name="span"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReference<T>(this ReadOnlySpan<T> span)
+        {
+            return ref MemoryMarshal.GetReference(span);
+        }
+
+        /// <summary>
         /// Returns a reference to an element at a specified index within a given <see cref="ReadOnlySpan{T}"/>, with no bounds checks.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
