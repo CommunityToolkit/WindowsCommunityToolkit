@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReference<T>(this ReadOnlySpan<T> span)
+        public static ref readonly T DangerousGetReference<T>(this ReadOnlySpan<T> span)
         {
             return ref MemoryMarshal.GetReference(span);
         }
