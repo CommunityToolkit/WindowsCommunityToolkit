@@ -86,14 +86,38 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </code>
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
         /// </summary>
-        /// <param name="text">The source <see cref="string"/> to enumerate</param>
-        /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="text"/></returns>
+        /// <param name="text">The source <see cref="string"/> to enumerate.</param>
+        /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="text"/>.</returns>
         /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char> Enumerate(this string text)
         {
             return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<char>(text);
+        }
+
+        /// <summary>
+        /// Tokenizes the values in the input <see cref="string"/> instance using a specified separator.
+        /// This extension should be used directly within a <see langword="foreach"/> loop:
+        /// <code>
+        /// string text = "Hello, world!";
+        ///
+        /// foreach (var token in text.Tokenize(','))
+        /// {
+        ///     // Access the tokens here...
+        /// }
+        /// </code>
+        /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
+        /// </summary>
+        /// <param name="text">The source <see cref="string"/> to tokenize.</param>
+        /// <param name="separator">The separator character to use.</param>
+        /// <returns>A wrapper type that will handle the tokenization for <paramref name="text"/>.</returns>
+        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__Tokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpanExtensions.__Tokenizer<char> Tokenize(this string text, char separator)
+        {
+            return new ReadOnlySpanExtensions.__Tokenizer<char>(text, separator);
         }
 
         /// <summary>

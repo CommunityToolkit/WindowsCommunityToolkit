@@ -73,14 +73,40 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
         /// </summary>
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
-        /// <param name="span">The source <see cref="Span{T}"/> to enumerate</param>
-        /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="span"/></returns>
+        /// <param name="span">The source <see cref="Span{T}"/> to enumerate.</param>
+        /// <returns>A wrapper type that will handle the value/index enumeration for <paramref name="span"/>.</returns>
         /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__ReadOnlySpanEnumerator{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<T> Enumerate<T>(this Span<T> span)
         {
             return new ReadOnlySpanExtensions.__ReadOnlySpanEnumerator<T>(span);
+        }
+
+        /// <summary>
+        /// Tokenizes the values in the input <see cref="Span{T}"/> instance using a specified separator.
+        /// This extension should be used directly within a <see langword="foreach"/> loop:
+        /// <code>
+        /// Span&lt;char&gt; text = "Hello, world!".ToCharArray();
+        ///
+        /// foreach (var token in text.Tokenize(','))
+        /// {
+        ///     // Access the tokens here...
+        /// }
+        /// </code>
+        /// The compiler will take care of properly setting up the <see langword="foreach"/> loop with the type returned from this method.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the <see cref="Span{T}"/> to tokenize.</typeparam>
+        /// <param name="span">The source <see cref="Span{T}"/> to tokenize.</param>
+        /// <param name="separator">The separator <typeparamref name="T"/> item to use.</param>
+        /// <returns>A wrapper type that will handle the tokenization for <paramref name="span"/>.</returns>
+        /// <remarks>The returned <see cref="ReadOnlySpanExtensions.__Tokenizer{T}"/> value shouldn't be used directly: use this extension in a <see langword="foreach"/> loop.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ReadOnlySpanExtensions.__Tokenizer<T> Tokenize<T>(this Span<T> span, T separator)
+            where T : IEquatable<T>
+        {
+            return new ReadOnlySpanExtensions.__Tokenizer<T>(span, separator);
         }
 
         /// <summary>
