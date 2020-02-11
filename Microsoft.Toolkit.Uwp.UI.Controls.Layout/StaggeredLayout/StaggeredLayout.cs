@@ -204,7 +204,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            double desiredHeight = columnHeights.Max();
+            double desiredHeight = state.GetHeight();
 
             return new Size(availableWidth, desiredHeight);
         }

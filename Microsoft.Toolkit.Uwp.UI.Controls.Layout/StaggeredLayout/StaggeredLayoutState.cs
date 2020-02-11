@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -13,6 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private List<StaggeredItem> _items = new List<StaggeredItem>();
         private VirtualizingLayoutContext _context;
         private Dictionary<int, StaggeredColumnLayout> _columnLayout = new Dictionary<int, StaggeredColumnLayout>();
+        private double _lastAverageHeight;
 
         public StaggeredLayoutState(VirtualizingLayoutContext context)
         {
@@ -67,6 +69,38 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         internal void ClearColumns()
         {
             _columnLayout.Clear();
+        }
+
+        internal double GetHeight()
+        {
+            double desiredHeight = Enumerable.Max(_columnLayout.Values, c => c.Height);
+
+            var itemCount = Enumerable.Sum(_columnLayout.Values, c => c.Count);
+            if (itemCount == _context.ItemCount)
+            {
+                return desiredHeight;
+            }
+
+            double averageHeight = 0;
+            foreach (var kvp in _columnLayout)
+            {
+                averageHeight += kvp.Value.Height / kvp.Value.Count;
+            }
+
+            averageHeight /= _columnLayout.Count;
+            double estimatedHeight = (averageHeight * _context.ItemCount) / _columnLayout.Count;
+            if (estimatedHeight > desiredHeight)
+            {
+                desiredHeight = estimatedHeight;
+            }
+
+            if (Math.Abs(desiredHeight - _lastAverageHeight) < 5)
+            {
+                return _lastAverageHeight;
+            }
+
+            _lastAverageHeight = desiredHeight;
+            return desiredHeight;
         }
     }
 }
