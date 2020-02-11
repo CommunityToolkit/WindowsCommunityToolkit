@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
 using Windows.Foundation;
@@ -94,6 +95,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             context.LayoutState = null;
             base.UninitializeForContextCore(context);
+        }
+
+        /// <inheritdoc/>
+        protected override void OnItemsChangedCore(VirtualizingLayoutContext context, object source, NotifyCollectionChangedEventArgs args)
+        {
+            var state = (StaggeredLayoutState)context.LayoutState;
+
+            if (args.Action == NotifyCollectionChangedAction.Remove)
+            {
+                state.RemoveFromIndex(args.OldStartingIndex);
+            }
+
+            base.OnItemsChangedCore(context, source, args);
         }
 
         /// <inheritdoc/>

@@ -120,5 +120,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _lastAverageHeight = desiredHeight;
             return desiredHeight;
         }
+
+        internal void RemoveFromIndex(int index)
+        {
+            int numToRemove = _items.Count - index;
+            _items.RemoveRange(index, numToRemove);
+        }
     }
 }
