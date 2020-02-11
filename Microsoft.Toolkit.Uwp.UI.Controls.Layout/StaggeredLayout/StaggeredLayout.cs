@@ -156,6 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 availableWidth = totalWidth;
             }
+
             if (numColumns != state.NumberOfColumns)
             {
                 // The items will not need to be remeasured, but they will need to go into new columns
@@ -190,6 +191,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     // The top of the element is below the realization area
                     item.RecycleElement();
                     deadColumns.Add(columnIndex);
+                }
+                else
+                {
+                    // We ALWAYS want to measure an item that will be in the bounds
+                    context.GetOrCreateElementAt(i).Measure(new Size(state.ColumnWidth, availableHeight));
                 }
 
                 if (deadColumns.Count == numColumns)
