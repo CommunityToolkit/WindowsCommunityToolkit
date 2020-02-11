@@ -85,14 +85,17 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private ListView _ttbEmailSuggestions;
         private Button _ttbEmailClear;
 
+        private AdvancedCollectionView _acv;
         private AdvancedCollectionView _acvEmail;
 
         public TokenizingTextBoxPage()
         {
             InitializeComponent();
 
+            _acv = new AdvancedCollectionView(_samples, false);
             _acvEmail = new AdvancedCollectionView(_emailSamples, false);
 
+            _acv.SortDescriptions.Add(new SortDescription(nameof(SampleDataType.Text), SortDirection.Ascending));
             _acvEmail.SortDescriptions.Add(new SortDescription(nameof(SampleEmailDataType.DisplayName), SortDirection.Ascending));
 
             Loaded += (sernder, e) => { this.OnXamlRendered(this); };
@@ -116,6 +119,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _ttb.TokenItemRemoving += TokenItemRemoved;
                 _ttb.TextChanged += TextChanged;
                 _ttb.TokenItemAdding += TokenItemCreating;
+
+                _acv.Filter = item => !_ttb.Items.Contains(item) && (item as SampleDataType).Text.Contains(_ttb.Text, System.StringComparison.CurrentCultureIgnoreCase);
+
+                _ttb.SuggestedItemsSource = _acv;
             }
 
             // For the Email Selection control
@@ -172,16 +179,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             if (args.CheckCurrent() && args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
-                if (string.IsNullOrWhiteSpace(sender.Text))
-                {
-                    _ttb.SuggestedItemsSource = Array.Empty<object>();
-                }
-                else
-                {
-                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase))
-                        .Except(_ttb.Items.Cast<SampleDataType>())
-                        .OrderByDescending(item => item.Text);
-                }
+                _acv.RefreshFilter();
             }
         }
 
