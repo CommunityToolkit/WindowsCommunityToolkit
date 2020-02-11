@@ -12,18 +12,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     internal class StaggeredItem
     {
         private VirtualizingLayoutContext _context;
-        private int _index;
         private Size? _size;
 
         public StaggeredItem(VirtualizingLayoutContext context, int index)
         {
             _context = context;
-            this._index = index;
+            this.Index = index;
         }
 
         public double Top { get; internal set; }
 
         public double Height { get; internal set; }
+
+        public int Index { get; }
 
         internal Size Measure(double columnWidth, double availableHeight)
         {
@@ -41,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private UIElement GetElement()
         {
-            return _context.GetOrCreateElementAt(_index);
+            return _context.GetOrCreateElementAt(Index);
         }
 
         internal void Arrange(Rect bounds)

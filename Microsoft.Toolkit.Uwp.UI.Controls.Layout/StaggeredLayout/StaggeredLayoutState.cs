@@ -125,6 +125,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             int numToRemove = _items.Count - index;
             _items.RemoveRange(index, numToRemove);
+
+            foreach (var kvp in _columnLayout)
+            {
+                StaggeredColumnLayout layout = kvp.Value;
+                for (int i = 0; i < layout.Count; i++)
+                {
+                    if (layout[i].Index >= index)
+                    {
+                        numToRemove = layout.Count - i;
+                        layout.RemoveRange(i, numToRemove);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
