@@ -35,6 +35,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
+        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         public ref struct __Lock
         {
             /// <summary>

@@ -41,6 +41,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <typeparam name="T">The type of items to enumerate.</typeparam>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
+        [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
         public readonly ref struct __ReadOnlySpanEnumerator<T>
         {
             /// <summary>
