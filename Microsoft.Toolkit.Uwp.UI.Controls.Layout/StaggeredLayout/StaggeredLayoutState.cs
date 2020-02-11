@@ -64,17 +64,31 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             return columnLayout;
         }
 
+        /// <summary>
+        /// Clear everything that has been calculated.
+        /// </summary>
         internal void Clear()
         {
             _columnLayout.Clear();
             _items.Clear();
         }
 
+        /// <summary>
+        /// Clear the layout columns so they will be recalculated.
+        /// </summary>
         internal void ClearColumns()
         {
             _columnLayout.Clear();
         }
 
+        /// <summary>
+        /// Gets the estimated height of the layout.
+        /// </summary>
+        /// <returns>The estimated height of the layout.</returns>
+        /// <remarks>
+        /// If all of the items have been calculated then the actual height will be returned.
+        /// If all of the items have not been calculated then an estimated height will be calculated based on the average height of the items.
+        /// </remarks>
         internal double GetHeight()
         {
             double desiredHeight = Enumerable.Max(_columnLayout.Values, c => c.Height);
