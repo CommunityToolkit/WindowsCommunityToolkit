@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>A reference to the element within <paramref name="span"/> at the index specified by <paramref name="i"/>.</returns>
         /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref T DangerousGetReferenceAt<T>(Span<T> span, int i)
+        public static ref T DangerousGetReferenceAt<T>(this Span<T> span, int i)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref T ri = ref Unsafe.Add(ref r0, i);
