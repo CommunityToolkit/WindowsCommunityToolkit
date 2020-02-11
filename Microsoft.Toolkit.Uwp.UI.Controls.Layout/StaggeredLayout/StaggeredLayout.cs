@@ -209,33 +209,27 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             }
 
+            // Cycle through each column and arrange the items that are within the realization bounds
             for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
             {
-                double top = 0;
                 StaggeredColumnLayout layout = state.GetColumnLayout(columnIndex);
                 for (int i = 0; i < layout.Count; i++)
                 {
                     StaggeredItem item = layout[i];
-                    if (i > 0)
-                    {
-                        top += RowSpacing;
-                    }
 
-                    double bottom = top + item.Height;
+                    double bottom = item.Top + item.Height;
                     if (bottom < context.RealizationRect.Top)
                     {
                         // element is above the realization bounds
-                        top += item.Height;
                         continue;
                     }
 
-                    if (top <= context.RealizationRect.Bottom)
+                    if (item.Top <= context.RealizationRect.Bottom)
                     {
                         double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
 
-                        Rect bounds = new Rect(itemHorizontalOffset, top, state.ColumnWidth, item.Height);
+                        Rect bounds = new Rect(itemHorizontalOffset, item.Top, state.ColumnWidth, item.Height);
                         item.Arrange(bounds);
-                        top += item.Height;
                     }
                     else
                     {
