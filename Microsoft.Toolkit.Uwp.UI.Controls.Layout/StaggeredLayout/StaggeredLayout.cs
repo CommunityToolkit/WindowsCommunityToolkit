@@ -214,9 +214,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 totalWidth = state.ColumnWidth + ((numColumns - 1) * (state.ColumnWidth + ColumnSpacing));
             }
 
-            var columnHeights = new double[numColumns];
-            var itemsPerColumn = new double[numColumns];
-
             for (int columnIndex = 0; columnIndex < numColumns; columnIndex++)
             {
                 double top = verticalOffset;
@@ -224,22 +221,26 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 for (int i = 0; i < layout.Count; i++)
                 {
                     StaggeredItem item = layout[i];
-                    if ((item.Top + item.Height) < context.RealizationRect.Top)
+                    if (i > 0)
                     {
+                        top += RowSpacing;
+                    }
+
+                    double bottom = top + item.Height;
+                    if (bottom < context.RealizationRect.Top)
+                    {
+                        top += item.Height;
                         // element is above the realization bounds
                         continue;
                     }
 
-                    if (item.Top <= context.RealizationRect.Bottom)
+                    if (top <= context.RealizationRect.Bottom)
                     {
                         double itemHorizontalOffset = horizontalOffset + (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
-                        double itemVerticalOffset = columnHeights[columnIndex] + verticalOffset + (RowSpacing * itemsPerColumn[columnIndex]);
 
-                        Rect bounds = new Rect(itemHorizontalOffset, itemVerticalOffset, state.ColumnWidth, item.Height);
+                        Rect bounds = new Rect(itemHorizontalOffset, top, state.ColumnWidth, item.Height);
                         item.Arrange(bounds);
-
-                        columnHeights[columnIndex] += item.Height;
-                        itemsPerColumn[columnIndex]++;
+                        top += item.Height;
                     }
                     else
                     {
