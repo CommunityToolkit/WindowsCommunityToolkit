@@ -11,7 +11,6 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 using Windows.UI.Core;
-using Windows.UI.WebUI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -50,6 +49,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ////RegisterPropertyChangedCallback(ItemsSourceProperty, ItemsSource_PropertyChanged);
 
             PreviewKeyDown += this.TokenizingTextBox_PreviewKeyDown;
+            PreviewKeyUp += this.TokenizingTextBox_PreviewKeyUp;
+        }
+
+        private void TokenizingTextBox_PreviewKeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            // Global handlers on control regardless if focused on item or in textbox.
+            switch (e.Key)
+            {
+                case VirtualKey.Escape:
+                    {
+                        // Clear any selection and place the focus back into the text box
+                        this.DeselectAll();
+                        _autoSuggestBox?.Focus(FocusState.Programmatic);
+                        break;
+                    }
+            }
         }
 
         private void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
@@ -184,6 +199,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void AutoSuggestBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            // Clear any selected tokens
+            this.DeselectAll();
+
             VisualStateManager.GoToState(this, PART_FocusedState, true);
         }
 
@@ -210,9 +228,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             SuggestionChosen?.Invoke(sender, args);
         }
 
-        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private async void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
             var t = sender.Text.Trim();
+
+            // remove any selected tokens.
+            if (SelectedItems.Count > 0)
+            {
+                await ClearSelectedTokens(null);
+            }
+
             TextChanged?.Invoke(sender, args);
 
             // Look for Token Delimiters to create new tokens when text changes.
@@ -280,13 +305,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            bool removeMulti = false;
-            foreach (var item in SelectedItems)
+            await ClearSelectedTokens(sender);
+        }
+
+        private async Task ClearSelectedTokens(TokenizingTextBoxItem sender)
+        {
+            bool removeMulti = sender == null;
+
+            if (!removeMulti)
             {
-                if (item != sender)
+                foreach (var item in SelectedItems)
                 {
-                    removeMulti = true;
-                    break;
+                    if (item != sender)
+                    {
+                        removeMulti = true;
+                        break;
+                    }
                 }
             }
 
@@ -358,9 +392,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private async Task RemoveToken(TokenizingTextBoxItem item)
         {
+            var data = ItemFromContainer(item); 
+
             if (TokenItemRemoving != null)
             {
-                var tirea = new TokenItemRemovingEventArgs(ItemFromContainer(item), item);
+                var tirea = new TokenItemRemovingEventArgs(data, item);
                 await TokenItemRemoving.InvokeAsync(this, tirea);
 
                 if (tirea.Cancel)
@@ -369,9 +405,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            this.DeselectItem(item);
-
-            var data = ItemFromContainer(item);
             Items.Remove(data);
 
             TokenItemRemoved?.Invoke(this, data);

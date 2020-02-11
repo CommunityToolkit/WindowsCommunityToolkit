@@ -4,6 +4,7 @@
 
 using Windows.Foundation;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -52,19 +53,23 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // TODO: Check if the ListView ItemClick event works still...
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
-            var pointerEventHandler = new PointerEventHandler((s, e) => UpdateVisualState());
-            var dependencyPropertyChangedEventHandler = new DependencyPropertyChangedEventHandler((d, e) => UpdateVisualState());
-
             RegisterPropertyChangedCallback(IsSelectedProperty, TokenizingTextBoxItem_IsSelectedChanged);
-
-            PointerEntered += pointerEventHandler;
-            PointerExited += pointerEventHandler;
-            PointerCanceled += pointerEventHandler;
-            PointerPressed += pointerEventHandler;
-            PointerReleased += pointerEventHandler;
-            IsEnabledChanged += dependencyPropertyChangedEventHandler;
             RightTapped += TokenizingTextBoxItem_RightTapped;
+            PreviewKeyDown += this.TokenizingTextBoxItem_PreviewKeyDown;
             KeyDown += TokenizingTextBoxItem_KeyDown;
+        }
+
+        private void TokenizingTextBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            // TODO: any key that a text box would respond to, send the focus to the text box
+
+            //CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+            //CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.LeftWindows).HasFlag(CoreVirtualKeyStates.Down);
+
+            //switch (e.Key)
+            //{
+            //    case VirtualKey.
+            //}
         }
 
         private void TokenizingTextBoxItem_IsSelectedChanged(DependencyObject sender, DependencyProperty dp)
@@ -144,28 +149,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
                     break;
                 }
-            }
-        }
-
-        private void UpdateVisualState(bool useTransitions = true)
-        {
-            if (!IsEnabled)
-            {
-                VisualStateManager.GoToState(this, "Disabled", useTransitions);
-            }
-
-            //// TODO?
-            ////else if (IsPressed)
-            ////{
-            ////    VisualStateManager.GoToState(this, "Pressed", useTransitions);
-            ////}
-            ////else if (IsPointerOver)
-            ////{
-            ////    VisualStateManager.GoToState(this, "PointerOver", useTransitions);
-            ////}
-            else
-            {
-                VisualStateManager.GoToState(this, "Normal", useTransitions);
             }
         }
     }
