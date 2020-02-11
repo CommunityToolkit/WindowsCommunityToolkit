@@ -15,7 +15,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     /// <typeparam name="T">The type of values to hash.</typeparam>
     public struct HashCode<T>
+#if NETSTANDARD2_0
+        /* .NET Standard 2.0 doesn't have the API to check at runtime whether a
+         * type satisfies the unmanaged constraint, se we enforce that at compile
+         * time and only expose the APIs of this class in that case. */
+        where T : unmanaged
+#else
         where T : notnull
+#endif
     {
         /// <summary>
         /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the xxHash32 algorithm.
@@ -24,8 +31,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
         /// <remarks>The xxHash32 is only guaranteed to be deterministic within the scope of a single app execution</remarks>
         [Pure]
+#if NETSTANDARD2_0
+        // On .NET Standard 2.0 this method is just a proxy, so we might as well inline it
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+#endif
         public static int Combine(ReadOnlySpan<T> span)
         {
+#if NETSTANDARD2_0
+            return Combine(MemoryMarshal.AsBytes(span));
+#else
             /* If typeof(T) is not unmanaged, iterate over all the items one by one.
              * This check is always known in advance either by the JITter or by the AOT
              * compiler, so this branch will never actually be executed by the code. */
@@ -51,6 +65,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
             return Combine(bytes);
+#endif
         }
 
         /// <summary>

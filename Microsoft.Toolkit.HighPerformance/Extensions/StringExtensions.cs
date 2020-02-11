@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -73,7 +74,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count(this string text, char c)
         {
-            return ReadOnlySpanExtensions.Count(text, c);
+            return text.AsSpan().Count(c);
         }
 
         /// <summary>
@@ -98,7 +99,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<char> Enumerate(this string text)
         {
-            return new ReadOnlySpanEnumerable<char>(text);
+            return new ReadOnlySpanEnumerable<char>(text.AsSpan());
         }
 
         /// <summary>
@@ -122,7 +123,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanTokenizer<char> Tokenize(this string text, char separator)
         {
-            return new ReadOnlySpanTokenizer<char>(text, separator);
+            return new ReadOnlySpanTokenizer<char>(text.AsSpan(), separator);
         }
 
         /// <summary>
@@ -135,7 +136,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int GetDjb2HashCode(this string text)
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<char>(text);
+            return text.AsSpan().GetDjb2HashCode();
         }
     }
 }
