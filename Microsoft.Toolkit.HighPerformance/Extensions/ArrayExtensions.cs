@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
@@ -11,6 +12,60 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class ArrayExtensions
     {
+        /// <summary>
+        /// Returns a reference to the first element within a given <typeparamref name="T"/> array, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <returns>A reference to the first element within <paramref name="array"/>, or the location it would have used, if <paramref name="array"/> is empty.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to perform checks in case the returned value is dereferenced.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReference<T>(this T[] array)
+        {
+            var arrayData = Unsafe.As<RawArrayData>(array);
+            ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
+
+            return ref r0;
+        }
+
+        /// <summary>
+        /// Returns a reference to an element at a specified index within a given <typeparamref name="T"/> array, with no bounds checks.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="i">The index of the element to retrieve within <paramref name="array"/>.</param>
+        /// <returns>A reference to the element within <paramref name="array"/> at the index specified by <paramref name="i"/>.</returns>
+        /// <remarks>This method doesn't do any bounds checks, therefore it is responsibility of the caller to ensure the <paramref name="i"/> parameter is valid.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref T DangerousGetReferenceAt<T>(this T[] array, int i)
+        {
+            var arrayData = Unsafe.As<RawArrayData>(array);
+            ref T r0 = ref Unsafe.As<byte, T>(ref arrayData.Data);
+            ref T ri = ref Unsafe.Add(ref r0, i);
+
+            return ref ri;
+        }
+
+        // Description taken from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
+        // CLR arrays are laid out in memory as follows (multidimensional array bounds are optional):
+        // [ sync block || pMethodTable || num components || MD array bounds || array data .. ]
+        //                 ^               ^                 ^                  ^ returned reference
+        //                 |               |                 \-- ref Unsafe.As<RawArrayData>(array).Data
+        //                 \-- array       \-- ref Unsafe.As<RawData>(array).Data
+        // The BaseSize of an array includes all the fields before the array data,
+        // including the sync block and method table. The reference to RawData.Data
+        // points at the number of components, skipping over these two pointer-sized fields.
+        private sealed class RawArrayData
+        {
+            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Definition from CoreCLR source")]
+            public IntPtr Length;
+
+            [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Needs access to this field from parent class")]
+            public byte Data;
+        }
+
         /// <summary>
         /// Counts the number of occurrences of a given character into a target <typeparamref name="T"/> array instance.
         /// </summary>
