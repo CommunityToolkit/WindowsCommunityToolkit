@@ -110,6 +110,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 state.RemoveFromIndex(args.NewStartingIndex);
             }
+            else if (args.Action == NotifyCollectionChangedAction.Reset)
+            {
+                state.Clear();
+            }
 
             base.OnItemsChangedCore(context, source, args);
         }
