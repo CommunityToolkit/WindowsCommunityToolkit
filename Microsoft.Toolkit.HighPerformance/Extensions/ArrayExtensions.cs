@@ -12,7 +12,7 @@ using Microsoft.Toolkit.HighPerformance.Enumerables;
 namespace Microsoft.Toolkit.HighPerformance.Extensions
 {
     /// <summary>
-    /// Helpers for working with the <see cref="System.Array"/> type.
+    /// Helpers for working with the <see cref="Array"/> type.
     /// </summary>
     public static class ArrayExtensions
     {
