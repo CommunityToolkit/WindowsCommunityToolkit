@@ -160,8 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var state = (WrapLayoutState)context.LayoutState;
             if (state.Orientation != Orientation)
             {
-                state.Clear();
-                state.Orientation = Orientation;
+                state.SetOrientation(Orientation);
             }
 
             for (int i = 0; i < context.ItemCount; i++)

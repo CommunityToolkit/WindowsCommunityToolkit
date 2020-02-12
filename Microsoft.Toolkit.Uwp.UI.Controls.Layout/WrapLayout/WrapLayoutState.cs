@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -12,13 +13,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private List<WrapItem> _items = new List<WrapItem>();
 
-
         public WrapLayoutState()
         {
         }
 
-        public Orientation Orientation { get; internal set; }
-   
+        public Orientation Orientation { get; private set; }
+
         internal WrapItem GetItemAt(int index)
         {
             if (index < 0)
@@ -53,6 +53,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             int numToRemove = _items.Count - index;
             _items.RemoveRange(index, numToRemove);
+        }
+
+        internal void SetOrientation(Orientation orientation)
+        {
+            foreach (var item in _items.Where(i => i.Measure.HasValue))
+            {
+                UvMeasure measure = item.Measure.Value;
+                double v = measure.V;
+                measure.V = measure.U;
+                measure.U = v;
+                item.Measure = measure;
+            }
+
+            Orientation = orientation;
         }
     }
 }
