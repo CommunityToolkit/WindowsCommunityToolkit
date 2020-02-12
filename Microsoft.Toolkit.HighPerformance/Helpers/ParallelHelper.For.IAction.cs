@@ -19,6 +19,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IAction"/>) to invoke for each iteration index.</typeparam>
         /// <param name="range">The iteration range.</param>
+        /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For<TAction>(Range range)
             where TAction : struct, IAction
@@ -36,6 +37,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
+        /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For<TAction>(Range range, int minimumActionsPerThread)
             where TAction : struct, IAction
@@ -49,6 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <typeparam name="TAction">The type of action (implementing <see cref="IAction"/>) to invoke for each iteration index.</typeparam>
         /// <param name="range">The iteration range.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
+        /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For<TAction>(Range range, TAction action)
             where TAction : struct, IAction
@@ -67,13 +70,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
+        /// <remarks>None of the bounds of <paramref name="range"/> can start from an end.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For<TAction>(Range range, TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction
         {
             if (range.Start.IsFromEnd || range.End.IsFromEnd)
             {
-                throw new ArgumentException("The ends of the range can't start from an end", nameof(range));
+                throw new ArgumentException("The bounds of the range can't start from an end", nameof(range));
             }
 
             int
