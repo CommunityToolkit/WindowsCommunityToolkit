@@ -195,6 +195,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
                 var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
                 var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+                var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
 
                 double currentV = 0;
                 void arrange(UIElement child, bool isLast = false)
@@ -219,14 +220,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         desiredMeasure.U = parentMeasure.U - position.U;
                     }
 
-                    // place the item
-                    if (Orientation == Orientation.Horizontal)
+                    if ((position.V >= realizationBounds.VMin) && (position.V <= realizationBounds.VMax))
                     {
-                        child.Arrange(new Rect(position.U, position.V, desiredMeasure.U, desiredMeasure.V));
-                    }
-                    else
-                    {
-                        child.Arrange(new Rect(position.V, position.U, desiredMeasure.V, desiredMeasure.U));
+                        // place the item
+                        if (Orientation == Orientation.Horizontal)
+                        {
+                            child.Arrange(new Rect(position.U, position.V, desiredMeasure.U, desiredMeasure.V));
+                        }
+                        else
+                        {
+                            child.Arrange(new Rect(position.V, position.U, desiredMeasure.V, desiredMeasure.U));
+                        }
                     }
 
                     // adjust the location for the next items
