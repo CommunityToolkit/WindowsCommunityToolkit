@@ -18,12 +18,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// Executes a specified action in an optimized parallel loop over the input data.
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
-        /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IRefAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> representing the data to process.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<TItem, TAction>(
-            this ReadOnlyMemory<TItem> memory)
-            where TAction : struct, IInAction<TItem>
+            this Memory<TItem> memory)
+            where TAction : struct, IRefAction<TItem>
         {
             ForEach(memory, default(TAction), 1);
         }
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="Memory{T}"/> representing the data to process.</param>
         /// <param name="minimumActionsPerThread">
         /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
         /// should be parallelized, or to a greater number if each individual invocation is fast
@@ -41,9 +41,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<TItem, TAction>(
-            this ReadOnlyMemory<TItem> memory,
+            this Memory<TItem> memory,
             int minimumActionsPerThread)
-            where TAction : struct, IInAction<TItem>
+            where TAction : struct, IRefAction<TItem>
         {
             ForEach(memory, default(TAction), minimumActionsPerThread);
         }
@@ -53,13 +53,13 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="Memory{T}"/> representing the data to process.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ForEach<TItem, TAction>(
-            this ReadOnlyMemory<TItem> memory,
+            this Memory<TItem> memory,
             TAction action)
-            where TAction : struct, IInAction<TItem>
+            where TAction : struct, IRefAction<TItem>
         {
             ForEach(memory, action, 1);
         }
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// </summary>
         /// <typeparam name="TItem">The type of items to iterate over.</typeparam>
         /// <typeparam name="TAction">The type of action (implementing <see cref="IInAction{T}"/> of <typeparamref name="TItem"/>) to invoke over each item.</typeparam>
-        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> representing the data to process.</param>
+        /// <param name="memory">The input <see cref="Memory{T}"/> representing the data to process.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         /// <param name="minimumActionsPerThread">
         /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
@@ -77,10 +77,10 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
         public static void ForEach<TItem, TAction>(
-            this ReadOnlyMemory<TItem> memory,
+            this Memory<TItem> memory,
             TAction action,
             int minimumActionsPerThread)
-            where TAction : struct, IInAction<TItem>
+            where TAction : struct, IRefAction<TItem>
         {
             if (minimumActionsPerThread <= 0)
             {
@@ -102,9 +102,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             // Skip the parallel invocation when a single batch is needed
             if (numBatches == 1)
             {
-                foreach (var item in memory.Span)
+                foreach (ref var item in memory.Span)
                 {
-                    action.Invoke(item);
+                    action.Invoke(ref item);
                 }
 
                 return;
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
             int batchSize = 1 + ((memory.Length - 1) / numBatches);
 
-            var actionInvoker = new InActionInvoker<TItem, TAction>(memory, action, batchSize);
+            var actionInvoker = new RefActionInvoker<TItem, TAction>(memory, action, batchSize);
 
             // Run the batched operations in parallel
             Parallel.For(
@@ -123,15 +123,15 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         // Wrapping struct acting as explicit closure to execute the processing batches
-        private readonly struct InActionInvoker<TItem, TAction>
-            where TAction : struct, IInAction<TItem>
+        private readonly struct RefActionInvoker<TItem, TAction>
+            where TAction : struct, IRefAction<TItem>
         {
             private readonly ReadOnlyMemory<TItem> memory;
             private readonly TAction action;
             private readonly int batchSize;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public InActionInvoker(
+            public RefActionInvoker(
                 ReadOnlyMemory<TItem> memory,
                 TAction action,
                 int batchSize)
@@ -159,23 +159,23 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 {
                     ref TItem rj = ref Unsafe.Add(ref r0, j);
 
-                    Unsafe.AsRef(action).Invoke(rj);
+                    Unsafe.AsRef(action).Invoke(ref rj);
                 }
             }
         }
     }
 
     /// <summary>
-    /// A contract for actions being executed on items of a specific type, with readonly access.
+    /// A contract for actions being executed on items of a specific type, with side effect.
     /// </summary>
     /// <typeparam name="T">The type of items to process.</typeparam>
     /// <remarks>If the <see cref="Invoke"/> method is small enough, it is highly recommended to mark it with <see cref="MethodImplOptions.AggressiveInlining"/>.</remarks>
-    public interface IInAction<in T>
+    public interface IRefAction<T>
     {
         /// <summary>
         /// Executes the action on a specified <typeparamref name="T"/> item.
         /// </summary>
         /// <param name="item">The current item to process.</param>
-        void Invoke(T item);
+        void Invoke(ref T item);
     }
 }
