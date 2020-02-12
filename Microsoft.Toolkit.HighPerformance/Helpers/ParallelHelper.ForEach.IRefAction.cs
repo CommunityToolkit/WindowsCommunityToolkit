@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="memory">The input <see cref="Memory{T}"/> representing the data to process.</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TItem, TAction>(Memory<TItem> memory, TAction action)
+        public static void ForEach<TItem, TAction>(Memory<TItem> memory, in TAction action)
             where TAction : struct, IRefAction<TItem>
         {
             ForEach(memory, action, 1);
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
-        public static void ForEach<TItem, TAction>(Memory<TItem> memory, TAction action, int minimumActionsPerThread)
+        public static void ForEach<TItem, TAction>(Memory<TItem> memory, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IRefAction<TItem>
         {
             if (minimumActionsPerThread <= 0)
@@ -96,7 +96,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             {
                 foreach (ref var item in memory.Span)
                 {
-                    action.Invoke(ref item);
+                    Unsafe.AsRef(action).Invoke(ref item);
                 }
 
                 return;
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             private readonly int batchSize;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public RefActionInvoker(ReadOnlyMemory<TItem> memory, TAction action, int batchSize)
+            public RefActionInvoker(ReadOnlyMemory<TItem> memory, in TAction action, int batchSize)
             {
                 this.memory = memory;
                 this.action = action;
