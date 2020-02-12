@@ -31,28 +31,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
         /// <remarks>The xxHash32 is only guaranteed to be deterministic within the scope of a single app execution</remarks>
         [Pure]
-#if NETSTANDARD2_0
-        // On .NET Standard 2.0 this method is just a proxy, so we might as well inline it
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-#endif
         public static int Combine(ReadOnlySpan<T> span)
         {
 #if NETSTANDARD2_0
-            return Combine(MemoryMarshal.AsBytes(span));
+            return CombineBytes(MemoryMarshal.AsBytes(span));
 #else
             /* If typeof(T) is not unmanaged, iterate over all the items one by one.
              * This check is always known in advance either by the JITter or by the AOT
              * compiler, so this branch will never actually be executed by the code. */
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                int hash = 0;
-
-                foreach (var item in span)
-                {
-                    hash = HashCode.Combine(item);
-                }
-
-                return hash;
+                return CombineManaged(span);
             }
 
             /* Explicit MemoryMarshal.Cast equivalent to create the source ReadOnlySpan<byte> instance.
@@ -64,9 +54,53 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 byteSize);
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
-            return Combine(bytes);
+            return CombineBytes(bytes);
 #endif
         }
+
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the xxHash32 algorithm
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance</param>
+        /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
+        [Pure]
+        public static int CombineManaged(ReadOnlySpan<T> span)
+        {
+            // Get a reference to the input span
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            int
+                hash = 0,
+                length = span.Length,
+                i = 0;
+
+            // Main loop with 8 unrolled iterations
+            if (length >= 8)
+            {
+                var end8 = length - 8;
+
+                for (; i <= end8; i += 8)
+                {
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 0).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 1).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 2).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 3).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 4).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 5).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 6).GetHashCode());
+                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 7).GetHashCode());
+                }
+            }
+
+            // Handle the leftover items
+            for (; i < length; i++)
+            {
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i).GetHashCode());
+            }
+
+            return HashCode.Combine(hash);
+        }
+#endif
 
         /// <summary>
         /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance using the xxHash32 algorithm
@@ -74,7 +108,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance</param>
         /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance</returns>
         [Pure]
-        private static int Combine(ReadOnlySpan<byte> span)
+        private static int CombineBytes(ReadOnlySpan<byte> span)
         {
             // Get a reference to the input span
             ref byte r0 = ref MemoryMarshal.GetReference(span);
