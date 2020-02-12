@@ -78,30 +78,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 typeof(WrapLayout),
                 new PropertyMetadata(Orientation.Horizontal, LayoutPropertyChanged));
 
-        /// <summary>
-        /// Gets or sets the distance between the border and its child object.
-        /// </summary>
-        /// <returns>
-        /// The dimensions of the space between the border and its child as a Thickness value.
-        /// Thickness is a structure that stores dimension values using pixel measures.
-        /// </returns>
-        public Thickness Padding
-        {
-            get { return (Thickness)GetValue(PaddingProperty); }
-            set { SetValue(PaddingProperty, value); }
-        }
-
-        /// <summary>
-        /// Identifies the Padding dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="Padding"/> dependency property.</returns>
-        public static readonly DependencyProperty PaddingProperty =
-            DependencyProperty.Register(
-                nameof(Padding),
-                typeof(Thickness),
-                typeof(WrapLayout),
-                new PropertyMetadata(default(Thickness), LayoutPropertyChanged));
-
         private static void LayoutPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is WrapLayout wp)
@@ -149,8 +125,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
-            availableSize.Width = availableSize.Width - Padding.Left - Padding.Right;
-            availableSize.Height = availableSize.Height - Padding.Top - Padding.Bottom;
+            availableSize.Width = availableSize.Width;
+            availableSize.Height = availableSize.Height;
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
@@ -255,9 +231,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
                 var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
-                var paddingStart = new UvMeasure(Orientation, Padding.Left, Padding.Top);
-                var paddingEnd = new UvMeasure(Orientation, Padding.Right, Padding.Bottom);
-                var position = new UvMeasure(Orientation, Padding.Left, Padding.Top);
+                var position = UvMeasure.Zero;
                 var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
 
                 double currentV = 0;
@@ -270,10 +244,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         return true; // if an item is collapsed, avoid adding the spacing
                     }
 
-                    if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
+                    if ((desiredMeasure.U + position.U) > parentMeasure.U)
                     {
                         // next row!
-                        position.U = paddingStart.U;
+                        position.U = 0;
                         position.V += currentV + spacingMeasure.V;
                         currentV = 0;
                     }
