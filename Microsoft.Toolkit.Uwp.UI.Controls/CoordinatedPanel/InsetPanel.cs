@@ -40,17 +40,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc/>
         protected override Size MeasureOverride(Size availableSize)
         {
-            // Whenever the ItemsPresenter modifies it's item, we'll be called here.
-            // We need to instead have our Parent Coordinated Panel, re-layout everything.
-            _parentPanel?.InvalidateMeasure();
-
             return _parentPanel?.DesiredSize ?? availableSize;
         }
 
         /// <inheritdoc/>
         protected override Size ArrangeOverride(Size finalSize)
         {
-            return _parentPanel?.RenderSize ?? finalSize;
+            return finalSize;
         }
     }
 }
