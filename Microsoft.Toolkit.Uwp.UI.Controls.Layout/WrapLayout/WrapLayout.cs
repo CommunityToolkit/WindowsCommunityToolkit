@@ -110,12 +110,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        /// <inheritdoc />
         protected override void InitializeForContextCore(VirtualizingLayoutContext context)
         {
             context.LayoutState = new WrapLayoutState();
             base.InitializeForContextCore(context);
         }
 
+        /// <inheritdoc />
         protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
         {
             context.LayoutState = null;
