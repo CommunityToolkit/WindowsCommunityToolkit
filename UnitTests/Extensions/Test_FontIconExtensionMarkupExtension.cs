@@ -57,7 +57,7 @@ namespace UnitTests.Extensions
             Assert.IsNotNull(icon, $"Could not find the {nameof(FontIcon)} element in button.");
 
             Assert.AreEqual(icon.Glyph, "\uE14D", "Expected icon glyph to be E14D.");
-            Assert.AreEqual(icon.FontFamily.Source, "Segoe MDL2 Assets", "Expected font family to be Segoe UI");
+            Assert.AreEqual(icon.FontFamily.Source, "Segoe UI", "Expected font family to be Segoe UI");
         }
     }
 }
