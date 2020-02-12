@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -11,10 +12,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private List<WrapItem> _items = new List<WrapItem>();
 
+
         public WrapLayoutState()
         {
         }
 
+        public Orientation Orientation { get; internal set; }
+   
         internal WrapItem GetItemAt(int index)
         {
             if (index < 0)

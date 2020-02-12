@@ -158,6 +158,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var lineMeasure = UvMeasure.Zero;
 
             var state = (WrapLayoutState)context.LayoutState;
+            if (state.Orientation != Orientation)
+            {
+                state.Clear();
+                state.Orientation = Orientation;
+            }
+
             for (int i = 0; i < context.ItemCount; i++)
             {
                 bool measured = false;
