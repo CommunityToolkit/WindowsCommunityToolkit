@@ -13,7 +13,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     public static class SpinLockExtensions
     {
-#if NETSTANDARD2_0
         /// <summary>
         /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
         /// This extension should be used though a <see langword="using"/> block or statement:
@@ -29,11 +28,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="spinLock">A pointer to the target <see cref="SpinLock"/> to use</param>
         /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
-        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        /// <remarks>The returned <see cref="__UnsafeLock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe __Lock Enter(SpinLock* spinLock)
+        public static unsafe __UnsafeLock Enter(SpinLock* spinLock)
         {
-            return new __Lock(spinLock);
+            return new __UnsafeLock(spinLock);
         }
 
         /// <summary>
@@ -41,7 +40,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-        public unsafe ref struct __Lock
+        public unsafe ref struct __UnsafeLock
         {
             /// <summary>
             /// The <see cref="SpinLock"/>* pointer to the target <see cref="SpinLock"/> value to use.
@@ -54,11 +53,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             private readonly bool lockTaken;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="__Lock"/> struct.
+            /// Initializes a new instance of the <see cref="__UnsafeLock"/> struct.
             /// </summary>
             /// <param name="spinLock">The target <see cref="SpinLock"/> to use.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __Lock(SpinLock* spinLock)
+            public __UnsafeLock(SpinLock* spinLock)
             {
                 ptr = spinLock;
                 lockTaken = false;
@@ -77,6 +76,33 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                     ptr->Exit();
                 }
             }
+        }
+
+#if NETSTANDARD2_0
+        /// <summary>
+        /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
+        /// This extension should be used though a <see langword="using"/> block or statement:
+        /// <code>
+        /// private SpinLock spinLock = new SpinLock();
+        ///
+        /// public void Foo()
+        /// {
+        ///     using (SpinLockExtensions.Enter(this, ref spinLock))
+        ///     {
+        ///         // Thread-safe code here...
+        ///     }
+        /// }
+        /// </code>
+        /// The compiler will take care of releasing the SpinLock when the code goes out of that <see langword="using"/> scope.
+        /// </summary>
+        /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
+        /// <param name="spinLock">The target <see cref="SpinLock"/> to use (it must be within <paramref name="owner"/>).</param>
+        /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
+        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __Lock Enter(object owner, ref SpinLock spinLock)
+        {
+            return new __Lock(owner, ref spinLock);
         }
 #else
         /// <summary>
@@ -100,6 +126,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             return new __Lock(ref spinLock);
         }
+#endif
 
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
@@ -118,6 +145,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             /// </summary>
             private readonly bool lockTaken;
 
+#if NETSTANDARD2_0
+            /// <summary>
+            /// Initializes a new instance of the <see cref="__Lock"/> struct.
+            /// </summary>
+            /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
+            /// <param name="spinLock">The target <see cref="SpinLock"/> to use (it must be within <paramref name="owner"/>).</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public __Lock(object owner, ref SpinLock spinLock)
+            {
+                r0 = new ByReference<SpinLock>(owner, ref spinLock);
+                lockTaken = false;
+
+                spinLock.Enter(ref lockTaken);
+            }
+#else
             /// <summary>
             /// Initializes a new instance of the <see cref="__Lock"/> struct.
             /// </summary>
@@ -130,6 +172,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
                 spinLock.Enter(ref lockTaken);
             }
+#endif
 
             /// <summary>
             /// Implements the duck-typed <see cref="System.IDisposable.Dispose"/> method and releases the current <see cref="SpinLock"/> instance.
@@ -143,6 +186,5 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 }
             }
         }
-#endif
     }
 }
