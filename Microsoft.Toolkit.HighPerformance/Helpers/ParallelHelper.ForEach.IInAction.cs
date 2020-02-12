@@ -159,12 +159,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// </summary>
     /// <typeparam name="T">The type of items to process.</typeparam>
     /// <remarks>If the <see cref="Invoke"/> method is small enough, it is highly recommended to mark it with <see cref="MethodImplOptions.AggressiveInlining"/>.</remarks>
-    public interface IInAction<in T>
+    public interface IInAction<T>
     {
         /// <summary>
         /// Executes the action on a specified <typeparamref name="T"/> item.
         /// </summary>
         /// <param name="item">The current item to process.</param>
-        void Invoke(T item);
+        void Invoke(in T item);
     }
 }
