@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="end">The final iteration index (exclusive).</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void For<TAction>(int start, int end, TAction action)
+        public static void For<TAction>(int start, int end, in TAction action)
             where TAction : struct, IAction
         {
             For(start, end, action, 1);
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
-        public static void For<TAction>(int start, int end, TAction action, int minimumActionsPerThread)
+        public static void For<TAction>(int start, int end, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction
         {
             if (minimumActionsPerThread <= 0)
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             {
                 for (int i = start; i < end; i++)
                 {
-                    action.Invoke(i);
+                    Unsafe.AsRef(action).Invoke(i);
                 }
 
                 return;
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             private readonly int batchSize;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public ActionInvoker(int start, int end, TAction action, int batchSize)
+            public ActionInvoker(int start, int end, in TAction action, int batchSize)
             {
                 this.start = start;
                 this.end = end;
