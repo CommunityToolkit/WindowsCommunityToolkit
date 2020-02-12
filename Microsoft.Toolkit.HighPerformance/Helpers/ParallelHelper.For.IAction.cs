@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="start">The starting iteration index.</param>
         /// <param name="end">The final iteration index (exclusive).</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TAction>(int start, int end)
+        public static void For<TAction>(int start, int end)
             where TAction : struct, IAction
         {
             For(start, end, default(TAction), 1);
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TAction>(int start, int end, int minimumActionsPerThread)
+        public static void For<TAction>(int start, int end, int minimumActionsPerThread)
             where TAction : struct, IAction
         {
             For(start, end, default(TAction), minimumActionsPerThread);
@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="end">The final iteration index (exclusive).</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ForEach<TAction>(int start, int end, TAction action)
+        public static void For<TAction>(int start, int end, TAction action)
             where TAction : struct, IAction
         {
             For(start, end, action, 1);
