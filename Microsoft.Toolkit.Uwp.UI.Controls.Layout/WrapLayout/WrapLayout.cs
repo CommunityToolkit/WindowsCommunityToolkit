@@ -218,12 +218,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 double currentV = 0;
                 var state = (WrapLayoutState)context.LayoutState;
-                void arrange(WrapItem item, bool isLast = false)
+                bool arrange(WrapItem item, bool isLast = false)
                 {
                     var desiredMeasure = item.Measure.Value;
                     if (desiredMeasure.U == 0)
                     {
-                        return; // if an item is collapsed, avoid adding the spacing
+                        return true; // if an item is collapsed, avoid adding the spacing
                     }
 
                     if ((desiredMeasure.U + position.U + paddingEnd.U) > parentMeasure.U)
@@ -253,15 +253,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                             child.Arrange(new Rect(position.V, position.U, desiredMeasure.V, desiredMeasure.U));
                         }
                     }
+                    else if (position.V > realizationBounds.VMax)
+                    {
+                        return false;
+                    }
 
                     // adjust the location for the next items
                     position.U += desiredMeasure.U + spacingMeasure.U;
                     currentV = Math.Max(desiredMeasure.V, currentV);
+
+                    return true;
                 }
 
                 for (var i = 0; i < context.ItemCount; i++)
                 {
-                    arrange(state.GetItemAt(i));
+                    bool continueArranging = arrange(state.GetItemAt(i));
+                    if (continueArranging == false)
+                    {
+                        break;
+                    }
                 }
             }
 
