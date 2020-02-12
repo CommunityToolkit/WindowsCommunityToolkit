@@ -136,12 +136,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var state = (WrapLayoutState)context.LayoutState;
             for (int i = 0; i < context.ItemCount; i++)
             {
+                bool measured = false;
                 WrapItem item = state.GetItemAt(i);
                 if (item.Measure == null)
                 {
                     UIElement child = context.GetOrCreateElementAt(i);
                     child.Measure(availableSize);
                     item.Measure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                    measured = true;
                 }
 
                 UvMeasure currentMeasure = item.Measure.Value;
@@ -183,11 +185,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // add new empty line
                         lineMeasure = UvMeasure.Zero;
                     }
+                }
 
-                    if (totalMeasure.V > realizationBounds.VMax)
-                    {
-                        break;
-                    }
+                if (totalMeasure.V > realizationBounds.VMax)
+                {
+                    // Item is "below" the bounds.
+                    break;
+                }
+
+                double vEnd = totalMeasure.V + currentMeasure.V;
+                if (vEnd < realizationBounds.VMin)
+                {
+                    // Item is "above" the bounds
+                }
+                else if (measured == false)
+                {
+                    // Always measure elements that are within the bounds
+                    UIElement child = context.GetOrCreateElementAt(i);
+                    child.Measure(availableSize);
                 }
             }
 
