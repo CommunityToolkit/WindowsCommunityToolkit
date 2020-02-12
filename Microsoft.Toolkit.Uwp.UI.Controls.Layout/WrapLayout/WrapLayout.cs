@@ -110,6 +110,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        protected override void InitializeForContextCore(VirtualizingLayoutContext context)
+        {
+            context.LayoutState = new WrapLayoutState();
+            base.InitializeForContextCore(context);
+        }
+
+        protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
+        {
+            context.LayoutState = null;
+            base.UninitializeForContextCore(context);
+        }
+
         /// <inheritdoc />
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
@@ -121,11 +133,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
             var lineMeasure = UvMeasure.Zero;
 
+            var state = (WrapLayoutState)context.LayoutState;
             for (int i = 0; i < context.ItemCount; i++)
             {
-                UIElement child = context.GetOrCreateElementAt(i);
-                child.Measure(availableSize);
-                var currentMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                WrapItem item = state.GetItemAt(i);
+                if (item.Measure == null)
+                {
+                    UIElement child = context.GetOrCreateElementAt(i);
+                    child.Measure(availableSize);
+                    item.Measure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                }
+
+                UvMeasure currentMeasure = item.Measure.Value;
                 if (currentMeasure.U == 0)
                 {
                     continue; // ignore collapsed items
@@ -198,9 +217,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
 
                 double currentV = 0;
-                void arrange(UIElement child, bool isLast = false)
+                var state = (WrapLayoutState)context.LayoutState;
+                void arrange(WrapItem item, bool isLast = false)
                 {
-                    var desiredMeasure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
+                    var desiredMeasure = item.Measure.Value;
                     if (desiredMeasure.U == 0)
                     {
                         return; // if an item is collapsed, avoid adding the spacing
@@ -223,6 +243,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (((position.V + desiredMeasure.V) >= realizationBounds.VMin) && (position.V <= realizationBounds.VMax))
                     {
                         // place the item
+                        UIElement child = context.GetOrCreateElementAt(item.Index);
                         if (Orientation == Orientation.Horizontal)
                         {
                             child.Arrange(new Rect(position.U, position.V, desiredMeasure.U, desiredMeasure.V));
@@ -240,12 +261,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
                 for (var i = 0; i < context.ItemCount; i++)
                 {
-                    arrange(context.GetOrCreateElementAt(i));
+                    arrange(state.GetItemAt(i));
                 }
             }
 
             return finalSize;
         }
     }
-
 }

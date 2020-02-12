@@ -9,7 +9,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal struct UvBounds
     {
-
         public UvBounds(Orientation orientation, Rect rect)
         {
             if (orientation == Orientation.Horizontal)
