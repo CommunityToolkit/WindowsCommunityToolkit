@@ -104,8 +104,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 height = Math.Abs(i.Start - i.End),
                 width = Math.Abs(j.Start - j.End),
                 count = height * width,
-                cores = Environment.ProcessorCount,
                 maxBatches = 1 + ((count - 1) / minimumActionsPerThread),
+                cores = Environment.ProcessorCount,
                 numBatches = Math.Min(maxBatches, cores);
 
             // Skip the parallel invocation when a single batch is needed

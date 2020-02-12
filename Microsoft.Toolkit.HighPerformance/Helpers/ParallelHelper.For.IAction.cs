@@ -92,8 +92,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
             int
                 count = Math.Abs(start - end),
-                cores = Environment.ProcessorCount,
                 maxBatches = 1 + ((count - 1) / minimumActionsPerThread),
+                cores = Environment.ProcessorCount,
                 numBatches = Math.Min(maxBatches, cores);
 
             // Skip the parallel invocation when a single batch is needed
@@ -109,7 +109,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
 
             int batchSize = 1 + ((count - 1) / numBatches);
 
-            var actionInvoker = new ActionInvoker<TAction>(start, end, action, batchSize);
+            var actionInvoker = new ActionInvoker<TAction>(start, end, batchSize, action);
 
             // Run the batched operations in parallel
             Parallel.For(
@@ -125,16 +125,20 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             private readonly int start;
             private readonly int end;
-            private readonly TAction action;
             private readonly int batchSize;
+            private readonly TAction action;
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public ActionInvoker(int start, int end, in TAction action, int batchSize)
+            public ActionInvoker(
+                int start,
+                int end,
+                int batchSize,
+                in TAction action)
             {
                 this.start = start;
                 this.end = end;
-                this.action = action;
                 this.batchSize = batchSize;
+                this.action = action;
             }
 
             /// <summary>
