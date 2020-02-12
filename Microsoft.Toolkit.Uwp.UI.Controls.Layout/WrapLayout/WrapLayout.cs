@@ -220,7 +220,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         desiredMeasure.U = parentMeasure.U - position.U;
                     }
 
-                    if ((position.V >= realizationBounds.VMin) && (position.V <= realizationBounds.VMax))
+                    if (((position.V + desiredMeasure.V) >= realizationBounds.VMin) && (position.V <= realizationBounds.VMax))
                     {
                         // place the item
                         if (Orientation == Orientation.Horizontal)
