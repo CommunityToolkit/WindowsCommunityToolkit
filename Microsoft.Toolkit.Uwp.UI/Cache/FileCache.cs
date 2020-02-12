@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         protected override Task<StorageFile> InitializeTypeAsync(Stream stream, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
             // nothing to do in this instance;
-            return null;
+            return Task.FromResult<StorageFile>(null);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>awaitable task</returns>
         protected override Task<StorageFile> InitializeTypeAsync(StorageFile baseFile, List<KeyValuePair<string, object>> initializerKeyValues = null)
         {
-            return Task.Run(() => baseFile);
+            return Task.FromResult(baseFile);
         }
     }
 }
