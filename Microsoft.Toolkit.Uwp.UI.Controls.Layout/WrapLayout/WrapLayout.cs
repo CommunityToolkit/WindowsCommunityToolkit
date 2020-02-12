@@ -214,12 +214,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         // add new empty line
                         lineMeasure = UvMeasure.Zero;
                     }
-                }
 
-                if (totalMeasure.V > realizationBounds.VMax)
-                {
-                    // Item is "below" the bounds.
-                    break;
+                    if (totalMeasure.V > realizationBounds.VMax)
+                    {
+                        // Item is "below" the bounds.
+                        break;
+                    }
                 }
 
                 double vEnd = totalMeasure.V + currentMeasure.V;
