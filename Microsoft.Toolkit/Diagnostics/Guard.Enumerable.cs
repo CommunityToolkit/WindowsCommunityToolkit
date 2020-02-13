@@ -19,7 +19,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size of a specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -33,7 +32,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size not equal to a specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -47,7 +45,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size of at least specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -61,7 +58,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size of at least or equal to a specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -75,7 +71,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size of less than a specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -89,7 +84,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input <see cref="string"/> instance must have a size of less than or equal to a specified value.
         /// </summary>
-        /// <typeparam name="T">The type of items in the input <see cref="string"/> instance.</typeparam>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
@@ -98,6 +92,90 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void HasSizeLessThanOrEqualTo(string text, int size, string name)
         {
             HasSizeLessThanOrEqualTo(text.AsSpan(), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is != <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(T[] array, int size, string name)
+        {
+            HasSizeEqualTo(new ReadOnlySpan<T>(array), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size not equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is == <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeNotEqualTo<T>(T[] array, int size, string name)
+        {
+            HasSizeNotEqualTo(new ReadOnlySpan<T>(array), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of at least specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeAtLeast<T>(T[] array, int size, string name)
+        {
+            HasSizeAtLeast(new ReadOnlySpan<T>(array), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of at least or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is &lt; <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeAtLeastOrEqualTo<T>(T[] array, int size, string name)
+        {
+            HasSizeAtLeastOrEqualTo(new ReadOnlySpan<T>(array), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of less than a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is >= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThan<T>(T[] array, int size, string name)
+        {
+            HasSizeLessThan(new ReadOnlySpan<T>(array), size, name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of less than or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is > <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(T[] array, int size, string name)
+        {
+            HasSizeLessThanOrEqualTo(new ReadOnlySpan<T>(array), size, name);
         }
 
         /// <summary>
