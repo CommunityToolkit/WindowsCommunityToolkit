@@ -32,6 +32,24 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value is not <see langword="null"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of nullable value type being tested.</typeparam>
+        /// <param name="value">The input value to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeNotNull<T>(T? value, string name)
+            where T : struct
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(name, $"Parameter {name} must be not null");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value is of a specific type.
         /// </summary>
         /// <typeparam name="T">The type of the input value.</typeparam>
@@ -61,6 +79,36 @@ namespace Microsoft.Toolkit.Diagnostics
             if (!(value is T))
             {
                 throw new ArgumentException($"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}", name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be <see langword="true"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeTrue(bool value, string name)
+        {
+            if (!value)
+            {
+                throw new ArgumentException($"Parameter {name} must be true, was false", name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be <see langword="false"/>.
+        /// </summary>
+        /// <param name="value">The input <see cref="bool"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeFalse(bool value, string name)
+        {
+            if (value)
+            {
+                throw new ArgumentException($"Parameter {name} must be false, was true", name);
             }
         }
 
