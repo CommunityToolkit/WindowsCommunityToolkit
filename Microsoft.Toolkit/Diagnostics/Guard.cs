@@ -95,11 +95,26 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not of type <typeparamref name="T"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsOfType<T>(object value, string name)
-            where T : class
         {
             if (value.GetType() != typeof(T))
             {
                 ThrowArgumentException(name, $"Parameter {name} must be of type {typeof(T)}, was {value.GetType()}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value is of a specific type.
+        /// </summary>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="type">The type to look for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the type of <paramref name="value"/> is not the same as <paramref name="type"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsOfType(object value, Type type, string name)
+        {
+            if (value.GetType() != type)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be of type {type}, was {value.GetType()}");
             }
         }
 
@@ -116,6 +131,22 @@ namespace Microsoft.Toolkit.Diagnostics
             if (!(value is T))
             {
                 ThrowArgumentException(name, $"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value can be cast to a specified type.
+        /// </summary>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="type">The type to look for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be cast to <paramref name="type"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsAssignableToType(object value, Type type, string name)
+        {
+            if (!type.IsAssignableFrom(value.GetType())
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be assignable to type {type}, was {value.GetType()}");
             }
         }
 
