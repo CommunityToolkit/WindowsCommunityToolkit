@@ -72,6 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For2D<TAction>(Range i, Range j, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction2D
         {
@@ -148,6 +149,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void For2D<TAction>(Rectangle area, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction2D
         {
