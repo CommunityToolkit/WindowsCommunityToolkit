@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Drawing;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -93,6 +94,65 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             For2D(top, bottom, left, right, action, minimumActionsPerThread);
         }
 #endif
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="area">The <see cref="Rectangle"/> value indicating the 2D iteration area to use.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Rectangle area)
+            where TAction : struct, IAction2D
+        {
+            For2D(area.Top, area.Bottom, area.Left, area.Right, default(TAction), 1);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="area">The <see cref="Rectangle"/> value indicating the 2D iteration area to use.</param>
+        /// <param name="minimumActionsPerThread">
+        /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
+        /// should be parallelized, or to a greater number if each individual invocation is fast
+        /// enough that it is more efficient to set a lower bound per each running thread.
+        /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Rectangle area, int minimumActionsPerThread)
+            where TAction : struct, IAction2D
+        {
+            For2D(area.Top, area.Bottom, area.Left, area.Right, default(TAction), minimumActionsPerThread);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="area">The <see cref="Rectangle"/> value indicating the 2D iteration area to use.</param>
+        /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Rectangle area, in TAction action)
+            where TAction : struct, IAction2D
+        {
+            For2D(area.Top, area.Bottom, area.Left, area.Right, action, 1);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="area">The <see cref="Rectangle"/> value indicating the 2D iteration area to use.</param>
+        /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
+        /// <param name="minimumActionsPerThread">
+        /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
+        /// should be parallelized, or to a greater number if each individual invocation is fast
+        /// enough that it is more efficient to set a lower bound per each running thread.
+        /// </param>
+        public static void For2D<TAction>(Rectangle area, in TAction action, int minimumActionsPerThread)
+            where TAction : struct, IAction2D
+        {
+            For2D(area.Top, area.Bottom, area.Left, area.Right, action, minimumActionsPerThread);
+        }
 
         /// <summary>
         /// Executes a specified action in an optimized parallel loop.
