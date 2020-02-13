@@ -117,6 +117,40 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the source <see cref="ReadOnlySpan{T}"/> instance must have the same size of a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Span{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(ReadOnlySpan<T> source, Span<T> destination, string name)
+        {
+            if (source.Length != destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {span.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="ReadOnlySpan{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Span{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(ReadOnlySpan<T> source, Span<T> destination, string name)
+        {
+            if (source.Length > destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {destination.Length}");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -215,6 +249,40 @@ namespace Microsoft.Toolkit.Diagnostics
             if (memory.Length > size)
             {
                 ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have the same size of a destination <see cref="Memory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(ReadOnlyMemory<T> source, Memory<T> destination, string name)
+        {
+            if (source.Length != destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {span.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> source, Memory<T> destination, string name)
+        {
+            if (source.Length > destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {destination.Length}");
             }
         }
     }

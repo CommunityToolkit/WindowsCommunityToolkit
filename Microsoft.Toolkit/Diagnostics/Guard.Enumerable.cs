@@ -101,6 +101,34 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have the same size of a destination <see cref="Memory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(T[] source, T[] destination, string name)
+        {
+            HasSizeEqualTo(new ReadOnlySpan<T>(source), destination.AsSpan(), name);
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(T[] source, T[] destination, string name)
+        {
+            HasSizeLessThanOrEqualTo(new ReadOnlySpan<T>(source), destination.AsSpan(), name);
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
