@@ -27,7 +27,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (span.Length != size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized == {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {span.Length}");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (span.Length <= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized > {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {span.Length}");
             }
         }
 
@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (span.Length < size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized >= {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {span.Length}");
             }
         }
 
@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (span.Length >= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized < {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {span.Length}");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (span.Length > size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {span.Length}");
             }
         }
 
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized == {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {memory.Length}");
             }
         }
 
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length <= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized > {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {memory.Length}");
             }
         }
 
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length < size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized >= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {memory.Length}");
             }
         }
 
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length >= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized < {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {memory.Length}");
             }
         }
 
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length > size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
             }
         }
     }

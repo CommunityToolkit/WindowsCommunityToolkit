@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value != null)
             {
-                throw new ArgumentNullException(name, $"Parameter {name} must be null");
+                ThrowArgumentNullException(name, $"Parameter {name} must be null");
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                throw new ArgumentNullException(name, $"Parameter {name} must be not null");
+                ThrowArgumentNullException(name, $"Parameter {name} must be not null");
             }
         }
 
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                throw new ArgumentNullException(name, $"Parameter {name} must be not null");
+                ThrowArgumentNullException(name, $"Parameter {name} must be not null");
             }
         }
 
@@ -79,7 +79,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.GetType() != typeof(T))
             {
-                throw new ArgumentException($"Parameter {name} must be of type {typeof(T)}, was {value.GetType()}", name);
+                ThrowArgumentException(name, $"Parameter {name} must be of type {typeof(T)}, was {value.GetType()}");
             }
         }
 
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!(value is T))
             {
-                throw new ArgumentException($"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}", name);
+                ThrowArgumentException(name, $"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}");
             }
         }
 
@@ -114,7 +114,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!value.Equals(target))
             {
-                throw new ArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
+                ThrowArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
             }
         }
 
@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.Equals(target))
             {
-                throw new ArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
+                ThrowArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
             }
         }
 
@@ -145,7 +145,6 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
-        [MethodImpl(MethodImplOptions.NoInlining)]
         public static void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
@@ -160,7 +159,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueByte != targetByte)
                 {
-                    throw new ArgumentException($"Parameter {name} must is not a bitwise match (byte #{i} was {valueByte} instead of {targetByte})", name);
+                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match (byte #{i} was {valueByte} instead of {targetByte})");
                 }
             }
         }
@@ -176,7 +175,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!value)
             {
-                throw new ArgumentException($"Parameter {name} must be true, was false", name);
+                ThrowArgumentException(name, $"Parameter {name} must be true, was false");
             }
         }
 
@@ -191,7 +190,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value)
             {
-                throw new ArgumentException($"Parameter {name} must be false, was true", name);
+                ThrowArgumentException(name, $"Parameter {name} must be false, was true");
             }
         }
 
@@ -210,7 +209,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(max) >= 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be < {max}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {max}, was {value}");
             }
         }
 
@@ -229,7 +228,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(maximum) > 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be <= {maximum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {maximum}, was {value}");
             }
         }
 
@@ -248,7 +247,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) <= 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum}, was {value}");
             }
         }
 
@@ -267,7 +266,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) < 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum}, was {value}");
             }
         }
 
@@ -287,7 +286,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum} and < {maximum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum} and < {maximum}, was {value}");
             }
         }
 
@@ -307,7 +306,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) > 0 || value.CompareTo(maximum) < 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} and >= {maximum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} and >= {maximum}, was {value}");
             }
         }
 
@@ -327,7 +326,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and <= {maximum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and <= {maximum}, was {value}");
             }
         }
 
@@ -347,7 +346,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) <= 0)
             {
-                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} and > {maximum}, was {value}");
+                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} and > {maximum}, was {value}");
             }
         }
 
@@ -371,7 +370,7 @@ namespace Microsoft.Toolkit.Diagnostics
                  (actualSize = readOnlyCollectionCount) != size) ||
                 (actualSize = enumerable.Count()) != size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized == {size}, had a size of {actualSize}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {actualSize}");
             }
         }
 
@@ -395,7 +394,7 @@ namespace Microsoft.Toolkit.Diagnostics
                  (actualSize = readOnlyCollectionCount) <= size) ||
                 (actualSize = enumerable.Count()) <= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized > {size}, had a size of {actualSize}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {actualSize}");
             }
         }
 
@@ -419,7 +418,7 @@ namespace Microsoft.Toolkit.Diagnostics
                  (actualSize = readOnlyCollectionCount) < size) ||
                 (actualSize = enumerable.Count()) < size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized >= {size}, had a size of {actualSize}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {actualSize}");
             }
         }
 
@@ -443,7 +442,7 @@ namespace Microsoft.Toolkit.Diagnostics
                  (actualSize = readOnlyCollectionCount) >= size) ||
                 (actualSize = enumerable.Count()) >= size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized < {size}, had a size of {actualSize}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {actualSize}");
             }
         }
 
@@ -467,7 +466,7 @@ namespace Microsoft.Toolkit.Diagnostics
                  (actualSize = readOnlyCollectionCount) > size) ||
                 (actualSize = enumerable.Count()) > size)
             {
-                throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {actualSize}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {actualSize}");
             }
         }
     }
