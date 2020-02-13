@@ -163,6 +163,44 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value must be the same instance as the target value.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not the same instance as <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to prevent using it with value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsReferenceEqualTo<T>(T value, T target, string name)
+            where T : class
+        {
+            if (!ReferenceEquals(value, target))
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be the same instance as the target object");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be the same instance as the target value.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is the same instance as <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to prevent using it with value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsReferenceNotEqualTo<T>(T value, T target, string name)
+            where T : class
+        {
+            if (ReferenceEquals(value, target))
+            {
+                ThrowArgumentException(name, $"Parameter {name} must not be the same instance as the target object");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be <see langword="true"/>.
         /// </summary>
         /// <param name="value">The input <see cref="bool"/> to test.</param>
