@@ -19,11 +19,31 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input value is <see langword="null"/>.
         /// </summary>
+        /// <typeparam name="T">The type of reference value type being tested.</typeparam>
         /// <param name="value">The input value to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNull(object? value, string name)
+        public static void IsNull<T>(T? value, string name)
+            where T : class
+        {
+            if (value != null)
+            {
+                ThrowArgumentNullException(name, $"Parameter {name} must be null");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value is <see langword="null"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of nullable value type being tested.</typeparam>
+        /// <param name="value">The input value to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNull<T>(T? value, string name)
+            where T : struct
         {
             if (value != null)
             {
@@ -34,11 +54,13 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input value is not <see langword="null"/>.
         /// </summary>
+        /// <typeparam name="T">The type of reference value type being tested.</typeparam>
         /// <param name="value">The input value to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull(object? value, string name)
+        public static void IsNotNull<T>(T? value, string name)
+            where T : class
         {
             if (value is null)
             {
