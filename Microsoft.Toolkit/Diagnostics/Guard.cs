@@ -189,6 +189,86 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeBetween<T>(T value, T minimum, T maximum, string name)
+            where T : notnull, IComparable<T>
+        {
+            if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
+            {
+                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum} and < {maximum}, was {value}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="minimum">The exclusive minimum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="maximum">The exclusive maximum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeNotBetween<T>(T value, T minimum, T maximum, string name)
+            where T : notnull, IComparable<T>
+        {
+            if (value.CompareTo(minimum) > 0 || value.CompareTo(maximum) < 0)
+            {
+                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} and >= {maximum}, was {value}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be in a given interval.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
+            where T : notnull, IComparable<T>
+        {
+            if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
+            {
+                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and <= {maximum}, was {value}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be in a given interval.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="minimum">The inclusive minimum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="maximum">The inclusive maximum <typeparamref name="T"/> value that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
+            where T : notnull, IComparable<T>
+        {
+            if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) <= 0)
+            {
+                throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} and > {maximum}, was {value}");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of input values to compare.</typeparam>
