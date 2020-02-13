@@ -143,21 +143,71 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
-        public static void IsBitwiseEqualTo<T>(T value, T target, string name)
+        public static unsafe void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            ref byte valueRef = ref Unsafe.As<T, byte>(ref value);
-            ref byte targetRef = ref Unsafe.As<T, byte>(ref target);
-            int bytesCount = Unsafe.SizeOf<T>();
-
-            for (int i = 0; i < bytesCount; i++)
+            /* Include some fast paths if the input type is of size 1, 2, 4 or 8.
+             * In those cases, just reinterpret the bytes as values of an integer type,
+             * and compare them directly, which is much faster than having explicitly
+             * loop through every single byte. This also allows for more expressive error
+             * messages, since the entire input values can be expressed as hexadecimal values.
+             * The conditional branches below are known at compile time by the JIT compiler,
+             * so that only the right one will actually be translated into native code. */
+            if (sizeof(T) == sizeof(byte))
             {
-                byte valueByte = Unsafe.Add(ref valueRef, i);
-                byte targetByte = Unsafe.Add(ref targetRef, i);
+                byte valueByte = Unsafe.As<T, byte>(ref value);
+                byte targetByte = Unsafe.As<T, byte>(ref target);
 
                 if (valueByte != targetByte)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match (byte #{i} was {valueByte} instead of {targetByte})");
+                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueByte:X2} instead of 0x{targetByte:X2}");
+                }
+            }
+            else if (sizeof(T) == sizeof(ushort))
+            {
+                ushort valueUShort = Unsafe.As<T, ushort>(ref value);
+                ushort targetUShort = Unsafe.As<T, ushort>(ref target);
+
+                if (valueUShort != targetUShort)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUShort:X4} instead of 0x{targetUShort:X4}");
+                }
+            }
+            else if (sizeof(T) == sizeof(uint))
+            {
+                uint valueUInt = Unsafe.As<T, uint>(ref value);
+                uint targetUInt = Unsafe.As<T, uint>(ref target);
+
+                if (valueUInt != targetUInt)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUInt:X8} instead of 0x{targetUInt:X8}");
+                }
+            }
+            else if (sizeof(T) == sizeof(ulong))
+            {
+                ulong valueULong = Unsafe.As<T, ulong>(ref value);
+                ulong targetULong = Unsafe.As<T, ulong>(ref target);
+
+                if (valueULong != targetULong)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueULong:X16} instead of 0x{targetULong:X16}");
+                }
+            }
+            else
+            {
+                ref byte valueRef = ref Unsafe.As<T, byte>(ref value);
+                ref byte targetRef = ref Unsafe.As<T, byte>(ref target);
+                int bytesCount = Unsafe.SizeOf<T>();
+
+                for (int i = 0; i < bytesCount; i++)
+                {
+                    byte valueByte = Unsafe.Add(ref valueRef, i);
+                    byte targetByte = Unsafe.Add(ref targetRef, i);
+
+                    if (valueByte != targetByte)
+                    {
+                        ThrowArgumentException(name, $"Parameter {name} is not a bitwise match (byte #{i} was 0x{valueByte:X2} instead of 0x{targetByte:X2})");
+                    }
                 }
             }
         }
