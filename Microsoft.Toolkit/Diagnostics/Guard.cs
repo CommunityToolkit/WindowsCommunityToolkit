@@ -515,6 +515,91 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is != <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length != size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized == {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length <= size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized > {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeAtLeastOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length < size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized >= {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is >= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThan<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length >= size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized < {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is > <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length > size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="Stream"/> instance must support reading.
         /// </summary>
         /// <param name="stream">The input <see cref="Stream"/> instance to test.</param>
