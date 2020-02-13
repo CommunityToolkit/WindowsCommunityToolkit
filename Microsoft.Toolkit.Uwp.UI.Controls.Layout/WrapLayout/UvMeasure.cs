@@ -2,6 +2,7 @@
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    [System.Diagnostics.DebuggerDisplay("U = {U} V = {V}")]
     internal struct UvMeasure
     {
         internal static readonly UvMeasure Zero = default(UvMeasure);
