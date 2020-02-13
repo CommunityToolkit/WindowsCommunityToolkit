@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
@@ -309,7 +310,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of a specified value.
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
@@ -333,7 +334,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least specified value.
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
@@ -357,7 +358,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least or equal to a specified value.
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least or equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
@@ -381,7 +382,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than a specified value.
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
@@ -405,7 +406,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than or equal to a specified value.
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than or equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
@@ -425,6 +426,66 @@ namespace Microsoft.Toolkit.Diagnostics
                 (actualSize = enumerable.Count()) > size)
             {
                 throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Stream"/> instance must support reading.
+        /// </summary>
+        /// <param name="stream">The input <see cref="Stream"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> doesn't support reading.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CanRead(Stream stream, string name)
+        {
+            if (!stream.CanRead)
+            {
+                throw new ArgumentException($"Stream {name} doesn't support reading");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Stream"/> instance must support writing.
+        /// </summary>
+        /// <param name="stream">The input <see cref="Stream"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> doesn't support writing.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CanWrite(Stream stream, string name)
+        {
+            if (!stream.CanWrite)
+            {
+                throw new ArgumentException($"Stream {name} doesn't support writing");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Stream"/> instance must support seeking.
+        /// </summary>
+        /// <param name="stream">The input <see cref="Stream"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> doesn't support seeking.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void CanSeek(Stream stream, string name)
+        {
+            if (!stream.CanSeek)
+            {
+                throw new ArgumentException($"Stream {name} doesn't support seeking");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Stream"/> instance must be at the starting position.
+        /// </summary>
+        /// <param name="stream">The input <see cref="Stream"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="stream"/> is not at the starting position.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsAtStartPosition(Stream stream, string name)
+        {
+            if (stream.Position != 0)
+            {
+                throw new ArgumentException($"Stream {name} must be at start position, was at {stream.Position}");
             }
         }
     }
