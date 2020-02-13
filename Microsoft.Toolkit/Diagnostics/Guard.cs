@@ -144,7 +144,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAssignableToType(object value, Type type, string name)
         {
-            if (!type.IsAssignableFrom(value.GetType())
+            if (!type.IsAssignableFrom(value.GetType()))
             {
                 ThrowArgumentException(name, $"Parameter {name} must be assignable to type {type}, was {value.GetType()}");
             }

@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length != destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -146,7 +146,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length > destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {destination.Length}");
+                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -265,7 +265,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length != destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -282,7 +282,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length > destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {destination.Length}");
+                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
             }
         }
     }
