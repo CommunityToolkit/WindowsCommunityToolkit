@@ -25,9 +25,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const double DefaultMinZoomFactor = .25;
         private const double LargeCanvasWidthHeight = 1 << 21;
 
-        private InkCanvas _inkCanvas;
+        // private InkCanvas _inkCanvas;
         private InfiniteCanvasVirtualDrawingSurface _drawingSurfaceRenderer;
-        private InkSynchronizer _inkSync;
+
+        // private InkSynchronizer _inkSync;
 
         // private Windows.UI.Xaml.Controls.InkToolbarCustomToolButton _enableTextButton;
         // private Windows.UI.Xaml.Controls.InkToolbarCustomToggleButton _enableTouchInkingButton;
@@ -180,7 +181,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // _inkCanvasToolBar = (InkToolbar)GetTemplateChild("InkCanvasToolBar");
             _canvasToolbarContainer = (StackPanel)GetTemplateChild("CanvasToolbarContainer");
 
-            _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
+            // _inkCanvas = (InkCanvas)GetTemplateChild("DrawingInkCanvas");
             _undoButton = (Button)GetTemplateChild("UndoButton");
             _redoButton = (Button)GetTemplateChild("RedoButton");
             _fontColorIcon = (FontIcon)GetTemplateChild("FontColorIcon");
@@ -261,13 +262,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void ConfigureControls()
         {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
-            _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
-            _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
+            // _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
+            // _inkSync = _inkCanvas.InkPresenter.ActivateCustomDrying();
+            // _inkCanvas.InkPresenter.StrokesCollected += OnStrokesCollected;
 
-            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved -= UnprocessedInput_PointerMoved;
-            _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
-
+            // _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved -= UnprocessedInput_PointerMoved;
+            // _inkCanvas.InkPresenter.UnprocessedInput.PointerMoved += UnprocessedInput_PointerMoved;
             SetZoomFactor();
 
             _infiniteCanvasScrollViewer.ViewChanged -= InkScrollViewer_ViewChanged;
@@ -301,15 +301,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetCanvasWidthHeight()
         {
-            if (_mainContainer == null || _inkCanvas == null || _drawingSurfaceRenderer == null)
-            {
-                return;
-            }
-
+            // if (_mainContainer == null || _inkCanvas == null || _drawingSurfaceRenderer == null)
+            // {
+            //     return;
+            // }
             _mainContainer.Width = CanvasWidth;
             _mainContainer.Height = CanvasHeight;
-            _inkCanvas.Width = CanvasWidth;
-            _inkCanvas.Height = CanvasHeight;
+
+            // _inkCanvas.Width = CanvasWidth;
+            // _inkCanvas.Height = CanvasHeight;
             _drawingSurfaceRenderer.Width = CanvasWidth;
             _drawingSurfaceRenderer.Height = CanvasHeight;
             _drawingSurfaceRenderer.ConfigureSpriteVisual(CanvasWidth, CanvasHeight, _infiniteCanvasScrollViewer.ZoomFactor);

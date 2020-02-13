@@ -122,9 +122,9 @@
                                                                                Width="Auto"
                                                                                Height="Auto" />
 
-                                    <InkCanvas x:Name="DrawingInkCanvas"
+                                    <!--<InkCanvas x:Name="DrawingInkCanvas"
                                                Width="Auto"
-                                               Height="Auto" />
+                                               Height="Auto" />-->
 
                                     <local:InfiniteCanvasTextBox x:Name="CanvasTextBox"
                                                                  Visibility="Collapsed" />

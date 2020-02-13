@@ -78,24 +78,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void EnableTouchInkingButton_Unchecked(object sender, RoutedEventArgs e)
         {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
+            // _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Pen;
         }
 
         private void EnableTouchInkingButton_Checked(object sender, RoutedEventArgs e)
         {
-            _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
+            // _inkCanvas.InkPresenter.InputDeviceTypes = CoreInputDeviceTypes.Mouse | CoreInputDeviceTypes.Pen | CoreInputDeviceTypes.Touch;
         }
 
         private void EnableTextButton_Unchecked(object sender, RoutedEventArgs e)
         {
             _canvasTextBox.Visibility = Visibility.Collapsed;
-            _inkCanvas.Visibility = Visibility.Visible;
+
+            // _inkCanvas.Visibility = Visibility.Visible;
             _canvasTextBoxTools.Visibility = Visibility.Collapsed;
         }
 
         private void EnableTextButton_Checked(object sender, RoutedEventArgs e)
         {
-            _inkCanvas.Visibility = Visibility.Collapsed;
+            // _inkCanvas.Visibility = Visibility.Collapsed;
             _canvasTextBoxTools.Visibility = Visibility.Visible;
         }
 
@@ -120,8 +121,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnStrokesCollected(InkPresenter sender, InkStrokesCollectedEventArgs args)
         {
-            _drawingSurfaceRenderer.ExecuteCreateInk(_inkSync.BeginDry());
-            _inkSync.EndDry();
+            // _drawingSurfaceRenderer.ExecuteCreateInk(_inkSync.BeginDry());
+            // _inkSync.EndDry();
             ReDrawCanvas();
         }
 
