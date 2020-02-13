@@ -3,7 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -303,6 +305,126 @@ namespace Microsoft.Toolkit.Diagnostics
             if (value.Equals(target))
             {
                 throw new ArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
+            }
+        }
+
+        /// <summary>
+        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is != <paramref name="size"/>.</exception>
+        /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeSizedEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize;
+
+            if (((enumerable as ICollection<T>)?.Count is int collectionCount &&
+                 (actualSize = collectionCount) != size) ||
+                ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount &&
+                 (actualSize = readOnlyCollectionCount) != size) ||
+                (actualSize = enumerable.Count()) != size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized == {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt;= <paramref name="size"/>.</exception>
+        /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeSizedAtLeast<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize;
+
+            if (((enumerable as ICollection<T>)?.Count is int collectionCount &&
+                 (actualSize = collectionCount) <= size) ||
+                ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount &&
+                 (actualSize = readOnlyCollectionCount) <= size) ||
+                (actualSize = enumerable.Count()) <= size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized > {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of at least or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt; <paramref name="size"/>.</exception>
+        /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeSizedAtLeastOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize;
+
+            if (((enumerable as ICollection<T>)?.Count is int collectionCount &&
+                 (actualSize = collectionCount) < size) ||
+                ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount &&
+                 (actualSize = readOnlyCollectionCount) < size) ||
+                (actualSize = enumerable.Count()) < size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized >= {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is >= <paramref name="size"/>.</exception>
+        /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeSizedLessThan<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize;
+
+            if (((enumerable as ICollection<T>)?.Count is int collectionCount &&
+                 (actualSize = collectionCount) >= size) ||
+                ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount &&
+                 (actualSize = readOnlyCollectionCount) >= size) ||
+                (actualSize = enumerable.Count()) >= size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized < {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Adderts that the input <see cref="IEnumerable{T}"/> instance must have a size of less than or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is > <paramref name="size"/>.</exception>
+        /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void MustBeSizedLessThanOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize;
+
+            if (((enumerable as ICollection<T>)?.Count is int collectionCount &&
+                 (actualSize = collectionCount) > size) ||
+                ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount &&
+                 (actualSize = readOnlyCollectionCount) > size) ||
+                (actualSize = enumerable.Count()) > size)
+            {
+                throw new ArgumentException($"Parameter {name} must be sized <= {size}, had a size of {actualSize}");
             }
         }
     }
