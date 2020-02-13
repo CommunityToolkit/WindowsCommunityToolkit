@@ -3,7 +3,6 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
@@ -14,6 +13,87 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
     /// </summary>
     public static partial class ParallelHelper
     {
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="i">The <see cref="Range"/> value indicating the iteration range for the outer loop.</param>
+        /// <param name="j">The <see cref="Range"/> value indicating the iteration range for the inner loop.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Range i, Range j)
+            where TAction : struct, IAction2D
+        {
+            For2D(i, j, default(TAction), 1);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="i">The <see cref="Range"/> value indicating the iteration range for the outer loop.</param>
+        /// <param name="j">The <see cref="Range"/> value indicating the iteration range for the inner loop.</param>
+        /// <param name="minimumActionsPerThread">
+        /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
+        /// should be parallelized, or to a greater number if each individual invocation is fast
+        /// enough that it is more efficient to set a lower bound per each running thread.
+        /// </param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Range i, Range j, int minimumActionsPerThread)
+            where TAction : struct, IAction2D
+        {
+            For2D(i, j, default(TAction), minimumActionsPerThread);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="i">The <see cref="Range"/> value indicating the iteration range for the outer loop.</param>
+        /// <param name="j">The <see cref="Range"/> value indicating the iteration range for the inner loop.</param>
+        /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void For2D<TAction>(Range i, Range j, in TAction action)
+            where TAction : struct, IAction2D
+        {
+            For2D(i, j, action, 1);
+        }
+
+        /// <summary>
+        /// Executes a specified action in an optimized parallel loop.
+        /// </summary>
+        /// <typeparam name="TAction">The type of action (implementing <see cref="IAction2D"/>) to invoke for each pair of iteration indices.</typeparam>
+        /// <param name="i">The <see cref="Range"/> value indicating the iteration range for the outer loop.</param>
+        /// <param name="j">The <see cref="Range"/> value indicating the iteration range for the inner loop.</param>
+        /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
+        /// <param name="minimumActionsPerThread">
+        /// The minimum number of actions to run per individual thread. Set to 1 if all invocations
+        /// should be parallelized, or to a greater number if each individual invocation is fast
+        /// enough that it is more efficient to set a lower bound per each running thread.
+        /// </param>
+        public static void For2D<TAction>(Range i, Range j, in TAction action, int minimumActionsPerThread)
+            where TAction : struct, IAction2D
+        {
+            if (i.Start.IsFromEnd || i.End.IsFromEnd)
+            {
+                throw new ArgumentException("The bounds of the range can't start from an end", nameof(i));
+            }
+
+            if (j.Start.IsFromEnd || j.End.IsFromEnd)
+            {
+                throw new ArgumentException("The bounds of the range can't start from an end", nameof(j));
+            }
+
+            int
+                top = i.Start.Value,
+                bottom = i.End.Value,
+                left = j.Start.Value,
+                right = j.End.Value;
+
+            For2D(top, bottom, left, right, action, minimumActionsPerThread);
+        }
+#endif
+
         /// <summary>
         /// Executes a specified action in an optimized parallel loop.
         /// </summary>
@@ -23,7 +103,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="left">The starting iteration value for the inner loop.</param>
         /// <param name="right">The final iteration value for the inner loop (exclusive).</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> type")]
         public static void For2D<TAction>(int top, int bottom, int left, int right)
             where TAction : struct, IAction2D
         {
@@ -44,7 +123,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> type")]
         public static void For2D<TAction>(int top, int bottom, int left, int right, int minimumActionsPerThread)
             where TAction : struct, IAction2D
         {
@@ -61,7 +139,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <param name="right">The final iteration value for the inner loop (exclusive).</param>
         /// <param name="action">The <typeparamref name="TAction"/> instance representing the action to invoke.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> type")]
         public static void For2D<TAction>(int top, int bottom, int left, int right, in TAction action)
             where TAction : struct, IAction2D
         {
@@ -82,7 +159,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// should be parallelized, or to a greater number if each individual invocation is fast
         /// enough that it is more efficient to set a lower bound per each running thread.
         /// </param>
-        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> type")]
         public static void For2D<TAction>(int top, int bottom, int left, int right, in TAction action, int minimumActionsPerThread)
             where TAction : struct, IAction2D
         {
