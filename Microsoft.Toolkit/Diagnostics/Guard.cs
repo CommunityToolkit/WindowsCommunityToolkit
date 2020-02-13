@@ -85,6 +85,44 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value must be equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is != <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEqualTo<T>(T value, T target, string name)
+            where T : notnull, IEquatable<T>
+        {
+            if (!value.Equals(target))
+            {
+                throw new ArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be not equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is == <paramref name="target"/>.</exception>
+        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEqualTo<T>(T value, T target, string name)
+            where T : notnull, IEquatable<T>
+        {
+            if (value.Equals(target))
+            {
+                throw new ArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be <see langword="true"/>.
         /// </summary>
         /// <param name="value">The input <see cref="bool"/> to test.</param>
@@ -267,44 +305,6 @@ namespace Microsoft.Toolkit.Diagnostics
             if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) <= 0)
             {
                 throw new ArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} and > {maximum}, was {value}");
-            }
-        }
-
-        /// <summary>
-        /// Asserts that the input value must be equal to a specified value.
-        /// </summary>
-        /// <typeparam name="T">The type of input values to compare.</typeparam>
-        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
-        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
-        /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is != <paramref name="target"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsEqualTo<T>(T value, T target, string name)
-            where T : notnull, IEquatable<T>
-        {
-            if (!value.Equals(target))
-            {
-                throw new ArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
-            }
-        }
-
-        /// <summary>
-        /// Asserts that the input value must be not equal to a specified value.
-        /// </summary>
-        /// <typeparam name="T">The type of input values to compare.</typeparam>
-        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
-        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
-        /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is == <paramref name="target"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotEqualTo<T>(T value, T target, string name)
-            where T : notnull, IEquatable<T>
-        {
-            if (value.Equals(target))
-            {
-                throw new ArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
             }
         }
 
