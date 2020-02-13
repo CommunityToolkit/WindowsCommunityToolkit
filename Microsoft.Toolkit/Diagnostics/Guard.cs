@@ -19,6 +19,21 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
         /// <summary>
+        /// Asserts that the input value is <see langword="null"/>.
+        /// </summary>
+        /// <param name="value">The input value to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNull(object? value, string name)
+        {
+            if (value != null)
+            {
+                throw new ArgumentNullException(name, $"Parameter {name} must be null");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value is not <see langword="null"/>.
         /// </summary>
         /// <param name="value">The input value to test.</param>
