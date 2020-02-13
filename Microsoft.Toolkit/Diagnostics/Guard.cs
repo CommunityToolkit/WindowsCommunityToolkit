@@ -123,6 +123,34 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value must be a bitwise match with a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to compare.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to test.</param>
+        /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void IsBitwiseEqualTo<T>(T value, T target, string name)
+            where T : unmanaged
+        {
+            ref byte valueRef = ref Unsafe.As<T, byte>(ref value);
+            ref byte targetRef = ref Unsafe.As<T, byte>(ref target);
+            int bytesCount = Unsafe.SizeOf<T>();
+
+            for (int i = 0; i < bytesCount; i++)
+            {
+                byte valueByte = Unsafe.Add(ref valueRef, i);
+                byte targetByte = Unsafe.Add(ref targetRef, i);
+
+                if (valueByte != targetByte)
+                {
+                    throw new ArgumentException($"Parameter {name} must is not a bitwise match (byte #{i} was {valueByte} instead of {targetByte})", name);
+                }
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be <see langword="true"/>.
         /// </summary>
         /// <param name="value">The input <see cref="bool"/> to test.</param>
