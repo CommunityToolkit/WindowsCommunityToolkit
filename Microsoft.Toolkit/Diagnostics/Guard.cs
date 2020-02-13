@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeNotNull(object? value, string name)
+        public static void IsNotNull(object? value, string name)
         {
             if (value is null)
             {
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeNotNull<T>(T? value, string name)
+        public static void IsNotNull<T>(T? value, string name)
             where T : struct
         {
             if (value is null)
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not of type <typeparamref name="T"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeOf<T>(object value, string name)
+        public static void IsOfType<T>(object value, string name)
             where T : class
         {
             if (value.GetType() != typeof(T))
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be cast to type <typeparamref name="T"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeAssignableTo<T>(object value, string name)
+        public static void IsAssignableToType<T>(object value, string name)
         {
             if (!(value is T))
             {
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeTrue(bool value, string name)
+        public static void IsTrue(bool value, string name)
         {
             if (!value)
             {
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeFalse(bool value, string name)
+        public static void IsFalse(bool value, string name)
         {
             if (value)
             {
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="max"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeLessThan<T>(T value, T max, string name)
+        public static void IsLessThan<T>(T value, T max, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(max) >= 0)
@@ -143,7 +143,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="maximum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeLessThanOrEqualTo<T>(T value, T maximum, string name)
+        public static void IsLessThanOrEqualTo<T>(T value, T maximum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(maximum) > 0)
@@ -162,7 +162,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeGreaterThan<T>(T value, T minimum, string name)
+        public static void IsGreaterThan<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) <= 0)
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeGreaterThanOrEqualTo<T>(T value, T minimum, string name)
+        public static void IsGreaterThanOrEqualTo<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) < 0)
@@ -201,7 +201,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeBetween<T>(T value, T minimum, T maximum, string name)
+        public static void IsBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
@@ -221,7 +221,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeNotBetween<T>(T value, T minimum, T maximum, string name)
+        public static void IsNotBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) > 0 || value.CompareTo(maximum) < 0)
@@ -241,7 +241,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
+        public static void IsBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
@@ -261,7 +261,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
+        public static void IsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
             if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) <= 0)
@@ -280,7 +280,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is != <paramref name="target"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeEqualTo<T>(T value, T target, string name)
+        public static void IsEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
             if (!value.Equals(target))
@@ -299,7 +299,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is == <paramref name="target"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeNotEqualTo<T>(T value, T target, string name)
+        public static void IsNotEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
             if (value.Equals(target))
@@ -318,7 +318,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is != <paramref name="size"/>.</exception>
         /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeSizedEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        public static void HasSizeEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
             int actualSize;
 
@@ -342,7 +342,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt;= <paramref name="size"/>.</exception>
         /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeSizedAtLeast<T>(IEnumerable<T> enumerable, int size, string name)
+        public static void HasSizeAtLeast<T>(IEnumerable<T> enumerable, int size, string name)
         {
             int actualSize;
 
@@ -366,7 +366,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt; <paramref name="size"/>.</exception>
         /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeSizedAtLeastOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        public static void HasSizeAtLeastOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
             int actualSize;
 
@@ -390,7 +390,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is >= <paramref name="size"/>.</exception>
         /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeSizedLessThan<T>(IEnumerable<T> enumerable, int size, string name)
+        public static void HasSizeLessThan<T>(IEnumerable<T> enumerable, int size, string name)
         {
             int actualSize;
 
@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is > <paramref name="size"/>.</exception>
         /// <remarks>The method will skip enumerating <paramref name="enumerable"/> if possible (if it's an <see cref="ICollection{T}"/> or <see cref="IReadOnlyCollection{T}"/>).</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void MustBeSizedLessThanOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
+        public static void HasSizeLessThanOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
             int actualSize;
 
