@@ -15,6 +15,38 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
         /// <summary>
+        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(ReadOnlySpan<T> span, string name)
+        {
+            if (span.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {span.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(ReadOnlySpan<T> span, string name)
+        {
+            if (span.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must have a size of a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
@@ -147,6 +179,38 @@ namespace Microsoft.Toolkit.Diagnostics
             if (source.Length > destination.Length)
             {
                 ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(ReadOnlyMemory<T> memory, string name)
+        {
+            if (memory.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {memory.Length}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(ReadOnlyMemory<T> memory, string name)
+        {
+            if (memory.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must not be empty");
             }
         }
 

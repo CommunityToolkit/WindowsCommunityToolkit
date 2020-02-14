@@ -17,6 +17,32 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
         /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(T[] array, string name)
+        {
+            IsEmpty(new ReadOnlySpan<T>(array), name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <typeparamref name="T"/> array instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
+        /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(T[] array, string name)
+        {
+            IsNotEmpty(new ReadOnlySpan<T>(array), name);
+        }
+
+        /// <summary>
         /// Asserts that the input <typeparamref name="T"/> array instance must have a size of a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
@@ -126,6 +152,78 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void HasSizeLessThanOrEqualTo<T>(T[] source, T[] destination, string name)
         {
             HasSizeLessThanOrEqualTo(new ReadOnlySpan<T>(source), destination.AsSpan(), name);
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(IEnumerable<T> enumerable, string name)
+        {
+            if ((enumerable as ICollection<T>)?.Count is int collectionCount)
+            {
+                if (collectionCount != 0)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {collectionCount}");
+
+                    return;
+                }
+            }
+
+            if ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount)
+            {
+                if (readOnlyCollectionCount != 0)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {readOnlyCollectionCount}");
+
+                    return;
+                }
+            }
+
+            if (enumerable.Any())
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be empty");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(IEnumerable<T> enumerable, string name)
+        {
+            if ((enumerable as ICollection<T>)?.Count is int collectionCount)
+            {
+                if (collectionCount == 0)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must not be empty");
+
+                    return;
+                }
+            }
+
+            if ((enumerable as IReadOnlyCollection<T>)?.Count is int readOnlyCollectionCount)
+            {
+                if (readOnlyCollectionCount == 0)
+                {
+                    ThrowArgumentException(name, $"Parameter {name} must not be empty");
+
+                    return;
+                }
+            }
+
+            if (enumerable.Any())
+            {
+                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+            }
         }
 
         /// <summary>
