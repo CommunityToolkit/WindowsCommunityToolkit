@@ -91,13 +91,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="r0">A <see cref="char"/> reference to the start of the search space.</param>
         /// <param name="length">The number of items in the search space.</param>
         /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
-        /// <param name="limit">The limit for consecutive SIMD operations without the risk of overflows.</param>
+        /// <param name="max">The maximum amount that a <typeparamref name="T"/> value can reach.</param>
         /// <typeparam name="T">The type of value to look for.</typeparam>
         /// <typeparam name="TIntConverter">The type implementing <see cref="IIntConverter{T}"/> to use.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count<T, TIntConverter>(ref T r0, int length, T value, int limit)
+        private static int Count<T, TIntConverter>(ref T r0, int length, T value, int max)
             where T : unmanaged, IEquatable<T>
             where TIntConverter : unmanaged, IIntConverter<T>
         {
@@ -122,10 +122,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * always at the offset aligned with the same SIMD value in the current
                  * register. Therefore, if the input span is longer than that minimum
                  * threshold, additional checks need to be performed to avoid overflows.
+                 * This value is equal to the maximum (signed) numerical value for the current
+                 * type, divided by the number of value that can fit in a register, minus 1.
+                 * This is because the partial results are accumulated with a dot product,
+                 * which sums them horizontally while still working on the original type.
+                 * Dividing the max value by their count ensures that overflows can't happen.
                  * The check is moved outside of the loop to enable a branchless version
                  * of this method if the input span is guaranteed not to cause overflows.
                  * Otherwise, the safe but slower variant is used. */
-                if (length <= limit)
+                int threshold = (max / Vector<T>.Count) - 1;
+
+                if (length <= threshold)
                 {
                     for (; i <= end; i += Vector<T>.Count)
                     {
@@ -147,7 +154,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 }
                 else
                 {
-                    for (; i <= end; i += Vector<T>.Count)
+                    for (int j = 0; i <= end; i += Vector<T>.Count, j++)
                     {
                         ref T ri = ref Unsafe.Add(ref r0, i);
 
@@ -158,8 +165,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                         partials -= ve;
 
                         // Additional checks to avoid overflows
-                        if (i % ((limit + 1) / 2) == 0)
+                        if (j == threshold)
                         {
+                            j = 0;
                             result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
                             partials = Vector<T>.Zero;
                         }
