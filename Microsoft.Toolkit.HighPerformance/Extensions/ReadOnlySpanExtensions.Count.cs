@@ -75,8 +75,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             int result = 0;
 
-            /* Fast loop for all the other types.
-             * The Equals<T> call is automatically inlined, if possible. */
+            // Fast loop for all the other types (see below for more details)
             foreach (var item in span)
             {
                 bool equals = item.Equals(value);
@@ -87,11 +86,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Counts the number of occurrences of a given character into a target search space
+        /// Counts the number of occurrences of a given value into a target search space.
         /// </summary>
-        /// <param name="r0">A <see cref="char"/> reference to the start of the search space</param>
-        /// <param name="length">The number of items in the search space</param>
-        /// <param name="value">The <typeparamref name="T"/> value to look for</param>
+        /// <param name="r0">A <see cref="char"/> reference to the start of the search space.</param>
+        /// <param name="length">The number of items in the search space.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
         /// <typeparam name="T">The type of value to look for.</typeparam>
         /// <typeparam name="TIntConverter">The type implementing <see cref="IIntConverter{T}"/> to use.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
@@ -103,10 +102,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             int i = 0, result = 0;
 
-            /* Only execute the SIMD-enabled branch if the Vector<T> APIs
-             * are hardware accelerated on the current CPU.
-             * Vector<char> is not supported, but the type is equivalent to
-             * ushort anyway, as they're both unsigned 16 bits integers. */
+            // Only run the SIMD-enabled branch if the Vector<T> APIs are hardware accelerated
             if (Vector.IsHardwareAccelerated)
             {
                 int end = length - Vector<T>.Count;
@@ -117,14 +113,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 var converter = default(TIntConverter);
 
                 /* Run the fast path if the input span is short enough.
-                 * Since a Vector<short> is being used to sum the partial results,
-                 * it means that a single SIMD value can count up to 32767 without
-                 * overflowing. In the worst case scenario, the same character appears
+                 * There are two branches here because if the search space is large
+                 * enough, the partial results could overflow if the target value
+                 * is present too many times. This upper limit depends on the type
+                 * being used, as the smaller the type is, the shorter the supported
+                 * fast range will be. In the worst case scenario, the same value appears
                  * always at the offset aligned with the same SIMD value in the current
                  * register. Therefore, if the input span is longer than that minimum
                  * threshold, additional checks need to be performed to avoid overflows.
                  * The check is moved outside of the loop to enable a branchless version
-                 * of this method if the input span is short enough.
+                 * of this method if the input span is guaranteed not to cause overflows.
                  * Otherwise, the safe but slower variant is used. */
                 if (length <= short.MaxValue)
                 {
@@ -132,12 +130,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                     {
                         ref T ri = ref Unsafe.Add(ref r0, i);
 
-                        /* Load the current Vector<ushort> register.
-                         * Vector.Equals sets matching positions to all 1s, and
-                         * Vector.BitwiseAnd results in a Vector<ushort> with 1
-                         * in positions corresponding to matching characters,
-                         * and 0 otherwise. The final += is also calling the
-                         * right vectorized instruction automatically. */
+                        /* Load the current Vector<T> register, and then use
+                         * Vector.Equals to check for matches. This API sets the
+                         * values corresponding to matching pairs to all 1s.
+                         * Since the input type is guaranteed to always be signed,
+                         * this means that a value with all 1s represents -1, as
+                         * signed numbers are represented in two's complement.
+                         * So we can subtract this intermediate value to the
+                         * partial results, which effectively sums 1 for each match. */
                         var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
 
@@ -169,13 +169,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
             }
 
-            // Iterate over the remaining characters and count those that match
+            // Iterate over the remaining values and count those that match
             for (; i < length; i++)
             {
                 /* Skip a conditional jump by assigning the comparison
                  * result to a variable and reinterpreting a reference to
                  * it as a byte reference. The byte value is then implicitly
-                 * cast to int before adding it to the result. */
+                 * cast to int before adding it to the result. Additionally,
+                 * the JIT will automatically inline the calls to Equals<T>. */
                 bool equals = Unsafe.Add(ref r0, i).Equals(value);
                 result += Unsafe.As<bool, byte>(ref equals);
             }
