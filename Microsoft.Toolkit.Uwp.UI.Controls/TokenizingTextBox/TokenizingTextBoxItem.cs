@@ -28,6 +28,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearClicked;
 
         /// <summary>
+        /// Event raised when the delete key or a backspace is pressed.
+        /// </summary>
+        public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> ClearAllAction;
+
+        /// <summary>
+        /// Event raised when a keypress happens on the item.
+        /// </summary>
+        public event TypedEventHandler<TokenizingTextBoxItem, RoutedEventArgs> KeyPressAction;
+
+        /// <summary>
         /// Identifies the <see cref="ClearButtonStyle"/> property.
         /// </summary>
         public static readonly DependencyProperty ClearButtonStyleProperty = DependencyProperty.Register(
@@ -53,7 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // TODO: Check if the ListView ItemClick event works still...
             DefaultStyleKey = typeof(TokenizingTextBoxItem);
 
-            RegisterPropertyChangedCallback(IsSelectedProperty, TokenizingTextBoxItem_IsSelectedChanged);
             RightTapped += TokenizingTextBoxItem_RightTapped;
             PreviewKeyDown += this.TokenizingTextBoxItem_PreviewKeyDown;
             KeyDown += TokenizingTextBoxItem_KeyDown;
@@ -61,28 +70,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void TokenizingTextBoxItem_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            // TODO: any key that a text box would respond to, send the focus to the text box
+            // check if this is a key stroke that would cause input to a text box
+            // If CTRL or ALT modifier are applied then no-op
+            bool processAsInput =
+                !(CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down) ||
+                CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Application).HasFlag(CoreVirtualKeyStates.Down) ||
+                CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Menu).HasFlag(CoreVirtualKeyStates.Down));
 
-            //CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-            //CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.LeftWindows).HasFlag(CoreVirtualKeyStates.Down);
-
-            //switch (e.Key)
-            //{
-            //    case VirtualKey.
-            //}
-        }
-
-        private void TokenizingTextBoxItem_IsSelectedChanged(DependencyObject sender, DependencyProperty dp)
-        {
-            if (sender is TokenizingTextBoxItem item)
+            if (processAsInput)
             {
-                if (item.IsSelected)
+                int code = (int)e.Key;
+
+                // TODO: this list isnt complete - need to call something like ToAscii() to confirm if the key is a printable character.
+                if (e.Key == VirtualKey.Space ||
+                    (e.Key >= VirtualKey.Number0 && e.Key <= VirtualKey.Z) ||
+                    (e.Key >= VirtualKey.NumberPad0 && e.Key <= VirtualKey.Divide) ||
+                    (code >= 0xBA && code <= 0xF5))
                 {
-                    VisualStateManager.GoToState(item, "Selected", true);
-                }
-                else
-                {
-                    VisualStateManager.GoToState(item, "Unselected", true);
+                    e.Handled = true;
+                    KeyPressAction?.Invoke(this, e);
                 }
             }
         }
@@ -122,31 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 case VirtualKey.Back:
                 case VirtualKey.Delete:
                 {
-                    ClearButton_Click(sender, e);
-                    break;
-                }
-
-                case VirtualKey.Left:
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
-                    break;
-                }
-
-                case VirtualKey.Right:
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Next);
-                    break;
-                }
-
-                case VirtualKey.Up:
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Up);
-                    break;
-                }
-
-                case VirtualKey.Down:
-                {
-                    FocusManager.TryMoveFocus(FocusNavigationDirection.Down);
+                    ClearAllAction?.Invoke(this, e);
                     break;
                 }
             }

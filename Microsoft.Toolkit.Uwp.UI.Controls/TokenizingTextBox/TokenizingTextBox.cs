@@ -67,22 +67,121 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
         }
 
+        private enum MoveDirection
+        {
+            Next, Previous
+        }
+
         private void TokenizingTextBox_PreviewKeyDown(object sender, KeyRoutedEventArgs e)
         {
             // Global handlers on control regardless if focused on item or in textbox.
             switch (e.Key)
             {
                 case VirtualKey.C:
-                {
-                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
-                    if (controlPressed)
                     {
-                        CopySelectedToClipboard();
+                        var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                        if (controlPressed)
+                        {
+                            CopySelectedToClipboard();
+                        }
+
+                        break;
                     }
 
+                case Windows.System.VirtualKey.Left:
+                    e.Handled = MoveFocusAndSelection(MoveDirection.Previous);
                     break;
+
+                case Windows.System.VirtualKey.Right:
+                    e.Handled = MoveFocusAndSelection(MoveDirection.Next);
+                    break;
+
+                case Windows.System.VirtualKey.Up:
+                case Windows.System.VirtualKey.Down:
+                    e.Handled = !FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox);
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Adjust the selected item and range based on keyboard input.
+        /// This is used to override the listview behavious for up/down arrow manipulation vs left/right for a horizontal control
+        /// </summary>
+        /// <param name="direction">direction to move the selection</param>
+        /// <returns>True if the focus was moved, false otherwise</returns>
+        private bool MoveFocusAndSelection(MoveDirection direction)
+        {
+            bool retVal = false;
+            var currentContainerItem = FocusManager.GetFocusedElement() as TokenizingTextBoxItem;
+
+            if (currentContainerItem != null && !FocusManager.GetFocusedElement().Equals(_autoSuggestTextBox))
+            {
+                var currentItem = ItemFromContainer(currentContainerItem);
+                var previousIndex = Items.IndexOf(currentItem);
+                var index = previousIndex;
+
+                if (direction == MoveDirection.Previous)
+                {
+                    if (previousIndex > 0)
+                    {
+                        index -= 1;
+                    }
+                    else
+                    {
+                        FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                        retVal = true;
+                    }
+                }
+                else if (direction == MoveDirection.Next)
+                {
+                    if (previousIndex < Items.Count - 1)
+                    {
+                        index += 1;
+                    }
+                    else
+                    {
+                        _autoSuggestTextBox.Focus(FocusState.Keyboard);
+                        retVal = true;
+                    }
+                }
+
+                // Only do stuff if the index is actually changing
+                if (index != previousIndex)
+                {
+                    var newItem = ContainerFromIndex(index) as TokenizingTextBoxItem;
+                    newItem.Focus(FocusState.Keyboard);
+
+                    // if no control keys are selected then the seleciton also becomes just this item
+                    var controlPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down);
+                    var shiftPressed = CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Shift).HasFlag(CoreVirtualKeyStates.Down);
+
+                    if (shiftPressed)
+                    {
+                        // What we do here depends on where the selection started
+                        // if the previous item is between the start and new position then we add the new item to the selected range
+                        // if the new item is between the start and the previous position then we remove the previous position
+                        int newDistance = Math.Abs(SelectedIndex - index);
+                        int oldDistance = Math.Abs(SelectedIndex - previousIndex);
+
+                        if (newDistance > oldDistance)
+                        {
+                            SelectedItems.Add(Items[index]);
+                        }
+                        else
+                        {
+                            SelectedItems.Remove(Items[previousIndex]);
+                        }
+                    }
+                    else if (!controlPressed)
+                    {
+                        SelectedIndex = index;
+                    }
+
+                    retVal = true;
                 }
             }
+
+            return retVal;
         }
 
         private void OnASBLoaded(object sender, RoutedEventArgs e)
@@ -109,10 +208,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                  e.Key == VirtualKey.Left))
             {
                 // Select last token item (if there is one)
-                FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                if (Items.Count > 0)
+                {
+                    var item = ContainerFromItem(Items[Items.Count - 1]);
+                    SelectedIndex = Items.Count - 1;
+                    (item as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
 
-                // Clear the selection content
-                _autoSuggestTextBox.SelectedText = string.Empty;
+                    // Clear the selection content
+                    _autoSuggestTextBox.SelectedText = string.Empty;
+                }
+                else
+                {
+                    FocusManager.TryMoveFocus(FocusNavigationDirection.Previous);
+                }
+
                 e.Handled = true;
             }
             else if (e.Key == VirtualKey.A && CoreWindow.GetForCurrentThread().GetKeyState(VirtualKey.Control).HasFlag(CoreVirtualKeyStates.Down))
@@ -235,7 +344,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // remove any selected tokens.
             if (SelectedItems.Count > 0)
             {
-                await ClearSelectedTokens(null);
+                await ClearAllSelected();
             }
 
             TextChanged?.Invoke(sender, args);
@@ -282,6 +391,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tokenitem.ClearClicked -= TokenizingTextBoxItem_ClearClicked;
             tokenitem.ClearClicked += TokenizingTextBoxItem_ClearClicked;
 
+            tokenitem.KeyPressAction -= Tokenitem_KeyPressAction;
+            tokenitem.KeyPressAction += Tokenitem_KeyPressAction;
+
+            tokenitem.ClearAllAction -= Tokenitem_ClearAllAction;
+            tokenitem.ClearAllAction += Tokenitem_ClearAllAction;
+
             var menuFlyout = new MenuFlyout();
 
             var removeMenuItem = new MenuFlyoutItem
@@ -303,37 +418,49 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             tokenitem.ContextFlyout = menuFlyout;
         }
 
-        private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        private async void Tokenitem_ClearAllAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
         {
-            await ClearSelectedTokens(sender);
-        }
+            // find the first item selected 
+            int newSelectedIndex = -1;
 
-        private async Task ClearSelectedTokens(TokenizingTextBoxItem sender)
-        {
-            bool removeMulti = sender == null;
-
-            if (!removeMulti)
+            if (SelectedRanges.Count > 0)
             {
-                foreach (var item in SelectedItems)
-                {
-                    if (item != sender)
-                    {
-                        removeMulti = true;
-                        break;
-                    }
-                }
+                newSelectedIndex = SelectedRanges[0].FirstIndex - 1;
             }
 
-            if (removeMulti)
+            await ClearAllSelected();
+
+            SelectedIndex = newSelectedIndex;
+
+            if (newSelectedIndex == -1)
             {
-                for (int i = SelectedItems.Count - 1; i >= 0; i--)
-                {
-                    await RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
-                }
+                // Focus the text box
+                _autoSuggestTextBox.Focus(FocusState.Keyboard);
             }
             else
             {
-                await RemoveToken(sender);
+                // focus the item prior to the first selected item
+                (ContainerFromIndex(newSelectedIndex) as TokenizingTextBoxItem).Focus(FocusState.Keyboard);
+            }
+        }
+
+        private async void Tokenitem_KeyPressAction(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        {
+            // set focus to the text box
+            await ClearAllSelected();
+            _autoSuggestTextBox.Focus(FocusState.Keyboard);
+        }
+
+        private async void TokenizingTextBoxItem_ClearClicked(TokenizingTextBoxItem sender, RoutedEventArgs args)
+        {
+            await RemoveToken(sender);
+        }
+
+        private async Task ClearAllSelected()
+        {
+            for (int i = SelectedItems.Count - 1; i >= 0; i--)
+            {
+                await RemoveToken(ContainerFromItem(SelectedItems[i]) as TokenizingTextBoxItem);
             }
         }
 
