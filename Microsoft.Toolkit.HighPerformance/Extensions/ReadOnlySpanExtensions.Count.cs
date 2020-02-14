@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     public static partial class ReadOnlySpanExtensions
     {
         /// <summary>
-        /// Counts the number of occurrences of a given character into a target <see cref="ReadOnlySpan{T}"/> instance.
+        /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>

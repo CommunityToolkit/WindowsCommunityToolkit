@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Counts the number of occurrences of a given character into a target <see cref="Span{T}"/> instance.
+        /// Counts the number of occurrences of a given value into a target <see cref="Span{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="Span{T}"/> instance to read.</param>

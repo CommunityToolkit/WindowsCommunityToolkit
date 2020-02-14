@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Counts the number of occurrences of a given character into a target <typeparamref name="T"/> array instance.
+        /// Counts the number of occurrences of a given value into a target <typeparamref name="T"/> array instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
