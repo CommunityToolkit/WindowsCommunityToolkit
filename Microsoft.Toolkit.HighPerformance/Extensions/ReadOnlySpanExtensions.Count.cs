@@ -27,6 +27,18 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             where T : IEquatable<T>
         {
             // Special vectorized version when using a supported type
+            if (typeof(T) == typeof(byte) ||
+                typeof(T) == typeof(sbyte) ||
+                typeof(T) == typeof(bool))
+            {
+                ref T r0 = ref MemoryMarshal.GetReference(span);
+                ref sbyte r1 = ref Unsafe.As<T, sbyte>(ref r0);
+                int length = span.Length;
+                sbyte target = Unsafe.As<T, sbyte>(ref value);
+
+                return Count<sbyte, SbyteConverter>(ref r1, length, target);
+            }
+
             if (typeof(T) == typeof(char) ||
                 typeof(T) == typeof(ushort) ||
                 typeof(T) == typeof(short))
@@ -37,6 +49,28 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 short target = Unsafe.As<T, short>(ref value);
 
                 return Count<short, ShortConverter>(ref r1, length, target);
+            }
+
+            if (typeof(T) == typeof(int) ||
+                typeof(T) == typeof(uint))
+            {
+                ref T r0 = ref MemoryMarshal.GetReference(span);
+                ref int r1 = ref Unsafe.As<T, int>(ref r0);
+                int length = span.Length;
+                int target = Unsafe.As<T, int>(ref value);
+
+                return Count<int, IntConverter>(ref r1, length, target);
+            }
+
+            if (typeof(T) == typeof(long) ||
+                typeof(T) == typeof(ulong))
+            {
+                ref T r0 = ref MemoryMarshal.GetReference(span);
+                ref long r1 = ref Unsafe.As<T, long>(ref r0);
+                int length = span.Length;
+                long target = Unsafe.As<T, long>(ref value);
+
+                return Count<long, LongConverter>(ref r1, length, target);
             }
 
             int result = 0;
@@ -166,13 +200,43 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="sbyte"/> values.
+        /// </summary>
+        private readonly struct SbyteConverter : IIntConverter<sbyte>
+        {
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public int Convert(sbyte value) => value;
+        }
+
+        /// <summary>
         /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="short"/> values.
         /// </summary>
-        public readonly struct ShortConverter : IIntConverter<short>
+        private readonly struct ShortConverter : IIntConverter<short>
         {
             /// <inheritdoc/>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public int Convert(short value) => value;
+        }
+
+        /// <summary>
+        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="int"/> values.
+        /// </summary>
+        private readonly struct IntConverter : IIntConverter<int>
+        {
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public int Convert(int value) => value;
+        }
+
+        /// <summary>
+        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="long"/> values.
+        /// </summary>
+        private readonly struct LongConverter : IIntConverter<long>
+        {
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public int Convert(long value) => (int)value;
         }
     }
 }
