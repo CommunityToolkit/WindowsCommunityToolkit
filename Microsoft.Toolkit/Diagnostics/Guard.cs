@@ -196,7 +196,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
-        public static unsafe void IsBitwiseEqualTo<T>(T value, T target, string name)
+        public static void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
             /* Include some fast paths if the input type is of size 1, 2, 4 or 8.
@@ -206,7 +206,7 @@ namespace Microsoft.Toolkit.Diagnostics
              * messages, since the entire input values can be expressed as hexadecimal values.
              * The conditional branches below are known at compile time by the JIT compiler,
              * so that only the right one will actually be translated into native code. */
-            if (sizeof(T) == sizeof(byte))
+            if (typeof(T) == typeof(byte))
             {
                 byte valueByte = Unsafe.As<T, byte>(ref value);
                 byte targetByte = Unsafe.As<T, byte>(ref target);
@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueByte:X2} instead of 0x{targetByte:X2}");
                 }
             }
-            else if (sizeof(T) == sizeof(ushort))
+            else if (typeof(T) == typeof(ushort))
             {
                 ushort valueUShort = Unsafe.As<T, ushort>(ref value);
                 ushort targetUShort = Unsafe.As<T, ushort>(ref target);
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUShort:X4} instead of 0x{targetUShort:X4}");
                 }
             }
-            else if (sizeof(T) == sizeof(uint))
+            else if (typeof(T) == typeof(uint))
             {
                 uint valueUInt = Unsafe.As<T, uint>(ref value);
                 uint targetUInt = Unsafe.As<T, uint>(ref target);
@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUInt:X8} instead of 0x{targetUInt:X8}");
                 }
             }
-            else if (sizeof(T) == sizeof(ulong))
+            else if (typeof(T) == typeof(ulong))
             {
                 ulong valueULong = Unsafe.As<T, ulong>(ref value);
                 ulong targetULong = Unsafe.As<T, ulong>(ref target);
