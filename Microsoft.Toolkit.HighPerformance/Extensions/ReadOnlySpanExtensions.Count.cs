@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 sbyte target = Unsafe.As<T, sbyte>(ref value);
 
-                return Count<sbyte, SbyteConverter>(ref r1, length, target);
+                return Count<sbyte, SbyteConverter>(ref r1, length, target, sbyte.MaxValue);
             }
 
             if (typeof(T) == typeof(char) ||
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 short target = Unsafe.As<T, short>(ref value);
 
-                return Count<short, ShortConverter>(ref r1, length, target);
+                return Count<short, ShortConverter>(ref r1, length, target, short.MaxValue);
             }
 
             if (typeof(T) == typeof(int) ||
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 int target = Unsafe.As<T, int>(ref value);
 
-                return Count<int, IntConverter>(ref r1, length, target);
+                return Count<int, IntConverter>(ref r1, length, target, int.MaxValue);
             }
 
             if (typeof(T) == typeof(long) ||
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 long target = Unsafe.As<T, long>(ref value);
 
-                return Count<long, LongConverter>(ref r1, length, target);
+                return Count<long, LongConverter>(ref r1, length, target, int.MaxValue);
             }
 
             int result = 0;
@@ -91,12 +91,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="r0">A <see cref="char"/> reference to the start of the search space.</param>
         /// <param name="length">The number of items in the search space.</param>
         /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <param name="limit">The limit for consecutive SIMD operations without the risk of overflows.</param>
         /// <typeparam name="T">The type of value to look for.</typeparam>
         /// <typeparam name="TIntConverter">The type implementing <see cref="IIntConverter{T}"/> to use.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count<T, TIntConverter>(ref T r0, int length, T value)
+        private static int Count<T, TIntConverter>(ref T r0, int length, T value, int limit)
             where T : unmanaged, IEquatable<T>
             where TIntConverter : unmanaged, IIntConverter<T>
         {
@@ -124,7 +125,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * The check is moved outside of the loop to enable a branchless version
                  * of this method if the input span is guaranteed not to cause overflows.
                  * Otherwise, the safe but slower variant is used. */
-                if (length <= short.MaxValue)
+                if (length <= limit)
                 {
                     for (; i <= end; i += Vector<T>.Count)
                     {
@@ -157,7 +158,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                         partials -= ve;
 
                         // Additional checks to avoid overflows
-                        if (i % ((short.MaxValue + 1) / 2) == 0)
+                        if (i % ((limit + 1) / 2) == 0)
                         {
                             result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
                             partials = Vector<T>.Zero;
