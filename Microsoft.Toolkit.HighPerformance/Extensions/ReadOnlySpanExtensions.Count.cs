@@ -30,11 +30,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             if (typeof(T) == typeof(char))
             {
                 ref T r0 = ref MemoryMarshal.GetReference(span);
-                ref char r1 = ref Unsafe.As<T, char>(ref r0);
+                ref short r1 = ref Unsafe.As<T, short>(ref r0);
                 int length = span.Length;
-                char c = Unsafe.As<T, char>(ref value);
+                short target = Unsafe.As<T, short>(ref value);
 
-                return Count(ref r1, length, c);
+                return Count<short, ShortConverter>(ref r1, length, target);
             }
 
             int result = 0;
@@ -59,7 +59,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <returns>The number of occurrences of <paramref name="c"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count(ref char r0, int length, char c)
+        private static int Count<T, TIntConverter>(ref T r0, int length, T c)
+            where T : unmanaged, IEquatable<T>
+            where TIntConverter : unmanaged, IIntConverter<T>
         {
             int i = 0, result = 0;
 
@@ -69,10 +71,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
              * ushort anyway, as they're both unsigned 16 bits integers. */
             if (Vector.IsHardwareAccelerated)
             {
-                int end = length - Vector<ushort>.Count;
+                int end = length - Vector<T>.Count;
 
-                var partials = Vector<short>.Zero;
-                var vc = new Vector<ushort>(c);
+                var partials = Vector<T>.Zero;
+                var vc = new Vector<T>(c);
+
+                var converter = default(TIntConverter);
 
                 /* Run the fast path if the input span is short enough.
                  * Since a Vector<short> is being used to sum the partial results,
@@ -86,9 +90,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * Otherwise, the safe but slower variant is used. */
                 if (length <= short.MaxValue)
                 {
-                    for (; i <= end; i += Vector<ushort>.Count)
+                    for (; i <= end; i += Vector<T>.Count)
                     {
-                        ref char ri = ref Unsafe.Add(ref r0, i);
+                        ref T ri = ref Unsafe.Add(ref r0, i);
 
                         /* Load the current Vector<ushort> register.
                          * Vector.Equals sets matching positions to all 1s, and
@@ -96,41 +100,35 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                          * in positions corresponding to matching characters,
                          * and 0 otherwise. The final += is also calling the
                          * right vectorized instruction automatically. */
-                        var vi = Unsafe.As<char, Vector<ushort>>(ref ri);
+                        var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
-                        var vs = Unsafe.As<Vector<ushort>, Vector<short>>(ref ve);
 
-                        partials -= vs;
+                        partials -= ve;
                     }
                 }
                 else
                 {
-                    for (; i <= end; i += Vector<ushort>.Count)
+                    for (; i <= end; i += Vector<T>.Count)
                     {
-                        ref char ri = ref Unsafe.Add(ref r0, i);
+                        ref T ri = ref Unsafe.Add(ref r0, i);
 
                         // Same as before
-                        var vi = Unsafe.As<char, Vector<ushort>>(ref ri);
+                        var vi = Unsafe.As<T, Vector<T>>(ref ri);
                         var ve = Vector.Equals(vi, vc);
-                        var vs = Unsafe.As<Vector<ushort>, Vector<short>>(ref ve);
 
-                        partials -= vs;
+                        partials -= ve;
 
                         // Additional checks to avoid overflows
                         if (i % ((short.MaxValue + 1) / 2) == 0)
                         {
-                            result += Vector.Dot(partials, Vector<short>.One);
-                            partials = Vector<short>.Zero;
+                            result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
+                            partials = Vector<T>.Zero;
                         }
                     }
                 }
 
                 // Compute the horizontal sum of the partial results
-                result += Vector.Dot(partials, Vector<short>.One);
-            }
-            else
-            {
-                result = 0;
+                result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
             }
 
             // Iterate over the remaining characters and count those that match
@@ -140,11 +138,37 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * result to a variable and reinterpreting a reference to
                  * it as a byte reference. The byte value is then implicitly
                  * cast to int before adding it to the result. */
-                bool equals = Unsafe.Add(ref r0, i) == c;
+                bool equals = Unsafe.Add(ref r0, i).Equals(c);
                 result += Unsafe.As<bool, byte>(ref equals);
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// A contract for converters that turn values into <see cref="int"/> values.
+        /// </summary>
+        /// <typeparam name="T">The type of input values to convert.</typeparam>
+        /// <remarks>The <see cref="Convert"/> method should be marked with <see cref="MethodImplOptions.AggressiveInlining"/>.</remarks>
+        private interface IIntConverter<in T>
+            where T : unmanaged
+        {
+            /// <summary>
+            /// Converts a <typeparamref name="T"/> value into an <see cref="int"/> value.
+            /// </summary>
+            /// <param name="value">The input <typeparamref name="T"/> value to convert.</param>
+            /// <returns>The <see cref="int"/> conversion of <paramref name="value"/>.</returns>
+            int Convert(T value);
+        }
+
+        /// <summary>
+        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="short"/> values.
+        /// </summary>
+        public readonly struct ShortConverter : IIntConverter<short>
+        {
+            /// <inheritdoc/>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public int Convert(short value) => value;
         }
     }
 }
