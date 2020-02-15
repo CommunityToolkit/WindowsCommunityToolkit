@@ -147,10 +147,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int GetDjb2HashCode<T>(this T[] span)
+        public static int GetDjb2HashCode<T>(this T[] array)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(span);
+            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(array);
         }
     }
 }
