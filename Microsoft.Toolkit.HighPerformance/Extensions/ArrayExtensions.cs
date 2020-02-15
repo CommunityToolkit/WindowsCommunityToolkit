@@ -55,10 +55,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         // Description taken from CoreCLR: see https://source.dot.net/#System.Private.CoreLib/src/System/Runtime/CompilerServices/RuntimeHelpers.CoreCLR.cs,285.
         // CLR arrays are laid out in memory as follows (multidimensional array bounds are optional):
         // [ sync block || pMethodTable || num components || MD array bounds || array data .. ]
-        //                 ^               ^                 ^                  ^ returned reference
-        //                 |               |                 \-- ref Unsafe.As<RawArrayData>(array).Data
-        //                 \-- array       \-- ref Unsafe.As<RawData>(array).Data
-        // The BaseSize of an array includes all the fields before the array data,
+        //                 ^                                 ^                  ^ returned reference
+        //                 |                                 \-- ref Unsafe.As<RawArrayData>(array).Data
+        //                 \-- array
+        // The base size of an array includes all the fields before the array data,
         // including the sync block and method table. The reference to RawData.Data
         // points at the number of components, skipping over these two pointer-sized fields.
         private sealed class RawArrayData
