@@ -10,7 +10,6 @@ using Microsoft.Toolkit.HighPerformance.Extensions;
 
 namespace UnitTests.HighPerformance
 {
-    [TestClass]
     public partial class Test_ReadOnlySpanExtensions
     {
         /// <summary>
