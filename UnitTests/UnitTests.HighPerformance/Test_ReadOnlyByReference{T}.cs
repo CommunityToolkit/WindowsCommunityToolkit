@@ -16,18 +16,18 @@ namespace UnitTests.HighPerformance.Extensions
 #if NETCOREAPP2_1
         public void Test_ByReferenceOfT_CreateByReferenceOfT()
         {
-            var model = new FieldOwner { Value = 1 };
+            var model = new ReadOnlyFieldOwner();
             var reference = new ReadOnlyByReference<int>(model, model.Value);
 
-            Assert.IsTrue(Unsafe.AreSame(ref model.Value, ref Unsafe.AsRef(reference.Value)));
+            Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(model.Value), ref Unsafe.AsRef(reference.Value)));
         }
 
         /// <summary>
         /// A dummy model that owns an <see cref="int"/> field.
         /// </summary>
-        private sealed class FieldOwner
+        private sealed class ReadOnlyFieldOwner
         {
-            public readonly int Value;
+            public readonly int Value = 1;
         }
 #else
         public void Test_ByReferenceOfT_CreateByReferenceOfT()
