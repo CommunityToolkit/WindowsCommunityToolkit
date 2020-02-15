@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// Returns a reference to the first element within a given <see cref="List{T}"/>, with no bounds checks.
+        /// Returns the underlying <typeparamref name="T"/> array being used by a given <see cref="List{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of elements in the input <see cref="List{T}"/> instance.</typeparam>
         /// <param name="list">The input <see cref="List{T}"/> instance.</param>
@@ -76,6 +76,23 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             var listData = Unsafe.As<RawListData<T>>(list);
 
             return listData._items;
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Span{T}"/> with the items currently stored in a given <see cref="List{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of elements in the input <see cref="List{T}"/> instance.</typeparam>
+        /// <param name="list">The input <see cref="List{T}"/> instance.</param>
+        /// <returns>A <see cref="Span{T}"/> with the items currently in use by <paramref name="list"/>.</returns>
+        /// <remarks>The input <see cref="List{T}"/> should not be modified while using the returned <see cref="Span{T}"/>.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<T> DangerousAsSpan<T>(this List<T> list)
+        {
+            var listData = Unsafe.As<RawListData<T>>(list);
+            var span = listData._items.AsSpan();
+
+            return span;
         }
 
         // List<T> structure taken from CoreCLR: https://source.dot.net/#System.Private.CoreLib/List.cs,cf7f4095e4de7646
