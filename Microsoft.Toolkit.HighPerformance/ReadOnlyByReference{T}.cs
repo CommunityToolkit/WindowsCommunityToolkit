@@ -39,7 +39,7 @@ namespace Microsoft.Toolkit.HighPerformance
         /// <param name="offset">The target offset within <paramref name="owner"/> for the target reference.</param>
         /// <remarks>The <paramref name="offset"/> parameter is not validated, and it's responsability of the caller to ensure it's valid.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public ReadOnlyByReference(object owner, int offset)
+        private ReadOnlyByReference(object owner, int offset)
         {
             this.owner = owner;
             this.offset = offset;
