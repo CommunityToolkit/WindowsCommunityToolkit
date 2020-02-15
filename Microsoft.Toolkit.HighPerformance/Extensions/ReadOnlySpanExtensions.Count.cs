@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 sbyte target = Unsafe.As<T, sbyte>(ref value);
 
-                return Count<sbyte, SbyteConverter>(ref r1, length, target, sbyte.MaxValue);
+                return Count(ref r1, length, target, sbyte.MaxValue);
             }
 
             if (typeof(T) == typeof(char) ||
@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 short target = Unsafe.As<T, short>(ref value);
 
-                return Count<short, ShortConverter>(ref r1, length, target, short.MaxValue);
+                return Count(ref r1, length, target, short.MaxValue);
             }
 
             if (typeof(T) == typeof(int) ||
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 int target = Unsafe.As<T, int>(ref value);
 
-                return Count<int, IntConverter>(ref r1, length, target, int.MaxValue);
+                return Count(ref r1, length, target, int.MaxValue);
             }
 
             if (typeof(T) == typeof(long) ||
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 int length = span.Length;
                 long target = Unsafe.As<T, long>(ref value);
 
-                return Count<long, LongConverter>(ref r1, length, target, int.MaxValue);
+                return Count(ref r1, length, target, int.MaxValue);
             }
 
             int result = 0;
@@ -88,18 +88,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Counts the number of occurrences of a given value into a target search space.
         /// </summary>
-        /// <param name="r0">A <see cref="char"/> reference to the start of the search space.</param>
+        /// <param name="r0">A <typeparamref name="T"/> reference to the start of the search space.</param>
         /// <param name="length">The number of items in the search space.</param>
         /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
         /// <param name="max">The maximum amount that a <typeparamref name="T"/> value can reach.</param>
         /// <typeparam name="T">The type of value to look for.</typeparam>
-        /// <typeparam name="TIntConverter">The type implementing <see cref="IIntConverter{T}"/> to use.</typeparam>
         /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static int Count<T, TIntConverter>(ref T r0, int length, T value, int max)
+        private static int Count<T>(ref T r0, int length, T value, int max)
             where T : unmanaged, IEquatable<T>
-            where TIntConverter : unmanaged, IIntConverter<T>
         {
             int i = 0, result = 0;
 
@@ -110,8 +108,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
                 var partials = Vector<T>.Zero;
                 var vc = new Vector<T>(value);
-
-                var converter = default(TIntConverter);
 
                 /* Run the fast path if the input span is short enough.
                  * There are two branches here because if the search space is large
@@ -168,14 +164,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                         if (j == threshold)
                         {
                             j = 0;
-                            result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
+                            result += CastToInt(Vector.Dot(partials, Vector<T>.One));
                             partials = Vector<T>.Zero;
                         }
                     }
                 }
 
                 // Compute the horizontal sum of the partial results
-                result += converter.Convert(Vector.Dot(partials, Vector<T>.One));
+                result += CastToInt(Vector.Dot(partials, Vector<T>.One));
             }
 
             // Iterate over the remaining values and count those that match
@@ -194,59 +190,37 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
-        /// A contract for converters that turn values into <see cref="int"/> values.
+        /// Casts a value of a given type to <see cref="int"/>.
         /// </summary>
-        /// <typeparam name="T">The type of input values to convert.</typeparam>
-        /// <remarks>The <see cref="Convert"/> method should be marked with <see cref="MethodImplOptions.AggressiveInlining"/>.</remarks>
-        private interface IIntConverter<in T>
+        /// <typeparam name="T">The input type to cast.</typeparam>
+        /// <param name="value">The input <typeparamref name="T"/> value to cast to <see cref="int"/>.</param>
+        /// <returns>The <see cref="int"/> cast of <paramref name="value"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int CastToInt<T>(T value)
             where T : unmanaged
         {
-            /// <summary>
-            /// Converts a <typeparamref name="T"/> value into an <see cref="int"/> value.
-            /// </summary>
-            /// <param name="value">The input <typeparamref name="T"/> value to convert.</param>
-            /// <returns>The <see cref="int"/> conversion of <paramref name="value"/>.</returns>
-            int Convert(T value);
-        }
+            if (typeof(T) == typeof(sbyte))
+            {
+                return Unsafe.As<T, sbyte>(ref value);
+            }
 
-        /// <summary>
-        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="sbyte"/> values.
-        /// </summary>
-        private readonly struct SbyteConverter : IIntConverter<sbyte>
-        {
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public int Convert(sbyte value) => value;
-        }
+            if (typeof(T) == typeof(short))
+            {
+                return Unsafe.As<T, short>(ref value);
+            }
 
-        /// <summary>
-        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="short"/> values.
-        /// </summary>
-        private readonly struct ShortConverter : IIntConverter<short>
-        {
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public int Convert(short value) => value;
-        }
+            if (typeof(T) == typeof(int))
+            {
+                return Unsafe.As<T, int>(ref value);
+            }
 
-        /// <summary>
-        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="int"/> values.
-        /// </summary>
-        private readonly struct IntConverter : IIntConverter<int>
-        {
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public int Convert(int value) => value;
-        }
+            if (typeof(T) == typeof(long))
+            {
+                return (int)Unsafe.As<T, long>(ref value);
+            }
 
-        /// <summary>
-        /// A type implementing the <see cref="IIntConverter{T}"/> contract for <see cref="long"/> values.
-        /// </summary>
-        private readonly struct LongConverter : IIntConverter<long>
-        {
-            /// <inheritdoc/>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public int Convert(long value) => (int)value;
+            throw new ArgumentException($"Invalid input type {typeof(T)}", nameof(value));
         }
     }
 }
