@@ -63,8 +63,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <typeparam name="T">The type of elements in the input <see cref="List{T}"/> instance.</typeparam>
         /// <param name="list">The input <see cref="List{T}"/> instance.</param>
-        /// <returns>The underlying <typeparamref name="T"/> array currently in use by <paramref name="list"/>. Note that its length might be greater than the number of items in the list.</returns>
-        /// <remarks>The input <see cref="List{T}"/> should not be modified while using the returned array, as doing so might cause <paramref name="list"/> to swap it out.</remarks>
+        /// <returns>The underlying <typeparamref name="T"/> array currently in use by <paramref name="list"/>.</returns>
+        /// <remarks>
+        /// The input <see cref="List{T}"/> should not be modified while using the returned array, as doing so might cause <paramref name="list"/> to swap it out.
+        /// The length of the returned <typeparamref name="T"/> arrat might be greater than the number of items in the list.
+        /// Use the <see cref="List{T}.Count"/> property to determine how many items in the array are currently in use.
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] DangerousGetUnderlyingArray<T>(this List<T> list)
