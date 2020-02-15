@@ -79,7 +79,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
 #pragma warning disable CS0649 // Unassigned fields
 #pragma warning disable SA1401 // Fields should be private
+#pragma warning disable CS8618 // Uninitialized non-nullable field
             public T[] _items;
+#pragma warning restore CS8618
             public int _size;
             public int _version;
 #pragma warning restore CS0649
