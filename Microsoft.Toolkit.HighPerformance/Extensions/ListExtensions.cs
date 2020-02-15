@@ -100,7 +100,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int Count<T>(this List<T> list, T value)
             where T : IEquatable<T>
         {
-            return ReadOnlySpanExtensions.Count(list.DangerousGetUnderlyingArray(), value);
+            var span = new ReadOnlySpan<T>(list.DangerousGetUnderlyingArray(), 0, list.Count);
+
+            return span.Count(value);
         }
 
         /// <summary>
@@ -129,7 +131,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpanEnumerable<T> Enumerate<T>(this List<T> list)
         {
-            return new ReadOnlySpanEnumerable<T>(list.DangerousGetUnderlyingArray());
+            var span = new ReadOnlySpan<T>(list.DangerousGetUnderlyingArray(), 0, list.Count);
+
+            return span.Enumerate();
         }
 
         /// <summary>
@@ -158,7 +162,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static SpanTokenizer<T> Tokenize<T>(this List<T> list, T separator)
             where T : IEquatable<T>
         {
-            return new SpanTokenizer<T>(list.DangerousGetUnderlyingArray(), separator);
+            var span = list.DangerousGetUnderlyingArray().AsSpan(0, list.Count);
+
+            return span.Tokenize(separator);
         }
 
         /// <summary>
@@ -173,7 +179,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this List<T> list)
             where T : notnull
         {
-            return ReadOnlySpanExtensions.GetDjb2HashCode<T>(list.DangerousGetUnderlyingArray());
+            var span = new ReadOnlySpan<T>(list.DangerousGetUnderlyingArray(), 0, list.Count);
+
+            return span.GetDjb2HashCode();
         }
     }
 }
