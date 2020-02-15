@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance
+namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
     public partial class Test_ReadOnlySpanExtensions

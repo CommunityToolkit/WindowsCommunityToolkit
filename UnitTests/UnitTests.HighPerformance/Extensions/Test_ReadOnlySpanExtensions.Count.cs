@@ -8,7 +8,7 @@ using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
-namespace UnitTests.HighPerformance
+namespace UnitTests.HighPerformance.Extensions
 {
     public partial class Test_ReadOnlySpanExtensions
     {
