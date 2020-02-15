@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// Gets a content hash from the input <typeparamref name="T"/> array instance using the Djb2 algorithm.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
-        /// <param name="span">The input <typeparamref name="T"/> array instance.</param>
+        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
         /// <returns>The Djb2 value for the input <typeparamref name="T"/> array instance.</returns>
         /// <remarks>The Djb2 hash is fully deterministic and with no random components.</remarks>
         [Pure]
