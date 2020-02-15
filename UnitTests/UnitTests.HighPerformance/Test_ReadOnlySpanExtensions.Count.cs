@@ -1,0 +1,172 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Diagnostics.Contracts;
+using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
+
+namespace UnitTests.HighPerformance
+{
+    [TestClass]
+    public partial class Test_ReadOnlySpanExtensions
+    {
+        /// <summary>
+        /// Gets the list of counts to test the extension for
+        /// </summary>
+        private static ReadOnlySpan<int> TestCounts => new[] { 0, 1, 7, 128, 255, 256, short.MaxValue, short.MaxValue + 1, 123_938, 1_678_922, 71_890_819 };
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCount8()
+        {
+            TestForType((byte)123, CreateRandomData<byte>);
+            TestForType((sbyte)123, CreateRandomData<sbyte>);
+            TestForType(true, CreateRandomData<bool>);
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCount16()
+        {
+            TestForType((ushort)4712, CreateRandomData<ushort>);
+            TestForType((short)4712, CreateRandomData<short>);
+            TestForType((char)4712, CreateRandomData<char>);
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCount32()
+        {
+            TestForType((int)37438941, CreateRandomData<int>);
+            TestForType((uint)37438941, CreateRandomData<uint>);
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCount64()
+        {
+            TestForType((long)47128480128401, CreateRandomData<long>);
+            TestForType((ulong)47128480128401, CreateRandomData<ulong>);
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_FilledCount8()
+        {
+            TestForType((byte)123, count => CreateFilledData(count, (byte)123));
+            TestForType((sbyte)123, count => CreateFilledData(count, (sbyte)123));
+            TestForType(true, count => CreateFilledData(count, true));
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_FilledCount16()
+        {
+            TestForType((ushort)4712, count => CreateFilledData(count, (ushort)4712));
+            TestForType((short)4712, count => CreateFilledData(count, (short)4712));
+            TestForType((char)4712, count => CreateFilledData(count, (char)4712));
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_FilledCount32()
+        {
+            TestForType((int)37438941, count => CreateFilledData(count, (int)37438941));
+            TestForType((uint)37438941, count => CreateFilledData(count, (uint)37438941));
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
+        public void Test_ReadOnlySpanExtensions_FilledCount64()
+        {
+            TestForType((long)47128480128401, count => CreateFilledData(count, (long)47128480128401));
+            TestForType((ulong)47128480128401, count => CreateFilledData(count, (ulong)47128480128401));
+        }
+
+        /// <summary>
+        /// Performs a test for a specified type.
+        /// </summary>
+        /// <typeparam name="T">The type to test.</typeparam>
+        /// <param name="value">The target value to look for.</param>
+        /// <param name="provider">The function to use to create random data.</param>
+        private static void TestForType<T>(T value, Func<int, T[]> provider)
+            where T : unmanaged, IEquatable<T>
+        {
+            foreach (var count in TestCounts)
+            {
+                T[] data = provider(count);
+
+                int result = data.Count(value);
+                int expected = CountWithForeach(data, value);
+
+                Assert.AreEqual(result, expected, $"Failed {typeof(T)} test with count {count}: got {result} instead of {expected}");
+            }
+        }
+
+        /// <summary>
+        /// Counts the number of occurrences of a given value into a target <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to read.</param>
+        /// <param name="value">The value to look for.</param>
+        /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
+        [Pure]
+        private static int CountWithForeach<T>(ReadOnlySpan<T> span, T value)
+            where T : IEquatable<T>
+        {
+            int count = 0;
+
+            foreach (var item in span)
+            {
+                if (item.Equals(value))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        /// <summary>
+        /// Creates a random <typeparamref name="T"/> array filled with random data.
+        /// </summary>
+        /// <typeparam name="T">The type of items to put in the array.</typeparam>
+        /// <param name="count">The number of array items to create.</param>
+        /// <returns>An array of random <typeparamref name="T"/> elements.</returns>
+        [Pure]
+        private static T[] CreateRandomData<T>(int count)
+            where T : unmanaged
+        {
+            var random = new Random(count);
+
+            T[] data = new T[count];
+
+            foreach (ref byte n in MemoryMarshal.AsBytes(data.AsSpan()))
+            {
+                n = (byte)random.Next(0, byte.MaxValue);
+            }
+
+            return data;
+        }
+
+        /// <summary>
+        /// Creates a <typeparamref name="T"/> array filled with a given value.
+        /// </summary>
+        /// <typeparam name="T">The type of items to put in the array.</typeparam>
+        /// <param name="count">The number of array items to create.</param>
+        /// <param name="value">The value to use to populate the array.</param>
+        /// <returns>An array of <typeparamref name="T"/> elements.</returns>
+        [Pure]
+        private static T[] CreateFilledData<T>(int count, T value)
+            where T : unmanaged
+        {
+            T[] data = new T[count];
+
+            data.AsSpan().Fill(value);
+
+            return data;
+        }
+    }
+}
