@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static Span<T> DangerousAsSpan<T>(this List<T> list)
         {
             var listData = Unsafe.As<RawListData<T>>(list);
-            var span = listData._items.AsSpan();
+            var span = listData._items.AsSpan(0, list.Count);
 
             return span;
         }
