@@ -14,7 +14,7 @@ namespace UnitTests.HighPerformance.Extensions
     {
         [TestCategory("StringExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_DangerousGetReference()
+        public void Test_StringExtensions_DangerousGetReference()
         {
             string text = "Hello, world!";
 
@@ -26,7 +26,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Zero()
+        public void Test_StringExtensions_DangerousGetReferenceAt_Zero()
         {
             string text = "Hello, world!";
 
@@ -38,7 +38,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("StringExtensions")]
         [TestMethod]
-        public void Test_ReadOnlySpanExtensions_DangerousGetReferenceAt_Index()
+        public void Test_StringExtensions_DangerousGetReferenceAt_Index()
         {
             string text = "Hello, world!";
 
