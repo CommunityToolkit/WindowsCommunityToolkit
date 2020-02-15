@@ -59,55 +59,5 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             array = newArray;
         }
-
-        /// <summary>
-        /// Changes the number of elements of an <see cref="IMemoryOwner{T}"/> instance to the specified new size.
-        /// </summary>
-        /// <typeparam name="T">The type of items into the target buffer to resize.</typeparam>
-        /// <param name="pool">The target <see cref="MemoryPool{T}"/> instance to use to resize the buffer.</param>
-        /// <param name="memoryOwner">The rented <see cref="IMemoryOwner{T}"/> instance to resize, or <see langword="null"/> to create a new one.</param>
-        /// <param name="newSize">The size of the new buffer.</param>
-        /// <param name="clearBuffer">Indicates whether the contents of the buffer should be cleared before reuse.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="newSize"/> is less than 0.</exception>
-        /// <remarks>When this method returns, the caller must not use any references to the old buffer anymore.</remarks>
-        public static void Resize<T>(this MemoryPool<T> pool, ref IMemoryOwner<T>? memoryOwner, int newSize, bool clearBuffer = false)
-        {
-            if (newSize < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(newSize), "The new size can't be less than 0");
-            }
-
-            // If the old memory is null, just create a new one with the requested size
-            if (memoryOwner is null)
-            {
-                memoryOwner = pool.Rent(newSize);
-
-                return;
-            }
-
-            // If the new size is the same as the current size, do nothing
-            var memory = memoryOwner.Memory;
-            if (memory.Length == newSize)
-            {
-                return;
-            }
-
-            // Same behavior as the T[] resize extension
-            var newMemoryOwner = pool.Rent(newSize);
-            int itemsToCopy = Math.Min(memory.Length, newSize);
-
-            memory.Slice(0, itemsToCopy).CopyTo(newMemoryOwner.Memory);
-
-            // Clear the original buffer, if needed
-            if (clearBuffer)
-            {
-                memory.Span.Clear();
-            }
-
-            // There isn't a return API for the memory pool, so just invoke Dispose directly
-            memoryOwner.Dispose();
-
-            memoryOwner = newMemoryOwner;
-        }
     }
 }
