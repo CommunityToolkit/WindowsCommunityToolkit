@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count<T>(this T[] array, T value)
-            where T : struct, IEquatable<T>
+            where T : IEquatable<T>
         {
             return ReadOnlySpanExtensions.Count(array, value);
         }
