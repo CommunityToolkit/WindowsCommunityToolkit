@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance</param>
         /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
         [Pure]
-        public static int CombineManaged(ReadOnlySpan<T> span)
+        private static int CombineManaged(ReadOnlySpan<T> span)
         {
             // Get a reference to the input span
             ref T r0 = ref MemoryMarshal.GetReference(span);
