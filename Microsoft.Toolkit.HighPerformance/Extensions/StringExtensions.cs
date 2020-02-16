@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 namespace Microsoft.Toolkit.HighPerformance.Extensions
@@ -54,6 +55,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         //                 \-- string
         // The reference to RawStringData.Data points to the first character in the
         // string, skipping over the sync block, method table and string length.
+        [StructLayout(LayoutKind.Sequential)]
         private sealed class RawStringData
         {
 #pragma warning disable CS0649 // Unassigned fields

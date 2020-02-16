@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Enumerables;
 
 #nullable enable
@@ -61,6 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         // The base size of an array includes all the fields before the array data,
         // including the sync block and method table. The reference to RawData.Data
         // points at the number of components, skipping over these two pointer-sized fields.
+        [StructLayout(LayoutKind.Sequential)]
         private sealed class RawArrayData
         {
 #pragma warning disable CS0649 // Unassigned fields
