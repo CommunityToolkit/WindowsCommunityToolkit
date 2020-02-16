@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Extensions
+namespace UnitTests.HighPerformance.Helpers
 {
     [TestClass]
     public class Test_HashCodeOfT
