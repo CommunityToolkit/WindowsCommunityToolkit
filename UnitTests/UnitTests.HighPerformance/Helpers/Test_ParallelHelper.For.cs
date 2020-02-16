@@ -10,18 +10,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.HighPerformance.Helpers
 {
     [TestClass]
-    public class Test_ParallelHelper
+    public partial class Test_ParallelHelper
     {
         /// <summary>
-        /// Gets the list of counts to test the extension for
+        /// Gets the list of counts to test the For (1D) extensions for
         /// </summary>
-        private static ReadOnlySpan<int> TestCounts => new[] { 0, 1, 7, 128, 255, 256, short.MaxValue, short.MaxValue + 1, 123_938, 1_678_922, 71_890_819 };
+        private static ReadOnlySpan<int> TestForCounts => new[] { 0, 1, 7, 128, 255, 256, short.MaxValue, short.MaxValue + 1, 123_938, 1_678_922, 71_890_819 };
 
         [TestCategory("ParallelHelper")]
         [TestMethod]
         public void Test_ParallelHelper_ForWithIndices()
         {
-            foreach (int count in TestCounts)
+            foreach (int count in TestForCounts)
             {
                 int[] data = new int[count];
 
@@ -41,7 +41,7 @@ namespace UnitTests.HighPerformance.Helpers
         [TestCategory("ParallelHelper")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_ParallelHelper_InvalidRange_FromEnd()
+        public void Test_ParallelHelper_ForInvalidRange_FromEnd()
         {
             ParallelHelper.For<Assigner>(..^1);
         }
@@ -49,7 +49,7 @@ namespace UnitTests.HighPerformance.Helpers
         [TestCategory("ParallelHelper")]
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void Test_ParallelHelper_InvalidRange_RangeAll()
+        public void Test_ParallelHelper_ForInvalidRange_RangeAll()
         {
             ParallelHelper.For<Assigner>(..);
         }
@@ -58,7 +58,7 @@ namespace UnitTests.HighPerformance.Helpers
         [TestMethod]
         public void Test_ParallelHelper_ForWithRanges()
         {
-            foreach (int count in TestCounts)
+            foreach (int count in TestForCounts)
             {
                 int[] data = new int[count];
 
