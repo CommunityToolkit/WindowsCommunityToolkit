@@ -241,7 +241,8 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 throw new ArgumentOutOfRangeException(nameof(left), "Left can't be greater than right");
             }
 
-            if (top == bottom && left == right)
+            // If either side of the target area is empty, no iterations are performed
+            if (top == bottom || left == right)
             {
                 return;
             }
