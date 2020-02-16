@@ -37,7 +37,7 @@ namespace UnitTests.HighPerformance.Helpers
         }
 
         /// <summary>
-        /// A type implementing <see cref="IInAction{T}"/> to sum array elements
+        /// A type implementing <see cref="IInAction{T}"/> to sum array elements.
         /// </summary>
         private readonly unsafe struct Summer : IInAction<int>
         {
