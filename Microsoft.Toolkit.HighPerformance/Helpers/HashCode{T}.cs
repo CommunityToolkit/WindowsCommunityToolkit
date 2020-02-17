@@ -15,13 +15,13 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </summary>
     /// <typeparam name="T">The type of values to hash.</typeparam>
     public struct HashCode<T>
-#if NETSTANDARD2_0
+#if NETSTANDARD2_1
+        where T : notnull
+#else
         /* .NET Standard 2.0 doesn't have the API to check at runtime whether a
          * type satisfies the unmanaged constraint, se we enforce that at compile
          * time and only expose the APIs of this class in that case. */
         where T : unmanaged
-#else
-        where T : notnull
 #endif
     {
         /// <summary>
@@ -34,9 +34,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine(ReadOnlySpan<T> span)
         {
-#if NETSTANDARD2_0
-            return CombineBytes(MemoryMarshal.AsBytes(span));
-#else
+#if NETSTANDARD2_1
             /* If typeof(T) is not unmanaged, iterate over all the items one by one.
              * This check is always known in advance either by the JITter or by the AOT
              * compiler, so this branch will never actually be executed by the code. */
@@ -55,6 +53,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
             return CombineBytes(bytes);
+#else
+            return CombineBytes(MemoryMarshal.AsBytes(span));
 #endif
         }
 

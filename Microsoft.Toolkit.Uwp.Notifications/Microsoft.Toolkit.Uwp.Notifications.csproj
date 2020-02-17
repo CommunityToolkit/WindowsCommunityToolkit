@@ -61,5 +61,13 @@
     <ImplicitFrameworkDefine Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">UAP$(TargetPlatformMinVersion.Replace('.', '_'))</ImplicitFrameworkDefine>
     <DisableImplicitFrameworkDefines Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">true</DisableImplicitFrameworkDefines>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard1.4|AnyCPU'">
+    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard1.4|AnyCPU'">
+    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
 
 </Project>

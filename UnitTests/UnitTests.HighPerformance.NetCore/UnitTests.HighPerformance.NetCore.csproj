@@ -18,4 +18,6 @@
     <ProjectReference Include="..\..\Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj" />
   </ItemGroup>
 
+  <Import Project="..\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems" Label="Shared" />
+
 </Project>

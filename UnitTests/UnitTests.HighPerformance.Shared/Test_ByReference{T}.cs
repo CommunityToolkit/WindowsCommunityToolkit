@@ -6,36 +6,44 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Extensions
+namespace UnitTests.HighPerformance
 {
     [TestClass]
-    public class Test_ReadOnlyByReferenceT
+    public class Test_ByReferenceOfT
     {
-        [TestCategory("ReadOnlyByReferenceT")]
+        [TestCategory("ByReferenceOfT")]
         [TestMethod]
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || WINDOWS_UWP
         public void Test_ByReferenceOfT_CreateByReferenceOfT()
         {
-            var model = new ReadOnlyFieldOwner();
-            var reference = new ReadOnlyByReference<int>(model, model.Value);
+            var model = new FieldOwner { Value = 1 };
+            var reference = new ByReference<int>(model, ref model.Value);
 
-            Assert.IsTrue(Unsafe.AreSame(ref Unsafe.AsRef(model.Value), ref Unsafe.AsRef(reference.Value)));
+            Assert.IsTrue(Unsafe.AreSame(ref model.Value, ref reference.Value));
+
+            reference.Value++;
+
+            Assert.AreEqual(model.Value, 2);
         }
 
         /// <summary>
         /// A dummy model that owns an <see cref="int"/> field.
         /// </summary>
-        private sealed class ReadOnlyFieldOwner
+        private sealed class FieldOwner
         {
-            public readonly int Value = 1;
+            public int Value;
         }
 #else
         public void Test_ByReferenceOfT_CreateByReferenceOfT()
         {
             int value = 1;
-            var reference = new ReadOnlyByReference<int>(value);
+            var reference = new ByReference<int>(ref value);
 
-            Assert.IsTrue(Unsafe.AreSame(ref value, ref Unsafe.AsRef(reference.Value)));
+            Assert.IsTrue(Unsafe.AreSame(ref value, ref reference.Value));
+
+            reference.Value++;
+
+            Assert.AreEqual(value, 2);
 
         }
 #endif

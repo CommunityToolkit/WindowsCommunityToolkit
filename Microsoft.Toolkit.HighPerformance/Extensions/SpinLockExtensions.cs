@@ -78,7 +78,29 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
         }
 
-#if NETSTANDARD2_0
+#if NETSTANDARD2_1
+        /// <summary>
+        /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
+        /// This extension should be used though a <see langword="using"/> block or statement:
+        /// <code>
+        /// SpinLock spinLock = new SpinLock();
+        ///
+        /// using (spinLock.Enter())
+        /// {
+        ///     // Thread-safe code here...
+        /// }
+        /// </code>
+        /// The compiler will take care of releasing the SpinLock when the code goes out of that <see langword="using"/> scope.
+        /// </summary>
+        /// <param name="spinLock">The target <see cref="SpinLock"/> to use</param>
+        /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
+        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static __Lock Enter(ref this SpinLock spinLock)
+        {
+            return new __Lock(ref spinLock);
+        }
+#else
         /// <summary>
         /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
         /// This extension should be used though a <see langword="using"/> block or statement:
@@ -104,28 +126,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         {
             return new __Lock(owner, ref spinLock);
         }
-#else
-        /// <summary>
-        /// Enters a specified <see cref="SpinLock"/> instance and returns a wrapper to use to release the lock.
-        /// This extension should be used though a <see langword="using"/> block or statement:
-        /// <code>
-        /// SpinLock spinLock = new SpinLock();
-        ///
-        /// using (spinLock.Enter())
-        /// {
-        ///     // Thread-safe code here...
-        /// }
-        /// </code>
-        /// The compiler will take care of releasing the SpinLock when the code goes out of that <see langword="using"/> scope.
-        /// </summary>
-        /// <param name="spinLock">The target <see cref="SpinLock"/> to use</param>
-        /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
-        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __Lock Enter(ref this SpinLock spinLock)
-        {
-            return new __Lock(ref spinLock);
-        }
 #endif
 
         /// <summary>
@@ -145,7 +145,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             /// </summary>
             private readonly bool lockTaken;
 
-#if NETSTANDARD2_0
+#if NETSTANDARD2_1
+            /// <summary>
+            /// Initializes a new instance of the <see cref="__Lock"/> struct.
+            /// </summary>
+            /// <param name="spinLock">The target <see cref="SpinLock"/> to use.</param>
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public __Lock(ref SpinLock spinLock)
+            {
+                r0 = new ByReference<SpinLock>(ref spinLock);
+                lockTaken = false;
+
+                spinLock.Enter(ref lockTaken);
+            }
+#else
             /// <summary>
             /// Initializes a new instance of the <see cref="__Lock"/> struct.
             /// </summary>
@@ -155,19 +168,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             public __Lock(object owner, ref SpinLock spinLock)
             {
                 r0 = new ByReference<SpinLock>(owner, ref spinLock);
-                lockTaken = false;
-
-                spinLock.Enter(ref lockTaken);
-            }
-#else
-            /// <summary>
-            /// Initializes a new instance of the <see cref="__Lock"/> struct.
-            /// </summary>
-            /// <param name="spinLock">The target <see cref="SpinLock"/> to use.</param>
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __Lock(ref SpinLock spinLock)
-            {
-                r0 = new ByReference<SpinLock>(ref spinLock);
                 lockTaken = false;
 
                 spinLock.Enter(ref lockTaken);

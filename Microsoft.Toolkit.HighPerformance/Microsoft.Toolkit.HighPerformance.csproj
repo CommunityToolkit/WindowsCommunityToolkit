@@ -6,6 +6,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <!-- .NET Standard 2.0 doesn't have the Span<T> and HashCode types -->
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="Microsoft.Bcl.HashCode" Version="1.1.0" />
