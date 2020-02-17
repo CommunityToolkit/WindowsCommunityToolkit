@@ -85,7 +85,15 @@ namespace UnitTests.HighPerformance.Helpers
             public Assigner(int[] array) => this.array = array;
 
             /// <inheritdoc/>
-            public void Invoke(int i) => this.array[i] = i;
+            public void Invoke(int i)
+            {
+                if (this.array[i] != 0)
+                {
+                    throw new InvalidOperationException($"Invalid target position {i}, was {this.array[i]} instead of 0");
+                }
+
+                this.array[i] = i;
+            }
         }
     }
 }

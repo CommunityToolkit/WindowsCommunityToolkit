@@ -99,7 +99,15 @@ namespace UnitTests.HighPerformance.Helpers
             public Assigner2D(int[,] array) => this.array = array;
 
             /// <inheritdoc/>
-            public void Invoke(int i, int j) => this.array[i, j] = unchecked(i * 397 ^ j);
+            public void Invoke(int i, int j)
+            {
+                if (this.array[i, j] != 0)
+                {
+                    throw new InvalidOperationException($"Invalid target position [{i},{j}], was {this.array[i, j]} instead of 0");
+                }
+
+                this.array[i, j] = unchecked(i * 397 ^ j);
+            }
         }
     }
 }
