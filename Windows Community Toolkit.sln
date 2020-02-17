@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.HighPerformance", "Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance", "UnitTests\UnitTests.HighPerformance\UnitTests.HighPerformance.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance.NetCore", "UnitTests\UnitTests.HighPerformance.NetCore\UnitTests.HighPerformance.NetCore.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.HighPerformance.Shared", "UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.shproj", "{9B3A94A6-0D29-4523-880B-6938E2EFEEF7}"
 EndProject
