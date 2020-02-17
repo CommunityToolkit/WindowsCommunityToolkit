@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Extensions
+namespace UnitTests.HighPerformance
 {
     [TestClass]
     public class Test_ReadOnlyByReferenceT
