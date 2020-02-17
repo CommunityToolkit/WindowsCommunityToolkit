@@ -13,7 +13,7 @@ namespace UnitTests.HighPerformance
     {
         [TestCategory("ByReferenceOfT")]
         [TestMethod]
-#if NETCOREAPP2_1
+#if NETCOREAPP2_1 || WINDOWS_UWP
         public void Test_ByReferenceOfT_CreateByReferenceOfT()
         {
             var model = new FieldOwner { Value = 1 };
