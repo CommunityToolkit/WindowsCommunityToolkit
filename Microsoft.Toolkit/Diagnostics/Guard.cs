@@ -206,7 +206,9 @@ namespace Microsoft.Toolkit.Diagnostics
              * messages, since the entire input values can be expressed as hexadecimal values.
              * The conditional branches below are known at compile time by the JIT compiler,
              * so that only the right one will actually be translated into native code. */
-            if (typeof(T) == typeof(byte))
+            if (typeof(T) == typeof(byte) ||
+                typeof(T) == typeof(sbyte) ||
+                typeof(T) == typeof(bool))
             {
                 byte valueByte = Unsafe.As<T, byte>(ref value);
                 byte targetByte = Unsafe.As<T, byte>(ref target);
@@ -216,7 +218,9 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueByte:X2} instead of 0x{targetByte:X2}");
                 }
             }
-            else if (typeof(T) == typeof(ushort))
+            else if (typeof(T) == typeof(ushort) ||
+                     typeof(T) == typeof(short) ||
+                     typeof(T) == typeof(char))
             {
                 ushort valueUShort = Unsafe.As<T, ushort>(ref value);
                 ushort targetUShort = Unsafe.As<T, ushort>(ref target);
@@ -226,7 +230,9 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUShort:X4} instead of 0x{targetUShort:X4}");
                 }
             }
-            else if (typeof(T) == typeof(uint))
+            else if (typeof(T) == typeof(uint) ||
+                     typeof(T) == typeof(int) ||
+                     typeof(T) == typeof(float))
             {
                 uint valueUInt = Unsafe.As<T, uint>(ref value);
                 uint targetUInt = Unsafe.As<T, uint>(ref target);
@@ -236,7 +242,9 @@ namespace Microsoft.Toolkit.Diagnostics
                     ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUInt:X8} instead of 0x{targetUInt:X8}");
                 }
             }
-            else if (typeof(T) == typeof(ulong))
+            else if (typeof(T) == typeof(ulong) ||
+                     typeof(T) == typeof(long) ||
+                     typeof(T) == typeof(double))
             {
                 ulong valueULong = Unsafe.As<T, ulong>(ref value);
                 ulong targetULong = Unsafe.As<T, ulong>(ref target);
