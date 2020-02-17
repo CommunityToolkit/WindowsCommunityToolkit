@@ -92,11 +92,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.Uwp.UI.Me
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Toolkit.HighPerformance", "Microsoft.Toolkit.HighPerformance\Microsoft.Toolkit.HighPerformance.csproj", "{7E30D48C-4CD8-47BE-B557-10A20391DCC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests.HighPerformance", "UnitTests\UnitTests.HighPerformance\UnitTests.HighPerformance.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests.HighPerformance", "UnitTests\UnitTests.HighPerformance\UnitTests.HighPerformance.csproj", "{D9BDBC68-3D0A-47FC-9C88-0BF769101644}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "UnitTests.HighPerformance.Shared", "UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.shproj", "{9B3A94A6-0D29-4523-880B-6938E2EFEEF7}"
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
+		UnitTests\UnitTests.HighPerformance.Shared\UnitTests.HighPerformance.Shared.projitems*{9b3a94a6-0d29-4523-880b-6938e2efeef7}*SharedItemsImports = 13
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{efa96b3c-857e-4659-b942-6bef7719f4ca}*SharedItemsImports = 4
 	EndGlobalSection
@@ -889,6 +892,7 @@ Global
 		{A122EA02-4DE7-413D-BFBF-AF7DFC668DD6} = {B30036C4-D514-4E5B-A323-587A061772CE}
 		{75F9EE44-3EFA-47BC-AEDD-351B9834A0AF} = {F1AFFFA7-28FE-4770-BA48-10D76F3E59BC}
 		{D9BDBC68-3D0A-47FC-9C88-0BF769101644} = {B30036C4-D514-4E5B-A323-587A061772CE}
+		{9B3A94A6-0D29-4523-880B-6938E2EFEEF7} = {B30036C4-D514-4E5B-A323-587A061772CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5403B0C4-F244-4F73-A35C-FE664D0F4345}
