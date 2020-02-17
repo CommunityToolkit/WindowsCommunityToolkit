@@ -252,8 +252,9 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 width = Math.Abs(left - right),
                 count = height * width,
                 maxBatches = 1 + ((count - 1) / minimumActionsPerThread),
+                clipBatches = Math.Min(maxBatches, height),
                 cores = Environment.ProcessorCount,
-                numBatches = Math.Min(maxBatches, cores);
+                numBatches = Math.Min(clipBatches, cores);
 
             // Skip the parallel invocation when a single batch is needed
             if (numBatches == 1)
@@ -319,7 +320,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 int
                     heightOffset = i * batchHeight,
                     lowY = startY + heightOffset,
-                    highY = lowY + heightOffset,
+                    highY = lowY + batchHeight,
                     stopY = Math.Min(highY, endY);
 
                 for (int y = lowY; y < stopY; y++)
