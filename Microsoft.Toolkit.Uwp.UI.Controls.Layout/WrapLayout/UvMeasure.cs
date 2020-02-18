@@ -24,5 +24,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 V = width;
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is UvMeasure measure)
+            {
+                return (measure.U == U) && (measure.V == V);
+            }
+
+            return false;
+        }
     }
 }

@@ -82,12 +82,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (d is WrapLayout wp)
             {
-                WrapLayoutState state = GetLayoutState(wp);
-                if (state != null)
-                {
-                    state.ClearPositions();
-                }
-
                 wp.InvalidateMeasure();
                 wp.InvalidateArrange();
             }
@@ -98,7 +92,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var state = new WrapLayoutState();
             context.LayoutState = state;
-            SetLayoutState(this, state);
             base.InitializeForContextCore(context);
         }
 
@@ -106,7 +99,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         protected override void UninitializeForContextCore(VirtualizingLayoutContext context)
         {
             context.LayoutState = null;
-            SetLayoutState(this, null);
             base.UninitializeForContextCore(context);
         }
 
@@ -144,6 +136,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (state.Orientation != Orientation)
             {
                 state.SetOrientation(Orientation);
+            }
+
+            if (spacingMeasure.Equals(state.Spacing) == false)
+            {
+                state.ClearPositions();
+                state.Spacing = spacingMeasure;
             }
 
             if (state.AvailableU != parentMeasure.U)
@@ -289,22 +287,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             return finalSize;
         }
-
-        private static WrapLayoutState GetLayoutState(WrapLayout obj)
-        {
-            return (WrapLayoutState)obj.GetValue(LayoutStateProperty);
-        }
-
-        private static void SetLayoutState(WrapLayout obj, WrapLayoutState value)
-        {
-            obj.SetValue(LayoutStateProperty, value);
-        }
-
-        private static readonly DependencyProperty LayoutStateProperty =
-            DependencyProperty.RegisterAttached(
-                "LayoutState",
-                typeof(WrapLayoutState),
-                typeof(WrapLayout),
-                new PropertyMetadata(null));
     }
 }

@@ -19,6 +19,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public Orientation Orientation { get; private set; }
 
+        public UvMeasure Spacing { get; internal set; }
+
         public double AvailableU { get; internal set; }
 
         internal WrapItem GetItemAt(int index)
