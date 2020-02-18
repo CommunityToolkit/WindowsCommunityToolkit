@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Extensions;
 
 #nullable enable
 
@@ -215,7 +216,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueByte != targetByte)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueByte:X2} instead of 0x{targetByte:X2}");
+                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
                 }
             }
             else if (typeof(T) == typeof(ushort) ||
@@ -227,7 +228,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueUShort != targetUShort)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUShort:X4} instead of 0x{targetUShort:X4}");
+                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
                 }
             }
             else if (typeof(T) == typeof(uint) ||
@@ -239,7 +240,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueUInt != targetUInt)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueUInt:X8} instead of 0x{targetUInt:X8}");
+                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
                 }
             }
             else if (typeof(T) == typeof(ulong) ||
@@ -251,7 +252,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueULong != targetULong)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} must is not a bitwise match, was 0x{valueULong:X16} instead of 0x{targetULong:X16}");
+                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
                 }
             }
             else
@@ -267,7 +268,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                     if (valueByte != targetByte)
                     {
-                        ThrowArgumentException(name, $"Parameter {name} is not a bitwise match (byte #{i} was 0x{valueByte:X2} instead of 0x{targetByte:X2})");
+                        ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
                     }
                 }
             }
