@@ -161,29 +161,29 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="string"/> instance must have a size of at least specified value.
+        /// Asserts that the input <see cref="string"/> instance must have a size over a specified value.
         /// </summary>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast(string text, int size, string name)
+        public static void HasSizeOver(string text, int size, string name)
         {
-            HasSizeAtLeast(text.AsSpan(), size, name);
+            HasSizeOver(text.AsSpan(), size, name);
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="string"/> instance must have a size of at least or equal to a specified value.
+        /// Asserts that the input <see cref="string"/> instance must have a size of at least specified value.
         /// </summary>
         /// <param name="text">The input <see cref="string"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="text"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeastOrEqualTo(string text, int size, string name)
+        public static void HasSizeAtLeast(string text, int size, string name)
         {
-            HasSizeAtLeastOrEqualTo(text.AsSpan(), size, name);
+            HasSizeAtLeast(text.AsSpan(), size, name);
         }
 
         /// <summary>
