@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -12,9 +13,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     internal class WrapLayoutState
     {
         private List<WrapItem> _items = new List<WrapItem>();
+        private VirtualizingLayoutContext _context;
 
-        public WrapLayoutState()
+        public WrapLayoutState(VirtualizingLayoutContext context)
         {
+            this._context = context;
         }
 
         public Orientation Orientation { get; private set; }
@@ -80,6 +83,54 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             foreach (var item in _items)
             {
                 item.Position = null;
+            }
+        }
+
+        internal double GetHeight()
+        {
+            if (_items.Count == 0)
+            {
+                return 0;
+            }
+
+            bool calculateAvergae = true;
+            if ((_items.Count == _context.ItemCount) && _items[_items.Count - 1].Position.HasValue)
+            {
+                calculateAvergae = false;
+            }
+
+            UvMeasure? lastPosition = null;
+            double maxV = 0;
+
+            for (int i = _items.Count - 1; i >= 0; i--)
+            {
+                var item = _items[i];
+                if (item.Position == null)
+                {
+                    continue;
+                }
+
+                if (lastPosition != null)
+                {
+                    if (lastPosition.Value.V > item.Position.Value.V)
+                    {
+                        // This is a row above the last item. Exit and calculate the average
+                        break;
+                    }
+                }
+
+                lastPosition = item.Position;
+                maxV = Math.Max(maxV, item.Measure.Value.V);
+            }
+
+            double totalHeight = lastPosition.Value.V + maxV;
+            if (calculateAvergae)
+            {
+                return (totalHeight / _items.Count) * _context.ItemCount;
+            }
+            else
+            {
+                return totalHeight;
             }
         }
     }

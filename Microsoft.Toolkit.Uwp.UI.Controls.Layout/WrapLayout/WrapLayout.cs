@@ -90,7 +90,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override void InitializeForContextCore(VirtualizingLayoutContext context)
         {
-            var state = new WrapLayoutState();
+            var state = new WrapLayoutState(context);
             context.LayoutState = state;
             base.InitializeForContextCore(context);
         }
@@ -211,7 +211,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // for the last condition it is zeros so adding it will make no difference
             // this way is faster than an if condition in every loop for checking the last item
             totalMeasure.U = parentMeasure.U;
-            totalMeasure.V = position.V;
+            totalMeasure.V = state.GetHeight();
 
             totalMeasure.U = Math.Ceiling(totalMeasure.U);
 
