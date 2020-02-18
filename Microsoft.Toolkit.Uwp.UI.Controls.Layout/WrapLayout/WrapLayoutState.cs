@@ -18,6 +18,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         public Orientation Orientation { get; private set; }
+        public double AvailableU { get; internal set; }
 
         internal WrapItem GetItemAt(int index)
         {

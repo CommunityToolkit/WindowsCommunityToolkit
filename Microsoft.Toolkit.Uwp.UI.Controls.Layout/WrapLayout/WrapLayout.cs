@@ -147,6 +147,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 state.SetOrientation(Orientation);
             }
 
+            if (state.AvailableU != parentMeasure.U)
+            {
+                state.ClearPositions();
+                state.AvailableU = parentMeasure.U;
+            }
+
             double currentV = 0;
             for (int i = 0; i < context.ItemCount; i++)
             {
