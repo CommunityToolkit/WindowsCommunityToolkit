@@ -138,7 +138,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
-            var lineMeasure = UvMeasure.Zero;
             var position = UvMeasure.Zero;
 
             var state = (WrapLayoutState)context.LayoutState;
