@@ -26,7 +26,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(T[] array, string name)
         {
-            IsEmpty(new ReadOnlySpan<T>(array), name);
+            if (array.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -39,7 +42,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(T[] array, string name)
         {
-            IsNotEmpty(new ReadOnlySpan<T>(array), name);
+            if (array.Length != 0)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+            }
         }
 
         /// <summary>
@@ -53,7 +59,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(T[] array, int size, string name)
         {
-            HasSizeEqualTo(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length != size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -67,7 +76,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(T[] array, int size, string name)
         {
-            HasSizeNotEqualTo(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length == size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -81,7 +93,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(T[] array, int size, string name)
         {
-            HasSizeAtLeast(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length <= size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -95,7 +110,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeastOrEqualTo<T>(T[] array, int size, string name)
         {
-            HasSizeAtLeastOrEqualTo(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length < size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -109,7 +127,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(T[] array, int size, string name)
         {
-            HasSizeLessThan(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length >= size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -123,7 +144,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(T[] array, int size, string name)
         {
-            HasSizeLessThanOrEqualTo(new ReadOnlySpan<T>(array), size, name);
+            if (array.Length > size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {array.Length}");
+            }
         }
 
         /// <summary>
@@ -137,7 +161,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(T[] source, T[] destination, string name)
         {
-            HasSizeEqualTo(new ReadOnlySpan<T>(source), destination.AsSpan(), name);
+            if (source.Length != destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
+            }
         }
 
         /// <summary>
@@ -151,7 +178,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(T[] source, T[] destination, string name)
         {
-            HasSizeLessThanOrEqualTo(new ReadOnlySpan<T>(source), destination.AsSpan(), name);
+            if (source.Length > destination.Length)
+            {
+                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
+            }
         }
 
         /// <summary>
