@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTests.Diagnostics
 {
     [TestClass]
-    public class Test_Guard
+    public partial class Test_Guard
     {
         [TestCategory("Guard")]
         [TestMethod]
