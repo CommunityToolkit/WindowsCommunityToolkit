@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <typeparamref name="T"/> array instance must have a size of at least specified value.
+        /// Asserts that the input <typeparamref name="T"/> array instance must have a size over a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <typeparamref name="T"/> array instance.</typeparam>
         /// <param name="array">The input <typeparamref name="T"/> array instance to check the size for.</param>
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="array"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(T[] array, int size, string name)
+        public static void HasSizeOver<T>(T[] array, int size, string name)
         {
             if (array.Length <= size)
             {

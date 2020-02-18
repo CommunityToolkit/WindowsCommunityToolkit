@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must have a size of at least specified value.
+        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must have a size over a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
@@ -89,16 +89,16 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void HasSizeOver<T>(ReadOnlySpan<T> span, int size, string name)
         {
             if (span.Length <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {span.Length}");
+                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {span.Length}");
             }
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must have a size of at least or equal to a specified value.
+        /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must have a size of at least specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="span"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeastOrEqualTo<T>(ReadOnlySpan<T> span, int size, string name)
+        public static void HasSizeAtLeast<T>(ReadOnlySpan<T> span, int size, string name)
         {
             if (span.Length < size)
             {
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least specified value.
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size over a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
         /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
@@ -257,7 +257,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt;= <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void HasSizeOver<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             if (memory.Length <= size)
             {
@@ -266,7 +266,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least or equal to a specified value.
+        /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
         /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
@@ -274,7 +274,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasSizeAtLeastOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        public static void HasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
         {
             if (memory.Length < size)
             {

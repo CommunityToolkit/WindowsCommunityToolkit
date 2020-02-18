@@ -219,13 +219,66 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input <see cref="ICollection{T}"/> instance must have a size of at least specified value.
+        /// Asserts that the input <see cref="ICollection{T}"/> instance must have a size over a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ICollection{T}"/> instance.</typeparam>
         /// <param name="collection">The input <see cref="ICollection{T}"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeOver<T>(ICollection<T> collection, int size, string name)
+        {
+            if (collection.Count <= size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {collection.Count}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="IReadOnlyCollection{T}"/> instance must have a size over a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IReadOnlyCollection{T}"/> instance.</typeparam>
+        /// <param name="collection">The input <see cref="IReadOnlyCollection{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeOver<T>(IReadOnlyCollection<T> collection, int size, string name)
+        {
+            if (collection.Count <= size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {collection.Count}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="IEnumerable{T}"/> instance must have a size over a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="IEnumerable{T}"/> instance.</typeparam>
+        /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeOver<T>(IEnumerable<T> enumerable, int size, string name)
+        {
+            int actualSize = enumerable.Count();
+
+            if (actualSize <= size)
+            {
+                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {actualSize}");
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="ICollection{T}"/> instance must have a size of at least specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="ICollection{T}"/> instance.</typeparam>
+        /// <param name="collection">The input <see cref="ICollection{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(ICollection<T> collection, int size, string name)
         {
@@ -242,7 +295,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="collection">The input <see cref="IReadOnlyCollection{T}"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt;= <paramref name="size"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="collection"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(IReadOnlyCollection<T> collection, int size, string name)
         {
@@ -259,7 +312,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="enumerable">The input <see cref="IEnumerable{T}"/> instance to check the size for.</param>
         /// <param name="size">The target size to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt;= <paramref name="size"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="enumerable"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(IEnumerable<T> enumerable, int size, string name)
         {
