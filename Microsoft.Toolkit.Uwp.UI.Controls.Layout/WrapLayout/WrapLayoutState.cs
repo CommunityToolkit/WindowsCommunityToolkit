@@ -68,6 +68,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             Orientation = orientation;
+            AvailableU = 0;
         }
 
         internal void ClearPositions()
