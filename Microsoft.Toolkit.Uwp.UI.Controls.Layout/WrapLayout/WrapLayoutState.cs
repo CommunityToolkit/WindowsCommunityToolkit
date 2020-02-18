@@ -93,10 +93,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return 0;
             }
 
-            bool calculateAvergae = true;
+            bool calculateAverage = true;
             if ((_items.Count == _context.ItemCount) && _items[_items.Count - 1].Position.HasValue)
             {
-                calculateAvergae = false;
+                calculateAverage = false;
             }
 
             UvMeasure? lastPosition = null;
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             double totalHeight = lastPosition.Value.V + maxV;
-            if (calculateAvergae)
+            if (calculateAverage)
             {
                 return (totalHeight / itemCount) * _context.ItemCount;
             }
