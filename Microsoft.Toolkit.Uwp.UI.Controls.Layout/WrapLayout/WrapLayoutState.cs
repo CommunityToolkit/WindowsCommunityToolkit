@@ -102,11 +102,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UvMeasure? lastPosition = null;
             double maxV = 0;
 
+            int itemCount = _items.Count;
             for (int i = _items.Count - 1; i >= 0; i--)
             {
                 var item = _items[i];
                 if (item.Position == null)
                 {
+                    itemCount--;
                     continue;
                 }
 
@@ -126,7 +128,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double totalHeight = lastPosition.Value.V + maxV;
             if (calculateAvergae)
             {
-                return (totalHeight / _items.Count) * _context.ItemCount;
+                return (totalHeight / itemCount) * _context.ItemCount;
             }
             else
             {
