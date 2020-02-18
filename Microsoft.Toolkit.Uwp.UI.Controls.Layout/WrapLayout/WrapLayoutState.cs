@@ -68,5 +68,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             Orientation = orientation;
         }
+
+        internal void ClearPositions()
+        {
+            foreach (var item in _items)
+            {
+                item.Position = null;
+            }
+        }
     }
 }
