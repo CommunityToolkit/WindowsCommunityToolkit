@@ -105,6 +105,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
+        /// Gets the BlockParsers this Document will use.
+        /// </summary>
+        public ReadOnlySpan<MarkdownBlock.Parser> BlockParsers => new ReadOnlySpan<Parser>(this.parsersBlock);
+
+        /// <summary>
+        /// Gets the InlineParsers this Document will use.
+        /// </summary>
+        public ReadOnlySpan<MarkdownInline.Parser> InlineParsers => new ReadOnlySpan<MarkdownInline.Parser>(this.parsersInline);
+
+        /// <summary>
         /// Gets or sets the list of block elements.
         /// </summary>
         public IList<MarkdownBlock> Blocks { get; set; }
