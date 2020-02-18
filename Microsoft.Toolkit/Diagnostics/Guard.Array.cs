@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(T[] array, string name)
         {
-            if (array.Length != 0)
+            if (array.Length == 0)
             {
                 ThrowArgumentException(name, $"Parameter {name} must not be empty");
             }
