@@ -452,7 +452,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotInRange<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) < 0)
+            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) < 0)
             {
                 ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or >= {maximum}, was {value}");
             }
@@ -492,7 +492,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) > 0 || value.CompareTo(maximum) < 0)
+            if (value.CompareTo(minimum) > 0 && value.CompareTo(maximum) < 0)
             {
                 ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} or >= {maximum}, was {value}");
             }
@@ -532,7 +532,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void IsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            if (value.CompareTo(minimum) >= 0 || value.CompareTo(maximum) <= 0)
+            if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
             {
                 ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or > {maximum}, was {value}");
             }
