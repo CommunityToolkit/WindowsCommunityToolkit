@@ -125,13 +125,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <inheritdoc />
         protected override Size MeasureOverride(VirtualizingLayoutContext context, Size availableSize)
         {
-            availableSize.Width = availableSize.Width;
-            availableSize.Height = availableSize.Height;
             var totalMeasure = UvMeasure.Zero;
             var parentMeasure = new UvMeasure(Orientation, availableSize.Width, availableSize.Height);
             var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
             var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
             var lineMeasure = UvMeasure.Zero;
+            var position = UvMeasure.Zero;
 
             var state = (WrapLayoutState)context.LayoutState;
             if (state.Orientation != Orientation)
@@ -139,6 +138,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 state.SetOrientation(Orientation);
             }
 
+            double currentV = 0;
             for (int i = 0; i < context.ItemCount; i++)
             {
                 bool measured = false;
@@ -157,51 +157,30 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     continue; // ignore collapsed items
                 }
 
-                // if this is the first item, do not add spacing. Spacing is added to the "left"
-                double uChange = lineMeasure.U == 0
-                    ? currentMeasure.U
-                    : currentMeasure.U + spacingMeasure.U;
-                if (parentMeasure.U >= uChange + lineMeasure.U)
+                if (item.Position == null)
                 {
-                    lineMeasure.U += uChange;
-                    lineMeasure.V = Math.Max(lineMeasure.V, currentMeasure.V);
-                }
-                else
-                {
-                    // new line should be added
-                    // to get the max U to provide it correctly to ui width ex: ---| or -----|
-                    totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-                    totalMeasure.V += lineMeasure.V + spacingMeasure.V;
-
-                    // if the next new row still can handle more controls
-                    if (parentMeasure.U > currentMeasure.U)
+                    if (parentMeasure.U < position.U + currentMeasure.U)
                     {
-                        // set lineMeasure initial values to the currentMeasure to be calculated later on the new loop
-                        lineMeasure = currentMeasure;
+                        // New Row
+                        position.U = 0;
+                        position.V += currentV + spacingMeasure.V;
+                        currentV = 0;
                     }
 
-                    // the control will take one row alone
-                    else
-                    {
-                        // validate the new control measures
-                        totalMeasure.U = Math.Max(currentMeasure.U, totalMeasure.U);
-                        totalMeasure.V += currentMeasure.V;
-
-                        // add new empty line
-                        lineMeasure = UvMeasure.Zero;
-                    }
-
-                    if (totalMeasure.V > realizationBounds.VMax)
-                    {
-                        // Item is "below" the bounds.
-                        break;
-                    }
+                    item.Position = position;
                 }
 
-                double vEnd = totalMeasure.V + currentMeasure.V;
+                position = item.Position.Value;
+
+                double vEnd = position.V + currentMeasure.V;
                 if (vEnd < realizationBounds.VMin)
                 {
                     // Item is "above" the bounds
+                }
+                else if (position.V > realizationBounds.VMax)
+                {
+                    // Item is "below" the bounds.
+                    break;
                 }
                 else if (measured == false)
                 {
@@ -209,6 +188,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     UIElement child = context.GetOrCreateElementAt(i);
                     child.Measure(availableSize);
                 }
+
+                position.U += currentMeasure.U + spacingMeasure.U;
+                currentV = Math.Max(currentMeasure.V, currentV);
             }
 
             // update value with the last line
@@ -216,8 +198,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // if the last loop is (parentMeasure.U > currentMeasure.U) the currentMeasure isn't added to the total so add it here
             // for the last condition it is zeros so adding it will make no difference
             // this way is faster than an if condition in every loop for checking the last item
-            totalMeasure.U = Math.Max(lineMeasure.U, totalMeasure.U);
-            totalMeasure.V += lineMeasure.V;
+            totalMeasure.U = parentMeasure.U;
+            totalMeasure.V = position.V;
 
             totalMeasure.U = Math.Ceiling(totalMeasure.U);
 
@@ -231,26 +213,28 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var parentMeasure = new UvMeasure(Orientation, finalSize.Width, finalSize.Height);
                 var spacingMeasure = new UvMeasure(Orientation, HorizontalSpacing, VerticalSpacing);
-                var position = UvMeasure.Zero;
                 var realizationBounds = new UvBounds(Orientation, context.RealizationRect);
 
-                double currentV = 0;
                 var state = (WrapLayoutState)context.LayoutState;
                 bool arrange(WrapItem item, bool isLast = false)
                 {
+                    if (item.Measure.HasValue == false)
+                    {
+                        return false;
+                    }
+
+                    if (item.Position == null)
+                    {
+                        return false;
+                    }
+
                     var desiredMeasure = item.Measure.Value;
                     if (desiredMeasure.U == 0)
                     {
                         return true; // if an item is collapsed, avoid adding the spacing
                     }
 
-                    if ((desiredMeasure.U + position.U) > parentMeasure.U)
-                    {
-                        // next row!
-                        position.U = 0;
-                        position.V += currentV + spacingMeasure.V;
-                        currentV = 0;
-                    }
+                    UvMeasure position = item.Position.Value;
 
                     // Stretch the last item to fill the available space
                     if (isLast)
@@ -275,10 +259,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         return false;
                     }
-
-                    // adjust the location for the next items
-                    position.U += desiredMeasure.U + spacingMeasure.U;
-                    currentV = Math.Max(desiredMeasure.V, currentV);
 
                     return true;
                 }

@@ -14,5 +14,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public int Index { get; }
 
         public UvMeasure? Measure { get; internal set; }
+
+        public UvMeasure? Position { get; internal set; }
     }
 }
