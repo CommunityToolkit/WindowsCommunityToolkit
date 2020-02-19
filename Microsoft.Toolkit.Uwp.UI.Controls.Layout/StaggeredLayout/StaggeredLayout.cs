@@ -163,6 +163,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 state.ClearColumns();
             }
 
+            if (RowSpacing != state.RowSpacing)
+            {
+                // If the RowSpacing changes the height of the rows will be different.
+                // The columns stores the height so we'll want to clear them out to
+                // get the proper height
+                state.ClearColumns();
+                state.RowSpacing = RowSpacing;
+            }
+
             var columnHeights = new double[numColumns];
             var itemsPerColumn = new int[numColumns];
             var deadColumns = new HashSet<int>();

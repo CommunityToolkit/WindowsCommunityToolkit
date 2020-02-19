@@ -25,6 +25,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public int NumberOfColumns { get { return _columnLayout.Count; } }
 
+        public double RowSpacing { get; internal set; }
+
         internal void AddItemToColumn(StaggeredItem item, int columnIndex)
         {
             if (_columnLayout.TryGetValue(columnIndex, out StaggeredColumnLayout columnLayout) == false)
