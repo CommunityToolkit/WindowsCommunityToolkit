@@ -11,12 +11,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     internal class StaggeredItem
     {
-        private VirtualizingLayoutContext _context;
-        private Size? _size;
-
-        public StaggeredItem(VirtualizingLayoutContext context, int index)
+        public StaggeredItem(int index)
         {
-            _context = context;
             this.Index = index;
         }
 
@@ -25,36 +21,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public double Height { get; internal set; }
 
         public int Index { get; }
-
-        internal Size Measure(double columnWidth, double availableHeight)
-        {
-            if (_size == null)
-            {
-                UIElement element = GetElement();
-
-                element.Measure(new Size(columnWidth, availableHeight));
-                _size = element.DesiredSize;
-                Height = _size.Value.Height;
-            }
-
-            return _size.Value;
-        }
-
-        private UIElement GetElement()
-        {
-            return _context.GetOrCreateElementAt(Index);
-        }
-
-        internal void Arrange(Rect bounds)
-        {
-            UIElement element = GetElement();
-            element.Arrange(bounds);
-        }
-
-        internal void RecycleElement()
-        {
-            UIElement element = GetElement();
-            _context.RecycleElement(element);
-        }
     }
 }

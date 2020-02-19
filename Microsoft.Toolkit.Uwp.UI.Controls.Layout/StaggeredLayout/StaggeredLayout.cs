@@ -171,12 +171,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 var columnIndex = GetColumnIndex(columnHeights);
 
+                UIElement element = null;
                 StaggeredItem item = state.GetItemAt(i);
-                Size elementSize = item.Measure(state.ColumnWidth, availableHeight);
+                if (item.Height == 0)
+                {
+                    element = context.GetOrCreateElementAt(i);
+                    element.Measure(new Size(state.ColumnWidth, availableHeight));
+                    item.Height = element.DesiredSize.Height;
+                }
 
                 double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
                 item.Top = columnHeights[columnIndex] + spacing;
-                double bottom = item.Top + elementSize.Height;
+                double bottom = item.Top + item.Height;
                 columnHeights[columnIndex] = bottom;
                 itemsPerColumn[columnIndex]++;
                 state.AddItemToColumn(item, columnIndex);
@@ -184,7 +190,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (bottom < context.RealizationRect.Top)
                 {
                     // The bottom of the element is above the realization area
-                    // item.RecycleElement();
+                    if (element != null)
+                    {
+                        context.RecycleElement(element);
+                    }
                 }
                 else if (item.Top > context.RealizationRect.Bottom)
                 {
@@ -239,7 +248,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         double itemHorizontalOffset = (state.ColumnWidth * columnIndex) + (ColumnSpacing * columnIndex);
 
                         Rect bounds = new Rect(itemHorizontalOffset, item.Top, state.ColumnWidth, item.Height);
-                        item.Arrange(bounds);
+                        UIElement element = context.GetOrCreateElementAt(item.Index);
+                        element.Arrange(bounds);
                     }
                     else
                     {

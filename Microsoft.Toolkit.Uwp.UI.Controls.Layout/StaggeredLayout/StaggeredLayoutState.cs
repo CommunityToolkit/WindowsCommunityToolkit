@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
             else
             {
-                StaggeredItem item = new StaggeredItem(_context, index);
+                StaggeredItem item = new StaggeredItem(index);
                 _items.Add(item);
                 return item;
             }
