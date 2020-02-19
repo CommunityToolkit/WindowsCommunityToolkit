@@ -52,7 +52,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 byteSize = span.Length * fromSize;
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
-            return CombineBytes(ref rb, byteSize);
+            return BytesProcessor.CombineBytes(ref rb, byteSize);
         }
 
 #if NETSTANDARD2_1
@@ -62,6 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance</param>
         /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
         [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         private static int CombineManaged(ReadOnlySpan<T> span)
         {
             // Get a reference to the input span
@@ -98,7 +99,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             return HashCode.Combine(hash);
         }
 #endif
+    }
 
+    /// <summary>
+    /// Combines the hash code of sequences of <see cref="byte"/> values into a single hash code.
+    /// </summary>
+    /// <remarks>
+    /// This type is just a wrapper for the single <see cref="CombineBytes"/> method,
+    /// which is not defined within <see cref="HashCode{T}"/> for performance reasons.
+    /// Because <see cref="HashCode{T}"/> is a generic type, each contained method will be JIT
+    /// compiled into a different executable, even if it's not directly using the generic type
+    /// parameters of the declaring type at all. Moving this method into a separate, non-generic
+    /// type allows the runtime to always reuse a single JIT compilation.
+    /// </remarks>
+    internal static class BytesProcessor
+    {
         /// <summary>
         /// Gets a content hash from a given memory area using the xxHash32 algorithm.
         /// </summary>
@@ -106,7 +121,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="length">The size in bytes of the memory area.</param>
         /// <returns>The xxHash32 value for the contents of the source memory area.</returns>
         [Pure]
-        private static int CombineBytes(ref byte r0, int length)
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static int CombineBytes(ref byte r0, int length)
         {
             int hash = 0, i = 0;
 
