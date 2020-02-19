@@ -34,20 +34,27 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine(ReadOnlySpan<T> span)
         {
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+
 #if NETSTANDARD2_1
             /* If typeof(T) is not unmanaged, iterate over all the items one by one.
              * This check is always known in advance either by the JITter or by the AOT
              * compiler, so this branch will never actually be executed by the code. */
             if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
             {
-                return CombineManaged(span);
+                return CombineValues(ref r0, span.Length);
             }
 #endif
 
             // Get the info for the target memory area to process
-            ref T r0 = ref MemoryMarshal.GetReference(span);
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
             long byteSize = (long)span.Length * Unsafe.SizeOf<T>();
+
+            // Fast path if the source memory area is not large enough
+            if (byteSize < BytesProcessor.MinimumSuggestedSize)
+            {
+                return CombineValues(ref r0, span.Length);
+            }
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
             return HashCode.Combine(byteSize <= int.MaxValue
@@ -55,22 +62,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 : BytesProcessor.CombineBytes(ref rb, byteSize));
         }
 
-#if NETSTANDARD2_1
         /// <summary>
-        /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance using the xxHash32 algorithm
+        /// Gets a content hash from the input memory area using a customized the xxHash32 algorithm.
         /// </summary>
-        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance</param>
-        /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
+        /// <param name="r0">A <typeparamref name="T"/> reference to the start of the memory area.</param>
+        /// <param name="length">The size of the memory area.</param>
+        /// <returns>The xxHash32 value for the input values.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
-        private static int CombineManaged(ReadOnlySpan<T> span)
+        private static int CombineValues(ref T r0, int length)
         {
-            // Get a reference to the input span
-            ref T r0 = ref MemoryMarshal.GetReference(span);
-            int
-                hash = 0,
-                length = span.Length,
-                i = 0;
+            int hash = 0, i = 0;
 
             // Main loop with 8 unrolled iterations
             if (length >= 8)
@@ -98,7 +100,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 
             return HashCode.Combine(hash);
         }
-#endif
     }
 
     /// <summary>
@@ -114,6 +115,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// </remarks>
     internal static class BytesProcessor
     {
+        /// <summary>
+        /// The minimum suggested size for memory areas to process using the APIs in this class
+        /// </summary>
+
+        public const int MinimumSuggestedSize = 512;
+
         /// <summary>
         /// Gets a content hash from a given memory area.
         /// </summary>
@@ -174,7 +181,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                  * also saves the unnecessary computation of partial hash
                  * values from the accumulation register, and the loading
                  * of the prime constant in the secondary SIMD register. */
-                if (length >= Vector<int>.Count * sizeof(int))
+                if (length >= 8 * Vector<int>.Count * sizeof(int))
                 {
                     var vh = Vector<int>.Zero;
                     var v397 = new Vector<int>(397);
