@@ -164,7 +164,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             var columnHeights = new double[numColumns];
-            var itemsPerColumn = new double[numColumns];
+            var itemsPerColumn = new int[numColumns];
             var deadColumns = new HashSet<int>();
 
             for (int i = 0; i < context.ItemCount; i++)
@@ -180,7 +180,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     item.Height = element.DesiredSize.Height;
                 }
 
-                double numberOfItems = itemsPerColumn[columnIndex];
+                int numberOfItems = itemsPerColumn[columnIndex];
                 double spacing = numberOfItems > 0 ? (RowSpacing * numberOfItems) : 0;
                 item.Top = columnHeights[columnIndex] + spacing;
                 double bottom = item.Top + item.Height;
