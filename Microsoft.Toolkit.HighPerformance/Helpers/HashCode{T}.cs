@@ -42,20 +42,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             {
                 return CombineManaged(span);
             }
+#endif
 
-            /* Explicit MemoryMarshal.Cast equivalent to create the source ReadOnlySpan<byte> instance.
-             * This is necessary because this type doesn't restrict the T parameter to value types. */
-            int fromSize = Unsafe.SizeOf<T>();
-            int byteSize = span.Length * fromSize;
-            var bytes = MemoryMarshal.CreateReadOnlySpan(
-                ref Unsafe.As<T, byte>(ref MemoryMarshal.GetReference(span)),
-                byteSize);
+            // Get the info for the target memory area to process
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            ref byte rb = ref Unsafe.As<T, byte>(ref r0);
+            int
+                fromSize = Unsafe.SizeOf<T>(),
+                byteSize = span.Length * fromSize;
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
-            return CombineBytes(bytes);
-#else
-            return CombineBytes(MemoryMarshal.AsBytes(span));
-#endif
+            return CombineBytes(ref rb, byteSize);
         }
 
 #if NETSTANDARD2_1
@@ -103,19 +100,15 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #endif
 
         /// <summary>
-        /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance using the xxHash32 algorithm
+        /// Gets a content hash from a given memory area using the xxHash32 algorithm.
         /// </summary>
-        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance</param>
-        /// <returns>The xxHash32 value for the input <see cref="ReadOnlySpan{T}"/> of <see cref="byte"/> instance</returns>
+        /// <param name="r0">A <see cref="byte"/> reference to the start of the memory area.</param>
+        /// <param name="length">The size in bytes of the memory area.</param>
+        /// <returns>The xxHash32 value for the contents of the source memory area.</returns>
         [Pure]
-        private static int CombineBytes(ReadOnlySpan<byte> span)
+        private static int CombineBytes(ref byte r0, int length)
         {
-            // Get a reference to the input span
-            ref byte r0 = ref MemoryMarshal.GetReference(span);
-            int
-                hash = 0,
-                length = span.Length,
-                i = 0;
+            int hash = 0, i = 0;
 
             // Dedicated SIMD branch, if available
             if (Vector.IsHardwareAccelerated)
