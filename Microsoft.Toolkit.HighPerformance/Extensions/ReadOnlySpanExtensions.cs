@@ -112,11 +112,34 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         public static int GetDjb2HashCode<T>(this ReadOnlySpan<T> span)
             where T : notnull
         {
-            var hash = 5381;
+            ref T r0 = ref MemoryMarshal.GetReference(span);
+            int
+                hash = 5381,
+                length = span.Length,
+                i = 0;
 
-            foreach (var item in span)
+            // Main loop with 8 unrolled iterations
+            if (length >= 8)
             {
-                hash = unchecked((hash << 5) + hash + item.GetHashCode());
+                var end8 = length - 8;
+
+                for (; i <= end8; i += 8)
+                {
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 0).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 1).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 2).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 3).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 4).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 5).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 6).GetHashCode());
+                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 7).GetHashCode());
+                }
+            }
+
+            // Handle the leftover items
+            for (; i < length; i++)
+            {
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i).GetHashCode());
             }
 
             return hash;
