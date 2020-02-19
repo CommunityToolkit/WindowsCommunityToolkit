@@ -189,14 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     item.Height = element.DesiredSize.Height;
                 }
 
-                int numberOfItems = itemsPerColumn[columnIndex];
-                double spacing = numberOfItems > 0 ? (RowSpacing * numberOfItems) : 0;
+                double spacing = itemsPerColumn[columnIndex] > 0 ? RowSpacing : 0;
                 item.Top = columnHeights[columnIndex] + spacing;
                 double bottom = item.Top + item.Height;
-
-                // ignore row spacing. columnHeights is just used to determine which column to place the item.
-                // row spacing shouldn't change the column the item is within.
-                columnHeights[columnIndex] += item.Height;
+                columnHeights[columnIndex] = bottom;
                 itemsPerColumn[columnIndex]++;
                 state.AddItemToColumn(item, columnIndex);
 
