@@ -47,12 +47,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Get the info for the target memory area to process
             ref T r0 = ref MemoryMarshal.GetReference(span);
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
-            int
-                fromSize = Unsafe.SizeOf<T>(),
-                byteSize = span.Length * fromSize;
+            long byteSize = (long)span.Length * Unsafe.SizeOf<T>();
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
-            return BytesProcessor.CombineBytes(ref rb, byteSize);
+            return HashCode.Combine(byteSize <= int.MaxValue
+                ? BytesProcessor.CombineBytes(ref rb, unchecked((int)byteSize))
+                : BytesProcessor.CombineBytes(ref rb, byteSize));
         }
 
 #if NETSTANDARD2_1
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     /// Combines the hash code of sequences of <see cref="byte"/> values into a single hash code.
     /// </summary>
     /// <remarks>
-    /// This type is just a wrapper for the single <see cref="CombineBytes"/> method,
+    /// This type is just a wrapper for the <see cref="CombineBytes(ref byte, int)"/> method,
     /// which is not defined within <see cref="HashCode{T}"/> for performance reasons.
     /// Because <see cref="HashCode{T}"/> is a generic type, each contained method will be JIT
     /// compiled into a different executable, even if it's not directly using the generic type
@@ -115,11 +115,50 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
     internal static class BytesProcessor
     {
         /// <summary>
-        /// Gets a content hash from a given memory area using the xxHash32 algorithm.
+        /// Gets a content hash from a given memory area.
         /// </summary>
         /// <param name="r0">A <see cref="byte"/> reference to the start of the memory area.</param>
         /// <param name="length">The size in bytes of the memory area.</param>
-        /// <returns>The xxHash32 value for the contents of the source memory area.</returns>
+        /// <returns>The hashcode for the contents of the source memory area.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static int CombineBytes(ref byte r0, long length)
+        {
+            /* This method takes a long as the length parameter, which is needed in case
+             * the target area is a large sequence of items with a byte size greater than
+             * one. To maximize efficiency, the target memory area is divided into
+             * contiguous blocks as large as possible, and the SIMD implementation
+             * is executed on all of them one by one. The partial results
+             * are accumulated with the usual hash function. */
+            int
+                hash = 0,
+                runs = unchecked((int)(length / int.MaxValue)),
+                trailing = unchecked((int)(length - (runs * (long)int.MaxValue)));
+
+            // Process chunks of int.MaxValue consecutive bytes
+            for (int i = 0; i < runs; i++)
+            {
+                int partial = CombineBytes(ref r0, int.MaxValue);
+
+                hash = unchecked((hash * 397) ^ partial);
+
+                r0 = ref Unsafe.Add(ref r0, int.MaxValue);
+            }
+
+            // Process the leftover elements
+            int tail = CombineBytes(ref r0, trailing);
+
+            hash = unchecked((hash * 397) ^ tail);
+
+            return hash;
+        }
+
+        /// <summary>
+        /// Gets a content hash from a given memory area.
+        /// </summary>
+        /// <param name="r0">A <see cref="byte"/> reference to the start of the memory area.</param>
+        /// <param name="length">The size in bytes of the memory area.</param>
+        /// <returns>The hashcode for the contents of the source memory area.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static int CombineBytes(ref byte r0, int length)
@@ -348,7 +387,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i));
             }
 
-            return HashCode.Combine(hash);
+            return hash;
         }
     }
 }
