@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayPoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.Count.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ReadOnlySpanExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_SpinLockExtensions.cs" />
