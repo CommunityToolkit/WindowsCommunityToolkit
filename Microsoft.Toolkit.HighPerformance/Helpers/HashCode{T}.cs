@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Numerics;
 using System.Runtime.CompilerServices;
@@ -47,6 +48,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <remarks>The returned hash code is not processed through <see cref="HashCode"/> APIs.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1515", Justification = "Compiler directive instead of whitespace")]
         internal static int CombineValues(ReadOnlySpan<T> span)
         {
             ref T r0 = ref MemoryMarshal.GetReference(span);
@@ -60,7 +62,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
                 return CombineValues(ref r0, span.Length);
             }
 #endif
-
             // Get the info for the target memory area to process
             ref byte rb = ref Unsafe.As<T, byte>(ref r0);
             long byteSize = (long)span.Length * Unsafe.SizeOf<T>();
@@ -133,7 +134,6 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         /// <summary>
         /// The minimum suggested size for memory areas to process using the APIs in this class
         /// </summary>
-
         public const int MinimumSuggestedSize = 512;
 
         /// <summary>
