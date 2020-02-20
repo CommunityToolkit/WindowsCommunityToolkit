@@ -8,7 +8,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.Toolkit.HighPerformance.Extensions
+namespace Microsoft.Toolkit.HighPerformance.Helpers
 {
     /// <summary>
     /// Combines the hash code of sequences of <typeparamref name="T"/> values into a single hash code.
@@ -34,6 +34,21 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Combine(ReadOnlySpan<T> span)
         {
+            int hash = CombineValues(span);
+
+            return HashCode.Combine(hash);
+        }
+
+        /// <summary>
+        /// Gets a content hash from the input <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance</param>
+        /// <returns>The hash code for the input <see cref="ReadOnlySpan{T}"/> instance</returns>
+        /// <remarks>The returned hash code is not processed through <see cref="HashCode"/> APIs.</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        internal static int CombineValues(ReadOnlySpan<T> span)
+        {
             ref T r0 = ref MemoryMarshal.GetReference(span);
 
 #if NETSTANDARD2_1
@@ -57,17 +72,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 
             // Use the fast vectorized overload if the input span can be reinterpreted as a sequence of bytes
-            return HashCode.Combine(byteSize <= int.MaxValue
+            return byteSize <= int.MaxValue
                 ? BytesProcessor.CombineBytes(ref rb, unchecked((int)byteSize))
-                : BytesProcessor.CombineBytes(ref rb, byteSize));
+                : BytesProcessor.CombineBytes(ref rb, byteSize);
         }
 
         /// <summary>
-        /// Gets a content hash from the input memory area using a customized the xxHash32 algorithm.
+        /// Gets a content hash from the input memory area.
         /// </summary>
         /// <param name="r0">A <typeparamref name="T"/> reference to the start of the memory area.</param>
         /// <param name="length">The size of the memory area.</param>
-        /// <returns>The xxHash32 value for the input values.</returns>
+        /// <returns>The hash code for the input values.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static int CombineValues(ref T r0, int length)
@@ -98,7 +113,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i).GetHashCode());
             }
 
-            return HashCode.Combine(hash);
+            return hash;
         }
     }
 
@@ -126,7 +141,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="r0">A <see cref="byte"/> reference to the start of the memory area.</param>
         /// <param name="length">The size in bytes of the memory area.</param>
-        /// <returns>The hashcode for the contents of the source memory area.</returns>
+        /// <returns>The hash code for the contents of the source memory area.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static int CombineBytes(ref byte r0, long length)
@@ -165,7 +180,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="r0">A <see cref="byte"/> reference to the start of the memory area.</param>
         /// <param name="length">The size in bytes of the memory area.</param>
-        /// <returns>The hashcode for the contents of the source memory area.</returns>
+        /// <returns>The hash code for the contents of the source memory area.</returns>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static int CombineBytes(ref byte r0, int length)
