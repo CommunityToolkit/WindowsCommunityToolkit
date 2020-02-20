@@ -5,18 +5,19 @@
 using System;
 using System.Diagnostics.Contracts;
 using System.Runtime.InteropServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 using Microsoft.Toolkit.HighPerformance.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests.HighPerformance.Helpers
+namespace UnitTests.HighPerformance.Extensions
 {
     [TestClass]
-    public class Test_HashCodeOfT
+    public class Test_HashCodeExtensions
     {
         /// <summary>
         /// Gets the list of counts to test the extension for
         /// </summary>
-        private static ReadOnlySpan<int> TestCounts => new[] { 0, 1, 7, 128, 255, 256, short.MaxValue, short.MaxValue + 1, 123_938, 1_678_922, 71_890_819 };
+        private static ReadOnlySpan<int> TestCounts => new[] { 0, 1, 7, 128, 255, 256, short.MaxValue, 245_000 };
 
         [TestCategory("HashCodeOfT")]
         [TestMethod]
@@ -60,30 +61,6 @@ namespace UnitTests.HighPerformance.Helpers
             TestForType<char>();
         }
 
-#if NETCOREAPP3_0
-        [TestCategory("HashCodeOfT")]
-        [TestMethod]
-        public void Test_HashCodeOfT_ManagedType_TestRepeat()
-        {
-            var random = new Random();
-
-            foreach (var count in TestCounts.Slice(0, 8))
-            {
-                string[] data = new string[count];
-
-                foreach (ref string text in data.AsSpan())
-                {
-                    text = random.NextDouble().ToString("E");
-                }
-
-                int hash1 = HashCode<string>.Combine(data);
-                int hash2 = HashCode<string>.Combine(data);
-
-                Assert.AreEqual(hash1, hash2, $"Failed {typeof(string)} test with count {count}: got {hash1} and then {hash2}");
-            }
-        }
-#endif
-
         /// <summary>
         /// Performs a test for a specified type.
         /// </summary>
@@ -95,10 +72,22 @@ namespace UnitTests.HighPerformance.Helpers
             {
                 T[] data = CreateRandomData<T>(count);
 
-                int hash1 = HashCode<T>.Combine(data);
-                int hash2 = HashCode<T>.Combine(data);
+                HashCode hashCode1 = default;
+
+                hashCode1.Add<T>(data);
+
+                int hash1 = hashCode1.ToHashCode();
+
+                HashCode hashCode2 = default;
+
+                hashCode2.Add<T>(data);
+
+                int hash2 = hashCode2.ToHashCode();
+
+                int hash3 = HashCode<T>.Combine(data);
 
                 Assert.AreEqual(hash1, hash2, $"Failed {typeof(T)} test with count {count}: got {hash1} and then {hash2}");
+                Assert.AreEqual(hash1, hash3, $"Failed {typeof(T)} test with count {count}: got {hash1} and then {hash3}");
             }
         }
 
