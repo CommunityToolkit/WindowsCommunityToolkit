@@ -153,11 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             double currentV = 0;
             for (int i = 0; i < context.ItemCount; i++)
             {
+                UIElement child = null;
                 bool measured = false;
                 WrapItem item = state.GetItemAt(i);
                 if (item.Measure == null)
                 {
-                    UIElement child = context.GetOrCreateElementAt(i);
+                    child = context.GetOrCreateElementAt(i);
                     child.Measure(availableSize);
                     item.Measure = new UvMeasure(Orientation, child.DesiredSize.Width, child.DesiredSize.Height);
                     measured = true;
@@ -188,6 +189,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (vEnd < realizationBounds.VMin)
                 {
                     // Item is "above" the bounds
+                    if (child != null)
+                    {
+                        context.RecycleElement(child);
+                    }
                 }
                 else if (position.V > realizationBounds.VMax)
                 {
@@ -197,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (measured == false)
                 {
                     // Always measure elements that are within the bounds
-                    UIElement child = context.GetOrCreateElementAt(i);
+                    child = context.GetOrCreateElementAt(i);
                     child.Measure(availableSize);
                 }
 
