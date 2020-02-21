@@ -8,15 +8,21 @@
 
   <Page.Resources>
     <DataTemplate x:Name="NormalTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Green"/>
+      <TextBlock Text="{Binding}" Foreground="Green" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
     </DataTemplate>
 
     <DataTemplate x:Name="AlternateTemplate">
-      <TextBlock Text="{Binding Title}" Foreground="Red"/>
+      <TextBlock Text="{Binding}" Foreground="Red" VerticalAlignment="Center" FontWeight="Bold"></TextBlock>
     </DataTemplate>
   </Page.Resources>
 
   <Grid>
+    <TextBlock x:Name="IndexInput" Text="@[Index:Slider:100:0-500]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="ItemPlacementInput" Text="@[Item Placement:Enum:ItemPlacement.Bottom]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="DisableAnimationInput" Text="@[Disable Animation:Bool:False]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="ScrollIfVisibileInput" Text="@[Scroll If Visibile:Bool:False]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="AdditionalHorizontalOffsetInput" Text="@[Additional Horizontal Offset:Slider:0:-500-500]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="AdditionalVerticalOffsetInput" Text="@[Additional Vertical Offset:Slider:0:-500-500]" Visibility="Collapsed"></TextBlock>
 
     <ListView
         x:Name="SampleListView"
