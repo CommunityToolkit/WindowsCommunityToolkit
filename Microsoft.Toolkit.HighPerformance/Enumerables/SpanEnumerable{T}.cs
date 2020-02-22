@@ -88,7 +88,6 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <summary>
             /// Gets the duck-typed <see cref="IEnumerator{T}.Current"/> property.
             /// </summary>
-            [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008", Justification = "ValueTuple<T1,T2> return type")]
             public Item Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -104,7 +103,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                      * and the length as a host for the current original offset.
                      * This is not possible on .NET Standard 2.1 as we lack
                      * the API to create spans from arbitrary references. */
-                    return new Item(MemoryMarshal.CreateSpan(ref ri, index));
+                    return new Item(ref ri, index);
 #else
                     return new Item(span, index);
 #endif
@@ -126,11 +125,12 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             /// <summary>
             /// Initializes a new instance of the <see cref="Item"/> struct.
             /// </summary>
-            /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
+            /// <param name="value">A reference to the target value.</param>
+            /// <param name="index">The index of the target value.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public Item(Span<T> span)
+            public Item(ref T value, int index)
             {
-                this.span = span;
+                this.span = MemoryMarshal.CreateSpan(ref value, index);
             }
 #else
             /// <summary>
@@ -150,6 +150,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
                 this.index = index;
             }
 #endif
+
             /// <summary>
             /// Gets the reference to the current value.
             /// </summary>
