@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Handle the leftover items
             for (; i < length; i++)
             {
-                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i).GetHashCode());
             }
 
             return hash;
