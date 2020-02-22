@@ -14,22 +14,42 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ListViewExtensionsPage : Page, IXamlRenderListener
     {
+        private ListView sampleListView;
+        private TextBlock indexInput;
+        private TextBlock itemPlacementInput;
+        private TextBlock disableAnimationInput;
+        private TextBlock scrollIfVisibileInput;
+        private TextBlock additionalHorizontalOffsetInput;
+        private TextBlock additionalVerticalOffsetInput;
+
         public ListViewExtensionsPage()
         {
             this.InitializeComponent();
+            Load();
         }
 
-        public async void OnXamlRendered(FrameworkElement control)
+        public void OnXamlRendered(FrameworkElement control)
         {
-            var sampleListView = control.FindChild("SampleListView") as ListView;
-            var indexInput = control.FindChild("IndexInput") as TextBlock;
-            var itemPlacementInput = control.FindChild("ItemPlacementInput") as TextBlock;
-            var disableAnimationInput = control.FindChild("DisableAnimationInput") as TextBlock;
-            var scrollIfVisibileInput = control.FindChild("ScrollIfVisibileInput") as TextBlock;
-            var additionalHorizontalOffsetInput = control.FindChild("AdditionalHorizontalOffsetInput") as TextBlock;
-            var additionalVerticalOffsetInput = control.FindChild("AdditionalVerticalOffsetInput") as TextBlock;
+            sampleListView = control.FindChild("SampleListView") as ListView;
+            indexInput = control.FindChild("IndexInput") as TextBlock;
+            itemPlacementInput = control.FindChild("ItemPlacementInput") as TextBlock;
+            disableAnimationInput = control.FindChild("DisableAnimationInput") as TextBlock;
+            scrollIfVisibileInput = control.FindChild("ScrollIfVisibileInput") as TextBlock;
+            additionalHorizontalOffsetInput = control.FindChild("AdditionalHorizontalOffsetInput") as TextBlock;
+            additionalVerticalOffsetInput = control.FindChild("AdditionalVerticalOffsetInput") as TextBlock;
 
-            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (sender, args) =>
+            if (sampleListView != null)
+            {
+                sampleListView.ItemsSource = GetOddEvenSource(201);
+            }
+
+            // Transfer Data Context so we can access SampleCommand
+            control.DataContext = this;
+        }
+
+        private void Load()
+        {
+            SampleController.Current.RegisterNewCommand("Start Smooth Scroll", (_, __) =>
             {
                 var index = int.Parse(indexInput.Text);
                 var itemPlacement = (ItemPlacement)Enum.Parse(typeof(ItemPlacement), itemPlacementInput.Text);
@@ -50,7 +70,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         {
             var oddEvenSource = new ObservableCollection<string>();
 
-            for (int number = 0; number <= count; number++)
+            for (int number = 0; number < count; number++)
             {
                 var item = (number % 2) == 0 ? $"{number} - Even" : $"{number} - Odd";
                 oddEvenSource.Add(item);

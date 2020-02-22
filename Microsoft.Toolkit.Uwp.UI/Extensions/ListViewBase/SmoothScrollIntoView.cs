@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Uwp.UI
         /// <returns>Note: Even though this return <see cref="Task"/>, it will not wait until the scrolling completes</returns>
         public static async Task SmoothScrollIntoViewWithIndex(this ListViewBase listViewBase, int index, ItemPlacement itemPlacement = ItemPlacement.Default, bool disableAnimation = false, bool scrollIfVisibile = true, int additionalHorizontalOffset = 0, int additionalVerticalOffset = 0)
         {
-            if (index > listViewBase.Items.Count)
+            if (index > (listViewBase.Items.Count - 1))
             {
-                index = listViewBase.Items.Count;
+                index = (listViewBase.Items.Count - 1);
             }
 
             index = (index < 0) ? (index + listViewBase.Items.Count) : index;
