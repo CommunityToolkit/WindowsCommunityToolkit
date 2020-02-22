@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
@@ -13,8 +14,8 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
     /// A <see langword="ref"/> <see langword="struct"/> that tokenizes a given <see cref="Span{T}"/> instance.
     /// </summary>
     /// <typeparam name="T">The type of items to enumerate.</typeparam>
-    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
+    [EditorBrowsable(EditorBrowsableState.Never)]
     public ref struct SpanTokenizer<T>
         where T : IEquatable<T>
     {
@@ -50,6 +51,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
         /// <summary>
         /// An enumerator for a source <see cref="Span{T}"/> instance.
         /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
         public ref struct Enumerator
         {
             /// <summary>
