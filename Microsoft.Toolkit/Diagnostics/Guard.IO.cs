@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanRead)
             {
-                ThrowArgumentException(name, $"Stream {name} doesn't support reading");
+                ThrowHelper.ThrowArgumentExceptionForCanRead(name);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanWrite)
             {
-                ThrowArgumentException(name, $"Stream {name} doesn't support writing");
+                ThrowHelper.ThrowArgumentExceptionForCanWrite(name);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanSeek)
             {
-                ThrowArgumentException(name, $"Stream {name} doesn't support seeking");
+                ThrowHelper.ThrowArgumentExceptionForCanSeek(name);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (stream.Position != 0)
             {
-                ThrowArgumentException(name, $"Stream {name} must be at start position, was at {stream.Position}");
+                ThrowHelper.ThrowArgumentExceptionForIsAtStartPosition(stream, name);
             }
         }
     }
