@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrEmpty(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be null or empty, was \"{text}\"");
+                ThrowHelper.ThrowArgumentExceptionForIsNullOrEmpty(text, name);
             }
         }
 
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (string.IsNullOrEmpty(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be null or empty, was {(text is null ? "null" : "empty")}");
+                ThrowHelper.ThrowArgumentExceptionForIsNotNullOrEmpty(text, name);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be null or whitespace, was \"{text}\"");
+                ThrowHelper.ThrowArgumentExceptionForIsNullOrWhitespace(text, name);
             }
         }
 
@@ -70,7 +70,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
+                ThrowHelper.ThrowArgumentExceptionForIsNotNullOrWhitespace(text, name);
             }
         }
 
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (text.Length != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty, was \"{text}\"");
+                ThrowHelper.ThrowArgumentExceptionForIsEmpty(text, name);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (text.Length == 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty, was empty");
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(text, name);
             }
         }
 
@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!string.IsNullOrWhiteSpace(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be null or whitespace, was \"{text}\"");
+                ThrowHelper.ThrowArgumentExceptionForIsWhitespace(text, name);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (string.IsNullOrWhiteSpace(text))
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
+                ThrowHelper.ThrowArgumentExceptionForIsNotWhitespace(text, name);
             }
         }
 
@@ -144,7 +144,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo(string text, int size, string name)
         {
-            HasSizeEqualTo(text.AsSpan(), size, name);
+            if (text.Length != size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(text, size, name);
+            }
         }
 
         /// <summary>
@@ -157,7 +160,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo(string text, int size, string name)
         {
-            HasSizeNotEqualTo(text.AsSpan(), size, name);
+            if (text.Length == size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(text, size, name);
+            }
         }
 
         /// <summary>
@@ -170,7 +176,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeOver(string text, int size, string name)
         {
-            HasSizeOver(text.AsSpan(), size, name);
+            if (text.Length <= size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(text, size, name);
+            }
         }
 
         /// <summary>
@@ -183,7 +192,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast(string text, int size, string name)
         {
-            HasSizeAtLeast(text.AsSpan(), size, name);
+            if (text.Length < size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(text, size, name);
+            }
         }
 
         /// <summary>
@@ -196,7 +208,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan(string text, int size, string name)
         {
-            HasSizeLessThan(text.AsSpan(), size, name);
+            if (text.Length >= size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(text, size, name);
+            }
         }
 
         /// <summary>
@@ -209,7 +224,10 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo(string text, int size, string name)
         {
-            HasSizeLessThanOrEqualTo(text.AsSpan(), size, name);
+            if (text.Length > size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(text, size, name);
+            }
         }
     }
 }
