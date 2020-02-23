@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
             }
         }
 
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForIsEmpty(collection, name);
             }
         }
 
@@ -60,7 +60,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!enumerable.Any())
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty");
+                ThrowHelper.ThrowArgumentExceptionForIsEmpty(enumerable, name);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (enumerable.Any())
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
             }
         }
 
@@ -125,7 +125,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count != size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
             }
         }
 
@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count != size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(collection, size, name);
             }
         }
 
@@ -157,11 +157,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize != size)
+            if (enumerable.Count() != size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(enumerable, size, name);
             }
         }
 
@@ -178,7 +176,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
             }
         }
 
@@ -195,7 +193,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
             }
         }
 
@@ -210,11 +208,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize == size)
+            if (enumerable.Count() == size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
             }
         }
 
@@ -231,7 +227,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(collection, size, name);
             }
         }
 
@@ -248,7 +244,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(collection, size, name);
             }
         }
 
@@ -263,11 +259,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeOver<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize <= size)
+            if (enumerable.Count() <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(enumerable, size, name);
             }
         }
 
@@ -284,7 +278,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count < size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(collection, size, name);
             }
         }
 
@@ -301,7 +295,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count < size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(collection, size, name);
             }
         }
 
@@ -316,11 +310,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize < size)
+            if (enumerable.Count() < size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(enumerable, size, name);
             }
         }
 
@@ -337,7 +329,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count >= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
             }
         }
 
@@ -354,7 +346,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count >= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(collection, size, name);
             }
         }
 
@@ -369,11 +361,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize >= size)
+            if (enumerable.Count() >= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(enumerable, size, name);
             }
         }
 
@@ -390,7 +380,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count > size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
             }
         }
 
@@ -407,7 +397,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count > size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {collection.Count}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(collection, size, name);
             }
         }
 
@@ -422,11 +412,9 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(IEnumerable<T> enumerable, int size, string name)
         {
-            int actualSize = enumerable.Count();
-
-            if (actualSize > size)
+            if (enumerable.Count() > size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {actualSize}");
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(enumerable, size, name);
             }
         }
     }
