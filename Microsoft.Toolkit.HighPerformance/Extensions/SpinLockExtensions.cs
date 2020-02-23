@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -28,19 +29,19 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="spinLock">A pointer to the target <see cref="SpinLock"/> to use</param>
         /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
-        /// <remarks>The returned <see cref="__UnsafeLock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        /// <remarks>The returned <see cref="UnsafeLock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe __UnsafeLock Enter(SpinLock* spinLock)
+        public static unsafe UnsafeLock Enter(SpinLock* spinLock)
         {
-            return new __UnsafeLock(spinLock);
+            return new UnsafeLock(spinLock);
         }
 
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-        public unsafe ref struct __UnsafeLock
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public unsafe ref struct UnsafeLock
         {
             /// <summary>
             /// The <see cref="SpinLock"/>* pointer to the target <see cref="SpinLock"/> value to use.
@@ -48,16 +49,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             private readonly SpinLock* spinLock;
 
             /// <summary>
-            /// A value indicating whether or not the lock is taken by this <see cref="__Lock"/> instance.
+            /// A value indicating whether or not the lock is taken by this <see cref="Lock"/> instance.
             /// </summary>
             private readonly bool lockTaken;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="__UnsafeLock"/> struct.
+            /// Initializes a new instance of the <see cref="UnsafeLock"/> struct.
             /// </summary>
             /// <param name="spinLock">The target <see cref="SpinLock"/> to use.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __UnsafeLock(SpinLock* spinLock)
+            public UnsafeLock(SpinLock* spinLock)
             {
                 this.spinLock = spinLock;
                 this.lockTaken = false;
@@ -94,11 +95,11 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <param name="spinLock">The target <see cref="SpinLock"/> to use</param>
         /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
-        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        /// <remarks>The returned <see cref="Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __Lock Enter(ref this SpinLock spinLock)
+        public static Lock Enter(ref this SpinLock spinLock)
         {
-            return new __Lock(ref spinLock);
+            return new Lock(ref spinLock);
         }
 #else
         /// <summary>
@@ -120,20 +121,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
         /// <param name="spinLock">The target <see cref="SpinLock"/> to use (it must be within <paramref name="owner"/>).</param>
         /// <returns>A wrapper type that will release <paramref name="spinLock"/> when its <see cref="System.IDisposable.Dispose"/> method is called.</returns>
-        /// <remarks>The returned <see cref="__Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
+        /// <remarks>The returned <see cref="Lock"/> value shouldn't be used directly: use this extension in a <see langword="using"/> block or statement.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static __Lock Enter(object owner, ref SpinLock spinLock)
+        public static Lock Enter(object owner, ref SpinLock spinLock)
         {
-            return new __Lock(owner, ref spinLock);
+            return new Lock(owner, ref spinLock);
         }
 #endif
 
         /// <summary>
         /// A <see langword="struct"/> that is used to enter and hold a <see cref="SpinLock"/> through a <see langword="using"/> block or statement.
         /// </summary>
-        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300", Justification = "The type is not meant to be used directly by users")]
         [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
-        public ref struct __Lock
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ref struct Lock
         {
             /// <summary>
             /// The <see cref="ByReference{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
@@ -141,17 +142,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             private readonly ByReference<SpinLock> spinLock;
 
             /// <summary>
-            /// A value indicating whether or not the lock is taken by this <see cref="__Lock"/> instance.
+            /// A value indicating whether or not the lock is taken by this <see cref="Lock"/> instance.
             /// </summary>
             private readonly bool lockTaken;
 
 #if NETSTANDARD2_1
             /// <summary>
-            /// Initializes a new instance of the <see cref="__Lock"/> struct.
+            /// Initializes a new instance of the <see cref="Lock"/> struct.
             /// </summary>
             /// <param name="spinLock">The target <see cref="SpinLock"/> to use.</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __Lock(ref SpinLock spinLock)
+            public Lock(ref SpinLock spinLock)
             {
                 this.spinLock = new ByReference<SpinLock>(ref spinLock);
                 this.lockTaken = false;
@@ -160,12 +161,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             }
 #else
             /// <summary>
-            /// Initializes a new instance of the <see cref="__Lock"/> struct.
+            /// Initializes a new instance of the <see cref="Lock"/> struct.
             /// </summary>
             /// <param name="owner">The owner <see cref="object"/> to create a portable reference for.</param>
             /// <param name="spinLock">The target <see cref="SpinLock"/> to use (it must be within <paramref name="owner"/>).</param>
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            public __Lock(object owner, ref SpinLock spinLock)
+            public Lock(object owner, ref SpinLock spinLock)
             {
                 this.spinLock = new ByReference<SpinLock>(owner, ref spinLock);
                 this.lockTaken = false;
