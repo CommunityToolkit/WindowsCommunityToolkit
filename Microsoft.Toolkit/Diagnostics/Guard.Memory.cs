@@ -367,6 +367,22 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is != 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsEmpty<T>(Memory<T> memory, string name)
+        {
+            if (memory.Length != 0)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsEmpty(memory, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must not be empty.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -375,6 +391,22 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is == 0.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(ReadOnlyMemory<T> memory, string name)
+        {
+            if (memory.Length != 0)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(memory, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must not be empty.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is == 0.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotEmpty<T>(Memory<T> memory, string name)
         {
             if (memory.Length != 0)
             {
@@ -400,6 +432,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size of a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is != <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(Memory<T> memory, int size, string name)
+        {
+            if (memory.Length != size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(memory, size, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size not equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -409,6 +458,23 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is == <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length == size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(memory, size, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size not equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is == <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeNotEqualTo<T>(Memory<T> memory, int size, string name)
         {
             if (memory.Length == size)
             {
@@ -434,6 +500,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size over a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt;= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeOver<T>(Memory<T> memory, int size, string name)
+        {
+            if (memory.Length <= size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeOver(memory, size, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of at least specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -443,6 +526,23 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length < size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(memory, size, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size of at least specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is &lt; <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeAtLeast<T>(Memory<T> memory, int size, string name)
         {
             if (memory.Length < size)
             {
@@ -468,6 +568,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size of less than a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is >= <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThan<T>(Memory<T> memory, int size, string name)
+        {
+            if (memory.Length >= size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(memory, size, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -477,6 +594,23 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is > <paramref name="size"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> memory, int size, string name)
+        {
+            if (memory.Length > size)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(memory, size, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Memory{T}"/> instance must have a size of less than or equal to a specified value.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="size">The target size to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="memory"/> is > <paramref name="size"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(Memory<T> memory, int size, string name)
         {
             if (memory.Length > size)
             {
@@ -502,6 +636,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the source <see cref="Memory{T}"/> instance must have the same size of a destination <see cref="Memory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo<T>(Memory<T> source, Memory<T> destination, string name)
+        {
+            if (source.Length != destination.Length)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Memory{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -511,6 +662,23 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(ReadOnlyMemory<T> source, Memory<T> destination, string name)
+        {
+            if (source.Length > destination.Length)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="Memory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Memory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The type of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="source">The source <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="Memory{T}"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo<T>(Memory<T> source, Memory<T> destination, string name)
         {
             if (source.Length > destination.Length)
             {
