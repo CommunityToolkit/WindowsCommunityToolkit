@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!task.IsCompleted)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be completed, had status {task.Status}");
+                ThrowHelper.ThrowArgumentExceptionForIsCompleted(task, name);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (task.Status != TaskStatus.RanToCompletion)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be completed successfully, had status {task.Status}");
+                ThrowHelper.ThrowArgumentExceptionForIsCompletedSuccessfully(task, name);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!task.IsFaulted)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be faulted, had status {task.Status}");
+                ThrowHelper.ThrowArgumentExceptionForIsFaulted(task, name);
             }
         }
 
@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!task.IsCanceled)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be canceled, had status {task.Status}");
+                ThrowHelper.ThrowArgumentExceptionForIsCanceled(task, name);
             }
         }
 
@@ -87,7 +87,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (task.Status != status)
             {
-                ThrowArgumentException(name, $"Parameter {name} must have status {status}, had status {task.Status}");
+                ThrowHelper.ThrowArgumentExceptionForHasStatus(task, status, name);
             }
         }
     }
