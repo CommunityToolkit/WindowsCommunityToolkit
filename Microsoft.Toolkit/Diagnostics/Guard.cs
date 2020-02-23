@@ -5,7 +5,6 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using Microsoft.Toolkit.Extensions;
 
 #nullable enable
 
@@ -23,14 +22,14 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of reference value type being tested.</typeparam>
         /// <param name="value">The input value to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNull<T>(T? value, string name)
             where T : class
         {
             if (value != null)
             {
-                ThrowArgumentNullException(name, $"Parameter {name} must be null");
+                ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
             }
         }
 
@@ -40,7 +39,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <typeparam name="T">The type of nullable value type being tested.</typeparam>
         /// <param name="value">The input value to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNull<T>(T? value, string name)
@@ -48,7 +47,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value != null)
             {
-                ThrowArgumentNullException(name, $"Parameter {name} must be null");
+                ThrowHelper.ThrowArgumentExceptionForIsNull(value, name);
             }
         }
 
@@ -65,7 +64,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                ThrowArgumentNullException(name, $"Parameter {name} must be not null");
+                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull(name);
             }
         }
 
@@ -83,7 +82,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                ThrowArgumentNullException(name, $"Parameter {name} must be not null");
+                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull(name);
             }
         }
 
@@ -99,7 +98,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.GetType() != typeof(T))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be of type {typeof(T)}, was {value.GetType()}");
+                ThrowHelper.ThrowArgumentExceptionForIsOfType<T>(value, name);
             }
         }
 
@@ -115,7 +114,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.GetType() != type)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be of type {type}, was {value.GetType()}");
+                ThrowHelper.ThrowArgumentExceptionForIsOfType(value, type, name);
             }
         }
 
@@ -131,7 +130,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!(value is T))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}");
+                ThrowHelper.ThrowArgumentExceptionForIsAssignableToType<T>(value, name);
             }
         }
 
@@ -147,7 +146,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!type.IsInstanceOfType(value))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be assignable to type {type}, was {value.GetType()}");
+                ThrowHelper.ThrowArgumentExceptionForIsAssignableToType(value, type, name);
             }
         }
 
@@ -166,7 +165,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!value.Equals(target))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
+                ThrowHelper.ThrowArgumentExceptionForIsEqualTo(value, target, name);
             }
         }
 
@@ -185,7 +184,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.Equals(target))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
+                ThrowHelper.ThrowArgumentExceptionForIsNotEqualTo(value, target, name);
             }
         }
 
@@ -197,6 +196,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="target">The target <typeparamref name="T"/> value to test for.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not a bitwise match for <paramref name="target"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
@@ -216,7 +216,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueByte != targetByte)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                 }
             }
             else if (typeof(T) == typeof(ushort) ||
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueUShort != targetUShort)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                 }
             }
             else if (typeof(T) == typeof(uint) ||
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueUInt != targetUInt)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                 }
             }
             else if (typeof(T) == typeof(ulong) ||
@@ -252,7 +252,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                 if (valueULong != targetULong)
                 {
-                    ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+                    ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                 }
             }
             else
@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Diagnostics
 
                     if (valueByte != targetByte)
                     {
-                        ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+                        ThrowHelper.ThrowArgumentExceptionForsBitwiseEqualTo(value, target, name);
                     }
                 }
             }
@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!ReferenceEquals(value, target))
             {
-                ThrowArgumentException(name, $"Parameter {name} must be the same instance as the target object");
+                ThrowHelper.ThrowArgumentExceptionForIsReferenceEqualTo(value, target, name);
             }
         }
 
@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (ReferenceEquals(value, target))
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be the same instance as the target object");
+                ThrowHelper.ThrowArgumentExceptionForIsReferenceNotEqualTo(value, target, name);
             }
         }
 
@@ -323,7 +323,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!value)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be true, was false");
+                ThrowHelper.ThrowArgumentExceptionForIsTrue(name);
             }
         }
 
@@ -338,7 +338,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be false, was true");
+                ThrowHelper.ThrowArgumentExceptionForIsFalse(name);
             }
         }
 
@@ -357,7 +357,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(max) >= 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {max}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThan(value, max, name);
             }
         }
 
@@ -376,7 +376,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(maximum) > 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo(value, maximum, name);
             }
         }
 
@@ -395,7 +395,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) <= 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThan(value, minimum, name);
             }
         }
 
@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) < 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo(value, minimum, name);
             }
         }
 
@@ -434,7 +434,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) >= 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and < {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRange(value, minimum, maximum, name);
             }
         }
 
@@ -454,7 +454,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) < 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or >= {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRange(value, minimum, maximum, name);
             }
         }
 
@@ -474,7 +474,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) <= 0 || value.CompareTo(maximum) >= 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum} and < {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetween(value, minimum, maximum, name);
             }
         }
 
@@ -494,7 +494,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) > 0 && value.CompareTo(maximum) < 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} or >= {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetween(value, minimum, maximum, name);
             }
         }
 
@@ -514,7 +514,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) < 0 || value.CompareTo(maximum) > 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and <= {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo(value, minimum, maximum, name);
             }
         }
 
@@ -534,7 +534,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value.CompareTo(minimum) >= 0 && value.CompareTo(maximum) <= 0)
             {
-                ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or > {maximum}, was {value}");
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo(value, minimum, maximum, name);
             }
         }
     }

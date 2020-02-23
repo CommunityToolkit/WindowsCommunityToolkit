@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentException">Thrown with <paramref name="message"/> and <paramref name="name"/>.</exception>
-        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to preserve the stack trace to this location.</remarks>
+        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to reduce the binary size of the caller.</remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentException(string name, string message)
         {
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentNullException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
-        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to preserve the stack trace to this location.</remarks>
+        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to reduce the binary size of the caller.</remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentNullException(string name, string message)
         {
@@ -46,7 +46,7 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The argument name.</param>
         /// <param name="message">The message to include in the exception.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown with <paramref name="name"/> and <paramref name="message"/>.</exception>
-        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to preserve the stack trace to this location.</remarks>
+        /// <remarks>This method is marked as <see cref="MethodImplOptions.NoInlining"/> to reduce the binary size of the caller.</remarks>
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void ThrowArgumentOutOfRangeException(string name, string message)
         {
