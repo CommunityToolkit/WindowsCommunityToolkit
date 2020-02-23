@@ -45,6 +45,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         ~MemoryOwner() => this.Dispose();
 
         /// <summary>
+        /// Creates a new empty <see cref="MemoryOwner{T}"/> instance
+        /// </summary>
+        [Pure]
+        public static MemoryOwner<T> Empty
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => new MemoryOwner<T>(0, false);
+        }
+
+        /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
         /// </summary>
         /// <param name="size">The size of the new memory buffer to use.</param>
@@ -62,6 +72,15 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static MemoryOwner<T> Allocate(int size, bool clear) => new MemoryOwner<T>(size, clear);
+
+        /// <summary>
+        /// Gets the number of items in the current instance
+        /// </summary>
+        public int Length
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => this.size;
+        }
 
         /// <inheritdoc/>
         public Memory<T> Memory
