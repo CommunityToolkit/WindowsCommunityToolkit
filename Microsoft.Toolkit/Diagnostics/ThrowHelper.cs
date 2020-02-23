@@ -13,6 +13,7 @@ namespace Microsoft.Toolkit.Diagnostics
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
     internal static partial class ThrowHelper
     {
+#pragma warning disable CS0419
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}"/> fails.
         /// </summary>
@@ -41,6 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             ThrowArgumentNullException(name, $"Parameter {name} must be not null");
         }
+#pragma warning restore CS0419
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsOfType{T}"/> fails.
