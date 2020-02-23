@@ -141,17 +141,17 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             public void Invoke(int i)
             {
                 int
-                    low = i * batchSize,
-                    high = low + batchSize,
-                    end = Math.Min(high, memory.Length);
+                    low = i * this.batchSize,
+                    high = low + this.batchSize,
+                    end = Math.Min(high, this.memory.Length);
 
-                ref TItem r0 = ref MemoryMarshal.GetReference(memory.Span);
+                ref TItem r0 = ref MemoryMarshal.GetReference(this.memory.Span);
 
                 for (int j = low; j < end; j++)
                 {
                     ref TItem rj = ref Unsafe.Add(ref r0, j);
 
-                    Unsafe.AsRef(action).Invoke(rj);
+                    Unsafe.AsRef(this.action).Invoke(rj);
                 }
             }
         }

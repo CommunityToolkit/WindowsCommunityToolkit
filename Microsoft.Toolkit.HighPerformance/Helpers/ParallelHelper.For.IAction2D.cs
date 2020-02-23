@@ -318,16 +318,16 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             public void Invoke(int i)
             {
                 int
-                    heightOffset = i * batchHeight,
-                    lowY = startY + heightOffset,
-                    highY = lowY + batchHeight,
-                    stopY = Math.Min(highY, endY);
+                    heightOffset = i * this.batchHeight,
+                    lowY = this.startY + heightOffset,
+                    highY = lowY + this.batchHeight,
+                    stopY = Math.Min(highY, this.endY);
 
                 for (int y = lowY; y < stopY; y++)
                 {
-                    for (int x = startX; x < endX; x++)
+                    for (int x = this.startX; x < this.endX; x++)
                     {
-                        Unsafe.AsRef(action).Invoke(y, x);
+                        Unsafe.AsRef(this.action).Invoke(y, x);
                     }
                 }
             }

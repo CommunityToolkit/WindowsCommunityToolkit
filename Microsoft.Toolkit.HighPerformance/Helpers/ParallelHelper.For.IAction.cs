@@ -224,14 +224,14 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
             public void Invoke(int i)
             {
                 int
-                    offset = i * batchSize,
-                    low = start + offset,
-                    high = low + batchSize,
-                    stop = Math.Min(high, end);
+                    offset = i * this.batchSize,
+                    low = this.start + offset,
+                    high = low + this.batchSize,
+                    stop = Math.Min(high, this.end);
 
                 for (int j = low; j < stop; j++)
                 {
-                    Unsafe.AsRef(action).Invoke(j);
+                    Unsafe.AsRef(this.action).Invoke(j);
                 }
             }
         }

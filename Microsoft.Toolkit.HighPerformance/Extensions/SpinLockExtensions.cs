@@ -45,7 +45,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             /// <summary>
             /// The <see cref="SpinLock"/>* pointer to the target <see cref="SpinLock"/> value to use.
             /// </summary>
-            private readonly SpinLock* ptr;
+            private readonly SpinLock* spinLock;
 
             /// <summary>
             /// A value indicating whether or not the lock is taken by this <see cref="__Lock"/> instance.
@@ -59,10 +59,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public __UnsafeLock(SpinLock* spinLock)
             {
-                ptr = spinLock;
-                lockTaken = false;
+                this.spinLock = spinLock;
+                this.lockTaken = false;
 
-                spinLock->Enter(ref lockTaken);
+                spinLock->Enter(ref this.lockTaken);
             }
 
             /// <summary>
@@ -71,9 +71,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Dispose()
             {
-                if (lockTaken)
+                if (this.lockTaken)
                 {
-                    ptr->Exit();
+                    this.spinLock->Exit();
                 }
             }
         }
@@ -138,7 +138,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             /// <summary>
             /// The <see cref="ByReference{T}"/> instance pointing to the target <see cref="SpinLock"/> value to use.
             /// </summary>
-            private readonly ByReference<SpinLock> r0;
+            private readonly ByReference<SpinLock> spinLock;
 
             /// <summary>
             /// A value indicating whether or not the lock is taken by this <see cref="__Lock"/> instance.
@@ -153,10 +153,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public __Lock(ref SpinLock spinLock)
             {
-                r0 = new ByReference<SpinLock>(ref spinLock);
-                lockTaken = false;
+                this.spinLock = new ByReference<SpinLock>(ref spinLock);
+                this.lockTaken = false;
 
-                spinLock.Enter(ref lockTaken);
+                spinLock.Enter(ref this.lockTaken);
             }
 #else
             /// <summary>
@@ -167,10 +167,10 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public __Lock(object owner, ref SpinLock spinLock)
             {
-                r0 = new ByReference<SpinLock>(owner, ref spinLock);
-                lockTaken = false;
+                this.spinLock = new ByReference<SpinLock>(owner, ref spinLock);
+                this.lockTaken = false;
 
-                spinLock.Enter(ref lockTaken);
+                spinLock.Enter(ref this.lockTaken);
             }
 #endif
 
@@ -180,9 +180,9 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public void Dispose()
             {
-                if (lockTaken)
+                if (this.lockTaken)
                 {
-                    r0.Value.Exit();
+                    this.spinLock.Value.Exit();
                 }
             }
         }
