@@ -31,6 +31,21 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Task"/> instance is not in a completed state.
+        /// </summary>
+        /// <param name="task">The input <see cref="Task"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> is in a completed state.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotCompleted(Task task, string name)
+        {
+            if (task.IsCompleted)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotCompleted(task, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="Task"/> instance has been completed successfully.
         /// </summary>
         /// <param name="task">The input <see cref="Task"/> instance to test.</param>
@@ -42,6 +57,21 @@ namespace Microsoft.Toolkit.Diagnostics
             if (task.Status != TaskStatus.RanToCompletion)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsCompletedSuccessfully(task, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Task"/> instance has not been completed successfully.
+        /// </summary>
+        /// <param name="task">The input <see cref="Task"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> has been completed successfully.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotCompletedSuccessfully(Task task, string name)
+        {
+            if (task.Status == TaskStatus.RanToCompletion)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotCompletedSuccessfully(task, name);
             }
         }
 
@@ -61,6 +91,21 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Task"/> instance is not faulted.
+        /// </summary>
+        /// <param name="task">The input <see cref="Task"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> is faulted.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotFaulted(Task task, string name)
+        {
+            if (task.IsFaulted)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotFaulted(task, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="Task"/> instance is canceled.
         /// </summary>
         /// <param name="task">The input <see cref="Task"/> instance to test.</param>
@@ -76,6 +121,21 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input <see cref="Task"/> instance is not canceled.
+        /// </summary>
+        /// <param name="task">The input <see cref="Task"/> instance to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> is canceled.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotCanceled(Task task, string name)
+        {
+            if (task.IsCanceled)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotCanceled(task, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="Task"/> instance has a specific status.
         /// </summary>
         /// <param name="task">The input <see cref="Task"/> instance to test.</param>
@@ -83,11 +143,27 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> doesn't match <paramref name="status"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void HasStatus(Task task, TaskStatus status, string name)
+        public static void HasStatusEqualTo(Task task, TaskStatus status, string name)
         {
             if (task.Status != status)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasStatus(task, status, name);
+                ThrowHelper.ThrowArgumentExceptionForHasStatusEqualTo(task, status, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input <see cref="Task"/> instance has not a specific status.
+        /// </summary>
+        /// <param name="task">The input <see cref="Task"/> instance to test.</param>
+        /// <param name="status">The task status that is accepted.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="task"/> matches <paramref name="status"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasStatusNotEqualTo(Task task, TaskStatus status, string name)
+        {
+            if (task.Status == status)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasStatusNotEqualTo(status, name);
             }
         }
     }
