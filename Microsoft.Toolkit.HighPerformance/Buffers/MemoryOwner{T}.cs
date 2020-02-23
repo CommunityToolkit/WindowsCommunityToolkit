@@ -69,14 +69,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                T[]? data = this.array;
+                T[]? array = this.array;
 
-                if (data is null)
+                if (array is null)
                 {
                     ThrowObjectDisposedException();
                 }
 
-                return new Memory<T>(data, 0, this.size);
+                return new Memory<T>(array, 0, this.size);
             }
         }
 
