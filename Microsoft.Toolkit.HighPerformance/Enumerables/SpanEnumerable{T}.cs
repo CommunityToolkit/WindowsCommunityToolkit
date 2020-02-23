@@ -133,7 +133,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public Item(ref T value, int index)
             {
-                this.span = MemoryMarshal.CreateSpan(ref value, this.index);
+                this.span = MemoryMarshal.CreateSpan(ref value, index);
             }
 #else
             /// <summary>
