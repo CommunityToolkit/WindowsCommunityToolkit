@@ -334,7 +334,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
+        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Memory{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="ReadOnlyMemory{T}"/> instance to check the size for.</param>
