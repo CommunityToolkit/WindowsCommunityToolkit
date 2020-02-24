@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull(name);
+                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T>(name);
             }
         }
 
@@ -82,7 +82,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (value is null)
             {
-                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull(name);
+                ThrowHelper.ThrowArgumentNullExceptionForIsNotNull<T?>(name);
             }
         }
 
@@ -289,7 +289,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!ReferenceEquals(value, target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsReferenceEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForIsReferenceEqualTo<T>(name);
             }
         }
 

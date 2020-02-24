@@ -22,10 +22,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNull{T}"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
+        public static void ThrowArgumentExceptionForIsNull<T>(T value, string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter {name} must be null, was {value}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be null, was \"{value}\" ({value.GetType().ToTypeString()})");
         }
 
         /// <summary>
@@ -35,16 +35,16 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
             where T : struct
         {
-            ThrowArgumentException(name, $"Parameter {name} must be null, was {value}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T?).ToTypeString()}) must be null, was \"{value}\" ({typeof(T).ToTypeString()})");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentNullException"/> when <see cref="Guard.IsNotNull{T}"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentNullExceptionForIsNotNull(string name)
+        public static void ThrowArgumentNullExceptionForIsNotNull<T>(string name)
         {
-            ThrowArgumentNullException(name, $"Parameter {name} must be not null");
+            ThrowArgumentNullException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be not null)");
         }
 #pragma warning restore CS0419
 
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType<T>(object value, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be of type {typeof(T)}, was {value.GetType()}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType(object value, Type type, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be of type {type}, was {value.GetType()}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType<T>(object value, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be assignable to type {typeof(T)}, was {value.GetType()}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType(object value, Type type, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be assignable to type {type}, was {value.GetType()}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
-            ThrowArgumentException(name, $"Parameter {name} must be == {target}, was {value}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be == \"{target}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsNotEqualTo<T>(T value, T target, string name)
             where T : notnull, IEquatable<T>
         {
-            ThrowArgumentException(name, $"Parameter {name} must be != {target}, was {value}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be != \"{target}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -111,27 +111,27 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            ThrowArgumentException(name, $"Parameter {name} is not a bitwise match, was {value.ToHexString()} instead of {target.ToHexString()}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) is not a bitwise match, was \"{value.ToHexString()}\" instead of \"{target.ToHexString()}\"");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsReferenceEqualTo{T}"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(T value, T target, string name)
+        public static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter {name} must be the same instance as the target object");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be the same instance as the target object");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsReferenceNotEqualTo{T}"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(T value, T target, string name)
+        public static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be the same instance as the target object");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must not be the same instance as the target object");
         }
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsTrue(string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be true, was false");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be true, was false");
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsFalse(string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be false, was true");
+            ThrowArgumentException(name, $"Parameter \"{name}\" must be false, was true");
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsLessThan<T>(T value, T max, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {max}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be < \"{max}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsLessThanOrEqualTo<T>(T value, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be <= \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsGreaterThan<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be > \"{minimum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -189,7 +189,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsGreaterThanOrEqualTo<T>(T value, T minimum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be >= \"{minimum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsInRange<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and < {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be >= \"{minimum}\" and < \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -209,7 +209,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsNotInRange<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or >= {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be < \"{minimum}\" or >= \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be > {minimum} and < {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be > \"{minimum}\" and < \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -229,7 +229,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetween<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be <= {minimum} or >= {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be <= \"{minimum}\" or >= \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be >= {minimum} and <= {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be >= \"{minimum}\" and <= \"{maximum}\", was \"{value}\"");
         }
 
         /// <summary>
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
             where T : notnull, IComparable<T>
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name} must be < {minimum} or > {maximum}, was {value}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be < \"{minimum}\" or > \"{maximum}\", was \"{value}\"");
         }
     }
 }
