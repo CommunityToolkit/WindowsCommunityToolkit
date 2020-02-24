@@ -29,6 +29,8 @@ namespace UnitTests.Extensions
         [TestMethod]
         public void Test_TypeExtensions_GenericTypes()
         {
+            Assert.AreEqual("int?", typeof(int?).ToTypeString());
+            Assert.AreEqual("System.DateTime?", typeof(DateTime?).ToTypeString());
             Assert.AreEqual("int[]", typeof(int[]).ToTypeString());
             Assert.AreEqual(typeof(int[,]).ToTypeString(), "int[,]");
             Assert.AreEqual("System.Span<float>", typeof(Span<float>).ToTypeString());

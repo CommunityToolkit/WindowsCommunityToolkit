@@ -61,7 +61,7 @@ namespace Microsoft.Toolkit.Extensions
                     return typeName;
                 }
 
-                // Generic types are displayed as Foo<T>
+                // Generic types
                 if (type.IsGenericType &&
                     type.FullName is { } fullName &&
                     fullName.Split('`') is { } tokens &&
@@ -71,6 +71,13 @@ namespace Microsoft.Toolkit.Extensions
                 {
                     var typeArguments = type.GetGenericArguments().Select(FormatDisplayString);
 
+                    // Nullable<T> types are displayed as T?
+                    if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    {
+                        return $"{typeArguments.First()}?";
+                    }
+
+                    // Standard generic types are displayed as Foo<T>
                     return $"{genericName}<{string.Join(", ", typeArguments)}>";
                 }
 
