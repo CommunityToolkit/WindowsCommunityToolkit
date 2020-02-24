@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNullOrEmpty(string? text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be null or empty, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be null or empty, was \"{text}\"");
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotNullOrEmpty(string? text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be null or empty, was {(text is null ? "null" : "empty")}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must not be null or empty, was {(text is null ? "null" : "empty")}");
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNullOrWhitespace(string? text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be null or whitespace, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be null or whitespace, was \"{text}\"");
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotNullOrWhitespace(string? text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must not be null or whitespace, was {(text is null ? "null" : "whitespace")}");
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsEmpty(string text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be empty, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be empty, was \"{text}\"");
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotEmpty(string text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be empty");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must not be empty");
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsWhitespace(string text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be whitespace, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be whitespace, was \"{text}\"");
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsNotWhitespace(string text, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be whitespace, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must not be whitespace, was \"{text}\"");
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {text.Length} and was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized == {size}, had a size of {text.Length} and was \"{text}\"");
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeNotEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized != {size}, was \"{text}\"");
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeOver(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {text.Length} and was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized > {size}, had a size of {text.Length} and was \"{text}\"");
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeAtLeast(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {text.Length} and was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized >= {size}, had a size of {text.Length} and was \"{text}\"");
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThan(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {text.Length} and was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized < {size}, had a size of {text.Length} and was \"{text}\"");
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {text.Length} and was \"{text}\"");
+            ThrowArgumentException(name, $"Parameter \"{name}\" (string) must be sized <= {size}, had a size of {text.Length} and was \"{text}\"");
         }
     }
 }
