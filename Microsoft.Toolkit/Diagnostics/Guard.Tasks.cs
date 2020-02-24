@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (task.Status == status)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasStatusNotEqualTo(status, name);
+                ThrowHelper.ThrowArgumentExceptionForHasStatusNotEqualTo(task, status, name);
             }
         }
     }
