@@ -21,7 +21,7 @@
 
   <Grid>
     <TextBlock x:Name="IndexInput" x:Load="False" Text="@[Index:Slider:100:0-200]" Visibility="Collapsed"></TextBlock>
-    <TextBlock x:Name="ItemPlacementInput" x:Load="False" Text="@[Item Placement:Enum:ItemPlacement.Bottom]" Visibility="Collapsed"></TextBlock>
+    <TextBlock x:Name="ItemPlacementInput" x:Load="False" Text="@[Item Placement:Enum:ItemPlacement.Default]" Visibility="Collapsed"></TextBlock>
     <TextBlock x:Name="DisableAnimationInput" x:Load="False" Text="@[Disable Animation:Bool:False]" Visibility="Collapsed"></TextBlock>
     <TextBlock x:Name="ScrollIfVisibileInput" x:Load="False" Text="@[Scroll If Visibile:Bool:True]" Visibility="Collapsed"></TextBlock>
     <TextBlock x:Name="AdditionalHorizontalOffsetInput" x:Load="False" Text="@[Additional Horizontal Offset:Slider:0:-500-500]" Visibility="Collapsed"></TextBlock>
