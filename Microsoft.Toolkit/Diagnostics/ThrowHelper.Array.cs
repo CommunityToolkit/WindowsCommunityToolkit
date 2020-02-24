@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsEmpty<T>(T[] array, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter {name} ({typeof(T)}) must be empty, had a size of {array.Length}");
         }
 
         /// <summary>
