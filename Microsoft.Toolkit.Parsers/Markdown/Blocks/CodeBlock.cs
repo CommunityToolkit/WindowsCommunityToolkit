@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse Code Block
+        /// Parse Code Block.
         /// </summary>
         public new class Parser : Parser<CodeBlock>
         {

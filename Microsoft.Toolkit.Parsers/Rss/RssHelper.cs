@@ -236,7 +236,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         }
 
         /// <summary>
-        /// Get the item image from the enclosure element http://www.w3schools.com/rss/rss_tag_enclosure.asp
+        /// Get the item image from the enclosure element http://www.w3schools.com/rss/rss_tag_enclosure.asp.
         /// </summary>
         /// <param name="item">XElement item.</param>
         /// <returns>Feed data image.</returns>
@@ -273,7 +273,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// </summary>
         /// <param name="s">Input string.</param>
         /// <param name="result">Parsed datetime.</param>
-        /// <returns>True if success</returns>
+        /// <returns>True if success.</returns>
         public static bool TryParseDateTime(string s, out DateTime result)
         {
             if (DateTime.TryParse(s, DateTimeFormatInfo.InvariantInfo, DateTimeStyles.AllowWhiteSpaces, out result))

@@ -66,7 +66,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parses Header with Hash
+        /// Parses Header with Hash.
         /// </summary>
         public class HashParser : Parser<HeaderBlock>
         {
@@ -124,7 +124,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse Underline
+        /// Parse Underline.
         /// </summary>
         public class UnderlineParser : Parser<HeaderBlock>
         {

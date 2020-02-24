@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Parsers.Core
         /// Initializes a new instance of the <see cref="StringValueAttribute"/> class.
         /// Constructor accepting string value.
         /// </summary>
-        /// <param name="value">String value</param>
+        /// <param name="value">String value.</param>
         public StringValueAttribute(string value)
         {
             Value = value;

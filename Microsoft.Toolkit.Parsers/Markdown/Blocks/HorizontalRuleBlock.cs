@@ -31,7 +31,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse HorizontalRule
+        /// Parse HorizontalRule.
         /// </summary>
         public new class Parser : Parser<HorizontalRuleBlock>
         {

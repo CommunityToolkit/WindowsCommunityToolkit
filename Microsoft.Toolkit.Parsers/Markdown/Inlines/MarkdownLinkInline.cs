@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <summary>
-            /// This will ignore additional parsers when Parsing the text inside `[` and `]`
+            /// This will ignore additional parsers when Parsing the text inside `[` and `]`.
             /// </summary>
             /// <typeparam name="T">The Type of Inline parser that should not used.</typeparam>
             public void IgnoreParserForBrackedText<T>()

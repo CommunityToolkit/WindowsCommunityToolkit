@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public IList<MarkdownBlock> Blocks { get; set; }
 
         /// <summary>
-        /// Parses QuoteBlock
+        /// Parses QuoteBlock.
         /// </summary>
         public new class Parser : Parser<QuoteBlock>
         {

@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         protected abstract void RenderBoldRun(BoldTextInline element, IRenderContext context);
 
         /// <summary>
-        /// Renders a link element
+        /// Renders a link element.
         /// </summary>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
@@ -82,14 +82,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         protected abstract void RenderSubscriptRun(SubscriptTextInline element, IRenderContext context);
 
         /// <summary>
-        /// Renders a code element
+        /// Renders a code element.
         /// </summary>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>
         protected abstract void RenderCodeRun(CodeInline element, IRenderContext context);
 
         /// <summary>
-        /// Renders an element
+        /// Renders an element.
         /// </summary>
         /// <param name="element"> The parsed inline element to render. </param>
         /// <param name="context"> Persistent state. </param>

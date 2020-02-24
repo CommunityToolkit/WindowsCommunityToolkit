@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
-        /// <returns>the next single line</returns>
+        /// <returns>the next single line.</returns>
         public static int FindNextSingleNewLine(string markdown, int startingPos, int endingPos, out int startOfNextLine)
         {
             // A line can end with CRLF (\r\n) or just LF (\n).
@@ -47,7 +47,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Returns the next \n or \r\n in the markdown.
         /// </summary>
-        /// <returns>the next single line</returns>
+        /// <returns>the next single line.</returns>
         /// <remarks>
         /// If startingPosition is already a linebreak cahracter, this will be ignored. We asume that the position was set to the end of the line (inclunding the linebreak) but we want to find the beginning.
         /// </remarks>
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>
-        /// <returns>Pos of the searched for item</returns>
+        /// <returns>Pos of the searched for item.</returns>
         public static int IndexOf(string markdown, string search, int startingPos, int endingPos, bool reverseSearch = false)
         {
             // Check the ending isn't out of bounds.
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Helper function for index of with a start and an ending.
         /// </summary>
-        /// <returns>Pos of the searched for item</returns>
+        /// <returns>Pos of the searched for item.</returns>
         public static int IndexOf(string markdown, char search, int startingPos, int endingPos, bool reverseSearch = false)
         {
             // Check the ending isn't out of bounds.
@@ -168,7 +168,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Finds the next whitespace in a range.
         /// </summary>
-        /// <returns>pos of the white space</returns>
+        /// <returns>pos of the white space.</returns>
         public static int FindNextWhiteSpace(string markdown, int startingPos, int endingPos, bool ifNotFoundReturnLength)
         {
             int currentPos = startingPos;
@@ -188,7 +188,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Finds the next whitespace in a range.
         /// </summary>
-        /// <returns>pos of the white space</returns>
+        /// <returns>pos of the white space.</returns>
         public static int FindNextNoneWhiteSpace(string markdown, int startingPos, int endingPos, bool ifNotFoundReturnLength)
         {
             int currentPos = startingPos;
@@ -208,7 +208,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Parses lines.
         /// </summary>
-        /// <returns>LineInfo</returns>
+        /// <returns>LineInfo.</returns>
         public static IEnumerable<LineInfo> ParseLines(string markdown, int start, int end)
         {
             int pos = start;

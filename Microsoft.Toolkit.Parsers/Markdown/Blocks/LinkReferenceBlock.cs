@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse LinkReferenceBlock
+        /// Parse LinkReferenceBlock.
         /// </summary>
         public new class Parser : Parser<LinkReferenceBlock>
         {

@@ -96,9 +96,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         }
 
         /// <summary>
-        /// Creates a new Builder
+        /// Creates a new Builder.
         /// </summary>
-        /// <returns>A Builder</returns>
+        /// <returns>A Builder.</returns>
         public static IDocumentBuilder CreateBuilder()
         {
             return new DocumentBuilder();
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Returns a builder with the same configuraiton as the one that created this Document.
         /// </summary>
-        /// <returns>A Builder</returns>
+        /// <returns>A Builder.</returns>
         public DocumentBuilder GetBuilder() => new DocumentBuilder(this.parsersBlock, this.parserDependencysBlock, this.parsersInline, this.parserDependencysInline);
 
         /// <summary>
@@ -327,8 +327,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="markdown"> The markdown text to parse. </param>
         /// <param name="start"> The position to start parsing. </param>
         /// <param name="end"> The position to stop parsing. </param>
-        /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link)</param>
-        /// <returns>Returns the next element</returns>
+        /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
+        /// <returns>Returns the next element.</returns>
         private InlineParseResult FindNextInlineElement(string markdown, int start, int end, IEnumerable<Type> ignoredParsers)
         {
             var parsers = this.parsersInline;
@@ -414,7 +414,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Looks up a reference using the ID.
         /// A reference is a line that looks like this:
-        /// [foo]: http://example.com/
+        /// [foo]: http://example.com/.
         /// </summary>
         /// <param name="id"> The ID of the reference (case insensitive). </param>
         /// <returns> The reference details, or <c>null</c> if the reference wasn't found. </returns>
@@ -521,8 +521,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <param name="nodes">The Factores.</param>
         /// <param name="edges">A dictionary that maps a Parser to all of its incomming (must run before this) Parsers.</param>
-        /// <typeparam name="T">The type to sort</typeparam>
-        /// <returns>The ordered list</returns>
+        /// <typeparam name="T">The type to sort.</typeparam>
+        /// <returns>The ordered list.</returns>
         private static IEnumerable<T> TopologicalSort<T>(IEnumerable<T> nodes, Dictionary<Type, HashSet<Type>> edges)
         {
             // we want to order all elements to get a deterministic result
@@ -749,7 +749,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             /// <summary>
             /// Allows to order a Parsers relative to other Parsers.
             /// </summary>
-            /// <typeparam name="TParser">The type of the Parser</typeparam>
+            /// <typeparam name="TParser">The type of the Parser.</typeparam>
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public class DocumentBuilderBlockConfigurator<TParser> : IDocumentBuilder
                     where TParser : MarkdownBlock.Parser, new()
@@ -773,7 +773,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 /// Defines that the last added Parser will run after <typeparamref name="TParser2"/>.
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse before this one.</typeparam>
-                /// <returns>This Instance</returns>
+                /// <returns>This Instance.</returns>
                 public DocumentBuilderBlockConfigurator<TParser> After<TParser2>()
                     where TParser2 : MarkdownBlock.Parser, new()
                 {
@@ -785,7 +785,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 /// Defines that the last added Parser will run before <typeparamref name="TParser2"/>.
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse after this one.</typeparam>
-                /// <returns>This Instance</returns>
+                /// <returns>This Instance.</returns>
                 public DocumentBuilderBlockConfigurator<TParser> Before<TParser2>()
                     where TParser2 : MarkdownBlock.Parser, new()
                 {
@@ -808,7 +808,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             /// <summary>
             /// Allows to order a Parsers relative to other Parsers.
             /// </summary>
-            /// <typeparam name="TParser">The type of the Parser</typeparam>
+            /// <typeparam name="TParser">The type of the Parser.</typeparam>
             [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
             public class DocumentBuilderInlineConfigurator<TParser> : IDocumentBuilder
                     where TParser : MarkdownInline.Parser, new()
@@ -832,7 +832,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 /// Defines that the last added Parser will run after <typeparamref name="TParser2"/>.
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse before this one.</typeparam>
-                /// <returns>This Instance</returns>
+                /// <returns>This Instance.</returns>
                 public DocumentBuilderInlineConfigurator<TParser> After<TParser2>()
                     where TParser2 : MarkdownInline.Parser, new()
                 {
@@ -844,7 +844,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 /// Defines that the last added Parser will run before <typeparamref name="TParser2"/>.
                 /// </summary>
                 /// <typeparam name="TParser2">The Parser that will guarantee to parse after this one.</typeparam>
-                /// <returns>This Instance</returns>
+                /// <returns>This Instance.</returns>
                 public DocumentBuilderInlineConfigurator<TParser> Before<TParser2>()
                     where TParser2 : MarkdownInline.Parser, new()
                 {

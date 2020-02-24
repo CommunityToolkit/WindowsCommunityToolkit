@@ -15,7 +15,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
     /// ---
     /// title: something
     /// tag: something
-    /// ---
+    /// ---.
     /// </summary>
     public class YamlHeaderBlock : MarkdownBlock
     {
@@ -28,7 +28,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Gets or sets yaml header properties
+        /// Gets or sets yaml header properties.
         /// </summary>
         public Dictionary<string, string> Children { get; set; }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parses YAML header
+        /// Parses YAML header.
         /// </summary>
         public new class Parser : Parser<YamlHeaderBlock>
         {

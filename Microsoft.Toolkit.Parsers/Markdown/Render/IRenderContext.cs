@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <summary>
         /// Clones the Context.
         /// </summary>
-        /// <returns>Clone</returns>
+        /// <returns>Clone.</returns>
         IRenderContext Clone();
     }
 }

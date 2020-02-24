@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// </summary>
             /// <param name="markdown"> The markdown text. </param>
             /// <param name="startingPos"> The position of the start of the row. </param>
-            /// <param name="maxEndingPos"> The maximum position of the end of the row </param>
+            /// <param name="maxEndingPos"> The maximum position of the end of the row. </param>
             /// <param name="requireVerticalBar"> Indicates whether the line must contain a vertical bar. </param>
             /// <param name="contentParser"> Called for each cell. </param>
             /// <returns> The position of the start of the next line. </returns>
@@ -169,7 +169,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the block should find the start of the block, find the end and parse out the middle. The end most of the time will not be
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
-            /// <returns>the postiion parsed to</returns>
+            /// <returns>the postiion parsed to.</returns>
             internal int Parse(string markdown, int startingPos, int maxEndingPos, MarkdownDocument document)
             {
                 Cells = new List<TableCell>();
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parses Tables
+        /// Parses Tables.
         /// </summary>
         public new class Parser : Parser<TableBlock>
         {

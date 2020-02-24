@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownRendererBase"/> class.
         /// </summary>
-        /// <param name="document">Markdown Document to Render</param>
+        /// <param name="document">Markdown Document to Render.</param>
         public MarkdownRendererBase(MarkdownDocument document)
         {
             Document = document;
@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <summary>
         /// Renders all Content to the Provided Parent UI.
         /// </summary>
-        /// <param name="context">UI Context</param>
+        /// <param name="context">UI Context.</param>
         public virtual void Render(IRenderContext context)
         {
             RenderBlocks(Document.Blocks, context);
@@ -174,7 +174,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Render
         /// <summary>
         /// Removes leading whitespace, but only if this is the first run in the block.
         /// </summary>
-        /// <returns>The corrected string</returns>
+        /// <returns>The corrected string.</returns>
         protected string CollapseWhitespace(IRenderContext context, string text)
         {
             bool dontOutputWhitespace = context.TrimLeadingWhitespace;

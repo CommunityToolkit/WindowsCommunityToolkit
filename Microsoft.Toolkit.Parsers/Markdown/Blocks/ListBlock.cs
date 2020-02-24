@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parsing helper method.
         /// </summary>
-        /// <returns>Returns a ListItemPreamble</returns>
+        /// <returns>Returns a ListItemPreamble.</returns>
         private static ListItemPreamble ParseItemPreamble(string markdown, int start, int maxEnd)
         {
             // There are two types of lists.
@@ -98,10 +98,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parsing helper method.
         /// </summary>
-        /// <param name="listItem">The listItem to edit</param>
-        /// <param name="markdown">The markdown text</param>
-        /// <param name="start">The start position</param>
-        /// <param name="end">The end position</param>
+        /// <param name="listItem">The listItem to edit.</param>
+        /// <param name="markdown">The markdown text.</param>
+        /// <param name="start">The start position.</param>
+        /// <param name="end">The end position.</param>
         /// <param name="newLine">True if the text is a new line. Prefixed whitespace is ignored then.</param>
         private static void AppendTextToListItem(ListItemBlock listItem, string markdown, int start, int end, bool newLine = false)
         {
@@ -233,7 +233,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         }
 
         /// <summary>
-        /// Parse ListBlock
+        /// Parse ListBlock.
         /// </summary>
         public new class Parser : Parser<ListBlock>
         {

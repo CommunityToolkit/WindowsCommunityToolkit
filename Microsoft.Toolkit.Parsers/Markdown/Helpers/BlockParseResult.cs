@@ -34,13 +34,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         public int End { get; }
 
         /// <summary>
-        /// Instanciates an BlockParserResult
+        /// Instanciates an BlockParserResult.
         /// </summary>
-        /// <typeparam name="T">The MarkdownBlock type</typeparam>
+        /// <typeparam name="T">The MarkdownBlock type.</typeparam>
         /// <param name="markdownBlock">The parsed Block.</param>
         /// <param name="start">The start of the Block.</param>
         /// <param name="end">The end of the Block.</param>
-        /// <returns>The BlockParseResult</returns>
+        /// <returns>The BlockParseResult.</returns>
         public static BlockParseResult<T> Create<T>(T markdownBlock, int start, int end)
             where T : MarkdownBlock
             => new BlockParseResult<T>(markdownBlock, start, end);

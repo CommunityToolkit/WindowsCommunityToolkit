@@ -48,14 +48,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Gets image width
         /// If value is greater than 0, ImageStretch is set to UniformToFill
-        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
+        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill.
         /// </summary>
         public int ImageWidth { get; internal set; }
 
         /// <summary>
         /// Gets image height
         /// If value is greater than 0, ImageStretch is set to UniformToFill
-        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill
+        /// If both ImageWidth and ImageHeight are greater than 0, ImageStretch is set to Fill.
         /// </summary>
         public int ImageHeight { get; internal set; }
 

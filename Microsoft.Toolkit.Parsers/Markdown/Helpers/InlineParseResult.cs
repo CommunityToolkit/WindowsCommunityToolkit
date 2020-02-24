@@ -34,13 +34,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         public int End { get; }
 
         /// <summary>
-        /// Instanciates an InlineParserResult
+        /// Instanciates an InlineParserResult.
         /// </summary>
-        /// <typeparam name="T">The MarkdownInline type</typeparam>
+        /// <typeparam name="T">The MarkdownInline type.</typeparam>
         /// <param name="markdownInline">The parsed inline.</param>
         /// <param name="start">The start of the inline.</param>
         /// <param name="end">The end of the inline.</param>
-        /// <returns>The InlineParseResult</returns>
+        /// <returns>The InlineParseResult.</returns>
         public static InlineParseResult<T> Create<T>(T markdownInline, int start, int end)
             where T : MarkdownInline
             => new InlineParseResult<T>(markdownInline, start, end);
