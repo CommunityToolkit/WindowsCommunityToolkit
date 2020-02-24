@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Extensions;
 
 #nullable enable
 
@@ -24,7 +25,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be empty, had a size of {memory.Length}");
             }
         }
 
@@ -36,7 +37,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be empty, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be empty, had a size of {memory.Length}");
             }
         }
 
@@ -48,7 +49,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must not be empty");
             }
         }
 
@@ -60,7 +61,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != 0)
             {
-                ThrowArgumentException(name, $"Parameter {name} must not be empty");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must not be empty");
             }
         }
 
@@ -72,7 +73,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized == {size}, had a size of {memory.Length}");
             }
         }
 
@@ -84,7 +85,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length != size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized == {size}, had a size of {memory.Length}");
             }
         }
 
@@ -96,7 +97,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length == size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized != {size}, had a size of {memory.Length}");
             }
         }
 
@@ -108,7 +109,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length == size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized != {size}, had a size of {memory.Length}");
             }
         }
 
@@ -120,7 +121,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized > {size}, had a size of {memory.Length}");
             }
         }
 
@@ -132,7 +133,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length <= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized > {size}, had a size of {memory.Length}");
             }
         }
 
@@ -144,7 +145,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length < size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized >= {size}, had a size of {memory.Length}");
             }
         }
 
@@ -156,7 +157,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length < size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized >= {size}, had a size of {memory.Length}");
             }
         }
 
@@ -168,7 +169,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length >= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized < {size}, had a size of {memory.Length}");
             }
         }
 
@@ -180,7 +181,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length >= size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized < {size}, had a size of {memory.Length}");
             }
         }
 
@@ -192,7 +193,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length > size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized <= {size}, had a size of {memory.Length}");
             }
         }
 
@@ -204,7 +205,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (memory.Length > size)
             {
-                ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {memory.Length}");
+                ThrowArgumentException(name, $"Parameter \"{name}\" ({memory.GetType().ToTypeString()}) must be sized <= {size}, had a size of {memory.Length}");
             }
         }
 
@@ -216,7 +217,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length != destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
+                ThrowArgumentException(name, $"The source \"{name}\" ({source.GetType().ToTypeString()}) must be sized == {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -228,7 +229,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length != destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
+                ThrowArgumentException(name, $"The source \"{name}\" ({source.GetType().ToTypeString()}) must be sized == {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -240,7 +241,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length > destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
+                ThrowArgumentException(name, $"The source \"{name}\" ({source.GetType().ToTypeString()}) must be sized <= {destination.Length}, had a size of {source.Length}");
             }
         }
 
@@ -252,7 +253,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (source.Length > destination.Length)
             {
-                ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
+                ThrowArgumentException(name, $"The source \"{name}\" ({source.GetType().ToTypeString()}) must be sized <= {destination.Length}, had a size of {source.Length}");
             }
         }
     }
