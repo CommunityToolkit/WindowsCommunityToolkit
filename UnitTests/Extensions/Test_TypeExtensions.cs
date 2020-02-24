@@ -31,6 +31,8 @@ namespace UnitTests.Extensions
         {
             Assert.AreEqual("int?", typeof(int?).ToTypeString());
             Assert.AreEqual("System.DateTime?", typeof(DateTime?).ToTypeString());
+            Assert.AreEqual("(int, float)", typeof((int, float)).ToTypeString());
+            Assert.AreEqual("(double?, string, int)?", typeof((double?, string, int)?).ToTypeString());
             Assert.AreEqual("int[]", typeof(int[]).ToTypeString());
             Assert.AreEqual(typeof(int[,]).ToTypeString(), "int[,]");
             Assert.AreEqual("System.Span<float>", typeof(Span<float>).ToTypeString());

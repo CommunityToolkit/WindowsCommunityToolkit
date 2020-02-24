@@ -72,9 +72,23 @@ namespace Microsoft.Toolkit.Extensions
                     var typeArguments = type.GetGenericArguments().Select(FormatDisplayString);
 
                     // Nullable<T> types are displayed as T?
-                    if (type.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    var genericType = type.GetGenericTypeDefinition();
+                    if (genericType == typeof(Nullable<>))
                     {
                         return $"{typeArguments.First()}?";
+                    }
+
+                    // ValueTuple<T1, T2> types are displayed as (T1, T2)
+                    if (genericType == typeof(ValueTuple<>) ||
+                        genericType == typeof(ValueTuple<,>) ||
+                        genericType == typeof(ValueTuple<,,>) ||
+                        genericType == typeof(ValueTuple<,,,>) ||
+                        genericType == typeof(ValueTuple<,,,,>) ||
+                        genericType == typeof(ValueTuple<,,,,,>) ||
+                        genericType == typeof(ValueTuple<,,,,,,>) ||
+                        genericType == typeof(ValueTuple<,,,,,,,>))
+                    {
+                        return $"({string.Join(", ", typeArguments)})";
                     }
 
                     // Standard generic types are displayed as Foo<T>
