@@ -26,7 +26,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanRead)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanRead(name);
+                ThrowHelper.ThrowArgumentExceptionForCanRead(stream, name);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanWrite)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanWrite(name);
+                ThrowHelper.ThrowArgumentExceptionForCanWrite(stream, name);
             }
         }
 
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (!stream.CanSeek)
             {
-                ThrowHelper.ThrowArgumentExceptionForCanSeek(name);
+                ThrowHelper.ThrowArgumentExceptionForCanSeek(stream, name);
             }
         }
 

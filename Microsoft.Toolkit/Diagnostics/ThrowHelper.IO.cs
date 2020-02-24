@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Extensions;
 
 #nullable enable
 
@@ -21,27 +22,27 @@ namespace Microsoft.Toolkit.Diagnostics
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanRead"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForCanRead(string name)
+        public static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name} doesn't support reading");
+            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support reading");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanWrite"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForCanWrite(string name)
+        public static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name} doesn't support writing");
+            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support writing");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.CanSeek"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForCanSeek(string name)
+        public static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name} doesn't support seeking");
+            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support seeking");
         }
 
         /// <summary>
@@ -50,7 +51,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream {name} must be at start position, was at {stream.Position}");
+            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) must be at start position, was at {stream.Position}");
         }
     }
 }
