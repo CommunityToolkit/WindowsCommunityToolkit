@@ -308,7 +308,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (ReferenceEquals(value, target))
             {
-                ThrowHelper.ThrowArgumentExceptionForIsReferenceNotEqualTo(value, target, name);
+                ThrowHelper.ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(name);
             }
         }
 

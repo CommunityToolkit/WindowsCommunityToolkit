@@ -76,7 +76,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(collection, name);
             }
         }
 
@@ -92,7 +92,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(collection, name);
             }
         }
 
@@ -108,7 +108,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (enumerable.Any())
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(name);
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(enumerable, name);
             }
         }
 
@@ -176,7 +176,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
             }
         }
 
@@ -193,7 +193,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (collection.Count == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(collection, size, name);
             }
         }
 
@@ -210,7 +210,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (enumerable.Count() == size)
             {
-                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(size, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(enumerable, size, name);
             }
         }
 
