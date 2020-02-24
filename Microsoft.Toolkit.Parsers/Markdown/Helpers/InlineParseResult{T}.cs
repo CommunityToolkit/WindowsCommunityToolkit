@@ -13,8 +13,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     public class InlineParseResult<T> : InlineParseResult
         where T : MarkdownInline
     {
-        internal InlineParseResult(T parsedElement, int start, int end)
-            : base(parsedElement, start, end)
+        internal InlineParseResult(T parsedElement, int startLine, int startPosition, int length)
+            : base(parsedElement, startLine, startPosition, length)
         {
         }
 

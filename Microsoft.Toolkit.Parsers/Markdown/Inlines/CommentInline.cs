@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<CommentInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CommentInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<CommentInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 if (tripPos >= maxEnd - 1)
                 {

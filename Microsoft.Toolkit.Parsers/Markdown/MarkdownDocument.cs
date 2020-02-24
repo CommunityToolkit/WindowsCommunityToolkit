@@ -268,7 +268,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// parse all found elements out of the range.
         /// </summary>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(string markdown, int startingPos, int maxEndingPos, IEnumerable<Type> ignoredParsers)
+        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, IEnumerable<Type> ignoredParsers)
         {
             int currentParsePosition = startingPos;
 
@@ -301,9 +301,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // If the element we found doesn't start at the position we are looking for there
                 // is text between the element and the start of the parsed element. We need to wrap
                 // it into a text run.
-                if (parseResult.Start != currentParsePosition)
+                if (parseResult.StartLine != currentParsePosition)
                 {
-                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, parseResult.Start, inlines.Count == 0, false);
+                    var textRun = TextRunInline.Parse(markdown, currentParsePosition, parseResult.StartLine, inlines.Count == 0, false);
 
                     if (textRun != null)
                     {
@@ -315,7 +315,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 inlines.Add(parseResult.ParsedElement);
 
                 // Update the current position.
-                currentParsePosition = parseResult.End;
+                currentParsePosition = parseResult.EndLine;
             }
 
             return inlines;
@@ -364,7 +364,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 foreach (var parser in parsers.Where(x => !x.TripChar.Any() || x.TripChar.Contains(currentChar)))
                 {
                     // If we are here we have a possible match. Call into the inline class to verify.
-                    var parseResult = parser.Parse(markdown, start, pos, end, this, ignoredParsers);
+                    var parseResult = parser.Parse(markdown, pos, end, ignoredParsers);
                     if (parseResult != null)
                     {
                         return parseResult;
@@ -400,7 +400,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 foreach (var parser in parsers.Where(x => x.TripChar.Contains(currentChar)))
                 {
                     // If we are here we have a possible match. Call into the inline class to verify.
-                    var parseResult = parser.Parse(markdown, start, pos, end, this, ignoredParsers);
+                    var parseResult = parser.Parse(markdown, pos, end, ignoredParsers);
                     if (parseResult != null)
                     {
                         return parseResult;

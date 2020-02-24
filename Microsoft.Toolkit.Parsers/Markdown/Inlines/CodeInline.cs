@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<CodeInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CodeInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<CodeInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 // Check the first char.
                 if (tripPos == maxEnd || markdown[tripPos] != '`')

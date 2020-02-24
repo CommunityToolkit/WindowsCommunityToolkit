@@ -68,7 +68,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override IEnumerable<char> TripChar => "!";
 
             /// <inheritdoc/>
-            protected override InlineParseResult<ImageInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<ImageInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 // Expect a '!' character.
                 if (tripPos >= maxEnd || markdown[tripPos] != '!')

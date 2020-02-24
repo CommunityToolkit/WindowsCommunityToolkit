@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override IEnumerable<char> TripChar => "~";
 
             /// <inheritdoc/>
-            protected override InlineParseResult<StrikethroughTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<StrikethroughTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 // Check the start sequence.
                 if (tripPos >= maxEnd - 1 || !markdown.AsSpan(tripPos, 2).StartsWith("~~".AsSpan()))

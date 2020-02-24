@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<HorizontalRuleBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HorizontalRuleBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HorizontalRuleBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // A horizontal rule is a line with at least 3 stars, optionally separated by spaces
                 // OR a line with at least 3 dashes, optionally separated by spaces

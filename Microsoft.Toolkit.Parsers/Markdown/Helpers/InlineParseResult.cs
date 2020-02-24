@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using Microsoft.Toolkit.Parsers.Markdown.Inlines;
+using System;
 
 namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
 {
@@ -11,11 +12,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// </summary>
     public abstract class InlineParseResult
     {
-        private protected InlineParseResult(MarkdownInline parsedElement, int start, int end)
+        private protected InlineParseResult(MarkdownInline parsedElement, int startLine, int startPosition, int length)
         {
-            ParsedElement = parsedElement;
-            Start = start;
-            End = end;
+            this.ParsedElement = parsedElement ?? throw new ArgumentNullException(nameof(parsedElement));
+            this.StartLine = startLine;
+            this.StartPosition = startPosition;
+            this.Length = length;
         }
 
         /// <summary>
@@ -26,12 +28,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <summary>
         /// Gets the position of the first character in the parsed element.
         /// </summary>
-        public int Start { get; }
+        public int StartLine { get; }
 
         /// <summary>
-        /// Gets the position of the character after the last character in the parsed element.
+        /// Gets the start position in the line.
         /// </summary>
-        public int End { get; }
+        public int StartPosition { get; }
+
+        /// <summary>
+        /// Gets the number of Characters that were consumed.
+        /// </summary>
+        public int Length { get; }
 
         /// <summary>
         /// Instanciates an InlineParserResult.
@@ -39,10 +46,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <typeparam name="T">The MarkdownInline type.</typeparam>
         /// <param name="markdownInline">The parsed inline.</param>
         /// <param name="start">The start of the inline.</param>
-        /// <param name="end">The end of the inline.</param>
+        /// <param name="length">The end of the inline.</param>
         /// <returns>The InlineParseResult.</returns>
-        public static InlineParseResult<T> Create<T>(T markdownInline, int start, int end)
+        public static InlineParseResult<T> Create<T>(T markdownInline, int startLine, int startPosition, int length)
             where T : MarkdownInline
-            => new InlineParseResult<T>(markdownInline, start, end);
+            => new InlineParseResult<T>(markdownInline, startLine, startPosition, length);
     }
 }

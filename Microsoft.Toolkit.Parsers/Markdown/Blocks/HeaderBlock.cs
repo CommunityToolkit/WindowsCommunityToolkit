@@ -71,7 +71,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public class HashParser : Parser<HeaderBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // This type of header starts with one or more '#' characters, followed by the header
                 // text, optionally followed by any number of hash characters.
@@ -136,7 +136,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
 
             /// <inheritdoc/>
-            protected override BlockParseResult<HeaderBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<HeaderBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 // Check the second line is valid.
                 if (endOfFirstLine <= startOfLine)

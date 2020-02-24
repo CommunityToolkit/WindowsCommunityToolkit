@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             }
 
             /// <inheritdoc/>
-            protected override InlineParseResult<BoldTextInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<BoldTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
                 if (tripPos >= maxEnd - 1)
                 {

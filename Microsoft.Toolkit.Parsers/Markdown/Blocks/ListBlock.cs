@@ -238,7 +238,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         public new class Parser : Parser<ListBlock>
         {
             /// <inheritdoc/>
-            protected override BlockParseResult<ListBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+            protected override BlockParseResult<ListBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var russianDolls = new List<NestedListInfo>();
                 int russianDollIndex = -1;
