@@ -56,9 +56,9 @@ namespace Microsoft.Toolkit.Extensions
             static string FormatDisplayString(Type type)
             {
                 // Primitive types use the keyword name
-                if (BuiltInTypesMap.TryGetValue(type, out string typeName))
+                if (BuiltInTypesMap.TryGetValue(type, out string? typeName))
                 {
-                    return typeName;
+                    return typeName!;
                 }
 
                 // Generic types
@@ -107,8 +107,11 @@ namespace Microsoft.Toolkit.Extensions
                 return type.ToString();
             }
 
-            // Atomically get or build the display string for the current type
-            return DisplayNames.GetValue(type, FormatDisplayString);
+            /* Atomically get or build the display string for the current type.
+             * Manually create a static lambda here to enable caching of the generated closure.
+             * This is a workaround for the missing caching for method group conversions, and should
+             * be removed once this issue is resolved: https://github.com/dotnet/roslyn/issues/5835. */
+            return DisplayNames.GetValue(type, t => FormatDisplayString(t));
         }
     }
 }
