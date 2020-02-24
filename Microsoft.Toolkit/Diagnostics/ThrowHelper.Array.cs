@@ -5,6 +5,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Extensions;
 
 #nullable enable
 
@@ -22,16 +23,16 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsEmpty<T>(T[] array, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} ({typeof(T)}) must be empty, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be empty, had a size of {array.Length}");
         }
 
         /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotEmpty{T}(T[],string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public static void ThrowArgumentExceptionForIsNotEmpty<T>(T[] array, string name)
+        public static void ThrowArgumentExceptionForIsNotEmpty<T>(string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must not be empty");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must not be empty");
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized == {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized == {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -49,7 +50,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeNotEqualTo<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized != {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized != {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -58,7 +59,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeOver<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized > {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized > {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeAtLeast<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized >= {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized >= {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -76,7 +77,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThan<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized < {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized < {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(T[] array, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name} must be sized <= {size}, had a size of {array.Length}");
+            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized <= {size}, had a size of {array.Length}");
         }
 
         /// <summary>
@@ -94,7 +95,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeEqualTo<T>(T[] source, T[] destination, string name)
         {
-            ThrowArgumentException(name, $"The source {name} must be sized == {destination.Length}, had a size of {source.Length}");
+            ThrowArgumentException(name, $"The source \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized == {destination.Length}, had a size of {source.Length}");
         }
 
         /// <summary>
@@ -103,7 +104,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo<T>(T[] source, T[] destination, string name)
         {
-            ThrowArgumentException(name, $"The source {name} must be sized <= {destination.Length}, had a size of {source.Length}");
+            ThrowArgumentException(name, $"The source \"{name}\" ({typeof(T[]).ToTypeString()}) must be sized <= {destination.Length}, had a size of {source.Length}");
         }
     }
 }

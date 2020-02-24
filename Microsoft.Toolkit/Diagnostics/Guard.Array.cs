@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         {
             if (array.Length == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty(array, name);
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<T>(name);
             }
         }
 
