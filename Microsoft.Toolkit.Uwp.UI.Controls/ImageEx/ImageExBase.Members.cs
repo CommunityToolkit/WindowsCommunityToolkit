@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Identifies the <see cref="CornerRadius"/> dependency property.
         /// </summary>
-        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(ControlHelpers.NewCornerRadius(0)));
+        public static new readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(nameof(CornerRadius), typeof(CornerRadius), typeof(ImageExBase), new PropertyMetadata(CornerRadiusHelper.FromUniformRadius(0)));
 
         /// <summary>
         /// Identifies the <see cref="DecodePixelHeight"/> dependency property.
@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a value indicating whether <see cref="EnableLazyLoading"/> is supported
         /// </summary>
-        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Windows.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
+        public static bool IsLazyLoadingSupported { get; } = ApiInformation.IsEventPresent("Microsoft.UI.Xaml.FrameworkElement", nameof(EffectiveViewportChanged));
 
         /// <summary>
         /// Returns a mask that represents the alpha channel of an image as a <see cref="CompositionBrush"/>

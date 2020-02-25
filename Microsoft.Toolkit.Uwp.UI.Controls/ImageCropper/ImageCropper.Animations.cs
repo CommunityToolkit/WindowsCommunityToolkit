@@ -48,11 +48,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new DoubleAnimation()
             {
                 To = to,
-                Duration = new Duration
-                {
-                    TimeSpan = duration,
-                    Type = DurationType.TimeSpan
-                },
+                Duration = DurationHelper.FromTimeSpan(duration),
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -67,11 +63,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             var animation = new PointAnimation()
             {
                 To = to,
-                Duration = new Duration
-                {
-                    TimeSpan = duration,
-                    Type = DurationType.TimeSpan
-                },
+                Duration = DurationHelper.FromTimeSpan(duration),
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -85,11 +77,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var animation = new ObjectAnimationUsingKeyFrames
             {
-                Duration = new Duration
-                {
-                    TimeSpan = duration,
-                    Type = DurationType.TimeSpan
-                },
+                Duration = DurationHelper.FromTimeSpan(duration),
                 EnableDependentAnimation = enableDependentAnimation
             };
 
@@ -129,20 +117,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 };
                 rectKeyframes.Add(new DiscreteObjectKeyFrame
                 {
-                    KeyTime = new KeyTime
-                    {
-                        TimeSpan = time
-                    },
+                    KeyTime = KeyTimeHelper.FromTimeSpan(time),
                     Value = new Rect(startPoint, endPoint)
                 });
             }
 
             rectKeyframes.Add(new DiscreteObjectKeyFrame
             {
-                KeyTime = new KeyTime
-                {
-                    TimeSpan = duration
-                },
+                KeyTime = KeyTimeHelper.FromTimeSpan(duration),
                 Value = to
             });
             return rectKeyframes;

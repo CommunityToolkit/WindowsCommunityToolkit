@@ -5,7 +5,7 @@
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <summary>
-    /// Options for how to calculate the layout of <see cref="Windows.UI.Xaml.Controls.WrapGrid"/> items.
+    /// Options for how to calculate the layout of <see cref="Microsoft.UI.Xaml.Controls.WrapGrid"/> items.
     /// </summary>
     public enum StretchChild
     {

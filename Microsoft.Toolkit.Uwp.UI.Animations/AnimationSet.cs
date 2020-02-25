@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
@@ -346,11 +345,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 var animation = timeline.Value as DoubleAnimation;
                 if (animation != null)
                 {
-                    animation.Duration = new Duration
-                    {
-                        TimeSpan = duration,
-                        Type = DurationType.TimeSpan
-                    };
+                    animation.Duration = DurationHelper.FromTimeSpan(duration);
                 }
             }
 

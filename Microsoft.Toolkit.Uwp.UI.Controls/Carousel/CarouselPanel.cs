@@ -472,11 +472,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             DoubleAnimation timeline = new DoubleAnimation
             {
                 To = toValue,
-                Duration = new Duration
-                {
-                    TimeSpan = TimeSpan.FromMilliseconds(duration),
-                    Type = DurationType.TimeSpan
-                }
+                Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(duration))
             };
 
             if (easingFunction != null)

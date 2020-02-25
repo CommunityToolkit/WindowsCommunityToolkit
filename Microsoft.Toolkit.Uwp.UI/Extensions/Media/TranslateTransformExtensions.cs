@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>Matrix representing transform.</returns>
         public static Matrix GetMatrix(this TranslateTransform transform)
         {
-            return MatrixExtensions.Identity.Translate(transform.X, transform.Y);
+            return MatrixHelper.Identity.Translate(transform.X, transform.Y);
         }
     }
 }

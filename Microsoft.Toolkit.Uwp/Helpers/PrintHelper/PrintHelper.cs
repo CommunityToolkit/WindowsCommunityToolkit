@@ -527,9 +527,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
                 }, Microsoft.System.DispatcherQueuePriority.High);
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         }
 
         private Task ClearPageCache()

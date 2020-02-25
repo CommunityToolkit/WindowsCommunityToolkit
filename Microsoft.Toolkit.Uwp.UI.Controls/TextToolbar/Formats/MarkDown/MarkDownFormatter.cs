@@ -37,7 +37,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
         /// <param name="button">The button pressed</param>
         public void StyleHeader(ToolbarButton button)
         {
-            var list = new ListBox { Margin = ControlHelpers.NewThickness(0), Padding = ControlHelpers.NewThickness(0) };
+            var list = new ListBox { Margin = ThicknessHelper.FromUniformLength(0), Padding = ThicknessHelper.FromUniformLength(0) };
             headerFlyout = new Flyout { Content = list };
 
             string headerVal = "#";
@@ -52,8 +52,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                         IsTextSelectionEnabled = false
                     },
                     Tag = val,
-                    Padding = ControlHelpers.NewThickness(5, 2, 5, 2),
-                    Margin = ControlHelpers.NewThickness(0)
+                    Padding = ThicknessHelper.FromLengths(5, 2, 5, 2),
+                    Margin = ThicknessHelper.FromUniformLength(0)
                 };
                 item.Tapped += HeaderSelected;
                 list.Items.Add(item);
@@ -480,7 +480,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarFormats.MarkDown
                     {
                         Name = TextToolbar.CodeElement,
                         ToolTip = StringExtensions.GetLocalized("TextToolbarStrings_CodeLabel", "Microsoft.Toolkit.Uwp.UI.Controls/Resources"),
-                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = ControlHelpers.NewThickness(0, -5, 0, 0) },
+                        Icon = new FontIcon { Glyph = "{}", FontFamily = new FontFamily("Segoe UI"), Margin = ThicknessHelper.FromLengths(0, -5, 0, 0) },
                         Activation = FormatCode
                     },
                     QuoteButton,

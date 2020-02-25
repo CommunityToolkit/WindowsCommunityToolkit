@@ -21,7 +21,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class UniformGrid : Grid
     {
         // Guard for 15063 as Grid Spacing only works on 16299+.
-        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Windows.UI.Xaml.Controls.Grid", "ColumnSpacing");
+        private static bool _hasGridSpacing = ApiInformation.IsPropertyPresent("Microsoft.UI.Xaml.Controls.Grid", "ColumnSpacing");
 
         // Internal list we use to keep track of items that we don't have space to layout.
         private List<UIElement> _overflow = new List<UIElement>();

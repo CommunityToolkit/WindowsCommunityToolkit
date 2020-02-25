@@ -15,8 +15,6 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// </summary>
     public static class DispatcherHelper
     {
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
-
         /// <summary>
         /// Executes the given function asynchronously on UI thread of the main view.
         /// </summary>
@@ -265,7 +263,5 @@ namespace Microsoft.Toolkit.Uwp.Helpers
                     return (object)null;
                 }, priority);
         }
-
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

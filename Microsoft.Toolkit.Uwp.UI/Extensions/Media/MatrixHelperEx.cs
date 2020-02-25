@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             // WPF equivalent of following code:
             // return Matrix.Multiply(matrix1, matrix2);
-            return MatrixExtensions.NewMatrix(
+            return MatrixHelper.FromElements(
                 (matrix1.M11 * matrix2.M11) + (matrix1.M12 * matrix2.M21),
                 (matrix1.M11 * matrix2.M12) + (matrix1.M12 * matrix2.M22),
                 (matrix1.M21 * matrix2.M11) + (matrix1.M22 * matrix2.M21),
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         /// <returns>The rounded matrix.</returns>
         public static Matrix Round(Matrix matrix, int decimalsAfterRound)
         {
-            return MatrixExtensions.NewMatrix(
+            return MatrixHelper.FromElements(
                 Math.Round(matrix.M11, decimalsAfterRound),
                 Math.Round(matrix.M12, decimalsAfterRound),
                 Math.Round(matrix.M21, decimalsAfterRound),
@@ -62,10 +62,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
         {
             // WPF equivalent of following code:
             // var rectTransformed = Rect.Transform(rect, matrix);
-            Point leftTop = matrix.Transform(new Point(rectangle.Left, rectangle.Top));
-            Point rightTop = matrix.Transform(new Point(rectangle.Right, rectangle.Top));
-            Point leftBottom = matrix.Transform(new Point(rectangle.Left, rectangle.Bottom));
-            Point rightBottom = matrix.Transform(new Point(rectangle.Right, rectangle.Bottom));
+            Point leftTop = MatrixHelper.Transform(matrix, new Point(rectangle.Left, rectangle.Top));
+            Point rightTop = MatrixHelper.Transform(matrix, new Point(rectangle.Right, rectangle.Top));
+            Point leftBottom = MatrixHelper.Transform(matrix, new Point(rectangle.Left, rectangle.Bottom));
+            Point rightBottom = MatrixHelper.Transform(matrix, new Point(rectangle.Right, rectangle.Bottom));
             double left = Math.Min(Math.Min(leftTop.X, rightTop.X), Math.Min(leftBottom.X, rightBottom.X));
             double top = Math.Min(Math.Min(leftTop.Y, rightTop.Y), Math.Min(leftBottom.Y, rightBottom.Y));
             double right = Math.Max(Math.Max(leftTop.X, rightTop.X), Math.Max(leftBottom.X, rightBottom.X));

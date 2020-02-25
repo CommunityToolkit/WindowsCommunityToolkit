@@ -14,7 +14,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
     /// </summary>
     public class BackdropGammaTransferBrush : XamlCompositionBrushBase
     {
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         /// <summary>
         /// Identifies the <see cref="AlphaAmplitude"/> dependency property.
         /// </summary>
@@ -359,7 +358,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = null;
             }
         }
-
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

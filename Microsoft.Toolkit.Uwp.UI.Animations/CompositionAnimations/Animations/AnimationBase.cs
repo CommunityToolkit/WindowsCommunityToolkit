@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using System;
 using Microsoft.UI.Composition;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Hosting;
@@ -26,7 +25,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Duration"/> property
         /// </summary>
         public static readonly DependencyProperty DurationProperty =
-            DependencyProperty.Register(nameof(Duration), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.FromMilliseconds(400), OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Duration), typeof(Duration), typeof(AnimationBase), new PropertyMetadata(DurationHelper.FromTimeSpan(global::System.TimeSpan.FromMilliseconds(400)), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="KeyFrames"/> property
@@ -44,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// Identifies the <see cref="Delay"/> property
         /// </summary>
         public static readonly DependencyProperty DelayProperty =
-            DependencyProperty.Register(nameof(Delay), typeof(TimeSpan), typeof(AnimationBase), new PropertyMetadata(TimeSpan.Zero, OnAnimationPropertyChanged));
+            DependencyProperty.Register(nameof(Delay), typeof(Duration), typeof(AnimationBase), new PropertyMetadata(DurationHelper.FromTimeSpan(global::System.TimeSpan.Zero), OnAnimationPropertyChanged));
 
         /// <summary>
         /// Identifies the <see cref="SetInitialValueBeforeDelay"/> property
@@ -66,14 +65,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Raised when a property changes
         /// </summary>
-        public event EventHandler AnimationChanged;
+        public event global::System.EventHandler AnimationChanged;
 
         /// <summary>
         /// Gets or sets the duration of the animation
         /// </summary>
-        public TimeSpan Duration
+        public Duration Duration
         {
-            get { return (TimeSpan)GetValue(DurationProperty); }
+            get { return (Duration)GetValue(DurationProperty); }
             set { SetValue(DurationProperty, value); }
         }
 
@@ -107,9 +106,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// <summary>
         /// Gets or sets the delay of the animation
         /// </summary>
-        public TimeSpan Delay
+        public Duration Delay
         {
-            get { return (TimeSpan)GetValue(DelayProperty); }
+            get { return (Duration)GetValue(DelayProperty); }
             set { SetValue(DelayProperty, value); }
         }
 
@@ -157,7 +156,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
         /// </summary>
         protected void OnAnimationChanged()
         {
-            AnimationChanged?.Invoke(this, EventArgs.Empty);
+            AnimationChanged?.Invoke(this, global::System.EventArgs.Empty);
         }
 
         /// <summary>

@@ -43,23 +43,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if (e.NewValue is TimeSpan ts)
             {
-                var keyTimeFromAnimationDuration = new KeyTime
-                {
-                    TimeSpan = ts
-                };
+                var keyTimeFromAnimationDuration = KeyTimeHelper.FromTimeSpan(ts);
                 if (d is DoubleKeyFrame dkf)
                 {
-                    dkf.KeyTime = new KeyTime
-                    {
-                        TimeSpan = ts
-                    };
+                    dkf.KeyTime = keyTimeFromAnimationDuration;
                 }
                 else if (d is ObjectKeyFrame okf)
                 {
-                    okf.KeyTime = new KeyTime
-                    {
-                        TimeSpan = ts
-                    };
+                    okf.KeyTime = keyTimeFromAnimationDuration;
                 }
             }
         }

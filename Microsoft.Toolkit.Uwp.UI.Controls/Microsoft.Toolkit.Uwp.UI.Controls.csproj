@@ -56,7 +56,6 @@
     <None Include="$(OutDir)\Design\$(MSBuildProjectName).Design.dll" Pack="true" PackagePath="lib\$(TargetFramework)\Design" />
   </ItemGroup>
  
- <!--
   <ItemGroup>
     <Page Update="ImageCropper\ImageCropper.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -77,7 +76,6 @@
        <Generator>MSBuild:Compile</Generator>
      </Page>
   </ItemGroup>
-  -->
 
   <ItemGroup>
     <PRIResource Include="Strings\en-us\Resources.resw" />

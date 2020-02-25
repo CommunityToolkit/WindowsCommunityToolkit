@@ -194,11 +194,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a <see cref="T:Windows.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.
+        /// Gets a <see cref="T:Microsoft.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new <see cref="T:Windows.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
+        /// <returns>A new <see cref="T:Microsoft.UI.Xaml.Controls.ComboBox"/> control that is bound to the column's ItemsSource collection.</returns>
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);
@@ -291,11 +291,11 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets a read-only <see cref="T:Windows.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
+        /// Gets a read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.
         /// </summary>
         /// <param name="cell">The cell that will contain the generated element.</param>
         /// <param name="dataItem">The data item represented by the row that contains the intended cell.</param>
-        /// <returns>A new, read-only <see cref="T:Windows.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
+        /// <returns>A new, read-only <see cref="T:Microsoft.UI.Xaml.Controls.TextBlock"/> element that is bound to the column's <see cref="P:Microsoft.Toolkit.Uwp.UI.Controls.DataGridBoundColumn.Binding"/> property value.</returns>
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             EnsureColumnBinding(dataItem);
@@ -304,7 +304,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             var textBlockElement = new TextBlock
             {
-                Margin = Extensions.NewThickness(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
+                Margin = ThicknessHelper.FromLengths(DATAGRIDCOMBOBOXCOLUMN_leftMargin, 0.0, DATAGRIDCOMBOBOXCOLUMN_rightMargin, 0.0),
                 VerticalAlignment = VerticalAlignment.Center
             };
 

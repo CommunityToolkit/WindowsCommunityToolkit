@@ -93,6 +93,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Media
                 CompositionBrush = _surfaceBrush;
             }
             */
+            throw new global::System.NotImplementedException("WinUI3");
         }
 
         /*

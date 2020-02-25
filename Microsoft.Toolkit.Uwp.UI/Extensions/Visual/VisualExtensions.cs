@@ -17,7 +17,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
     /// </summary>
     public static class VisualExtensions
     {
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
         /// <summary>
         /// Converts a <see cref="string"/> to <see cref="Vector2"/>
         /// </summary>
@@ -733,7 +732,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             var visual = GetVisual(element);
             visual.Size = value.ToVector2();
         }
-
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
     }
 }

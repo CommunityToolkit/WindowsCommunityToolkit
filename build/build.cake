@@ -148,7 +148,7 @@ Task("Build")
     Information("\nBuilding Solution");
     var buildSettings = new MSBuildSettings
     {
-        MaxCpuCount = 0,
+        MaxCpuCount = 0
     }
     .SetConfiguration("Release")
     .WithTarget("Restore");

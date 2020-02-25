@@ -50,7 +50,7 @@ namespace UnitTests.Converters
             double value = 100;
             var gridView = new AdaptiveGridView();
 
-            var margin = Temp.Helpers.NewThickness(10);
+            var margin = ThicknessHelper.FromUniformLength(10);
             var style = new Style(typeof(GridViewItem));
             style.Setters.Add(new Setter(GridViewItem.MarginProperty, margin));
             gridView.ItemContainerStyle = style;
@@ -74,9 +74,9 @@ namespace UnitTests.Converters
         [UITestMethod]
         public void Convert_GridViewWithPadding_ReturnsHeightPlusPadding()
         {
-            var converter = new AdaptiveHeightValueConverter { DefaultItemMargin = Temp.Helpers.NewThickness(0) };
+            var converter = new AdaptiveHeightValueConverter { DefaultItemMargin = ThicknessHelper.FromUniformLength(0) };
             double value = 100;
-            var gridView = new AdaptiveGridView { ItemContainerStyle = null, Padding = Temp.Helpers.NewThickness(10) };
+            var gridView = new AdaptiveGridView { ItemContainerStyle = null, Padding = ThicknessHelper.FromUniformLength(10) };
             var result = converter.Convert(value, null, gridView, null);
             Assert.AreEqual(result, value + gridView.Padding.Bottom + gridView.Padding.Top);
         }

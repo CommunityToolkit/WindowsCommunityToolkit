@@ -36,7 +36,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdatePreview(x, y);
         }
 
-        private void UpadateWorkArea()
+        private void UpdateWorkArea()
         {
             if (_targetGrid == null)
             {
@@ -53,7 +53,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 var right = Window.Current.Bounds.Width - WorkArea.Right;
                 var top = WorkArea.Top;
                 var bottom = Window.Current.Bounds.Height - WorkArea.Bottom;
-                _targetGrid.Margin = ControlHelpers.NewThickness(left, top, right, bottom);
+                _targetGrid.Margin = ThicknessHelper.FromLengths(left, top, right, bottom);
             }
         }
 

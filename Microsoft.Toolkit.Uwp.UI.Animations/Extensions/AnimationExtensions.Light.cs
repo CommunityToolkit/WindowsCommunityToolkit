@@ -217,9 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 pointLights[visual] = pointLight;
-#pragma warning disable CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
             }, Microsoft.System.DispatcherQueuePriority.Normal);
-#pragma warning restore CS8305 // Type is for evaluation purposes only and is subject to change or removal in future updates.
 
             animationSet.AddAnimationThroughTask(task);
             return animationSet;

@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _rootGrid.Children.Add(this);
             _rootGrid.Width = Window.Current.Bounds.Width;
             _rootGrid.Height = Window.Current.Bounds.Height;
-            UpadateWorkArea();
+            UpdateWorkArea();
             _popup.IsOpen = true;
             var result = await _taskSource.Task;
             _taskSource = null;

@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
     /// <inheritdoc />
     /// <summary>A wrapper class for <see cref="TextBlock.Inlines">TextBlock.Inlines</see> to
-    /// hack the problem that <see cref="Windows.UI.Xaml.Documents.InlineCollection" />.
+    /// hack the problem that <see cref="Microsoft.UI.Xaml.Documents.InlineCollection" />.
     /// has no accessible constructor</summary>
     public class InlineCollectionWrapper : IList<Inline>
     {

@@ -213,11 +213,11 @@
     <value>Notification</value>
     <comment>Name property for InAppNotification</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
+  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Microsoft.UI.Xaml.Automation]AutomationProperties.Name" xml:space="preserve">
     <value>Close tab</value>
     <comment>Narrator Resource for TabView Close Button.</comment>
   </data>
-  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Windows.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
+  <data name="WindowsCommunityToolkit_TabView_CloseButton.[using:Microsoft.UI.Xaml.Controls]ToolTipService.ToolTip" xml:space="preserve">
     <value>Close tab</value>
     <comment>Tooltip for TabView Close Button.</comment>
   </data>

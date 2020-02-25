@@ -240,15 +240,5 @@ namespace Microsoft.Toolkit.Uwp.UI.Utilities
                 _suspendedHandlers[obj][dependencyProperty] = 1;
             }
         }
-
-        internal static Thickness NewThickness(double left, double top, double right, double bottom)
-        {
-            Thickness t = default(Thickness);
-            t.Left = left;
-            t.Top = top;
-            t.Right = right;
-            t.Bottom = bottom;
-            return t;
-        }
     }
 }

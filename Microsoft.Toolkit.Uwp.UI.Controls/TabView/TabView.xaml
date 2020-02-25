@@ -553,7 +553,7 @@
         </Grid>
     </ControlTemplate>
 
-    <!--  Based on Style for Windows.UI.Xaml.Controls.ListViewItem  -->
+    <!--  Based on Style for Microsoft.UI.Xaml.Controls.ListViewItem  -->
     <Style TargetType="local:TabViewItem">
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />

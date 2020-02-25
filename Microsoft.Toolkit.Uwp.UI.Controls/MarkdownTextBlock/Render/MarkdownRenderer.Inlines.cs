@@ -465,7 +465,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
-                Padding = ControlHelpers.NewThickness(0, 0, 0, paragraph.FontSize * 0.2),
+                Padding = ThicknessHelper.FromLengths(0, 0, 0, paragraph.FontSize * 0.2),
                 Child = richTextBlock
             };
 
@@ -512,7 +512,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Markdown.Render
 
             var border = new Border
             {
-                Margin = ControlHelpers.NewThickness(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
+                Margin = ThicknessHelper.FromLengths(0, 0, 0, (-1) * (paragraph.FontSize * 0.6)),
                 Child = richTextBlock
             };
 

@@ -14,12 +14,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     {
         private static bool IsStarColumn(ColumnDefinition definition)
         {
-            return ((GridLength)definition.GetValue(ColumnDefinition.WidthProperty)).IsStar();
+            return GridLengthHelper.GetIsStar((GridLength)definition.GetValue(ColumnDefinition.WidthProperty));
         }
 
         private static bool IsStarRow(RowDefinition definition)
         {
-            return ((GridLength)definition.GetValue(RowDefinition.HeightProperty)).IsStar();
+            return GridLengthHelper.GetIsStar((GridLength)definition.GetValue(RowDefinition.HeightProperty));
         }
 
         private bool SetColumnWidth(ColumnDefinition columnDefinition, double horizontalChange, GridUnitType unitType)
@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newWidth > ActualWidth)
             {
-                columnDefinition.Width = ControlHelpers.NewGridLength(newWidth, unitType);
+                columnDefinition.Width = GridLengthHelper.FromValueAndType(newWidth, unitType);
                 return true;
             }
 
@@ -89,7 +89,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (newHeight > ActualHeight)
             {
-                rowDefinition.Height = ControlHelpers.NewGridLength(newHeight, unitType);
+                rowDefinition.Height = GridLengthHelper.FromValueAndType(newHeight, unitType);
                 return true;
             }
 

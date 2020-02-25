@@ -6,10 +6,10 @@ using System;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.UI.Extensions
 {
-    /*
     /// <summary>
     /// Provides attached dependency properties for interacting with the <see cref="StatusBar"/> on a window (app view).
     /// </summary>
@@ -162,5 +162,4 @@ namespace Microsoft.Toolkit.Uwp.UI.Extensions
             return IsStatusBarSupported ? Windows.UI.ViewManagement.StatusBar.GetForCurrentView() : null;
         }
     }
-    */
 }

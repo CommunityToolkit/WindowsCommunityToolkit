@@ -88,9 +88,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Automation.Peers
         }
 
         /// <summary>
-        /// Gets the control pattern that is associated with the specified Windows.UI.Xaml.Automation.Peers.PatternInterface.
+        /// Gets the control pattern that is associated with the specified Microsoft.UI.Xaml.Automation.Peers.PatternInterface.
         /// </summary>
-        /// <param name="patternInterface">A value from the Windows.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
+        /// <param name="patternInterface">A value from the Microsoft.UI.Xaml.Automation.Peers.PatternInterface enumeration.</param>
         /// <returns>The object that supports the specified pattern, or null if unsupported.</returns>
         protected override object GetPatternCore(PatternInterface patternInterface)
         {

@@ -15,7 +15,7 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1005:Single line comment must begin with a space.", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnLaunched(Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1028:Code must not contain trailing whitespace", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnLaunched(Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1505:An opening brace must not be followed by a blank line.", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnLaunched(Windows.ApplicationModel.Activation.LaunchActivatedEventArgs)")]
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1400:Element 'OnNavigationFailed' must declare an access modifier", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnNavigationFailed(System.Object,Windows.UI.Xaml.Navigation.NavigationFailedEventArgs)")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1400:Element 'OnNavigationFailed' must declare an access modifier", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnNavigationFailed(System.Object,Microsoft.UI.Xaml.Navigation.NavigationFailedEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1515:Single-line comment must be preceded by blank line", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnSuspending(System.Object,Windows.ApplicationModel.SuspendingEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1005:Single line comment must begin with a space.", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.App.OnSuspending(System.Object,Windows.ApplicationModel.SuspendingEventArgs)")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1101:Prefix local calls with this", Justification = "UnitTest", Scope = "member", Target = "~M:UnitTests.Markdown.Parse.BoldTests.Bold_Inline")]
@@ -434,31 +434,3 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1507:Code must not contain multiple blank lines in a row", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.MarkdownLinkTests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1028:Code must not contain trailing whitespace", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.MarkdownLinkTests")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Build", "SA1508:A closing brace must not be preceded by a blank line.", Justification = "UnitTest", Scope = "type", Target = "~T:UnitTests.Markdown.Parse.TableTests")]
-
-namespace Temp
-{
-#pragma warning disable SA1649 // File name must match first type name
-    internal static class Helpers
-#pragma warning restore SA1649 // File name must match first type name
-    {
-        internal static Microsoft.UI.Xaml.Thickness NewThickness(double uniformLength)
-        {
-            Microsoft.UI.Xaml.Thickness t = default(Microsoft.UI.Xaml.Thickness);
-            t.Left = uniformLength;
-            t.Top = uniformLength;
-            t.Right = uniformLength;
-            t.Bottom = uniformLength;
-            return t;
-        }
-
-        internal static Microsoft.UI.Xaml.Thickness NewThickness(double left, double top, double right, double bottom)
-        {
-            Microsoft.UI.Xaml.Thickness t = default(Microsoft.UI.Xaml.Thickness);
-            t.Left = left;
-            t.Top = top;
-            t.Right = right;
-            t.Bottom = bottom;
-            return t;
-        }
-    }
-}

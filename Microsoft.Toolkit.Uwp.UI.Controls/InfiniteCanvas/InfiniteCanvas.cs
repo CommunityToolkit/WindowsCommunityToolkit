@@ -30,8 +30,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         // private InkSynchronizer _inkSync;
 
-        // private Windows.UI.Xaml.Controls.InkToolbarCustomToolButton _enableTextButton;
-        // private Windows.UI.Xaml.Controls.InkToolbarCustomToggleButton _enableTouchInkingButton;
+        // private Microsoft.UI.Xaml.Controls.InkToolbarCustomToolButton _enableTextButton;
+        // private Microsoft.UI.Xaml.Controls.InkToolbarCustomToggleButton _enableTouchInkingButton;
         private InfiniteCanvasTextBox _canvasTextBox;
         private StackPanel _canvasTextBoxTools;
         private ColorPicker _canvasTextBoxColorPicker;
@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private Button _redoButton;
         private Button _eraseAllButton;
 
-        // private Windows.UI.Xaml.Controls.InkToolbar _inkCanvasToolBar;
+        // private Microsoft.UI.Xaml.Controls.InkToolbar _inkCanvasToolBar;
         private Canvas _mainContainer;
         private ScrollViewer _infiniteCanvasScrollViewer;
         private StackPanel _canvasToolbarContainer;
