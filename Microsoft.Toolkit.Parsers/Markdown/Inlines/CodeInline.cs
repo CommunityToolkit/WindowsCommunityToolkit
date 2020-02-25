@@ -33,56 +33,76 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<CodeInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CodeInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<CodeInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
+                if (!tripPos.IsIn(markdown))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
+                }
+
+                var line = markdown[tripPos.Line];
+
                 // Check the first char.
-                if (tripPos == maxEnd || markdown[tripPos] != '`')
+                if (line[tripPos.Column] != '`')
                 {
                     return null;
                 }
 
+                var subBlock = markdown.Slice(tripPos).Slice(1);
+                if (subBlock.LineCount == 0 || subBlock[0].Length == 0)
+                {
+                    return null;
+                }
+
+                int length;
+                int innerLength;
+
                 // There is an alternate syntax that starts and ends with two backticks.
                 // e.g. ``sdf`sdf`` would be "sdf`sdf".
-                int innerStart = tripPos + 1;
-                int innerEnd, end;
-                if (innerStart < maxEnd && markdown[innerStart] == '`')
+                if (line[tripPos.Column + 1] == '`')
                 {
                     // Alternate double back-tick syntax.
-                    innerStart++;
+                    subBlock = subBlock.Slice(1);
 
                     // Find the end of the span.
-                    innerEnd = Common.IndexOf(markdown, "``", innerStart, maxEnd);
-                    if (innerEnd == -1)
+                    var innerEnd = subBlock.IndexOf("``".AsSpan());
+                    if (innerEnd == LineBlockPosition.NotFound)
                     {
                         return null;
                     }
 
-                    end = innerEnd + 2;
+                    // +2 for the first two ticks and +2 for the last two.
+                    length = innerEnd.FromStart + 2 + 2;
+                    innerLength = innerEnd.FromStart;
                 }
                 else
                 {
                     // Standard single backtick syntax.
 
                     // Find the end of the span.
-                    innerEnd = Common.IndexOf(markdown, '`', innerStart, maxEnd);
-                    if (innerEnd == -1)
+                    var innerEnd = subBlock.IndexOf("`".AsSpan());
+                    if (innerEnd == LineBlockPosition.NotFound)
                     {
                         return null;
                     }
 
-                    end = innerEnd + 1;
+                    // +1 for the first tick and +1 for the last.
+                    length = innerEnd.FromStart + 1 + 1;
+                    innerLength = innerEnd.FromStart;
                 }
 
                 // The span must contain at least one character.
-                if (innerStart == innerEnd)
+                if (length == 0)
                 {
                     return null;
                 }
 
                 // We found something!
-                var result = new CodeInline();
-                result.Text = markdown.AsSpan(innerStart, innerEnd - innerStart).Trim(" \t\r\n".AsSpan()).ToString();
-                return InlineParseResult.Create(result, tripPos, end);
+                var result = new CodeInline
+                {
+                    Text = subBlock.Slice(0, innerLength).ToStringBuilder().Replace('\n', ' ').ToString(),
+                };
+                return InlineParseResult.Create(result, tripPos, length);
             }
 
             /// <inheritdoc/>

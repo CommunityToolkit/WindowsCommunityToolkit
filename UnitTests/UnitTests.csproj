@@ -145,6 +145,7 @@
     <Compile Include="Helpers\Test_StorageHelper.cs" />
     <Compile Include="Helpers\Test_StreamHelper.cs" />
     <Compile Include="Helpers\Test_DeepLinkParser.cs" />
+    <Compile Include="Markdown\LineBlockTests.cs" />
     <Compile Include="Markdown\Parse\CustomizingTests.cs" />
     <Compile Include="Markdown\Parse\BoldTests.cs" />
     <Compile Include="Markdown\Parse\CodeTests.cs" />

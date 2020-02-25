@@ -127,13 +127,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// Parses an Inline.
             /// </summary>
             /// <param name="markdown">The markdown text.</param>
-            /// <param name="tripLine">The Line where the tripping char matched.</param>
-            /// <param name="tripPos">The position in the line where the triping char matched.</param>
+            /// <param name="tripPos">The position where the triping char matched.</param>
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
             /// <remarks>May only be called if TripChar is empty or markdown[tripPos] is contained in TripChar.</remarks>
-            public abstract InlineParseResult Parse(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
+            public abstract InlineParseResult Parse(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
 
             /// <summary>
             /// Gets the chars that if found means we might have a match. Empty if Tripchars are not supported.
@@ -152,15 +151,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// Parses an Inline.
             /// </summary>
             /// <param name="markdown">The markdown text.</param>
-            /// <param name="tripLine">The Line where the tripping char matched.</param>
-            /// <param name="tripPos">The position in the line where the triping char matched.</param>
+            /// <param name="tripPos">The position where the triping char matched.</param>
             /// <param name="document">The current parsing document.</param>
             /// <param name="ignoredParsers">Parsers that may not be invoked in subsequent calls.</param>
             /// <returns>The Parsed inline. <code>null</code> if the text does not this inline.</returns>
-            protected abstract InlineParseResult<TInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
+            protected abstract InlineParseResult<TInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers);
 
             /// <inheritdoc/>
-            public sealed override InlineParseResult Parse(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers) => this.ParseInternal(markdown, tripLine, tripPos, document, ignoredParsers);
+            public sealed override InlineParseResult Parse(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers) => this.ParseInternal(markdown, tripPos, document, ignoredParsers);
         }
     }
 }

@@ -31,46 +31,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Attempts to parse a subscript text span.
         /// </summary>
-        public new class Parser : Parser<SubscriptTextInline>
+        public new class Parser : InlineSourundParser<SubscriptTextInline>
         {
-            /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "<";
 
-            /// <inheritdoc/>
-            protected override InlineParseResult<SubscriptTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Parser"/> class.
+            /// </summary>
+            public Parser()
+                : base("<sub>", "</sub>")
             {
-                // Check the first character.
-                // e.g. "<sub>……</sub>"
-                if (maxEnd - tripPos < 5)
-                {
-                    return null;
-                }
-
-                if (!markdown.AsSpan(tripPos, 5).StartsWith("<sub>".AsSpan()))
-                {
-                    return null;
-                }
-
-                int innerStart = tripPos + 5;
-                int innerEnd = Common.IndexOf(markdown, "</sub>", innerStart, maxEnd);
-
-                // if don't have the end character or no character between start and end
-                if (innerEnd == -1 || innerEnd == innerStart)
-                {
-                    return null;
-                }
-
-                // No match if the character after the caret is a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]) || ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                {
-                    return null;
-                }
-
-                // We found something!
-                var result = new SubscriptTextInline();
-                result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                return InlineParseResult.Create(result, tripPos, innerEnd + 6);
             }
+
+            /// <inheritdoc/>
+            protected override SubscriptTextInline MakeInline(List<MarkdownInline> inlines) => new SubscriptTextInline
+            {
+                Inlines = inlines,
+            };
         }
 
         /// <summary>

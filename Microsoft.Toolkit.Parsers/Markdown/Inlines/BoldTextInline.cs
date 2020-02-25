@@ -30,68 +30,41 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Attempts to parse a bold text span.
         /// </summary>
-        public new class Parser : Parser<BoldTextInline>
+        public class ParserAsterix : InlineSourundParser<BoldTextInline>
         {
-            /// <inheritdoc/>
-            protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserAsterix"/> class.
+            /// </summary>
+            public ParserAsterix()
+                : base("**")
             {
-                base.ConfigureDefaults(configuration);
-                configuration.After<BoldItalicTextInline.Parser>();
-                configuration.Before<ItalicTextInline.Parser>();
             }
 
             /// <inheritdoc/>
-            protected override InlineParseResult<BoldTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override BoldTextInline MakeInline(List<MarkdownInline> inlines) => new BoldTextInline
             {
-                if (tripPos >= maxEnd - 1)
-                {
-                    return null;
-                }
+                Inlines = inlines,
+            };
+        }
 
-                // Check the start sequence.
-                var startSequence = markdown.AsSpan(tripPos, 2);
-                if (!startSequence.StartsWith("**".AsSpan()) && !startSequence.StartsWith("__".AsSpan()))
-                {
-                    return null;
-                }
-
-                // Find the end of the span.  The end sequence (either '**' or '__') must be the same
-                // as the start sequence.
-                var innerStart = tripPos + 2;
-                int innerLength = markdown.AsSpan(innerStart, maxEnd - innerStart).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
-                if (innerLength == -1)
-                {
-                    return null;
-                }
-
-                var innerEnd = innerStart + innerLength;
-
-                // The span must contain at least one character.
-                if (innerStart == innerEnd)
-                {
-                    return null;
-                }
-
-                // The first character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]))
-                {
-                    return null;
-                }
-
-                // The last character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                {
-                    return null;
-                }
-
-                // We found something!
-                var result = new BoldTextInline();
-                result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                return InlineParseResult.Create(result, tripPos, innerEnd + 2);
+        /// <summary>
+        /// Attempts to parse a bold text span.
+        /// </summary>
+        public class ParserUnderscore : InlineSourundParser<BoldTextInline>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserUnderscore"/> class.
+            /// </summary>
+            public ParserUnderscore()
+                : base("__")
+            {
             }
 
             /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "*_";
+            protected override BoldTextInline MakeInline(List<MarkdownInline> inlines) => new BoldTextInline
+            {
+                Inlines = inlines,
+            };
         }
 
         /// <summary>

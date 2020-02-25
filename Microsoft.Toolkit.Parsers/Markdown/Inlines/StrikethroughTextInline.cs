@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Toolkit.Parsers.Core;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
@@ -30,51 +31,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Attempts to parse a strikethrough text span.
         /// </summary>
-        public new class Parser : Parser<StrikethroughTextInline>
+        public new class Parser : InlineSourundParser<StrikethroughTextInline>
         {
-            /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "~";
 
-            /// <inheritdoc/>
-            protected override InlineParseResult<StrikethroughTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            /// <summary>
+            /// Initializes a new instance of the <see cref="Parser"/> class.
+            /// </summary>
+            public Parser()
+                : base("~~")
             {
-                // Check the start sequence.
-                if (tripPos >= maxEnd - 1 || !markdown.AsSpan(tripPos, 2).StartsWith("~~".AsSpan()))
-                {
-                    return null;
-                }
-
-                // Find the end of the span.
-                var innerStart = tripPos + 2;
-                int innerEnd = Common.IndexOf(markdown, "~~", innerStart, maxEnd);
-                if (innerEnd == -1)
-                {
-                    return null;
-                }
-
-                // The span must contain at least one character.
-                if (innerStart == innerEnd)
-                {
-                    return null;
-                }
-
-                // The first character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]))
-                {
-                    return null;
-                }
-
-                // The last character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                {
-                    return null;
-                }
-
-                // We found something!
-                var result = new StrikethroughTextInline();
-                result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                return InlineParseResult.Create(result, tripPos, innerEnd + 2);
             }
+
+            /// <inheritdoc/>
+            protected override StrikethroughTextInline MakeInline(List<MarkdownInline> inlines) => new StrikethroughTextInline
+            {
+                Inlines = inlines,
+            };
         }
 
         /// <summary>

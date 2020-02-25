@@ -34,98 +34,81 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <summary>
         /// Attempts to parse a superscript text span.
         /// </summary>
-        public new class Parser : Parser<SuperscriptTextInline>
+        public class ParserTags : InlineSourundParser<SuperscriptTextInline>
         {
-            /// <inheritdoc/>
-            public override IEnumerable<char> TripChar => "<^";
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserTags"/> class.
+            /// </summary>
+            public ParserTags()
+                : base("<sup>", "</sup>")
+            {
+            }
 
             /// <inheritdoc/>
-            protected override InlineParseResult<SuperscriptTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override SuperscriptTextInline MakeInline(List<MarkdownInline> inlines) => new SuperscriptTextInline
             {
+                Inlines = inlines,
+            };
+        }
+
+        /// <summary>
+        /// Attempts to parse a superscript text span.
+        /// </summary>
+        public class ParserTop : Parser<SuperscriptTextInline>
+        {
+            /// <inheritdoc/>
+            public override IEnumerable<char> TripChar => "^";
+
+            /// <inheritdoc/>
+            protected override InlineParseResult<SuperscriptTextInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            {
+                if (!tripPos.IsIn(markdown))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
+                }
+
+                var line = markdown[tripPos.Line];
+
                 // Check the first character.
-                bool isHTMLSequence = false;
-                if (tripPos == maxEnd || (markdown[tripPos] != '^' && markdown[tripPos] != '<'))
+                if (line[tripPos.Column] != '^')
                 {
                     return null;
                 }
 
-                if (markdown[tripPos] != '^')
+                // The content might be enclosed in parentheses.
+                int innerStart = tripPos.Column + 1;
+                int innerEnd, end;
+                if (innerStart < line.Length && line[innerStart] == '(')
                 {
-                    if (maxEnd - tripPos < 5)
-                    {
-                        return null;
-                    }
-                    else if (!markdown.AsSpan(tripPos, 5).StartsWith("<sup>".AsSpan()))
-                    {
-                        return null;
-                    }
-                    else
-                    {
-                        isHTMLSequence = true;
-                    }
-                }
-
-                if (isHTMLSequence)
-                {
-                    int innerStart = tripPos + 5;
-                    int innerEnd, end;
-                    innerEnd = Common.IndexOf(markdown, "</sup>", innerStart, maxEnd);
+                    // Find the end parenthesis.
+                    innerStart++;
+                    innerEnd = line.Slice(innerStart).IndexOf(')') + innerStart;
                     if (innerEnd == -1)
                     {
                         return null;
                     }
 
-                    if (innerEnd == innerStart)
-                    {
-                        return null;
-                    }
-
-                    if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]) || ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                    {
-                        return null;
-                    }
-
-                    // We found something!
-                    end = innerEnd + 6;
-                    var result = new SuperscriptTextInline();
-                    result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                    return InlineParseResult.Create(result, tripPos, end);
+                    end = innerEnd + 1;
                 }
                 else
                 {
-                    // The content might be enclosed in parentheses.
-                    int innerStart = tripPos + 1;
-                    int innerEnd, end;
-                    if (innerStart < maxEnd && markdown[innerStart] == '(')
+                    // Search for the next whitespace character.
+                    innerEnd = Common.FindNextWhiteSpace(line.Slice(innerStart), ifNotFoundReturnLength: true) + innerStart;
+                    if (innerEnd == innerStart)
                     {
-                        // Find the end parenthesis.
-                        innerStart++;
-                        innerEnd = Common.IndexOf(markdown, ')', innerStart, maxEnd);
-                        if (innerEnd == -1)
-                        {
-                            return null;
-                        }
-
-                        end = innerEnd + 1;
-                    }
-                    else
-                    {
-                        // Search for the next whitespace character.
-                        innerEnd = Common.FindNextWhiteSpace(markdown, innerStart, maxEnd, ifNotFoundReturnLength: true);
-                        if (innerEnd == innerStart)
-                        {
-                            // No match if the character after the caret is a space.
-                            return null;
-                        }
-
-                        end = innerEnd;
+                        // No match if the character after the caret is a space.
+                        return null;
                     }
 
-                    // We found something!
-                    var result = new SuperscriptTextInline();
-                    result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                    return InlineParseResult.Create(result, tripPos, end);
+                    end = innerEnd;
                 }
+
+                // We found something!
+                var result = new SuperscriptTextInline
+                {
+                    Inlines = document.ParseInlineChildren(new LineBlock(line.Slice(innerStart, innerEnd)), ignoredParsers),
+                };
+                return InlineParseResult.Create(result, tripPos, end);
             }
         }
 

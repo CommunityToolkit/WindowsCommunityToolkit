@@ -12,11 +12,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// </summary>
     public abstract class InlineParseResult
     {
-        private protected InlineParseResult(MarkdownInline parsedElement, int startLine, int startPosition, int length)
+        private protected InlineParseResult(MarkdownInline parsedElement, LineBlockPosition start, int length)
         {
             this.ParsedElement = parsedElement ?? throw new ArgumentNullException(nameof(parsedElement));
-            this.StartLine = startLine;
-            this.StartPosition = startPosition;
+            this.Start = start;
             this.Length = length;
         }
 
@@ -26,14 +25,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         public MarkdownInline ParsedElement { get; }
 
         /// <summary>
-        /// Gets the position of the first character in the parsed element.
+        /// Gets the start position.
         /// </summary>
-        public int StartLine { get; }
-
-        /// <summary>
-        /// Gets the start position in the line.
-        /// </summary>
-        public int StartPosition { get; }
+        public LineBlockPosition Start { get; }
 
         /// <summary>
         /// Gets the number of Characters that were consumed.
@@ -48,8 +42,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <param name="start">The start of the inline.</param>
         /// <param name="length">The end of the inline.</param>
         /// <returns>The InlineParseResult.</returns>
-        public static InlineParseResult<T> Create<T>(T markdownInline, int startLine, int startPosition, int length)
+        public static InlineParseResult<T> Create<T>(T markdownInline, LineBlockPosition start, int length)
             where T : MarkdownInline
-            => new InlineParseResult<T>(markdownInline, startLine, startPosition, length);
+            => new InlineParseResult<T>(markdownInline, start, length);
     }
 }

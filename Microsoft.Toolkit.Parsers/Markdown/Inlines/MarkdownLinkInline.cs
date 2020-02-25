@@ -53,28 +53,36 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override IEnumerable<char> TripChar => "[";
 
             /// <inheritdoc/>
-            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<MarkdownLinkInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
+                if (!tripPos.IsIn(markdown))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
+                }
+
+                var line = markdown[tripPos.Line];
+
+
                 // Expect a '[' character.
-                if (tripPos == maxEnd || markdown[tripPos] != '[')
+                if (line[tripPos.Column] != '[')
                 {
                     return null;
                 }
 
                 // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
-                int linkTextOpen = tripPos + 1;
+                int linkTextOpen = tripPos.Column + 1;
                 int pos = linkTextOpen;
                 int linkTextClose;
                 int openSquareBracketCount = 0;
                 while (true)
                 {
-                    linkTextClose = markdown.IndexOfAny(new char[] { '[', ']' }, pos, maxEnd - pos);
+                    linkTextClose = line.Slice(pos).IndexOfAny(new char[] { '[', ']' }) + pos;
                     if (linkTextClose == -1)
                     {
                         return null;
                     }
 
-                    if (markdown[linkTextClose] == '[')
+                    if (line[linkTextClose] == '[')
                     {
                         openSquareBracketCount++;
                     }
@@ -92,23 +100,23 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 // Skip whitespace.
                 pos = linkTextClose + 1;
-                while (pos < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
+                while (pos < line.Length && ParseHelpers.IsMarkdownWhiteSpace(line[pos]))
                 {
                     pos++;
                 }
 
-                if (pos == maxEnd)
+                if (pos == line.Length)
                 {
                     return null;
                 }
 
                 // Expect the '(' character or the '[' character.
                 int linkOpen = pos;
-                if (markdown[pos] == '(')
+                if (line[pos] == '(')
                 {
                     // Skip whitespace.
                     linkOpen++;
-                    while (linkOpen < maxEnd && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkOpen]))
+                    while (linkOpen < line.Length && ParseHelpers.IsMarkdownWhiteSpace(line[linkOpen]))
                     {
                         linkOpen++;
                     }
@@ -117,9 +125,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     pos = linkOpen;
                     int linkClose = -1;
                     var openParenthesis = 0;
-                    while (pos < maxEnd)
+                    while (pos < line.Length)
                     {
-                        if (markdown[pos] == ')')
+                        if (line[pos] == ')')
                         {
                             if (openParenthesis == 0)
                             {
@@ -132,7 +140,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                             }
                         }
 
-                        if (markdown[pos] == '(')
+                        if (line[pos] == '(')
                         {
                             openParenthesis++;
                         }
@@ -140,7 +148,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                         pos++;
                     }
 
-                    if (pos >= maxEnd)
+                    if (pos >= line.Length)
                     {
                         return null;
                     }
@@ -148,7 +156,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     int end = linkClose + 1;
 
                     // Skip whitespace backwards.
-                    while (linkClose > linkOpen && ParseHelpers.IsMarkdownWhiteSpace(markdown[linkClose - 1]))
+                    while (linkClose > linkOpen && ParseHelpers.IsMarkdownWhiteSpace(line[linkClose - 1]))
                     {
                         linkClose--;
                     }
@@ -162,9 +170,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     // Check if there is tooltip text.
                     string url;
                     string tooltip = null;
-                    bool lastUrlCharIsDoubleQuote = markdown[linkClose - 1] == '"';
-                    int tooltipStart = Common.IndexOf(markdown, " \"", linkOpen, linkClose - 1);
-                    if (tooltipStart == linkOpen || markdown[linkOpen] == '\"')
+                    bool lastUrlCharIsDoubleQuote = line[linkClose - 1] == '"';
+                    int tooltipStart = line.Slice(linkOpen, linkClose - 1).IndexOf(" \"".AsSpan()) + linkOpen;
+                    if (tooltipStart == linkOpen || line[linkOpen] == '\"')
                     {
                         return null;
                     }
@@ -172,13 +180,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     if (lastUrlCharIsDoubleQuote && tooltipStart != -1)
                     {
                         // Extract the URL (resolving any escape sequences).
-                        url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, tooltipStart).TrimEnd(' ', '\t', '\r', '\n');
-                        tooltip = markdown.Substring(tooltipStart + 2, (linkClose - 1) - (tooltipStart + 2));
+                        url = TextRunInline.ResolveEscapeSequences(line.Slice(linkOpen, tooltipStart)).TrimEnd(' ', '\t', '\r', '\n');
+                        tooltip = line.Slice(tooltipStart + 2, (linkClose - 1) - (tooltipStart + 2)).ToString();
                     }
                     else
                     {
                         // Extract the URL (resolving any escape sequences).
-                        url = TextRunInline.ResolveEscapeSequences(markdown, linkOpen, linkClose);
+                        url = TextRunInline.ResolveEscapeSequences(line.Slice(linkOpen, linkClose));
                     }
 
                     // Check the URL is okay.
@@ -197,16 +205,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     // We found a regular stand-alone link.
                     var result = new MarkdownLinkInline
                     {
-                        Inlines = document.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoredParsers.Concat(IgnoredSubParsers)),
+                        Inlines = document.ParseInlineChildren(new LineBlock(line.Slice(linkTextOpen, linkTextClose)), ignoredParsers.Concat(IgnoredSubParsers)),
                         Url = url,
                         Tooltip = tooltip
                     };
                     return InlineParseResult.Create(result, tripPos, end);
                 }
-                else if (markdown[pos] == '[')
+                else if (line[pos] == '[')
                 {
                     // Find the ']' character.
-                    int linkClose = Common.IndexOf(markdown, ']', pos + 1, maxEnd);
+                    int linkClose = line.Slice(pos + 1, line.Length).IndexOf("]".AsSpan()) + pos + 1;
                     if (linkClose == -1)
                     {
                         return null;
@@ -215,10 +223,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     // We found a reference-style link.
                     var result = new MarkdownLinkInline
                     {
-                        Inlines = document.ParseInlineChildren(markdown, linkTextOpen, linkTextClose, ignoredParsers.Concat(IgnoredSubParsers)),
+                        Inlines = document.ParseInlineChildren(new LineBlock(line.Slice(linkTextOpen, linkTextClose)), ignoredParsers.Concat(IgnoredSubParsers)),
                         ReferenceId = linkClose - (linkOpen + 1) > 0
-                            ? markdown.Substring(linkOpen + 1, linkClose - (linkOpen + 1))
-                            : markdown.Substring(linkTextOpen, linkTextClose - linkTextOpen)
+                            ? line.Slice(linkOpen + 1, linkClose - (linkOpen + 1)).ToString()
+                            : line.Slice(linkTextOpen, linkTextClose - linkTextOpen).ToString(),
                     };
 
                     return InlineParseResult.Create(result, tripPos, linkClose + 1);

@@ -32,36 +32,38 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<CommentInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<CommentInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<CommentInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                if (tripPos >= maxEnd - 1)
+                if (!tripPos.IsIn(markdown))
                 {
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
                 }
 
-                var startSequence = markdown.AsSpan(tripPos);
+                var line = markdown[tripPos.Line];
+
+                var startSequence = line.Slice(tripPos.Column);
                 if (!startSequence.StartsWith("<!--".AsSpan()))
                 {
                     return null;
                 }
 
                 // Find the end of the span.  The end sequence ('-->')
-                var innerStart = tripPos + 4;
-                int innerEnd = Common.IndexOf(markdown, "-->", innerStart, maxEnd);
-                if (innerEnd == -1)
+                var subBlock = markdown.Slice(tripPos).Slice(4);
+
+                var innerEnd = subBlock.IndexOf("-->".AsSpan());
+                if (innerEnd == LineBlockPosition.NotFound)
                 {
                     return null;
                 }
 
-                var length = innerEnd - innerStart;
-                var contents = markdown.Substring(innerStart, length);
+                var contents = subBlock.Slice(0, innerEnd.FromStart).ToString();
 
                 var result = new CommentInline
                 {
-                    Text = contents
+                    Text = contents,
                 };
 
-                return InlineParseResult.Create(result, tripPos, innerEnd + 3);
+                return InlineParseResult.Create(result, tripPos, innerEnd.FromStart + 3);
             }
 
             /// <inheritdoc/>

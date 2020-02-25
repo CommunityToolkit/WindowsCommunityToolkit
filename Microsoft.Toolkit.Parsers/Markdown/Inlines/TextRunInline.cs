@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 
@@ -475,21 +476,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// Parses unformatted text.
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The location to start parsing. </param>
-        /// <param name="end"> The location to stop parsing. </param>
         /// <returns> A parsed text span. </returns>
-        internal static string ResolveEscapeSequences(string markdown, int start, int end)
+        internal static string ResolveEscapeSequences(ReadOnlySpan<char> markdown)
         {
             // Handle escape sequences only.
             // Note: this code is designed to be as fast as possible in the case where there are no
             // escape sequences (expected to be the common case).
             StringBuilder result = null;
-            int textPos = start;
-            int searchPos = start;
-            while (searchPos < end)
+            int textPos = 0;
+            int searchPos = 0;
+            while (searchPos < markdown.Length)
             {
                 // Look for the next backslash.
-                int sequenceStartIndex = markdown.IndexOf('\\', searchPos, end - searchPos);
+                int sequenceStartIndex = markdown.Slice(searchPos).IndexOf('\\') + searchPos;
                 if (sequenceStartIndex == -1)
                 {
                     break;
@@ -498,7 +497,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 searchPos = sequenceStartIndex + 1;
 
                 // This is an escape sequence, with one more character expected.
-                if (sequenceStartIndex >= end - 1)
+                if (sequenceStartIndex >= markdown.Length - 1)
                 {
                     break;
                 }
@@ -514,21 +513,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // This here's an escape sequence!
                 if (result == null)
                 {
-                    result = new StringBuilder(end - start);
+                    result = new StringBuilder(markdown.Length);
                 }
 
-                result.Append(markdown, textPos, sequenceStartIndex - textPos);
+                result.Append(markdown.Slice(textPos, sequenceStartIndex - textPos));
                 result.Append(decodedChar);
                 searchPos = textPos = sequenceStartIndex + 2;
             }
 
             if (result != null)
             {
-                result.Append(markdown.Substring(textPos, end - textPos));
+                result.Append(markdown.Slice(textPos));
                 return result.ToString();
             }
 
-            return markdown.Substring(start, end - start);
+            return markdown.ToString();
         }
 
         /// <summary>

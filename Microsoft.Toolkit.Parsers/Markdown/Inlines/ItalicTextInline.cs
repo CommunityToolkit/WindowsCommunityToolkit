@@ -36,47 +36,98 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             public override IEnumerable<char> TripChar => "*_";
 
             /// <inheritdoc/>
-            protected override InlineParseResult<ItalicTextInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<ItalicTextInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                // Check the first char.
-                char startChar = markdown[tripPos];
-                if (tripPos == maxEnd || (startChar != '*' && startChar != '_'))
+                if (!tripPos.IsIn(markdown))
+                {
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
+                }
+
+                var line = markdown[tripPos.Line];
+
+                // Check the start sequence.
+                var startSequence = line.Slice(tripPos.Column, 2);
+                if (!startSequence.StartsWith("*".AsSpan()) && !startSequence.StartsWith("_".AsSpan()))
                 {
                     return null;
                 }
 
-                // Find the end of the span.  The end character (either '*' or '_') must be the same as
-                // the start character.
-                var innerStart = tripPos + 1;
-                int innerEnd = Common.IndexOf(markdown, startChar, tripPos + 1, maxEnd);
-                if (innerEnd == -1)
+                // Find the end of the span.  The end sequence (either '**' or '__') must be the same
+                // as the start sequence.
+                var subBlock = markdown.Slice(tripPos).Slice(1);
+                var endPosition = subBlock.IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
+                if (endPosition == LineBlockPosition.NotFound)
                 {
                     return null;
                 }
+
+                var innerBlock = subBlock.Slice(endPosition);
 
                 // The span must contain at least one character.
-                if (innerStart == innerEnd)
+                if (innerBlock.TextLength == 0)
                 {
                     return null;
                 }
 
                 // The first character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]))
+                if (ParseHelpers.IsMarkdownWhiteSpace(innerBlock[0][0]))
                 {
                     return null;
                 }
 
                 // The last character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
+                if (ParseHelpers.IsMarkdownWhiteSpace(innerBlock[innerBlock.LineCount - 1][innerBlock[innerBlock.LineCount - 1].Length - 1]))
                 {
                     return null;
                 }
 
                 // We found something!
                 var result = new ItalicTextInline();
-                result.Inlines = document.ParseInlineChildren(markdown, innerStart, innerEnd, ignoredParsers);
-                return InlineParseResult.Create(result, tripPos, innerEnd + 1);
+                result.Inlines = document.ParseInlineChildren(innerBlock, ignoredParsers);
+                return InlineParseResult.Create(result, tripPos, endPosition.FromStart + 1);
             }
+        }
+
+
+
+        /// <summary>
+        /// Attempts to parse a bold text span.
+        /// </summary>
+        public class ParserAsterix : InlineSourundParser<ItalicTextInline>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserAsterix"/> class.
+            /// </summary>
+            public ParserAsterix()
+                : base("*")
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override ItalicTextInline MakeInline(List<MarkdownInline> inlines) => new ItalicTextInline
+            {
+                Inlines = inlines,
+            };
+        }
+
+        /// <summary>
+        /// Attempts to parse a bold text span.
+        /// </summary>
+        public class ParserUnderscore : InlineSourundParser<ItalicTextInline>
+        {
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ParserUnderscore"/> class.
+            /// </summary>
+            public ParserUnderscore()
+                : base("_")
+            {
+            }
+
+            /// <inheritdoc/>
+            protected override ItalicTextInline MakeInline(List<MarkdownInline> inlines) => new ItalicTextInline
+            {
+                Inlines = inlines,
+            };
         }
 
         /// <summary>

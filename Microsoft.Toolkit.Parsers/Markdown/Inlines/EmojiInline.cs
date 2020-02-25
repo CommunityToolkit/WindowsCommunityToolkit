@@ -28,54 +28,41 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         public new class Parser : Parser<EmojiInline>
         {
             /// <inheritdoc/>
-            protected override InlineParseResult<EmojiInline> ParseInternal(LineBlock markdown, int tripLine, int tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<EmojiInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                if (tripPos >= maxEnd - 1)
+                if (!tripPos.IsIn(markdown))
                 {
-                    return null;
+                    throw new ArgumentOutOfRangeException(nameof(tripPos));
                 }
 
+                var line = markdown[tripPos.Line];
+
                 // Check the start sequence.
-                var startSequence = markdown.AsSpan(tripPos, 1);
+                var startSequence = line.Slice(tripPos.Column, 1);
                 if (!startSequence.StartsWith(":".AsSpan()))
                 {
                     return null;
                 }
 
                 // Find the end of the span.
-                var innerStart = tripPos + 1;
-                int innerLength = markdown.AsSpan(innerStart, maxEnd - innerStart).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
+                int innerLength = line.Slice(tripPos.Column + 1).IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
                 if (innerLength == -1)
                 {
                     return null;
                 }
 
-                var innerEnd = innerStart + innerLength;
-
                 // The span must contain at least one character.
-                if (innerStart == innerEnd)
+                if (innerLength == 0)
                 {
                     return null;
                 }
 
-                // The first character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerStart]))
-                {
-                    return null;
-                }
-
-                // The last character inside the span must NOT be a space.
-                if (ParseHelpers.IsMarkdownWhiteSpace(markdown[innerEnd - 1]))
-                {
-                    return null;
-                }
-
-                var emojiName = markdown.Substring(innerStart, innerEnd - innerStart);
+                var emojiName = line.Slice(tripPos.Column + 1, innerLength).ToString();
 
                 if (_emojiCodesDictionary.TryGetValue(emojiName, out var emojiCode))
                 {
                     var result = new EmojiInline { Text = char.ConvertFromUtf32(emojiCode), Type = MarkdownInlineType.Emoji };
-                    return InlineParseResult.Create(result, tripPos, innerEnd + 1);
+                    return InlineParseResult.Create(result, tripPos, innerLength + 1);
                 }
 
                 return null;
