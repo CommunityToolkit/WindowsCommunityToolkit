@@ -32,14 +32,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private void AdaptiveGridViewControl_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private void AdaptiveGridViewControl_SelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             SelectedItemCountTextBlock.Text = adaptiveGridViewControl.SelectedItems.Any()
                 ? $"You have selected {adaptiveGridViewControl.SelectedItems.Count} items."
                 : "You haven't selected any items";
         }
 
-        private async void AdaptiveGridViewControl_ItemClick(object sender, Windows.UI.Xaml.Controls.ItemClickEventArgs e)
+        private async void AdaptiveGridViewControl_ItemClick(object sender, Microsoft.UI.Xaml.Controls.ItemClickEventArgs e)
         {
             if (e.ClickedItem != null)
             {

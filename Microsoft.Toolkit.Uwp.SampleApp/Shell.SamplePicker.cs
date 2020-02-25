@@ -59,7 +59,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         private void HideSamplePicker()
         {
-            SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            SamplePickerGrid.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             _selectedCategory = null;
 
             var noop = SetNavViewSelection();
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return;
             }
 
-            if (SamplePickerGrid.Visibility == Windows.UI.Xaml.Visibility.Visible &&
+            if (SamplePickerGrid.Visibility == Microsoft.UI.Xaml.Visibility.Visible &&
                 SamplePickerGridView.ItemsSource is Sample[] currentSamples &&
                 currentSamples.Count() == samples.Count() &&
                 currentSamples.Except(samples).Count() == 0)
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 SamplePickerGridView.SelectedItem = null;
             }
 
-            SamplePickerGrid.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            SamplePickerGrid.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
         }
 
         private void NavView_ItemInvoked(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewItemInvokedEventArgs args)
@@ -149,12 +149,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private void ContentShadow_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void ContentShadow_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideSamplePicker();
         }
 
-        private void MoreInfoCanvas_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void MoreInfoCanvas_Tapped(object sender, Microsoft.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             HideMoreInfo();
         }
@@ -207,12 +207,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
             if (itemContainer.Content != CurrentSample && itemIndex >= 0 && itemIndex >= itemsPanel.FirstVisibleIndex && itemIndex <= itemsPanel.LastVisibleIndex)
             {
-                var staggerDelay = TimeSpan.FromMilliseconds(relativeIndex * 30);
+                var staggerDelay = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(relativeIndex * 30));
 
                 var animationCollection = new AnimationCollection()
                 {
-                    new OpacityAnimation() { From = 0, To = 1, Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
-                    new ScaleAnimation() { From = "0.9", To = "1", Duration = TimeSpan.FromMilliseconds(400), Delay = staggerDelay }
+                    new OpacityAnimation() { From = 0, To = 1, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(400)), Delay = staggerDelay, SetInitialValueBeforeDelay = true },
+                    new ScaleAnimation() { From = "0.9", To = "1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(400)), Delay = staggerDelay }
                 };
 
                 VisualExtensions.SetNormalizedCenterPoint(itemContainer, "0.5");
@@ -221,20 +221,20 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
         }
 
-        private void ItemContainer_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void ItemContainer_PointerExited(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             var panel = (sender as FrameworkElement).FindDescendant<DropShadowPanel>();
             if (panel != null)
             {
-                var animation = new OpacityAnimation() { To = 0, Duration = TimeSpan.FromMilliseconds(1200) };
+                var animation = new OpacityAnimation() { To = 0, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(1200)) };
                 animation.StartAnimation(panel);
 
-                var parentAnimation = new ScaleAnimation() { To = "1", Duration = TimeSpan.FromMilliseconds(1200) };
+                var parentAnimation = new ScaleAnimation() { To = "1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(1200)) };
                 parentAnimation.StartAnimation(panel.Parent as UIElement);
             }
         }
 
-        private void ItemContainer_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void ItemContainer_PointerEntered(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (e.Pointer.PointerDeviceType == Windows.Devices.Input.PointerDeviceType.Mouse)
             {
@@ -242,10 +242,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 if (panel != null)
                 {
                     panel.Visibility = Visibility.Visible;
-                    var animation = new OpacityAnimation() { To = 1, Duration = TimeSpan.FromMilliseconds(600) };
+                    var animation = new OpacityAnimation() { To = 1, Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(600)) };
                     animation.StartAnimation(panel);
 
-                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = TimeSpan.FromMilliseconds(600) };
+                    var parentAnimation = new ScaleAnimation() { To = "1.1", Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(600)) };
                     parentAnimation.StartAnimation(panel.Parent as UIElement);
                 }
             }
@@ -318,7 +318,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             if (MoreInfoImage != null && MoreInfoContent.DataContext != null)
             {
                 var animation = ConnectedAnimationService.GetForCurrentView().GetAnimation("sample_icon");
-                if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
+                if (ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.Animation.DirectConnectedAnimationConfiguration"))
                 {
                     animation.Configuration = new DirectConnectedAnimationConfiguration();
                 }

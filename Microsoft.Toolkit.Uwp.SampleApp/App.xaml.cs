@@ -7,13 +7,13 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.SamplePages;
 using Microsoft.Toolkit.Uwp.SampleApp.Styles;
-using Microsoft.UI.ViewManagement;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.System.Profile;
+using Windows.UI.ViewManagement;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp
 {
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 }
                 catch (Exception ex)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Error processing protocol launch: {ex.ToString()}");
+                    global::System.Diagnostics.Debug.WriteLine($"Error processing protocol launch: {ex.ToString()}");
                 }
             }
         }
@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             deferral.Complete();
         }
 
-        private async System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
+        private async global::System.Threading.Tasks.Task RunAppInitialization(string launchParameters)
         {
             ThemeInjector.InjectThemeResources(Application.Current.Resources);
 

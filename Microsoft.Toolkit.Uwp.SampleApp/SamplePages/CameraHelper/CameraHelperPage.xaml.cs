@@ -115,7 +115,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             CurrentFrameImage.Opacity = success ? 1 : 0.5;
         }
 
-        private async void CaptureButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void CaptureButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             var softwareBitmap = _currentVideoFrame?.SoftwareBitmap;
 

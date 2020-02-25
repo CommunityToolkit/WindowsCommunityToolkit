@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             this.Loaded += MarkdownParserPage_Loaded;
         }
 
-        private void MarkdownParserPage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void MarkdownParserPage_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             UpdateMDResult();
         }

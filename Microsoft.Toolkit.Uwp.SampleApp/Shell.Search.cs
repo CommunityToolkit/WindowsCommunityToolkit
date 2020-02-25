@@ -64,7 +64,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             UpdateSearchSuggestions();
         }
 
-        private void SearchBox_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void SearchBox_KeyDown(object sender, Microsoft.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Down)
             {

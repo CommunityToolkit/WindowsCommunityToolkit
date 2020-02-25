@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             NavigateToSample(e.ClickedItem as Sample);
         }
 
-        private void SamplePickerGridView_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void SamplePickerGridView_Loaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             SamplePickerGrid.RegisterPropertyChangedCallback(UIElement.VisibilityProperty, (s, args) =>
             {

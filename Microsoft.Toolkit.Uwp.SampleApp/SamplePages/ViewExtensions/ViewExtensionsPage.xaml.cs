@@ -29,8 +29,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             ApplicationViewExtensions.SetTitle(this, string.Empty);
 
-            var lightGreyBrush = (Color)Application.Current.Resources["Grey-04"];
-            var brandColor = (Color)Application.Current.Resources["Brand-Color"];
+            var lightGreyBrush = (Windows.UI.Color)Application.Current.Resources["Grey-04"];
+            var brandColor = (Windows.UI.Color)Application.Current.Resources["Brand-Color"];
 
             TitleBarExtensions.SetButtonBackgroundColor(this, brandColor);
             TitleBarExtensions.SetButtonForegroundColor(this, lightGreyBrush);

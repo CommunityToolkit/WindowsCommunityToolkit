@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 }
                 else
                 {
-                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
+                    _ttb.SuggestedItemsSource = _samples.Where((item) => item.Text.Contains(sender.Text, global::System.StringComparison.CurrentCultureIgnoreCase)).OrderByDescending(item => item.Text);
                 }
             }
         }
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void TokenItemCreating(object sender, TokenItemCreatingEventArgs e)
         {
             // Take the user's text and convert it to our data type.
-            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, System.StringComparison.CurrentCultureIgnoreCase));
+            e.Item = _samples.FirstOrDefault((item) => item.Text.Contains(e.TokenText, global::System.StringComparison.CurrentCultureIgnoreCase));
         }
 
         private void TokenItemAdded(TokenizingTextBox sender, TokenizingTextBoxItem args)

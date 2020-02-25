@@ -64,18 +64,18 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 var grid = new Grid()
                 {
-                    Margin = new Thickness(0, 0, -38, 0)
+                    Margin = ThicknessHelper.FromLengths(0, 0, -38, 0)
                 };
 
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.FromValueAndType(1, GridUnitType.Star) });
+                grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.Auto });
 
                 // Text part
                 var textBlock = new TextBlock
                 {
                     Text = "Do you like it?",
                     VerticalAlignment = VerticalAlignment.Center,
-                    Margin = new Thickness(0, 0, 24, 0),
+                    Margin = ThicknessHelper.FromLengths(0, 0, 24, 0),
                     FontSize = 16
                 };
                 grid.Children.Add(textBlock);
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                     Width = 120,
                     Height = 40,
                     FontSize = 16,
-                    Margin = new Thickness(4, 0, 0, 0)
+                    Margin = ThicknessHelper.FromLengths(4, 0, 0, 0)
                 };
                 noButton.Click += NoButton_Click;
                 stackPanel.Children.Add(noButton);

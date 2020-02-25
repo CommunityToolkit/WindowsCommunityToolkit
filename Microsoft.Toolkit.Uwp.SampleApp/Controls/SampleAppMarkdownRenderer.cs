@@ -171,16 +171,16 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     // Creates a Header to specify Language and provide a copy button.
                     var headerGrid = new Grid
                     {
-                        Background = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0))
+                        Background = new SolidColorBrush(Windows.UI.Color.FromArgb(50, 0, 0, 0))
                     };
                     headerGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                    headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+                    headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLengthHelper.Auto });
 
                     var languageBlock = new TextBlock
                     {
                         Text = language,
                         VerticalAlignment = VerticalAlignment.Center,
-                        Margin = new Thickness(10, 0, 0, 0)
+                        Margin = ThicknessHelper.FromLengths(10, 0, 0, 0)
                     };
                     headerGrid.Children.Add(languageBlock);
 
@@ -332,22 +332,22 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 // Gets the current Quote Block UI from the UI Collection, and then styles it. Adds a header.
                 if (collection.Last() is Border border)
                 {
-                    border.CornerRadius = new CornerRadius(6);
-                    border.BorderThickness = new Thickness(0);
-                    border.Padding = new Thickness(20);
-                    border.Margin = new Thickness(0, 5, 0, 5);
+                    border.CornerRadius = CornerRadiusHelper.FromUniformRadius(6);
+                    border.BorderThickness = ThicknessHelper.FromUniformLength(0);
+                    border.Padding = ThicknessHelper.FromUniformLength(20);
+                    border.Margin = ThicknessHelper.FromLengths(0, 5, 0, 5);
                     border.Background = localbackground;
 
                     if (theme == ElementTheme.Light)
                     {
-                        border.BorderThickness = new Thickness(0.5);
+                        border.BorderThickness = ThicknessHelper.FromUniformLength(0.5);
                         border.BorderBrush = localforeground;
                     }
 
                     var headerPanel = new StackPanel
                     {
                         Orientation = Orientation.Horizontal,
-                        Margin = new Thickness(0, 0, 0, 10)
+                        Margin = ThicknessHelper.FromLengths(0, 0, 0, 10)
                     };
 
                     headerPanel.Children.Add(new TextBlock
@@ -362,7 +362,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     {
                         FontSize = 16,
                         Foreground = localforeground,
-                        Margin = new Thickness(5, 0, 0, 0),
+                        Margin = ThicknessHelper.FromLengths(5, 0, 0, 0),
                         Text = header,
                         VerticalAlignment = VerticalAlignment.Center,
                         TextLineBounds = TextLineBounds.Tight,
@@ -429,9 +429,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     IdentifierReplacement = "Note",
                     Glyph = NoteGlyph,
-                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 217, 246, 255)),
-                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 109, 140)),
-                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 69, 89))
+                    LightBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 217, 246, 255)),
+                    LightForeground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 109, 140)),
+                    DarkBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 69, 89))
                 }
             },
             {
@@ -440,9 +440,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     IdentifierReplacement = "Tip",
                     Glyph = "\uEA80",
-                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 233, 250, 245)),
-                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 0, 100, 73)),
-                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 0, 49, 36))
+                    LightBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 233, 250, 245)),
+                    LightForeground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 100, 73)),
+                    DarkBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 0, 49, 36))
                 }
             },
             {
@@ -451,9 +451,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     IdentifierReplacement = "Warning",
                     Glyph = "\uEA39",
-                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 253, 237, 238)),
-                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 126, 17, 22)),
-                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 67, 9, 12))
+                    LightBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 253, 237, 238)),
+                    LightForeground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 126, 17, 22)),
+                    DarkBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 67, 9, 12))
                 }
             },
             {
@@ -462,9 +462,9 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                 {
                     IdentifierReplacement = "Important",
                     Glyph = NoteGlyph,
-                    LightBackground = new SolidColorBrush(Color.FromArgb(255, 238, 233, 248)),
-                    LightForeground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94)),
-                    DarkBackground = new SolidColorBrush(Color.FromArgb(255, 53, 30, 94))
+                    LightBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 238, 233, 248)),
+                    LightForeground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 53, 30, 94)),
+                    DarkBackground = new SolidColorBrush(Windows.UI.Color.FromArgb(255, 53, 30, 94))
                 }
             },
             {

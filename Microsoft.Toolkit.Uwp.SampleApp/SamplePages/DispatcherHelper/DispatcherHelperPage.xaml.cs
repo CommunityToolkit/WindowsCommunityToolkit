@@ -22,7 +22,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 int returnedFromUIThread = await DispatcherHelper.ExecuteOnUIThreadAsync<int>(() =>
                 {
                     NormalTextBlock.Text = "Updated from a random thread!";
-                    return 1;
+                    return Task.FromResult(1);
                 });
 
                 return returnedFromUIThread + 1;

@@ -10,7 +10,7 @@ private void Previewer_LinkClicked(object sender, LinkClickedEventArgs e)
     }
 }
 
-private void EditZone_TextChanged(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+private void EditZone_TextChanged(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
 {
     string text = Toolbar.Formatter?.Text;
     Previewer.Text = string.IsNullOrWhiteSpace(text) ? "Nothing to Preview" : text;

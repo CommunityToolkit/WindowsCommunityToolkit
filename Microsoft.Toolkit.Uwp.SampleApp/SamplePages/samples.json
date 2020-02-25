@@ -333,7 +333,7 @@
         "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls/InfiniteCanvas",
         "XamlCodeFile": "InfiniteCanvas.bind",
         "Icon": "/SamplePages/InfiniteCanvas/InfiniteCanvas.png",
-        "ApiCheck": "Windows.UI.Xaml.Controls.ColorPicker",
+        "ApiCheck": "Microsoft.UI.Xaml.Controls.ColorPicker",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/InfiniteCanvas.md"
       },
@@ -920,7 +920,7 @@
         "XamlCodeFile": "BackdropBlurBrushXaml.bind",
         "Icon": "/SamplePages/BackdropBlurBrush/BackdropBlurBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropBlurBrush.md"
       },
       {
@@ -931,7 +931,7 @@
         "XamlCodeFile": "BackdropInvertBrushXaml.bind",
         "Icon": "/SamplePages/BackdropInvertBrush/BackdropInvertBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropInvertBrush.md"
       },
       {
@@ -942,7 +942,7 @@
         "XamlCodeFile": "BackdropGammaTransferBrushXaml.bind",
         "Icon": "/SamplePages/BackdropGammaTransferBrush/BackdropGammaTransferBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropGammaTransferBrush.md"
       },
       {
@@ -953,7 +953,7 @@
         "XamlCodeFile": "BackdropSaturationBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSaturationBrush/BackdropSaturationBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSaturationBrush.md"
       },
       {
@@ -964,7 +964,7 @@
         "XamlCodeFile": "BackdropSepiaBrushXaml.bind",
         "Icon": "/SamplePages/BackdropSepiaBrush/BackdropSepiaBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/BackdropSepiaBrush.md"
       },
       {
@@ -975,7 +975,7 @@
         "XamlCodeFile": "ImageBlendBrushXaml.bind",
         "Icon": "/SamplePages/ImageBlendBrush/ImageBlendBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/ImageBlendBrush.md"
       },
       {
@@ -986,7 +986,7 @@
         "XamlCodeFile": "RadialGradientBrushXaml.bind",
         "Icon": "/SamplePages/RadialGradientBrush/RadialGradientBrush.png",
         "BadgeUpdateVersionRequired": "Creators Update required",
-        "ApiCheck": "Windows.UI.Xaml.Media.XamlCompositionBrushBase",
+        "ApiCheck": "Microsoft.UI.Xaml.Media.XamlCompositionBrushBase",
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/brushes/RadialGradientBrush.md"
       }
     ]
@@ -1095,31 +1095,31 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/extensions/OnDeviceMarkup.md"
       }
     ]
-  },
-  {
-    "Name": "Gaze",
-    "Icon": "Icons/DeveloperTools.png",
-    "Samples": [
-      {
-        "Name": "GazeInteraction",
-        "Type": "GazeInteractionPage",
-        "About": "Demonstrate the properties and events of the Gaze Interaction library",
-        "XamlCodeFile": "GazeInteractionXaml.bind",
-        "CodeFile": "GazeInteractionCode.bind",
-        "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
-        "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
-        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
-      },
-      {
-        "Name": "GazeTracing",
-        "Type": "GazeTracingPage",
-        "About": "Shows how to use the Windows 10 API for eye trackers",
-        "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
-        "XamlCodeFile": "GazeTracingXaml.bind",
-        "CodeFile": "GazeTracingCode.bind",
-        "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
-        "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
-      }
-    ]
-  }
+  }//,
+  //{
+  //  "Name": "Gaze",
+  //  "Icon": "Icons/DeveloperTools.png",
+  //  "Samples": [
+  //    {
+  //      "Name": "GazeInteraction",
+  //      "Type": "GazeInteractionPage",
+  //      "About": "Demonstrate the properties and events of the Gaze Interaction library",
+  //      "XamlCodeFile": "GazeInteractionXaml.bind",
+  //      "CodeFile": "GazeInteractionCode.bind",
+  //      "Icon": "/SamplePages/GazeInteraction/GazeInteraction.png",
+  //      "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/gaze/GazeInteractionLibrary.md",
+  //      "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+  //    },
+  //    {
+  //      "Name": "GazeTracing",
+  //      "Type": "GazeTracingPage",
+  //      "About": "Shows how to use the Windows 10 API for eye trackers",
+  //      "CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.Input.Gaze/",
+  //      "XamlCodeFile": "GazeTracingXaml.bind",
+  //      "CodeFile": "GazeTracingCode.bind",
+  //      "Icon": "/SamplePages/GazeTracing/GazeTracing.png",
+  //      "ApiCheck": "Windows.Devices.Input.Preview.GazeInputSourcePreview"
+  //    }
+  //  ]
+  //}
 ]

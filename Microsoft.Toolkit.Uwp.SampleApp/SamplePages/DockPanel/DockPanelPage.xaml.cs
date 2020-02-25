@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             const int maxColor = 255;
             var childStackPanel = new StackPanel
             {
-                Background = new SolidColorBrush(Color.FromArgb(
+                Background = new SolidColorBrush(Windows.UI.Color.FromArgb(
                                     (byte)Rand.Next(0, maxColor),
                                     (byte)Rand.Next(0, maxColor),
                                     (byte)Rand.Next(0, maxColor),
@@ -106,7 +106,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _sampleDockPanel.Children.Add(childStackPanel);
         }
 
-        private void ChildStackPanel_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void ChildStackPanel_PointerPressed(object sender, Microsoft.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             _sampleDockPanel.Children.Remove((StackPanel)sender);
         }

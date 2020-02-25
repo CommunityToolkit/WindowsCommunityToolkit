@@ -1057,10 +1057,11 @@
                             <Grid x:Name="ButtonHolderGrid" Grid.Row="1">
                                 <Button x:Name="NavigationViewBackButton"
                                         Height="48"
-                                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                                        
                                         VerticalAlignment="Center"
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TemplateSettings.BackButtonVisibility}"
                                         IsEnabled="{TemplateBinding IsBackEnabled}"/>
+                                <!-- Removed on WinUI3 Style="{StaticResource NavigationBackButtonNormalStyle}"-->
 
                                 <Button
                                     x:Name="TogglePaneButton"

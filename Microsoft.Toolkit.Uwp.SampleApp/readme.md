@@ -169,7 +169,7 @@ The value is a string which is the fully-qualified typename to check for the pre
     {
         //...
         "About": "MySample needs 10.0.16299 or higher to work.",
-        "ApiCheck": "Windows.UI.Xaml.Controls.NavigationView",
+        "ApiCheck": "Microsoft.UI.Xaml.Controls.NavigationView",
         "BadgeUpdateVersionRequired": "Fall Creators Update required",
         //...
     }

@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.Toolkit.Graph.Converters;
 using Microsoft.Toolkit.Graph.Providers;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
+//using Microsoft.Toolkit.Uwp.Input.GazeInteraction;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         /// <summary>
         /// Gets the Page Type.
         /// </summary>
-        public Type PageType => System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
+        public Type PageType => global::System.Type.GetType("Microsoft.Toolkit.Uwp.SampleApp.SamplePages." + Type);
 
         /// <summary>
         /// Gets or sets the Category Name.
@@ -393,7 +393,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 {
                     if (proxy[option.Name] is ValueHolder value)
                     {
-                        var newString = value.Value is Windows.UI.Xaml.Media.SolidColorBrush brush ?
+                        var newString = value.Value is Microsoft.UI.Xaml.Media.SolidColorBrush brush ?
                                             brush.Color.ToString() : value.Value.ToString();
 
                         result = result.Replace(option.OriginalString, newString);
@@ -639,7 +639,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
         private static Type LookForTypeByName(string typeName)
         {
             // First search locally
-            var result = System.Type.GetType(typeName);
+            var result = global::System.Type.GetType(typeName);
 
             if (result != null)
             {
@@ -705,15 +705,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             }
 
             // Search in Microsoft.Toolkit.Uwp.Input.GazeInteraction
-            var gazeType = Interaction.Enabled;
-            assembly = gazeType.GetType().GetTypeInfo().Assembly;
-            foreach (var typeInfo in assembly.ExportedTypes)
-            {
-                if (typeInfo.Name == typeName)
-                {
-                    return typeInfo;
-                }
-            }
+            //var gazeType = Interaction.Enabled;
+            //assembly = gazeType.GetType().GetTypeInfo().Assembly;
+            //foreach (var typeInfo in assembly.ExportedTypes)
+            //{
+            //    if (typeInfo.Name == typeName)
+            //    {
+            //        return typeInfo;
+            //    }
+            //}
 
             // Search in Microsoft.Toolkit.Uwp.UI.Controls.DataGrid
             var dataGridProxyType = DataGridGridLinesVisibility.None;

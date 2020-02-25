@@ -58,7 +58,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _wrapPanelCollection.Remove(item);
         }
 
-        private void AddButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void AddButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             _wrapPanelCollection.Add(new PhotoDataItemWithDimension
             {
@@ -69,7 +69,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
-        private void AddFixedButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void AddFixedButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             _wrapPanelCollection.Add(new PhotoDataItemWithDimension
             {
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             });
         }
 
-        private void SwitchButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void SwitchButton_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (_itemControl.FindDescendant<WrapPanel>() is var sampleWrapPanel)
             {

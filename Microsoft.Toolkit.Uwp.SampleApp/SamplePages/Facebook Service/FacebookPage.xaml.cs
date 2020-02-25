@@ -175,7 +175,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             PhotoScroller.Visibility = Visibility.Collapsed;
         }
 
-        private async void PhotoGridView_SelectionChanged(object sender, Windows.UI.Xaml.Controls.SelectionChangedEventArgs e)
+        private async void PhotoGridView_SelectionChanged(object sender, Microsoft.UI.Xaml.Controls.SelectionChangedEventArgs e)
         {
             SampleController.Current.DisplayWaitRing = true;
 

@@ -148,8 +148,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Pages
                     {
                         From = 0,
                         To = 1,
-                        Duration = TimeSpan.FromMilliseconds(300),
-                        Delay = TimeSpan.FromMilliseconds(counter++ * delay),
+                        Duration = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(300)),
+                        Delay = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(counter++ * delay)),
                         SetInitialValueBeforeDelay = true
                     });
                 }

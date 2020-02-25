@@ -6,11 +6,11 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.Graphics.Printing;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             }
         }
 
-        private async void Print_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void Print_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             SampleController.Current.DisplayWaitRing = true;
 
@@ -105,7 +105,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions);
         }
 
-        private async void DirectPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void DirectPrint_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             SampleController.Current.DisplayWaitRing = true;
 
@@ -126,7 +126,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             await _printHelper.ShowPrintUIAsync("Windows Community Toolkit Sample App", printHelperOptions, true);
         }
 
-        private async void CustomPrint_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void CustomPrint_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
         {
             if (customPrintTemplate == null)
             {
@@ -145,12 +145,12 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             foreach (var item in PrintSampleItems)
             {
                 var grid = new Grid();
-                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-                grid.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.Auto });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.FromValueAndType(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition() { Height = GridLengthHelper.Auto });
 
                 // Static header
-                var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = new Thickness(0, 0, 0, 20) };
+                var header = new TextBlock { Text = "Windows Community Toolkit Sample App - Print Helper - Custom Print", Margin = ThicknessHelper.FromLengths(0, 0, 0, 20) };
                 Grid.SetRow(header, 0);
                 grid.Children.Add(header);
 
@@ -163,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
                 // Footer with page number
                 pageNumber++;
-                var footer = new TextBlock { Text = string.Format("page {0}", pageNumber), Margin = new Thickness(0, 20, 0, 0) };
+                var footer = new TextBlock { Text = string.Format("page {0}", pageNumber), Margin = ThicknessHelper.FromLengths(0, 20, 0, 0) };
                 Grid.SetRow(footer, 2);
                 grid.Children.Add(footer);
 

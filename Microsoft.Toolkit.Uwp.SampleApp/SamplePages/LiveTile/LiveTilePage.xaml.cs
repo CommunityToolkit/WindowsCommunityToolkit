@@ -6,12 +6,12 @@ using System;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Microsoft.Toolkit.Uwp.SampleApp.Common;
 using Microsoft.Toolkit.Uwp.SampleApp.Models;
-using Microsoft.UI.StartScreen;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-using NotificationsVisualizerLibrary;
+//using NotificationsVisualizerLibrary;
 using Windows.UI.Notifications;
+using Windows.UI.StartScreen;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -158,22 +158,24 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _tileContent = GenerateTileContent("MasterHip", "Assets/Photos/Owl.jpg");
 
             // Prepare and update the preview tiles
-            var previewTiles = new PreviewTile[] { MediumPreviewTile, WidePreviewTile, LargePreviewTile };
-            foreach (var tile in previewTiles)
-            {
-                tile.DisplayName = "Xbox";
-                tile.VisualElements.BackgroundColor = Constants.ApplicationBackgroundColor;
-                tile.VisualElements.ShowNameOnSquare150x150Logo = true;
-                tile.VisualElements.ShowNameOnSquare310x310Logo = true;
-                tile.VisualElements.ShowNameOnWide310x150Logo = true;
-                tile.VisualElements.Square44x44Logo = Constants.Square44x44Logo;
-                tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
-                tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
-                tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
-                var dontWait = tile.UpdateAsync(); // Commit changes (no need to await)
-
-                tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
-            }
+            //var previewTiles = new PreviewTile[] { 
+            //    MediumPreviewTile, WidePreviewTile, LargePreviewTile
+            //};
+            //foreach (var tile in previewTiles)
+            //{
+            //    tile.DisplayName = "Xbox";
+            //    tile.VisualElements.BackgroundColor = Constants.ApplicationBackgroundColor;
+            //    tile.VisualElements.ShowNameOnSquare150x150Logo = true;
+            //    tile.VisualElements.ShowNameOnSquare310x310Logo = true;
+            //    tile.VisualElements.ShowNameOnWide310x150Logo = true;
+            //    tile.VisualElements.Square44x44Logo = Constants.Square44x44Logo;
+            //    tile.VisualElements.Square150x150Logo = Constants.Square150x150Logo;
+            //    tile.VisualElements.Wide310x150Logo = Constants.Wide310x150Logo;
+            //    tile.VisualElements.Square310x310Logo = Constants.Square310x310Logo;
+            //    var dontWait = tile.UpdateAsync(); // Commit changes (no need to await)
+            //
+            //    tile.CreateTileUpdater().Update(new TileNotification(_tileContent.GetXml()));
+            //}
         }
     }
 }

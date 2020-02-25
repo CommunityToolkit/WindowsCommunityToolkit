@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {
     public sealed partial class PropertyControl
     {
-        private static Dictionary<Color, string> _colorNames;
+        private static Dictionary<Windows.UI.Color, string> _colorNames;
 
         private Sample _currentSample;
 
@@ -28,10 +28,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
         {
             if (_colorNames == null)
             {
-                _colorNames = new Dictionary<Color, string>();
+                _colorNames = new Dictionary<Windows.UI.Color, string>();
                 foreach (var color in typeof(Colors).GetRuntimeProperties())
                 {
-                    _colorNames[(Color)color.GetValue(null)] = color.Name;
+                    _colorNames[(Windows.UI.Color)color.GetValue(null)] = color.Name;
                 }
             }
 
@@ -202,7 +202,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
                     }
 
                     controlToAdd.SetBinding(dependencyProperty, binding);
-                    controlToAdd.Margin = new Thickness(0, 5, 0, 20);
+                    controlToAdd.Margin = ThicknessHelper.FromLengths(0, 5, 0, 20);
                     RootPanel.Children.Add(controlToAdd);
                 }
             }

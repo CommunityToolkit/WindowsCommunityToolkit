@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System.Linq;
 using Microsoft.UI;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Media;
@@ -17,11 +18,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Styles
 
         public static void InjectThemeResources(ResourceDictionary dict)
         {
-            var themes = dict.MergedDictionaries[0];
+            var themes = dict.MergedDictionaries.FirstOrDefault(d => d.Source.AbsoluteUri.Contains("Themes.xaml"));
             darkTheme = themes.ThemeDictionaries["Dark"] as ResourceDictionary;
             lightTheme = themes.ThemeDictionaries["Light"] as ResourceDictionary;
 
-            if (ApiInformation.IsTypePresent("Windows.UI.Xaml.Media.AcrylicBrush"))
+            if (ApiInformation.IsTypePresent("Microsoft.UI.Xaml.Media.AcrylicBrush"))
             {
                 AddAcrylic(new ThemeAcrylic
                 {

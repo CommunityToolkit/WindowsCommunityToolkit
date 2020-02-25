@@ -41,7 +41,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
                 range,
                 new IModelDecorationOptions() { IsWholeLine = true, ClassName = _errorStyle, HoverMessage = new string[] { error.Message }.ToMarkdownString() }));
-
+            
             // Show Glyph Icon
             XamlCodeRenderer.Decorations.Add(new IModelDeltaDecoration(
                 range,
@@ -123,7 +123,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 
         private CssLineStyle _errorStyle = new CssLineStyle()
         {
-            BackgroundColor = new SolidColorBrush(Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
+            BackgroundColor = new SolidColorBrush(Windows.UI.Color.FromArgb(0x00, 0xFF, 0xD6, 0xD6))
         };
 
         private CssGlyphStyle _errorIconStyle = new CssGlyphStyle()

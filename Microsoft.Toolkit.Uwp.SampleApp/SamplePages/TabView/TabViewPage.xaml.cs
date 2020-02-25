@@ -6,9 +6,11 @@ using System;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Popups;
+using TabView = Microsoft.Toolkit.Uwp.UI.Controls.TabView;
+using TabViewItem = Microsoft.Toolkit.Uwp.UI.Controls.TabViewItem;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
