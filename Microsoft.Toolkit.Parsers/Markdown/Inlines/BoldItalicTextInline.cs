@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // Find the end of the span.  The end sequence (either '***' or '___') must be the same
                 // as the start sequence.
                 var innerStart = tripPos + 3;
-                var subBlock = markdown.Slice(tripLine).RemoveFromStart(innerStart);
+                var subBlock = markdown.SliceLines(tripLine).RemoveFromStart(innerStart);
 
                 var endPosition = subBlock.IndexOf(startSequence, StringComparison.OrdinalIgnoreCase);
 
@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                var innerBlock = subBlock.Slice(0, endPosition.line + 1).RemoveFromEnd(subBlock.Lines[endPosition.line].Length - endPosition.posInLine);
+                var innerBlock = subBlock.SliceLines(0, endPosition.line + 1).RemoveFromEnd(subBlock.Lines[endPosition.line].Length - endPosition.posInLine);
 
                 // The span must contain at least one character.
                 if (innerBlock.LineCount > 0 && innerBlock.Lines[0].Length > 0)

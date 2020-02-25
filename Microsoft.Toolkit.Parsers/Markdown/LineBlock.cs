@@ -19,6 +19,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
         private readonly ReadOnlySpan<char> text;
 
+        private readonly int start;
+        private readonly int fromEnd;
+
         /// <summary>
         /// Gets the number of lines in this Block.
         /// </summary>
@@ -27,7 +30,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Gets a single line.
         /// </summary>
-        public LineWrapper Lines => new LineWrapper(this);
+        public ReadOnlySpan<char> this[int line]
+        {
+            get
+            {
+                if (line == 0)
+                {
+                    return this.text.Slice(this.lines[line].start + this.start, this.lines[line].length - this.start);
+                }
+                else if (line == LineCount - 1)
+                {
+                    return this.text.Slice(this.lines[line].start, this.lines[line].length - this.fromEnd);
+                }
+
+                return this.text.Slice(this.lines[line].start, this.lines[line].length);
+            }
+        }
 
         /// <summary>
         /// Gets the number of characters of this text. (Without counting linbreaks).
@@ -37,12 +55,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             get
             {
                 int length = 0;
-                for (int i = 0; i < lines.Length; i++)
+                for (int i = 0; i < this.lines.Length; i++)
                 {
-                    length += lines[i].length;
+                    length += this.lines[i].length;
                 }
 
-                return length;
+                return length - this.start - this.fromEnd;
             }
         }
 
@@ -58,9 +76,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 : new char[bufferSize];
 
             var index = 0;
-            for (int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < this.lines.Length; i++)
             {
-                var from = Lines[i];
+                var from = this[i];
                 from.CopyTo(buffer.Slice(index));
                 index += from.Length;
                 if (index < buffer.Length)
@@ -73,25 +91,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return buffer.ToString();
         }
 
-        /// <summary>
-        /// Allows access to the lines.
-        /// </summary>
-        public readonly ref struct LineWrapper
-        {
-            private readonly LineBlock parent;
 
-            internal LineWrapper(LineBlock parent)
-            {
-                this.parent = parent;
-            }
-
-            /// <summary>
-            /// Gets the selected line.
-            /// </summary>
-            /// <param name="line">The index of the line.</param>
-            /// <returns>The Line.</returns>
-            public ReadOnlySpan<char> this[int line] => this.parent.text.Slice(this.parent.lines[line].start, this.parent.lines[line].length);
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LineBlock"/> struct.
@@ -103,6 +103,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var current = data;
             int lineStart = 0;
             var lines = new List<(int start, int length)>();
+            this.start = 0;
+            this.fromEnd = 0;
             while (true)
             {
                 var indexCurent = current.IndexOfAny('\r', '\n');
@@ -135,10 +137,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             this.lines = new ReadOnlySpan<(int start, int length)>(lines.ToArray());
         }
 
-        private LineBlock(ReadOnlySpan<(int start, int length)> lines, ReadOnlySpan<char> text)
+        private LineBlock(ReadOnlySpan<(int start, int length)> lines, ReadOnlySpan<char> text, int start, int fromEnd)
         {
             this.lines = lines;
             this.text = text;
+            this.start = start;
+            this.fromEnd = fromEnd;
         }
 
         /// <summary>
@@ -147,9 +151,28 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <param name="start">The startindex.</param>
         /// <param name="length">The length.</param>
         /// <returns>A new LineBlock that will only have the lines specified.</returns>
-        public LineBlock Slice(int start, int length)
+        public LineBlock SliceLines(int start, int length)
         {
-            return new LineBlock(this.lines.Slice(start, length), this.text);
+            int startModification;
+            int endModification;
+            if (start == 0)
+            {
+                startModification = this.start;
+            }
+            else
+            {
+                startModification = 0;
+            }
+            if (length == this.LineCount - start - 1)
+            {
+                endModification = this.fromEnd;
+            }
+            else
+            {
+                endModification = 0;
+            }
+
+            return new LineBlock(this.lines.Slice(start, length), this.text, startModification, endModification);
         }
 
         /// <summary>
@@ -157,9 +180,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <param name="start">The startindex.</param>
         /// <returns>A new LineBlock that will only have the lines specified.</returns>
-        public LineBlock Slice(int start)
+        public LineBlock SliceLines(int start)
         {
-            return new LineBlock(this.lines.Slice(start), this.text);
+            return SliceLines(start, this.LineCount - start);
         }
 
         /// <summary>
@@ -170,6 +193,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>A new Instance of LineBlock with the lines modified.</returns>
         public LineBlock RemoveFromLineStart(int length)
         {
+            throw new NotImplementedException("Need to rewrite");
             var temp = new (int start, int length)[this.lines.Length];
 
             for (int i = 0; i < temp.Length; i++)
@@ -187,7 +211,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            return new LineBlock(temp.AsSpan(), this.text);
+            //return new LineBlock(temp.AsSpan(), this.text);
         }
 
         /// <summary>
@@ -198,6 +222,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>A new Instance of LineBlock with the lines modified.</returns>
         public LineBlock RemoveFromLineEnd(int length)
         {
+            throw new NotImplementedException("Need to rewrite");
             var temp = new (int start, int length)[this.lines.Length];
 
             for (int i = 0; i < temp.Length; i++)
@@ -211,7 +236,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            return new LineBlock(temp.AsSpan(), this.text);
+            //return new LineBlock(temp.AsSpan(), this.text);
         }
 
         /// <summary>
@@ -228,18 +253,28 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 ref readonly var from = ref this.lines[i];
                 ref var toSet = ref temp[i];
 
-                var (newStart, newLength) = callback(this.Lines[i], i);
+                var (newStart, newLength) = callback(this[i], i);
 
                 if (newStart < 0 || newStart >= from.length || newLength + newLength > from.length)
                 {
                     throw new ArgumentOutOfRangeException($"The supplied argument were out of range. New string must <={from.length}");
                 }
 
-                toSet.start = newStart;
+                toSet.start = newStart + from.start;
                 toSet.length = newLength;
+                if (i == 0)
+                {
+                    toSet.start += this.start;
+                }
+
+                if (i == temp.Length - 1)
+                {
+                    toSet.length -= this.fromEnd;
+                }
+
             }
 
-            return new LineBlock(temp.AsSpan(), this.text);
+            return new LineBlock(temp.AsSpan(), this.text, 0, 0);
         }
 
         /// <summary>
@@ -247,25 +282,25 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <param name="start">The number of characters.</param>
         /// <returns>The modified Block.</returns>
-        public LineBlock RemoveFromStart(int start)
+        public LineBlock Slice(int start, int length)
         {
-            var temp = new (int start, int length)[this.lines.Length];
-            var removedLines = 0;
-            for (int i = 0; i < temp.Length; i++)
-            {
-                ref var toSet = ref temp[i];
-                toSet = this.lines[i];
 
-                if (start > toSet.length)
+            var removedLines = 0;
+            var newStart = 0;
+            var newEnd = 0;
+            for (int i = 0; i < this.lines.Length; i++)
+            {
+                ref readonly var currentLine = ref this.lines[i];
+
+                if (start > currentLine.length)
                 {
-                    start -= toSet.length;
+                    start -= currentLine.length;
                     removedLines++;
                 }
                 else
                 {
-                    toSet.start += start;
-                    toSet.length -= start;
-                    if (toSet.length == 0)
+                    newStart = start;
+                    if (newStart == 0)
                     {
                         removedLines++;
                     }
@@ -274,41 +309,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
             }
 
-            return new LineBlock(temp.AsSpan(removedLines), this.text);
-        }
-
-        /// <summary>
-        /// Removes A specific amouts of charactesr from the beginning. Empty lines will be removed.
-        /// </summary>
-        /// <param name="end">The number of characters.</param>
-        /// <returns>The modified Block.</returns>
-        public LineBlock RemoveFromEnd(int end)
-        {
-            var temp = new (int start, int length)[this.lines.Length];
-            var removedLines = 0;
-            for (int i = temp.Length - 1; i >= 0; i--)
+            var temp = new LineBlock(lines.Slice(removedLines), this.text, newStart, this.fromEnd);
+            removedLines = 0;
+            for (int i = 0; i < temp.lines.Length; i++)
             {
-                ref var toSet = ref temp[i];
-                toSet = this.lines[i];
+                ref readonly var currentLine = ref temp.lines[i];
 
-                if (end > toSet.length)
+                if (length > currentLine.length)
                 {
-                    end -= toSet.length;
+                    length -= currentLine.length;
                     removedLines++;
                 }
                 else
                 {
-                    toSet.length -= end;
-                    if (toSet.length == 0)
+                    newEnd = currentLine.length - length;
+                    if (newEnd == currentLine.length)
                     {
                         removedLines++;
                     }
 
                     break;
                 }
+
             }
 
-            return new LineBlock(temp.AsSpan(0, temp.Length - removedLines), this.text);
+            return new LineBlock(temp.lines.Slice(0, temp.lines.Length - removedLines), temp.text, temp.start, newEnd);
         }
 
         /// <summary>
@@ -320,7 +345,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         {
             for (int i = 0; i < this.LineCount; i++)
             {
-                var index = this.Lines[i].IndexOf(value);
+                var index = this[i].IndexOf(value);
                 if (index >= 0)
                 {
                     return (i, index);
@@ -340,7 +365,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         {
             for (int i = 0; i < this.LineCount; i++)
             {
-                var index = this.Lines[i].IndexOf(value, comparisonType);
+                var index = this[i].IndexOf(value, comparisonType);
                 if (index >= 0)
                 {
                     return (i, index);
@@ -359,7 +384,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         {
             for (int i = 0; i < this.LineCount; i++)
             {
-                var index = this.Lines[i].IndexOf(value);
+                var index = this[i].IndexOf(value);
                 if (index >= 0)
                 {
                     return (i, index);
