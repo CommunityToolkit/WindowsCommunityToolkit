@@ -42,9 +42,9 @@
                 <TextBlock
                         Text="TOAST"
                         Style="{StaticResource Box-Header}" />
-                <!--<visualizer:PreviewToast x:Name="PreviewToastReminder"
+                <visualizer:PreviewToast x:Name="PreviewToastReminder"
                                      MaxWidth="362"
-                                     HorizontalAlignment="Left" />-->
+                                     HorizontalAlignment="Left" />
             </StackPanel>
         </StackPanel>
     </ScrollViewer>

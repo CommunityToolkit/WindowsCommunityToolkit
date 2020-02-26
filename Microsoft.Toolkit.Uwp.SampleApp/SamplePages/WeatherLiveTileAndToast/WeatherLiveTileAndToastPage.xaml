@@ -52,9 +52,9 @@
                 <TextBlock
                         Text="TOAST"
                         Style="{StaticResource Box-Header}" />
-                <!--<visualizer:PreviewToast x:Name="PreviewToastWeather"
+                <visualizer:PreviewToast x:Name="PreviewToastWeather"
                                      MaxWidth="362"
-                                     HorizontalAlignment="Center" />-->
+                                     HorizontalAlignment="Center" />
             </StackPanel>
 
             <TextBlock
@@ -74,9 +74,9 @@
                     <TextBlock
                         Text="SMALL"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="PreviewTileSmall"
+                    <visualizer:PreviewTile x:Name="PreviewTileSmall"
                                         IsAnimationEnabled="False"
-                                        TileSize="Small" />-->
+                                        TileSize="Small" />
                 </StackPanel>
 
                 <StackPanel
@@ -87,9 +87,9 @@
                     <TextBlock
                         Text="MEDIUM"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="PreviewTileMedium"
+                    <visualizer:PreviewTile x:Name="PreviewTileMedium"
                                         IsAnimationEnabled="False"
-                                        TileSize="Medium" />-->
+                                        TileSize="Medium" />
                 </StackPanel>
 
                 <StackPanel
@@ -100,9 +100,9 @@
                     <TextBlock
                         Text="WIDE"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="PreviewTileWide"
+                    <visualizer:PreviewTile x:Name="PreviewTileWide"
                                         IsAnimationEnabled="False"
-                                        TileSize="Wide" />-->
+                                        TileSize="Wide" />
                 </StackPanel>
 
                 <StackPanel
@@ -113,9 +113,9 @@
                     <TextBlock
                         Text="LARGE"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="PreviewTileLarge"
+                    <visualizer:PreviewTile x:Name="PreviewTileLarge"
                                         IsAnimationEnabled="False"
-                                        TileSize="Large" />-->
+                                        TileSize="Large" />
                 </StackPanel>
             </controls:WrapPanel>
         </StackPanel>

@@ -47,10 +47,10 @@
                     <TextBlock
                         Text="MEDIUM"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="MediumPreviewTile"
+                    <visualizer:PreviewTile x:Name="MediumPreviewTile"
                                         IsAnimationEnabled="False"
                                         TileSize="Medium"
-                                        HorizontalAlignment="Center" />-->
+                                        HorizontalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel
@@ -61,10 +61,10 @@
                     <TextBlock
                         Text="WIDE"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="WidePreviewTile"
+                    <visualizer:PreviewTile x:Name="WidePreviewTile"
                                         IsAnimationEnabled="False"
                                         TileSize="Wide"
-                                        HorizontalAlignment="Center" />-->
+                                        HorizontalAlignment="Center" />
                 </StackPanel>
 
                 <StackPanel
@@ -75,10 +75,10 @@
                     <TextBlock
                         Text="LARGE"
                         Style="{StaticResource Box-Header}" />
-                    <!--<visualizer:PreviewTile x:Name="LargePreviewTile"
+                    <visualizer:PreviewTile x:Name="LargePreviewTile"
                                         IsAnimationEnabled="False"
                                         TileSize="Large"
-                                        HorizontalAlignment="Center" />-->
+                                        HorizontalAlignment="Center" />
                 </StackPanel>
             </controls:WrapPanel>
         </StackPanel>

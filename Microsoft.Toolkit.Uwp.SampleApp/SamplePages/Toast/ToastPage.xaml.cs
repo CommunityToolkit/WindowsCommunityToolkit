@@ -8,7 +8,7 @@ using Microsoft.Toolkit.Uwp.SampleApp.Models;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
-//using NotificationsVisualizerLibrary;
+using NotificationsVisualizerLibrary;
 using Windows.UI.Notifications;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
@@ -63,13 +63,13 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             _toastContent = GenerateToastContent();
 
             // Prepare and update preview toast
-            //PreviewToastReminder.Properties = new PreviewToastProperties()
-            //{
-            //    BackgroundColor = Constants.ApplicationBackgroundColor,
-            //    DisplayName = Constants.ApplicationDisplayName,
-            //    Square44x44Logo = Constants.Square44x44Logo
-            //};
-            //PreviewToastReminder.Initialize(_toastContent.GetXml());
+            PreviewToastReminder.Properties = new PreviewToastProperties()
+            {
+                BackgroundColor = Constants.ApplicationBackgroundColor,
+                DisplayName = Constants.ApplicationDisplayName,
+                Square44x44Logo = Constants.Square44x44Logo
+            };
+            PreviewToastReminder.Initialize(_toastContent.GetXml());
         }
     }
 }
