@@ -13,8 +13,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     public class BlockParseResult<T> : BlockParseResult
         where T : MarkdownBlock
     {
-        internal BlockParseResult(T parsedElement, int start, int end)
-            : base(parsedElement, start, end)
+        internal BlockParseResult(T parsedElement, int start, int lineCount)
+            : base(parsedElement, start, lineCount)
         {
         }
 

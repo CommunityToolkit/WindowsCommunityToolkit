@@ -72,105 +72,77 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             {
                 // As yaml header, must be start a line with "---"
                 // and end with a line "---"
-                int lineStart = startOfLine;
-
-                if (markdown[firstNonSpace] != '-' && firstNonSpace == startOfLine)
+                if (!markdown[startLine].StartsWith("---".AsSpan()))
                 {
                     return null;
                 }
 
-                if (maxEnd - startOfLine < 3)
+                if (startLine != 0)
                 {
                     return null;
                 }
 
-                if (lineStart != 0 || markdown.AsSpan(startOfLine, 3).StartsWith("---".AsSpan()))
+                if (markdown[startLine].Length != 3)
                 {
                     return null;
                 }
 
-                int startUnderlineIndex = Common.FindNextSingleNewLine(markdown, lineStart, maxEnd, out int startOfNextLine);
-                if (startUnderlineIndex - lineStart != 3)
+                var yamlBlock = markdown.SliceLines(startLine + 1);
+
+                var end = yamlBlock.IndexOf("---".AsSpan());
+
+                if (end.Column != 0)
                 {
                     return null;
                 }
 
-                bool lockedFinalUnderline = false;
+                yamlBlock = yamlBlock.SliceLines(0, end.Line);
 
-                // if current line not contain the ": ", check it is end of parse, if not, exit
-                // if next line is the end, exit
-                int pos = startOfNextLine;
-                var elements = new List<ReadOnlyMemory<char>>();
-                var actualEnd = startOfLine;
-                while (pos < maxEnd)
+                var resultDictionary = new Dictionary<string, string>();
+                int lastLine = -1;
+                for (int i = 0; i < yamlBlock.LineCount; i++)
                 {
-                    int nextUnderLineIndex = Common.FindNextSingleNewLine(markdown, pos, maxEnd, out startOfNextLine);
-                    bool haveSeparator = markdown.AsSpan(pos, nextUnderLineIndex - pos).Contains(": ".AsSpan(), StringComparison.InvariantCulture);
-                    if (haveSeparator)
+                    var line = yamlBlock[i];
+
+                    var seperatorIndex = line.IndexOf(": ".AsSpan(), StringComparison.InvariantCulture);
+                    if (seperatorIndex != -1)
                     {
-                        elements.Add(markdown.AsMemory(pos, nextUnderLineIndex - pos));
+                        var key = line.Slice(0, seperatorIndex);
+                        var value = line.Slice(seperatorIndex + 2);
+                        if (key.Length == 0 || value.Length == 0)
+                        {
+                            continue;
+                        }
+
+                        resultDictionary.Add(key.ToString(), value.ToString());
                     }
-                    else if (maxEnd - pos >= 3 && markdown.AsSpan(pos, 3).StartsWith("---".AsSpan()))
+                    else if (line.StartsWith("---".AsSpan()) && line.Length == 3)
                     {
-                        lockedFinalUnderline = true;
-                        actualEnd = pos + 3;
+                        lastLine = i;
                         break;
-                    }
-                    else if (startOfNextLine == pos + 1)
-                    {
-                        pos = startOfNextLine;
-                        continue;
                     }
                     else
                     {
                         return null;
                     }
-
-                    pos = startOfNextLine;
                 }
 
-                // if not have the end, return
-                if (!lockedFinalUnderline)
+                var result = new YamlHeaderBlock
                 {
-                    return null;
-                }
+                    Children = resultDictionary,
+                };
 
-                // parse yaml header properties
-                if (elements.Count < 1)
+                int numberOfLines;
+                if (lastLine == -1)
                 {
-                    return null;
+                    numberOfLines = yamlBlock.LineCount;
                 }
-
-                var result = new YamlHeaderBlock();
-                result.Children = new Dictionary<string, string>();
-                var splitString = ": ".AsSpan();
-                for (var i = 0; i < elements.Count; i++)
+                else
                 {
-                    var item = elements[i].Span;
-                    var indexOfSplit = item.IndexOf(splitString);
-                    if (indexOfSplit < 1)
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        string key = item.Slice(0, indexOfSplit).Trim().ToString();
-                        string value = item.Slice(indexOfSplit + splitString.Length).Trim().ToString();
-                        if (key.Length == 0)
-                        {
-                            continue;
-                        }
-
-                        result.Children.Add(key, value);
-                    }
+                    numberOfLines = lastLine + 1;
                 }
 
-                if (result.Children == null)
-                {
-                    return null;
-                }
-
-                return BlockParseResult.Create(result, startOfLine, actualEnd);
+                return BlockParseResult.Create(result, startLine, numberOfLines);
             }
         }
     }

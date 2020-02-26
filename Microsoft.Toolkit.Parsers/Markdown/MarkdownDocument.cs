@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         parsedBlock = parser.Parse(markdown, startOfLine, nonSpacePos, endOfLine, startOfParagrapgh, end, lineStartsNewParagraph, this);
                         if (parsedBlock != null)
                         {
-                            startOfNextLine = parsedBlock.End;
+                            startOfNextLine = parsedBlock.LineCount;
                             break;
                         }
                     }
@@ -249,7 +249,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         AddParagraph(parsedBlock.Start);
 
                         // Skip the paragraph text
-                        startOfParagrapgh = parsedBlock.End;
+                        startOfParagrapgh = parsedBlock.LineCount;
 
                         blocks.Add(parsedBlock.ParsedElement);
                     }

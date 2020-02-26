@@ -170,7 +170,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
             /// <returns>the postiion parsed to.</returns>
-            internal int Parse(string markdown, int startingPos, int maxEndingPos, MarkdownDocument document)
+            internal int Parse(LineBlock markdown, MarkdownDocument document)
             {
                 Cells = new List<TableCell>();
                 return ParseContents(
@@ -181,7 +181,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     contentParser: (startingPos2, maxEndingPos2) =>
                     {
                         var cell = new TableCell();
-                        cell.Inlines = document.ParseInlineChildren(markdown, startingPos2, maxEndingPos2, Array.Empty<Type>());
+                        cell.Inlines = document.ParseInlineChildren(markdown, Array.Empty<Type>());
                         Cells.Add(cell);
                     });
             }
@@ -215,18 +215,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
-                var startOfCurrentLine = startOfLine;
-
                 // First thing to do is to check if there is a vertical bar on the line.
-                var barSections = markdown.Substring(startOfCurrentLine, endOfFirstLine - startOfCurrentLine).Split('|');
-
                 var allBarsEscaped = true;
-
-                // we can skip the last section, because there is no bar at the end of it
-                for (var i = 0; i < barSections.Length - 1; i++)
+                for (int i = 0; i < markdown[startLine].Length; i++)
                 {
-                    var barSection = barSections[i];
-                    if (!barSection.EndsWith("\\"))
+                    if (markdown[startLine][i] == '|' && (i == 0 || markdown[startLine][i - 1] != '\\'))
                     {
                         allBarsEscaped = false;
                         break;

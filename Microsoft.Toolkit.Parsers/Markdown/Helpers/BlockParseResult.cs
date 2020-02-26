@@ -11,11 +11,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
     /// </summary>
     public abstract class BlockParseResult
     {
-        private protected BlockParseResult(MarkdownBlock parsedElement, int start, int end)
+        private protected BlockParseResult(MarkdownBlock parsedElement, int start, int lineCount)
         {
             ParsedElement = parsedElement;
             Start = start;
-            End = end;
+            LineCount = lineCount;
         }
 
         /// <summary>
@@ -29,9 +29,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         public int Start { get; }
 
         /// <summary>
-        /// Gets the position of the character after the last character in the parsed element.
+        /// Gets number of lines.
         /// </summary>
-        public int End { get; }
+        public int LineCount { get; }
 
         /// <summary>
         /// Instanciates an BlockParserResult.
@@ -39,10 +39,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// <typeparam name="T">The MarkdownBlock type.</typeparam>
         /// <param name="markdownBlock">The parsed Block.</param>
         /// <param name="start">The start of the Block.</param>
-        /// <param name="end">The end of the Block.</param>
+        /// <param name="lineCount">The number lines.</param>
         /// <returns>The BlockParseResult.</returns>
-        public static BlockParseResult<T> Create<T>(T markdownBlock, int start, int end)
+        public static BlockParseResult<T> Create<T>(T markdownBlock, int start, int lineCount)
             where T : MarkdownBlock
-            => new BlockParseResult<T>(markdownBlock, start, end);
+            => new BlockParseResult<T>(markdownBlock, start, lineCount);
     }
 }
