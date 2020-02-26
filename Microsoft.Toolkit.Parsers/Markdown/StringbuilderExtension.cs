@@ -7,9 +7,9 @@ using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
+namespace Microsoft.Toolkit.Parsers.Markdown
 {
-
+#if NETSTANDARD2_0
     internal static class StringbuilderExtension
     {
         public static void Append(this StringBuilder stringBuilder, ReadOnlySpan<char> txt)
@@ -20,4 +20,5 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             ArrayPool<char>.Shared.Return(buffer, false);
         }
     }
+#endif
 }

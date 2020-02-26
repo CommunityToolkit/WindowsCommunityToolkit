@@ -85,24 +85,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             for (int i = 0; i < this.lines.Length; i++)
             {
-                var bufferSize = this[i].Length;
-
-                char[] arrayBuffer = ArrayPool<char>.Shared.Rent(bufferSize);
-
-                Span<char> buffer = arrayBuffer != null
-                    ? arrayBuffer.AsSpan(0, bufferSize)
-                    : stackalloc char[bufferSize];
-
                 var from = this[i];
-                from.CopyTo(buffer);
 
-                builder.Append(arrayBuffer, 0, bufferSize);
+                builder.Append(from);
                 builder.AppendLine();
-
-                if (arrayBuffer != null)
-                {
-                    ArrayPool<char>.Shared.Return(arrayBuffer, false);
-                }
             }
 
             return builder;
