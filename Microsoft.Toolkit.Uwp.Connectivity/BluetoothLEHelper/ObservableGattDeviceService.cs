@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
             Service = service;
             Name = GattUuidsService.ConvertUuidToName(service.Uuid);
             UUID = Service.Uuid.ToString();
-            var t = GetAllCharacteristics();
+            PopulateAllCharacteristicsAsync();
         }
 
         /// <summary>
@@ -147,10 +147,9 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         }
 
         /// <summary>
-        /// Gets all the characteristics of this service
+        /// Populate the characteristics in <see cref="Characteristics"/>.
         /// </summary>
-        /// <returns>The status of the communication with the GATT device.</returns>
-        private async Task<GattCommunicationStatus> GetAllCharacteristics()
+        private async void PopulateAllCharacteristicsAsync()
         {
             var tokenSource = new CancellationTokenSource(5000);
             var getCharacteristicsTask = await Task.Run(
@@ -167,8 +166,6 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
                     Characteristics.Add(new ObservableGattCharacteristics(gattCharacteristic, this));
                 }
             }
-
-            return result.Status;
         }
     }
 }

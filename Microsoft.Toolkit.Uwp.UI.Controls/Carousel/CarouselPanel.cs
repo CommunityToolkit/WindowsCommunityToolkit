@@ -141,9 +141,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Need to know which direction we took for this manipulation.
             var translation = Carousel.Orientation == Orientation.Horizontal ? e.Cumulative.Translation.X : e.Cumulative.Translation.Y;
 
-            // if manipulation is not enough to change index we will have to force refresh
-            var lastIndex = Carousel.SelectedIndex;
-
             // potentially border effects
             bool hasBreak = false;
 
@@ -250,8 +247,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            var width = 0d;
-            var height = 0d;
+            double width;
 
             // It's a Auto size, so we define the size should be 3 items
             if (double.IsInfinity(availableSize.Width))
@@ -263,6 +259,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 width = availableSize.Width;
             }
 
+            double height;
             // It's a Auto size, so we define the size should be 3 items
             if (double.IsInfinity(availableSize.Height))
             {
@@ -385,7 +382,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>Return the new projection</returns>
         private Proj GetProjectionFromManipulation(UIElement element, double delta)
         {
-            PlaneProjection projection = element.Projection as PlaneProjection;
             CompositeTransform compositeTransform = element.RenderTransform as CompositeTransform;
 
             var bounds = Carousel.Orientation == Orientation.Horizontal ? desiredWidth : desiredHeight;

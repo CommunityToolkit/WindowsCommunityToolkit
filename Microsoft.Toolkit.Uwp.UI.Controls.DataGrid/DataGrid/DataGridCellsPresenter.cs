@@ -274,9 +274,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.Primitives
             // then we will resize all the columns to fit the available space.
             if (this.OwningGrid.UsesStarSizing && !this.OwningGrid.AutoSizingColumns)
             {
-                double adjustment = this.OwningGrid.CellsWidth - totalDisplayWidth;
-                totalDisplayWidth += adjustment - this.OwningGrid.AdjustColumnWidths(0, adjustment, false);
-
                 // Since we didn't know the final widths of the columns until we resized,
                 // we waited until now to measure each cell
                 double leftEdge = 0;
