@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -17,6 +16,7 @@ using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Microsoft.UI.Xaml.Navigation;
 using Windows.System;
@@ -652,7 +652,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 
         public Sample CurrentSample { get; private set; }
 
-        public ObservableCollection<SampleCommand> Commands { get; } = new ObservableCollection<SampleCommand>();
+        public TestObservableCollection<SampleCommand> Commands { get; } = new TestObservableCollection<SampleCommand>();
 
         public bool DisplayWaitRing
         {

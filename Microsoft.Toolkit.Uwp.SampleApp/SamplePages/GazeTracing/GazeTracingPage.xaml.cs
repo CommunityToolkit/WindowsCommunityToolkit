@@ -19,7 +19,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private GazeInputSourcePreview gazeInputSourcePreview;
         private Frame rootFrame;
 
-        public ObservableCollection<Point> GazeHistory { get; set; } = new ObservableCollection<Point>();
+        public TestObservableCollection<Point> GazeHistory { get; set; } = new TestObservableCollection<Point>();
 
         public int TracePointDiameter { get; set; }
 

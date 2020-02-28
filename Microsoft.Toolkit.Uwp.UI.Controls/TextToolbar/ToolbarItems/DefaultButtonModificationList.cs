@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// <summary>
     /// ObservableCollection of <see cref="DefaultButton"/>
     /// </summary>
-    public class DefaultButtonModificationList : ObservableCollection<DefaultButton>
+    public class DefaultButtonModificationList : TestObservableCollection<DefaultButton>
     {
     }
 }

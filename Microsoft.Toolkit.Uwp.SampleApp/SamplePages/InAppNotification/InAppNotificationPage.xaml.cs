@@ -3,11 +3,11 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Windows.Input;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -208,16 +208,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     internal class DismissCommand : ICommand
 #pragma warning restore SA1402 // File may only contain a single class
     {
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add
-            {
-            }
-
-            remove
-            {
-            }
-        }
+        public event EventHandler<object> CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {

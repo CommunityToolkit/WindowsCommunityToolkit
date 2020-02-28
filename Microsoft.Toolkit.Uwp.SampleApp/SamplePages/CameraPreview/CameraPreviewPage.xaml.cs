@@ -46,6 +46,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             var cameraHelper = _cameraPreviewControl?.CameraHelper;
             UnsubscribeFromEvents();
 
+            _errorMessageText = control.FindDescendantByName("ErrorMessage") as TextBlock;
+
             _cameraPreviewControl = control.FindChild<CameraPreview>();
             if (_cameraPreviewControl != null)
             {
@@ -60,8 +62,6 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
                 _softwareBitmapSource = new SoftwareBitmapSource();
                 _imageControl.Source = _softwareBitmapSource;
             }
-
-            _errorMessageText = control.FindDescendantByName("ErrorMessage") as TextBlock;
 
             semaphoreSlim.Release();
         }

@@ -5,10 +5,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Data;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Data
 {
@@ -161,7 +161,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             }
         }
 
-        IEnumerable INotifyDataErrorInfo.GetErrors(string propertyName)
+        IEnumerable<object> INotifyDataErrorInfo.GetErrors(string propertyName)
         {
             if (propertyName == null)
             {

@@ -18,17 +18,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="obj">the KeyFrame where the duration is set</param>
         /// <returns>Value of KeyFrameDuration</returns>
-        public static TimeSpan GetKeyFrameDuration(DependencyObject obj)
+        public static Duration GetKeyFrameDuration(DependencyObject obj)
         {
-            return (TimeSpan)obj.GetValue(KeyFrameDurationProperty);
+            return (Duration)obj.GetValue(KeyFrameDurationProperty);
         }
 
         /// <summary>
         /// Sets the value of the KeyFrameDuration attached property
         /// </summary>
         /// <param name="obj">The KeyFrame object where the property is attached</param>
-        /// <param name="value">The TimeSpan value to be set as duration</param>
-        public static void SetKeyFrameDuration(DependencyObject obj, TimeSpan value)
+        /// <param name="value">The Duration value to be set as duration</param>
+        public static void SetKeyFrameDuration(DependencyObject obj, Duration value)
         {
             obj.SetValue(KeyFrameDurationProperty, value);
         }
@@ -37,13 +37,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Using a DependencyProperty as the backing store for KeyFrameDuration. This enables animation, styling, binding, etc
         /// </summary>
         public static readonly DependencyProperty KeyFrameDurationProperty =
-            DependencyProperty.RegisterAttached("KeyFrameDuration", typeof(TimeSpan), typeof(InAppNotification), new PropertyMetadata(0, OnKeyFrameAnimationChanged));
+            DependencyProperty.RegisterAttached("KeyFrameDuration", typeof(Duration), typeof(InAppNotification), new PropertyMetadata(DurationHelper.FromTimeSpan(TimeSpan.Zero), OnKeyFrameAnimationChanged));
 
         private static void OnKeyFrameAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is TimeSpan ts)
+            if (e.NewValue is Duration dur)
             {
-                var keyTimeFromAnimationDuration = KeyTimeHelper.FromTimeSpan(ts);
+                var keyTimeFromAnimationDuration = KeyTimeHelper.FromTimeSpan(dur.TimeSpan);
                 if (d is DoubleKeyFrame dkf)
                 {
                     dkf.KeyTime = keyTimeFromAnimationDuration;

@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -15,8 +14,10 @@ using Microsoft.Toolkit.Uwp.UI.Data.Utilities;
 using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Interop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
 {
@@ -899,12 +900,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
             {
                 case NotifyCollectionChangedAction.Add:
                     Debug.Assert(e.NewItems != null, "Unexpected NotifyCollectionChangedAction.Add notification");
-                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Count == 1, "Expected NewItems.Count equals 1.");
+                    Debug.Assert(this.ShouldAutoGenerateColumns || this.IsGrouping || e.NewItems.Size == 1, "Expected NewItems.Count equals 1.");
                     NotifyingDataSource_Add(e.NewStartingIndex);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    IList removedItems = e.OldItems;
+                    var removedItems = e.OldItems;
                     if (removedItems == null || e.OldStartingIndex < 0)
                     {
                         Debug.Assert(false, "Unexpected NotifyCollectionChangedAction.Remove notification");
@@ -915,7 +916,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                     {
                         // If we're grouping then we handle this through the CollectionViewGroup notifications.
                         // Remove is a single item operation.
-                        foreach (object item in removedItems)
+                        foreach (object item in (IEnumerable)removedItems)
                         {
                             Debug.Assert(item != null, "Expected non-null item.");
                             _owner.RemoveRowAt(e.OldStartingIndex, item);

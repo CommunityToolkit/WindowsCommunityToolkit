@@ -5,10 +5,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Globalization;
 using Microsoft.Toolkit.Uwp.Utilities;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Interop;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 
@@ -25,22 +25,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// Raise this event after changing currency.
         /// </summary>
         public virtual event EventHandler<object> CurrentChanged;
-
-        /// <summary>
-        /// CollectionChanged event (per <see cref="INotifyCollectionChanged" />).
-        /// </summary>
-        event NotifyCollectionChangedEventHandler INotifyCollectionChanged.CollectionChanged
-        {
-            add
-            {
-                CollectionChanged += value;
-            }
-
-            remove
-            {
-                CollectionChanged -= value;
-            }
-        }
 
         /// <summary>
         /// Unused VectorChanged event from the ICollectionView interface.
@@ -625,7 +609,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <summary>
         /// Raise this event when the (filtered) view changes
         /// </summary>
-        protected virtual event NotifyCollectionChangedEventHandler CollectionChanged;
+        public virtual event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
         /// Raises a PropertyChanged event (per <see cref="INotifyPropertyChanged" />).
@@ -678,7 +662,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
 
             // Collection changes change the count unless an item is being
             // replaced or moved within the collection.
-            if (args.Action != NotifyCollectionChangedAction.Replace)
+            if (args.Action != global::System.Collections.Specialized.NotifyCollectionChangedAction.Replace)
             {
                 OnPropertyChanged(CountPropertyName);
             }

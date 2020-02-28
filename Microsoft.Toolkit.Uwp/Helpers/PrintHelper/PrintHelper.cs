@@ -527,7 +527,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
                     // Add the page to the page preview collection
                     _printPreviewPages.Add(page);
-                }, Microsoft.System.DispatcherQueuePriority.High);
+                }, Windows.UI.Core.CoreDispatcherPriority.High);
         }
 
         private Task ClearPageCache()

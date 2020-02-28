@@ -3,7 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Windows.Input;
+using Microsoft.UI.Xaml.Input;
 using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
@@ -12,16 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
     internal class NewProjectCommand : ICommand
 #pragma warning restore SA1649 // File name must match first type name
     {
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add
-            {
-            }
-
-            remove
-            {
-            }
-        }
+        public event EventHandler<object> CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
@@ -39,16 +30,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
     internal class NewFileCommand : ICommand
 #pragma warning restore SA1402 // File may only contain a single class
     {
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add
-            {
-            }
-
-            remove
-            {
-            }
-        }
+        public event EventHandler<object> CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {
@@ -66,16 +48,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Menu.Commands
     internal class GenericCommand : ICommand
 #pragma warning restore SA1402 // File may only contain a single class
     {
-        event EventHandler ICommand.CanExecuteChanged
-        {
-            add
-            {
-            }
-
-            remove
-            {
-            }
-        }
+        public event EventHandler<object> CanExecuteChanged;
 
         public bool CanExecute(object parameter)
         {

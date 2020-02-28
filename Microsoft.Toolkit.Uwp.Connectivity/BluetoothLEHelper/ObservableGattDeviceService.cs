@@ -4,10 +4,10 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.UI.Xaml.Data;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
 
@@ -21,8 +21,8 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// <summary>
         /// Source for <see cref="Characteristics" />
         /// </summary>
-        private ObservableCollection<ObservableGattCharacteristics> _characteristics =
-            new ObservableCollection<ObservableGattCharacteristics>();
+        private TestObservableCollection<ObservableGattCharacteristics> _characteristics =
+            new TestObservableCollection<ObservableGattCharacteristics>();
 
         /// <summary>
         /// Source for <see cref="Name" />
@@ -75,7 +75,7 @@ namespace Microsoft.Toolkit.Uwp.Connectivity
         /// Gets all the characteristics of this service
         /// </summary>
         /// <value>The characteristics.</value>
-        public ObservableCollection<ObservableGattCharacteristics> Characteristics
+        public TestObservableCollection<ObservableGattCharacteristics> Characteristics
         {
             get
             {

@@ -8,6 +8,9 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using Microsoft.UI.Xaml.Interop;
+using NotifyCollectionChangedEventArgs = Microsoft.UI.Xaml.Interop.NotifyCollectionChangedEventArgs;
+
 #if FEATURE_IEDITABLECOLLECTIONVIEW
 using System.Reflection; // ConstructorInfo
 #endif
@@ -131,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             }
 
             // tell listeners everything has changed
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, null, null, 0, 0));
 
             RaiseCurrencyChanges(
                 true /*raiseCurrentChanged*/,
@@ -1212,7 +1215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         /// <summary>
         /// Handle CollectionChange events
         /// </summary>
-        protected override void ProcessCollectionChanged(NotifyCollectionChangedEventArgs args)
+        protected override void ProcessCollectionChanged(Microsoft.UI.Xaml.Interop.NotifyCollectionChangedEventArgs args)
         {
             if (args == null)
             {
@@ -1281,14 +1284,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             // adjust the index for filtering and sorting.
             if (args.Action != NotifyCollectionChangedAction.Remove)
             {
-                adjustedNewIndex = AdjustBefore(NotifyCollectionChangedAction.Add, args.NewItems[0], args.NewStartingIndex);
+                adjustedNewIndex = AdjustBefore(NotifyCollectionChangedAction.Add, args.NewItems.GetAt(0), args.NewStartingIndex);
             }
 
             // If the Action is one that can be expected to have a valid OldItems[0] and OldStartingIndex then
             // adjust the index for filtering and sorting.
             if (args.Action != NotifyCollectionChangedAction.Add)
             {
-                adjustedOldIndex = AdjustBefore(NotifyCollectionChangedAction.Remove, args.OldItems[0], args.OldStartingIndex);
+                adjustedOldIndex = AdjustBefore(NotifyCollectionChangedAction.Remove, args.OldItems.GetAt(0), args.OldStartingIndex);
 
 #if FEATURE_ICOLLECTIONVIEW_SORT_OR_FILTER
                 // the new index needs further adjustment if the action removes (or moves)
@@ -1341,8 +1344,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
         {
             ProcessCollectionChangedWithAdjustedIndex(
                 (EffectiveNotifyCollectionChangedAction)args.Action,
-                (args.OldItems == null || args.OldItems.Count == 0) ? null : args.OldItems[0],
-                (args.NewItems == null || args.NewItems.Count == 0) ? null : args.NewItems[0],
+                (args.OldItems == null || args.OldItems.Size == 0) ? null : args.OldItems.GetAt(0),
+                (args.NewItems == null || args.NewItems.Size == 0) ? null : args.NewItems.GetAt(0),
                 adjustedOldIndex,
                 adjustedNewIndex);
         }
@@ -1437,7 +1440,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                     if (!IsGrouping)
                     {
                         AdjustCurrencyForAdd(adjustedNewIndex);
-                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem, adjustedNewIndex);
+                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (IBindableVector)new List<object> { newItem }, null, adjustedNewIndex, 0);
                     }
 #if FEATURE_ICOLLECTIONVIEW_GROUP
                     else
@@ -1466,7 +1469,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                     if (!IsGrouping)
                     {
                         AdjustCurrencyForRemove(adjustedOldIndex);
-                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, adjustedOldIndex);
+                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, null, (IBindableVector)new List<object> { oldItem }, 0, adjustedOldIndex);
                     }
 #if FEATURE_ICOLLECTIONVIEW_GROUP
                     else
@@ -1488,7 +1491,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                     if (!IsGrouping)
                     {
                         AdjustCurrencyForReplace(adjustedOldIndex);
-                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, newItem, oldItem, adjustedOldIndex);
+                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, (IBindableVector)new List<object> { newItem }, (IBindableVector)new List<object> { oldItem }, adjustedNewIndex, adjustedOldIndex);
                     }
 #if FEATURE_ICOLLECTIONVIEW_GROUP
                     else
@@ -1528,8 +1531,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
                         AdjustCurrencyForMove(adjustedOldIndex, adjustedNewIndex);
 
                         // move/replace
-                        args2 = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem, adjustedNewIndex);
-                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, adjustedOldIndex);
+                        args2 = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, (IBindableVector)new List<object> { newItem }, null, adjustedNewIndex, 0);
+                        args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, null, (IBindableVector)new List<object> { oldItem }, 0, adjustedOldIndex);
                     }
 #if FEATURE_ICOLLECTIONVIEW_GROUP
                     else if (!simpleMove)
@@ -1908,16 +1911,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    Debug.Assert(e.NewItems.Count == 1, "Unexpected NotifyCollectionChangedEventArgs.NewItems.Count for Add action");
+                    Debug.Assert(e.NewItems.Size == 1, "Unexpected NotifyCollectionChangedEventArgs.NewItems.Count for Add action");
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
-                    Debug.Assert(e.OldItems.Count == 1, "Unexpected NotifyCollectionChangedEventArgs.OldItems.Count for Remove action");
+                    Debug.Assert(e.OldItems.Size == 1, "Unexpected NotifyCollectionChangedEventArgs.OldItems.Count for Remove action");
                     break;
 
                 case NotifyCollectionChangedAction.Replace:
-                    Debug.Assert(e.OldItems.Count == 1, "Unexpected NotifyCollectionChangedEventArgs.OldItems.Count for Replace action");
-                    Debug.Assert(e.NewItems.Count == 1, "Unexpected NotifyCollectionChangedEventArgs.NewItems.Count for Replace action");
+                    Debug.Assert(e.OldItems.Size == 1, "Unexpected NotifyCollectionChangedEventArgs.OldItems.Count for Replace action");
+                    Debug.Assert(e.NewItems.Size == 1, "Unexpected NotifyCollectionChangedEventArgs.NewItems.Count for Replace action");
                     break;
 
                 case NotifyCollectionChangedAction.Reset:

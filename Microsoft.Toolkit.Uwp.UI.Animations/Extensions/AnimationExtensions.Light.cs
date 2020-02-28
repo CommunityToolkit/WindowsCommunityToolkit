@@ -217,7 +217,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Animations
                 }
 
                 pointLights[visual] = pointLight;
-            }, Microsoft.System.DispatcherQueuePriority.Normal);
+            }, Windows.UI.Core.CoreDispatcherPriority.Normal);
 
             animationSet.AddAnimationThroughTask(task);
             return animationSet;

@@ -14,14 +14,14 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ScrollViewerExtensionsPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
+        private TestObservableCollection<Item> _items;
 
         public ScrollViewerExtensionsPage()
         {
             InitializeComponent();
 
             // Reset items when revisiting sample.
-            _items = new ObservableCollection<Item>();
+            _items = new TestObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)
             {

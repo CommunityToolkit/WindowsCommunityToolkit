@@ -85,7 +85,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void CycleBlades()
         {
-            ActiveBlades = new ObservableCollection<BladeItem>();
+            ActiveBlades = new TestObservableCollection<BladeItem>();
             foreach (var item in Items)
             {
                 BladeItem blade = GetBladeItem(item);

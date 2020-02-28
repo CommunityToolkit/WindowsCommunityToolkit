@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     /// </summary>
     public sealed partial class ImageCachePage : IXamlRenderListener
     {
-        private ObservableCollection<PhotoDataItem> _photoItems;
+        private TestObservableCollection<PhotoDataItem> _photoItems;
         private ListView photoList;
 
         public ImageCachePage()

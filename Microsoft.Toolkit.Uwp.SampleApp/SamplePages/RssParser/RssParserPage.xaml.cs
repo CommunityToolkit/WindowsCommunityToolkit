@@ -13,7 +13,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class RssParserPage : Page
     {
-        public ObservableCollection<RssSchema> RSSFeed { get; } = new ObservableCollection<RssSchema>();
+        public TestObservableCollection<RssSchema> RSSFeed { get; } = new TestObservableCollection<RssSchema>();
 
         public RssParserPage()
         {

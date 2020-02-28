@@ -12,7 +12,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
     public sealed partial class ScrollHeaderPage : IXamlRenderListener
     {
-        private ObservableCollection<Item> _items;
+        private TestObservableCollection<Item> _items;
 
         public ScrollHeaderPage()
         {
@@ -32,7 +32,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
         private void Load()
         {
             // Reset items when revisiting sample.
-            _items = new ObservableCollection<Item>();
+            _items = new TestObservableCollection<Item>();
 
             for (var i = 0; i < 1000; i++)
             {

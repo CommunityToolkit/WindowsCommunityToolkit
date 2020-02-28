@@ -5,13 +5,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Security;
 using System.Text;
+using Microsoft.Toolkit.Uwp.Internal;
 using Microsoft.Toolkit.Uwp.UI.Automation.Peers;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 using Microsoft.Toolkit.Uwp.UI.Controls.Primitives;
@@ -218,7 +216,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private ScrollBarVisualState _proposedScrollBarsState;
         private ScrollBarsSeparatorVisualState _proposedScrollBarsSeparatorState;
         private string _rowGroupHeaderPropertyNameAlternative;
-        private ObservableCollection<Style> _rowGroupHeaderStyles;
+        private TestObservableCollection<Style> _rowGroupHeaderStyles;
 
         // To figure out what the old RowGroupHeaderStyle was for each level, we need to keep a copy
         // of the list.  The old style important so we don't blow away styles set directly on the RowGroupHeader
@@ -408,7 +406,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _lostFocusActions = new Queue<Action>();
             _selectedItems = new DataGridSelectedItemsCollection(this);
             _rowGroupHeaderPropertyNameAlternative = Properties.Resources.DefaultRowGroupHeaderPropertyNameAlternative;
-            _rowGroupHeaderStyles = new ObservableCollection<Style>();
+            _rowGroupHeaderStyles = new TestObservableCollection<Style>();
             _rowGroupHeaderStyles.CollectionChanged += RowGroupHeaderStyles_CollectionChanged;
             _rowGroupHeaderStylesOld = new List<Style>();
             this.RowGroupHeadersTable = new IndexToValueTable<DataGridRowGroupInfo>();
@@ -2199,7 +2197,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets a collection that contains all the columns in the control.
         /// </summary>
-        public ObservableCollection<DataGridColumn> Columns
+        public TestObservableCollection<DataGridColumn> Columns
         {
             get
             {
@@ -2301,7 +2299,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets the style that is used when rendering the row group header.
         /// </summary>
-        public ObservableCollection<Style> RowGroupHeaderStyles
+        public TestObservableCollection<Style> RowGroupHeaderStyles
         {
             get
             {
@@ -6030,7 +6028,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             }
 
             if (_editingColumnIndex != -1 || (editAction == DataGridEditAction.Cancel && raiseEvents &&
-                !(this.DataConnection.CanCancelEdit || this.EditingRow.DataContext is IEditableObject || this.DataConnection.IsAddingNew)))
+                !(this.DataConnection.CanCancelEdit || this.EditingRow.DataContext is global::System.ComponentModel.IEditableObject || this.DataConnection.IsAddingNew)))
             {
                 // Ending the row edit will fail immediately under the following conditions:
                 // 1. We haven't ended the cell edit yet.
@@ -7957,7 +7955,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 #endif
         }
 
-        private void RowGroupHeaderStyles_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void RowGroupHeaderStyles_CollectionChanged(object sender, Microsoft.UI.Xaml.Interop.NotifyCollectionChangedEventArgs e)
         {
             if (_rowsPresenter != null)
             {

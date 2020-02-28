@@ -9,7 +9,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons
     /// <summary>
     /// ObservableCollection of <see cref="IToolbarItem"/>
     /// </summary>
-    public class ButtonMap : ObservableCollection<IToolbarItem>
+    public class ButtonMap : TestObservableCollection<IToolbarItem>
     {
     }
 }

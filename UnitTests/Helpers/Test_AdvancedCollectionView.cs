@@ -7,8 +7,9 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
+using Microsoft.UI.Xaml.Data;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Uwp;
 
 namespace UnitTests.Helpers
 {
@@ -62,7 +63,7 @@ namespace UnitTests.Helpers
                 refList.Add(new SampleClass(e));
             }
 
-            ObservableCollection<SampleClass> col = new ObservableCollection<SampleClass>();
+            TestObservableCollection<SampleClass> col = new TestObservableCollection<SampleClass>();
             AdvancedCollectionView acv = new AdvancedCollectionView(col, true);
 
             // Add all items to collection while DeferRefresh() is active: 

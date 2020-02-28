@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Microsoft.Toolkit.Uwp;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.VisualStudio.TestTools.UnitTesting.AppContainer;
@@ -62,7 +63,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Filter_Preserves_Order()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -92,7 +93,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Filter_Preserves_Order_When_Inserting_Duplicate()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -124,7 +125,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Updating_Filter_Preserves_Order_With_Duplicate()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -156,7 +157,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Filter_Preserves_Order_When_Inserting_After_Items_In_View()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -184,7 +185,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Updating()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -206,7 +207,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -255,7 +256,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Combined()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -321,7 +322,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_OnSelf()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -370,7 +371,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_OnSelf_CustomComparable()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -419,7 +420,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_CustomComparable()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -509,7 +510,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Updating_With_Shaping()
         {
-            var l = new ObservableCollection<string>
+            var l = new TestObservableCollection<string>
             {
                 "lorem",
                 "ipsum",
@@ -531,7 +532,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_With_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -585,7 +586,7 @@ namespace UnitTests.UI
                 Name = "lorem",
                 Age = 4
             };
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 myPerson,
                 new Person()
@@ -607,7 +608,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_Using_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -652,7 +653,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Combined_With_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -724,7 +725,7 @@ namespace UnitTests.UI
                 Age = 4
             };
 
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 personLorem,
                 new Person()
@@ -779,7 +780,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Combined_Using_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -843,7 +844,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Combined_Using_Shaping_Filter_Back_In()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -910,7 +911,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_OnSelf_With_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -959,7 +960,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_OnSelf_CustomComparable_With_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {
@@ -1008,7 +1009,7 @@ namespace UnitTests.UI
         [UITestMethod]
         public void Test_AdvancedCollectionView_Sorting_CustomComparable_With_Shaping()
         {
-            var l = new ObservableCollection<Person>
+            var l = new TestObservableCollection<Person>
             {
                 new Person()
                 {

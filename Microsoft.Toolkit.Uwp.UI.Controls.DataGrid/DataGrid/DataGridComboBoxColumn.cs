@@ -5,7 +5,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
@@ -13,6 +12,7 @@ using Microsoft.Toolkit.Uwp.UI.Utilities;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Data;
+using Microsoft.UI.Xaml.Interop;
 using Microsoft.UI.Xaml.Media;
 using Windows.UI.Text;
 

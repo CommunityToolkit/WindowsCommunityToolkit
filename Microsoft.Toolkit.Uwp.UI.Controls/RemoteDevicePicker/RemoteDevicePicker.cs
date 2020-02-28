@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Gets or sets List of All Remote Systems based on Selection Filter
         /// </summary>
-        private ObservableCollection<RemoteSystem> RemoteSystems { get; set; }
+        private TestObservableCollection<RemoteSystem> RemoteSystems { get; set; }
 
         /// <summary>
         /// Gets or sets the DeviceList Selection Mode. Defaults to ListViewSelectionMode.Single
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RemoteDevicePicker()
         {
             DefaultStyleKey = typeof(RemoteDevicePicker);
-            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            RemoteSystems = new TestObservableCollection<RemoteSystem>();
             PrimaryButtonClick += RemoteDevicePicker_PrimaryButtonClick;
 
             _discoveryFilter = new RemoteSystemDiscoveryTypeFilter(RemoteSystemDiscoveryType.Any);
@@ -100,7 +100,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         public RemoteDevicePicker(RemoteSystemDiscoveryType remoteSystemDiscoveryType, RemoteSystemAuthorizationKind remoteSystemAuthorizationKind, RemoteSystemStatusType remoteSystemStatusType)
         {
             DefaultStyleKey = typeof(RemoteDevicePicker);
-            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            RemoteSystems = new TestObservableCollection<RemoteSystem>();
             PrimaryButtonClick += RemoteDevicePicker_PrimaryButtonClick;
 
             _discoveryFilter = new RemoteSystemDiscoveryTypeFilter(remoteSystemDiscoveryType);
@@ -352,12 +352,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void UpdateList()
         {
-            var bindingList = new ObservableCollection<RemoteSystem>();
+            var bindingList = new TestObservableCollection<RemoteSystem>();
             if (RemoteSystems != null && _listDeviceTypes != null && _listDevices != null)
             {
                 var bindinglist = _listDeviceTypes.SelectedValue.ToString().Equals("All")
                     ? RemoteSystems
-                    : new ObservableCollection<RemoteSystem>(RemoteSystems.Where(a => a.Kind.Equals(_listDeviceTypes.SelectedValue.ToString(), StringComparison.OrdinalIgnoreCase)).ToList());
+                    : new TestObservableCollection<RemoteSystem>(RemoteSystems.Where(a => a.Kind.Equals(_listDeviceTypes.SelectedValue.ToString(), StringComparison.OrdinalIgnoreCase)).ToList());
 
                 _listDevices.ItemsSource = bindinglist;
                 UpdateProgressRing(false);

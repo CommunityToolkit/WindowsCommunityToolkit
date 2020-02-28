@@ -18,11 +18,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
     [Bindable]
     public class PhotosDataSource
     {
-        private static ObservableCollection<PhotoDataItem> _photos;
-        private static ObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
+        private static TestObservableCollection<PhotoDataItem> _photos;
+        private static TestObservableCollection<IEnumerable<PhotoDataItem>> _groupedPhotos;
         private static bool _isOnlineCached;
 
-        public async Task<ObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false, int maxCount = -1)
+        public async Task<TestObservableCollection<PhotoDataItem>> GetItemsAsync(bool online = false, int maxCount = -1)
         {
             CheckCacheState(online);
 
@@ -34,7 +34,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
             return _photos;
         }
 
-        public async Task<ObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false, int maxCount = -1)
+        public async Task<TestObservableCollection<IEnumerable<PhotoDataItem>>> GetGroupedItemsAsync(bool online = false, int maxCount = -1)
         {
             CheckCacheState(online);
 
@@ -49,8 +49,8 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.Data
         private static async Task LoadAsync(bool online, int maxCount)
         {
             _isOnlineCached = online;
-            _photos = new ObservableCollection<PhotoDataItem>();
-            _groupedPhotos = new ObservableCollection<IEnumerable<PhotoDataItem>>();
+            _photos = new TestObservableCollection<PhotoDataItem>();
+            _groupedPhotos = new TestObservableCollection<IEnumerable<PhotoDataItem>>();
 
             foreach (var item in await GetPhotosAsync(online))
             {

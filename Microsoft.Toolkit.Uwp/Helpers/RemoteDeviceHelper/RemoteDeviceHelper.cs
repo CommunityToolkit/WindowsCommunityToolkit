@@ -20,7 +20,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// <summary>
         /// Gets a List of All Remote Systems based on Selection Filter
         /// </summary>
-        public ObservableCollection<RemoteSystem> RemoteSystems { get; private set; }
+        public TestObservableCollection<RemoteSystem> RemoteSystems { get; private set; }
 
         private RemoteSystemWatcher _remoteSystemWatcher;
 
@@ -29,7 +29,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         public RemoteDeviceHelper()
         {
-            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            RemoteSystems = new TestObservableCollection<RemoteSystem>();
             GenerateSystems();
         }
 
@@ -38,7 +38,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         /// </summary>
         public RemoteDeviceHelper(List<IRemoteSystemFilter> filter)
         {
-            RemoteSystems = new ObservableCollection<RemoteSystem>();
+            RemoteSystems = new TestObservableCollection<RemoteSystem>();
             GenerateSystemsWithFilterAsync(filter);
         }
 

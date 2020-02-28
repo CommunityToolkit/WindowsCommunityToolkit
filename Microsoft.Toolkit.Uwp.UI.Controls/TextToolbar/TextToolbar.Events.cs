@@ -3,14 +3,17 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Specialized;
+using System.Collections;
 using System.Linq;
 using Microsoft.Toolkit.Uwp.UI.Controls.TextToolbarButtons;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
+using Microsoft.UI.Xaml.Interop;
 using Windows.System;
 using Windows.UI.Core;
+using NotifyCollectionChangedAction = System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -171,7 +174,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        foreach (IToolbarItem item in e.NewItems)
+                        foreach (IToolbarItem item in (IEnumerable)e.NewItems)
                         {
                             AddToolbarItem(item, root);
 
@@ -185,7 +188,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        foreach (IToolbarItem item in e.OldItems)
+                        foreach (IToolbarItem item in (IEnumerable)e.OldItems)
                         {
                             RemoveToolbarItem(item);
 
@@ -215,7 +218,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    foreach (DefaultButton item in e.NewItems)
+                    foreach (DefaultButton item in (IEnumerable)e.NewItems)
                     {
                         var element = GetDefaultButton(item.Type);
                         item.Button = element;
@@ -230,7 +233,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         /// <param name="sender">Toolbar Button</param>
         /// <param name="e">Property Changed Event</param>
-        private void ToolbarItemPropertyChanged(object sender, global::System.ComponentModel.PropertyChangedEventArgs e)
+        private void ToolbarItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var root = GetTemplateChild(RootControl) as CommandBar;
             if (root != null)

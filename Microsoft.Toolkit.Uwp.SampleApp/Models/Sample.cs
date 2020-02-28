@@ -528,7 +528,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                                 case PropertyKind.TimeSpan:
                                     try
                                     {
-                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture)) };
+                                        var sliderOptions = new SliderPropertyOptions { DefaultValue = DurationHelper.FromTimeSpan(TimeSpan.FromMilliseconds(double.Parse(value, CultureInfo.InvariantCulture))) };
                                         var parameters = match.Groups["parameters"].Value;
                                         var split = parameters.Split('-');
                                         int minIndex = 0;
@@ -646,9 +646,21 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
                 return result;
             }
 
-            // Search in Windows
+            // Search in MUX
             var proxyType = VerticalAlignment.Center;
             var assembly = proxyType.GetType().GetTypeInfo().Assembly;
+
+            foreach (var typeInfo in assembly.ExportedTypes)
+            {
+                if (typeInfo.Name == typeName)
+                {
+                    return typeInfo;
+                }
+            }
+
+            // Search in Windows
+            var wuxType = Windows.UI.Xaml.VerticalAlignment.Center;
+            assembly = wuxType.GetType().GetTypeInfo().Assembly;
 
             foreach (var typeInfo in assembly.ExportedTypes)
             {

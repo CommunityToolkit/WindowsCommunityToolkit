@@ -6,9 +6,9 @@ using System;
 using System.Collections.ObjectModel;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
@@ -16,7 +16,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     {
         private Random _random = new Random();
 
-        public ObservableCollection<DeviceItem> DeviceList { get; private set; } = new ObservableCollection<DeviceItem>();
+        public TestObservableCollection<DeviceItem> DeviceList { get; private set; } = new TestObservableCollection<DeviceItem>();
 
         public OrbitViewPage()
         {

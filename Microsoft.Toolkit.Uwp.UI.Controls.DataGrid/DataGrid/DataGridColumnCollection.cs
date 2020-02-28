@@ -6,11 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using Microsoft.Toolkit.Uwp.Internal;
 using Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
-    internal class DataGridColumnCollection : ObservableCollection<DataGridColumn>
+    internal class DataGridColumnCollection : TestObservableCollection<DataGridColumn>
     {
         private DataGrid _owningGrid;
 
