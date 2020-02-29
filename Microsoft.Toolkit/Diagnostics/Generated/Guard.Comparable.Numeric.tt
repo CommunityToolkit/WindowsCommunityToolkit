@@ -220,7 +220,6 @@ foreach (var type in new[] { "byte", "sbyte", "short", "ushort", "char", "int", 
         /// <summary>
         /// Asserts that the input value must not be in a given interval.
         /// </summary>
-        /// <typeparam name="T">The type of input values to compare.</typeparam>
         /// <param name="value">The input <see cref="<#=type#>"/> value to test.</param>
         /// <param name="minimum">The inclusive minimum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="maximum">The inclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>

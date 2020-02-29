@@ -21,9 +21,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Diagnostics\Generated\Guard.Numeric.tt">
+    <None Update="Diagnostics\Generated\Guard.Comparable.Numeric.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Guard.Numeric.cs</LastGenOutput>
+      <LastGenOutput>Guard.Comparable.Numeric.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -32,10 +32,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Diagnostics\Generated\Guard.Numeric.cs">
+    <Compile Update="Diagnostics\Generated\Guard.Comparable.Numeric.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>Guard.Numeric.tt</DependentUpon>
+      <DependentUpon>Guard.Comparable.Numeric.tt</DependentUpon>
     </Compile>
   </ItemGroup>
 
