@@ -51,25 +51,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 throw new ArgumentOutOfRangeException(nameof(tripPos));
             }
 
-            var line = markdown[tripPos.Line];
+            // Ignore escaped sequences
+            if (tripPos.Column > 0 && markdown[tripPos.Line][tripPos.Column - 1] == '\\')
+            {
+                return null;
+            }
+
+            // discard not nedded parts.
+            markdown = markdown.SliceText(tripPos);
 
             // Check the start sequence.
-            var startSequence = line.Slice(tripPos.Column);
-            if (!startSequence.StartsWith(_markerStart.AsSpan()))
+            if (!markdown[0].StartsWith(_markerStart.AsSpan()))
             {
                 return null;
             }
 
             // Find the end of the span.  The end sequence (either '**' or '__') must be the same
             // as the start sequence.
-            var subBlock = markdown.Slice(tripPos).Slice(_markerStart.Length);
-            var endPosition = subBlock.IndexOf(_markerEnd.AsSpan(), StringComparison.OrdinalIgnoreCase);
+            var subBlock = markdown.SliceText(_markerStart.Length);
+            var endPosition = GetEndPosition(subBlock);
             if (endPosition == LineBlockPosition.NotFound)
             {
                 return null;
             }
 
-            var innerBlock = subBlock.Slice(endPosition);
+            var innerBlock = subBlock.SliceText(0, endPosition.FromStart);
 
             // The span must contain at least one character.
             if (innerBlock.TextLength == 0)
@@ -92,7 +98,35 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             var result = MakeInline(document.ParseInlineChildren(innerBlock, ignoredParsers));
 
             // We found something!
-            return InlineParseResult.Create(result, tripPos, endPosition.FromStart + _markerEnd.Length);
+            return InlineParseResult.Create(result, tripPos, endPosition.FromStart + _markerStart.Length + _markerEnd.Length);
+        }
+
+        private LineBlockPosition GetEndPosition(LineBlock subBlock)
+        {
+            var position = LineBlockPosition.NotFound;
+            do
+            {
+                if (position == LineBlockPosition.NotFound)
+                {
+                    position = default;
+                }
+                else
+                {
+                    position = position.Add(1, subBlock);
+                }
+
+                var positionOffset = subBlock.SliceText(position).IndexOf(_markerEnd.AsSpan(), StringComparison.OrdinalIgnoreCase);
+                if (positionOffset == LineBlockPosition.NotFound)
+                {
+                    return LineBlockPosition.NotFound;
+                }
+
+                position = positionOffset.Add(position.FromStart, subBlock);
+
+            }
+            while (position.Column > 0 && subBlock[position.Line, position.Column - 1] == '\\');
+
+            return position;
         }
 
         /// <summary>

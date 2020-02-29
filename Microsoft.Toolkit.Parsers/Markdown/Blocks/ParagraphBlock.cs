@@ -31,13 +31,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// Parses paragraph text.
         /// </summary>
         /// <param name="markdown">The markdown text. </param>
-        /// <param name="start">The start position from where to parse.</param>
-        /// <param name="end">The maximum position up to which parse.</param>
         /// <param name="document">The parsing Document.</param>
         /// <returns> A parsed paragraph. Or <c>null</c> if nothing was parsed.</returns>
-        internal static ParagraphBlock Parse(string markdown, int start, int end, MarkdownDocument document)
+        public static ParagraphBlock Parse(LineBlock markdown, MarkdownDocument document)
         {
-            var inlines = document.ParseInlineChildren(markdown, start, end, Array.Empty<Type>());
+            var inlines = document.ParseInlineChildren(markdown);
 
             // If we didn't find inline elements we return no Paragraph
             if (inlines.Count == 0)
@@ -45,8 +43,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 return null;
             }
 
-            var result = new ParagraphBlock();
-            result.Inlines = inlines;
+            var result = new ParagraphBlock
+            {
+                Inlines = inlines,
+            };
             return result;
         }
 

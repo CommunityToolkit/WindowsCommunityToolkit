@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Core;
@@ -45,6 +46,75 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// Gets or sets the alignment of content in a table column.
             /// </summary>
             public ColumnAlignment Alignment { get; set; }
+
+            /// <summary>
+            /// Parses the contents of the row, ignoring whitespace at the beginning and end of each cell.
+            /// </summary>
+            /// <returns> The position of the start of the next line. </returns>
+            internal static List<TableColumnDefinition> ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int expectedNumberOfCoulumns)
+            {
+
+                var list = new List<TableColumnDefinition>(expectedNumberOfCoulumns);
+
+                while (true)
+                {
+                    if (line.Length == 0)
+                    {
+                        break;
+                    }
+
+                    if (line[0] == '|')
+                    {
+                        line = line.Slice(1);
+                    }
+
+                    var cell = new TableColumnDefinition() { Alignment = ColumnAlignment.Unspecified };
+                    list.Add(cell);
+
+                    if (line.Length == 0)
+                    {
+                        break;
+                    }
+
+                    var endOfCell = line.IndexOf('|');
+                    if (endOfCell == -1)
+                    {
+                        endOfCell = line.Length;
+                    }
+
+                    var content = line.Slice(0, endOfCell);
+
+                    // check any invalid char;
+                    for (int i = 0; i < content.Length; i++)
+                    {
+                        if (content[i] != '-' || ((i == 0 || i == content.Length - 1) && content[i] != ':'))
+                        {
+                            return null;
+                        }
+                    }
+
+                    if (content[0] == ':')
+                    {
+                        cell.Alignment = ColumnAlignment.Left;
+                    }
+
+                    if (content[content.Length - 1] == ':')
+                    {
+                        // left is 1 and right is 2 center is 3
+                        cell.Alignment |= ColumnAlignment.Right;
+                    }
+
+                    line = line.Slice(endOfCell);
+                }
+
+                if (list.Count < expectedNumberOfCoulumns)
+                {
+                    return null;
+                }
+
+                return list;
+            }
+
         }
 
         /// <summary>
@@ -60,108 +130,64 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <summary>
             /// Parses the contents of the row, ignoring whitespace at the beginning and end of each cell.
             /// </summary>
-            /// <param name="markdown"> The markdown text. </param>
-            /// <param name="startingPos"> The position of the start of the row. </param>
-            /// <param name="maxEndingPos"> The maximum position of the end of the row. </param>
-            /// <param name="requireVerticalBar"> Indicates whether the line must contain a vertical bar. </param>
-            /// <param name="contentParser"> Called for each cell. </param>
             /// <returns> The position of the start of the next line. </returns>
-            internal static int ParseContents(string markdown, int startingPos, int maxEndingPos, bool requireVerticalBar, Action<int, int> contentParser)
+            internal static List<TableCell> ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int? expectedNumberOfCoulumns)
             {
-                // Skip quote characters.
-                int pos = startingPos;
 
-                // If the line starts with a '|' character, skip it.
-                bool lineHasVerticalBar = false;
-                if (pos < maxEndingPos && markdown[pos] == '|')
-                {
-                    lineHasVerticalBar = true;
-                    pos++;
-                }
+                var list = expectedNumberOfCoulumns.HasValue
+                    ? new List<TableCell>(expectedNumberOfCoulumns.Value)
+                    : new List<TableCell>();
 
-                while (pos < maxEndingPos)
+                while (true)
                 {
+                    if (line.Length == 0)
+                    {
+                        break;
+                    }
+
+                    if (line[0] == '|')
+                    {
+                        line = line.Slice(1);
+                    }
+
+                    var cell = new TableCell() { Inlines = Array.Empty<MarkdownInline>() };
+                    list.Add(cell);
+
+                    if (line.Length == 0)
+                    {
+                        break;
+                    }
+
+                    var endOfCell = 0;
+                    while (true)
+                    {
+
+                        endOfCell = line.Slice(endOfCell).IndexOf('|') + endOfCell;
+                        if (endOfCell == -1)
+                        {
+                            endOfCell = line.Length;
+                        }
+
+                        if (endOfCell > 0 && line[endOfCell - 1] == '\\')
+                        {
+                            continue;
+                        }
+
+                        break;
+                    }
+
                     // Ignore any whitespace at the start of the cell (except for a newline character).
-                    while (pos < maxEndingPos && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]) && markdown[pos] != '\n' && markdown[pos] != '\r')
-                    {
-                        pos++;
-                    }
+                    cell.Inlines = document.ParseInlineChildren(line.Slice(0, endOfCell).TrimStart("\t ".AsSpan()));
 
-                    int startOfCellContent = pos;
-
-                    // Find the end of the cell.
-                    bool endOfLineFound = true;
-                    while (pos < maxEndingPos)
-                    {
-                        char c = markdown[pos];
-                        if (c == '|' && (pos == 0 || markdown[pos - 1] != '\\'))
-                        {
-                            lineHasVerticalBar = true;
-                            endOfLineFound = false;
-                            break;
-                        }
-
-                        if (c == '\n')
-                        {
-                            break;
-                        }
-
-                        if (c == '\r')
-                        {
-                            if (pos + 1 < maxEndingPos && markdown[pos + 1] == '\n')
-                            {
-                                pos++; // Swallow the complete linefeed.
-                            }
-
-                            break;
-                        }
-
-                        pos++;
-                    }
-
-                    int endOfCell = pos;
-
-                    // If a vertical bar is required, and none was found, then exit early.
-                    if (endOfLineFound && !lineHasVerticalBar && requireVerticalBar)
-                    {
-                        return startingPos;
-                    }
-
-                    // Ignore any whitespace at the end of the cell.
-                    if (endOfCell > startOfCellContent)
-                    {
-                        while (ParseHelpers.IsMarkdownWhiteSpace(markdown[pos - 1]))
-                        {
-                            pos--;
-                        }
-                    }
-
-                    int endOfCellContent = pos;
-
-                    if (endOfLineFound == false || endOfCellContent > startOfCellContent)
-                    {
-                        // Parse the contents of the cell.
-                        contentParser(startOfCellContent, endOfCellContent);
-                    }
-
-                    // End of input?
-                    // We need to use endOfCell her because pos maybe was decreased so we wouldnt notice the end of input.
-                    if (endOfCell == maxEndingPos)
-                    {
-                        break;
-                    }
-
-                    // Move to the next cell, or the next line.
-                    pos = endOfCell + 1;
-
-                    // End of the line?
-                    if (endOfLineFound)
-                    {
-                        break;
-                    }
+                    line = line.Slice(endOfCell);
                 }
 
-                return pos;
+                if (expectedNumberOfCoulumns.HasValue && list.Count < expectedNumberOfCoulumns.Value)
+                {
+                    return null;
+                }
+
+                return list;
             }
 
             /// <summary>
@@ -170,20 +196,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// the max ending pos, but it sometimes can be. The function will return where it ended parsing the block in the markdown.
             /// </summary>
             /// <returns>the postiion parsed to.</returns>
-            internal int Parse(LineBlock markdown, MarkdownDocument document)
+            internal bool Parse(ReadOnlySpan<char> markdown, MarkdownDocument document, int? expectedNumberOfColumns)
             {
-                Cells = new List<TableCell>();
-                return ParseContents(
+                Cells = ParseContents(
                     markdown,
-                    startingPos,
-                    maxEndingPos,
-                    requireVerticalBar: true,
-                    contentParser: (startingPos2, maxEndingPos2) =>
-                    {
-                        var cell = new TableCell();
-                        cell.Inlines = document.ParseInlineChildren(markdown, Array.Empty<Type>());
-                        Cells.Add(cell);
-                    });
+                    document,
+                    expectedNumberOfColumns);
+
+                return Cells != null;
             }
         }
 
@@ -215,6 +235,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return null;
                 }
 
+                // at least we need 2 lines.
+                if (startLine + 1 >= markdown.LineCount)
+                {
+                    return null;
+                }
+
                 // First thing to do is to check if there is a vertical bar on the line.
                 var allBarsEscaped = true;
                 for (int i = 0; i < markdown[startLine].Length; i++)
@@ -235,79 +261,27 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // Parse the first row.
                 var firstRow = new TableRow();
-                startOfCurrentLine = firstRow.Parse(markdown, startOfCurrentLine, maxEnd, document);
+                firstRow.Parse(markdown[startLine], document, null);
                 rows.Add(firstRow);
 
+                var numberOfColumns = firstRow.Cells.Count;
+
                 // Parse the contents of the second row.
-                var secondRowContents = new List<ReadOnlyMemory<char>>();
-                startOfCurrentLine = TableRow.ParseContents(
-                    markdown,
-                    startOfCurrentLine,
-                    maxEnd,
-                    requireVerticalBar: false,
-                    contentParser: (start2, end2) => secondRowContents.Add(markdown.AsMemory(start2, end2 - start2)));
+                var columnDefinitions = TableColumnDefinition.ParseContents(markdown[startLine + 1], document, numberOfColumns);
 
                 // There must be at least as many columns in the second row as in the first row.
-                if (secondRowContents.Count < firstRow.Cells.Count)
+                // Note: excess columns past firstRowColumnCount are ignored and can contain anything.
+                if (columnDefinitions is null)
                 {
                     return null;
                 }
 
-                // Check each column definition.
-                // Note: excess columns past firstRowColumnCount are ignored and can contain anything.
-                var columnDefinitions = new List<TableColumnDefinition>(firstRow.Cells.Count);
-                for (int i = 0; i < firstRow.Cells.Count; i++)
-                {
-                    var cellContent = secondRowContents[i].Span;
-                    if (cellContent.Length == 0)
-                    {
-                        return null;
-                    }
-
-                    // The first and last characters can be '-' or ':'.
-                    if (cellContent[0] != ':' && cellContent[0] != '-')
-                    {
-                        return null;
-                    }
-
-                    if (cellContent[cellContent.Length - 1] != ':' && cellContent[cellContent.Length - 1] != '-')
-                    {
-                        return null;
-                    }
-
-                    // Every other character must be '-'.
-                    for (int j = 1; j < cellContent.Length - 1; j++)
-                    {
-                        if (cellContent[j] != '-')
-                        {
-                            return null;
-                        }
-                    }
-
-                    // Record the alignment.
-                    var columnDefinition = new TableColumnDefinition();
-                    if (cellContent.Length > 1 && cellContent[0] == ':' && cellContent[cellContent.Length - 1] == ':')
-                    {
-                        columnDefinition.Alignment = ColumnAlignment.Center;
-                    }
-                    else if (cellContent[0] == ':')
-                    {
-                        columnDefinition.Alignment = ColumnAlignment.Left;
-                    }
-                    else if (cellContent[cellContent.Length - 1] == ':')
-                    {
-                        columnDefinition.Alignment = ColumnAlignment.Right;
-                    }
-
-                    columnDefinitions.Add(columnDefinition);
-                }
-
-                // Parse additional rows.
-                while (startOfCurrentLine < maxEnd)
+                for (int i = startLine + 2; i < markdown.LineCount; i++)
                 {
                     var row = new TableRow();
-                    startOfCurrentLine = row.Parse(markdown, startOfCurrentLine, maxEnd, document);
-                    if (row.Cells.Count == 0)
+
+                    var success = row.Parse(markdown[i], document, numberOfColumns);
+                    if (!success)
                     {
                         break;
                     }
@@ -315,19 +289,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     rows.Add(row);
                 }
 
-                var actualEnd = startOfCurrentLine;
-                var textLength = markdown.Length;
-                if (actualEnd > 1 && markdown[actualEnd - 2] == '\r' && markdown[actualEnd - 1] == '\n')
-                {
-                    actualEnd -= 2;
-                }
-                else if (actualEnd > 1 && markdown[actualEnd - 1] == '\n')
-                {
-                    actualEnd -= 1;
-                }
+                // +1 for the coulm definition row
+                var consumedLines = rows.Count + 1;
+
 
                 var tableBlock = new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
-                return BlockParseResult.Create(tableBlock, startOfLine, actualEnd);
+                return BlockParseResult.Create(tableBlock, startLine, consumedLines);
             }
         }
     }

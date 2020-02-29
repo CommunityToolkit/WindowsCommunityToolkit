@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     throw new ArgumentOutOfRangeException(nameof(tripPos));
                 }
 
-                var lineFromTrip = markdown.Slice(tripPos)[0];
+                var lineFromTrip = markdown.SliceText(tripPos)[0];
 
                 // Check for a known scheme e.g. "https://".
                 int pos = -1;
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                var url = lineFromTrip.Slice(1, innerLength).ToString();
+                var url = lineFromTrip.Slice(1, innerLength - 1).ToString();
                 return InlineParseResult.Create(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.BracketedUrl }, tripPos, innerLength + 1);
             }
 
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 var line = markdown[tripPos.Line];
 
                 int start = -1;
-
+                int schemaLength = -1;
                 // Check for a known scheme e.g. "https://".
                 foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
@@ -121,6 +121,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     {
                         // URL scheme found.
                         start = schemeStart;
+                        schemaLength = scheme.Length;
                         break;
                     }
                 }
@@ -136,24 +137,22 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                // The URL must have at least one character after the http:// and at least one dot.
-                int pos = tripPos.Column + 3;
-                if (pos > line.Length)
-                {
-                    return null;
-                }
+                var url = line.Slice(start);
 
-                int dotIndex = line.Slice(pos).IndexOf('.') + pos;
-                if (dotIndex <= pos)
+                var urlLength = FindUrlLength(url);
+                url = url.Slice(0, urlLength);
+
+                // The URL must have at least one character after the http:// and at least one dot.
+                if (url.Slice(schemaLength).IndexOf('.') <= 3)
                 {
                     return null;
                 }
 
                 // Find the end of the URL.
-                int length = FindUrlLength(line.Slice(dotIndex + 1));
 
-                var url = line.Slice(start, length).ToString();
-                return InlineParseResult.Create(new HyperlinkInline { Url = url, Text = url, LinkType = HyperlinkType.FullUrl }, new LineBlockPosition(tripPos.Line, start, markdown), length);
+                var urlString = url.ToString();
+
+                return InlineParseResult.Create(new HyperlinkInline { Url = urlString, Text = urlString, LinkType = HyperlinkType.FullUrl }, new LineBlockPosition(tripPos.Line, start, markdown), urlLength);
             }
 
             /// <inheritdoc/>
@@ -236,6 +235,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// <returns> A parsed subreddit or user link, or <c>null</c> if this is not a subreddit link. </returns>
             private static InlineParseResult<HyperlinkInline> ParseSingleSlashLink(ReadOnlySpan<char> line, LineBlockPosition tripPos)
             {
+                if (tripPos.Column == 0)
+                {
+                    return null;
+                }
+
                 var link = line.Slice(tripPos.Column - 1);
 
                 // The minimum length is 3 characters ("u/u").
@@ -246,11 +250,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 // Determine the type of link (subreddit or user).
                 HyperlinkType linkType;
-                if (link[1] == 'r')
+                if (link[0] == 'r')
                 {
                     linkType = HyperlinkType.Subreddit;
                 }
-                else if (link[1] == 'u')
+                else if (link[0] == 'u')
                 {
                     linkType = HyperlinkType.User;
                 }
@@ -435,7 +439,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 // We found an email address!
                 var emailAddress = line.Slice(start, end - start).ToString();
-                return InlineParseResult.Create(new HyperlinkInline { Url = "mailto:" + emailAddress, Text = emailAddress, LinkType = HyperlinkType.Email }, new LineBlockPosition(tripPos.Column, start, markdown), end);
+                var result = new HyperlinkInline { Url = "mailto:" + emailAddress, Text = emailAddress, LinkType = HyperlinkType.Email };
+                return InlineParseResult.Create(result, new LineBlockPosition(tripPos.Line, start, markdown), end - start);
             }
 
             /// <inheritdoc/>
@@ -467,7 +472,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             int end = markdown.IndexOfAny(" \t\r\n<".AsSpan());
             if (end == -1)
             {
-                end = markdown.Length - 1;
+                end = markdown.Length;
             }
 
             // URLs can't end on a punctuation character.
@@ -481,7 +486,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 end--;
             }
 
-            return end + 1;
+            return end;
         }
     }
 }

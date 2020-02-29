@@ -35,7 +35,7 @@ World";
         {
             var l = new LineBlock(text.AsSpan());
 
-            Assert.AreEqual(text.Replace("\r\n", "\n"), l.ToString());
+            Assert.AreEqual(text, l.ToString());
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ World";
         public void SliceStart()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(2);
+            l = l.SliceText(2);
 
             Assert.AreEqual("llo", l[0].ToString());
             Assert.AreEqual("Welt", l[1].ToString());
@@ -67,7 +67,7 @@ World";
             var l = new LineBlock(text.AsSpan());
             for (int i = 0; i < 5; i++)
             {
-                l = l.Slice(1);
+                l = l.SliceText(1);
                 testString = testString.Substring(1);
                 if (i == 4)
                 {
@@ -91,8 +91,8 @@ World";
         public void SliceStartTwice()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(1);
-            l = l.Slice(1);
+            l = l.SliceText(1);
+            l = l.SliceText(1);
 
             Assert.AreEqual("llo", l[0].ToString());
             Assert.AreEqual("Welt", l[1].ToString());
@@ -104,7 +104,7 @@ World";
         public void SliceStartCompleteLine()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(5);
+            l = l.SliceText(5);
 
             Assert.AreEqual(3, l.LineCount);
             Assert.AreEqual("Welt", l[0].ToString());
@@ -116,7 +116,7 @@ World";
         public void SliceStartMoreThen1Line()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(6);
+            l = l.SliceText(6);
 
             Assert.AreEqual(3, l.LineCount);
             Assert.AreEqual("elt", l[0].ToString());
@@ -128,7 +128,7 @@ World";
         public void SliceEnd()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(0, l.TextLength - 1);
+            l = l.SliceText(0, l.TextLength - 1);
 
             Assert.AreEqual("Hallo", l[0].ToString());
             Assert.AreEqual("Welt", l[1].ToString());
@@ -140,8 +140,8 @@ World";
         public void SliceEndTwice()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(0, l.TextLength - 1);
-            l = l.Slice(0, l.TextLength - 1);
+            l = l.SliceText(0, l.TextLength - 1);
+            l = l.SliceText(0, l.TextLength - 1);
 
             Assert.AreEqual("Hallo", l[0].ToString());
             Assert.AreEqual("Welt", l[1].ToString());
@@ -153,7 +153,7 @@ World";
         public void SliceEndCompleteLine()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(0, l.TextLength - 5);
+            l = l.SliceText(0, l.TextLength - 5);
 
             Assert.AreEqual(3, l.LineCount);
             Assert.AreEqual("Hallo", l[0].ToString());
@@ -165,7 +165,7 @@ World";
         public void SliceEndMoreThen1Line()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(0, l.TextLength - 6);
+            l = l.SliceText(0, l.TextLength - 6);
 
             Assert.AreEqual(3, l.LineCount);
             Assert.AreEqual("Hallo", l[0].ToString());
@@ -177,7 +177,7 @@ World";
         public void SliceBoth()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(1, l.TextLength - 2);
+            l = l.SliceText(1, l.TextLength - 2);
 
             Assert.AreEqual("allo", l[0].ToString());
             Assert.AreEqual("Welt", l[1].ToString());
@@ -215,7 +215,7 @@ World";
         public void RemoveFromLineStartAfterSlice()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(1, l.TextLength - 2);
+            l = l.SliceText(1, l.TextLength - 2);
             l = l.RemoveFromLineStart(2);
 
             Assert.AreEqual("lo", l[0].ToString());
@@ -228,7 +228,7 @@ World";
         public void RemoveFromLineEndAfterSlice()
         {
             var l = new LineBlock(text.AsSpan());
-            l = l.Slice(1, l.TextLength - 2);
+            l = l.SliceText(1, l.TextLength - 2);
             l = l.RemoveFromLineEnd(2);
 
             Assert.AreEqual("al", l[0].ToString());
@@ -241,7 +241,7 @@ World";
         public void RemoveLastCharStart()
         {
             var l = new LineBlock("1".AsSpan());
-            l = l.Slice(1);
+            l = l.SliceText(1);
             Assert.AreEqual(0, l.LineCount);
         }
 
@@ -249,7 +249,7 @@ World";
         public void RemoveLastCharEnd()
         {
             var l = new LineBlock("1".AsSpan());
-            l = l.Slice(0, 0);
+            l = l.SliceText(0, 0);
             Assert.AreEqual(0, l.LineCount);
         }
 

@@ -78,7 +78,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// </summary>
             /// <typeparam name="T">The Parser.</typeparam>
             public void Before<T>()
-                where T : Parser
+                where T : Parser, new()
             {
                 this.BeforeParsers.Add(typeof(T));
             }
@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// </summary>
             /// <typeparam name="T">The Parser.</typeparam>
             public void After<T>()
-                where T : Parser
+                where T : Parser, new()
             {
                 this.AfterParsers.Add(typeof(T));
             }
@@ -167,7 +167,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             protected abstract BlockParseResult<TBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document);
 
             /// <inheritdoc/>
-            public override BlockParseResult Parse(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
+            public sealed override BlockParseResult Parse(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document) => this.ParseInternal(markdown, startLine, lineStartsNewParagraph, document);
         }
     }
 }

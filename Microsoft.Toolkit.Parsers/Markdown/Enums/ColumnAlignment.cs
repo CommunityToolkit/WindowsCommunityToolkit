@@ -12,21 +12,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// The alignment was not specified.
         /// </summary>
-        Unspecified,
+        Unspecified = 0,
 
         /// <summary>
         /// Content should be left aligned.
         /// </summary>
-        Left,
+        Left = 1,
 
         /// <summary>
         /// Content should be right aligned.
         /// </summary>
-        Right,
+        Right = 2,
 
         /// <summary>
         /// Content should be centered.
         /// </summary>
-        Center,
+        Center = 3,
     }
 }

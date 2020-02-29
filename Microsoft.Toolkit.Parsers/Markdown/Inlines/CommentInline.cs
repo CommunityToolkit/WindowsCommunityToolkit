@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Find the end of the span.  The end sequence ('-->')
-                var subBlock = markdown.Slice(tripPos).Slice(4);
+                var subBlock = markdown.SliceText(tripPos).SliceText(4);
 
                 var innerEnd = subBlock.IndexOf("-->".AsSpan());
                 if (innerEnd == LineBlockPosition.NotFound)
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                var contents = subBlock.Slice(0, innerEnd.FromStart).ToString();
+                var contents = subBlock.SliceText(0, innerEnd.FromStart).ToString();
 
                 var result = new CommentInline
                 {

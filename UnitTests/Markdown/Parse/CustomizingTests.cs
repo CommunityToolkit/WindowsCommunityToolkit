@@ -158,7 +158,8 @@ namespace UnitTests.Markdown.Parse
 
         private class BlockTestParser : MarkdownBlock.Parser<ParagraphBlock>
         {
-            protected override BlockParseResult<ParagraphBlock> ParseInternal(string markdown, int startOfLine, int firstNonSpace, int endOfFirstLine, int maxStart, int maxEnd, bool lineStartsNewParagraph, MarkdownDocument document)
+
+            protected override BlockParseResult<ParagraphBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
                 var paragraphBlock = new ParagraphBlock
                 {
@@ -167,7 +168,7 @@ namespace UnitTests.Markdown.Parse
                         new TextRunInline() { Text = this.GetType().Name }
                     }
                 };
-                return BlockParseResult.Create(paragraphBlock, startOfLine, maxEnd);
+                return BlockParseResult.Create(paragraphBlock, startLine, markdown.LineCount);
             }
         }
 
@@ -189,9 +190,9 @@ namespace UnitTests.Markdown.Parse
 
         private class InlineTestParser : MarkdownInline.Parser<TextRunInline>
         {
-            protected override InlineParseResult<TextRunInline> ParseInternal(string markdown, int minStart, int tripPos, int maxEnd, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
+            protected override InlineParseResult<TextRunInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                return new InlineParseResult<TextRunInline>(new TextRunInline() { Text = this.GetType().Name }, minStart, maxEnd);
+                return new InlineParseResult<TextRunInline>(new TextRunInline() { Text = this.GetType().Name }, tripPos, markdown.SliceText(tripPos).TextLength);
             }
         }
     }

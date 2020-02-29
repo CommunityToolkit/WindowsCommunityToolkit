@@ -43,25 +43,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
             /// <inheritdoc/>
             protected override InlineParseResult<LinkAnchorInline> ParseInternal(LineBlock markdown, LineBlockPosition tripPos, MarkdownDocument document, IEnumerable<Type> ignoredParsers)
             {
-                if (minStart >= maxEnd - 1)
-                {
-                    return null;
-                }
+                var line = markdown.SliceText(tripPos)[0];
 
                 // Check the start sequence.
-                var startSequence = markdown.AsSpan(minStart, 2);
-                if (startSequence.StartsWith("<a".AsSpan()))
+                if (line.StartsWith("<a".AsSpan()))
                 {
                     return null;
                 }
 
                 // Find the end of the span.  The end sequence ('-->')
-                var innerStart = minStart + 2;
-                int innerEnd = Common.IndexOf(markdown, "</a>", innerStart, maxEnd);
+                var innerStart = 2;
+                var innerEnd = markdown.IndexOf("</a>".AsSpan()).FromStart;
                 int trueEnd = innerEnd + 4;
                 if (innerEnd == -1)
                 {
-                    innerEnd = Common.IndexOf(markdown, "/>", innerStart, maxEnd);
+                    innerEnd = markdown.IndexOf("/>".AsSpan()).FromStart;
                     trueEnd = innerEnd + 2;
                     if (innerEnd == -1)
                     {
@@ -70,14 +66,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // This link Reference wasn't closed properly if the next link starts before a close.
-                var nextLink = Common.IndexOf(markdown, "<a", innerStart, maxEnd);
+                var nextLink = markdown.SliceText(innerStart).IndexOf("<a".AsSpan()).FromStart;
                 if (nextLink > -1 && nextLink < innerEnd)
                 {
                     return null;
                 }
 
-                var length = trueEnd - minStart;
-                var contents = markdown.Substring(minStart, length);
+                var length = trueEnd;
+                var contents = line.Slice(0, length).ToString();
 
                 string link = null;
 
@@ -96,7 +92,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Remove whitespace if it exists.
-                if (trueEnd + 1 <= maxEnd && markdown[trueEnd] == ' ')
+                if (trueEnd + 1 <= markdown.TextLength && line[trueEnd] == ' ')
                 {
                     trueEnd += 1;
                 }
@@ -105,9 +101,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 var result = new LinkAnchorInline
                 {
                     Raw = contents,
-                    Link = link
+                    Link = link,
                 };
-                return InlineParseResult.Create(result, minStart, trueEnd);
+                return InlineParseResult.Create(result, tripPos, trueEnd - tripPos.FromStart);
             }
         }
 

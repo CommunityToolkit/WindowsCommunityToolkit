@@ -57,82 +57,62 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             protected override void ConfigureDefaults(DefaultParserConfiguration configuration)
             {
                 base.ConfigureDefaults(configuration);
-                configuration.After<CodeBlock.Parser>();
+                configuration.After<CodeBlock.ParserIndented>();
             }
 
             /// <inheritdoc/>
             protected override BlockParseResult<LinkReferenceBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
+                var line = markdown[startLine];
+
                 // Expect a '[' character.
-                if (startOfLine >= endOfFirstLine || markdown[startOfLine] != '[')
+                if (line.Length == 0 || line[0] != '[')
                 {
                     return null;
                 }
 
                 // Find the ']' character
-                int pos = startOfLine + 1;
-                while (pos < endOfFirstLine)
-                {
-                    if (markdown[pos] == ']')
-                    {
-                        break;
-                    }
+                var closingIndex = line.IndexOf(']');
 
-                    pos++;
-                }
-
-                if (pos == endOfFirstLine)
+                if (closingIndex == -1)
                 {
                     return null;
                 }
 
                 // Extract the ID.
-                string id = markdown.Substring(startOfLine + 1, pos - (startOfLine + 1));
+                var id = line.Slice(1, closingIndex - 1);
 
                 // Expect the ':' character.
-                pos++;
-                if (pos == endOfFirstLine || markdown[pos] != ':')
+                var collonIndex = closingIndex + 1;
+                if (collonIndex + 1 >= line.Length || line[collonIndex] != ':')
                 {
                     return null;
                 }
 
                 // Skip whitespace
-                pos++;
-                while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-                {
-                    pos++;
-                }
-
-                if (pos == endOfFirstLine)
+                var urlStart = line.Slice(collonIndex + 1).IndexOfNonWhiteSpace() + collonIndex + 1;
+                if (urlStart == -1)
                 {
                     return null;
                 }
 
                 // Extract the URL.
-                int urlStart = pos;
-                while (pos < endOfFirstLine && !ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-                {
-                    pos++;
-                }
+                var urlLength = line.Slice(urlStart).IndexOfAny("\t ".AsSpan());
 
-                string url = TextRunInline.ResolveEscapeSequences(markdown, urlStart, pos);
+                var url = document.ResolveEscapeSequences(line.Slice(urlStart, urlLength));
 
                 // Ignore leading '<' and trailing '>'.
                 url = url.TrimStart('<').TrimEnd('>');
 
                 // Skip whitespace.
-                pos++;
-                while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-                {
-                    pos++;
-                }
+                var pos = line.Slice(urlStart + urlLength).IndexOfNonWhiteSpace() + urlStart + urlLength;
 
                 string tooltip = null;
-                if (pos < endOfFirstLine)
+                if (pos != -1)
                 {
                     // Extract the tooltip.
                     char tooltipEndChar;
-                    switch (markdown[pos])
+                    switch (line[pos])
                     {
                         case '(':
                             tooltipEndChar = ')';
@@ -140,7 +120,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                         case '"':
                         case '\'':
-                            tooltipEndChar = markdown[pos];
+                            tooltipEndChar = line[pos];
                             break;
 
                         default:
@@ -149,26 +129,17 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                     pos++;
                     int tooltipStart = pos;
-                    while (pos < endOfFirstLine && markdown[pos] != tooltipEndChar)
+                    var tooltipLength = line.Slice(tooltipStart).IndexOf(tooltipEndChar);
+
+                    if (tooltipLength == -1)
                     {
-                        pos++;
+                        return null;
                     }
 
-                    if (pos == endOfFirstLine)
-                    {
-                        return null;    // No end character.
-                    }
-
-                    tooltip = markdown.Substring(tooltipStart, pos - tooltipStart);
+                    tooltip = line.Slice(tooltipStart, pos - tooltipStart).ToString();
 
                     // Check there isn't any trailing text.
-                    pos++;
-                    while (pos < endOfFirstLine && ParseHelpers.IsMarkdownWhiteSpace(markdown[pos]))
-                    {
-                        pos++;
-                    }
-
-                    if (pos < endOfFirstLine)
+                    if (line.Length > pos && line.Slice(pos).IndexOfNonWhiteSpace() != -1)
                     {
                         return null;
                     }
@@ -176,10 +147,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // We found something!
                 var result = new LinkReferenceBlock();
-                result.Id = id;
+                result.Id = id.ToString();
                 result.Url = url;
                 result.Tooltip = tooltip;
-                return BlockParseResult.Create(result, startOfLine, endOfFirstLine);
+                return BlockParseResult.Create(result, startLine, 1);
             }
         }
     }

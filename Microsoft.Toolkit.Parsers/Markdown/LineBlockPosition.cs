@@ -9,6 +9,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
     /// <summary>
     /// Specifys the position in a <see cref="LineBlock"/>.
     /// </summary>
+    [System.Diagnostics.DebuggerDisplay("({Line},{Column},{FromStart})")]
     public readonly struct LineBlockPosition : IEquatable<LineBlockPosition>
     {
         internal static readonly LineBlockPosition NotFound = new LineBlockPosition(-1, -1, -1);
@@ -52,8 +53,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>True if the position is valid. false otherwise.</returns>
         public bool IsIn(in LineBlock block)
         {
-            return this.Line > 0
-                && this.Column > 0
+            return this.Line >= 0
+                && this.Column >= 0
                 && this.Line < block.LineCount
                 && this.Column < block[this.Line].Length
                 && this.FromStart < block.TextLength;
@@ -137,6 +138,20 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         public static bool operator !=(LineBlockPosition left, LineBlockPosition right)
         {
             return !(left == right);
+        }
+
+        internal LineBlockPosition Add(int toAdd, LineBlock markdown)
+        {
+            if (this.Column + toAdd < markdown[this.Line].Length || this.Line == markdown.LineCount - 1)
+            {
+                return new LineBlockPosition(this.Line, this.Column + toAdd, this.FromStart + toAdd);
+            }
+            else
+            {
+                var diff = toAdd - (markdown[this.Line].Length - this.Column);
+
+                return new LineBlockPosition(this.Line + 1, 0, this.FromStart + (toAdd - diff)).Add(diff, markdown);
+            }
         }
     }
 }

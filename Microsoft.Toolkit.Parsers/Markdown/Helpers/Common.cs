@@ -169,26 +169,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Helpers
         /// Finds the next whitespace in a range.
         /// </summary>
         /// <returns>pos of the white space.</returns>
-        public static int FindNextWhiteSpace(ReadOnlySpan<char> markdown, bool ifNotFoundReturnLength)
-        {
-            int currentPos = startingPos;
-            while (currentPos < markdown.Length && currentPos < endingPos)
-            {
-                if (char.IsWhiteSpace(markdown[currentPos]))
-                {
-                    return currentPos;
-                }
-
-                currentPos++;
-            }
-
-            return ifNotFoundReturnLength ? endingPos : -1;
-        }
-
-        /// <summary>
-        /// Finds the next whitespace in a range.
-        /// </summary>
-        /// <returns>pos of the white space.</returns>
         public static int FindNextNoneWhiteSpace(string markdown, int startingPos, int endingPos, bool ifNotFoundReturnLength)
         {
             int currentPos = startingPos;

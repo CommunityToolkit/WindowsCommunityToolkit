@@ -75,40 +75,55 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                // The content might be enclosed in parentheses.
-                int innerStart = tripPos.Column + 1;
-                int innerEnd, end;
-                if (innerStart < line.Length && line[innerStart] == '(')
+
+                line = line.Slice(tripPos.Column + 1);
+
+                if (line.Length == 0)
                 {
-                    // Find the end parenthesis.
-                    innerStart++;
-                    innerEnd = line.Slice(innerStart).IndexOf(')') + innerStart;
-                    if (innerEnd == -1)
+                    return null;
+                }
+
+                ReadOnlySpan<char> txt;
+
+                // +1 for the ^
+                int additionalCharacter = 1;
+
+                // The content might be enclosed in parentheses.
+                if (line[0] == '(')
+                {
+                    var closing = line.FindClosingBrace('(', ')');
+                    if (closing == -1)
                     {
                         return null;
                     }
 
-                    end = innerEnd + 1;
+                    txt = line.Slice(1, closing - 1);
+
+                    // for the parentises
+                    additionalCharacter += 2;
                 }
                 else
                 {
-                    // Search for the next whitespace character.
-                    innerEnd = Common.FindNextWhiteSpace(line.Slice(innerStart), ifNotFoundReturnLength: true) + innerStart;
-                    if (innerEnd == innerStart)
+                    var end = line.IndexOfNexWhiteSpace();
+                    if (end == -1)
+                    {
+                        end = line.Length;
+                    }
+                    else if (end == 0)
                     {
                         // No match if the character after the caret is a space.
                         return null;
                     }
 
-                    end = innerEnd;
+                    txt = line.Slice(0, end);
                 }
 
                 // We found something!
                 var result = new SuperscriptTextInline
                 {
-                    Inlines = document.ParseInlineChildren(new LineBlock(line.Slice(innerStart, innerEnd)), ignoredParsers),
+                    Inlines = document.ParseInlineChildren(txt, ignoredParsers),
                 };
-                return InlineParseResult.Create(result, tripPos, end);
+                return InlineParseResult.Create(result, tripPos, txt.Length + additionalCharacter);
             }
         }
 

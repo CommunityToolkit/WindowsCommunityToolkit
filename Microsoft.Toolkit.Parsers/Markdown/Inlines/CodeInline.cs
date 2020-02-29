@@ -48,7 +48,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-                var subBlock = markdown.Slice(tripPos).Slice(1);
+                var subBlock = markdown.SliceText(tripPos).SliceText(1);
                 if (subBlock.LineCount == 0 || subBlock[0].Length == 0)
                 {
                     return null;
@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 if (line[tripPos.Column + 1] == '`')
                 {
                     // Alternate double back-tick syntax.
-                    subBlock = subBlock.Slice(1);
+                    subBlock = subBlock.SliceText(1);
 
                     // Find the end of the span.
                     var innerEnd = subBlock.IndexOf("``".AsSpan());
@@ -98,9 +98,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // We found something!
+                var code = subBlock.SliceText(0, innerLength);
+
+                if (code[0][0] == ' ')
+                {
+                    code = code.SliceText(1);
+                }
+
+                if (code[code.LineCount - 1][code[code.LineCount - 1].Length - 1] == ' ')
+                {
+                    code = code.SliceText(0, code.TextLength - 1);
+                }
+
                 var result = new CodeInline
                 {
-                    Text = subBlock.Slice(0, innerLength).ToStringBuilder().Replace('\n', ' ').ToString(),
+                    Text = code.ToStringBuilder().Replace("\r\n", " ").Replace('\n', ' ').Replace('\r', ' ').ToString(),
                 };
                 return InlineParseResult.Create(result, tripPos, length);
             }

@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Text;
 using Microsoft.Toolkit.Parsers.Markdown.Helpers;
 
@@ -45,143 +46,55 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <summary>
         /// Parse Code Block.
         /// </summary>
-        public new class Parser : Parser<CodeBlock>
+        public class ParserIndented : Parser<CodeBlock>
         {
             /// <inheritdoc/>
             protected override BlockParseResult<CodeBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                StringBuilder code = null;
-
-                var actualEnd = startOfLine;
-                bool insideCodeBlock = false;
-                string codeLanguage = string.Empty;
-
                 if (!lineStartsNewParagraph)
                 {
                     return null;
                 }
 
                 /*
-                    Two options here:
-                    Either every line starts with a tab character or at least 4 spaces
-                    Or the code block starts and ends with ```
+                    This variant is every line starts with a tab character or at least 4 spaces
                 */
 
-                foreach (var lineInfo in Common.ParseLines(markdown, startOfLine, maxEnd))
-                {
-                    int pos = lineInfo.StartOfLine;
-                    if (pos < maxEnd && markdown[pos] == '`')
+                var codeBlock = markdown
+                    .SliceLines(startLine)
+                    .RemoveFromLine((line, index) =>
                     {
-                        var backTickCount = 0;
-                        while (pos < maxEnd && backTickCount < 3)
+                        if (line.IsWhiteSpace())
                         {
-                            if (markdown[pos] == '`')
+                            return (0, line.Length, false, false);
+                        }
+
+                        int indentino = 0;
+                        int charIndex = 0;
+                        while ((line[charIndex] == ' ' || line[charIndex] == '\t') && indentino < 4 && charIndex < line.Length)
+                        {
+                            if (line[charIndex] == ' ')
                             {
-                                backTickCount++;
+                                indentino += 1;
                             }
                             else
                             {
-                                break;
+                                indentino += 4;
                             }
 
-                            pos++;
+                            charIndex++;
                         }
 
-                        if (backTickCount == 3)
+                        if (indentino >= 4)
                         {
-                            insideCodeBlock = !insideCodeBlock;
-
-                            if (!insideCodeBlock)
-                            {
-                                actualEnd = lineInfo.EndOfLine;
-                                break;
-                            }
-                            else
-                            {
-                                // Collects the Programming Language from the end of the starting ticks.
-                                while (pos < lineInfo.EndOfLine)
-                                {
-                                    codeLanguage += markdown[pos];
-                                    pos++;
-                                }
-                            }
+                            return (charIndex, line.Length - charIndex, false, false);
                         }
-                    }
 
-                    if (!insideCodeBlock)
-                    {
-                        // Add every line that starts with a tab character or at least 4 spaces.
-                        if (pos < maxEnd && markdown[pos] == '\t')
-                        {
-                            pos++;
-                        }
-                        else
-                        {
-                            int spaceCount = 0;
-                            while (pos < maxEnd && spaceCount < 4)
-                            {
-                                if (markdown[pos] == ' ')
-                                {
-                                    spaceCount++;
-                                }
-                                else if (markdown[pos] == '\t')
-                                {
-                                    spaceCount += 4;
-                                }
-                                else
-                                {
-                                    break;
-                                }
+                        return (0, 0, true, true);
+                    })
+                    .TrimEnd();
 
-                                pos++;
-                            }
-
-                            if (spaceCount < 4)
-                            {
-                                // We found a line that doesn't start with a tab or 4 spaces.
-                                // But don't end the code block until we find a non-blank line.
-                                if (lineInfo.IsLineBlank == false)
-                                {
-                                    break;
-                                }
-                            }
-                        }
-                    }
-
-                    // Separate each line of the code text.
-                    if (code == null)
-                    {
-                        code = new StringBuilder();
-                    }
-                    else
-                    {
-                        code.AppendLine();
-                    }
-
-                    if (lineInfo.IsLineBlank == false)
-                    {
-                        // Append the code text, excluding the first tab/4 spaces, and convert tab characters into spaces.
-                        string lineText = markdown.Substring(pos, lineInfo.EndOfLine - pos);
-                        int startOfLinePos = code.Length;
-                        for (int i = 0; i < lineText.Length; i++)
-                        {
-                            char c = lineText[i];
-                            if (c == '\t')
-                            {
-                                code.Append(' ', 4 - ((code.Length - startOfLinePos) % 4));
-                            }
-                            else
-                            {
-                                code.Append(c);
-                            }
-                        }
-                    }
-
-                    // Update the end position.
-                    actualEnd = lineInfo.EndOfLine;
-                }
-
-                if (code == null)
+                if (codeBlock.LineCount == 0)
                 {
                     // Not a valid code block.
                     return null;
@@ -190,10 +103,69 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // Blank lines should be trimmed from the start and end.
                 var markdownBlock = new CodeBlock()
                 {
-                    Text = code.ToString().Trim('\r', '\n'),
-                    CodeLanguage = !string.IsNullOrWhiteSpace(codeLanguage) ? codeLanguage.Trim() : null
+                    Text = codeBlock.ToString(),
+                    CodeLanguage = null,
                 };
-                return BlockParseResult.Create(markdownBlock, startOfLine, actualEnd);
+                return BlockParseResult.Create(markdownBlock, startLine, codeBlock.LineCount);
+            }
+        }
+
+        public class ParserTicked : Parser<CodeBlock>
+        {
+            /// <inheritdoc/>
+            protected override BlockParseResult<CodeBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
+            {
+                if (!lineStartsNewParagraph)
+                {
+                    return null;
+                }
+
+                /*
+                    This one the code block starts and ends with ```
+                */
+
+                var firstLine = markdown[startLine];
+
+                if (firstLine.Length < 3
+                    || firstLine[0] != '`'
+                    || firstLine[1] != '`'
+                    || firstLine[2] != '`')
+                {
+                    return null;
+                }
+
+                // Collects the Programming Language from the end of the starting ticks.
+                var codeLanguage = firstLine.Slice(3).Trim();
+
+                var code = markdown
+                    .SliceLines(startLine + 1)
+                    .RemoveFromLine((line, index) =>
+                    {
+                        if (line.Length >= 3
+                            && line[0] == '`'
+                            && line[1] == '`'
+                            && line[2] == '`')
+                        {
+                            return (0, 0, true, true);
+                        }
+
+                        return (0, line.Length, false, false);
+                    });
+
+                // we consume every text in code and did not find a closing token.
+                if (startLine + code.LineCount + 1 >= markdown.LineCount)
+                {
+                    // Not a valid code block.
+                    return null;
+                }
+
+                // Blank lines should be trimmed from the start and end.
+                var markdownBlock = new CodeBlock()
+                {
+                    Text = code.ToString(),
+                    CodeLanguage = codeLanguage.IsWhiteSpace() ? null : codeLanguage.ToString(),
+                };
+                return BlockParseResult.Create(markdownBlock, startLine, code.LineCount + 2);
             }
         }
     }
