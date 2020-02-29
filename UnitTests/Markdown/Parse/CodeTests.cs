@@ -212,7 +212,7 @@ namespace UnitTests.Markdown.Parse
                 after"),
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "before" }),
-                new CodeBlock { Text = "Code\r\n    can\r\nbe  tabbed\r\nhole    tabbed" },
+                new CodeBlock { Text = "Code\r\n\tcan\r\nbe\ttabbed\r\nhole\ttabbed" },
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "after" }));
         }
