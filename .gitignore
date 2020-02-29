@@ -225,3 +225,6 @@ msbuild.binlog
 *.project.lock.json
 /build/tools/**
 !/build/tools/packages.config
+
+# T4 generated files
+*/Diagnostics/Generated/*.cs
