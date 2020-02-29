@@ -60,7 +60,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual(@"Some     `   spacy     text    `    with spaces",
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "Some     " },
-                    new CodeInline { Text = "spacy     text" },
+                    new CodeInline { Text = "  spacy     text   " },
                     new TextRunInline { Text = "    with spaces" }));
         }
 
