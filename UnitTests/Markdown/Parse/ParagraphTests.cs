@@ -39,7 +39,7 @@ namespace UnitTests.Markdown.Parse
                 line 1 
                 line 2"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "line 1  line 2" }));
+                    new TextRunInline { Text = "line 1 line 2" }));
         }
 
         [TestMethod]
@@ -66,7 +66,7 @@ namespace UnitTests.Markdown.Parse
                 line 1   
                 line 2"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "line 1 \r\nline 2" }));
+                    new TextRunInline { Text = "line 1\r\nline 2" }));
         }
 
         [TestMethod]
