@@ -20,4 +20,23 @@
     <PackageReference Include="System.Memory" Version="4.5.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Diagnostics\Generated\Guard.Numeric.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Guard.Numeric.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Diagnostics\Generated\Guard.Numeric.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Guard.Numeric.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
