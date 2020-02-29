@@ -126,6 +126,11 @@ namespace UnitTests.Markdown
                 }
                 else if (value is string || value is Thickness)
                 {
+                    if (propertyInfo.Name == "Text")
+                    {
+                        value = ReplaceLineBreaks(value.ToString());
+                    }
+
                     result.AppendFormat("{0} {1}: '{2}'", first ? "" : ",", propertyInfo.Name, value.ToString());
                     first = false;
                 }
@@ -158,5 +163,22 @@ namespace UnitTests.Markdown
                 }
             }
         }
+
+        private static string ReplaceLineBreaks(string input)
+        {
+            return input.Replace("\r\n", "\x0001")
+                .Replace("\r", "\x0002")
+                .Replace("\n", "\x0003")
+                .Replace("\t", "\x0004")
+                .Replace(" ", "\x0005")
+
+                .Replace("\x0001", "\\r\\n\r\n")
+                .Replace("\x0002", "\\r\r")
+                .Replace("\x0003", "\\n\n")
+                .Replace("\x0004", "\\t\t")
+                .Replace("\x0005", "\x2022")
+                ;
+        }
+
     }
 }
