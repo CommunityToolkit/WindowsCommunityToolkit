@@ -133,86 +133,53 @@ namespace UnitTests.Markdown.Parse
 
         [TestMethod]
         [TestCategory("Parse - inline")]
-        public void Hyperlink_MailtoHostPart()
+        [DataRow("abc@abcABC123.com", "mailto:abc@abcABC123.com", "abc@abcABC123.com", null, DisplayName = "abc@abcABC123.com")]
+        [DataRow("abc@a!b.com", null, "abc@a!b.com", null, DisplayName = "abc@a!b.com")]
+        [DataRow("abc@a#b.com", null, "abc@a#b.com", null, DisplayName = "abc@a#b.com")]
+        [DataRow("abc@a$b.com", null, "abc@a$b.com", null, DisplayName = "abc@a$b.com")]
+        [DataRow("abc@a%b.com", null, "abc@a%b.com", null, DisplayName = "abc@a%b.com")]
+        [DataRow("abc@a&b.com", null, "abc@a&b.com", null, DisplayName = "abc@a&b.com")]
+        [DataRow("abc@a*b.com", null, "abc@a*b.com", null, DisplayName = "abc@a*b.com")]
+        [DataRow("abc@a+b.com", null, "abc@a+b.com", null, DisplayName = "abc@a+b.com")]
+        [DataRow("abc@a!b.com", null, "abc@a!b.com", null, DisplayName = "abc@a!b.com")]
+        [DataRow("abc@a=b.com", null, "abc@a=b.com", null, DisplayName = "abc@a=b.com")]
+        [DataRow("abc@a/b.com", null, "abc@a/b.com", null, DisplayName = "abc@a/b.com")]
+        [DataRow("abc@a?b.com", null, "abc@a?b.com", null, DisplayName = "abc@a?b.com")]
+        [DataRow("abc@a{b.com", null, "abc@a{b.com", null, DisplayName = "abc@a{b.com")]
+        [DataRow("abc@a}b.com", null, "abc@a}b.com", null, DisplayName = "abc@a}b.com")]
+        [DataRow("abc@a|b.com", null, "abc@a|b.com", null, DisplayName = "abc@a|b.com")]
+        [DataRow("abc@a!b.com", null, "abc@a!b.com", null, DisplayName = "abc@a!b.com")]
+        [DataRow("abc@a`b.com", null, "abc@a`b.com", null, DisplayName = "abc@a`b.com")]
+        [DataRow("abc@a'b.com", null, "abc@a'b.com", null, DisplayName = "abc@a'b.com")]
+        [DataRow("abc@a~b.com", null, "abc@a~b.com", null, DisplayName = "abc@a~b.com")]
+        [DataRow("abc@a^b.com", null, "abc@a", "b.com", DisplayName = "abc@a^b.com")]
+        [DataRow("abc@a-b.com", "mailto:abc@a-b.com", "abc@a-b.com", null, DisplayName = "abc@a~b.com")]
+        [DataRow("abc@a_b.com", "mailto:abc@a_b.com", "abc@a_b.com", null, DisplayName = "abc@a_b.com")]
+        [DataRow("abc@a.b.com", "mailto:abc@a.b.com", "abc@a.b.com", null, DisplayName = "abc@a.b.com")]
+        [DataRow("abc@a..t.com", "mailto:abc@a..t.com", "abc@a..t.com", null, DisplayName = "abc@a..t.com")]
+        [DataRow("abc@ab..com", "mailto:abc@ab..com", "abc@ab..com", null, DisplayName = "abc@ab..com")]
+        [DataRow("abc@.ab.com", "mailto:abc@.ab.com", "abc@.ab.com", null, DisplayName = "abc@.ab.com")]
+        public void Hyperlink_MailtoHostPart(string input, string hyperLinkUrl, string text, string superScriptText)
         {
-            AssertEqual(CollapseWhitespace(@"
-                abc@abcABC123.com
+            ParagraphBlock expected;
 
-                abc@a!b.com
+            if (hyperLinkUrl is null)
+            {
+                if (superScriptText != null)
+                {
+                    expected = new ParagraphBlock().AddChildren(new TextRunInline { Text = text }, new SuperscriptTextInline().AddChildren(new TextRunInline { Text = superScriptText }));
+                }
+                else
+                {
+                    expected = new ParagraphBlock().AddChildren(new TextRunInline { Text = text });
+                }
+            }
+            else
+            {
+                expected = new ParagraphBlock().AddChildren(new HyperlinkInline { Url = hyperLinkUrl, Text = text, LinkType = HyperlinkType.Email });
+            }
 
-                abc@a#b.com
-
-                abc@a$b.com
-
-                abc@a%b.com
-
-                abc@a&b.com
-
-                abc@a*b.com
-
-                abc@a+b.com
-
-                abc@a!b.com
-
-                abc@a-b.com
-
-                abc@a=b.com
-
-                abc@a/b.com
-
-                abc@a?b.com
-
-                abc@a^b.com
-
-                abc@a_b.com
-
-                abc@a{b.com
-
-                abc@a}b.com
-
-                abc@a|b.com
-
-                abc@a!b.com
-
-                abc@a`b.com
-
-                abc@a'b.com
-
-                abc@a~b.com
-
-                abc@a.b.com
-
-                abc@a..t.com
-
-                abc@ab..com
-
-                abc@.ab.com"),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@abcABC123.com", Text = "abc@abcABC123.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a!b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a#b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a$b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a%b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a&b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a*b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a+b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a!b.com" }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@a-b.com", Text = "abc@a-b.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a=b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a/b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a?b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a" }, new SuperscriptTextInline().AddChildren(new TextRunInline { Text = "b.com" })),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@a_b.com", Text = "abc@a_b.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a{b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a}b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a|b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a!b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a`b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a'b.com" }),
-                new ParagraphBlock().AddChildren(new TextRunInline { Text = "abc@a~b.com" }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@a.b.com", Text = "abc@a.b.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@a..t.com", Text = "abc@a..t.com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@ab..com", Text = "abc@ab..com", LinkType = HyperlinkType.Email }),
-                new ParagraphBlock().AddChildren(new HyperlinkInline { Url = "mailto:abc@.ab.com", Text = "abc@.ab.com", LinkType = HyperlinkType.Email }));
+            AssertEqual(input, expected);
         }
 
         [TestMethod]
