@@ -1,5 +1,4 @@
-﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
+﻿<#@include file="TypeInfo.ttinclude" #>
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
@@ -22,18 +21,7 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
 <#
-(string Type, string XmlType, string Name, string Count, string DestinationType, string Cast)[] items =
-{
-    ("Span<T>", "<see cref=\"Span{T}\"/>", "span", "Length", "Span<T>", ""),
-    ("ReadOnlySpan<T>", "<see cref=\"ReadOnlySpan{T}\"/>", "span", "Length", "Span<T>", ""),
-    ("Memory<T>", "<see cref=\"Memory{T}\"/>", "memory", "Length", "Memory<T>", ""),
-    ("ReadOnlyMemory<T>", "<see cref=\"ReadOnlyMemory{T}\"/>", "memory", "Length", "Memory<T>", ""),
-    ("T[]", "<see typeparamref=\"T\"/> array", "array", "Length", "T[]", ""),
-    ("List<T>", "<see cref=\"List{T}\"/>", "list", "Count", "List<T>", "(ICollection<T>)"),
-    ("ICollection<T>", "<see cref=\"ICollection{T}\"/>", "collection", "Count", "ICollection<T>", ""),
-    ("IReadOnlyCollection<T>", "<see cref=\"IReadOnlyCollection{T}\"/>", "collection", "Count", "ICollection<T>", ""),
-};
-for (int i = 0; i < items.Length; i++)
+    for (int i = 0; i < EnumerableTypes.Count; i++)
 {
     // Insert a blank line after the first item
     if (i > 0)
@@ -44,7 +32,7 @@ for (int i = 0; i < items.Length; i++)
     }
 
     // Get the current item and generate the specialized APIs
-    var item = items[i];
+    var item = EnumerableTypes[i];
 #>
         /// <summary>
         /// Asserts that the input <#=item.XmlType#> instance must be empty.
@@ -56,7 +44,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> != 0)
+            if (<#=item.Name#>.<#=item.Size#> != 0)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsEmpty(<#=item.Cast#><#=item.Name#>, name);
             }
@@ -72,7 +60,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotEmpty<T>(<#=item.Type#> <#=item.Name#>, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> == 0)
+            if (<#=item.Name#>.<#=item.Size#> == 0)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<T>(name);
             }
@@ -89,7 +77,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> != size)
+            if (<#=item.Name#>.<#=item.Size#> != size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -106,7 +94,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeNotEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> == size)
+            if (<#=item.Name#>.<#=item.Size#> == size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeNotEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -123,7 +111,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeOver<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> <= size)
+            if (<#=item.Name#>.<#=item.Size#> <= size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeOver(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -140,7 +128,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeAtLeast<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> < size)
+            if (<#=item.Name#>.<#=item.Size#> < size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeAtLeast(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -157,7 +145,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThan<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> >= size)
+            if (<#=item.Name#>.<#=item.Size#> >= size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeLessThan(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -174,7 +162,7 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> <#=item.Name#>, int size, string name)
         {
-            if (<#=item.Name#>.<#=item.Count#> > size)
+            if (<#=item.Name#>.<#=item.Size#> > size)
             {
                 ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(<#=item.Cast#><#=item.Name#>, size, name);
             }
@@ -191,13 +179,13 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            if (source.<#=item.Count#> != destination.<#=item.Count#>)
+            if (source.<#=item.Size#> != destination.<#=item.Size#>)
             {
 <#
-    if (item.Count == "Count")
+    if (item.HasCountProperty)
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Count#>, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
 <#
     }
     else
@@ -221,13 +209,13 @@ for (int i = 0; i < items.Length; i++)
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void HasSizeLessThanOrEqualTo<T>(<#=item.Type#> source, <#=item.DestinationType#> destination, string name)
         {
-            if (source.<#=item.Count#> > destination.<#=item.Count#>)
+            if (source.<#=item.Size#> > destination.<#=item.Size#>)
             {
 <#
-    if (item.Count == "Count")
+    if (item.HasCountProperty)
     {
 #>
-                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Count#>, name);
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(<#=item.Cast#>source, destination.<#=item.Size#>, name);
 <#
     }
     else
