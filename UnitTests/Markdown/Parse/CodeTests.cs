@@ -265,7 +265,7 @@ namespace UnitTests.Markdown.Parse
                     Even more code
                 after"),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "before     Code         More code     Even more code after" }));
+                    new TextRunInline { Text = "before Code More code Even more code after" }));
         }
     }
 }

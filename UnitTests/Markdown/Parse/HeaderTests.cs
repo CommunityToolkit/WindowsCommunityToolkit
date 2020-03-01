@@ -180,7 +180,7 @@ namespace UnitTests.Markdown.Parse
                 Header 1
                   ="),
                 new ParagraphBlock().AddChildren(
-                    new TextRunInline { Text = "Header 1   =" }));
+                    new TextRunInline { Text = "Header 1 =" }));
         }
     }
 }
