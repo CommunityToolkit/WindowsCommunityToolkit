@@ -29,6 +29,10 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Guard.Collection.cs</LastGenOutput>
     </None>
+    <None Update="Diagnostics\Generated\ThrowHelper.Collection.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ThrowHelper.Collection.cs</LastGenOutput>
+    </None>
     <None Update="Diagnostics\Generated\TypeInfo.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TypeInfo.cs</LastGenOutput>
@@ -49,6 +53,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Guard.Collection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Diagnostics\Generated\ThrowHelper.Collection.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
     </Compile>
     <Compile Update="Diagnostics\Generated\TypeInfo.cs">
       <DesignTime>True</DesignTime>

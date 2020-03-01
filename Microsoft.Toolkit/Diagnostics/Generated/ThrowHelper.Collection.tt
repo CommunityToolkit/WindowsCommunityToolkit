@@ -1,0 +1,43 @@
+﻿<#@include file="TypeInfo.ttinclude" #>
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+/* ========================
+ * Auto generated file
+ * ===================== */
+
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+#nullable enable
+
+namespace Microsoft.Toolkit.Diagnostics
+{
+    /// <summary>
+    /// Helper methods to throw exceptions
+    /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1618", Justification = "Internal helper methods")]
+    internal static partial class ThrowHelper
+    {
+<#
+for (int i = 0; i < EnumerableTypes.Count; i++)
+{
+    // Insert a blank line after the first item
+    if (i > 0)
+{
+#>
+
+<#
+}
+
+    // Get the current item and generate the specialized APIs
+    var item = EnumerableTypes[i];
+#>
+        // TODO
+<#
+}
+#>
+    }
+}
