@@ -1,6 +1,5 @@
 ﻿<#@ template language="C#" #>
 <#@ assembly name="System.Core" #>
-
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
@@ -10,7 +9,6 @@
  * ===================== */
 
 using System;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -23,8 +21,19 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
 <#
-foreach (var type in new[] { "byte", "sbyte", "short", "ushort", "char", "int", "uint", "float", "long", "ulong", "double", "decimal" })
+var types = new[] { "byte", "sbyte", "short", "ushort", "char", "int", "uint", "float", "long", "ulong", "double", "decimal" };
+for (int i = 0; i < types.Length; i++)
 {
+    // Insert a blank line after the first type, to avoid having methods without a blank line in between
+    if (i > 0)
+    {
+#>
+
+<#
+    }
+
+    // Get the current type and generate the specialized APIs
+    var type = types[i];
 #>
         /// <summary>
         /// Asserts that the input value must be equal to a specified value.
