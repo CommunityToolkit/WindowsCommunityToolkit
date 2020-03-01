@@ -51,7 +51,26 @@ GenerateTextForItems(EnumerableTypes, item =>
         {
             if (<#=item.Name#>.<#=item.Size#> == 0)
             {
-                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<T>(name);
+<#
+    if (item.Type == "Span<T>")
+    {
+#>
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithSpan<T>(name);
+<#
+    }
+    else if (item.Type == "ReadOnlySpan<T>")
+    {
+#>
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmptyWithReadOnlySpan<T>(name);
+<#
+    }
+    else
+    {
+#>
+                ThrowHelper.ThrowArgumentExceptionForIsNotEmpty<<#=item.Type#>>(name);
+<#
+    }
+#>
             }
         }
 
