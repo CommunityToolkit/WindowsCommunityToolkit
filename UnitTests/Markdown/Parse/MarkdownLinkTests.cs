@@ -19,7 +19,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("[reddit](http://reddit.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "reddit" })));
         }
 
@@ -27,7 +27,7 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void MarkdownLink_RelativeLink()
         {
-            AssertEqual("[reddit] ( /blog )",
+            AssertEqual("[reddit]( /blog )",
                 new ParagraphBlock().AddChildren(
                     new MarkdownLinkInline { Url = "/blog" }.AddChildren(
                         new TextRunInline { Text = "reddit" })));
@@ -53,27 +53,26 @@ namespace UnitTests.Markdown.Parse
                 [/r/test](http://reddit.com)
                 [one /r/test two](http://reddit.com)"),
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "http://reddit.com" }),
                     new TextRunInline { Text = " " },
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "one http://reddit.com two" }),
                     new TextRunInline { Text = " " },
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "/r/test" }),
                     new TextRunInline { Text = " " },
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "one /r/test two" })));
         }
 
         [TestMethod]
         [TestCategory("Parse - inline")]
-        public void MarkdownLink_WithLabelSpacing()
+        public void MarkdownLink_Negativ_WithLabelSpacing()
         {
-            AssertEqual("[reddit] (http://reddit.com)",
+            AssertEqual("[reddit] (url)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
-                        new TextRunInline { Text = "reddit" })));
+                    new TextRunInline { Text = "[reddit] (url)" }));
         }
 
         [TestMethod]
@@ -82,7 +81,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("[red**dit**](http://reddit.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "red" },
                         new BoldTextInline().AddChildren(
                             new TextRunInline { Text = "dit" }))));
@@ -94,7 +93,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("[one [two] three](http://reddit.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "one [two] three" })));
         }
 
@@ -105,7 +104,7 @@ namespace UnitTests.Markdown.Parse
             AssertEqual("start[ middle ](http://reddit.com)end",
                 new ParagraphBlock().AddChildren(
                     new TextRunInline { Text = "start" },
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = " middle " }),
                     new TextRunInline { Text = "end" }));
         }
@@ -116,7 +115,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("[text](  http://reddit.com  )",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
         }
 
@@ -124,10 +123,9 @@ namespace UnitTests.Markdown.Parse
         [TestCategory("Parse - inline")]
         public void MarkdownLink_WhiteSpaceInUrl()
         {
-            AssertEqual("[text](http://www.reddit .com)",
+            AssertEqual("[text](foo .com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://www.reddit%20.com/" }.AddChildren(
-                        new TextRunInline { Text = "text" })));
+                    new TextRunInline { Text = "[text](foo .com)" }));
         }
 
         [TestMethod]
@@ -136,21 +134,21 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual("[text](http://www.reddit%20.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://www.reddit%20.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://www.reddit%20.com" }.AddChildren(
                         new TextRunInline { Text = "text" })));
         }
 
         [TestMethod]
         [TestCategory("Parse - inline")]
-        [DataRow("[text](http://reddit.com)", "http://reddit.com/", "text", DisplayName = "[text](http://reddit.com)")]
-        [DataRow("[text](https://reddit.com)", "https://reddit.com/", "text", DisplayName = "[text](https://reddit.com)")]
-        [DataRow("[text](ftp://reddit.com)", "ftp://reddit.com/", "text", DisplayName = "[text](ftp://reddit.com)")]
-        [DataRow("[text](steam://reddit.com)", "steam://reddit.com/", "text", DisplayName = "[text](steam://reddit.com)")]
-        [DataRow("[text](irc://reddit.com)", "irc://reddit.com/", "text", DisplayName = "[text](irc://reddit.com)")]
+        [DataRow("[text](http://reddit.com)", "http://reddit.com", "text", DisplayName = "[text](http://reddit.com)")]
+        [DataRow("[text](https://reddit.com)", "https://reddit.com", "text", DisplayName = "[text](https://reddit.com)")]
+        [DataRow("[text](ftp://reddit.com)", "ftp://reddit.com", "text", DisplayName = "[text](ftp://reddit.com)")]
+        [DataRow("[text](steam://reddit.com)", "steam://reddit.com", "text", DisplayName = "[text](steam://reddit.com)")]
+        [DataRow("[text](irc://reddit.com)", "irc://reddit.com", "text", DisplayName = "[text](irc://reddit.com)")]
         [DataRow("[text](news://reddit.com)", "news://reddit.com", "text", DisplayName = "[text](news://reddit.com)")]
-        [DataRow("[text](mumble://reddit.com)", "mumble://reddit.com/", "text", DisplayName = "[text](mumble://reddit.com)")]
+        [DataRow("[text](mumble://reddit.com)", "mumble://reddit.com", "text", DisplayName = "[text](mumble://reddit.com)")]
         [DataRow("[text](sip:1-999-123-4567@voip-provider.example.net)", "sip:1-999-123-4567@voip-provider.example.net", "text", DisplayName = "[text](sip:1-999-123-4567@voip-provider.example.net)")]
-        [DataRow("[text](ssh://reddit.com)", "ssh://reddit.com/", "text", DisplayName = "[text](ssh://reddit.com)")]
+        [DataRow("[text](ssh://reddit.com)", "ssh://reddit.com", "text", DisplayName = "[text](ssh://reddit.com)")]
         public void MarkdownLink_OtherSchemes(string input, string url, string text)
         {
             AssertEqual(input, new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = url }.AddChildren(new TextRunInline { Text = text })));
@@ -162,7 +160,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual(@"[Wikipedia](http://en.wikipedia.org ""tooltip text"")",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://en.wikipedia.org/", Tooltip = "tooltip text" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://en.wikipedia.org", Tooltip = "tooltip text" }.AddChildren(
                         new TextRunInline { Text = "Wikipedia" })));
         }
 
@@ -172,7 +170,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual(@"[Wikipedia](   http://en.wikipedia.org   "" tooltip text ""   )",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://en.wikipedia.org/", Tooltip = " tooltip text " }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://en.wikipedia.org", Tooltip = " tooltip text " }.AddChildren(
                         new TextRunInline { Text = "Wikipedia" })));
         }
 
@@ -182,7 +180,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual(@"[text](http://reddit.com ""quoth the fox ""never more"""")",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "http://reddit.com/", Tooltip = @"quoth the fox ""never more""" }.AddChildren(
+                    new MarkdownLinkInline { Url = "http://reddit.com", Tooltip = @"quoth the fox ""never more""" }.AddChildren(
                         new TextRunInline { Text = "text" })));
         }
 
@@ -213,7 +211,7 @@ namespace UnitTests.Markdown.Parse
             // The link stops at the first ')'
             AssertEqual(@"[test\[ing\]](https://www.reddit.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "https://www.reddit.com/" }.AddChildren(
+                    new MarkdownLinkInline { Url = "https://www.reddit.com" }.AddChildren(
                         new TextRunInline { Text = "test[ing]" })));
         }
 
@@ -223,7 +221,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual(@"[](https://www.reddit.com)",
                 new ParagraphBlock().AddChildren(
-                    new MarkdownLinkInline { Url = "https://www.reddit.com/", Inlines = new List<MarkdownInline>() }));
+                    new MarkdownLinkInline { Url = "https://www.reddit.com", Inlines = new List<MarkdownInline>() }));
         }
 
         // This test is ignored because it is written to pass the "reddit" quirks of markdown.
@@ -283,6 +281,8 @@ namespace UnitTests.Markdown.Parse
                 new ParagraphBlock().AddChildren(new MarkdownLinkInline { Url = "http://example.com/" }.AddChildren(new TextRunInline { Text = "EXAMPLE" })));
         }
 
+        // NO it must not according to commonMark
+        [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void MarkdownLink_Negative_UrlMustBeValid()
@@ -292,6 +292,8 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "[text](ha)" }));
         }
 
+        // NO it must not according to commonMark
+        [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void MarkdownLink_Negative_UrlMustHaveKnownScheme()
@@ -301,6 +303,8 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "[text](hahaha://test)" }));
         }
 
+        // NO it must not according to commonMark
+        [Ignore]
         [TestMethod]
         [TestCategory("Parse - inline")]
         public void MarkdownLink_Negative_UrlCannotBeDomain()
@@ -310,6 +314,16 @@ namespace UnitTests.Markdown.Parse
                     new TextRunInline { Text = "[text](" },
                     new HyperlinkInline { Url = "http://www.reddit.com", Text = "www.reddit.com", LinkType = HyperlinkType.PartialUrl },
                     new TextRunInline { Text = ")" }));
+        }
+
+        [TestMethod]
+        [TestCategory("Parse - inline")]
+        public void MarkdownLink_UrlWithoutScheme()
+        {
+            AssertEqual("[text](www.reddit.com)",
+                new ParagraphBlock().AddChildren(
+                    new MarkdownLinkInline { Url = "www.reddit.com" }.AddChildren(
+                        new TextRunInline { Text = "text" })));
         }
 
         // This test is ignored because it is written to pass the "reddit" quirks of markdown.
