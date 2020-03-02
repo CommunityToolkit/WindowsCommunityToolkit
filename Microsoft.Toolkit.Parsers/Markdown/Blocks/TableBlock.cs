@@ -177,7 +177,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     }
 
                     // Ignore any whitespace at the start of the cell (except for a newline character).
-                    cell.Inlines = document.ParseInlineChildren(line.Slice(0, endOfCell).TrimStart("\t ".AsSpan()));
+                    cell.Inlines = document.ParseInlineChildren(line.Slice(0, endOfCell), true, true);
 
                     line = line.Slice(endOfCell);
                 }

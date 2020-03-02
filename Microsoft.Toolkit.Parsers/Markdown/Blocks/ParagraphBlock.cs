@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
         /// <returns> A parsed paragraph. Or <c>null</c> if nothing was parsed.</returns>
         public static ParagraphBlock Parse(LineBlock markdown, MarkdownDocument document)
         {
-            var inlines = document.ParseInlineChildren(markdown);
+            var inlines = document.ParseInlineChildren(markdown, true, true);
 
             // If we didn't find inline elements we return no Paragraph
             if (inlines.Count == 0)

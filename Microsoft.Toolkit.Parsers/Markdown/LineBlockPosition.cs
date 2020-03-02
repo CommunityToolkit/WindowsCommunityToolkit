@@ -40,7 +40,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             this.FromStart = 0;
             for (int i = 0; i < this.Line; i++)
             {
-                this.FromStart += block[i].Length;
+                this.FromStart += block[i].Length + 1;
             }
 
             this.FromStart += this.Column;
@@ -56,7 +56,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return this.Line >= 0
                 && this.Column >= 0
                 && this.Line < block.LineCount
-                && this.Column < block[this.Line].Length
+                && this.Column <= block[this.Line].Length
                 && this.FromStart < block.TextLength;
         }
 
@@ -80,7 +80,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 }
                 else
                 {
-                    currentProgress += currentLineLength;
+                    currentProgress += currentLineLength + 1;
                     this.Line += 1;
                 }
             }
@@ -142,13 +142,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
         internal LineBlockPosition Add(int toAdd, LineBlock markdown)
         {
-            if (this.Column + toAdd < markdown[this.Line].Length || this.Line == markdown.LineCount - 1)
+            if (this.Column + toAdd <= markdown[this.Line].Length || this.Line == markdown.LineCount - 1)
             {
                 return new LineBlockPosition(this.Line, this.Column + toAdd, this.FromStart + toAdd);
             }
             else
             {
-                var diff = toAdd - (markdown[this.Line].Length - this.Column);
+                var diff = toAdd - (markdown[this.Line].Length - this.Column) - 1;
 
                 return new LineBlockPosition(this.Line + 1, 0, this.FromStart + (toAdd - diff)).Add(diff, markdown);
             }

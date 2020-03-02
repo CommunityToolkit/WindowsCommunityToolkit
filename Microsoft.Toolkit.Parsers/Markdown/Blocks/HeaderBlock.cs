@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 // Parse the inline content.
-                result.Inlines = document.ParseInlineChildren(line.Slice(pos, endOfHeader - pos));
+                result.Inlines = document.ParseInlineChildren(line.Slice(pos, endOfHeader - pos), true, true);
 
                 return BlockParseResult.Create(result, startLine, 1);
             }
@@ -199,7 +199,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 result.HeaderLevel = underlineChar == '=' ? 1 : 2;
 
                 // Parse the inline content.
-                result.Inlines = document.ParseInlineChildren(previousLine);
+                result.Inlines = document.ParseInlineChildren(previousLine, true, true);
 
                 // We're going to have to remove the header text from the pending
                 // paragraph by prematurely ending the current paragraph.

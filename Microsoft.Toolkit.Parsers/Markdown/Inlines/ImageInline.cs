@@ -134,14 +134,14 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     var imageDimensionsPos = urlSpan.IndexOf(" =".AsSpan(), StringComparison.Ordinal);
 
                     url = imageDimensionsPos > 0
-                        ? document.ResolveEscapeSequences(urlSpan.Slice(0, imageDimensionsPos))
-                        : document.ResolveEscapeSequences(urlSpan);
+                        ? document.ResolveEscapeSequences(urlSpan.Slice(0, imageDimensionsPos), true, true)
+                        : document.ResolveEscapeSequences(urlSpan, true, true);
 
                     if (imageDimensionsPos > 0)
                     {
                         var imageDimension = urlSpan.Slice(imageDimensionsPos + 2);
-                        // trying to find 'x' which separates image width and height
 
+                        // trying to find 'x' which separates image width and height
                         var dimensionsSepatorPos = imageDimension.IndexOf("x".AsSpan(), StringComparison.Ordinal);
 
                         // didn't find separator, trying to parse value as imageWidth

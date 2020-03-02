@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 return null;
             }
 
-            var result = MakeInline(document.ParseInlineChildren(innerBlock, ignoredParsers));
+            var result = MakeInline(document.ParseInlineChildren(innerBlock, false, false, ignoredParsers));
 
             // We found something!
             return InlineParseResult.Create(result, tripPos, endPosition.FromStart + _markerStart.Length + _markerEnd.Length);

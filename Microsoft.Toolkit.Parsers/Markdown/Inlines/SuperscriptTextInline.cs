@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // We found something!
                 var result = new SuperscriptTextInline
                 {
-                    Inlines = document.ParseInlineChildren(txt, ignoredParsers),
+                    Inlines = document.ParseInlineChildren(txt, false, false, ignoredParsers),
                 };
                 return InlineParseResult.Create(result, tripPos, txt.Length + additionalCharacter);
             }

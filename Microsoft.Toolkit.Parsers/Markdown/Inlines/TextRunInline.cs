@@ -33,17 +33,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// <param name="markdown"> The markdown text. </param>
         /// <param name="start"> The location to start parsing. </param>
         /// <param name="end"> The location to stop parsing. </param>
-        /// <param name="trimLeadingLineBreak">Will ignore whitespace and empty lines at the start of the text.</param>
-        /// <param name="trimFollowingLineBreak">Will ignore whitespace and empty lines at the end of the text.</param>
+        /// <param name="trimStart">Will ignore whitespace and empty lines at the start of the text.</param>
+        /// <param name="trimEnd">Will ignore whitespace and empty lines at the end of the text.</param>
         /// <returns> A parsed text span. Or <c>null</c> if no text could be parsed.</returns>
-        internal static TextRunInline Parse(LineBlock markdown, bool trimLeadingLineBreak, bool trimFollowingLineBreak, MarkdownDocument document)
+        internal static TextRunInline Parse(LineBlock markdown, bool trimStart, bool trimEnd, MarkdownDocument document)
         {
-            if (trimLeadingLineBreak)
-            {
-                markdown = markdown.TrimStart();
-            }
-
-            var output = document.ResolveEscapeSequences(markdown);
+            var output = document.ResolveEscapeSequences(markdown, trimStart, trimEnd);
 
             if (string.IsNullOrEmpty(output))
             {

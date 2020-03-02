@@ -73,6 +73,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 for (int i = 0; i < this.lines.Length; i++)
                 {
                     length += this.lines[i].length;
+                    if (i != 0)
+                    {
+                        length += 1;
+                    }
                 }
 
                 return length - this.start - this.fromEnd;
@@ -85,7 +89,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>The concatinated StringBuilder.</returns>
         public StringBuilder ToStringBuilder()
         {
-            var builderSize = this.TextLength + this.LineCount - 1;
+            var builderSize = this.TextLength;
 
             var builder = new StringBuilder(builderSize);
 
@@ -114,7 +118,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>The concatinated string.</returns>
         public override string ToString()
         {
-            var bufferSize = this.TextLength + ((this.LineCount - 1) * Environment.NewLine.Length);
+            var bufferSize = this.TextLength + ((this.LineCount - 1) * (Environment.NewLine.Length - 1));
             char[] arrayBuffer;
             if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
             {
@@ -382,10 +386,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         toSet.length -= this.start;
                     }
 
-                    if (i == temp.Length - 1)
-                    {
-                        toSet.length -= this.fromEnd;
-                    }
+                    // Length is explicitly set in callback, so no additional changing
+                    //if (i == temp.Length - 1)
+                    //{
+                    //    toSet.length -= this.fromEnd;
+                    //}
                 }
 
                 if (isLastLine)
@@ -438,98 +443,101 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <returns>The modified Block.</returns>
         public LineBlock SliceText(int start, int length)
         {
+            if (length == -1 && start > this.TextLength)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
             if (start + length > this.TextLength)
             {
                 throw new ArgumentOutOfRangeException();
             }
 
+            int restStart = start;
+            int restLength = length;
+
             var removedLines = 0;
             var newStart = this.start;
             var newEnd = this.fromEnd;
             LineBlock temp;
-            if (start != 0)
+
+            if (restStart != 0)
             {
-                for (int i = 0; i < this.lines.Length; i++)
+                for (int i = 0; i < this.LineCount; i++)
                 {
                     var currentLine = this[i];
 
-                    if (start >= currentLine.Length)
+                    if (restStart <= currentLine.Length)
                     {
-                        start -= currentLine.Length;
-                        removedLines++;
-                        newStart = 0;
-                    }
-                    else
-                    {
-                        newStart += start;
-                        if (start == currentLine.Length)
+                        if (i == 0)
                         {
-                            removedLines++;
-                            newStart = 0;
+                            newStart += restStart;
+                        }
+                        else
+                        {
+                            newStart = restStart;
+
                         }
 
                         break;
                     }
+                    else
+                    {
+                        restStart -= currentLine.Length;
+                        if (restStart > 0)
+                        {
+                            removedLines++;
+                            restStart--;
+                        }
+                    }
                 }
 
                 var slicedLines = this.lines.Slice(removedLines);
-                if (slicedLines.Length == 0)
-                {
-                    newStart = 0;
-                    newEnd = 0;
-                }
-
                 temp = new LineBlock(slicedLines, this.text, newStart, newEnd);
-                System.Diagnostics.Debug.Assert(temp.TextLength >= 0, "TextLength is negative");
                 System.Diagnostics.Debug.Assert(temp.TextLength <= this.TextLength, "TextLength must be less then or equals this");
+
             }
             else
             {
                 temp = this;
             }
 
-            if (length == -1)
+            if (restLength == -1)
             {
                 return temp;
             }
 
             removedLines = temp.LineCount;
-            for (int i = 0; i < temp.lines.Length; i++)
+            for (int i = 0; i < temp.LineCount; i++)
             {
                 var currentLine = temp[i];
 
-                if (length >= currentLine.Length)
+                if (restLength <= currentLine.Length)
                 {
-                    length -= currentLine.Length;
+                    if (i == temp.LineCount - 1)
+                    {
+                        newEnd += currentLine.Length - restLength;
+                    }
+                    else
+                    {
+                        newEnd = currentLine.Length - restLength;
+                    }
 
                     removedLines--;
+                    break;
                 }
                 else
                 {
-                    var newCalculatedEnd = currentLine.Length - length;
-                    if (i == this.LineCount - 1)
-                    {
-                        newEnd += newCalculatedEnd;
-                    }
-                    else
-                    {
-                        newEnd = newCalculatedEnd;
-                    }
-
-                    if (newCalculatedEnd == currentLine.Length)
-                    {
-                        newEnd = 0;
-                    }
-                    else
+                    restLength -= currentLine.Length;
+                    if (restLength > 0)
                     {
                         removedLines--;
+                        restLength--;
                     }
-
-                    break;
                 }
             }
 
-            var newLines = temp.lines.Slice(0, temp.lines.Length - removedLines);
+            var newLines = temp.lines.Slice(0, temp.LineCount - removedLines);
             newStart = temp.start;
             if (newLines.Length == 0)
             {
@@ -555,6 +563,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     var trimed = lastLine.TrimEnd();
                     var lastLineEntry = this.lines[i];
                     var newFromEnd = lastLineEntry.length - trimed.Length;
+                    if (i == 0)
+                    {
+                        newFromEnd -= this.start;
+                    }
 
                     var lineBlock = new LineBlock(this.lines.Slice(0, i + 1), this.text, this.start, newFromEnd);
 
@@ -622,7 +634,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     return new LineBlockPosition(i, index, index + lengthOfPreviouseLies);
                 }
 
-                lengthOfPreviouseLies += this[i].Length;
+                lengthOfPreviouseLies += this[i].Length + 1;
             }
 
             return LineBlockPosition.NotFound;
@@ -639,7 +651,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             int lengthOfPreviouseLies = 0;
             for (int i = 0; i < fromPosition.Line; i++)
             {
-                lengthOfPreviouseLies += this[i].Length;
+                lengthOfPreviouseLies += this[i].Length + 1;
             }
 
             for (int i = fromPosition.Line; i < this.LineCount; i++)
@@ -663,7 +675,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     return new LineBlockPosition(i, index, index + lengthOfPreviouseLies);
                 }
 
-                lengthOfPreviouseLies += this[i].Length;
+                lengthOfPreviouseLies += this[i].Length + 1;
             }
 
             return LineBlockPosition.NotFound;

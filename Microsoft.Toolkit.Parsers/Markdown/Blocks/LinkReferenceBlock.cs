@@ -99,7 +99,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 // Extract the URL.
                 var urlLength = line.Slice(urlStart).IndexOfAny("\t ".AsSpan());
 
-                var url = document.ResolveEscapeSequences(line.Slice(urlStart, urlLength));
+                var url = document.ResolveEscapeSequences(line.Slice(urlStart, urlLength), true, true);
 
                 // Ignore leading '<' and trailing '>'.
                 url = url.TrimStart('<').TrimEnd('>');

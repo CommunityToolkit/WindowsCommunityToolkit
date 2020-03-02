@@ -344,7 +344,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                       new ItalicTextInline.ParserUnderscore(),
                       new ItalicTextInline.ParserAsterix(),
                       new LinkAnchorInline.Parser(),
-                      new MarkdownLinkInline.Parser(),
+                      new MarkdownLinkInline.LinkParser(),
+                      new MarkdownLinkInline.ReferenceParser(),
                       new StrikethroughTextInline.Parser(),
                       new SubscriptTextInline.Parser(),
                       new SuperscriptTextInline.ParserTags(),
@@ -515,17 +516,27 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return blocks;
         }
 
-        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, IEnumerable<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), ignoredParsers);
+        public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
 
         /// <summary>
         /// This function can be called by any element parsing. Given a start and stopping point this will
         /// parse all found elements out of the range.
         /// </summary>
         /// <returns> A list of parsed inlines. </returns>
-        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, IEnumerable<Type> ignoredParsers = null)
+        public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null)
         {
             ignoredParsers ??= Array.Empty<Type>();
             LineBlockPosition currentParsePosition = default;
+
+            if (trimStart)
+            {
+                markdown = markdown.TrimStart();
+            }
+
+            if (trimEnd)
+            {
+                markdown = markdown.TrimEnd();
+            }
 
             var inlines = new List<MarkdownInline>();
             while (currentParsePosition.IsIn(markdown))
@@ -538,7 +549,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 {
                     // If we didn't find any elements we have a normal text block.
                     // Let us consume the entire range.
-                    var textRun = TextRunInline.Parse(markdown, inlines.Count == 0, true, this);
+                    var textRun = TextRunInline.Parse(markdown, false, false, this);
 
                     // The textblock may contain only linebreaks.
                     if (textRun != null)
@@ -558,7 +569,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 // it into a text run.
                 if (parseResult.Start != currentParsePosition)
                 {
-                    var textRun = TextRunInline.Parse(markdown.SliceText(0, parseResult.Start.FromStart), inlines.Count == 0, false, this);
+                    var textRun = TextRunInline.Parse(markdown.SliceText(0, parseResult.Start.FromStart), false, false, this);
 
                     if (textRun != null)
                     {
@@ -707,12 +718,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
         /// <returns> A parsed text span. </returns>
-        public string ResolveEscapeSequences(ReadOnlySpan<char> markdown)
+        public string ResolveEscapeSequences(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd)
         {
-            return this.ResolveEscapeSequences(new LineBlock(markdown));
+            return this.ResolveEscapeSequences(new LineBlock(markdown), trimStart, trimEnd);
         }
 
-        public string ResolveEscapeSequences(LineBlock markdown)
+        public string ResolveEscapeSequences(LineBlock markdown, bool trimStart, bool trimEnd)
         {
             var bufferSize = markdown.TextLength + (markdown.LineCount - 1) * System.Environment.NewLine.Length;
             char[] arrayBuffer;
@@ -732,7 +743,18 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             var index = 0;
             for (int line = 0; line < markdown.LineCount; line++)
             {
-                var from = markdown[line];
+                var currentLine = markdown[line];
+                var from = currentLine;
+
+                if (line != 0 || trimStart)
+                {
+                    from = from.TrimStart();
+                }
+
+                if (line != markdown.LineCount - 1 || trimEnd)
+                {
+                    from = from.TrimEnd();
+                }
 
                 for (int c = 0; c < from.Length; c++)
                 {
@@ -824,14 +846,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
                 if (line < markdown.LineCount - 1)
                 {
-                    int removedSpaces = 0;
-                    while (index >= 1 && buffer[index - 1] == ' ')
-                    {
-                        removedSpaces++;
-                        index--;
-                    }
-
-                    if (removedSpaces >= 2)
+                    if (currentLine.Length >= 2
+                        && currentLine[currentLine.Length - 1] == ' '
+                        && currentLine[currentLine.Length - 2] == ' ')
                     {
                         Environment.NewLine.AsSpan().CopyTo(buffer.Slice(index));
                         index += Environment.NewLine.Length;

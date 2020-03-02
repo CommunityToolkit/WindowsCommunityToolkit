@@ -190,12 +190,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 var firstLine = markdown[0];
-                var nonwhiteSpace = firstLine.IndexOfNonWhiteSpace();
-
-                if (nonwhiteSpace == -1)
-                {
-                    return null;
-                }
 
                 var preInformation = GetListStyle(firstLine);
                 if (preInformation is null)
@@ -227,9 +221,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     var listInfo = GetListStyle(line.Slice(firstNonWhitespace));
                     if (listInfo.HasValue)
                     {
+
                         // a sub list must be indented more then 2 char more then the current indention
-                        if (firstNonWhitespace >= indention + 2)
+                        if (firstNonWhitespace >= indention)
                         {
+                            // another list item will also disable lazy
+                            isLazy = false;
                             return (indention, line.Length - indention, false, false);
                         }
 
@@ -247,6 +244,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         return (0, 0, true, true);
                     }
 
+                    // if we are indented we will no longer support lazy
+                    isLazy = false;
                     return (indention, line.Length - indention, false, false);
                 });
 
@@ -264,11 +263,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <inheritdoc/>
             protected override BlockParseResult<ListBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                if (!lineStartsNewParagraph)
-                {
-                    return null;
-                }
-
                 var startBlock = markdown.SliceLines(startLine);
                 var subBlock = startBlock;
 
@@ -304,6 +298,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         {
                             lastSkipedBlankLines = i;
                             subBlock = subBlock.SliceLines(i);
+                            break;
                         }
                     }
                 }
@@ -324,13 +319,21 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
             private static (ListStyle style, int length, int number)? GetListStyle(ReadOnlySpan<char> tocheck)
             {
-                var currentChar = tocheck[0];
+                var nonWhiteSpace = tocheck.IndexOfNonWhiteSpace();
+
+                // we may not be indented more then 3 spaces.
+                if (nonWhiteSpace == -1 || nonWhiteSpace >= 4)
+                {
+                    return null;
+                }
+
+                var currentChar = tocheck[nonWhiteSpace];
                 if (currentChar == '*' || currentChar == '+' || currentChar == '-')
                 {
-                    var nextCHar = tocheck.Slice(1).IndexOfNonWhiteSpace() + 1;
+                    var nextCHar = tocheck.Slice(1 + nonWhiteSpace).IndexOfNonWhiteSpace() + 1;
                     if (nextCHar == 0 || (nextCHar > 1 && nextCHar <= 3))
                     {
-                        return (ListStyle.Bulleted, nextCHar, default);
+                        return (ListStyle.Bulleted, nextCHar + nonWhiteSpace, default);
                     }
 
                     return null;
@@ -338,7 +341,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 else if (char.IsDigit(currentChar))
                 {
                     var numberOfDigits = 1;
-                    for (int i = 1; i < tocheck.Length; i++)
+                    for (int i = nonWhiteSpace + 1; i < tocheck.Length; i++)
                     {
                         if (!char.IsDigit(tocheck[i]))
                         {
@@ -348,7 +351,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         numberOfDigits++;
                     }
 
-                    var afterNumber = tocheck.Slice(numberOfDigits);
+                    // May not have more then 9 digits according to CommonMark :/
+                    if (numberOfDigits >= 10)
+                    {
+                        return null;
+                    }
+
+                    var afterNumber = tocheck.Slice(numberOfDigits + nonWhiteSpace);
 
                     // after the number there must be a ) or . e.g. `1)` / `1.`
                     if (afterNumber.Length == 0 || (afterNumber[0] != '.' && afterNumber[0] != ')'))
@@ -359,9 +368,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     afterNumber = afterNumber.Slice(1);
 
                     var nextCHar = afterNumber.IndexOfNonWhiteSpace();
-                    if (nextCHar == -1 || (nextCHar > 1 && nextCHar <= 3))
+                    if (nextCHar == -1 || (nextCHar >= 1 && nextCHar <= 3))
                     {
-                        return (ListStyle.Numbered, nextCHar + 1 + numberOfDigits, int.Parse(tocheck.Slice(0, numberOfDigits).ToString()));
+                        return (ListStyle.Numbered, nextCHar + 1 + numberOfDigits + nonWhiteSpace, int.Parse(tocheck.Slice(nonWhiteSpace, numberOfDigits).ToString()));
                     }
 
                     return null;
