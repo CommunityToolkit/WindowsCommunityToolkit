@@ -106,9 +106,9 @@ namespace UnitTests.Markdown.Parse
                     new HeaderBlock { HeaderLevel = 1 }.AddChildren(
                         new TextRunInline { Text = "header" }),
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = " #not a header" }),
+                        new TextRunInline { Text = "#not a header" }),
                     new ParagraphBlock().AddChildren(
-                        new TextRunInline { Text = "   text" }),
+                        new TextRunInline { Text = "text" }),
                     new CodeBlock { Text = "code" }));
         }
 
