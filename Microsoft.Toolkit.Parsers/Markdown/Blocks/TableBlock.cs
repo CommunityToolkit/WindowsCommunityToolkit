@@ -58,6 +58,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 while (true)
                 {
+                    if (list.Count == expectedNumberOfCoulumns)
+                    {
+                        break;
+                    }
+
                     if (line.Length == 0)
                     {
                         break;
@@ -68,13 +73,13 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         line = line.Slice(1);
                     }
 
-                    var cell = new TableColumnDefinition() { Alignment = ColumnAlignment.Unspecified };
-                    list.Add(cell);
-
                     if (line.Length == 0)
                     {
                         break;
                     }
+
+                    var cell = new TableColumnDefinition() { Alignment = ColumnAlignment.Unspecified };
+                    list.Add(cell);
 
                     var endOfCell = line.IndexOf('|');
                     if (endOfCell == -1)
@@ -84,10 +89,15 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                     var content = line.Slice(0, endOfCell);
 
+                    if (content.Length == 0)
+                    {
+                        return null;
+                    }
+
                     // check any invalid char;
                     for (int i = 0; i < content.Length; i++)
                     {
-                        if (content[i] != '-' || ((i == 0 || i == content.Length - 1) && content[i] != ':'))
+                        if (!(content[i] == '-' || ((i == 0 || i == content.Length - 1) && content[i] == ':')))
                         {
                             return null;
                         }
@@ -98,7 +108,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         cell.Alignment = ColumnAlignment.Left;
                     }
 
-                    if (content[content.Length - 1] == ':')
+                    if (content.Length > 1 && content[content.Length - 1] == ':')
                     {
                         // left is 1 and right is 2 center is 3
                         cell.Alignment |= ColumnAlignment.Right;
@@ -140,6 +150,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 while (true)
                 {
+                    if (expectedNumberOfCoulumns.HasValue && list.Count == expectedNumberOfCoulumns.Value)
+                    {
+                        break;
+                    }
+
                     if (line.Length == 0)
                     {
                         break;
@@ -150,26 +165,31 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                         line = line.Slice(1);
                     }
 
-                    var cell = new TableCell() { Inlines = Array.Empty<MarkdownInline>() };
-                    list.Add(cell);
-
                     if (line.Length == 0)
                     {
                         break;
                     }
 
+                    var cell = new TableCell() { Inlines = Array.Empty<MarkdownInline>() };
+                    list.Add(cell);
+
+
                     var endOfCell = 0;
                     while (true)
                     {
 
-                        endOfCell = line.Slice(endOfCell).IndexOf('|') + endOfCell;
-                        if (endOfCell == -1)
+                        var nextPipe = line.Slice(endOfCell).IndexOf('|');
+                        if (nextPipe == -1)
                         {
                             endOfCell = line.Length;
+                            nextPipe = 0;
                         }
+
+                        endOfCell = nextPipe + endOfCell;
 
                         if (endOfCell > 0 && line[endOfCell - 1] == '\\')
                         {
+                            endOfCell++;
                             continue;
                         }
 
