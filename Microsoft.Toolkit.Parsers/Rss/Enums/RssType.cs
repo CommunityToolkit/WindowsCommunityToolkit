@@ -22,6 +22,6 @@ namespace Microsoft.Toolkit.Parsers.Rss
         /// <summary>
         /// Unknown
         /// </summary>
-        Unknown
+        Unknown,
     }
 }

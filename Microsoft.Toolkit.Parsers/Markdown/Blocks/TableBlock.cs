@@ -51,9 +51,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// Parses the contents of the row, ignoring whitespace at the beginning and end of each cell.
             /// </summary>
             /// <returns> The position of the start of the next line. </returns>
-            internal static List<TableColumnDefinition> ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int expectedNumberOfCoulumns)
+            internal static List<TableColumnDefinition> ParseContents(ReadOnlySpan<char> line, int expectedNumberOfCoulumns)
             {
-
                 var list = new List<TableColumnDefinition>(expectedNumberOfCoulumns);
 
                 while (true)
@@ -124,7 +123,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 return list;
             }
-
         }
 
         /// <summary>
@@ -143,7 +141,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <returns> The position of the start of the next line. </returns>
             internal static List<TableCell> ParseContents(ReadOnlySpan<char> line, MarkdownDocument document, int? expectedNumberOfCoulumns)
             {
-
                 var list = expectedNumberOfCoulumns.HasValue
                     ? new List<TableCell>(expectedNumberOfCoulumns.Value)
                     : new List<TableCell>();
@@ -173,11 +170,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     var cell = new TableCell() { Inlines = Array.Empty<MarkdownInline>() };
                     list.Add(cell);
 
-
                     var endOfCell = 0;
                     while (true)
                     {
-
                         var nextPipe = line.Slice(endOfCell).IndexOf('|');
                         if (nextPipe == -1)
                         {
@@ -287,7 +282,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 var numberOfColumns = firstRow.Cells.Count;
 
                 // Parse the contents of the second row.
-                var columnDefinitions = TableColumnDefinition.ParseContents(markdown[startLine + 1], document, numberOfColumns);
+                var columnDefinitions = TableColumnDefinition.ParseContents(markdown[startLine + 1], numberOfColumns);
 
                 // There must be at least as many columns in the second row as in the first row.
                 // Note: excess columns past firstRowColumnCount are ignored and can contain anything.
@@ -311,7 +306,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                 // +1 for the coulm definition row
                 var consumedLines = rows.Count + 1;
-
 
                 var tableBlock = new TableBlock { ColumnDefinitions = columnDefinitions, Rows = rows };
                 return BlockParseResult.Create(tableBlock, startLine, consumedLines);

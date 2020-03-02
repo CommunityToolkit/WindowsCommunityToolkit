@@ -49,7 +49,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Checks if this position is valid in a <see cref="LineBlock"/>.
         /// </summary>
-        /// <param name="block">The LineBlock</param>
+        /// <param name="block">The LineBlock.</param>
         /// <returns>True if the position is valid. false otherwise.</returns>
         public bool IsIn(in LineBlock block)
         {
@@ -107,6 +107,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return obj is LineBlockPosition position && this.Equals(position);
         }
 
+        /// <inheritdoc/>
         public bool Equals(LineBlockPosition other)
         {
             return this.Line == other.Line &&

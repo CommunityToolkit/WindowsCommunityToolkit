@@ -33,7 +33,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public new class Parser : InlineSourundParser<SubscriptTextInline>
         {
-
             /// <summary>
             /// Initializes a new instance of the <see cref="Parser"/> class.
             /// </summary>

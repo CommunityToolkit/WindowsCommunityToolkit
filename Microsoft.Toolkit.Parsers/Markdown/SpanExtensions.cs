@@ -9,10 +9,17 @@ using System.Text;
 
 namespace Microsoft.Toolkit.Parsers.Markdown
 {
+    /// <summary>
+    /// Extension methods that helps with parsing Spans.
+    /// </summary>
     public static class SpanExtensions
     {
-        public const int MAX_STACK_BUFFER_SIZE = 1024;
+        internal const int MAX_STACK_BUFFER_SIZE = 1024;
 
+        /// <summary>
+        /// Gets the index of the nex non white space char.
+        /// </summary>
+        /// <returns>The index or -1 if not found.</returns>
         public static int IndexOfNonWhiteSpace(this ReadOnlySpan<char> text)
         {
             for (int i = 0; i < text.Length; i++)
@@ -26,6 +33,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return -1;
         }
 
+        /// <summary>
+        /// Gets the index of the nex white space char.
+        /// </summary>
+        /// <returns>The index or -1 if not found.</returns>
         public static int IndexOfNexWhiteSpace(this ReadOnlySpan<char> text)
         {
             for (int i = 0; i < text.Length; i++)
@@ -39,6 +50,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return -1;
         }
 
+        /// <summary>
+        /// Find the closing brace. The first character must be the opening breace.
+        /// handles multiple opening and closing braces. if not a breace will match the same characeter as closing.
+        /// </summary>
+        /// <returns>The index of the matching closing. Or -1.</returns>
         public static int FindClosingBrace(this ReadOnlySpan<char> line)
         {
             var opening = line[0];
@@ -53,6 +69,11 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return FindClosingBrace(line, opening, closing);
         }
 
+        /// <summary>
+        /// Find the closing brace. The first character is expected to be the opening breace.
+        /// handles multiple opening and closing braces.
+        /// </summary>
+        /// <returns>The index of the matching closing. Or -1.</returns>
         public static int FindClosingBrace(this ReadOnlySpan<char> line, char opening, char closing)
         {
             var pos = 1;

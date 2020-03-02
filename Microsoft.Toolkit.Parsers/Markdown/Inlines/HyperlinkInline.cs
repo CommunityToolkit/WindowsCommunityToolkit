@@ -113,6 +113,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
                 int start = -1;
                 int schemaLength = -1;
+
                 // Check for a known scheme e.g. "https://".
                 foreach (var scheme in MarkdownDocument.KnownSchemes)
                 {
@@ -149,7 +150,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Find the end of the URL.
-
                 var urlString = url.ToString();
 
                 return InlineParseResult.Create(new HyperlinkInline { Url = urlString, Text = urlString, LinkType = HyperlinkType.FullUrl }, new LineBlockPosition(tripPos.Line, start, markdown), urlLength);

@@ -221,7 +221,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     var listInfo = GetListStyle(line.Slice(firstNonWhitespace));
                     if (listInfo.HasValue)
                     {
-
                         // a sub list must be indented more then 2 char more then the current indention
                         if (firstNonWhitespace >= indention)
                         {

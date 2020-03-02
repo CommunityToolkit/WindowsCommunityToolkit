@@ -110,6 +110,9 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             }
         }
 
+        /// <summary>
+        /// Parses Codeblock that are fneced with ```.
+        /// </summary>
         public class ParserTicked : Parser<CodeBlock>
         {
             /// <inheritdoc/>

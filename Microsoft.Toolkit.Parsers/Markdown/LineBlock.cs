@@ -43,12 +43,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         {
             get
             {
-
                 var result = this.text.Slice(this.lines[line].start, this.lines[line].length);
                 if (line == 0)
                 {
                     result = result.Slice(this.start, result.Length - this.start);
                 }
+
                 if (line == this.LineCount - 1)
                 {
                     result = result.Slice(0, result.Length - this.fromEnd);
@@ -58,9 +58,19 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             }
         }
 
+        /// <summary>
+        /// Returns the character in the current line and clumn.
+        /// </summary>
+        /// <param name="line">The line.</param>
+        /// <param name="column">The column.</param>
+        /// <returns>The char.</returns>
         public char this[int line, int column] => this[line][column];
-        public char this[LineBlockPosition pos] => this[pos.Line][pos.Column];
 
+        /// <summary>
+        /// Returns the character in the current line and clumn.
+        /// </summary>
+        /// <returns>The char.</returns>
+        public char this[LineBlockPosition pos] => this[pos.Line][pos.Column];
 
         /// <summary>
         /// Gets the number of characters of this text. (Without counting linbreaks).
@@ -304,7 +314,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
             System.Diagnostics.Debug.Assert(lineBlock.TextLength <= this.TextLength, "TextLength must be less then or equals this");
             return lineBlock;
-
         }
 
         /// <summary>
@@ -385,19 +394,12 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         toSet.start += this.start;
                         toSet.length -= this.start;
                     }
-
-                    // Length is explicitly set in callback, so no additional changing
-                    //if (i == temp.Length - 1)
-                    //{
-                    //    toSet.length -= this.fromEnd;
-                    //}
                 }
 
                 if (isLastLine)
                 {
                     break;
                 }
-
             }
 
             var lineBlock = new LineBlock(temp.AsSpan(0, linesTaken), this.text, 0, 0);
@@ -476,7 +478,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         else
                         {
                             newStart = restStart;
-
                         }
 
                         break;
@@ -495,7 +496,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                 var slicedLines = this.lines.Slice(removedLines);
                 temp = new LineBlock(slicedLines, this.text, newStart, newEnd);
                 System.Diagnostics.Debug.Assert(temp.TextLength <= this.TextLength, "TextLength must be less then or equals this");
-
             }
             else
             {
@@ -551,11 +551,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return lineBlock;
         }
 
+        /// <summary>
+        /// Removes Whitespace and empty lines from the end.
+        /// </summary>
+        /// <returns>The modefied LineBlock.</returns>
         public LineBlock TrimEnd()
         {
             for (int i = this.LineCount - 1; i >= 0; i--)
             {
                 var currentLine = this[i];
+
                 // find the last line that has text.
                 if (!currentLine.IsWhiteSpace())
                 {
@@ -578,11 +583,16 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return default;
         }
 
+        /// <summary>
+        /// Removes Whitespace and empty lines from the start.
+        /// </summary>
+        /// <returns>The modefied LineBlock.</returns>
         public LineBlock TrimStart()
         {
             for (int i = 0; i < this.LineCount; i++)
             {
                 var currentLine = this[i];
+
                 // find the last line that has text.
                 if (!currentLine.IsWhiteSpace())
                 {

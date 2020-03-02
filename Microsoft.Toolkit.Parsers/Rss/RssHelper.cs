@@ -456,7 +456,7 @@ namespace Microsoft.Toolkit.Parsers.Rss
             { "WET", new[] { "+0000", "West European" } },
             { "WST", new[] { "-0800", "West Australian Standard" } },
             { "YDT", new[] { "+0800", "Yukon Daylight" } },
-            { "YST", new[] { "+0900", "Yukon Standard" } }
+            { "YST", new[] { "+0900", "Yukon Standard" } },
         };
     }
 }

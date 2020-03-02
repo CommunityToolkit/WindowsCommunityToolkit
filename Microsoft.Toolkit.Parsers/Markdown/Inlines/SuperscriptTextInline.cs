@@ -75,7 +75,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                     return null;
                 }
 
-
                 line = line.Slice(tripPos.Column + 1);
 
                 if (line.Length == 0)

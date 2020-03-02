@@ -32,7 +32,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public class ParserUnderscore : InlineSourundParser<BoldTextInline>
         {
-
             /// <summary>
             /// Initializes a new instance of the <see cref="ParserUnderscore "/> class.
             /// </summary>
@@ -59,7 +58,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public class ParserAsterix : InlineSourundParser<BoldTextInline>
         {
-
             /// <summary>
             /// Initializes a new instance of the <see cref="ParserAsterix"/> class.
             /// </summary>

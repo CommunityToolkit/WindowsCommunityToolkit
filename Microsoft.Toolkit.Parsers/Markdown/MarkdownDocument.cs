@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             "mumble",
             "ssh",
             "ms-windows-store",
-            "sip"
+            "sip",
         };
 
         private readonly MarkdownBlock.Parser[] parsersBlock;
@@ -41,8 +41,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
 
         private readonly MarkdownInline.Parser[] parsersInline;
         private readonly Dictionary<Type, HashSet<Type>> parserDependencysInline;
-
-        private Dictionary<string, LinkReferenceBlock> _references;
 
         // A list of supported HTML entity names, along with their corresponding code points.
         private readonly Dictionary<string, int> _entities = new Dictionary<string, int>
@@ -306,6 +304,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         // A list of characters that can be escaped.
         private readonly char[] _escapeCharacters = new char[] { '\\', '`', '*', '_', '{', '}', '[', ']', '(', ')', '#', '+', '-', '.', '!', '|', '~', '^', '&', ':', '<', '>', '/' };
 
+        private Dictionary<string, LinkReferenceBlock> _references;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MarkdownDocument"/> class.
@@ -428,11 +427,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Parses text to Bloks.
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
-        /// <param name="start"> The position to start parsing. </param>
-        /// <param name="end"> The position to stop parsing. </param>
-        /// <param name="actualEnd"> Set to the position at which parsing ended.  This can be
-        /// different from <paramref name="end"/> when the parser is being called recursively.
-        /// </param>
         /// <returns> A list of parsed blocks. </returns>
         public List<MarkdownBlock> ParseBlocks(LineBlock markdown)
         {
@@ -516,12 +510,25 @@ namespace Microsoft.Toolkit.Parsers.Markdown
             return blocks;
         }
 
+        /// <summary>
+        /// This function can be called by any element parsing. Given a start and stopping point this will
+        /// parse all found elements out of the range.
+        /// </summary>
+        /// <param name="markdown"> The markdown text to parse. </param>
+        /// <param name="trimStart">Trims the start.</param>
+        /// <param name="trimEnd">Trims the end.</param>
+        /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
+        /// <returns> A list of parsed inlines. </returns>
         public List<MarkdownInline> ParseInlineChildren(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null) => this.ParseInlineChildren(new LineBlock(markdown), trimStart, trimEnd, ignoredParsers);
 
         /// <summary>
         /// This function can be called by any element parsing. Given a start and stopping point this will
         /// parse all found elements out of the range.
         /// </summary>
+        /// <param name="markdown"> The markdown text to parse. </param>
+        /// <param name="trimStart">Trims the start.</param>
+        /// <param name="trimEnd">Trims the end.</param>
+        /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns> A list of parsed inlines. </returns>
         public List<MarkdownInline> ParseInlineChildren(LineBlock markdown, bool trimStart, bool trimEnd, IEnumerable<Type> ignoredParsers = null)
         {
@@ -593,8 +600,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Finds the next inline element by matching trip chars and verifying the match.
         /// </summary>
         /// <param name="markdown"> The markdown text to parse. </param>
-        /// <param name="start"> The position to start parsing. </param>
-        /// <param name="end"> The position to stop parsing. </param>
         /// <param name="ignoredParsers">Supress specific parsers. (e.g don't parse link in link).</param>
         /// <returns>Returns the next element.</returns>
         private InlineParseResult FindNextInlineElement(LineBlock markdown, IEnumerable<Type> ignoredParsers)
@@ -638,7 +643,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             return parseResult;
                         }
                     }
-
                 }
             }
 
@@ -717,15 +721,24 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// Parses unformatted text.
         /// </summary>
         /// <param name="markdown"> The markdown text. </param>
+        /// <param name="trimStart">Trims the start.</param>
+        /// <param name="trimEnd">Trims the end.</param>
         /// <returns> A parsed text span. </returns>
         public string ResolveEscapeSequences(ReadOnlySpan<char> markdown, bool trimStart, bool trimEnd)
         {
             return this.ResolveEscapeSequences(new LineBlock(markdown), trimStart, trimEnd);
         }
 
+        /// <summary>
+        /// Parses unformatted text.
+        /// </summary>
+        /// <param name="markdown"> The markdown text. </param>
+        /// <param name="trimStart">Trims the start.</param>
+        /// <param name="trimEnd">Trims the end.</param>
+        /// <returns> A parsed text span. </returns>
         public string ResolveEscapeSequences(LineBlock markdown, bool trimStart, bool trimEnd)
         {
-            var bufferSize = markdown.TextLength + (markdown.LineCount - 1) * System.Environment.NewLine.Length;
+            var bufferSize = markdown.TextLength + ((markdown.LineCount - 1) * System.Environment.NewLine.Length);
             char[] arrayBuffer;
             if (bufferSize <= SpanExtensions.MAX_STACK_BUFFER_SIZE)
             {
@@ -841,7 +854,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         // it will increased by one in the for increase step.
                         c = indexToHeandle;
                     }
-
                 }
 
                 if (line < markdown.LineCount - 1)
@@ -858,7 +870,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         buffer[index] = ' ';
                         index++;
                     }
-
                 }
             }
 

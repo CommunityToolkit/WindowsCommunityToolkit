@@ -55,7 +55,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 }
 
                 bool lastDidNotContainedQuoteCharacter = false;
-                //bool lastWasEmpty = true;
+
                 var qutedBlock = markdown.SliceLines(startLine).RemoveFromLine((line, lineIndex) =>
                 {
                     int startOfText;
@@ -100,11 +100,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
 
                     return (startOfText, line.Length - startOfText, false, false);
                 });
-
-                //if (lastWasEmpty)
-                //{
-                //    qutedBlock = qutedBlock.SliceLines(0, qutedBlock.LineCount - 1);
-                //}
 
                 var result = new QuoteBlock();
 

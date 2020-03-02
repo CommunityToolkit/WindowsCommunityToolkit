@@ -49,11 +49,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
         /// </summary>
         public class LinkParser : Parser<MarkdownLinkInline>
         {
-
-            public bool HandleEmails
-            {
-                get; set;
-            }
+            /// <summary>
+            /// Gets or sets a value indicating whether a mail address is found in the link, will be appended with mailto protocall.
+            /// </summary>
+            public bool HandleEmails { get; set; }
 
             /// <inheritdoc/>
             public override IEnumerable<char> TripChar => "[";
@@ -75,7 +74,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
-
                 var firstPartLength = line.FindClosingBrace('[', ']') + 1;
 
                 if (firstPartLength <= 0)
@@ -164,7 +162,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // We found a regular stand-alone link.
                 var result = new MarkdownLinkInline
                 {
-                    Inlines = document.ParseInlineChildren(text,false,false, ignoredParsers.Concat(IgnoredSubParsers)),
+                    Inlines = document.ParseInlineChildren(text, false, false, ignoredParsers.Concat(IgnoredSubParsers)),
                     Url = url,
                     Tooltip = tooltip,
                 };
@@ -209,7 +207,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Find the ']' character, keeping in mind that [test [0-9]](http://www.test.com) is allowed.
-
                 var firstPartLength = line.FindClosingBrace('[', ']') + 1;
 
                 if (firstPartLength <= 0)
@@ -248,7 +245,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 // We found a reference-style link.
                 var result = new MarkdownLinkInline
                 {
-                    Inlines = document.ParseInlineChildren(text,false,false, ignoredParsers.Concat(IgnoredSubParsers)),
+                    Inlines = document.ParseInlineChildren(text, false, false, ignoredParsers.Concat(IgnoredSubParsers)),
                     ReferenceId = reference,
                 };
 

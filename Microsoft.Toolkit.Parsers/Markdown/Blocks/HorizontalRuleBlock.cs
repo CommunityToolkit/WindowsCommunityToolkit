@@ -51,6 +51,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                 {
                     return null;
                 }
+
                 var nonSpaceChar = line[nonSpaceINdex];
                 if (nonSpaceChar != '*' && nonSpaceChar != '-' && nonSpaceChar != '_')
                 {

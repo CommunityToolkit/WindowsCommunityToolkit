@@ -122,7 +122,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 position = positionOffset.Add(position.FromStart, subBlock);
-
             }
             while (position.Column > 0 && subBlock[position.Line, position.Column - 1] == '\\');
 

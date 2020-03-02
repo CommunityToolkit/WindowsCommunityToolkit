@@ -82,6 +82,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown
         /// <summary>
         /// Any Other inline
         /// </summary>
-        Other
+        Other,
     }
 }
