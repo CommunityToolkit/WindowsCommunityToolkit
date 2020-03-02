@@ -75,8 +75,7 @@ namespace UnitTests.Markdown.Parse
         {
             AssertEqual(@"~~strike\~~",
                 new ParagraphBlock().AddChildren(
-                    new StrikethroughTextInline().AddChildren(
-                        new TextRunInline { Text = @"strike\" })));
+                    new TextRunInline { Text = @"~~strike~~" }));
         }
     }
 }
