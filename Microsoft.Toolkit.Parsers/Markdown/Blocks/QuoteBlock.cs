@@ -43,32 +43,30 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
             /// <inheritdoc/>
             protected override BlockParseResult<QuoteBlock> ParseInternal(LineBlock markdown, int startLine, bool lineStartsNewParagraph, MarkdownDocument document)
             {
-                if (markdown[startLine].Length == 0 || markdown[startLine][0] != '>')
+                if (markdown.LineCount == 0)
+                {
+                    return null;
+                }
+
+                var nonSpace = markdown[0].IndexOfNonWhiteSpace();
+                if (nonSpace == -1 || markdown[startLine][nonSpace] != '>')
                 {
                     return null;
                 }
 
                 bool lastDidNotContainedQuoteCharacter = false;
-                bool lastWasEmpty = false;
-                var qutedBlock = markdown.SliceText(startLine).RemoveFromLine((line, lineIndex) =>
+                //bool lastWasEmpty = true;
+                var qutedBlock = markdown.SliceLines(startLine).RemoveFromLine((line, lineIndex) =>
                 {
                     int startOfText;
                     var nonSpace = line.IndexOfNonWhiteSpace();
                     if (nonSpace == -1)
                     {
-                        if (!lastWasEmpty)
-                        {
-                            lastWasEmpty = true;
-                            startOfText = 0;
-                        }
-                        else
-                        {
-                            return (0, 0, true, true);
-                        }
+                        return (0, 0, true, true);
                     }
                     else if (line[nonSpace] != '>')
                     {
-                        if (lastWasEmpty || lastDidNotContainedQuoteCharacter)
+                        if (lastDidNotContainedQuoteCharacter)
                         {
                             return (0, 0, true, true);
                         }
@@ -81,7 +79,6 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     else
                     {
                         lastDidNotContainedQuoteCharacter = false;
-                        lastWasEmpty = false;
                         startOfText = nonSpace + 1;
                     }
 
@@ -104,10 +101,10 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Blocks
                     return (startOfText, line.Length - startOfText, false, false);
                 });
 
-                if (lastWasEmpty)
-                {
-                    qutedBlock = qutedBlock.SliceText(0, qutedBlock.LineCount - 1);
-                }
+                //if (lastWasEmpty)
+                //{
+                //    qutedBlock = qutedBlock.SliceLines(0, qutedBlock.LineCount - 1);
+                //}
 
                 var result = new QuoteBlock();
 
