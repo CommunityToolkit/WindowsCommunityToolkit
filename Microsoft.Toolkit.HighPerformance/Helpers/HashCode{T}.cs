@@ -88,24 +88,21 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static int CombineValues(ref T r0, int length)
         {
-            int hash = 0, i = 0;
+            int
+                hash = 0, i = 0,
+                end8 = length - 8;
 
             // Main loop with 8 unrolled iterations
-            if (length >= 8)
+            for (; i <= end8; i += 8)
             {
-                var end8 = length - 8;
-
-                for (; i <= end8; i += 8)
-                {
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 0).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 1).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 2).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 3).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 4).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 5).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 6).GetHashCode());
-                    hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 7).GetHashCode());
-                }
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 0).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 1).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 2).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 3).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 4).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 5).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 6).GetHashCode());
+                hash = unchecked((hash * 397) ^ Unsafe.Add(ref r0, i + 7).GetHashCode());
             }
 
             // Handle the leftover items
