@@ -116,24 +116,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             int
                 hash = 5381,
                 length = span.Length,
-                i = 0;
+                i = 0,
+                end8 = length - 8;
 
             // Main loop with 8 unrolled iterations
-            if (length >= 8)
+            for (; i <= end8; i += 8)
             {
-                var end8 = length - 8;
-
-                for (; i <= end8; i += 8)
-                {
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 0).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 1).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 2).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 3).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 4).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 5).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 6).GetHashCode());
-                    hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 7).GetHashCode());
-                }
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 0).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 1).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 2).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 3).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 4).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 5).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 6).GetHashCode());
+                hash = unchecked((hash << 5) + hash + Unsafe.Add(ref r0, i + 7).GetHashCode());
             }
 
             // Handle the leftover items
