@@ -18,24 +18,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     public sealed class MemoryOwner<T> : IMemoryOwner<T>
     {
         /// <summary>
-        /// The underlying <typeparamref name="T"/> array.
-        /// </summary>
-        private T[]? array;
-
-        /// <summary>
         /// The usable size within <see cref="array"/>.
         /// </summary>
         private readonly int size;
 
         /// <summary>
-        /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
+        /// The underlying <typeparamref name="T"/> array.
+        /// </summary>
+        private T[]? array;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
         /// </summary>
         /// <param name="size">The size of the new memory buffer to use.</param>
         /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
-        private MemoryOwner(int size, bool clear)
+        public MemoryOwner(int size, bool clear)
         {
-            this.array = ArrayPool<T>.Shared.Rent(size);
             this.size = size;
+            this.array = ArrayPool<T>.Shared.Rent(size);
 
             if (clear)
             {
@@ -44,12 +44,12 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         }
 
         /// <summary>
-        /// Releases the underlying buffer when the current instance is finalized.
+        /// Finalizes an instance of the <see cref="MemoryOwner{T}"/> class.
         /// </summary>
         ~MemoryOwner() => this.Dispose();
 
         /// <summary>
-        /// Creates a new empty <see cref="MemoryOwner{T}"/> instance
+        /// Gets an empty <see cref="MemoryOwner{T}"/> instance.
         /// </summary>
         [Pure]
         public static MemoryOwner<T> Empty
@@ -62,6 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
         /// </summary>
         /// <param name="size">The size of the new memory buffer to use.</param>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested size.</returns>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -72,6 +73,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         /// <param name="size">The size of the new memory buffer to use.</param>
         /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested size.</returns>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
