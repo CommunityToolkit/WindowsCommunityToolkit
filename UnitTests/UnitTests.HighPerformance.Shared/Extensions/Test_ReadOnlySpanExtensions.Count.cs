@@ -53,6 +53,63 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
+        public void Test_ReadOnlySpanExtensions_RandomCountManaged()
+        {
+            var value = new Int(37438941);
+
+            foreach (var count in TestCounts)
+            {
+                var random = new Random(count);
+
+                Int[] data = new Int[count];
+
+                foreach (ref Int item in data.AsSpan())
+                {
+                    item = new Int(random.Next());
+                }
+
+                int result = data.Count(value);
+                int expected = CountWithForeach(data, value);
+
+                Assert.AreEqual(result, expected, $"Failed {typeof(Int)} test with count {count}: got {result} instead of {expected}");
+            }
+        }
+
+        // Dummy type to test the managed code path of the API
+        private sealed class Int : IEquatable<Int>
+        {
+            public int Value { get; }
+
+            public Int(int value) => Value = value;
+
+            public bool Equals(Int other)
+            {
+                if (other is null)
+                {
+                    return false;
+                }
+
+                if (ReferenceEquals(this, other))
+                {
+                    return true;
+                }
+
+                return this.Value == other.Value;
+            }
+
+            public override bool Equals(object obj)
+            {
+                return ReferenceEquals(this, obj) || obj is Int other && Equals(other);
+            }
+
+            public override int GetHashCode()
+            {
+                return this.Value;
+            }
+        }
+
+        [TestCategory("ReadOnlySpanExtensions")]
+        [TestMethod]
         public void Test_ReadOnlySpanExtensions_FilledCount8()
         {
             TestForType((byte)123, count => CreateFilledData(count, (byte)123));
