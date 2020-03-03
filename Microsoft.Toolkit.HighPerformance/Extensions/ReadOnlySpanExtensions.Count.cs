@@ -23,6 +23,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
         /// <returns>The number of occurrences of <paramref name="value"/> in <paramref name="span"/>.</returns>
         [Pure]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public static int Count<T>(this ReadOnlySpan<T> span, T value)
             where T : IEquatable<T>
         {
@@ -73,12 +74,64 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
                 return Count(ref r1, length, target, int.MaxValue);
             }
 
-            int result = 0;
+            return Count(ref MemoryMarshal.GetReference(span), span.Length, value);
+        }
 
-            // Fast loop for all the other types (see below for more details)
-            foreach (var item in span)
+        /// <summary>
+        /// Counts the number of occurrences of a given value into a target search space.
+        /// </summary>
+        /// <param name="r0">A <typeparamref name="T"/> reference to the start of the search space.</param>
+        /// <param name="length">The number of items in the search space.</param>
+        /// <param name="value">The <typeparamref name="T"/> value to look for.</param>
+        /// <typeparam name="T">The type of value to look for.</typeparam>
+        /// <returns>The number of occurrences of <paramref name="value"/> in the search space</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int Count<T>(ref T r0, int length, T value)
+            where T : IEquatable<T>
+        {
+            int
+                i = 0,
+                result = 0,
+                end8 = length - 8;
+
+            // Main loop with 8 unrolled iterations
+            for (; i <= end8; i += 8)
             {
-                bool equals = item.Equals(value);
+                /* Skip a conditional jump by assigning the comparison
+                 * result to a variable and reinterpreting a reference to
+                 * it as a byte reference. The byte value is then implicitly
+                 * cast to int before adding it to the result. Additionally,
+                 * the JIT will automatically inline the calls to Equals<T>. */
+                bool equals0 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals0);
+
+                bool equals1 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals1);
+
+                bool equals2 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals2);
+
+                bool equals3 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals3);
+
+                bool equals4 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals4);
+
+                bool equals5 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals5);
+
+                bool equals6 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals6);
+
+                bool equals7 = Unsafe.Add(ref r0, i).Equals(value);
+                result += Unsafe.As<bool, byte>(ref equals7);
+            }
+
+            // Iterate over the remaining values and count those that match
+            for (; i < length; i++)
+            {
+                bool equals = Unsafe.Add(ref r0, i).Equals(value);
                 result += Unsafe.As<bool, byte>(ref equals);
             }
 
@@ -177,11 +230,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Iterate over the remaining values and count those that match
             for (; i < length; i++)
             {
-                /* Skip a conditional jump by assigning the comparison
-                 * result to a variable and reinterpreting a reference to
-                 * it as a byte reference. The byte value is then implicitly
-                 * cast to int before adding it to the result. Additionally,
-                 * the JIT will automatically inline the calls to Equals<T>. */
                 bool equals = Unsafe.Add(ref r0, i).Equals(value);
                 result += Unsafe.As<bool, byte>(ref equals);
             }
