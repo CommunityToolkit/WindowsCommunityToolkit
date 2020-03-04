@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) is not a bitwise match, was \"{value.ToHexString()}\" instead of \"{target.ToHexString()}\"");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) is not a bitwise match, was <{value.ToHexString()}> instead of <{target.ToHexString()}>");
         }
 
         /// <summary>
