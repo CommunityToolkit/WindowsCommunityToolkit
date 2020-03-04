@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Data;
 namespace Microsoft.Toolkit.Uwp.UI.Converters
 {
     /// <summary>
-    /// A one-way convert to transform an enumeration value to <see cref="TrueValue"/> if it matches the converter parameter
+    /// A one-way converter to transform an enumeration value to <see cref="TrueValue"/> if it matches the converter parameter
     /// or <see cref="FalseValue"/> otherwise.
     /// </summary>
     /// <example>
