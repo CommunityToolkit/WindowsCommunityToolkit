@@ -337,7 +337,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 }
 
                 // Find the end of the URL.
-                int length = FindUrlLength(line.Slice(start + 4)) + start + 4;
+                int length = FindUrlLength(line.Slice(start + 4)) + 4;
 
                 var url = line.Slice(start, length).ToString();
                 return InlineParseResult.Create(new HyperlinkInline { Url = "http://" + url, Text = url, LinkType = HyperlinkType.PartialUrl }, new LineBlockPosition(tripPos.Line, start, markdown), length);
