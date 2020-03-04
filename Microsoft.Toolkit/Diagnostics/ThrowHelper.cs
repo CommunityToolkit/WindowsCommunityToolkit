@@ -25,7 +25,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsNull<T>(T value, string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be null, was \"{value}\" ({value.GetType().ToTypeString()})");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be null, was {value.ToAssertString()} ({value.GetType().ToTypeString()})");
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsNull<T>(T? value, string name)
             where T : struct
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T?).ToTypeString()}) must be null, was \"{value}\" ({typeof(T).ToTypeString()})");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T?).ToTypeString()}) must be null, was {value.ToAssertString()} ({typeof(T).ToTypeString()})");
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentNullExceptionForIsNotNull<T>(string name)
         {
-            ThrowArgumentNullException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be not null)");
+            ThrowArgumentNullException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be not null)");
         }
 #pragma warning restore CS0419
 
@@ -54,7 +54,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType<T>(object value, string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType(object value, Type type, string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType<T>(object value, string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType(object value, Type type, string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForsBitwiseEqualTo<T>(T value, T target, string name)
             where T : unmanaged
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) is not a bitwise match, was \"{value.ToHexString()}\" instead of \"{target.ToHexString()}\"");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) is not a bitwise match, was \"{value.ToHexString()}\" instead of \"{target.ToHexString()}\"");
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsReferenceEqualTo<T>(string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must be the same instance as the target object");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be the same instance as the target object");
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentExceptionForIsReferenceNotEqualTo<T>(string name)
             where T : class
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" ({typeof(T).ToTypeString()}) must not be the same instance as the target object");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be the same instance as the target object");
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsTrue(string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be true, was false");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be true, was false");
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsFalse(string name)
         {
-            ThrowArgumentException(name, $"Parameter \"{name}\" must be false, was true");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be false, was true");
         }
     }
 }

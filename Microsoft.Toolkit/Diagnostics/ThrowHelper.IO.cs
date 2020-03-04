@@ -24,7 +24,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForCanRead(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support reading");
+            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support reading");
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForCanWrite(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support writing");
+            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support writing");
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForCanSeek(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) doesn't support seeking");
+            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) doesn't support seeking");
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAtStartPosition(Stream stream, string name)
         {
-            ThrowArgumentException(name, $"Stream \"{name}\" ({stream.GetType().ToTypeString()}) must be at start position, was at {stream.Position}");
+            ThrowArgumentException(name, $"Stream {name.ToAssertString()} ({stream.GetType().ToTypeString()}) must be at position {0.ToAssertString()}, was at {stream.Position.ToAssertString()}");
         }
     }
 }

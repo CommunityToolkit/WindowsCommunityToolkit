@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -14,6 +15,22 @@ namespace Microsoft.Toolkit.Diagnostics
     /// </summary>
     internal static partial class ThrowHelper
     {
+        /// <summary>
+        /// Returns a formatted representation of the input value.
+        /// </summary>
+        /// <param name="obj">The input <see cref="object"/> to format.</param>
+        /// <returns>A formatted representation of <paramref name="obj"/> to display in error messages.</returns>
+        [Pure]
+        private static string ToAssertString(this object? obj)
+        {
+            return obj switch
+            {
+                string _ => $"\"{obj}\"",
+                null => "null",
+                _ => $"<{obj}>"
+            };
+        }
+
         /// <summary>
         /// Throws a new <see cref="ArgumentException"/>.
         /// </summary>
