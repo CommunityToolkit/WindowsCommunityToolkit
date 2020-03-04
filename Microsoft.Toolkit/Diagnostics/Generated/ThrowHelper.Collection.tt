@@ -113,7 +113,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be at least 0 and less than {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
         }
 <#
 });

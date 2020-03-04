@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsInRange<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be at least {minimum.ToAssertString()} and less than {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be in the range given by {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotInRange<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be < {minimum.ToAssertString()} or at least {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be in the range given by {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsBetween<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be greater than {minimum.ToAssertString()} and less than {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be between {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetween<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be less than or equal to {minimum.ToAssertString()} or greater than or equal to {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be between {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be greater than or equal to {minimum.ToAssertString()} and less than or equal to {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be between or equal to {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentOutOfRangeExceptionForIsNotBetweenOrEqualTo<T>(T value, T minimum, T maximum, string name)
         {
-            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be less than {minimum.ToAssertString()} or greater than {maximum.ToAssertString()}, was {value.ToAssertString()}");
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be between or equal to {minimum.ToAssertString()} and {maximum.ToAssertString()}, was {value.ToAssertString()}");
         }
     }
 }

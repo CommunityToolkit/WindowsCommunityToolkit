@@ -94,7 +94,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized == {size}, had a size of {text.Length} and was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size equal to {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeNotEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized != {size}, was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must not have a size equal to {size}, was {text.ToAssertString()}");
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeOver(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized > {size}, had a size of {text.Length} and was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size over {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeAtLeast(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized >= {size}, had a size of {text.Length} and was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size of at least {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThan(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized < {size}, had a size of {text.Length} and was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size less than {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Microsoft.Toolkit.Diagnostics
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(string text, int size, string name)
         {
-            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must be sized <= {size}, had a size of {text.Length} and was {text.ToAssertString()}");
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} (string) must have a size less than or equal to {size}, had a size of {text.Length} and was {text.ToAssertString()}");
         }
     }
 }
