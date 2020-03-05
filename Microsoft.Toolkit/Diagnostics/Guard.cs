@@ -106,6 +106,22 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input value is not of a specific type.
+        /// </summary>
+        /// <typeparam name="T">The type of the input value.</typeparam>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is of type <typeparamref name="T"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotOfType<T>(object value, string name)
+        {
+            if (value.GetType() == typeof(T))
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotOfType<T>(value, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value is of a specific type.
         /// </summary>
         /// <param name="value">The input <see cref="object"/> to test.</param>
@@ -118,6 +134,22 @@ namespace Microsoft.Toolkit.Diagnostics
             if (value.GetType() != type)
             {
                 ThrowHelper.ThrowArgumentExceptionForIsOfType(value, type, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value is not of a specific type.
+        /// </summary>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="type">The type to look for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the type of <paramref name="value"/> is the same as <paramref name="type"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotOfType(object value, Type type, string name)
+        {
+            if (value.GetType() == type)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotOfType(value, type, name);
             }
         }
 

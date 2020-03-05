@@ -58,12 +58,30 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotOfType{T}"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotOfType<T>(object value, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be of type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsOfType"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsOfType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotOfType"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotOfType(object value, Type type, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be of type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
