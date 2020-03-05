@@ -154,12 +154,12 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input value can be cast to a specified type.
+        /// Asserts that the input value can be assigned to a specified type.
         /// </summary>
         /// <typeparam name="T">The type to check the input value against.</typeparam>
         /// <param name="value">The input <see cref="object"/> to test.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be cast to type <typeparamref name="T"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be assigned to type <typeparamref name="T"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAssignableToType<T>(object value, string name)
         {
@@ -170,18 +170,50 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the input value can be cast to a specified type.
+        /// Asserts that the input value can't be assigned to a specified type.
+        /// </summary>
+        /// <typeparam name="T">The type to check the input value against.</typeparam>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can be assigned to type <typeparamref name="T"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotAssignableToType<T>(object value, string name)
+        {
+            if (value is T)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType<T>(value, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value can be assigned to a specified type.
         /// </summary>
         /// <param name="value">The input <see cref="object"/> to test.</param>
         /// <param name="type">The type to look for.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
-        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be cast to <paramref name="type"/>.</exception>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can't be assigned to <paramref name="type"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsAssignableToType(object value, Type type, string name)
         {
             if (!type.IsInstanceOfType(value))
             {
                 ThrowHelper.ThrowArgumentExceptionForIsAssignableToType(value, type, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value can't be assigned to a specified type.
+        /// </summary>
+        /// <param name="value">The input <see cref="object"/> to test.</param>
+        /// <param name="type">The type to look for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> can be assigned to <paramref name="type"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotAssignableToType(object value, Type type, string name)
+        {
+            if (type.IsInstanceOfType(value))
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotAssignableToType(value, type, name);
             }
         }
 

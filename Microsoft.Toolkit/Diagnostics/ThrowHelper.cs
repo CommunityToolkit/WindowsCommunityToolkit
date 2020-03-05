@@ -94,12 +94,30 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotAssignableToType{T}"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotAssignableToType<T>(object value, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be assignable to type {typeof(T).ToTypeString()}, was {value.GetType().ToTypeString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsAssignableToType"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static void ThrowArgumentExceptionForIsAssignableToType(object value, Type type, string name)
         {
             ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsAssignableToType"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotAssignableToType(object value, Type type, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} must not be assignable to type {type.ToTypeString()}, was {value.GetType().ToTypeString()}");
         }
 
         /// <summary>
