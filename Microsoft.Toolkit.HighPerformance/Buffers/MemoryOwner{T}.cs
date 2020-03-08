@@ -6,6 +6,7 @@ using System;
 using System.Buffers;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Extensions;
 
 #nullable enable
 
@@ -20,7 +21,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// The usable size within <see cref="array"/>.
         /// </summary>
+#pragma warning disable IDE0032
         private readonly int size;
+#pragma warning restore IDE0032
 
         /// <summary>
         /// The underlying <typeparamref name="T"/> array.
@@ -101,7 +104,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-                return new Memory<T>(array, 0, this.size);
+                return new Memory<T>(array!, 0, this.size);
             }
         }
 
@@ -120,8 +123,31 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-                return new Span<T>(array, 0, this.size);
+                return new Span<T>(array!, 0, this.size);
             }
+        }
+
+        /// <summary>
+        /// Returns a reference to the first element within the current instance, with no bounds check.
+        /// </summary>
+        /// <returns>A reference to the first element within the current instance.</returns>
+        /// <remarks>
+        /// This method does not perform bounds checks on the underlying buffer, but does check whether
+        /// the buffer itself has been disposed or not. This check should not be removed, and it's also
+        /// the reason why the method to get a reference at a specified offset is not present.
+        /// .</remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public ref T DangerousGetReference()
+        {
+            T[]? array = this.array;
+
+            if (array is null)
+            {
+                ThrowObjectDisposedException();
+            }
+
+            return ref array!.DangerousGetReference();
         }
 
         /// <inheritdoc/>
