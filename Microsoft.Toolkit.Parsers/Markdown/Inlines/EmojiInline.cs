@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
                 if (_emojiCodesDictionary.TryGetValue(emojiName, out var emojiCode))
                 {
                     var result = new EmojiInline { Text = char.ConvertFromUtf32(emojiCode), Type = MarkdownInlineType.Emoji };
-                    return InlineParseResult.Create(result, tripPos, innerLength + 1);
+                    return InlineParseResult.Create(result, tripPos, innerLength + 2);
                 }
 
                 return null;
