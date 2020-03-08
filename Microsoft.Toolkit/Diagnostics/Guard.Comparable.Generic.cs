@@ -15,6 +15,40 @@ namespace Microsoft.Toolkit.Diagnostics
     public static partial class Guard
     {
         /// <summary>
+        /// Asserts that the input value is <see langword="default"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see langword="struct"/> value type being tested.</typeparam>
+        /// <param name="value">The input value to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is not <see langword="default"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsDefault<T>(T value, string name)
+            where T : struct, IEquatable<T>
+        {
+            if (!value.Equals(default))
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsDefault(value, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value is not <see langword="default"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of <see langword="struct"/> value type being tested.</typeparam>
+        /// <param name="value">The input value to test.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="default"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotDefault<T>(T value, string name)
+            where T : struct, IEquatable<T>
+        {
+            if (value.Equals(default))
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotDefault<T>(name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input value must be equal to a specified value.
         /// </summary>
         /// <typeparam name="T">The type of input values to compare.</typeparam>

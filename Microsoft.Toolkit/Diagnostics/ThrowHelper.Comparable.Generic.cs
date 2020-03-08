@@ -18,6 +18,26 @@ namespace Microsoft.Toolkit.Diagnostics
     internal static partial class ThrowHelper
     {
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsDefault{T}"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsDefault<T>(T value, string name)
+            where T : struct
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must be the default value {default(T).ToAssertString()}, was {value.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotDefault{T}"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotDefault<T>(string name)
+            where T : struct
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(T).ToTypeString()}) must not be the default value {default(T).ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEqualTo{T}"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
