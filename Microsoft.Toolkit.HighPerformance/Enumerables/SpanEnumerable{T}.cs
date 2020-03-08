@@ -142,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Enumerables
             private readonly int index;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="Enumerator"/> struct.
+            /// Initializes a new instance of the <see cref="Item"/> struct.
             /// </summary>
             /// <param name="span">The source <see cref="Span{T}"/> instance.</param>
             /// <param name="index">The current index within <paramref name="span"/>.</param>
