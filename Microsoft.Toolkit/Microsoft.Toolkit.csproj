@@ -14,12 +14,4 @@
     <DebugType>Full</DebugType>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
 </Project>

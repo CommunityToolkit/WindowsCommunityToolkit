@@ -20,14 +20,6 @@
     <DefineConstants Condition="'$(DisableImplicitFrameworkDefines)' != 'true'">$(DefineConstants);WINRT</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|uap10.0.16299|AnyCPU'">
-    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|uap10.0.16299|AnyCPU'">
-    <CodeAnalysisRuleSet>..\UnitTests\UnitTests.HighPerformance.UWP\UnitTests.HighPerformance.UWP.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Parsers\Microsoft.Toolkit.Parsers.csproj" />
     <ProjectReference Include="..\Microsoft.Toolkit\Microsoft.Toolkit.csproj" />
