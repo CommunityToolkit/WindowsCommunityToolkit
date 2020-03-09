@@ -85,6 +85,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// </summary>
         /// <param name="size">The length of the new memory buffer to use.</param>
         /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -96,6 +97,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <param name="size">The length of the new memory buffer to use.</param>
         /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
         /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -150,6 +152,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Returns a reference to the first element within the current instance, with no bounds check.
         /// </summary>
         /// <returns>A reference to the first element within the current instance.</returns>
+        /// <exception cref="ObjectDisposedException">Thrown when the buffer in use has already been disposed.</exception>
         /// <remarks>
         /// This method does not perform bounds checks on the underlying buffer, but does check whether
         /// the buffer itself has been disposed or not. This check should not be removed, and it's also
@@ -175,6 +178,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <param name="start">The starting offset within the current buffer.</param>
         /// <param name="length">The length of the buffer to use.</param>
         /// <returns>A new <see cref="MemoryOwner{T}"/> instance using the target range of items.</returns>
+        /// <exception cref="ObjectDisposedException">Thrown when the buffer in use has already been disposed.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="start"/> or <paramref name="length"/> are not valid.</exception>
         /// <remarks>
         /// Using this method will dispose the current instance, and should only be used when an oversized
         /// buffer is rented and then adjusted in size, to avoid having to rent a new buffer of the new
