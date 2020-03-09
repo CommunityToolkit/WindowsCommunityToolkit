@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
@@ -121,6 +122,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             _lastAverageHeight = desiredHeight;
             return desiredHeight;
+        }
+
+        internal void RecycleElementAt(int index)
+        {
+            UIElement element = _context.GetOrCreateElementAt(index);
+            _context.RecycleElement(element);
         }
 
         internal void RemoveFromIndex(int index)

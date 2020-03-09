@@ -105,12 +105,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             switch (args.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                case NotifyCollectionChangedAction.Replace:
                     state.RemoveFromIndex(args.NewStartingIndex);
                     break;
+                case NotifyCollectionChangedAction.Replace:
+                    state.RemoveFromIndex(args.NewStartingIndex);
+
+                    // We must recycle the element to ensure that it gets the correct context
+                    state.RecycleElementAt(args.NewStartingIndex);
+                    break;
                 case NotifyCollectionChangedAction.Move:
-                    int index = Math.Min(args.NewStartingIndex, args.OldStartingIndex);
-                    state.RemoveFromIndex(index);
+                    int minIndex = Math.Min(args.NewStartingIndex, args.OldStartingIndex);
+                    int maxIndex = Math.Max(args.NewStartingIndex, args.OldStartingIndex);
+                    state.RemoveFromIndex(minIndex);
+
+                    // We must recycle all elements to ensure that it gets the correct context
+                    for (int i = minIndex; i <= maxIndex; i++)
+                    {
+                        state.RecycleElementAt(i);
+                    }
+
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     state.RemoveFromIndex(args.OldStartingIndex);
