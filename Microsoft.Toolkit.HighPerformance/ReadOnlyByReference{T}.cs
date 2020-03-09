@@ -102,8 +102,8 @@ namespace Microsoft.Toolkit.HighPerformance
         {
             this.owner = owner;
 
-            ref T valueRef = ref Unsafe.AsRef<T>(value);
-            var data = Unsafe.As<ByReference<T>.RawObjectData>(owner);
+            ref T valueRef = ref Unsafe.AsRef(value);
+            var data = Unsafe.As<RawObjectData>(owner);
             ref byte r0 = ref data.Data;
             ref byte r1 = ref Unsafe.As<T, byte>(ref valueRef);
 
@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.HighPerformance
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get
             {
-                var data = Unsafe.As<ByReference<T>.RawObjectData>(owner);
+                var data = Unsafe.As<RawObjectData>(owner);
                 ref byte r0 = ref data.Data;
                 ref byte r1 = ref Unsafe.Add(ref r0, offset);
 
