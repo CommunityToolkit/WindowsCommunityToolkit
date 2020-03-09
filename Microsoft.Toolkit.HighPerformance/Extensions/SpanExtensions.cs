@@ -48,6 +48,50 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         }
 
         /// <summary>
+        /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="T"/> to <see cref="Span{T}"/> of bytes.
+        /// That type may not contain pointers or references. This is checked at runtime in order to preserve type safety.
+        /// </summary>
+        /// <typeparam name="T">The type if items in the source <see cref="Span{T}"/></typeparam>
+        /// <param name="span">The source slice, of type <typeparamref name="T"/>.</param>
+        /// <returns>A <see cref="Span{T}"/> of bytes.</returns>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <typeparamref name="T"/> contains pointers.
+        /// </exception>
+        /// <exception cref="OverflowException">
+        /// Thrown if the <see cref="Span{T}.Length"/> property of the new <see cref="Span{T}"/> would exceed <see cref="int.MaxValue"/>.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<byte> AsBytes<T>(Span<T> span)
+            where T : struct
+        {
+            return MemoryMarshal.AsBytes(span);
+        }
+
+        /// <summary>
+        /// Casts a <see cref="Span{T}"/> of one primitive type <typeparamref name="TFrom"/> to another primitive type <typeparamref name="TTo"/>.
+        /// These types may not contain pointers or references. This is checked at runtime in order to preserve type safety.
+        /// </summary>
+        /// <typeparam name="TFrom">The type of items in the source <see cref="Span{T}"/>.</typeparam>
+        /// <typeparam name="TTo">The type of items in the destination <see cref="Span{T}"/>.</typeparam>
+        /// <param name="span">The source slice, of type <typeparamref name="TFrom"/>.</param>
+        /// <returns>A <see cref="Span{T}"/> of type <typeparamref name="TTo"/></returns>
+        /// <remarks>
+        /// Supported only for platforms that support misaligned memory access or when the memory block is aligned by other means.
+        /// </remarks>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <typeparamref name="TFrom"/> or <typeparamref name="TTo"/> contains pointers.
+        /// </exception>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Span<TTo> Cast<TFrom, TTo>(this Span<TFrom> span)
+            where TFrom : struct
+            where TTo : struct
+        {
+            return MemoryMarshal.Cast<TFrom, TTo>(span);
+        }
+
+        /// <summary>
         /// Counts the number of occurrences of a given value into a target <see cref="Span{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The type of items in the input <see cref="Span{T}"/> instance.</typeparam>
