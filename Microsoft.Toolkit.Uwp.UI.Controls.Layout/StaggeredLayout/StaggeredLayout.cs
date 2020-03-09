@@ -215,6 +215,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     {
                         context.RecycleElement(element);
                     }
+
                     deadColumns.Add(columnIndex);
                 }
                 else
