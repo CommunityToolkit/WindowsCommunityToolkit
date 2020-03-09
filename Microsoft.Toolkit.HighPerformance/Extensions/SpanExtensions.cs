@@ -62,7 +62,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </exception>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Span<byte> AsBytes<T>(Span<T> span)
+        public static Span<byte> AsBytes<T>(this Span<T> span)
             where T : struct
         {
             return MemoryMarshal.AsBytes(span);
