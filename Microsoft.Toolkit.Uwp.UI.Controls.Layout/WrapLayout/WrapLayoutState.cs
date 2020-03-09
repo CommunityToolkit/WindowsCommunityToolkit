@@ -63,24 +63,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             _items.RemoveRange(index, numToRemove);
         }
 
-        internal void RemoveRange(int startIndex, int endIndex)
-        {
-            for (int i = startIndex; i <= endIndex; i++)
-            {
-                if (i > _items.Count)
-                {
-                    return;
-                }
-
-                WrapItem item = _items[i];
-                item.Measure = null;
-                item.Position = null;
-
-                // We must recycle all elements to ensure that they get the correct context
-                RecycleElementAt(i);
-            }
-        }
-
         internal void SetOrientation(Orientation orientation)
         {
             foreach (var item in _items.Where(i => i.Measure.HasValue))
