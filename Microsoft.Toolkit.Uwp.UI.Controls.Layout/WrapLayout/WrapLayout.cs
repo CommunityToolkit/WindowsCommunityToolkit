@@ -121,6 +121,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     state.RemoveFromIndex(args.OldStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Replace:
+                    state.RemoveFromIndex(args.NewStartingIndex);
+                    state.RecycleElementAt(args.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     state.Clear();
