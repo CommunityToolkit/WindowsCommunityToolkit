@@ -113,6 +113,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     state.RemoveFromIndex(args.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Move:
+                    int minIndex = Math.Min(args.NewStartingIndex, args.OldStartingIndex);
+                    int maxIndex = Math.Max(args.NewStartingIndex, args.OldStartingIndex);
+                    state.RemoveRange(minIndex, maxIndex);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     state.RemoveFromIndex(args.OldStartingIndex);

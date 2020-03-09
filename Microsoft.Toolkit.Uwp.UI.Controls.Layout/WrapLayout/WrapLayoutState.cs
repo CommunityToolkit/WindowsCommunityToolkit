@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
@@ -60,6 +61,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             int numToRemove = _items.Count - index;
             _items.RemoveRange(index, numToRemove);
+        }
+
+        internal void RemoveRange(int startIndex, int endIndex)
+        {
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                if (i > _items.Count)
+                {
+                    return;
+                }
+
+                WrapItem item = _items[i];
+                item.Measure = null;
+                item.Position = null;
+
+                // We must recycle all elements to ensure that they get the correct context
+                RecycleElementAt(i);
+            }
         }
 
         internal void SetOrientation(Orientation orientation)
@@ -134,6 +153,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             {
                 return totalHeight;
             }
+        }
+
+        internal void RecycleElementAt(int index)
+        {
+            UIElement element = _context.GetOrCreateElementAt(index);
+            _context.RecycleElement(element);
         }
     }
 }
