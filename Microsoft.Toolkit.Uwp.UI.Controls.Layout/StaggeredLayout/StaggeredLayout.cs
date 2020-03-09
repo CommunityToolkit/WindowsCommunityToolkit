@@ -109,6 +109,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     state.RemoveFromIndex(args.NewStartingIndex);
                     break;
                 case NotifyCollectionChangedAction.Move:
+                    int index = Math.Min(args.NewStartingIndex, args.OldStartingIndex);
+                    state.RemoveFromIndex(index);
                     break;
                 case NotifyCollectionChangedAction.Remove:
                     state.RemoveFromIndex(args.OldStartingIndex);
