@@ -13,16 +13,21 @@ using Microsoft.Toolkit.HighPerformance.Extensions;
 namespace Microsoft.Toolkit.HighPerformance.Buffers
 {
     /// <summary>
-    /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded size and a fast <see cref="Span{T}"/> accessor.
+    /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded length and a fast <see cref="Span{T}"/> accessor.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
     public sealed class MemoryOwner<T> : IMemoryOwner<T>
     {
-        /// <summary>
-        /// The usable size within <see cref="array"/>.
-        /// </summary>
 #pragma warning disable IDE0032
-        private readonly int size;
+        /// <summary>
+        /// The starting offset within <see cref="array"/>.
+        /// </summary>
+        private readonly int start;
+
+        /// <summary>
+        /// The usable length within <see cref="array"/> (starting from <see cref="start"/>).
+        /// </summary>
+        private readonly int length;
 #pragma warning restore IDE0032
 
         /// <summary>
@@ -33,17 +38,31 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
         /// </summary>
-        /// <param name="size">The size of the new memory buffer to use.</param>
+        /// <param name="length">The length of the new memory buffer to use.</param>
         /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
-        public MemoryOwner(int size, bool clear)
+        private MemoryOwner(int length, bool clear)
         {
-            this.size = size;
-            this.array = ArrayPool<T>.Shared.Rent(size);
+            this.start = 0;
+            this.length = length;
+            this.array = ArrayPool<T>.Shared.Rent(length);
 
             if (clear)
             {
-                this.array.AsSpan(0, size).Clear();
+                this.array.AsSpan(0, length).Clear();
             }
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
+        /// </summary>
+        /// <param name="array">The input <typeparamref name="T"/> array to use.</param>
+        /// <param name="start">The starting offset within <paramref name="array"/>.</param>
+        /// <param name="length">The length of the array to use.</param>
+        private MemoryOwner(T[] array, int start, int length)
+        {
+            this.start = start;
+            this.length = length;
+            this.array = array;
         }
 
         /// <summary>
@@ -64,8 +83,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
         /// </summary>
-        /// <param name="size">The size of the new memory buffer to use.</param>
-        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested size.</returns>
+        /// <param name="size">The length of the new memory buffer to use.</param>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -74,9 +93,9 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
         /// </summary>
-        /// <param name="size">The size of the new memory buffer to use.</param>
+        /// <param name="size">The length of the new memory buffer to use.</param>
         /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
-        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested size.</returns>
+        /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -88,7 +107,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public int Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.size;
+            get => this.length;
         }
 
         /// <inheritdoc/>
@@ -104,7 +123,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-                return new Memory<T>(array!, 0, this.size);
+                return new Memory<T>(array!, this.start, this.length);
             }
         }
 
@@ -123,7 +142,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                     ThrowObjectDisposedException();
                 }
 
-                return new Span<T>(array!, 0, this.size);
+                return new Span<T>(array!, this.start, this.length);
             }
         }
 
@@ -135,7 +154,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// This method does not perform bounds checks on the underlying buffer, but does check whether
         /// the buffer itself has been disposed or not. This check should not be removed, and it's also
         /// the reason why the method to get a reference at a specified offset is not present.
-        /// .</remarks>
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public ref T DangerousGetReference()
@@ -147,7 +166,44 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 ThrowObjectDisposedException();
             }
 
-            return ref array!.DangerousGetReference();
+            return ref array!.DangerousGetReferenceAt(this.start);
+        }
+
+        /// <summary>
+        /// Slices the buffer currently in use and returns a new <see cref="MemoryOwner{T}"/> instance.
+        /// </summary>
+        /// <param name="start">The starting offset within the current buffer.</param>
+        /// <param name="length">The length of the buffer to use.</param>
+        /// <returns>A new <see cref="MemoryOwner{T}"/> instance using the target range of items.</returns>
+        /// <remarks>
+        /// Using this method will dispose the current instance, and should only be used when an oversized
+        /// buffer is rented and then adjusted in size, to avoid having to rent a new buffer of the new
+        /// size and copy the previous items into the new one, or needing an additional variable/field
+        /// to manually handle to track the used range within a given <see cref="MemoryOwner{T}"/> instance.
+        /// </remarks>
+        [Pure]
+        public MemoryOwner<T> Slice(int start, int length)
+        {
+            T[]? array = this.array;
+
+            if (array is null)
+            {
+                ThrowObjectDisposedException();
+            }
+
+            this.array = null;
+
+            if ((uint)start > this.length)
+            {
+                ThrowInvalidOffsetException();
+            }
+
+            if ((uint)length > (this.length - start))
+            {
+                ThrowInvalidLengthException();
+            }
+
+            return new MemoryOwner<T>(array!, start, length);
         }
 
         /// <inheritdoc/>
@@ -172,6 +228,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         private static void ThrowObjectDisposedException()
         {
             throw new ObjectDisposedException("The current buffer has already been disposed");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="start"/> is invalid.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidOffsetException()
+        {
+            throw new ArgumentOutOfRangeException(nameof(start), "The input start parameter was not valid");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when the <see cref="length"/> is invalid.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidLengthException()
+        {
+            throw new ArgumentOutOfRangeException(nameof(length), "The input length parameter was not valid");
         }
     }
 }
