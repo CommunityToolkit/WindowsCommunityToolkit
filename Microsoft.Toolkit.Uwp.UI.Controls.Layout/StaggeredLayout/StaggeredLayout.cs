@@ -207,7 +207,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (item.Top > context.RealizationRect.Bottom)
                 {
                     // The top of the element is below the realization area
-                    // item.RecycleElement();
+                    if (element != null)
+                    {
+                        context.RecycleElement(element);
+                    }
                     deadColumns.Add(columnIndex);
                 }
                 else
