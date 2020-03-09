@@ -187,6 +187,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 StaggeredItem item = state.GetItemAt(i);
                 if (item.Height == 0)
                 {
+                    // Item has not been measured yet. Get the element and store the values
                     element = context.GetOrCreateElementAt(i);
                     element.Measure(new Size(state.ColumnWidth, availableHeight));
                     item.Height = element.DesiredSize.Height;
