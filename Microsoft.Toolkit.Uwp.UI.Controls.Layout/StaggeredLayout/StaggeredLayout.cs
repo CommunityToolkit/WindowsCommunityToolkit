@@ -102,21 +102,20 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             var state = (StaggeredLayoutState)context.LayoutState;
 
-            if (args.Action == NotifyCollectionChangedAction.Remove)
+            switch (args.Action)
             {
-                state.RemoveFromIndex(args.OldStartingIndex);
-            }
-            else if (args.Action == NotifyCollectionChangedAction.Add)
-            {
-                state.RemoveFromIndex(args.NewStartingIndex);
-            }
-            else if (args.Action == NotifyCollectionChangedAction.Reset)
-            {
-                state.Clear();
-            }
-            else if (args.Action == NotifyCollectionChangedAction.Replace)
-            {
-                state.RemoveFromIndex(args.NewStartingIndex);
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Replace:
+                    state.RemoveFromIndex(args.NewStartingIndex);
+                    break;
+                case NotifyCollectionChangedAction.Move:
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    state.RemoveFromIndex(args.OldStartingIndex);
+                    break;
+                case NotifyCollectionChangedAction.Reset:
+                    state.Clear();
+                    break;
             }
 
             base.OnItemsChangedCore(context, source, args);
