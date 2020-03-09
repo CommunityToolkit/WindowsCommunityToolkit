@@ -285,7 +285,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             panel.InvalidateMeasure();
         }
 
-        private int GetColumnIndex(double[] columnHeights)
+        private static int GetColumnIndex(double[] columnHeights)
         {
             int columnIndex = 0;
             double height = columnHeights[0];
