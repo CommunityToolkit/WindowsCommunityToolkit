@@ -155,5 +155,37 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
         }
+
+        internal void RemoveRange(int startIndex, int endIndex)
+        {
+            for (int i = startIndex; i <= endIndex; i++)
+            {
+                if (i > _items.Count)
+                {
+                    break;
+                }
+
+                StaggeredItem item = _items[i];
+                item.Height = 0;
+                item.Top = 0;
+
+                // We must recycle all elements to ensure that it gets the correct context
+                RecycleElementAt(i);
+            }
+
+            foreach (var kvp in _columnLayout)
+            {
+                StaggeredColumnLayout layout = kvp.Value;
+                for (int i = 0; i < layout.Count; i++)
+                {
+                    if ((startIndex <= layout[i].Index) && (layout[i].Index <= endIndex))
+                    {
+                        int numToRemove = layout.Count - i;
+                        layout.RemoveRange(i, numToRemove);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }
