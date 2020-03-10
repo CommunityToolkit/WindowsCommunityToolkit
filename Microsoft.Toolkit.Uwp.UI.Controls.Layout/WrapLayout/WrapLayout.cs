@@ -11,6 +11,11 @@ using Windows.UI.Xaml.Controls;
 
 namespace Microsoft.Toolkit.Uwp.UI.Controls
 {
+    /// <summary>
+    /// Arranges elements by wrapping them to fit the available space. 
+    /// When <see cref="Orientation"/> is set to Orientation.Horizontal, element are arranged in rows until the available width is reached and then to a new row.
+    /// When <see cref="Orientation"/> is set to Orientation.Vertical, element are arranged in columns until the available height is reached.
+    /// </summary>
     public class WrapLayout : VirtualizingLayout
     {
         /// <summary>
