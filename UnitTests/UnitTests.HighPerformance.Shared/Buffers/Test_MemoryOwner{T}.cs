@@ -80,7 +80,7 @@ namespace UnitTests.HighPerformance.Buffers
 
             buffer.Dispose();
 
-            buffer = MemoryOwner<int>.Allocate(127, true);
+            buffer = MemoryOwner<int>.Allocate(127, AllocationMode.Clear);
 
             Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
         }

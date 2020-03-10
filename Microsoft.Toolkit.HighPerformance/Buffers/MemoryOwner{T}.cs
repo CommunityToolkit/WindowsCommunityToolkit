@@ -39,14 +39,14 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// Initializes a new instance of the <see cref="MemoryOwner{T}"/> class with the specified parameters.
         /// </summary>
         /// <param name="length">The length of the new memory buffer to use.</param>
-        /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
-        private MemoryOwner(int length, bool clear)
+        /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
+        private MemoryOwner(int length, AllocationMode mode)
         {
             this.start = 0;
             this.length = length;
             this.array = ArrayPool<T>.Shared.Rent(length);
 
-            if (clear)
+            if (mode == AllocationMode.Clear)
             {
                 this.array.AsSpan(0, length).Clear();
             }
@@ -77,7 +77,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public static MemoryOwner<T> Empty
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => new MemoryOwner<T>(0, false);
+            get => new MemoryOwner<T>(0, AllocationMode.Default);
         }
 
         /// <summary>
@@ -89,19 +89,19 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size) => new MemoryOwner<T>(size, false);
+        public static MemoryOwner<T> Allocate(int size) => new MemoryOwner<T>(size, AllocationMode.Default);
 
         /// <summary>
         /// Creates a new <see cref="MemoryOwner{T}"/> instance with the specified parameters.
         /// </summary>
         /// <param name="size">The length of the new memory buffer to use.</param>
-        /// <param name="clear">Indicates whether or not to clear the allocated memory area.</param>
+        /// <param name="mode">Indicates the allocation mode to use for the new buffer to rent.</param>
         /// <returns>A <see cref="MemoryOwner{T}"/> instance of the requested length.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="size"/> is not valid.</exception>
         /// <remarks>This method is just a proxy for the <see langword="private"/> constructor, for clarity.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static MemoryOwner<T> Allocate(int size, bool clear) => new MemoryOwner<T>(size, clear);
+        public static MemoryOwner<T> Allocate(int size, AllocationMode mode) => new MemoryOwner<T>(size, mode);
 
         /// <summary>
         /// Gets the number of items in the current instance
