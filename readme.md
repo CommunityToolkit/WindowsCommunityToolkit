@@ -175,7 +175,7 @@ The following dependencies are required for building the Windows Community Toolk
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
 * [Windows SDK May 2019 Update	18362](https://developer.microsoft.com/en-us/windows/downloads/sdk-archive)
 * [.NET Core 3.0.100 SDK](https://dotnet.microsoft.com/download/visual-studio-sdks)
-* [.NET Framework 4.6.1 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
+* [.NET Framework 4.6.2 Developer Pack](https://dotnet.microsoft.com/download/visual-studio-sdks)
 
 ## Contributing
 Do you want to contribute? Here are our [contribution guidelines](https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/contributing.md).
