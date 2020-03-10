@@ -26,11 +26,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>When this method returns, the caller must not use any references to the old array anymore.</remarks>
         public static void Resize<T>(this ArrayPool<T> pool, ref T[]? array, int newSize, bool clearArray = false)
         {
-            if (newSize < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(newSize), "The new size can't be less than 0");
-            }
-
             // If the old array is null, just create a new one with the requested size
             if (array is null)
             {
