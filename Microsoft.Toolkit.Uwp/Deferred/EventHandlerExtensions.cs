@@ -3,9 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,8 +14,6 @@ namespace Microsoft.Toolkit.Uwp.Deferred
     /// </summary>
     public static class EventHandlerExtensions
     {
-        private static readonly Task CompletedTask = Task.FromResult(0);
-
         /// <summary>
         /// Use to invoke an async <see cref="EventHandler{TEventArgs}"/> using <see cref="DeferredEventArgs"/>.
         /// </summary>
@@ -46,7 +42,7 @@ namespace Microsoft.Toolkit.Uwp.Deferred
         {
             if (eventHandler == null)
             {
-                return CompletedTask;
+                return Task.CompletedTask;
             }
 
             var tasks = eventHandler.GetInvocationList()
@@ -59,7 +55,7 @@ namespace Microsoft.Toolkit.Uwp.Deferred
 
                     var deferral = eventArgs.GetCurrentDeferralAndReset();
 
-                    return deferral?.WaitForCompletion(cancellationToken) ?? CompletedTask;
+                    return deferral?.WaitForCompletion(cancellationToken) ?? Task.CompletedTask;
                 })
                 .ToArray();
 
