@@ -68,21 +68,20 @@ namespace UnitTests.HighPerformance.Buffers
         [TestMethod]
         public void Test_MemoryOwnerOfT_PooledBuffersAndClear()
         {
-            var buffer = MemoryOwner<int>.Allocate(127);
+            using (var buffer = MemoryOwner<int>.Allocate(127))
+            {
+                buffer.Span.Fill(42);
+            }
 
-            buffer.Span.Fill(42);
+            using (var buffer = MemoryOwner<int>.Allocate(127))
+            {
+                Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
+            }
 
-            buffer.Dispose();
-
-            buffer = MemoryOwner<int>.Allocate(127);
-
-            Assert.IsTrue(buffer.Span.ToArray().All(i => i == 42));
-
-            buffer.Dispose();
-
-            buffer = MemoryOwner<int>.Allocate(127, AllocationMode.Clear);
-
-            Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
+            using (var buffer = MemoryOwner<int>.Allocate(127, AllocationMode.Clear))
+            {
+                Assert.IsTrue(buffer.Span.ToArray().All(i => i == 0));
+            }
         }
     }
 }
