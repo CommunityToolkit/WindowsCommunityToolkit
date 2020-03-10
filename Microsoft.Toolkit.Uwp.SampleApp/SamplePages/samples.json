@@ -313,6 +313,16 @@
         "DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/controls/StaggeredPanel.md"
       },
       {
+        "Name": "StaggeredLayout",
+        "Type": "StaggeredLayoutPage",
+        "Subcategory": "Layout",
+        "About": "The StaggeredLayout virtualizes items in a column approach where an item will be added to whichever column has used the least amount of space.",
+        //"CodeUrl": "https://github.com/windows-toolkit/WindowsCommunityToolkit/tree/master/Microsoft.Toolkit.Uwp.UI.Controls.Layout/StaggeredLayout",
+        "XamlCodeFile": "StaggeredLayout.bind",
+        "Icon": "/SamplePages/StaggeredLayout/StaggeredLayout.png"
+        //"DocumentationUrl": "https://raw.githubusercontent.com/MicrosoftDocs/WindowsCommunityToolkitDocs/master/docs/layout/StaggeredLayout.md"
+      },
+      {
         "Name": "LayoutTransformControl",
         "Type": "LayoutTransformControlPage",
         "Subcategory": "Layout",

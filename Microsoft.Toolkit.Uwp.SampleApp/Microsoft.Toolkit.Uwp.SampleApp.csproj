@@ -286,6 +286,7 @@
     <Content Include="SamplePages\OnDevice\OnDevice.png" />
     <Content Include="SamplePages\RemoteDeviceHelper\RemoteDeviceHelper.png" />
     <Content Include="SamplePages\ImageCropper\ImageCropper.png" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.png" />
     <Content Include="SamplePages\TabView\TabView.png" />
     <Content Include="SamplePages\PeoplePicker\PeoplePicker.png" />
     <Content Include="SamplePages\PersonView\PersonView.png" />
@@ -539,6 +540,9 @@
     <Compile Include="SamplePages\ImageCropper\ImageCropperPage.xaml.cs">
       <DependentUpon>ImageCropperPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml.cs">
+      <DependentUpon>StaggeredLayoutPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SamplePages\TokenizingTextBox\SampleDataType.cs" />
     <Compile Include="SamplePages\TokenizingTextBox\TokenizingTextBoxPage.xaml.cs">
       <DependentUpon>TokenizingTextBoxPage.xaml</DependentUpon>
@@ -557,6 +561,7 @@
     <Content Include="SamplePages\Eyedropper\EyedropperCode.bind" />
     <Content Include="SamplePages\TokenizingTextBox\TokenizingTextBoxCode.bind" />
     <Content Include="SamplePages\WrapLayout\WrapLayout.bind" />
+    <Content Include="SamplePages\StaggeredLayout\StaggeredLayout.bind" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs">
@@ -956,6 +961,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SamplePages\ImageCropper\ImageCropperPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SamplePages\StaggeredLayout\StaggeredLayoutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
