@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -30,6 +31,7 @@ namespace Microsoft.Toolkit.Extensions
         /// <typeparam name="T">The input type to format to <see cref="string"/>.</typeparam>
         /// <param name="value">The input value to format to <see cref="string"/>.</param>
         /// <returns>The hexadecimal representation of <paramref name="value"/>, left-padded and ordered as big-endian.</returns>
+        [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static unsafe string ToHexString<T>(this T value)
             where T : unmanaged
