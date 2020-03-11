@@ -127,7 +127,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(byte value, byte minimum, byte maximum, string name)
         {
@@ -145,7 +148,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(byte value, byte minimum, byte maximum, string name)
         {
@@ -163,7 +169,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(byte value, byte minimum, byte maximum, string name)
         {
@@ -181,7 +190,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(byte value, byte minimum, byte maximum, string name)
         {
@@ -199,7 +211,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(byte value, byte minimum, byte maximum, string name)
         {
@@ -217,7 +232,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="byte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(byte value, byte minimum, byte maximum, string name)
         {
@@ -336,7 +354,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -354,7 +375,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -372,7 +396,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -390,7 +417,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -408,7 +438,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -426,7 +459,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="sbyte"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(sbyte value, sbyte minimum, sbyte maximum, string name)
         {
@@ -545,7 +581,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(short value, short minimum, short maximum, string name)
         {
@@ -563,7 +602,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(short value, short minimum, short maximum, string name)
         {
@@ -581,7 +623,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(short value, short minimum, short maximum, string name)
         {
@@ -599,7 +644,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(short value, short minimum, short maximum, string name)
         {
@@ -617,7 +665,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(short value, short minimum, short maximum, string name)
         {
@@ -635,7 +686,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="short"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(short value, short minimum, short maximum, string name)
         {
@@ -754,7 +808,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -772,7 +829,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -790,7 +850,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -808,7 +871,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -826,7 +892,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -844,7 +913,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="ushort"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(ushort value, ushort minimum, ushort maximum, string name)
         {
@@ -963,7 +1035,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(char value, char minimum, char maximum, string name)
         {
@@ -981,7 +1056,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(char value, char minimum, char maximum, string name)
         {
@@ -999,7 +1077,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(char value, char minimum, char maximum, string name)
         {
@@ -1017,7 +1098,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(char value, char minimum, char maximum, string name)
         {
@@ -1035,7 +1119,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(char value, char minimum, char maximum, string name)
         {
@@ -1053,7 +1140,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="char"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(char value, char minimum, char maximum, string name)
         {
@@ -1172,7 +1262,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(int value, int minimum, int maximum, string name)
         {
@@ -1190,7 +1283,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(int value, int minimum, int maximum, string name)
         {
@@ -1208,7 +1304,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(int value, int minimum, int maximum, string name)
         {
@@ -1226,7 +1325,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(int value, int minimum, int maximum, string name)
         {
@@ -1244,7 +1346,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(int value, int minimum, int maximum, string name)
         {
@@ -1262,7 +1367,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="int"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(int value, int minimum, int maximum, string name)
         {
@@ -1381,7 +1489,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(uint value, uint minimum, uint maximum, string name)
         {
@@ -1399,7 +1510,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(uint value, uint minimum, uint maximum, string name)
         {
@@ -1417,7 +1531,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(uint value, uint minimum, uint maximum, string name)
         {
@@ -1435,7 +1552,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(uint value, uint minimum, uint maximum, string name)
         {
@@ -1453,7 +1573,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(uint value, uint minimum, uint maximum, string name)
         {
@@ -1471,7 +1594,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="uint"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(uint value, uint minimum, uint maximum, string name)
         {
@@ -1590,7 +1716,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(float value, float minimum, float maximum, string name)
         {
@@ -1608,7 +1737,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(float value, float minimum, float maximum, string name)
         {
@@ -1626,7 +1758,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(float value, float minimum, float maximum, string name)
         {
@@ -1644,7 +1779,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(float value, float minimum, float maximum, string name)
         {
@@ -1662,7 +1800,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(float value, float minimum, float maximum, string name)
         {
@@ -1680,7 +1821,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="float"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(float value, float minimum, float maximum, string name)
         {
@@ -1799,7 +1943,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(long value, long minimum, long maximum, string name)
         {
@@ -1817,7 +1964,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(long value, long minimum, long maximum, string name)
         {
@@ -1835,7 +1985,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(long value, long minimum, long maximum, string name)
         {
@@ -1853,7 +2006,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(long value, long minimum, long maximum, string name)
         {
@@ -1871,7 +2027,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(long value, long minimum, long maximum, string name)
         {
@@ -1889,7 +2048,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="long"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(long value, long minimum, long maximum, string name)
         {
@@ -2008,7 +2170,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2026,7 +2191,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2044,7 +2212,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2062,7 +2233,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2080,7 +2254,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2098,7 +2275,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="ulong"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(ulong value, ulong minimum, ulong maximum, string name)
         {
@@ -2217,7 +2397,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(double value, double minimum, double maximum, string name)
         {
@@ -2235,7 +2418,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(double value, double minimum, double maximum, string name)
         {
@@ -2253,7 +2439,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(double value, double minimum, double maximum, string name)
         {
@@ -2271,7 +2460,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(double value, double minimum, double maximum, string name)
         {
@@ -2289,7 +2481,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(double value, double minimum, double maximum, string name)
         {
@@ -2307,7 +2502,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="double"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(double value, double minimum, double maximum, string name)
         {
@@ -2426,7 +2624,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(decimal value, decimal minimum, decimal maximum, string name)
         {
@@ -2444,7 +2645,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(decimal value, decimal minimum, decimal maximum, string name)
         {
@@ -2462,7 +2666,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(decimal value, decimal minimum, decimal maximum, string name)
         {
@@ -2480,7 +2687,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The exclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(decimal value, decimal minimum, decimal maximum, string name)
         {
@@ -2498,7 +2708,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(decimal value, decimal minimum, decimal maximum, string name)
         {
@@ -2516,7 +2729,10 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="maximum">The inclusive maximum <see cref="decimal"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(decimal value, decimal minimum, decimal maximum, string name)
         {

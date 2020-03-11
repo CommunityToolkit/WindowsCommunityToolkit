@@ -131,7 +131,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The exclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsInRange(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
@@ -149,7 +152,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The exclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotInRange(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
@@ -167,7 +173,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The exclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt;= <paramref name="minimum"/> or >= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetween(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
@@ -185,7 +194,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The exclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is > <paramref name="minimum"/> or &lt; <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in (<paramref name="minimum"/>, <paramref name="maximum"/>)", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetween(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
@@ -203,7 +215,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The inclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is &lt; <paramref name="minimum"/> or > <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsBetweenOrEqualTo(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
@@ -221,7 +236,10 @@ GenerateTextForItems(NumericTypes, type =>
         /// <param name="maximum">The inclusive maximum <see cref="<#=type#>"/> value that is accepted.</param>
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="value"/> is >= <paramref name="minimum"/> or &lt;= <paramref name="maximum"/>.</exception>
-        /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
+        /// <remarks>
+        /// This API asserts the equivalent of "<paramref name="value"/> not in [<paramref name="minimum"/>, <paramref name="maximum"/>]", using arithmetic notation.
+        /// The method is generic to avoid boxing the parameters, if they are value types.
+        /// </remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IsNotBetweenOrEqualTo(<#=type#> value, <#=type#> minimum, <#=type#> maximum, string name)
         {
