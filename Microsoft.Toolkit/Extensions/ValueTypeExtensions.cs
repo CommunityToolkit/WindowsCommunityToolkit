@@ -30,7 +30,18 @@ namespace Microsoft.Toolkit.Extensions
         /// </summary>
         /// <typeparam name="T">The input type to format to <see cref="string"/>.</typeparam>
         /// <param name="value">The input value to format to <see cref="string"/>.</param>
-        /// <returns>The hexadecimal representation of <paramref name="value"/>, left-padded and ordered as big-endian.</returns>
+        /// <returns>
+        /// The hexadecimal representation of <paramref name="value"/> (with the '0x' prefix), left-padded to byte boundaries and ordered as big-endian.
+        /// </returns>
+        /// <remarks>
+        /// As a byte (8 bits) is represented by two hexadecimal digits (each representing a group of 4 bytes), each <see cref="string"/>
+        /// representation will always contain an even number of digits. For instance:
+        /// <code>
+        /// Console.WriteLine(1.ToHexString()); // "0x01"
+        /// Console.WriteLine(((byte)255).ToHexString()); // "0xFF"
+        /// Console.WriteLine((-1).ToHexString()); // "0xFFFFFFFF"
+        /// </code>
+        /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.NoInlining)]
         public static unsafe string ToHexString<T>(this T value)
