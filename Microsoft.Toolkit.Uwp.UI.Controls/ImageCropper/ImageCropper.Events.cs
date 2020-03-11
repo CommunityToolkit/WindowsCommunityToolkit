@@ -23,12 +23,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (e.Key == VirtualKey.Left)
             {
                 diffPos.X--;
-                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up) == CoreVirtualKeyStates.Down)
+                var upKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Up);
+                var downKeyState = Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down);
+                if (upKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y--;
                 }
 
-                if (Window.Current.CoreWindow.GetAsyncKeyState(VirtualKey.Down) == CoreVirtualKeyStates.Down)
+                if (downKeyState == CoreVirtualKeyStates.Down)
                 {
                     diffPos.Y++;
                 }

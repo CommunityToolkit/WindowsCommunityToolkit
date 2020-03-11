@@ -544,6 +544,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls.DataGridInternals
                             // Either the property doesn't exist or it does exist but is read-only.
                             return true;
                         }
+
                         // Check if EditableAttribute is defined on the property and if it indicates uneditable
                         var editableAttribute = propertyInfo.GetCustomAttributes().OfType<EditableAttribute>().FirstOrDefault();
                         if (editableAttribute != null && !editableAttribute.AllowEdit)

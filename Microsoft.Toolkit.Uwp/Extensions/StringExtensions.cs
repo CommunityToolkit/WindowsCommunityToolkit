@@ -11,6 +11,8 @@ namespace Microsoft.Toolkit.Uwp.Extensions
     /// </summary>
     public static class StringExtensions
     {
+        private static readonly ResourceLoader IndependentLoader = ResourceLoader.GetForViewIndependentUse();
+
         /// <summary>
         /// Retrieves the provided resource for the current view context.
         /// </summary>
@@ -25,7 +27,7 @@ namespace Microsoft.Toolkit.Uwp.Extensions
         /// <param name="resourceKey">Resource key to retrieve.</param>
         /// <returns>string value for given resource or empty string if not found.</returns>
         public static string GetLocalized(this string resourceKey)
-            => ResourceLoader.GetForViewIndependentUse().GetString(resourceKey);
+            => IndependentLoader.GetString(resourceKey);
 
         /// <summary>
         /// Retrieves the provided resource for the given key for use independent of the UI thread.

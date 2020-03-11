@@ -3207,7 +3207,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     rowGroupInfo = RowGroupInfoFromCollectionViewGroup(collectionViewGroup);
                     if (rowGroupInfo == null)
                     {
-                        Debug.Assert(false, "Expected non-null rowGroupInfo.");
+                        Debug.Fail("Expected non-null rowGroupInfo.");
                         return;
                     }
 
