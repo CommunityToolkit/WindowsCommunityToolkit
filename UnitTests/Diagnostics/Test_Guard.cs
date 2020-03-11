@@ -339,6 +339,10 @@ namespace UnitTests.Diagnostics
             Guard.IsInRange(0, 0, 2, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(3.14f, 0, 10, nameof(Test_Guard_IsInRange_Ok));
             Guard.IsInRange(1, 0, 3.14f, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(1, -50, 2, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(-44, -44, 0, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(3.14f, -float.Epsilon, 22, nameof(Test_Guard_IsInRange_Ok));
+            Guard.IsInRange(1, int.MinValue, int.MaxValue, nameof(Test_Guard_IsInRange_Ok));
         }
 
         [TestCategory("Guard")]
