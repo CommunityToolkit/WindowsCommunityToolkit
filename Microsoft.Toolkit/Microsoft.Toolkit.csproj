@@ -35,7 +35,7 @@
     </None>
     <None Update="Diagnostics\Generated\TypeInfo.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>TypeInfo.cs</LastGenOutput>
+      <LastGenOutput>TypeInfo.g.cs</LastGenOutput>
     </None>
   </ItemGroup>
 
@@ -60,7 +60,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
     </Compile>
-    <Compile Update="Diagnostics\Generated\TypeInfo.cs">
+    <Compile Update="Diagnostics\Generated\TypeInfo.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>TypeInfo.ttinclude</DependentUpon>
