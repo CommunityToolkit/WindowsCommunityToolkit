@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Toolkit.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,6 +28,7 @@ namespace UnitTests.Extensions
 
         [TestCategory("TypeExtensions")]
         [TestMethod]
+        [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1009", Justification = "Nullable value tuple type")]
         public void Test_TypeExtensions_GenericTypes()
         {
             Assert.AreEqual("int?", typeof(int?).ToTypeString());
