@@ -68,6 +68,14 @@ namespace UnitTests.HighPerformance.Extensions
                     item = new Int(random.Next());
                 }
 
+                // Fill at least 20% of the items with a matching value
+                int minimum = count / 20;
+
+                for (int i = 0; i < minimum; i++)
+                {
+                    data[random.Next(0, count)] = value;
+                }
+
                 int result = data.Count(value);
                 int expected = CountWithForeach(data, value);
 
@@ -112,34 +120,34 @@ namespace UnitTests.HighPerformance.Extensions
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_FilledCount8()
         {
-            TestForType((byte)123, count => CreateFilledData(count, (byte)123));
-            TestForType((sbyte)123, count => CreateFilledData(count, (sbyte)123));
-            TestForType(true, count => CreateFilledData(count, true));
+            TestForType((byte)123, (count, _) => CreateFilledData(count, (byte)123));
+            TestForType((sbyte)123, (count, _) => CreateFilledData(count, (sbyte)123));
+            TestForType(true, (count, _) => CreateFilledData(count, true));
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_FilledCount16()
         {
-            TestForType((ushort)4712, count => CreateFilledData(count, (ushort)4712));
-            TestForType((short)4712, count => CreateFilledData(count, (short)4712));
-            TestForType((char)4712, count => CreateFilledData(count, (char)4712));
+            TestForType((ushort)4712, (count, _) => CreateFilledData(count, (ushort)4712));
+            TestForType((short)4712, (count, _) => CreateFilledData(count, (short)4712));
+            TestForType((char)4712, (count, _) => CreateFilledData(count, (char)4712));
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_FilledCount32()
         {
-            TestForType((int)37438941, count => CreateFilledData(count, (int)37438941));
-            TestForType((uint)37438941, count => CreateFilledData(count, (uint)37438941));
+            TestForType((int)37438941, (count, _) => CreateFilledData(count, (int)37438941));
+            TestForType((uint)37438941, (count, _) => CreateFilledData(count, (uint)37438941));
         }
 
         [TestCategory("ReadOnlySpanExtensions")]
         [TestMethod]
         public void Test_ReadOnlySpanExtensions_FilledCount64()
         {
-            TestForType((long)47128480128401, count => CreateFilledData(count, (long)47128480128401));
-            TestForType((ulong)47128480128401, count => CreateFilledData(count, (ulong)47128480128401));
+            TestForType((long)47128480128401, (count, _) => CreateFilledData(count, (long)47128480128401));
+            TestForType((ulong)47128480128401, (count, _) => CreateFilledData(count, (ulong)47128480128401));
         }
 
         /// <summary>
@@ -148,12 +156,12 @@ namespace UnitTests.HighPerformance.Extensions
         /// <typeparam name="T">The type to test.</typeparam>
         /// <param name="value">The target value to look for.</param>
         /// <param name="provider">The function to use to create random data.</param>
-        private static void TestForType<T>(T value, Func<int, T[]> provider)
+        private static void TestForType<T>(T value, Func<int, T, T[]> provider)
             where T : unmanaged, IEquatable<T>
         {
             foreach (var count in TestCounts)
             {
-                T[] data = provider(count);
+                T[] data = provider(count, value);
 
                 int result = data.Count(value);
                 int expected = CountWithForeach(data, value);
@@ -190,9 +198,10 @@ namespace UnitTests.HighPerformance.Extensions
         /// </summary>
         /// <typeparam name="T">The type of items to put in the array.</typeparam>
         /// <param name="count">The number of array items to create.</param>
+        /// <param name="value">The value to look for.</param>
         /// <returns>An array of random <typeparamref name="T"/> elements.</returns>
         [Pure]
-        private static T[] CreateRandomData<T>(int count)
+        private static T[] CreateRandomData<T>(int count, T value)
             where T : unmanaged
         {
             var random = new Random(count);
@@ -202,6 +211,14 @@ namespace UnitTests.HighPerformance.Extensions
             foreach (ref byte n in MemoryMarshal.AsBytes(data.AsSpan()))
             {
                 n = (byte)random.Next(0, byte.MaxValue);
+            }
+
+            // Fill at least 20% of the items with a matching value
+            int minimum = count / 20;
+
+            for (int i = 0; i < minimum; i++)
+            {
+                data[random.Next(0, count)] = value;
             }
 
             return data;
