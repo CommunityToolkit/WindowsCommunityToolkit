@@ -438,6 +438,37 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
+        public void Test_Guard_IsNotInRangeFor_Ok()
+        {
+            Span<int> span = stackalloc int[10];
+
+            Guard.IsNotInRangeFor(-2, span, nameof(Test_Guard_IsNotInRangeFor_Ok));
+            Guard.IsNotInRangeFor(10, span, nameof(Test_Guard_IsNotInRangeFor_Ok));
+            Guard.IsNotInRangeFor(2222, span, nameof(Test_Guard_IsNotInRangeFor_Ok));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_Guard_IsNotInRangeFor_LowerFail()
+        {
+            Span<int> span = stackalloc int[10];
+
+            Guard.IsNotInRangeFor(0, span, nameof(Test_Guard_IsNotInRangeFor_LowerFail));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void Test_Guard_IsNotInRangeFor_MiddleFail()
+        {
+            Span<int> span = stackalloc int[10];
+
+            Guard.IsNotInRangeFor(6, span, nameof(Test_Guard_IsNotInRangeFor_MiddleFail));
+        }
+
+        [TestCategory("Guard")]
+        [TestMethod]
         public void Test_Guard_IsBetween_Ok()
         {
             Guard.IsBetween(1, 0, 4, nameof(Test_Guard_IsBetween_Ok));

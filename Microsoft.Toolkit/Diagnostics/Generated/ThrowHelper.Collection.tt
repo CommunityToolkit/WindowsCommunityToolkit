@@ -115,6 +115,15 @@ GenerateTextForItems(EnumerableTypes, item =>
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be a valid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
         }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {<#=item.Name#>.<#=item.Size#>.ToAssertString()} to be an invalid index for the target collection ({typeof(<#=item.Type#>).ToTypeString()}), was {index.ToAssertString()}");
+        }
 <#
 });
 #>

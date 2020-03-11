@@ -205,6 +205,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="Span{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="Span{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="span"/>.</param>
+        /// <param name="span">The input <see cref="Span{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="span"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, Span<T> span, string name)
+        {
+            if ((uint)index < (uint)span.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlySpan{T}"/> instance must be empty.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
@@ -386,6 +403,23 @@ namespace Microsoft.Toolkit.Diagnostics
             if ((uint)index >= (uint)span.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, span, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="ReadOnlySpan{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="span"/>.</param>
+        /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="span"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, ReadOnlySpan<T> span, string name)
+        {
+            if ((uint)index < (uint)span.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, span, name);
             }
         }
 
@@ -575,6 +609,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="Memory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="Memory{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="memory"/>.</param>
+        /// <param name="memory">The input <see cref="Memory{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="memory"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, Memory<T> memory, string name)
+        {
+            if ((uint)index < (uint)memory.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="ReadOnlyMemory{T}"/> instance must be empty.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
@@ -756,6 +807,23 @@ namespace Microsoft.Toolkit.Diagnostics
             if ((uint)index >= (uint)memory.Length)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, memory, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="ReadOnlyMemory{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="ReadOnlyMemory{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="memory"/>.</param>
+        /// <param name="memory">The input <see cref="ReadOnlyMemory{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="memory"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, ReadOnlyMemory<T> memory, string name)
+        {
+            if ((uint)index < (uint)memory.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, memory, name);
             }
         }
 
@@ -945,6 +1013,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input index is not valid for a given <see typeparamref="T"/> array instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see typeparamref="T"/> array instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="array"/>.</param>
+        /// <param name="array">The input <see typeparamref="T"/> array instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="array"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, T[] array, string name)
+        {
+            if ((uint)index < (uint)array.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, array, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="List{T}"/> instance must be empty.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="List{T}"/> instance.</typeparam>
@@ -1126,6 +1211,23 @@ namespace Microsoft.Toolkit.Diagnostics
             if ((uint)index >= (uint)list.Count)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, (ICollection<T>)list, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="List{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="List{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="list"/>.</param>
+        /// <param name="list">The input <see cref="List{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="list"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, List<T> list, string name)
+        {
+            if ((uint)index < (uint)list.Count)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, (ICollection<T>)list, name);
             }
         }
 
@@ -1315,6 +1417,23 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="ICollection{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="ICollection{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="collection"/>.</param>
+        /// <param name="collection">The input <see cref="ICollection{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="collection"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, ICollection<T> collection, string name)
+        {
+            if ((uint)index < (uint)collection.Count)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
+            }
+        }
+
+        /// <summary>
         /// Asserts that the input <see cref="IReadOnlyCollection{T}"/> instance must be empty.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="IReadOnlyCollection{T}"/> instance.</typeparam>
@@ -1496,6 +1615,23 @@ namespace Microsoft.Toolkit.Diagnostics
             if ((uint)index >= (uint)collection.Count)
             {
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, collection, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="IReadOnlyCollection{T}"/> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <see cref="IReadOnlyCollection{T}"/> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="collection"/>.</param>
+        /// <param name="collection">The input <see cref="IReadOnlyCollection{T}"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="collection"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
+        {
+            if ((uint)index < (uint)collection.Count)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, collection, name);
             }
         }
     }

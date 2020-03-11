@@ -113,6 +113,15 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, Span<T> span, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {span.Length.ToAssertString()} to be an invalid index for the target collection ({typeof(Span<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -200,6 +209,15 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, ReadOnlySpan<T> span, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {span.Length.ToAssertString()} to be a valid index for the target collection ({typeof(ReadOnlySpan<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, ReadOnlySpan<T> span, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {span.Length.ToAssertString()} to be an invalid index for the target collection ({typeof(ReadOnlySpan<T>).ToTypeString()}), was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -293,6 +311,15 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, Memory<T> memory, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {memory.Length.ToAssertString()} to be an invalid index for the target collection ({typeof(Memory<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -380,6 +407,15 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, ReadOnlyMemory<T> memory, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {memory.Length.ToAssertString()} to be a valid index for the target collection ({typeof(ReadOnlyMemory<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, ReadOnlyMemory<T> memory, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {memory.Length.ToAssertString()} to be an invalid index for the target collection ({typeof(ReadOnlyMemory<T>).ToTypeString()}), was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -473,6 +509,15 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, T[] array, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {array.Length.ToAssertString()} to be an invalid index for the target collection ({typeof(T[]).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -560,6 +605,15 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, List<T> list, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {list.Count.ToAssertString()} to be a valid index for the target collection ({typeof(List<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, List<T> list, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {list.Count.ToAssertString()} to be an invalid index for the target collection ({typeof(List<T>).ToTypeString()}), was {index.ToAssertString()}");
         }
 
         /// <summary>
@@ -653,6 +707,15 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, ICollection<T> collection, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {collection.Count.ToAssertString()} to be an invalid index for the target collection ({typeof(ICollection<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsEmpty{T}(T[],string)"/> (or an overload) fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
@@ -740,6 +803,15 @@ namespace Microsoft.Toolkit.Diagnostics
         public static void ThrowArgumentOutOfRangeExceptionForIsInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
         {
             ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must be in the range given by <0> and {collection.Count.ToAssertString()} to be a valid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {index.ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentOutOfRangeException"/> when <see cref="Guard.IsNotInRangeFor{T}(int,T[],string)"/> (or an overload) fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor<T>(int index, IReadOnlyCollection<T> collection, string name)
+        {
+            ThrowArgumentOutOfRangeException(name, $"Parameter {name.ToAssertString()} (int) must not be in the range given by <0> and {collection.Count.ToAssertString()} to be an invalid index for the target collection ({typeof(IReadOnlyCollection<T>).ToTypeString()}), was {index.ToAssertString()}");
         }
     }
 }

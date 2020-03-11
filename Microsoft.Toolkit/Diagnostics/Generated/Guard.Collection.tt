@@ -252,6 +252,23 @@ GenerateTextForItems(EnumerableTypes, item =>
                 ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
             }
         }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <#=item.XmlType#> instance.
+        /// </summary>
+        /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
+        /// <param name="index">The input index to be used to access <paramref name="<#=item.Name#>"/>.</param>
+        /// <param name="<#=item.Name#>">The input <#=item.XmlType#> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="<#=item.Name#>"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor<T>(int index, <#=item.Type#> <#=item.Name#>, string name)
+        {
+            if ((uint)index < (uint)<#=item.Name#>.<#=item.Size#>)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, <#=item.Cast#><#=item.Name#>, name);
+            }
+        }
 <#
 });
 #>
