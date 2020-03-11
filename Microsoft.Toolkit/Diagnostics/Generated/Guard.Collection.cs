@@ -171,7 +171,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
+        /// Asserts that the source <see cref="Span{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Span{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="Span{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="Span{T}"/> instance to check the size for.</param>
@@ -356,7 +356,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="ReadOnlySpan{T}"/> instance.
+        /// Asserts that the source <see cref="ReadOnlySpan{T}"/> instance must have a size of less than or equal to that of a destination <see cref="ReadOnlySpan{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="ReadOnlySpan{T}"/> instance to check the size for.</param>
@@ -541,7 +541,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Memory{T}"/> instance.
+        /// Asserts that the source <see cref="Memory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="Memory{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="Memory{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="Memory{T}"/> instance to check the size for.</param>
@@ -911,7 +911,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see typeparamref="T"/> array instance.
+        /// Asserts that the source <see typeparamref="T"/> array instance must have a size of less than or equal to that of a destination <see typeparamref="T"/> array instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see typeparamref="T"/> array instance.</typeparam>
         /// <param name="source">The source <see typeparamref="T"/> array instance to check the size for.</param>
@@ -1096,7 +1096,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="List{T}"/> instance.
+        /// Asserts that the source <see cref="List{T}"/> instance must have a size of less than or equal to that of a destination <see cref="List{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="List{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="List{T}"/> instance to check the size for.</param>
@@ -1281,7 +1281,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="ICollection{T}"/> instance.
+        /// Asserts that the source <see cref="ICollection{T}"/> instance must have a size of less than or equal to that of a destination <see cref="ICollection{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="ICollection{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="ICollection{T}"/> instance to check the size for.</param>
@@ -1466,7 +1466,7 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <see cref="IReadOnlyCollection{T}"/> instance.
+        /// Asserts that the source <see cref="IReadOnlyCollection{T}"/> instance must have a size of less than or equal to that of a destination <see cref="IReadOnlyCollection{T}"/> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <see cref="IReadOnlyCollection{T}"/> instance.</typeparam>
         /// <param name="source">The source <see cref="IReadOnlyCollection{T}"/> instance to check the size for.</param>

@@ -207,7 +207,7 @@ GenerateTextForItems(EnumerableTypes, item =>
         }
 
         /// <summary>
-        /// Asserts that the source <see cref="ReadOnlyMemory{T}"/> instance must have a size of less than or equal to that of a destination <#=item.XmlType#> instance.
+        /// Asserts that the source <#=item.XmlType#> instance must have a size of less than or equal to that of a destination <#=item.XmlType#> instance.
         /// </summary>
         /// <typeparam name="T">The item of items in the input <#=item.XmlType#> instance.</typeparam>
         /// <param name="source">The source <#=item.XmlType#> instance to check the size for.</param>
