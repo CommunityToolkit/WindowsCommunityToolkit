@@ -98,41 +98,20 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Main loop with 8 unrolled iterations
             for (; i <= end8; i += 8)
             {
-                /* Skip a conditional jump by assigning the comparison
-                 * result to a variable and reinterpreting a reference to
-                 * it as a byte reference. The byte value is then implicitly
-                 * cast to int before adding it to the result. Additionally,
-                 * the JIT will automatically inline the calls to Equals<T>. */
-                bool equals0 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals0);
-
-                bool equals1 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals1);
-
-                bool equals2 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals2);
-
-                bool equals3 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals3);
-
-                bool equals4 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals4);
-
-                bool equals5 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals5);
-
-                bool equals6 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals6);
-
-                bool equals7 = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals7);
+                result += Unsafe.Add(ref r0, i + 0).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 1).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 2).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 3).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 4).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 5).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 6).Equals(value).ToInt();
+                result += Unsafe.Add(ref r0, i + 7).Equals(value).ToInt();
             }
 
             // Iterate over the remaining values and count those that match
             for (; i < length; i++)
             {
-                bool equals = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals);
+                result += Unsafe.Add(ref r0, i).Equals(value).ToInt();
             }
 
             return result;
@@ -230,8 +209,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
             // Iterate over the remaining values and count those that match
             for (; i < length; i++)
             {
-                bool equals = Unsafe.Add(ref r0, i).Equals(value);
-                result += Unsafe.As<bool, byte>(ref equals);
+                result += Unsafe.Add(ref r0, i).Equals(value).ToInt();
             }
 
             return result;
