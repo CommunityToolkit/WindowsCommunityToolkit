@@ -23,15 +23,15 @@
   <ItemGroup>
     <None Update="Diagnostics\Generated\Guard.Comparable.Numeric.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Guard.Comparable.Numeric.cs</LastGenOutput>
+      <LastGenOutput>Guard.Comparable.Numeric.g.cs</LastGenOutput>
     </None>
     <None Update="Diagnostics\Generated\Guard.Collection.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Guard.Collection.cs</LastGenOutput>
+      <LastGenOutput>Guard.Collection.g.cs</LastGenOutput>
     </None>
     <None Update="Diagnostics\Generated\ThrowHelper.Collection.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ThrowHelper.Collection.cs</LastGenOutput>
+      <LastGenOutput>ThrowHelper.Collection.g.cs</LastGenOutput>
     </None>
     <None Update="Diagnostics\Generated\TypeInfo.ttinclude">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -45,17 +45,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Diagnostics\Generated\Guard.Comparable.Numeric.cs">
+    <Compile Update="Diagnostics\Generated\Guard.Comparable.Numeric.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Guard.Comparable.Numeric.tt</DependentUpon>
     </Compile>
-    <Compile Update="Diagnostics\Generated\Guard.Collection.cs">
+    <Compile Update="Diagnostics\Generated\Guard.Collection.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Guard.Collection.tt</DependentUpon>
     </Compile>
-    <Compile Update="Diagnostics\Generated\ThrowHelper.Collection.cs">
+    <Compile Update="Diagnostics\Generated\ThrowHelper.Collection.g.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>ThrowHelper.Collection.tt</DependentUpon>
