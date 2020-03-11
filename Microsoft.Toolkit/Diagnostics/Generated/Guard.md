@@ -12,4 +12,4 @@ There are a few reasons why T4 templates are used for the `Guard` class:
 
 ## How to make changes
 
-If you need to change an API that is declared in a template, or to add a new one, just edit the right `.tt` file and save it: Visual Studio will take care of updating the generated `.cs` file automatically. Don't make changes to those generated `.cs` files directly, as those will be overwritten as soon as their source template is updated.
+If you need to change an API that is declared in a template, or to add a new one, just edit the right `.tt` file and save it: Visual Studio will take care of updating the generated `.g.cs` file automatically. Don't make changes to those generated `.g.cs` files directly, as those will be overwritten as soon as their source template is updated.
