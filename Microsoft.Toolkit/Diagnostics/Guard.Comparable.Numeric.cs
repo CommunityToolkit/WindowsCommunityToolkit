@@ -59,6 +59,40 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <summary>
         /// Asserts that the input value must be within a given distance from a specified value.
         /// </summary>
+        /// <param name="value">The input <see cref="long"/> value to test.</param>
+        /// <param name="target">The target <see cref="long"/> value to test for.</param>
+        /// <param name="delta">The maximum distance to allow between <paramref name="value"/> and <paramref name="target"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if (<paramref name="value"/> - <paramref name="target"/>) > <paramref name="delta"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsCloseTo(long value, long target, long delta, string name)
+        {
+            if (Math.Abs((decimal)value - target) > delta)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsCloseTo(value, target, delta, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must not be within a given distance from a specified value.
+        /// </summary>
+        /// <param name="value">The input <see cref="long"/> value to test.</param>
+        /// <param name="target">The target <see cref="long"/> value to test for.</param>
+        /// <param name="delta">The maximum distance to allow between <paramref name="value"/> and <paramref name="target"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if (<paramref name="value"/> - <paramref name="target"/>) &lt;= <paramref name="delta"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotCloseTo(long value, long target, long delta, string name)
+        {
+            if (Math.Abs((decimal)value - target) <= delta)
+            {
+                ThrowHelper.ThrowArgumentExceptionForIsNotCloseTo(value, target, delta, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input value must be within a given distance from a specified value.
+        /// </summary>
         /// <param name="value">The input <see cref="float"/> value to test.</param>
         /// <param name="target">The target <see cref="float"/> value to test for.</param>
         /// <param name="delta">The maximum distance to allow between <paramref name="value"/> and <paramref name="target"/>.</param>

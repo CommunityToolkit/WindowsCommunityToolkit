@@ -36,6 +36,24 @@ namespace Microsoft.Toolkit.Diagnostics
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsCloseTo(long,long,long,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsCloseTo(long value, long target, long delta, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsNotCloseTo(int,int,int,string)"/> fails.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowArgumentExceptionForIsNotCloseTo(long value, long target, long delta, string name)
+        {
+            ThrowArgumentException(name, $"Parameter {name.ToAssertString()} ({typeof(long).ToTypeString()}) must not be within a distance of {delta.ToAssertString()} from {target.ToAssertString()}, was {value.ToAssertString()} and had a distance of {Math.Abs((decimal)value - target).ToAssertString()}");
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentException"/> when <see cref="Guard.IsCloseTo(float,float,float,string)"/> fails.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
