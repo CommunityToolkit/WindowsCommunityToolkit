@@ -10,6 +10,6 @@ There are a few reasons why T4 templates are used for the `Guard` class:
  - Using type-specific overloads instead of generic methods can result in faster code. For instance, T4 templates are used to generate overloads for comparison APIs (eg. `Guard.IsGreaterThan(int, int, string)`). This results in more compact and optimized code as opposed to a generic method using `where T : IComparable<T>` as type constraint.
  - In some cases, using generic methods just isn't possible. For instance, types like `Span<T>` and `ReadOnlySpan<T>` can't be used as generic type parameters, and even if that had been possible, they don't implement an interface we could use in the generic type constraint. Using T4 templates solves this issue, as we can just have specialized method for each supported type or collection type.
 
- ## How to make changes
+## How to make changes
 
 If you need to change an API that is declared in a template, or to add a new one, just edit the right `.tt` file and save it: Visual Studio will take care of updating the generated `.cs` file automatically. Don't make changes to those generated `.cs` files directly, as those will be overwritten as soon as their source template is updated.
