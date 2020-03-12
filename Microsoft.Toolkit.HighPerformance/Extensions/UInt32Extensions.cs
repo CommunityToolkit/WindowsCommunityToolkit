@@ -53,8 +53,16 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SetFlag(this uint value, int n, bool flag)
         {
-            // Reinterpret the flag as 1 or 0, and cast to uint
-            uint flag32 = Unsafe.As<bool, byte>(ref flag);
+            /* Reinterpret the flag as 1 or 0, and cast to uint.
+             * The flag is first copied to a local variable as taking
+             * the address of an argument is slower than doing the same
+             * for a local variable. This is because when referencing
+             * the argument the JIT compiler will emit code to temporarily
+             * move the argument to the stack, and then copy it back.
+             * With a temporary variable instead, the JIT will be able to
+             * optimize the method to only use CPU registers. */
+            bool localFlag = flag;
+            uint flag32 = Unsafe.As<bool, byte>(ref localFlag);
 
             /* Set the n-th bit to the input flag value.
              * The left operand XORs the input value with a mask of
