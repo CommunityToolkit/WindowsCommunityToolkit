@@ -76,9 +76,7 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             if (minimumActionsPerThread <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(minimumActionsPerThread),
-                    "Each thread needs to perform at least one action");
+                ThrowArgumentOutOfRangeExceptionForInvalidMinimumActionsPerThread();
             }
 
             if (memory.IsEmpty)

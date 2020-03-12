@@ -226,19 +226,17 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             if (minimumActionsPerThread <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(minimumActionsPerThread),
-                    "Each thread needs to perform at least one action");
+                ThrowArgumentOutOfRangeExceptionForInvalidMinimumActionsPerThread();
             }
 
             if (top > bottom)
             {
-                throw new ArgumentOutOfRangeException(nameof(top), "Top can't be greater than bottom");
+                ThrowArgumentOutOfRangeExceptionForTopGreaterThanBottom();
             }
 
             if (left > right)
             {
-                throw new ArgumentOutOfRangeException(nameof(left), "Left can't be greater than right");
+                ThrowArgumentOutOfRangeExceptionForLeftGreaterThanRight();
             }
 
             // If either side of the target area is empty, no iterations are performed

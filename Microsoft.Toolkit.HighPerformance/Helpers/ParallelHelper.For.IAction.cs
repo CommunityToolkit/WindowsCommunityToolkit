@@ -150,14 +150,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             if (minimumActionsPerThread <= 0)
             {
-                throw new ArgumentOutOfRangeException(
-                    nameof(minimumActionsPerThread),
-                    "Each thread needs to perform at least one action");
+                ThrowArgumentOutOfRangeExceptionForInvalidMinimumActionsPerThread();
             }
 
             if (start > end)
             {
-                throw new ArgumentOutOfRangeException(nameof(start), "Start must be less than end");
+                ThrowArgumentOutOfRangeExceptionForStartGreaterThanEnd();
             }
 
             if (start == end)
