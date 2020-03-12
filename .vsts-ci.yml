@@ -66,7 +66,7 @@ jobs:
   container: unoplatform/wasm-build:2.0
 
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-18.04'
 
   variables:
     NUGET_PACKAGES: $(build.sourcesdirectory)/.nuget
@@ -82,14 +82,22 @@ jobs:
     displayName: Use .NET Core sdk
 
   - bash: |
-      sudo chmod -R 777 /emsdk
-      cd /emsdk
-      sudo ./emsdk activate sdk-1.38.31-64bit
-
+      cd ~
+      git clone https://github.com/emscripten-core/emsdk
+      cd emsdk
+      ./emsdk install sdk-1.39.7
+      ./emsdk activate sdk-1.39.7
     displayName: 'Setup Emscripten'
+  - bash: |
+      cd ~/emsdk
+      wget https://raw.githubusercontent.com/mono/mono/27247739c68faee7b2a63ae805222d4b375d2161/sdks/builds/emscripten-pr-8457.diff
+      wget https://raw.githubusercontent.com/mono/mono/27247739c68faee7b2a63ae805222d4b375d2161/sdks/builds/fix-emscripten-8511.diff
+      cd ~/emsdk/upstream/emscripten
+      patch -N -p1 < ~/emsdk/emscripten-pr-8457.diff
+      patch -N -p1 < ~/emsdk/fix-emscripten-8511.diff
 
   - bash: |
-      source /emsdk/emsdk_env.sh
+      source ~/emsdk/emsdk_env.sh
       cd $(build.sourcesdirectory)/Microsoft.Toolkit.Uwp.SampleApp.Wasm
       msbuild /r /p:Configuration=Release $(build.sourcesdirectory)/Microsoft.Toolkit.Uwp.SampleApp.Wasm/Microsoft.Toolkit.Uwp.SampleApp.Wasm.csproj /p:TargetFrameworksOverride=netstandard2.0 /bl:$(build.artifactstagingdirectory)\build.binlog
 
