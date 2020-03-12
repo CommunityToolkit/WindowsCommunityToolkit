@@ -26,6 +26,10 @@
 	<ItemGroup Condition="'$(TargetFramework)' == 'monoandroid80' or '$(TargetFramework)' == 'xamarinios10'">
 		<Reference Include="System.ComponentModel.DataAnnotations" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Uno.UI" Version="2.2.0-dev.109" />
+	</ItemGroup>
 	
 	<!--
 	UNO TODO

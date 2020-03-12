@@ -65,6 +65,10 @@
   <ItemGroup Condition="'$(TargetFramework)'=='uap10.0.16299'">
     <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed" Version="1.1.0" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="2.2.0-dev.109" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp\Microsoft.Toolkit.Uwp.csproj" />
