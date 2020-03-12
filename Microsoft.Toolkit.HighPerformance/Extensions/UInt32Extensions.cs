@@ -33,8 +33,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
              * movzx instructions (asm x64). This is because the JIT
              * compiler is able to optimize this reinterpret-cast as
              * a single "and eax, 0x1" instruction, whereas if we had
-             * compared the previous operation against 0, the assembly
-             * would have had to perform the test, then set the non-zero
+             * compared the previous computed flag against 0, the assembly
+             * would have had to perform the test, set the non-zero
              * flag and then extend the (byte) result to eax. */
             return Unsafe.As<byte, bool>(ref flag);
         }
