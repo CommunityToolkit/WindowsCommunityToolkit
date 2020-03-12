@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Buffers\Test_SpanOwner{T}.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_ArrayPoolExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_UInt64Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_UInt32Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_BoolExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Test_HashCodeExtensions.cs" />
