@@ -53,6 +53,14 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SetFlag(this uint value, int n, bool flag)
         {
+            /* Shift a bit left to the n-th position, negate the
+             * resulting value and perform an AND with the input value.
+             * This effectively clears the n-th bit of our input. */
+            uint
+                bit = 1u << n,
+                not = ~bit,
+                and = value & not;
+
             /* Reinterpret the flag as 1 or 0, and cast to uint.
              * The flag is first copied to a local variable as taking
              * the address of an argument is slower than doing the same
@@ -62,16 +70,17 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
              * With a temporary variable instead, the JIT will be able to
              * optimize the method to only use CPU registers. */
             bool localFlag = flag;
-            uint flag32 = Unsafe.As<bool, byte>(ref localFlag);
+            uint
+                flag32 = Unsafe.As<bool, byte>(ref localFlag),
 
-            /* Set the n-th bit to the input flag value.
-             * The left operand XORs the input value with a mask of
-             * all 1-s or 0-s depending on the input flag. The single
-             * target bit is then isolated with the left shift, and
-             * the combined value is XORed with the target value, setting
-             * the n-th bit to the requested flag. This allows the whole
-             * operation to avoid conditional branches in all cases. */
-            return value ^ unchecked((uint)((-flag32 ^ value) & (1 << n)));
+                /* Finally, we left shift the uint flag to the right position
+                 * and perform an OR with the resulting value of the previous
+                 * operation. This will always guaranteed to work, thanks to the
+                 * initial code clearing that bit before setting it again. */
+                shift = flag32 << n,
+                or = and | shift;
+
+            return or;
         }
     }
 }

@@ -46,16 +46,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ulong SetFlag(this ulong value, int n, bool flag)
         {
-            /* Same base logic as the uint version, with some changes to
-             * replace the unchecked cast that wouldn't work in this case,
-             * as we already have a 64 bit value to begin with.
-             * First we shift a bit left to the n-th position, negate
-             * the resulting value and perform an AND with the input value.
-             * This effectively clears the n-th bit of our input.
-             * Next, we reinterpret the input flag, left shift it to
-             * the right position and perform an OR with the resulting
-             * value of the previous operation. This will always work thanks
-             * to the initial code clearing that bit before setting it again. */
+            // As with the method above, reuse the same logic as the uint version
             ulong
                 bit = 1ul << n,
                 not = ~bit,
