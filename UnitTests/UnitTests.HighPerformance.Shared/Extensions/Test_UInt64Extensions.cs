@@ -35,7 +35,7 @@ namespace UnitTests.HighPerformance.Extensions
             Assert.AreEqual(0b1ul, 0u.SetFlag(0, true));
             Assert.AreEqual(4ul, 4u.SetFlag(1, false));
             Assert.AreEqual(0b110ul, 2u.SetFlag(2, true));
-            Assert.AreEqual(unchecked((ulong)int.MinValue), 0ul.SetFlag(31, true));
+            Assert.AreEqual(1ul << 31, 0ul.SetFlag(31, true));
             Assert.AreEqual(1ul << 63, 0ul.SetFlag(63, true));
         }
     }
