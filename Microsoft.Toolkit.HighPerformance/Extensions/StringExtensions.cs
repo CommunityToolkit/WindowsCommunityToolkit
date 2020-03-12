@@ -55,12 +55,12 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         //                 \-- string
         // The reference to RawStringData.Data points to the first character in the
         // string, skipping over the sync block, method table and string length.
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Explicit)]
         private sealed class RawStringData
         {
 #pragma warning disable CS0649 // Unassigned fields
 #pragma warning disable SA1401 // Fields should be private
-            public int Length;
+            [FieldOffset(4)]
             public char Data;
 #pragma warning restore CS0649
 #pragma warning restore SA1401
