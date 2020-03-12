@@ -21,6 +21,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <remarks>
         /// This method doesn't validate <paramref name="n"/> against the valid range.
         /// If the parameter is not valid, the result will just be inconsistent.
+        /// Additionally, no conditional branches are used to retrieve the flag.
         /// </remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -46,6 +47,8 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <param name="n">The position of the bit to set or clear.</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <returns>An <see cref="uint"/> value equal to <paramref name="value"/> except for the <paramref name="n"/>-th bit.</returns>
+        /// <remarks>Just like <see cref="HasFlag"/>, this method doesn't validate <paramref name="n"/>
+        /// and does not contain branching instructions, so it's well suited for use in tight loops as well.</remarks>
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static uint SetFlag(this uint value, int n, bool flag)
