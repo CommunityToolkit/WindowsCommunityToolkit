@@ -12,7 +12,7 @@ namespace UnitTests.HighPerformance.Extensions
     {
         [TestCategory("UInt32Extensions")]
         [TestMethod]
-        public void Test_BoolExtensions_HasFlag()
+        public void Test_UInt32Extensions_HasFlag()
         {
             uint value = 0b10_1001110101_0110010010_1100100010;
 
@@ -27,7 +27,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("UInt32Extensions")]
         [TestMethod]
-        public void Test_BoolExtensions_SetFlag()
+        public void Test_UInt32Extensions_SetFlag()
         {
             Assert.AreEqual(0b1u, 0u.SetFlag(0, true));
             Assert.AreEqual(4u, 4u.SetFlag(1, false));

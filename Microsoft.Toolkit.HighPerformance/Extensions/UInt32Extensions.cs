@@ -43,7 +43,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// <summary>
         /// Sets a bit to a specified value.
         /// </summary>
-        /// <param name="value">The target <see cref="uint"/> value to modify.</param>
+        /// <param name="value">The input <see cref="uint"/> value.</param>
         /// <param name="n">The position of the bit to set or clear.</param>
         /// <param name="flag">The value to assign to the target bit.</param>
         /// <returns>An <see cref="uint"/> value equal to <paramref name="value"/> except for the <paramref name="n"/>-th bit.</returns>
