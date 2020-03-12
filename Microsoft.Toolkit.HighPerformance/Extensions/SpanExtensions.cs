@@ -63,7 +63,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Span<byte> AsBytes<T>(this Span<T> span)
-            where T : struct
+            where T : unmanaged
         {
             return MemoryMarshal.AsBytes(span);
         }

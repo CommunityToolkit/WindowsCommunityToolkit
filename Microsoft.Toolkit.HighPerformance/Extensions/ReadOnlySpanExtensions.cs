@@ -65,7 +65,7 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         [Pure]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ReadOnlySpan<byte> AsBytes<T>(this ReadOnlySpan<T> span)
-            where T : struct
+            where T : unmanaged
         {
             return MemoryMarshal.AsBytes(span);
         }
