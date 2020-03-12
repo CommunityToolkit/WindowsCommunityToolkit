@@ -20,26 +20,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
         /// </summary>
         /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
         /// <param name="hashCode">The input <see cref="HashCode"/> instance.</param>
-        /// <param name="array">The input <typeparamref name="T"/> array instance.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add<T>(ref this HashCode hashCode, T[] array)
-#if NETSTANDARD2_1
-            where T : notnull
-#else
-            // Same type constraints as HashCode<T>, see comments there
-            where T : unmanaged
-#endif
-        {
-            int hash = HashCode<T>.CombineValues(new ReadOnlySpan<T>(array));
-
-            hashCode.Add(hash);
-        }
-
-        /// <summary>
-        /// Adds a sequence of <typeparamref name="T"/> values to the hash code.
-        /// </summary>
-        /// <typeparam name="T">The type of elements in the input <see cref="ReadOnlySpan{T}"/> instance.</typeparam>
-        /// <param name="hashCode">The input <see cref="HashCode"/> instance.</param>
         /// <param name="span">The input <see cref="ReadOnlySpan{T}"/> instance.</param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Add<T>(ref this HashCode hashCode, ReadOnlySpan<T> span)
@@ -51,19 +31,6 @@ namespace Microsoft.Toolkit.HighPerformance.Extensions
 #endif
         {
             int hash = HashCode<T>.CombineValues(span);
-
-            hashCode.Add(hash);
-        }
-
-        /// <summary>
-        /// Adds a sequence of characters to the hash code.
-        /// </summary>
-        /// <param name="hashCode">The input <see cref="HashCode"/> instance.</param>
-        /// <param name="text">The input <see cref="string"/> instance.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Add(ref this HashCode hashCode, string text)
-        {
-            int hash = HashCode<char>.CombineValues(text.AsSpan());
 
             hashCode.Add(hash);
         }
