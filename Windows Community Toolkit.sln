@@ -108,6 +108,7 @@ Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.Shared.projitems*{30cb6cf1-80f7-43d5-b619-c737503724b0}*SharedItemsImports = 13
 		Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.Shared.projitems*{484385ea-7766-49dc-bd09-f9b5dd035847}*SharedItemsImports = 4
+		Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.Shared.projitems*{90fb4995-3b51-42e7-9b79-28ffa701858a}*SharedItemsImports = 5
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{982cc826-aacd-4855-9075-430bb6ce40a9}*SharedItemsImports = 13
 		Microsoft.Toolkit.Uwp.SampleApp\Microsoft.Toolkit.Uwp.SampleApp.Shared.projitems*{af2b0725-7859-4d38-a340-4474c5040c3f}*SharedItemsImports = 4
 		UnitTests\UnitTests.Notifications.Shared\UnitTests.Notifications.Shared.projitems*{bab1caf4-c400-4a7f-a987-c576de63cffd}*SharedItemsImports = 4

@@ -70,6 +70,10 @@
     <PackageReference Include="ColorCode.UWP" Version="2.0.6" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Uno.UI" Version="2.2.0-dev.109" />
+  </ItemGroup>
 	
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Toolkit.Uwp.UI.Animations\Microsoft.Toolkit.Uwp.UI.Animations.csproj" />

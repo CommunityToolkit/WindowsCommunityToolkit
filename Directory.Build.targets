@@ -29,6 +29,6 @@
   </Target>
 
 	<ItemGroup>
-		<PackageReference Update="Uno.UI" Version="2.1.0-dev.1139" />
+		<PackageReference Update="Uno.UI" Version="2.2.0-dev.109" />
 	</ItemGroup>
 </Project>
