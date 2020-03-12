@@ -24,7 +24,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         public double ColumnWidth { get; internal set; }
 
-        public int NumberOfColumns { get { return _columnLayout.Count; } }
+        public int NumberOfColumns
+        {
+            get
+            {
+                return _columnLayout.Count;
+            }
+        }
 
         public double RowSpacing { get; internal set; }
 
