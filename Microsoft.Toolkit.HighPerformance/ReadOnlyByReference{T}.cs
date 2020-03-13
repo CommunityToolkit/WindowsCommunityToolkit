@@ -49,16 +49,6 @@ namespace Microsoft.Toolkit.HighPerformance
         }
 
         /// <summary>
-        /// Implicitly creates a new <see cref="ReadOnlyByReference{T}"/> instance from the specified readonly reference.
-        /// </summary>
-        /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ReadOnlyByReference<T>(in T value)
-        {
-            return new ReadOnlyByReference<T>(value);
-        }
-
-        /// <summary>
         /// Implicitly converts a <see cref="ByReference{T}"/> instance into a <see cref="ReadOnlyByReference{T}"/> one.
         /// </summary>
         /// <param name="reference">The input <see cref="ByReference{T}"/> instance.</param>

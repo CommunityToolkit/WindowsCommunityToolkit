@@ -45,19 +45,6 @@ namespace Microsoft.Toolkit.HighPerformance
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => ref MemoryMarshal.GetReference(span);
         }
-
-        /// <summary>
-        /// Implicitly creates a new <see cref="ByReference{T}"/> instance from the specified readonly reference.
-        /// </summary>
-        /// <param name="value">The readonly reference to the target <typeparamref name="T"/> value.</param>
-        /// <remarks>This operator converts a readonly reference in a mutable one, so make sure that's the intended behavior.</remarks>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static implicit operator ByReference<T>(in T value)
-        {
-            ref T r0 = ref Unsafe.AsRef(value);
-
-            return new ByReference<T>(ref r0);
-        }
 #else
         /// <summary>
         /// The owner <see cref="object"/> the current instance belongs to
