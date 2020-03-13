@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
 #nullable enable
