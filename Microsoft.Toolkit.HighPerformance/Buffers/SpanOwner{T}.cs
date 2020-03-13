@@ -33,6 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// Not doing so will cause the underlying buffer not to be returned to the shared pool.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
+    [DebuggerTypeProxy(typeof(SpanOwnerDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct SpanOwner<T>
