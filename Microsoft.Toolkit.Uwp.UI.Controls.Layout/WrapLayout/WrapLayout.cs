@@ -209,6 +209,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (position.V > realizationBounds.VMax)
                 {
                     // Item is "below" the bounds.
+                    if (child != null)
+                    {
+                        context.RecycleElement(child);
+                    }
+
+                    // We don't need to measure anything below the bounds
                     break;
                 }
                 else if (measured == false)
