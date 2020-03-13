@@ -247,9 +247,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
             }
 
-            double width;
-
             // It's a Auto size, so we define the size should be 3 items
+            double width;
             if (double.IsInfinity(availableSize.Width))
             {
                 width = Carousel.Orientation == Orientation.Horizontal ? containerWidth * (Children.Count > 3 ? 3 : Children.Count) : containerWidth;
@@ -259,8 +258,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 width = availableSize.Width;
             }
 
-            double height;
             // It's a Auto size, so we define the size should be 3 items
+            double height;
             if (double.IsInfinity(availableSize.Height))
             {
                 height = Carousel.Orientation == Orientation.Vertical ? containerHeight * (Children.Count > 3 ? 3 : Children.Count) : containerHeight;
