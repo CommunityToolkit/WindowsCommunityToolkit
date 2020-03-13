@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -32,6 +33,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// Not doing so will cause the underlying buffer not to be returned to the shared pool.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
+    [DebuggerDisplay("{ToString(),raw}")]
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1206", Justification = "The type is a ref struct")]
     public readonly ref struct SpanOwner<T>
     {
@@ -132,6 +134,20 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
         public void Dispose()
         {
             ArrayPool<T>.Shared.Return(array);
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        public override string ToString()
+        {
+            if (typeof(T) == typeof(char) &&
+                this.array is char[] chars)
+            {
+                return new string(chars, 0, this.length);
+            }
+
+            // Same representation used in Span<T>
+            return $"Microsoft.Toolkit.HighPerformance.Buffers.SpanOwner<{typeof(T)}>[{this.length}]";
         }
     }
 }
