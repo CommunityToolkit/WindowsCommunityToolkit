@@ -4,6 +4,7 @@
 
 using System;
 using System.Buffers;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
 using Microsoft.Toolkit.HighPerformance.Extensions;
@@ -16,6 +17,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded length and a fast <see cref="Span{T}"/> accessor.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
+    [DebuggerDisplay("{ToString(),raw}")]
     public sealed class MemoryOwner<T> : IMemoryOwner<T>
     {
 #pragma warning disable IDE0032
@@ -224,6 +226,24 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
             this.array = null;
 
             ArrayPool<T>.Shared.Return(array);
+        }
+
+        /// <inheritdoc/>
+        [Pure]
+        public override string ToString()
+        {
+            /* Normally we would throw if the array has been disposed,
+             * but in this case we'll just return the non formatted
+             * representation as a fallback, since the ToString method
+             * is generally expected not to throw exceptions. */
+            if (typeof(T) == typeof(char) &&
+                this.array is char[] chars)
+            {
+                return new string(chars, this.start, this.length);
+            }
+
+            // Same representation used in Span<T>
+            return $"Microsoft.Toolkit.HighPerformance.Buffers.MemoryOwner<{typeof(T)}>[{this.length}]";
         }
 
         /// <summary>
