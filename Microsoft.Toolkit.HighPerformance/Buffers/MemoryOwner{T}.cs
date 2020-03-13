@@ -7,6 +7,7 @@ using System.Buffers;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.HighPerformance.Buffers.Views;
 using Microsoft.Toolkit.HighPerformance.Extensions;
 
 #nullable enable
@@ -17,6 +18,7 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
     /// An <see cref="IMemoryOwner{T}"/> implementation with an embedded length and a fast <see cref="Span{T}"/> accessor.
     /// </summary>
     /// <typeparam name="T">The type of items to store in the current instance.</typeparam>
+    [DebuggerTypeProxy(typeof(MemoryOwnerDebugView<>))]
     [DebuggerDisplay("{ToString(),raw}")]
     public sealed class MemoryOwner<T> : IMemoryOwner<T>
     {
@@ -244,6 +246,16 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
 
             // Same representation used in Span<T>
             return $"Microsoft.Toolkit.HighPerformance.Buffers.MemoryOwner<{typeof(T)}>[{this.length}]";
+        }
+
+        /// <summary>
+        /// Tries to get a <typeparamref name="T"/> array to display in the debug proxy type.
+        /// </summary>
+        /// <returns>A <typeparamref name="T"/> array, if the current instance was not disposed.</returns>
+        [Pure]
+        internal T[]? TryGetItems()
+        {
+            return this.array?.AsSpan(this.start, this.length).ToArray();
         }
 
         /// <summary>
