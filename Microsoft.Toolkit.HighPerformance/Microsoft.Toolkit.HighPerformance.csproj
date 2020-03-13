@@ -4,6 +4,21 @@
     <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <LangVersion>8.0</LangVersion>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Title>Windows Community Toolkit High Performance .NET Standard</Title>
+    <Description>
+      This package includes high performance .NET Standard helpers such as:
+      - MemoryOwner&lt;T>: an IMemoryOwner&lt;T> implementation with an embedded length and a fast Span&lt;T> accessor.
+      - SpanOwner&lt;T>: a stack-only type with the ability to rent a buffer of a specified length and getting a Span&lt;T> from it.
+      - String, array, Span&lt;T>, Memory&lt;T> extensions and more, all focused on high performance.
+      - UInt32 and UInt64 extensions to quickly check/set bitwise flags.
+      - HashCode&lt;T>: a SIMD-enabled extension of HashCode to quickly process sequences of values.
+      - ParallelHelper: helpers to work with parallel code in a highly optimized manner.
+      - ByReference&lt;T>: a stack-only struct that can store a reference to a value of a specified type.
+    </Description>
+    <PackageTags>UWP Toolkit Windows IncrementalLoadingCollection String Array extensions helpers</PackageTags>
+
+    <!-- This is a temporary workaround for https://github.com/dotnet/sdk/issues/955 -->
+    <DebugType>Full</DebugType>
   </PropertyGroup>
 
   <!-- .NET Standard 2.0 doesn't have the Span<T> and HashCode types -->
