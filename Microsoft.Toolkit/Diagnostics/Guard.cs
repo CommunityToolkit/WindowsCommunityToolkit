@@ -62,7 +62,22 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull<T>(T? value, string name)
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1114", Justification = "Comment for [NotNull] attribute")]
+        public static void IsNotNull<T>(
+#if NETSTANDARD2_1
+            /* On .NET Standard 2.1, we can add the [NotNull] attribute for
+             * methods that throw if an argument of a nullable type is null.
+             * This will let the compiler know that after a call to such
+             * methods, the value of the variable passed as parameter will
+             * never be null (since if that's the case, the code would have
+             * thrown an exception instead of continuing the execution).
+             * This makes it easy for developers to keep track of the
+             * nullable state of variables, and to avoid having to use
+             * the '!' operator to explicitly ignore compiler warnings
+             * about variables possibly being null. */
+            [NotNull]
+#endif
+            T? value, string name)
             where T : class
         {
             if (value is null)
@@ -80,7 +95,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="value"/> is <see langword="null"/>.</exception>
         /// <remarks>The method is generic to avoid boxing the parameters, if they are value types.</remarks>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNull<T>(T? value, string name)
+        public static void IsNotNull<T>(
+#if NETSTANDARD2_1
+            [NotNull]
+#endif
+            T? value, string name)
             where T : struct
         {
             if (value is null)

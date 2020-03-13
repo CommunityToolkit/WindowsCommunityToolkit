@@ -3,6 +3,9 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+#if NETSTANDARD2_1
+using System.Diagnostics.CodeAnalysis;
+#endif
 using System.Runtime.CompilerServices;
 
 #nullable enable
@@ -36,7 +39,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or empty.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNullOrEmpty(string? text, string name)
+        public static void IsNotNullOrEmpty(
+#if NETSTANDARD2_1
+            [NotNull]
+#endif
+            string? text, string name)
         {
             if (string.IsNullOrEmpty(text))
             {
@@ -66,7 +73,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="text"/> is <see langword="null"/> or whitespace.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsNotNullOrWhitespace(string? text, string name)
+        public static void IsNotNullOrWhitespace(
+#if NETSTANDARD2_1
+            [NotNull]
+#endif
+            string? text, string name)
         {
             if (string.IsNullOrWhiteSpace(text))
             {
