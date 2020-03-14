@@ -78,12 +78,12 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         {
             if (i.Start.IsFromEnd || i.End.IsFromEnd)
             {
-                throw new ArgumentException("The bounds of the range can't start from an end", nameof(i));
+                ThrowArgumentExceptionForRangeIndexFromEnd(nameof(i));
             }
 
             if (j.Start.IsFromEnd || j.End.IsFromEnd)
             {
-                throw new ArgumentException("The bounds of the range can't start from an end", nameof(j));
+                ThrowArgumentExceptionForRangeIndexFromEnd(nameof(j));
             }
 
             int

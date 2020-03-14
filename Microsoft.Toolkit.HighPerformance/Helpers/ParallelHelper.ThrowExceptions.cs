@@ -37,6 +37,15 @@ namespace Microsoft.Toolkit.HighPerformance.Helpers
         }
 
         /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when a range has an index starting from an end.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowArgumentExceptionForRangeIndexFromEnd(string name)
+        {
+            throw new ArgumentException("The bounds of the range can't start from an end", name);
+        }
+
+        /// <summary>
         /// Throws an <see cref="ArgumentOutOfRangeException"/> when an invalid top parameter is specified for 2D loops.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
