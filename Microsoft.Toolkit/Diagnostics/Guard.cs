@@ -281,7 +281,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="false"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsTrue(bool value, string name)
+        public static void IsTrue(
+#if NETSTANDARD2_1
+            [DoesNotReturnIf(false)]
+#endif
+            bool value, string name)
         {
             if (!value)
             {
@@ -296,7 +300,11 @@ namespace Microsoft.Toolkit.Diagnostics
         /// <param name="name">The name of the input parameter being tested.</param>
         /// <exception cref="ArgumentException">Thrown if <paramref name="value"/> is <see langword="true"/>.</exception>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IsFalse(bool value, string name)
+        public static void IsFalse(
+#if NETSTANDARD2_1
+            [DoesNotReturnIf(true)]
+#endif
+            bool value, string name)
         {
             if (value)
             {
