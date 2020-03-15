@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true'" >true</SignAssembly>
+    <SignAssembly Condition="'$(SignAssembly)' == '' and '$(IsUwpProject)' != 'true' and '$(IsTestSampleProject)' != 'true'" >true</SignAssembly>
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)toolkit.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
