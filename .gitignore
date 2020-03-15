@@ -225,3 +225,6 @@ msbuild.binlog
 *.project.lock.json
 /build/tools/**
 !/build/tools/packages.config
+
+# Generated file from .ttinclude
+**/Generated/TypeInfo.g.cs
