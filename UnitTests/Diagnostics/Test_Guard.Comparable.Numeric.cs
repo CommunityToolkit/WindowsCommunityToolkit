@@ -28,7 +28,7 @@ namespace UnitTests.Diagnostics
         [SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1000", Justification = "Value tuple")]
         public void Test_Guard_IsCloseToInt_Fail()
         {
-            foreach (var item in new (int Value, int Target, int Delta)[]
+            foreach (var item in new (int Value, int Target, uint Delta)[]
             {
                 (0, 20, 10),
                 (0, 6, 5),
@@ -78,7 +78,7 @@ namespace UnitTests.Diagnostics
                 (0, float.MaxValue, 500),
                 (-500, -530, 10),
                 (1000, 800, 100),
-                (float.MaxValue, float.MaxValue - 10, 7),
+                (float.MaxValue, float.MaxValue / 2, 7),
                 (float.MinValue, float.MaxValue, float.MaxValue)
             })
             {

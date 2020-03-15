@@ -27,10 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.Memory" Version="4.5.3" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Diagnostics\Generated\Guard.Comparable.Numeric.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Guard.Comparable.Numeric.g.cs</LastGenOutput>
