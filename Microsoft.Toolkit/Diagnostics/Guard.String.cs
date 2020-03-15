@@ -240,5 +240,71 @@ namespace Microsoft.Toolkit.Diagnostics
                 ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(text, size, name);
             }
         }
+
+        /// <summary>
+        /// Asserts that the source <see cref="string"/> instance must have the same size of a destination <see cref="string"/> instance.
+        /// </summary>
+        /// <param name="source">The source <see cref="string"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="string"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is != the one of <paramref name="destination"/>.</exception>
+        /// <remarks>The <see cref="string"/> type is immutable, but the name of this API is kept for consistency with the other overloads.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeEqualTo(string source, string destination, string name)
+        {
+            if (source.Length != destination.Length)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeEqualTo(source, destination, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the source <see cref="string"/> instance must have a size of less than or equal to that of a destination <see cref="string"/> instance.
+        /// </summary>
+        /// <param name="source">The source <see cref="string"/> instance to check the size for.</param>
+        /// <param name="destination">The destination <see cref="string"/> instance to check the size for.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentException">Thrown if the size of <paramref name="source"/> is > the one of <paramref name="destination"/>.</exception>
+        /// <remarks>The <see cref="string"/> type is immutable, but the name of this API is kept for consistency with the other overloads.</remarks>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void HasSizeLessThanOrEqualTo(string source, string destination, string name)
+        {
+            if (source.Length > destination.Length)
+            {
+                ThrowHelper.ThrowArgumentExceptionForHasSizeLessThanOrEqualTo(source, destination, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is valid for a given <see cref="string"/> instance.
+        /// </summary>
+        /// <param name="index">The input index to be used to access <paramref name="text"/>.</param>
+        /// <param name="text">The input <see cref="string"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is not valid to access <paramref name="text"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsInRangeFor(int index, string text, string name)
+        {
+            if ((uint)index >= (uint)text.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsInRangeFor(index, text, name);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the input index is not valid for a given <see cref="string"/> instance.
+        /// </summary>
+        /// <param name="index">The input index to be used to access <paramref name="text"/>.</param>
+        /// <param name="text">The input <see cref="string"/> instance to use to validate <paramref name="index"/>.</param>
+        /// <param name="name">The name of the input parameter being tested.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if <paramref name="index"/> is valid to access <paramref name="text"/>.</exception>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IsNotInRangeFor(int index, string text, string name)
+        {
+            if ((uint)index < (uint)text.Length)
+            {
+                ThrowHelper.ThrowArgumentOutOfRangeExceptionForIsNotInRangeFor(index, text, name);
+            }
+        }
     }
 }
