@@ -21,7 +21,7 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_Guard_IsNull_ClassFail()
         {
             Guard.IsNull(new object(), nameof(Test_Guard_IsNull_ClassFail));
@@ -29,7 +29,7 @@ namespace UnitTests.Diagnostics
 
         [TestCategory("Guard")]
         [TestMethod]
-        [ExpectedException(typeof(ArgumentNullException))]
+        [ExpectedException(typeof(ArgumentException))]
         public void Test_Guard_IsNull_StructFail()
         {
             Guard.IsNull<int>(7, nameof(Test_Guard_IsNull_StructFail));
