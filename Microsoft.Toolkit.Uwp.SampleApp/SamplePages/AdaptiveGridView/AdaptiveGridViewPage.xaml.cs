@@ -7,8 +7,8 @@ using System.Linq;
 using Microsoft.Toolkit.Uwp.SampleApp.Data;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

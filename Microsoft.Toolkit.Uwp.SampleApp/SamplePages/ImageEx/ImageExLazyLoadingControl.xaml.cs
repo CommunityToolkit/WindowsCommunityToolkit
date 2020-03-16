@@ -4,8 +4,8 @@
 
 using System;
 using Microsoft.Toolkit.Uwp.UI.Controls;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {

@@ -5,10 +5,10 @@
 using System;
 using ColorCode;
 using Microsoft.Toolkit.Uwp.Helpers;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.Controls
 {

@@ -6,9 +6,9 @@ using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using Microsoft.Toolkit.Uwp.Internal;
 using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Interop;
-using Microsoft.Toolkit.Uwp.Internal;
 using NotifyCollectionChangedAction = global::System.Collections.Specialized.NotifyCollectionChangedAction;
 
 namespace Microsoft.Toolkit.Uwp.UI.Data.Utilities

@@ -4,9 +4,9 @@
 
 using System;
 using Microsoft.Toolkit.Services.LinkedIn;
-using Windows.UI.Popups;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Windows.UI.Popups;
 
 namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 {
