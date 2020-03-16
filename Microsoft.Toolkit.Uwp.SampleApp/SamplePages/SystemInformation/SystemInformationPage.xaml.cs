@@ -19,52 +19,52 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
     public sealed partial class SystemInformationPage : Page
     {
         // To get application's name:
-        public string ApplicationName => SystemInformation.ApplicationName;
+        public string ApplicationName => App.SystemInformation.ApplicationName;
 
         // To get application's version:
-        public string ApplicationVersion => SystemInformation.ApplicationVersion.ToFormattedString();
+        public string ApplicationVersion => App.SystemInformation.ApplicationVersion.ToFormattedString();
 
         // To get the most preferred language by the user:
-        public CultureInfo Culture => SystemInformation.Culture;
+        public CultureInfo Culture => App.SystemInformation.Culture;
 
         // To get operating syste,
-        public string OperatingSystem => SystemInformation.OperatingSystem;
+        public string OperatingSystem => App.SystemInformation.OperatingSystem;
 
         // To get used processor architecture
-        public ProcessorArchitecture OperatingSystemArchitecture => SystemInformation.OperatingSystemArchitecture;
+        public ProcessorArchitecture OperatingSystemArchitecture => App.SystemInformation.OperatingSystemArchitecture;
 
         // To get operating system version
-        public OSVersion OperatingSystemVersion => SystemInformation.OperatingSystemVersion;
+        public OSVersion OperatingSystemVersion => App.SystemInformation.OperatingSystemVersion;
 
         // To get device family
-        public string DeviceFamily => SystemInformation.DeviceFamily;
+        public string DeviceFamily => App.SystemInformation.DeviceFamily;
 
         // To get device model
-        public string DeviceModel => SystemInformation.DeviceModel;
+        public string DeviceModel => App.SystemInformation.DeviceModel;
 
         // To get device manufacturer
-        public string DeviceManufacturer => SystemInformation.DeviceManufacturer;
+        public string DeviceManufacturer => App.SystemInformation.DeviceManufacturer;
 
         // To get available memory in MB
-        public float AvailableMemory => SystemInformation.AvailableMemory;
+        public float AvailableMemory => App.SystemInformation.AvailableMemory;
 
         // To get if the app is being used for the first time since it was installed.
-        public string IsFirstUse => SystemInformation.IsFirstRun.ToString();
+        public string IsFirstUse => App.SystemInformation.IsFirstRun.ToString();
 
         // To get if the app is being used for the first time since being upgraded from an older version.
-        public string IsAppUpdated => SystemInformation.IsAppUpdated.ToString();
+        public string IsAppUpdated => App.SystemInformation.IsAppUpdated.ToString();
 
         // To get the first version installed
-        public string FirstVersionInstalled => SystemInformation.FirstVersionInstalled.ToFormattedString();
+        public string FirstVersionInstalled => App.SystemInformation.FirstVersionInstalled.ToFormattedString();
 
         // To get the first time the app was launched
-        public string FirstUseTime => SystemInformation.FirstUseTime.ToString(Culture.DateTimeFormat);
+        public string FirstUseTime => App.SystemInformation.FirstUseTime.ToString(Culture.DateTimeFormat);
 
         // To get the time the app was launched
-        public string LaunchTime => SystemInformation.LaunchTime.ToString(Culture.DateTimeFormat);
+        public string LaunchTime => App.SystemInformation.LaunchTime.ToString(Culture.DateTimeFormat);
 
         // To get the time the app was previously launched, not including this instance
-        public string LastLaunchTime => SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
+        public string LastLaunchTime => App.SystemInformation.LastLaunchTime.ToString(Culture.DateTimeFormat);
 
         // To get the time the launch count was reset, not including this instance
         public string LastResetTime
@@ -87,10 +87,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
             DependencyProperty.Register(nameof(LaunchCount), typeof(long), typeof(SystemInformationPage), new PropertyMetadata(0));
 
         // To get the number of times the app has been launched.
-        public long TotalLaunchCount => SystemInformation.TotalLaunchCount;
+        public long TotalLaunchCount => App.SystemInformation.TotalLaunchCount;
 
         // To get how long the app has been running
-        public string AppUptime => SystemInformation.AppUptime.ToString();
+        public string AppUptime => App.SystemInformation.AppUptime.ToString();
 
         public SystemInformationPage()
         {
@@ -100,15 +100,15 @@ namespace Microsoft.Toolkit.Uwp.SampleApp.SamplePages
 
             SampleController.Current.RegisterNewCommand("Reset launch count", (sender, args) =>
             {
-                SystemInformation.ResetLaunchCount();
+                App.SystemInformation.ResetLaunchCount();
                 RefreshProperties();
             });
         }
 
         private void RefreshProperties()
         {
-            LaunchCount = SystemInformation.LaunchCount;
-            LastResetTime = SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
+            LaunchCount = App.SystemInformation.LaunchCount;
+            LastResetTime = App.SystemInformation.LastResetTime.ToString(Culture.DateTimeFormat);
         }
     }
 }

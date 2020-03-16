@@ -1,3 +1,6 @@
+        // To get the system information instance
+        public static SystemInformation SystemInformation { get; } = new SystemInformation();
+        
         // To get application's name:
         public string ApplicationName => SystemInformation.ApplicationName;
 
