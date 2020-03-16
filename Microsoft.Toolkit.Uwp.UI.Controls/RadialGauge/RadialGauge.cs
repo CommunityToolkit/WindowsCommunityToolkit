@@ -88,7 +88,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// Identifies the ValueStringFormat dependency property.
         /// </summary>
         public static readonly DependencyProperty ValueStringFormatProperty =
-            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(RadialGauge), new PropertyMetadata("N0"));
+            DependencyProperty.Register(nameof(ValueStringFormat), typeof(string), typeof(RadialGauge), new PropertyMetadata("N0", (s, e) => OnValueChanged(s)));
 
         /// <summary>
         /// Identifies the TickSpacing dependency property.
