@@ -48,7 +48,7 @@ Once you do a search, you should see a list similar to the one below (versions m
 | Microsoft.Toolkit.Uwp.Connectivity | API helpers such as BluetoothLEHelper and Networking |
 | Microsoft.Toolkit.Uwp.DeveloperTools | XAML user controls and services to help developer building their app |
 
-## Features
+## <a name="supported"></a> Features
 The following features can be found in the Windows Community Toolkit. Most features should work with the Falls Creator Update SDK 16299 and above; however, refer to specific documentation on each feature for more information.
 
 ### Animations
@@ -169,7 +169,7 @@ The following features can be found in the Windows Community Toolkit. Most featu
 Please use [GitHub Issues](https://github.com/windows-toolkit/WindowsCommunityToolkit/issues) for bug reports and feature requests.
 For general questions and support, please use [Stack Overflow](https://stackoverflow.com/questions/tagged/windows-community-toolkit) where questions should be tagged with the tag `windows-community-toolkit`.
 
-## <a name="supported"></a> Required Dependencies
+## <a name="dependencies"></a> Required Dependencies
 The following dependencies are required for building the Windows Community Toolkit repo and sample app:
 
 * [Visual Studio 2019](https://visualstudio.microsoft.com/downloads/)
