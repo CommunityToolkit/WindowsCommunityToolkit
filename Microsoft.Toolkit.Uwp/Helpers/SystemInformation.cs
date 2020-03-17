@@ -34,6 +34,11 @@ namespace Microsoft.Toolkit.Uwp.Helpers
         }
 
         /// <summary>
+        /// Gets the unique instance of <see cref="SystemInformation"/>.
+        /// </summary>
+        public static SystemInformation Instance { get; } = new SystemInformation();
+
+        /// <summary>
         /// Gets the application's name.
         /// </summary>
         public string ApplicationName { get; }
@@ -253,9 +258,8 @@ namespace Microsoft.Toolkit.Uwp.Helpers
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SystemInformation"/> class.
-        /// Initializes static members of the <see cref="SystemInformation"/> class.
         /// </summary>
-        public SystemInformation()
+        private SystemInformation()
         {
             ApplicationName = Package.Current.DisplayName;
             ApplicationVersion = Package.Current.Id.Version;
