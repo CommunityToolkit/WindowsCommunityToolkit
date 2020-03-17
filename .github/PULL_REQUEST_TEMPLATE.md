@@ -26,7 +26,7 @@ What kind of change does this PR introduce?
 
 Please check if your PR fulfills the following requirements:
 
-- [ ] Tested code with current [supported SDKs](..#supported)
+- [ ] Tested code with current [supported SDKs](https://github.com/windows-toolkit/WindowsCommunityToolkit#supported)
 - [ ] Pull Request has been submitted to the documentation repository [instructions](../blob/master/contributing.md#-adding-documentation). Link: <!-- docs PR link -->
 - [ ] Sample in sample app has been added / updated (for bug fixes / features)
     - [ ] Icon has been created (if new sample) following the [Thumbnail Style Guide and templates](https://github.com/windows-toolkit/WindowsCommunityToolkit-design-assets)
