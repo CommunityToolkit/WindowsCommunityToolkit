@@ -3724,7 +3724,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 }
 
                 double offsetDelta = -pointerPoint.Properties.MouseWheelDelta / DATAGRID_mouseWheelDeltaDivider;
-                if (isForHorizontalScroll)
+                if (isForHorizontalScroll && pointerPoint.Properties.IsHorizontalMouseWheel)
                 {
                     offsetDelta *= -1.0;
                 }
