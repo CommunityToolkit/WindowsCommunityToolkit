@@ -179,12 +179,18 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             MasterDetailsViewState previousState = ViewState;
 
+            if (twoPaneView is null)
+            {
+                ViewState = MasterDetailsViewState.Both;
+            }
+
             // Single pane:
-            if (twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
+            else if (twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
             {
                 ViewState = SelectedItem is null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
                 twoPaneView.PanePriority = SelectedItem is null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
             }
+
             // Dual pane:
             else
             {
@@ -342,8 +348,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 {
                     selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
                 }
-
-                UpdateView(true);
             }
         }
 

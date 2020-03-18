@@ -134,7 +134,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
             {
-                SelectedItem = null;
+                ClearSelectedItem();
                 args.Cancel = true;
             }
         }
@@ -151,7 +151,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 // let the OnFrameNavigating method handle it if
                 if (frame == null || !frame.CanGoBack)
                 {
-                    SelectedItem = null;
+                    ClearSelectedItem();
                 }
 
                 args.Handled = true;
@@ -160,7 +160,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnInlineBackButtonClicked(object sender, RoutedEventArgs e)
         {
-            SelectedItem = null;
+            ClearSelectedItem();
         }
     }
 }
