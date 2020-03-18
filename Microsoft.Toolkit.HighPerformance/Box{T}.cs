@@ -19,6 +19,14 @@ namespace Microsoft.Toolkit.HighPerformance
     public sealed class Box<T>
         where T : struct
     {
+        // Boxed value types in the CLR are represented in memory as simple objects that store the method table of
+        // the corresponding T value type being boxed, and then the data of the value being boxed:
+        // [ sync block || pMethodTable || boxed T value ]
+        //                 ^               ^
+        //                 |               \-- Box<T>.Value
+        //                 \-- Box<T> reference
+        // For more info, see: https://mattwarren.org/2017/08/02/A-look-at-the-internals-of-boxing-in-the-CLR/.
+
         /// <summary>
         /// The wrapped <typeparamref name="T"/> value for the current instance.
         /// </summary>
