@@ -34,10 +34,10 @@
                                                       Content="{TemplateBinding MasterHeader}"
                                                       ContentTemplate="{TemplateBinding MasterHeaderTemplate}"
                                                       Visibility="Collapsed" />
-                                    <ContentPresenter x:Name="NoItemsPresenter"
+                                    <ContentPresenter x:Name="MasterNoItemsPresenter"
                                                       Grid.Row="1"
-                                                      Content="{TemplateBinding NoItemsContent}"
-                                                      ContentTemplate="{TemplateBinding NoItemsContentTemplate}" />
+                                                      Content="{TemplateBinding MasterNoItemsContent}"
+                                                      ContentTemplate="{TemplateBinding MasterNoItemsContentTemplate}" />
                                     <ListView x:Name="MasterList"
                                               Grid.Row="1"
                                               IsTabStop="False"
@@ -202,13 +202,13 @@
                                 <VisualState x:Name="HasItemsState">
                                     <VisualState.Setters>
                                         <Setter Target="MasterList.Visibility" Value="Visible" />
-                                        <Setter Target="NoItemsPresenter.Visibility" Value="Collapsed" />
+                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasNoItemsState">
                                     <VisualState.Setters>
                                         <Setter Target="MasterList.Visibility" Value="Collapsed" />
-                                        <Setter Target="NoItemsPresenter.Visibility" Value="Visible" />
+                                        <Setter Target="MasterNoItemsPresenter.Visibility" Value="Visible" />
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

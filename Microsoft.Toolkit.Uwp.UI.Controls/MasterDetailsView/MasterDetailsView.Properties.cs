@@ -46,21 +46,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
-        /// Identifies the <see cref="NoItemsContent"/> dependency property.
+        /// Identifies the <see cref="MasterNoItemsContent"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="NoItemsContent"/> dependency property.</returns>
-        public static readonly DependencyProperty NoItemsContentProperty = DependencyProperty.Register(
-            nameof(NoItemsContent),
+        /// <returns>The identifier for the <see cref="MasterNoItemsContent"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterNoItemsContentProperty = DependencyProperty.Register(
+            nameof(MasterNoItemsContent),
             typeof(object),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="NoItemsContentTemplate"/> dependency property.
+        /// Identifies the <see cref="MasterNoItemsContentTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="NoItemsContentTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty NoItemsContentTemplateProperty = DependencyProperty.Register(
-            nameof(NoItemsContentTemplate),
+        /// <returns>The identifier for the <see cref="MasterNoItemsContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterNoItemsContentTemplateProperty = DependencyProperty.Register(
+            nameof(MasterNoItemsContentTemplate),
             typeof(DataTemplate),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
@@ -251,10 +251,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>
         /// The content of the master pane's header. The default is null.
         /// </returns>
-        public object NoItemsContent
+        public object MasterNoItemsContent
         {
-            get { return GetValue(NoItemsContentProperty); }
-            set { SetValue(NoItemsContentProperty, value); }
+            get { return GetValue(MasterNoItemsContentProperty); }
+            set { SetValue(MasterNoItemsContentProperty, value); }
         }
 
         /// <summary>
@@ -263,10 +263,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <returns>
         /// The template that specifies the visualization of the master pane no items object. The default is null.
         /// </returns>
-        public DataTemplate NoItemsContentTemplate
+        public DataTemplate MasterNoItemsContentTemplate
         {
-            get { return (DataTemplate)GetValue(NoItemsContentTemplateProperty); }
-            set { SetValue(NoItemsContentTemplateProperty, value); }
+            get { return (DataTemplate)GetValue(MasterNoItemsContentTemplateProperty); }
+            set { SetValue(MasterNoItemsContentTemplateProperty, value); }
         }
 
         /// <summary>
