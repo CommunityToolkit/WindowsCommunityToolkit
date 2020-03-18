@@ -1,0 +1,107 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+// See the LICENSE file in the project root for more information.
+
+using System.Diagnostics.CodeAnalysis;
+using System.Diagnostics.Contracts;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
+#nullable enable
+
+namespace Microsoft.Toolkit.HighPerformance
+{
+    /// <summary>
+    /// A <see langword="class"/> that represents a boxed <typeparamref name="T"/> value on the managed heap.
+    /// </summary>
+    /// <typeparam name="T">The type of value being bxoed.</typeparam>
+    [StructLayout(LayoutKind.Sequential)]
+    public sealed class Box<T>
+        where T : struct
+    {
+        /// <summary>
+        /// The wrapped <typeparamref name="T"/> value for the current instance.
+        /// </summary>
+        [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401", Justification = "Public field for performance reasons")]
+        public T Value;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Box{T}"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This constructor is never used, it is only declared in order to mark it with
+        /// the <see langword="private"/> visibility modifier and prevent direct use.
+        /// </remarks>
+        private Box()
+        {
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Box{T}"/> reference from the input <see cref="object"/> instance.
+        /// </summary>
+        /// <param name="obj">The input <see cref="object"/> instance, representing a boxed <typeparamref name="T"/> value.</param>
+        /// <returns>A <see cref="Box{T}"/> reference pointing to <paramref name="obj"/>.</returns>
+        /// <remarks>
+        /// This method doesn't check the actual type of <paramref name="obj"/>, so it is responsability of the caller
+        /// to ensure it actually represents a boxed <typeparamref name="T"/> value and not some other instance.
+        /// </remarks>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Box<T> DangerousGetFrom(object obj)
+        {
+            return Unsafe.As<Box<T>>(obj);
+        }
+
+        /// <summary>
+        /// Tries to get a <see cref="Box{T}"/> reference from an input <see cref="object"/> representing a boxed <typeparamref name="T"/> value.
+        /// </summary>
+        /// <param name="obj">The input <see cref="object"/> instance to check.</param>
+        /// <param name="box">The resulting <see cref="Box{T}"/> reference, if <paramref name="obj"/> was a boxed <typeparamref name="T"/> value.</param>
+        /// <returns><see langword="true"/> if a <see cref="Box{T}"/> instance was retrieved correctly, <see langword="false"/> otherwise.</returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1115", Justification = "Comment for [NotNullWhen] attribute")]
+        public static bool TryGetFrom(
+            object obj,
+#if NETSTANDARD2_1
+            /* On .NET Standard 2.1, we can add the [NotNullWhen] attribute
+             * to let the code analysis engine know that whenever this method
+             * returns true, box will always be assigned to a non-null value.
+             * This will eliminate the null warnings when in a branch that
+             * is only taken when this method returns true. */
+            [NotNullWhen(true)]
+#endif
+            out Box<T>? box)
+        {
+            if (obj.GetType() == typeof(T))
+            {
+                box = Unsafe.As<Box<T>>(obj);
+
+                return true;
+            }
+
+            box = null;
+
+            return false;
+        }
+
+        /// <summary>
+        /// Implicitly gets the <typeparamref name="T"/> value from a given <see cref="Box{T}"/> instance.
+        /// </summary>
+        /// <param name="box">The input <see cref="Box{T}"/> instance.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator T(Box<T> box)
+        {
+            return box.Value;
+        }
+
+        /// <summary>
+        /// Implicitly creates a new <see cref="Box{T}"/> instance from a given <typeparamref name="T"/> value.
+        /// </summary>
+        /// <param name="value">The input <typeparamref name="T"/> value to wrap.</param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static implicit operator Box<T>(T value)
+        {
+            return Unsafe.As<Box<T>>(value);
+        }
+    }
+}
