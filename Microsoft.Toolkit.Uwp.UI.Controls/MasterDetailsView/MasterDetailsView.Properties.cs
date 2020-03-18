@@ -173,7 +173,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             nameof(CompactModeThresholdWidth),
             typeof(double),
             typeof(MasterDetailsView),
-            new PropertyMetadata(640d, OnCompactModeThresholdWidthChanged));
+            new PropertyMetadata(640d));
 
         /// <summary>
         /// Identifies the <see cref="MasterCommandBar"/> dependency property.
@@ -446,8 +446,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             ((MasterDetailsView)d).OnSelectedItemChanged(e);
         }
 
-        private static void OnCompactModeThresholdWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { }
-
-        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) { }
+        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ((MasterDetailsView)d).SetBackButtonVisibility();
+        }
     }
 }
