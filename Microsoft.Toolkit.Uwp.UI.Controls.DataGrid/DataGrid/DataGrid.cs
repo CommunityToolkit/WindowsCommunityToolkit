@@ -3712,7 +3712,10 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!e.Handled)
             {
                 PointerPoint pointerPoint = e.GetCurrentPoint(this);
-                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel;
+
+                // A horizontal scroll happens if the mouse has a horizontal wheel OR if the horizontal scrollbar is not disabled AND the vertical scrollbar IS disabled
+                bool isForHorizontalScroll = pointerPoint.Properties.IsHorizontalMouseWheel |
+                    (this.HorizontalScrollBarVisibility != ScrollBarVisibility.Disabled && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled);
 
                 if ((isForHorizontalScroll && this.HorizontalScrollBarVisibility == ScrollBarVisibility.Disabled) ||
                     (!isForHorizontalScroll && this.VerticalScrollBarVisibility == ScrollBarVisibility.Disabled))
