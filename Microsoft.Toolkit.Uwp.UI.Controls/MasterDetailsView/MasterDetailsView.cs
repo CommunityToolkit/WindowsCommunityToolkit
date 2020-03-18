@@ -16,34 +16,34 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <summary>
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
-    [TemplatePart(Name = PART_DETAILS_PRESENTER, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = PART_DETAILS_PANE, Type = typeof(FrameworkElement))]
-    [TemplateVisualState(Name = NO_SELECTION_NARROW, GroupName = SELECTION_STATES)]
-    [TemplateVisualState(Name = NO_SELECTION_WIDE, GroupName = SELECTION_STATES)]
-    [TemplateVisualState(Name = HAS_SELECTION_WIDE, GroupName = SELECTION_STATES)]
-    [TemplateVisualState(Name = HAS_SELECTION_NARROW, GroupName = SELECTION_STATES)]
+    [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = PartDetailsPane, Type = typeof(FrameworkElement))]
+    [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
+    [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
     public partial class MasterDetailsView : ItemsControl
     {
         // All view states:
-        private const string SELECTION_STATES = "SelectionStates";
-        private const string NO_SELECTION_WIDE = "NoSelectionWide";
-        private const string HAS_SELECTION_WIDE = "HasSelectionWide";
-        private const string NO_SELECTION_NARROW = "NoSelectionNarrow";
-        private const string HAS_SELECTION_NARROW = "HasSelectionNarrow";
+        private const string SelectionStates = "SelectionStates";
+        private const string NoSelectionWideState = "NoSelectionWide";
+        private const string HasSelectionWideState = "HasSelectionWide";
+        private const string NoSelectionNarrowState = "NoSelectionNarrow";
+        private const string HasSelectionNarrowState = "HasSelectionNarrow";
 
-        private const string HAS_ITEMS_STATES = "HasItemsStates";
-        private const string HAS_ITEMS_STATE = "HasItemsState";
-        private const string HAS_NO_ITEMS_STATE = "HasNoItemsState";
+        private const string HasItemsStates = "HasItemsStates";
+        private const string HasItemsState = "HasItemsState";
+        private const string HasNoItemsState = "HasNoItemsState";
 
         // Control names:
-        private const string PART_ROOT_PANE = "RootPane";
-        private const string PART_DETAILS_PRESENTER = "DetailsPresenter";
-        private const string PART_DETAILS_PANE = "DetailsPane";
-        private const string PART_MASTER_LIST = "MasterList";
-        private const string PART_BACK_BUTTON = "MasterDetailsBackButton";
-        private const string PART_HEADER_CONTENT_PRESENTER = "HeaderContentPresenter";
-        private const string PART_MASTER_COMMAND_BAR = "MasterCommandBarPanel";
-        private const string PART_DETAILS_COMMAND_BAR = "DetailsCommandBarPanel";
+        private const string PartRootPane = "RootPane";
+        private const string PartDetailsPresenter = "DetailsPresenter";
+        private const string PartDetailsPane = "DetailsPane";
+        private const string PartMasterList = "MasterList";
+        private const string PartBackButton = "MasterDetailsBackButton";
+        private const string PartHeaderContentPresenter = "HeaderContentPresenter";
+        private const string PartMasterCommandBarPanel = "MasterCommandBarPanel";
+        private const string PartDetailsCommandBarPanel = "DetailsCommandBarPanel";
 
         /// <summary>
         /// Used to prevent screen flickering if only the order of the selected item changed.
@@ -75,17 +75,17 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             string hasSelectionState;
             if (ViewState == MasterDetailsViewState.Both)
             {
-                noSelectionState = NO_SELECTION_WIDE;
-                hasSelectionState = HAS_SELECTION_WIDE;
+                noSelectionState = NoSelectionWideState;
+                hasSelectionState = HasSelectionWideState;
             }
             else
             {
-                noSelectionState = NO_SELECTION_NARROW;
-                hasSelectionState = HAS_SELECTION_NARROW;
+                noSelectionState = NoSelectionNarrowState;
+                hasSelectionState = HasSelectionNarrowState;
             }
 
             VisualStateManager.GoToState(this, SelectedItem is null ? noSelectionState : hasSelectionState, animate);
-            VisualStateManager.GoToState(this, Items.Count > 0 ? HAS_ITEMS_STATE : HAS_NO_ITEMS_STATE, animate);
+            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, animate);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void SetMasterHeaderVisibility()
         {
-            if (GetTemplateChild(PART_HEADER_CONTENT_PRESENTER) is FrameworkElement headerPresenter)
+            if (GetTemplateChild(PartHeaderContentPresenter) is FrameworkElement headerPresenter)
             {
                 headerPresenter.Visibility = MasterHeader != null
                     ? Visibility.Visible
@@ -144,12 +144,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnMasterCommandBarChanged()
         {
-            OnCommandBarChanged(PART_MASTER_COMMAND_BAR, MasterCommandBar);
+            OnCommandBarChanged(PartMasterCommandBarPanel, MasterCommandBar);
         }
 
         private void OnDetailsCommandBarChanged()
         {
-            OnCommandBarChanged(PART_DETAILS_COMMAND_BAR, DetailsCommandBar);
+            OnCommandBarChanged(PartDetailsCommandBarPanel, DetailsCommandBar);
         }
 
         private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
@@ -228,7 +228,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusFirstFocusableElementInDetails()
         {
-            if (GetTemplateChild(PART_DETAILS_PANE) is DependencyObject details)
+            if (GetTemplateChild(PartDetailsPane) is DependencyObject details)
             {
                 DependencyObject focusableElement = FocusManager.FindFirstFocusableElement(details);
                 (focusableElement as Control)?.Focus(FocusState.Programmatic);
@@ -240,7 +240,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusItemList()
         {
-            if (GetTemplateChild(PART_MASTER_LIST) is Control masterList)
+            if (GetTemplateChild(PartMasterList) is Control masterList)
             {
                 masterList.Focus(FocusState.Programmatic);
             }
@@ -267,7 +267,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
         {
-            if (GetTemplateChild(PART_MASTER_COMMAND_BAR) is ListViewBase masterList)
+            if (GetTemplateChild(PartMasterCommandBarPanel) is ListViewBase masterList)
             {
                 masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
             }
@@ -287,19 +287,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _inlineBackButton.Click -= OnInlineBackButtonClicked;
             }
 
-            _inlineBackButton = (Button)GetTemplateChild(PART_BACK_BUTTON);
+            _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
             if (!(_inlineBackButton is null))
             {
                 _inlineBackButton.Click += OnInlineBackButtonClicked;
             }
 
-            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PART_ROOT_PANE);
+            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPane);
             if (!(_twoPaneView is null))
             {
                 _twoPaneView.ModeChanged += OnModeChanged;
             }
 
-            _detailsPresenter = (ContentPresenter)GetTemplateChild(PART_DETAILS_PRESENTER);
+            _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
 
             SetDetailsContent();
 
@@ -320,7 +320,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
                 if (!(_selectionStateGroup is null))
                 {
                     _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
@@ -346,7 +346,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     _frame.Navigating += OnFrameNavigating;
                 }
 
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
                 if (!(_selectionStateGroup is null))
                 {
                     _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
