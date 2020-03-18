@@ -42,6 +42,7 @@ Windows 10 Build Number:
 - [ ] April 2018 Update (17134)
 - [ ] October 2018 Update (17763)
 - [ ] May 2019 Update (18362)
+- [ ] November 2019 Update (18363)
 - [ ] Insider Build (build number: )
 
 App min and target version:
@@ -49,6 +50,7 @@ App min and target version:
 - [ ] April 2018 Update (17134)
 - [ ] October 2018 Update (17763)
 - [ ] May 2019 Update (18362)
+- [ ] November 2019 Update (18363)
 - [ ] Insider Build (xxxxx)
 
 Device form factor:
