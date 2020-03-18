@@ -104,7 +104,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _detailsPresenter.Content = MapDetails is null
                     ? SelectedItem
                     : !(SelectedItem is null) ? MapDetails(SelectedItem) : null;
-
             }
         }
 
@@ -274,6 +273,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Invoked once the items changed and ensures the visual state is constant.
+        /// </summary>
+        protected override void OnItemsChanged(object e)
+        {
+            base.OnItemsChanged(e);
+            UpdateView(true);
+        }
+
+        /// <summary>
         /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
         /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
         /// in your app. Override this method to influence the default post-template logic of a class.
@@ -291,6 +299,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!(_inlineBackButton is null))
             {
                 _inlineBackButton.Click += OnInlineBackButtonClicked;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (!(_selectionStateGroup is null))
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
             }
 
             _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPane);
@@ -344,12 +358,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 if (!(_frame is null))
                 {
                     _frame.Navigating += OnFrameNavigating;
-                }
-
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (!(_selectionStateGroup is null))
-                {
-                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
                 }
             }
         }
