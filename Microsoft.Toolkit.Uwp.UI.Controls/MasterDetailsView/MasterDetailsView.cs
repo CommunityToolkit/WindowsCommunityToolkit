@@ -48,12 +48,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// <summary>
         /// Used to prevent screen flickering if only the order of the selected item changed.
         /// </summary>
-        private bool ignoreClearSelectedItem;
+        private bool _ignoreClearSelectedItem;
 
-        private ContentPresenter detailsPresenter;
-        private Microsoft.UI.Xaml.Controls.TwoPaneView twoPaneView;
-        private VisualStateGroup selectionStateGroup;
+        private ContentPresenter _detailsPresenter;
+        private Microsoft.UI.Xaml.Controls.TwoPaneView _twoPaneView;
+        private VisualStateGroup _selectionStateGroup;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
+        /// </summary>
         public MasterDetailsView()
         {
             DefaultStyleKey = typeof(MasterDetailsView);
@@ -90,15 +93,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void SetDetailsContent()
         {
-            if (detailsPresenter != null)
+            if (_detailsPresenter != null)
             {
                 // Update the content template:
-                if (!(detailsPresenter.ContentTemplateSelector is null))
+                if (!(_detailsPresenter.ContentTemplateSelector is null))
                 {
-                    detailsPresenter.ContentTemplate = detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, detailsPresenter);
+                    _detailsPresenter.ContentTemplate = _detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, _detailsPresenter);
                 }
                 // Update the content:
-                detailsPresenter.Content = MapDetails is null
+                _detailsPresenter.Content = MapDetails is null
                     ? SelectedItem
                     : !(SelectedItem is null) ? MapDetails(SelectedItem) : null;
 
@@ -120,9 +123,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         public void ClearSelectedItem()
         {
-            ignoreClearSelectedItem = true;
+            _ignoreClearSelectedItem = true;
             SelectedItem = null;
-            ignoreClearSelectedItem = false;
+            _ignoreClearSelectedItem = false;
         }
 
         private void OnCommandBarChanged(string panelName, CommandBar commandbar)
@@ -152,7 +155,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
         {
             // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
-            if (!ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
+            if (!_ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
             {
                 SelectedItem = e.OldValue;
                 return;
@@ -179,16 +182,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             MasterDetailsViewState previousState = ViewState;
 
-            if (twoPaneView is null)
+            if (_twoPaneView is null)
             {
                 ViewState = MasterDetailsViewState.Both;
             }
 
             // Single pane:
-            else if (twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
+            else if (_twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
             {
                 ViewState = SelectedItem is null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
-                twoPaneView.PanePriority = SelectedItem is null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
+                _twoPaneView.PanePriority = SelectedItem is null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
             }
 
             // Dual pane:
@@ -279,24 +282,24 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (!(inlineBackButton is null))
+            if (!(_inlineBackButton is null))
             {
-                inlineBackButton.Click -= OnInlineBackButtonClicked;
+                _inlineBackButton.Click -= OnInlineBackButtonClicked;
             }
 
-            inlineBackButton = (Button)GetTemplateChild(PART_BACK_BUTTON);
-            if (!(inlineBackButton is null))
+            _inlineBackButton = (Button)GetTemplateChild(PART_BACK_BUTTON);
+            if (!(_inlineBackButton is null))
             {
-                inlineBackButton.Click += OnInlineBackButtonClicked;
+                _inlineBackButton.Click += OnInlineBackButtonClicked;
             }
 
-            twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PART_ROOT_PANE);
-            if (!(twoPaneView is null))
+            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PART_ROOT_PANE);
+            if (!(_twoPaneView is null))
             {
-                twoPaneView.ModeChanged += OnModeChanged;
+                _twoPaneView.ModeChanged += OnModeChanged;
             }
 
-            detailsPresenter = (ContentPresenter)GetTemplateChild(PART_DETAILS_PRESENTER);
+            _detailsPresenter = (ContentPresenter)GetTemplateChild(PART_DETAILS_PRESENTER);
 
             SetDetailsContent();
 
@@ -312,16 +315,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                if (!(frame is null))
+                if (!(_frame is null))
                 {
-                    frame.Navigating -= OnFrameNavigating;
+                    _frame.Navigating -= OnFrameNavigating;
                 }
 
-                selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
-                if (!(selectionStateGroup is null))
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                if (!(_selectionStateGroup is null))
                 {
-                    selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
-                    selectionStateGroup = null;
+                    _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                    _selectionStateGroup = null;
                 }
             }
         }
@@ -331,22 +334,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                if (!(frame is null))
+                if (!(_frame is null))
                 {
-                    frame.Navigating -= OnFrameNavigating;
+                    _frame.Navigating -= OnFrameNavigating;
                 }
 
-                navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
-                frame = this.FindAscendant<Frame>();
-                if (!(frame is null))
+                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
+                _frame = this.FindAscendant<Frame>();
+                if (!(_frame is null))
                 {
-                    frame.Navigating += OnFrameNavigating;
+                    _frame.Navigating += OnFrameNavigating;
                 }
 
-                selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
-                if (!(selectionStateGroup is null))
+                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                if (!(_selectionStateGroup is null))
                 {
-                    selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
                 }
             }
         }

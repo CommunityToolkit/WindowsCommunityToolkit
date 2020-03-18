@@ -17,14 +17,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// <seealso cref="Windows.UI.Xaml.Controls.ItemsControl" />
     public partial class MasterDetailsView
     {
-        private AppViewBackButtonVisibility? previousSystemBackButtonVisibility;
-        private bool previousNavigationViewBackEnabled;
+        private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
+        private bool _previousNavigationViewBackEnabled;
 
         // Int used because the underlying type is an enum, but we don't have access to the enum
-        private int previousNavigationViewBackVisibilty;
-        private Button inlineBackButton;
-        private object navigationView;
-        private Frame frame;
+        private int _previousNavigationViewBackVisibilty;
+        private Button _inlineBackButton;
+        private object _navigationView;
+        private Frame _frame;
 
         /// <summary>
         /// Sets the back button visibility based on the current visual state and selected item
@@ -40,9 +40,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
             if (ViewState == MasterDetailsViewState.Details)
             {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (inlineBackButton != null))
+                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
                 {
-                    inlineBackButton.Visibility = Visibility.Visible;
+                    _inlineBackButton.Visibility = Visibility.Visible;
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
@@ -51,13 +51,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                     if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
                     {
                         // Setting this indicates that the system back button is being used
-                        previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
                     }
-                    else if ((inlineBackButton != null) && ((navigationView == null) || (frame == null)))
+                    else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
                     {
                         // We can only use the new NavigationView if we also have a Frame
                         // If there is no frame we have to use the inline button
-                        inlineBackButton.Visibility = Visibility.Visible;
+                        _inlineBackButton.Visibility = Visibility.Visible;
                     }
                     else
                     {
@@ -67,61 +67,61 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
                 {
                     SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
-                    previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
+                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
                     navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
                 }
             }
             else if (previousState == MasterDetailsViewState.Details)
             {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (inlineBackButton != null))
+                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
                 {
-                    inlineBackButton.Visibility = Visibility.Collapsed;
+                    _inlineBackButton.Visibility = Visibility.Collapsed;
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
-                    if (!previousSystemBackButtonVisibility.HasValue)
+                    if (!_previousSystemBackButtonVisibility.HasValue)
                     {
-                        if ((inlineBackButton != null) && ((navigationView == null) || (frame == null)))
+                        if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
                         {
-                            inlineBackButton.Visibility = Visibility.Collapsed;
+                            _inlineBackButton.Visibility = Visibility.Collapsed;
                         }
                         else
                         {
-                            SetNavigationViewBackButtonState(previousNavigationViewBackVisibilty, previousNavigationViewBackEnabled);
+                            SetNavigationViewBackButtonState(_previousNavigationViewBackVisibilty, _previousNavigationViewBackEnabled);
                         }
                     }
                 }
 
-                if (previousSystemBackButtonVisibility.HasValue)
+                if (_previousSystemBackButtonVisibility.HasValue)
                 {
                     // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = previousSystemBackButtonVisibility.Value;
-                    previousSystemBackButtonVisibility = null;
+                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
+                    _previousSystemBackButtonVisibility = null;
                 }
             }
         }
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
         {
-            if (navigationView == null)
+            if (_navigationView == null)
             {
                 return;
             }
 
-            System.Type navType = navigationView.GetType();
+            System.Type navType = _navigationView.GetType();
             PropertyInfo visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)
             {
-                previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(navigationView);
-                visibleProperty.SetValue(navigationView, visible);
+                _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
+                visibleProperty.SetValue(_navigationView, visible);
             }
 
             PropertyInfo enabledProperty = navType.GetProperty("IsBackEnabled");
             if (enabledProperty != null)
             {
-                previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(navigationView);
-                enabledProperty.SetValue(navigationView, enabled);
+                _previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(_navigationView);
+                enabledProperty.SetValue(_navigationView, enabled);
             }
         }
 
@@ -149,7 +149,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (ViewState == MasterDetailsViewState.Details)
             {
                 // let the OnFrameNavigating method handle it if
-                if (frame == null || !frame.CanGoBack)
+                if (_frame == null || !_frame.CanGoBack)
                 {
                     ClearSelectedItem();
                 }
