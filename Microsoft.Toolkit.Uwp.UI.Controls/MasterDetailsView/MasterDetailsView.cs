@@ -84,7 +84,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 hasSelectionState = HasSelectionNarrowState;
             }
 
-            VisualStateManager.GoToState(this, SelectedItem is null ? noSelectionState : hasSelectionState, animate);
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, animate);
         }
 
@@ -96,14 +96,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (_detailsPresenter != null)
             {
                 // Update the content template:
-                if (!(_detailsPresenter.ContentTemplateSelector is null))
+                if (_detailsPresenter.ContentTemplateSelector != null)
                 {
                     _detailsPresenter.ContentTemplate = _detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, _detailsPresenter);
                 }
                 // Update the content:
-                _detailsPresenter.Content = MapDetails is null
+                _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
-                    : !(SelectedItem is null) ? MapDetails(SelectedItem) : null;
+                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
             }
         }
 
@@ -129,15 +129,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
 
         private void OnCommandBarChanged(string panelName, CommandBar commandbar)
         {
-            if (!(GetTemplateChild(panelName) is Panel panel))
+            if (GetTemplateChild(panelName) is Panel panel)
             {
-                return;
-            }
-
-            panel.Children.Clear();
-            if (commandbar != null)
-            {
-                panel.Children.Add(commandbar);
+                panel.Children.Clear();
+                if (commandbar != null)
+                {
+                    panel.Children.Add(commandbar);
+                }
             }
         }
 
@@ -154,7 +152,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
         {
             // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
-            if (!_ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
+            if (!_ignoreClearSelectedItem && e.OldValue != null && e.NewValue == null && Items.Contains(e.OldValue))
             {
                 SelectedItem = e.OldValue;
                 return;
@@ -165,7 +163,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             UpdateView(true);
 
             // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
-            if (!(SelectedItem is null))
+            if (SelectedItem != null)
             {
                 SetDetailsContent();
             }
@@ -181,7 +179,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             MasterDetailsViewState previousState = ViewState;
 
-            if (_twoPaneView is null)
+            if (_twoPaneView == null)
             {
                 ViewState = MasterDetailsViewState.Both;
             }
@@ -189,8 +187,8 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             // Single pane:
             else if (_twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
             {
-                ViewState = SelectedItem is null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
-                _twoPaneView.PanePriority = SelectedItem is null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
+                ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+                _twoPaneView.PanePriority = SelectedItem == null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
             }
 
             // Dual pane:
@@ -290,25 +288,25 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             base.OnApplyTemplate();
 
-            if (!(_inlineBackButton is null))
+            if (_inlineBackButton != null)
             {
                 _inlineBackButton.Click -= OnInlineBackButtonClicked;
             }
 
             _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
-            if (!(_inlineBackButton is null))
+            if (_inlineBackButton != null)
             {
                 _inlineBackButton.Click += OnInlineBackButtonClicked;
             }
 
             _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-            if (!(_selectionStateGroup is null))
+            if (_selectionStateGroup != null)
             {
                 _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
             }
 
             _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPane);
-            if (!(_twoPaneView is null))
+            if (_twoPaneView != null)
             {
                 _twoPaneView.ModeChanged += OnModeChanged;
             }
@@ -329,13 +327,13 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                if (!(_frame is null))
+                if (_frame != null)
                 {
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
                 _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (!(_selectionStateGroup is null))
+                if (_selectionStateGroup != null)
                 {
                     _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
                     _selectionStateGroup = null;
@@ -348,14 +346,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             if (!DesignMode.DesignModeEnabled)
             {
                 SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                if (!(_frame is null))
+                if (_frame != null)
                 {
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
                 _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
                 _frame = this.FindAscendant<Frame>();
-                if (!(_frame is null))
+                if (_frame != null)
                 {
                     _frame.Navigating += OnFrameNavigating;
                 }
