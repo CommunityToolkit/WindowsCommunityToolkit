@@ -24,7 +24,7 @@ namespace UnitTests.HighPerformance
             Test(184013.234324, 14124.23423);
         }
 
-        [TestCategory("OtherTypes")]
+        [TestCategory("BoxOfT")]
         [TestMethod]
         public void Test_BoxOfT_OtherTypes()
         {
@@ -48,7 +48,7 @@ namespace UnitTests.HighPerformance
             }
         }
 
-        [TestCategory("OtherTypes")]
+        [TestCategory("BoxOfT")]
         [TestMethod]
         public void TestBoxOfT_CustomStruct()
         {
