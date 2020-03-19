@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -42,6 +43,23 @@ namespace Microsoft.Toolkit.HighPerformance
         /// </remarks>
         private Box()
         {
+        }
+
+        /// <summary>
+        /// Returns a <see cref="Box{T}"/> reference from the input <see cref="object"/> instance.
+        /// </summary>
+        /// <param name="obj">The input <see cref="object"/> instance, representing a boxed <typeparamref name="T"/> value.</param>
+        /// <returns>A <see cref="Box{T}"/> reference pointing to <paramref name="obj"/>.</returns>
+        [Pure]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Box<T> GetFrom(object obj)
+        {
+            if (obj.GetType() != typeof(T))
+            {
+                ThrowInvalidCastExceptionForGetFrom();
+            }
+
+            return Unsafe.As<Box<T>>(obj);
         }
 
         /// <summary>
@@ -110,6 +128,15 @@ namespace Microsoft.Toolkit.HighPerformance
         public static implicit operator Box<T>(T value)
         {
             return Unsafe.As<Box<T>>(value);
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidCastException"/> when a cast from an invalid <see cref="object"/> is attempted.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        private static void ThrowInvalidCastExceptionForGetFrom()
+        {
+            throw new InvalidCastException($"Can't cast the input object to the type Box<{typeof(T)}>");
         }
     }
 }
