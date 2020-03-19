@@ -9,7 +9,8 @@ using System.Linq;
 namespace Microsoft.Toolkit.Observables.Collections
 {
     /// <summary>
-    /// An observable group. It associates a <see cref="Key"/> to an <see cref="ObservableCollection{T}"/>.
+    /// An observable group.
+    /// It associates a <see cref="Key"/> to an <see cref="ObservableCollection{T}"/>.
     /// </summary>
     /// <typeparam name="TKey">The type of the group key.</typeparam>
     /// <typeparam name="TValue">The type of the items in the collection.</typeparam>
@@ -46,7 +47,7 @@ namespace Microsoft.Toolkit.Observables.Collections
         }
 
         /// <summary>
-        /// The key of the group.
+        /// Gets the key of the group.
         /// </summary>
         public TKey Key { get; }
     }
