@@ -14,14 +14,14 @@
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                        <muxc:TwoPaneView x:Name="RootPane"
+                        <muxc:TwoPaneView x:Name="RootPanel"
                                           MinWideModeWidth="{TemplateBinding CompactModeThresholdWidth}"
                                           Pane1Length="{TemplateBinding MasterPaneWidth}"
                                           PanePriority="Pane1"
                                           TallModeConfiguration="SinglePane"
                                           WideModeConfiguration="LeftRight">
                             <muxc:TwoPaneView.Pane1>
-                                <Grid x:Name="MasterPane"
+                                <Grid x:Name="MasterPanel"
                                       Background="{TemplateBinding MasterPaneBackground}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -56,12 +56,12 @@
                                 </Grid>
                             </muxc:TwoPaneView.Pane1>
                             <muxc:TwoPaneView.Pane2>
-                                <Grid x:Name="DetailsPane"
+                                <Grid x:Name="DetailsPanel"
                                       Background="{TemplateBinding DetailsPaneBackground}">
                                     <ContentPresenter x:Name="NoSelectionPresenter"
                                                       Content="{TemplateBinding NoSelectionContent}"
                                                       ContentTemplate="{TemplateBinding NoSelectionContentTemplate}" />
-                                    <Grid x:Name="SelectionDetailsPane">
+                                    <Grid x:Name="SelectionDetailsPanel">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="*" />
@@ -101,7 +101,7 @@
                             <VisualStateGroup x:Name="SelectionStates">
                                 <VisualState x:Name="NoSelectionWide">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasSelectionWide">
@@ -111,7 +111,7 @@
                                 </VisualState>
                                 <VisualState x:Name="NoSelectionNarrow">
                                     <VisualState.Setters>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed" />
+                                        <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed" />
                                     </VisualState.Setters>
                                 </VisualState>
                                 <VisualState x:Name="HasSelectionNarrow">
@@ -124,7 +124,7 @@
                                     <VisualTransition From="NoSelectionWide"
                                                       To="HasSelectionWide">
                                         <Storyboard>
-                                            <DrillInThemeAnimation EntranceTargetName="SelectionDetailsPane"
+                                            <DrillInThemeAnimation EntranceTargetName="SelectionDetailsPanel"
                                                                    ExitTargetName="NoSelectionPresenter" />
                                         </Storyboard>
                                     </VisualTransition>
@@ -142,7 +142,7 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="SelectionDetailsPane"
+                                                             Storyboard.TargetName="SelectionDetailsPanel"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"
@@ -167,7 +167,7 @@
                                                       To="NoSelectionWide">
                                         <Storyboard>
                                             <DrillOutThemeAnimation EntranceTargetName="NoSelectionPresenter"
-                                                                    ExitTargetName="SelectionDetailsPane" />
+                                                                    ExitTargetName="SelectionDetailsPanel" />
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="HasSelectionNarrow"
@@ -184,7 +184,7 @@
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="MasterPane"
+                                                             Storyboard.TargetName="MasterPanel"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"

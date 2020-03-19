@@ -17,7 +17,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
     [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = PartDetailsPane, Type = typeof(FrameworkElement))]
+    [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
@@ -36,9 +36,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         private const string HasNoItemsState = "HasNoItemsState";
 
         // Control names:
-        private const string PartRootPane = "RootPane";
+        private const string PartRootPanel = "RootPanel";
         private const string PartDetailsPresenter = "DetailsPresenter";
-        private const string PartDetailsPane = "DetailsPane";
+        private const string PartDetailsPanel = "DetailsPanel";
         private const string PartMasterList = "MasterList";
         private const string PartBackButton = "MasterDetailsBackButton";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
@@ -226,7 +226,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         /// </summary>
         private void FocusFirstFocusableElementInDetails()
         {
-            if (GetTemplateChild(PartDetailsPane) is DependencyObject details)
+            if (GetTemplateChild(PartDetailsPanel) is DependencyObject details)
             {
                 DependencyObject focusableElement = FocusManager.FindFirstFocusableElement(details);
                 (focusableElement as Control)?.Focus(FocusState.Programmatic);
@@ -306,7 +306,7 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
             }
 
-            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPane);
+            _twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PartRootPanel);
             if (_twoPaneView != null)
             {
                 _twoPaneView.ModeChanged += OnModeChanged;
