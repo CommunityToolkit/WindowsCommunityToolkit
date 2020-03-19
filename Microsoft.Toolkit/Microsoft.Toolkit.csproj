@@ -67,4 +67,8 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Observables\" />
+  </ItemGroup>
+
 </Project>
