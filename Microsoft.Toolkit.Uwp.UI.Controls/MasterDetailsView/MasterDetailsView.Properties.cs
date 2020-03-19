@@ -16,26 +16,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
     public partial class MasterDetailsView
     {
         /// <summary>
-        /// Identifies the <see cref="MasterPaneBackground"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="MasterPaneBackground"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterPaneBackgroundProperty = DependencyProperty.Register(
-            nameof(MasterPaneBackground),
-            typeof(Brush),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="DetailsPaneBackground"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="DetailsPaneBackground"/> dependency property.</returns>
-        public static readonly DependencyProperty DetailsPaneBackgroundProperty = DependencyProperty.Register(
-            nameof(DetailsPaneBackground),
-            typeof(Brush),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(null));
-
-        /// <summary>
         /// Identifies the <see cref="SelectedItem"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="SelectedItem"/> dependency property.</returns>
@@ -46,22 +26,22 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnSelectedItemChanged));
 
         /// <summary>
-        /// Identifies the <see cref="MasterNoItemsContent"/> dependency property.
+        /// Identifies the <see cref="DetailsTemplate"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterNoItemsContent"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterNoItemsContentProperty = DependencyProperty.Register(
-            nameof(MasterNoItemsContent),
-            typeof(object),
+        /// <returns>The identifier for the <see cref="DetailsTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsTemplateProperty = DependencyProperty.Register(
+            nameof(DetailsTemplate),
+            typeof(DataTemplate),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="MasterNoItemsContentTemplate"/> dependency property.
+        /// Identifies the <see cref="MasterPaneBackground"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="MasterNoItemsContentTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterNoItemsContentTemplateProperty = DependencyProperty.Register(
-            nameof(MasterNoItemsContentTemplate),
-            typeof(DataTemplate),
+        /// <returns>The identifier for the <see cref="MasterPaneBackground"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterPaneBackgroundProperty = DependencyProperty.Register(
+            nameof(MasterPaneBackground),
+            typeof(Brush),
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
 
@@ -105,6 +85,47 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             typeof(MasterDetailsView),
             new PropertyMetadata(null));
 
+
+        /// <summary>
+        /// Identifies the <see cref="DetailsPaneBackground"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="DetailsPaneBackground"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsPaneBackgroundProperty = DependencyProperty.Register(
+            nameof(DetailsPaneBackground),
+            typeof(Brush),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="MasterNoItemsContent"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterNoItemsContent"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterNoItemsContentProperty = DependencyProperty.Register(
+            nameof(MasterNoItemsContent),
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="MasterNoItemsContentTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterNoItemsContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterNoItemsContentTemplateProperty = DependencyProperty.Register(
+            nameof(MasterNoItemsContentTemplate),
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterPaneWidthProperty = DependencyProperty.Register(
+            nameof(MasterPaneWidth),
+            typeof(GridLength),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(new GridLength(320)));
+
         /// <summary>
         /// Identifies the <see cref="NoSelectionContent"/> dependency property.
         /// </summary>
@@ -126,54 +147,14 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null));
 
         /// <summary>
-        /// Identifies the <see cref="DetailsContentTemplateSelector"/> dependency property.
+        /// Identifies the <see cref="ViewState"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="DetailsContentTemplateSelector"/> dependency property.</returns>
-        public static readonly DependencyProperty DetailsContentTemplateSelectorProperty = DependencyProperty.Register(
-            nameof(DetailsContentTemplateSelector),
-            typeof(DataTemplateSelector),
+        /// <returns>The identifier for the <see cref="ViewState"/> dependency property.</returns>
+        public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
+            nameof(ViewState),
+            typeof(MasterDetailsViewState),
             typeof(MasterDetailsView),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="DetailsTemplate"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="DetailsTemplate"/> dependency property.</returns>
-        public static readonly DependencyProperty DetailsTemplateProperty = DependencyProperty.Register(
-            nameof(DetailsTemplate),
-            typeof(DataTemplate),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="MasterItemTemplateSelector"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="MasterItemTemplateSelector"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterItemTemplateSelectorProperty = DependencyProperty.Register(
-            nameof(MasterItemTemplateSelector),
-            typeof(DataTemplateSelector),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(null));
-
-        /// <summary>
-        /// Identifies the <see cref="MasterPaneWidth"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="MasterPaneWidth"/> dependency property.</returns>
-        public static readonly DependencyProperty MasterPaneWidthProperty = DependencyProperty.Register(
-            nameof(MasterPaneWidth),
-            typeof(GridLength),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(new GridLength(320)));
-
-        /// <summary>
-        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property.
-        /// </summary>
-        /// <returns>The identifier for the <see cref="CompactModeThresholdWidth"/> dependency property.</returns>
-        public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
-            nameof(CompactModeThresholdWidth),
-            typeof(double),
-            typeof(MasterDetailsView),
-            new PropertyMetadata(640d));
+            new PropertyMetadata(default(MasterDetailsViewState)));
 
         /// <summary>
         /// Identifies the <see cref="MasterCommandBar"/> dependency property.
@@ -196,6 +177,16 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnDetailsCommandBarChanged));
 
         /// <summary>
+        /// Identifies the <see cref="CompactModeThresholdWidth"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="CompactModeThresholdWidth"/> dependency property.</returns>
+        public static readonly DependencyProperty CompactModeThresholdWidthProperty = DependencyProperty.Register(
+            nameof(CompactModeThresholdWidth),
+            typeof(double),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(640d));
+
+        /// <summary>
         /// Identifies the <see cref="BackButtonBehavior"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="BackButtonBehavior"/> dependency property.</returns>
@@ -206,14 +197,43 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
             new PropertyMetadata(null, OnBackButtonBehaviorChanged));
 
         /// <summary>
-        /// Identifies the <see cref="ViewState"/> dependency property.
+        /// Identifies the <see cref="DetailsContentTemplateSelector"/> dependency property.
         /// </summary>
-        /// <returns>The identifier for the <see cref="ViewState"/> dependency property.</returns>
-        public static readonly DependencyProperty ViewStateProperty = DependencyProperty.Register(
-            nameof(ViewState),
-            typeof(MasterDetailsViewState),
+        /// <returns>The identifier for the <see cref="DetailsContentTemplateSelector"/> dependency property.</returns>
+        public static readonly DependencyProperty DetailsContentTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(DetailsContentTemplateSelector),
+            typeof(DataTemplateSelector),
             typeof(MasterDetailsView),
-            new PropertyMetadata(default(MasterDetailsViewState)));
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="MasterItemTemplateSelector"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="MasterItemTemplateSelector"/> dependency property.</returns>
+        public static readonly DependencyProperty MasterItemTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(MasterItemTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Gets or sets the selected item.
+        /// </summary>
+        /// <returns>The selected item. The default is null.</returns>
+        public object SelectedItem
+        {
+            get { return GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the details.
+        /// </summary>
+        public DataTemplate DetailsTemplate
+        {
+            get { return (DataTemplate)GetValue(DetailsTemplateProperty); }
+            set { SetValue(DetailsTemplateProperty, value); }
+        }
 
         /// <summary>
         /// Gets or sets the Brush to apply to the background of the list area of the control.
@@ -233,16 +253,6 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         {
             get { return (Brush)GetValue(DetailsPaneBackgroundProperty); }
             set { SetValue(DetailsPaneBackgroundProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the selected item.
-        /// </summary>
-        /// <returns>The selected item. The default is null.</returns>
-        public object SelectedItem
-        {
-            get { return GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
         }
 
         /// <summary>
@@ -318,6 +328,19 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the width of the master pane when the view is expanded.
+        /// </summary>
+        /// <returns>
+        /// The width of the SplitView pane when it's fully expanded. The default is 320
+        /// device-independent pixel (DIP).
+        /// </returns>
+        public GridLength MasterPaneWidth
+        {
+            get { return (GridLength)GetValue(MasterPaneWidthProperty); }
+            set { SetValue(MasterPaneWidthProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the content to display when there is no item selected in the master list.
         /// </summary>
         public object NoSelectionContent
@@ -340,52 +363,12 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets the <see cref="DataTemplateSelector"/> for the details presenter.
+        /// Gets or sets gets the current visual state of the control.
         /// </summary>
-        public DataTemplateSelector DetailsContentTemplateSelector
+        public MasterDetailsViewState ViewState
         {
-            get { return (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty); }
-            set { SetValue(DetailsContentTemplateSelectorProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the DataTemplate used to display the details.
-        /// </summary>
-        public DataTemplate DetailsTemplate
-        {
-            get { return (DataTemplate)GetValue(DetailsTemplateProperty); }
-            set { SetValue(DetailsTemplateProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the <see cref="DataTemplateSelector"/> for the master list items.
-        /// </summary>
-        public DataTemplateSelector MasterItemTemplateSelector
-        {
-            get { return (DataTemplateSelector)GetValue(MasterItemTemplateSelectorProperty); }
-            set { SetValue(MasterItemTemplateSelectorProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the width of the master pane when the view is expanded.
-        /// </summary>
-        /// <returns>
-        /// The width of the SplitView pane when it's fully expanded. The default is 320
-        /// device-independent pixel (DIP).
-        /// </returns>
-        public GridLength MasterPaneWidth
-        {
-            get { return (GridLength)GetValue(MasterPaneWidthProperty); }
-            set { SetValue(MasterPaneWidthProperty, value); }
-        }
-
-        /// <summary>
-        /// Gets or sets the Threshold width that will trigger the control to go into compact mode.
-        /// </summary>
-        public double CompactModeThresholdWidth
-        {
-            get { return (double)GetValue(CompactModeThresholdWidthProperty); }
-            set { SetValue(CompactModeThresholdWidthProperty, value); }
+            get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
+            set { SetValue(ViewStateProperty, value); }
         }
 
         /// <summary>
@@ -407,6 +390,15 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
+        /// Gets or sets the Threshold width that will trigger the control to go into compact mode.
+        /// </summary>
+        public double CompactModeThresholdWidth
+        {
+            get { return (double)GetValue(CompactModeThresholdWidthProperty); }
+            set { SetValue(CompactModeThresholdWidthProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the behavior to use for the back button.
         /// </summary>
         /// <returns>The current BackButtonBehavior. The default is System.</returns>
@@ -417,12 +409,21 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
         }
 
         /// <summary>
-        /// Gets or sets gets the current visual state of the control.
+        /// Gets or sets the <see cref="DataTemplateSelector"/> for the details presenter.
         /// </summary>
-        public MasterDetailsViewState ViewState
+        public DataTemplateSelector DetailsContentTemplateSelector
         {
-            get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
-            set { SetValue(ViewStateProperty, value); }
+            get { return (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty); }
+            set { SetValue(DetailsContentTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the <see cref="DataTemplateSelector"/> for the master list items.
+        /// </summary>
+        public DataTemplateSelector MasterItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(MasterItemTemplateSelectorProperty); }
+            set { SetValue(MasterItemTemplateSelectorProperty, value); }
         }
 
         /// <summary>
