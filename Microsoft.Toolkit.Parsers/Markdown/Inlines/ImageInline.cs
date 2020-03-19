@@ -118,7 +118,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown.Inlines
 
             if (pos < end && markdown[pos] == '[')
             {
-                var refstart = pos;
+                int refstart = pos;
 
                 // Find the reference ']' character
                 while (pos < end)
