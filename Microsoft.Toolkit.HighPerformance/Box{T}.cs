@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Diagnostics.Contracts;
 using System.Runtime.CompilerServices;
@@ -16,6 +17,7 @@ namespace Microsoft.Toolkit.HighPerformance
     /// A <see langword="class"/> that represents a boxed <typeparamref name="T"/> value on the managed heap.
     /// </summary>
     /// <typeparam name="T">The type of value being bxoed.</typeparam>
+    [DebuggerDisplay("{ToString(),raw}")]
     [StructLayout(LayoutKind.Sequential)]
     public sealed class Box<T>
         where T : struct
@@ -127,6 +129,16 @@ namespace Microsoft.Toolkit.HighPerformance
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static implicit operator Box<T>(T value)
         {
+            /* The Box<T> type is never actually instantiated.
+             * Here we are just boxing the input T value, and then reinterpreting
+             * that object reference as a Box<T> reference. As such, the Box<T>
+             * type is really only used as an interface to access the contents
+             * of a boxed value type. This also makes it so that additional methods
+             * like ToString() or GetHashCode() will automatically be referenced from
+             * the method table of the boxed object, meaning that they don't need to
+             * manually be implemented in the Box<T> type. For instance, boxing a float
+             * and calling ToString() on it directly, on its boxed object or on a Box<T>
+             * reference retrieved from it will produce the same result in all cases. */
             return Unsafe.As<Box<T>>(value);
         }
 

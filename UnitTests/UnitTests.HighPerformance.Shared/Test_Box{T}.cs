@@ -22,8 +22,41 @@ namespace UnitTests.HighPerformance
             Test(3.14f, 2342.222f);
             Test(8394324ul, 1343431241ul);
             Test(184013.234324, 14124.23423);
+        }
+
+        [TestCategory("OtherTypes")]
+        [TestMethod]
+        public void Test_BoxOfT_OtherTypes()
+        {
             Test(DateTime.Now, DateTime.FromBinary(278091429014));
             Test(Guid.NewGuid(), Guid.NewGuid());
+        }
+
+        internal struct TestStruct : IEquatable<TestStruct>
+        {
+            public int Number;
+            public char Character;
+            public string Text;
+
+            /// <inheritdoc/>
+            public bool Equals(TestStruct other)
+            {
+                return
+                    this.Number == other.Number &&
+                    this.Character == other.Character &&
+                    this.Text == other.Text;
+            }
+        }
+
+        [TestCategory("OtherTypes")]
+        [TestMethod]
+        public void TestBoxOfT_CustomStruct()
+        {
+
+            var a = new TestStruct { Number = 42, Character = 'a', Text = "Hello" };
+            var b = new TestStruct { Number = 38293, Character = 'z', Text = "World" };
+
+            Test(a, b);
         }
 
         /// <summary>
@@ -38,22 +71,32 @@ namespace UnitTests.HighPerformance
             Box<T> box = value;
 
             Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.ToString(), value.ToString());
+            Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
             object obj = value;
 
             bool success = Box<T>.TryGetFrom(obj, out box);
 
             Assert.IsTrue(success);
+            Assert.IsTrue(ReferenceEquals(obj, box));
             Assert.IsNotNull(box);
             Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.ToString(), value.ToString());
+            Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
             box = Box<T>.DangerousGetFrom(obj);
 
+            Assert.IsTrue(ReferenceEquals(obj, box));
             Assert.AreEqual(box.Value, value);
+            Assert.AreEqual(box.ToString(), value.ToString());
+            Assert.AreEqual(box.GetHashCode(), value.GetHashCode());
 
             box.Value = test;
 
             Assert.AreEqual(box.Value, test);
+            Assert.AreEqual(box.ToString(), test.ToString());
+            Assert.AreEqual(box.GetHashCode(), test.GetHashCode());
             Assert.AreEqual(obj, test);
         }
     }
