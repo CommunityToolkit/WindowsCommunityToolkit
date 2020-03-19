@@ -185,9 +185,9 @@ namespace Microsoft.Toolkit.Uwp.Notifications
                         GetCurrentPackageFullName(ref length, sb);
 
                         sb = new StringBuilder(length);
-                        var result = GetCurrentPackageFullName(ref length, sb);
+                        var error = GetCurrentPackageFullName(ref length, sb);
 
-                        _isRunningAsUwp = result != APPMODEL_ERROR_NO_PACKAGE;
+                        _isRunningAsUwp = error != APPMODEL_ERROR_NO_PACKAGE;
                     }
                 }
 
