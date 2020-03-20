@@ -225,6 +225,8 @@ namespace Microsoft.Toolkit.HighPerformance.Buffers
                 return;
             }
 
+            GC.SuppressFinalize(this);
+
             this.array = null;
 
             ArrayPool<T>.Shared.Return(array);
