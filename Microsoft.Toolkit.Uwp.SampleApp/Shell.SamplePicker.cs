@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.SampleApp.Pages;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Microsoft.Toolkit.Uwp.UI.Controls;
@@ -35,11 +36,11 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             set
             {
                 _currentSample = value;
-                SetNavViewSelection();
+                _ = SetNavViewSelectionAsync();
             }
         }
 
-        private async void SetNavViewSelection()
+        private async Task SetNavViewSelectionAsync()
         {
             if (_currentSample != null)
             {
@@ -61,7 +62,7 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
             SamplePickerGrid.Visibility = Visibility.Collapsed;
             _selectedCategory = null;
 
-            SetNavViewSelection();
+            _ = SetNavViewSelectionAsync();
         }
 
         private async void ShowSamplePicker(Sample[] samples = null, bool group = false)
