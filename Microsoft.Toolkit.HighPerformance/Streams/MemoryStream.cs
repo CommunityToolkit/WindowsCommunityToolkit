@@ -125,6 +125,17 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
 #endif
 
         /// <inheritdoc/>
+        public override int ReadByte()
+        {
+            if (this.position == this.memory.Length)
+            {
+                return -1;
+            }
+
+            return this.memory.Span[this.position++];
+        }
+
+        /// <inheritdoc/>
         public override long Seek(long offset, SeekOrigin origin)
         {
             long index = origin switch
@@ -182,5 +193,18 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             this.position += buffer.Length;
         }
 #endif
+
+        /// <inheritdoc/>
+        public override void WriteByte(byte value)
+        {
+            ValidateCanWrite();
+
+            if (this.position == this.memory.Length)
+            {
+                ThrowArgumentExceptionForEndOfStreamOnWrite();
+            }
+
+            this.memory.Span[this.position++] = value;
+        }
     }
 }
