@@ -17,14 +17,24 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
     internal sealed partial class MemoryStream : Stream
     {
         /// <summary>
+        /// Indicates whether <see cref="memory"/> was actually a <see cref="ReadOnlyMemory{T}"/> instance.
+        /// </summary>
+        private readonly bool isReadOnly;
+
+        /// <summary>
         /// The <see cref="Memory{T}"/> instance currently in use.
         /// </summary>
-        private readonly Memory<byte> memory;
+        private Memory<byte> memory;
 
         /// <summary>
         /// The current position within <see cref="memory"/>.
         /// </summary>
         private int position;
+
+        /// <summary>
+        /// Indicates whether or not the current instance has been disposed
+        /// </summary>
+        private bool disposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MemoryStream"/> class.
@@ -34,7 +44,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         {
             this.memory = memory;
             this.position = 0;
-            this.CanWrite = true;
+            this.isReadOnly = false;
         }
 
         /// <summary>
@@ -45,38 +55,57 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         {
             this.memory = MemoryMarshal.AsMemory(memory);
             this.position = 0;
-            this.CanWrite = false;
+            this.isReadOnly = true;
         }
 
         /// <inheritdoc/>
-        public override bool CanRead => true;
+        public override bool CanRead
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => !this.disposed;
+        }
 
         /// <inheritdoc/>
-        public override bool CanSeek => true;
+        public override bool CanSeek
+        {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            get => !this.disposed;
+        }
 
         /// <inheritdoc/>
         public override bool CanWrite
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get;
+            get => !this.isReadOnly && !this.disposed;
         }
 
         /// <inheritdoc/>
         public override long Length
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.memory.Length;
+            get
+            {
+                ValidateDisposed();
+
+                return this.memory.Length;
+            }
         }
 
         /// <inheritdoc/>
         public override long Position
         {
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
-            get => this.position;
+            get
+            {
+                ValidateDisposed();
+
+                return this.position;
+            }
 
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
+                ValidateDisposed();
                 ValidatePosition(value, this.memory.Length);
 
                 this.position = unchecked((int)value);
@@ -91,6 +120,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override int Read(byte[]? buffer, int offset, int count)
         {
+            ValidateDisposed();
             ValidateBuffer(buffer, offset, count);
 
             Span<byte> source = this.memory.Span.Slice(this.position);
@@ -110,6 +140,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override int Read(Span<byte> buffer)
         {
+            ValidateDisposed();
+
             Span<byte> source = this.memory.Span.Slice(this.position);
 
             int bytesCopied = Math.Min(source.Length, buffer.Length);
@@ -127,6 +159,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override int ReadByte()
         {
+            ValidateDisposed();
+
             if (this.position == this.memory.Length)
             {
                 return -1;
@@ -138,6 +172,8 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override long Seek(long offset, SeekOrigin origin)
         {
+            ValidateDisposed();
+
             long index = origin switch
             {
                 SeekOrigin.Begin => offset,
@@ -162,6 +198,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override void Write(byte[] buffer, int offset, int count)
         {
+            ValidateDisposed();
             ValidateCanWrite();
             ValidateBuffer(buffer, offset, count);
 
@@ -181,6 +218,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override void Write(ReadOnlySpan<byte> buffer)
         {
+            ValidateDisposed();
             ValidateCanWrite();
 
             Span<byte> destination = this.memory.Span.Slice(this.position);
@@ -197,6 +235,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override void WriteByte(byte value)
         {
+            ValidateDisposed();
             ValidateCanWrite();
 
             if (this.position == this.memory.Length)
@@ -205,6 +244,18 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
             }
 
             this.memory.Span[this.position++] = value;
+        }
+
+        /// <inheritdoc/>
+        protected override void Dispose(bool disposing)
+        {
+            if (this.disposed)
+            {
+                return;
+            }
+
+            this.disposed = true;
+            this.memory = default;
         }
     }
 }

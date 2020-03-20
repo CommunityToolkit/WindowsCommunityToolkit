@@ -69,5 +69,17 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
                 ThrowNotSupportedExceptionForCanWrite();
             }
         }
+
+        /// <summary>
+        /// Validates that the current instance hasn't been disposed.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void ValidateDisposed()
+        {
+            if (this.disposed)
+            {
+                ThrowObjectDisposedException();
+            }
+        }
     }
 }

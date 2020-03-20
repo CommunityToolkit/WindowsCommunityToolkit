@@ -83,7 +83,7 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// Throws a <see cref="NotSupportedException"/> when trying to set the length of the stream.
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
-        public void ThrowNotSupportedExceptionForSetLength()
+        public static void ThrowNotSupportedExceptionForSetLength()
         {
             throw new NotSupportedException("Setting the length is not supported for this stream.");
         }
@@ -93,9 +93,18 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// </summary>
         [MethodImpl(MethodImplOptions.NoInlining)]
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1615", Justification = "Throw method")]
-        public long ThrowArgumentExceptionForSeekOrigin()
+        public static long ThrowArgumentExceptionForSeekOrigin()
         {
             throw new ArgumentException("The input seek mode is not valid.", "origin");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ObjectDisposedException"/> when using a disposed <see cref="Stream"/> instance.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        public static void ThrowObjectDisposedException()
+        {
+            throw new ObjectDisposedException("stream", "The current stream has already been disposed");
         }
     }
 }
