@@ -127,7 +127,19 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <inheritdoc/>
         public override long Seek(long offset, SeekOrigin origin)
         {
-            throw new NotImplementedException();
+            long index = origin switch
+            {
+                SeekOrigin.Begin => offset,
+                SeekOrigin.Current => this.position + offset,
+                SeekOrigin.End => this.memory.Length + offset,
+                _ => ThrowArgumentExceptionForSeekOrigin()
+            };
+
+            ValidatePosition(index, this.memory.Length);
+
+            this.position = unchecked((int)index);
+
+            return index;
         }
 
         /// <inheritdoc/>

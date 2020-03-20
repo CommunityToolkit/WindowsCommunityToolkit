@@ -3,6 +3,7 @@
 // See the LICENSE file in the project root for more information.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Runtime.CompilerServices;
 
@@ -81,10 +82,20 @@ namespace Microsoft.Toolkit.HighPerformance.Streams
         /// <summary>
         /// Throws a <see cref="NotSupportedException"/> when trying to set the length of the stream.
         /// </summary>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [MethodImpl(MethodImplOptions.NoInlining)]
         public void ThrowNotSupportedExceptionForSetLength()
         {
             throw new NotSupportedException("Setting the length is not supported for this stream.");
+        }
+
+        /// <summary>
+        /// Throws an <see cref="ArgumentException"/> when using an invalid seek mode.
+        /// </summary>
+        [MethodImpl(MethodImplOptions.NoInlining)]
+        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1615", Justification = "Throw method")]
+        public long ThrowArgumentExceptionForSeekOrigin()
+        {
+            throw new ArgumentException("The input seek mode is not valid.", "origin");
         }
     }
 }
