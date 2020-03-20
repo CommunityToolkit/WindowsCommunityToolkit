@@ -778,9 +778,9 @@ namespace Microsoft.Toolkit.Uwp.UI.Controls
                 return base.MeasureOverride(availableSize);
             }
 
-#if !HAS_UNO
-            // This section is commented out for uno until the measure
-            // infinite loop is fixed.
+#if !__IOS__
+            // This section is commented out for iOS until the measure
+            // infinite loop is fixed. https://github.com/unoplatform/uno/issues/2842
 
             // Allow the DataGrid specific componets to adjust themselves based on new values
             if (_headerElement != null)

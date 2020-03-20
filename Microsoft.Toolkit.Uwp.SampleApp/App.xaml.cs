@@ -226,7 +226,10 @@ namespace Microsoft.Toolkit.Uwp.SampleApp
 					// { "ReferenceHolder", LogLevel.Debug },
 				}
                 )
-                .AddConsole(LogLevel.Debug);
+#if !NETFX_CORE
+                .AddConsole(LogLevel.Debug)
+#endif
+                ;
         }
     }
 }
