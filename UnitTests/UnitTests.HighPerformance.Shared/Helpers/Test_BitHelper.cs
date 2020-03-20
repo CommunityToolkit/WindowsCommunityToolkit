@@ -12,7 +12,7 @@ namespace UnitTests.HighPerformance.Extensions
     {
         [TestCategory("BitHelper")]
         [TestMethod]
-        public void Test_Test_BitHelper_HasFlag_UInt32()
+        public void Test_BitHelper_HasFlag_UInt32()
         {
             uint value = 0b10_1001110101_0110010010_1100100010;
 
@@ -27,7 +27,7 @@ namespace UnitTests.HighPerformance.Extensions
 
         [TestCategory("BitHelper")]
         [TestMethod]
-        public void Test_Test_BitHelper_SetFlag_UInt32()
+        public void Test_BitHelper_SetFlag_UInt32()
         {
             Assert.AreEqual(0b1u, BitHelper.SetFlag(0u, 0, true));
             Assert.AreEqual(4u, BitHelper.SetFlag(4u, 1, false));
