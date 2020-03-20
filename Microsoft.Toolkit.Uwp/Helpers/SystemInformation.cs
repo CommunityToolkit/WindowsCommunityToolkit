@@ -18,7 +18,7 @@ namespace Microsoft.Toolkit.Uwp.Helpers
     /// <summary>
     /// This class provides info about the app and the system.
     /// </summary>
-    public class SystemInformation
+    public sealed class SystemInformation
     {
         private readonly LocalObjectStorageHelper _localObjectStorageHelper = new LocalObjectStorageHelper();
         private DateTime _sessionStart;
