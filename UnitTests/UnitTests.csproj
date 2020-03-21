@@ -132,7 +132,12 @@
     <Compile Include="Converters\Test_EmptyCollectionToObjectConverter.cs" />
     <Compile Include="Converters\Test_EmptyStringToObjectConverter.cs" />
     <Compile Include="Converters\Test_StringFormatConverter.cs" />
+    <Compile Include="Diagnostics\Test_Guard.Comparable.Numeric.cs" />
+    <Compile Include="Diagnostics\Test_Guard.Array.cs" />
+    <Compile Include="Diagnostics\Test_Guard.cs" />
     <Compile Include="Extensions\Helpers\ObjectWithNullableBoolProperty.cs" />
+    <Compile Include="Extensions\Test_TypeExtensions.cs" />
+    <Compile Include="Extensions\Test_ValueTypeExtensions.cs" />
     <Compile Include="Extensions\Test_ArrayExtensions.cs" />
     <Compile Include="Extensions\Test_NullableBoolMarkupExtension.cs" />
     <Compile Include="GlobalSuppressions.cs" />
