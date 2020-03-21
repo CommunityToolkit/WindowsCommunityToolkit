@@ -731,7 +731,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                         positionFromStart -= numberOfLineBrackeCharacters;
 
                         // But add one for each actuall linebreak
-                        positionFromStart += fromPosition.Line - line;
+                        positionFromStart += line - fromPosition.Line;
 
                         // remove the start offset
                         positionFromStart -= this.start + this.lines[0].start;
@@ -800,8 +800,8 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                     var currentChar = this.text[i];
                     if (((currentChar & oneFilter) == oneFilter)
                         && ((currentChar | zeroFilter) == zeroFilter)
-                        && (!nonIsDigit || char.IsDigit(currentChar))
-                        && (!nonIsLetter || char.IsLetter(currentChar)))
+                        && (!nonIsDigit || !char.IsDigit(currentChar))
+                        && (!nonIsLetter || !char.IsLetter(currentChar)))
                     {
                         bool found = false;
                         for (int j = 0; j < value.Length; j++)
@@ -821,7 +821,7 @@ namespace Microsoft.Toolkit.Parsers.Markdown
                             positionFromStart -= numberOfLineBrackeCharacters;
 
                             // But add one for each actuall linebreak
-                            positionFromStart += fromPosition.Line - line;
+                            positionFromStart += line - fromPosition.Line;
 
                             // remove the start offset
                             positionFromStart -= this.start + this.lines[0].start;
